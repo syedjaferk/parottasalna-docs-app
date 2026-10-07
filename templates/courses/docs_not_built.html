@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card narrow">
+  <h1>{{ course.title }}</h1>
+  <p class="muted">The documentation for this course hasn't been built yet. Please check back soon.</p>
+  <a class="btn" href="{% url 'home' %}">Back to courses</a>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% block title %}Sign in · Course Portal{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h1>Sign in</h1>
+  <p class="muted">Use the Google account your administrator enrolled.</p>
+  <form method="post" action="{% provider_login_url 'google' %}">
+    {% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    <button class="btn" type="submit">Continue with Google</button>
+  </form>
+</div>
+{% endblock %}

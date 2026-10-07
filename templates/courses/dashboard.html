@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}My courses · Course Portal{% endblock %}
+{% block content %}
+<h1>My courses</h1>
+{% if courses %}
+<div class="grid">
+  {% for course in courses %}
+  <div class="card">
+    <h2>{{ course.title }}</h2>
+    <p class="muted">{{ course.description|default:"&nbsp;"|truncatechars:140 }}</p>
+    {% if course.build_status == "ok" %}
+      <a class="btn" href="{% url 'course_docs' course.slug %}">Open documentation</a>
+    {% else %}
+      <span class="muted">Documentation is not available yet.</span>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card"><p class="muted">You haven't been added to any courses yet. Ask your administrator to enrol this Google account.</p></div>
+{% endif %}
+{% endblock %}
