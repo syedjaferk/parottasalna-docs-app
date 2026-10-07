@@ -117,6 +117,27 @@ details.solution[open] > summary::before { content: "💡 "; }
 details.solution[open] > summary { border-bottom: 1px solid var(--color-background-border); }
 details.solution > :not(summary) { margin-left: 1rem; margin-right: 1rem; }
 
+/* Chapter completion (progress.js) */
+.page-progress { margin: 2rem 0 1rem; padding: 1.1rem 1.25rem; border-radius: 14px; display: flex; align-items: center;
+  justify-content: space-between; gap: 1rem; flex-wrap: wrap; border: 1px solid var(--color-background-border);
+  background: var(--color-background-secondary); }
+.page-progress.is-done { border-color: rgba(16, 185, 129, .45); background: rgba(16, 185, 129, .08); }
+.page-progress .pp-text strong { display: block; font-size: 1rem; }
+.page-progress .pp-text span { font-size: .88rem; color: var(--color-foreground-secondary); }
+.page-progress .pp-actions { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.pp-btn { font: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; padding: .55rem 1rem; border-radius: 10px; border: 0;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; text-decoration: none; display: inline-block; }
+.pp-btn:hover { filter: brightness(1.05); }
+.pp-btn[disabled] { opacity: .6; cursor: wait; }
+.pp-btn.ghost { background: transparent; color: var(--color-foreground-secondary); border: 1px solid var(--color-background-border); font-weight: 600; }
+.pp-btn.next { background: #10b981; }
+.done-chip { display: inline-flex; align-items: center; gap: .35rem; margin: -.25rem .4rem 1rem 0; padding: .3rem .8rem; border-radius: 999px;
+  font-size: .85rem; font-weight: 600; background: rgba(16, 185, 129, .12); color: #059669; border: 1px solid rgba(16, 185, 129, .35); }
+.sidebar-tree a.reference.is-done::after { content: "✓"; margin-left: .4rem; font-weight: 800; color: #10b981; }
+.sidebar-progress { margin: .25rem var(--sidebar-item-spacing-horizontal, 1rem) .75rem; font-size: .8rem; color: var(--color-foreground-secondary); }
+.sidebar-progress .bar { height: 6px; border-radius: 999px; background: var(--color-background-border); overflow: hidden; margin-top: .35rem; }
+.sidebar-progress .bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #2563eb, #10b981); }
+
 /* Quiz card injected by quiz.js */
 .quiz-chip { display: inline-flex; align-items: center; gap: .4rem; margin: -.25rem 0 1rem; padding: .3rem .8rem; border-radius: 999px;
   font-size: .85rem; font-weight: 600; text-decoration: none; background: var(--color-sidebar-item-background--hover);
@@ -161,7 +182,7 @@ QUIZ_JS = r"""
       if (!data || !data.quizzes.length) return;
       var isIndex = page.content === "index";
       var quizzes = data.quizzes.filter(function (q) { return q.chapter === page.content; });
-      if (!quizzes.length && (!isIndex || !data.signed_in)) return;
+      if (!quizzes.length && !isIndex) return;
 
       var card = el("section", { class: "quiz-card", id: "chapter-quiz" });
       if (quizzes.length) {
@@ -177,12 +198,7 @@ QUIZ_JS = r"""
           row.appendChild(info);
           var actions = el("div", { class: "quiz-actions" });
           if (q.best) actions.appendChild(el("a", { class: "quiz-btn ghost", href: q.best.url }, "View result"));
-          if (!data.signed_in) {
-            var login = data.login_url + "?next=" + encodeURIComponent(q.url);
-            actions.appendChild(el("a", { class: "quiz-btn", href: login }, "Sign in to take the quiz"));
-          } else if (q.can_attempt) {
-            actions.appendChild(el("a", { class: "quiz-btn", href: q.url }, q.best ? "Retake quiz" : "Take the quiz"));
-          }
+          if (q.can_attempt) actions.appendChild(el("a", { class: "quiz-btn", href: q.url }, q.best ? "Retake quiz" : "Take the quiz"));
           row.appendChild(actions);
           card.appendChild(row);
         });
@@ -195,12 +211,136 @@ QUIZ_JS = r"""
         card.appendChild(el("h2", null, "\ud83d\udcdd Course quizzes"));
         card.appendChild(el("p", null, data.quizzes.length + " quiz" + (data.quizzes.length === 1 ? "" : "zes") + " available. Test yourself after each session."));
       }
-      if (data.signed_in) card.appendChild(el("a", { class: "quiz-all", href: data.list_url }, "See all quizzes \u2192"));
-      article.appendChild(card);
+      card.appendChild(el("a", { class: "quiz-all", href: data.list_url }, "See all quizzes \u2192"));
+      var progressBox = document.getElementById("page-progress");
+      if (progressBox) article.insertBefore(card, progressBox); else article.appendChild(card);
     })
     .catch(function () {});
 })();
 """
+
+# "Mark as complete" for each chapter, plus ticks and a progress bar in the sidebar.
+PROGRESS_JS = r"""
+(function () {
+  function meta(name) {
+    var node = document.querySelector('meta[name="' + name + '"]');
+    return node ? node.content : "";
+  }
+  var url = meta("portal-progress"), page = meta("portal-page"), root = meta("portal-docs-root");
+  var article = document.querySelector("article[role=main]") || document.querySelector("article");
+  if (!url || !article) return;
+
+  function el(tag, attrs, text) {
+    var node = document.createElement(tag);
+    for (var key in attrs || {}) node.setAttribute(key, attrs[key]);
+    if (text) node.textContent = text;
+    return node;
+  }
+  function csrf() {
+    var match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : "";
+  }
+  function pageOf(href) {
+    var link = new URL(href, location.href), base = new URL(root, location.href).pathname;
+    if (link.origin !== location.origin || link.pathname.indexOf(base) !== 0) return null;
+    var rel = link.pathname.slice(base.length);
+    if (rel === "" || rel.slice(-1) === "/") rel += "index.html";
+    return decodeURIComponent(rel).replace(/\.html$/, "");
+  }
+
+  var isChapter = page !== "index";
+  var box = isChapter ? el("section", { class: "page-progress", id: "page-progress" }) : null;
+  if (box) article.appendChild(box);
+  var state = null;
+
+  function renderSidebar() {
+    document.querySelectorAll(".sidebar-tree a.reference").forEach(function (a) {
+      a.classList.toggle("is-done", state.done.has(pageOf(a.href)));
+    });
+    var holder = document.querySelector(".sidebar-progress");
+    if (!state.total) { if (holder) holder.remove(); return; }
+    if (!holder) {
+      holder = el("div", { class: "sidebar-progress" });
+      var anchor = document.querySelector(".sidebar-search-container") || document.querySelector(".sidebar-brand");
+      if (anchor) anchor.insertAdjacentElement("afterend", holder); else return;
+    }
+    var count = state.done.size, pct = Math.round(100 * count / state.total);
+    holder.textContent = count === state.total ? "\ud83c\udfc6 Course completed!" : count + " of " + state.total + " chapters completed";
+    var bar = el("div", { class: "bar" }), fill = el("span");
+    fill.style.width = pct + "%";
+    bar.appendChild(fill);
+    holder.appendChild(bar);
+  }
+
+  function renderChip() {
+    var chip = document.querySelector(".done-chip");
+    if (chip) chip.remove();
+    var h1 = article.querySelector("h1");
+    if (isChapter && h1 && state.done.has(page)) h1.insertAdjacentElement("afterend", el("span", { class: "done-chip" }, "\u2713 Completed"));
+  }
+
+  function renderBox() {
+    if (!box) return;
+    box.textContent = "";
+    var text = el("div", { class: "pp-text" }), actions = el("div", { class: "pp-actions" });
+    var done = state.done.has(page);
+    box.classList.toggle("is-done", done);
+    if (done) {
+      text.appendChild(el("strong", null, "\u2705 You've completed this chapter"));
+      text.appendChild(el("span", null, state.done.size + " of " + state.total + " chapters done in this course."));
+      var next = document.querySelector(".related-pages a.next-page");
+      if (next) {
+        var title = next.querySelector(".title");
+        actions.appendChild(el("a", { class: "pp-btn next", href: next.href }, "Next: " + (title ? title.textContent.trim() : "chapter") + " \u2192"));
+      }
+      actions.appendChild(button("Mark as not complete", "pp-btn ghost", false));
+    } else {
+      text.appendChild(el("strong", null, "Finished reading?"));
+      text.appendChild(el("span", null, "Mark this chapter as complete to track your progress."));
+      actions.appendChild(button("\u2713 Mark as complete", "pp-btn", true));
+    }
+    box.appendChild(text);
+    box.appendChild(actions);
+  }
+
+  function button(label, cls, completed) {
+    var btn = el("button", { class: cls, type: "button" }, label);
+    btn.addEventListener("click", function () {
+      btn.disabled = true;
+      var body = new URLSearchParams({ page: page, completed: completed ? "true" : "false" });
+      fetch(state.update_url, {
+        method: "POST", credentials: "same-origin", body: body,
+        headers: { "X-CSRFToken": csrf(), "Accept": "application/json" }
+      })
+        .then(function (r) { if (!r.ok) throw r.status; return r.json(); })
+        .then(function (res) {
+          if (res.completed) state.done.add(page); else state.done.delete(page);
+          render();
+        })
+        .catch(function (status) {
+          btn.disabled = false;
+          btn.textContent = status === 401 || status === 403
+            ? "Session expired \u2014 refresh and sign in" : "Couldn't save \u2014 try again";
+        });
+    });
+    return btn;
+  }
+
+  function render() { renderSidebar(); renderChip(); renderBox(); }
+
+  fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      // Not enrolled in this course (or signed out): no progress UI, nothing stored.
+      if (!data || !data.tracking) { if (box) box.remove(); return; }
+      state = data;
+      state.done = new Set(data.completed);
+      render();
+    })
+    .catch(function () { if (box) box.remove(); });
+})();
+"""
+
 
 # Wraps Furo's base.html: brand SEO tags on every docs page and "| Parottasalna" in titles.
 BASE_TEMPLATE = """{% extends "!base.html" %}
@@ -226,6 +366,8 @@ BASE_TEMPLATE = """{% extends "!base.html" %}
 <script type="application/ld+json">{{ brand_json_ld }}</script>
 <meta name="portal-quiz-feed" content="{{ quiz_feed_url|e }}">
 <meta name="portal-page" content="{{ pagename|e }}">
+<meta name="portal-progress" content="{{ progress_url|e }}">
+<meta name="portal-docs-root" content="{{ docs_root|e }}">
 {%- endblock -%}
 """
 
@@ -255,6 +397,8 @@ def _conf_py(course: Course) -> str:
         "brand_theme_color": branding.THEME_COLOR,
         "brand_json_ld": branding.json_ld(""),
         "quiz_feed_url": reverse("quiz_feed", args=[course.slug]),
+        "progress_url": reverse("course_progress", args=[course.slug]),
+        "docs_root": reverse("course_docs", args=[course.slug]),
         # Common courses are public, so let search engines index them.
         "brand_robots": "index, follow" if course.is_common else "noindex, follow",
     }
@@ -275,7 +419,7 @@ html_favicon = "_static/favicon.ico"
 html_logo = "_static/logo.png"
 html_context = {context!r}
 html_css_files = ["portal.css"]
-html_js_files = ["quiz.js"]
+html_js_files = ["progress.js", "quiz.js"]
 html_show_sourcelink = False
 html_show_copyright = False
 html_copy_source = False
@@ -287,8 +431,9 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*"]
         options = {
             "announcement": (
                 '<a href="/">&larr; All courses</a> &nbsp;·&nbsp; '
-                f'<a href="{reverse("quiz_list", args=[course.slug])}">📝 Quizzes</a> &nbsp;·&nbsp; '
-                f'{branding.CADENCE} <a href="{branding.YOUTUBE_SUBSCRIBE}" target="_blank" '
+                + ("" if course.is_common else
+                   f'<a href="{reverse("quiz_list", args=[course.slug])}">📝 Quizzes</a> &nbsp;·&nbsp; ')
+                + f'{branding.CADENCE} <a href="{branding.YOUTUBE_SUBSCRIBE}" target="_blank" '
                 f'rel="noopener">Subscribe to {branding.NAME} on YouTube</a>'
             ),
             "footer_icons": _footer_icons(),
@@ -307,6 +452,7 @@ def _write_conf(conf_dir: Path, course: Course):
     static.mkdir()
     (static / "portal.css").write_text(PORTAL_CSS, encoding="utf-8")
     (static / "quiz.js").write_text(QUIZ_JS, encoding="utf-8")
+    (static / "progress.js").write_text(PROGRESS_JS, encoding="utf-8")
     brand_dir = Path(settings.BASE_DIR) / "static" / "brand"
     shutil.copyfile(brand_dir / "favicon.ico", static / "favicon.ico")
     shutil.copyfile(brand_dir / "logo-192.png", static / "logo.png")

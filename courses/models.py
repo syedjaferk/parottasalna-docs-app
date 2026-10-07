@@ -26,8 +26,8 @@ class Course(models.Model):
     is_common = models.BooleanField(
         "Common course",
         default=False,
-        help_text="Open to every signed-in student without enrolling them. "
-        "Leave unticked for courses only enrolled students can see.",
+        help_text="Public: anyone can read it without signing in or enrolling. Progress tracking and "
+        "quizzes are only for students you enrol below. Leave unticked for enrolled-only courses.",
     )
 
     build_status = models.CharField(
@@ -91,3 +91,24 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.email} -> {self.course.slug}"
+
+
+class PageProgress(models.Model):
+    """A docs page a student has marked as complete."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="page_progress"
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="page_progress")
+    page = models.CharField(max_length=255, help_text="Sphinx page name, e.g. filtering-data/where")
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "course", "page"], name="uniq_user_course_page")
+        ]
+        ordering = ["course", "page"]
+        verbose_name_plural = "page progress"
+
+    def __str__(self):
+        return f"{self.user} · {self.course.slug}/{self.page}"

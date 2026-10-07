@@ -152,3 +152,51 @@ class FeedAndScoresTests(QuizTestCase):
         Attempt.objects.create(quiz=self.quiz, user=nomail, score=1, max_score=3)
         self.login(self.staff)
         self.assertIn("teacher,,1/3", self.client.get("/courses/c1/quizzes/scores.csv").content.decode())
+
+
+class CommonCourseQuizTests(QuizTestCase):
+    def setUp(self):
+        super().setUp()
+        self.common = Course.objects.create(slug="open", title="Open", is_common=True, build_status="ok")
+        self.open_quiz = Quiz.objects.create(course=self.common, title="Open quiz", is_published=True)
+        Question.objects.create(quiz=self.open_quiz, text="?", choices="*a\nb")
+
+    def test_not_enrolled_readers_get_no_quizzes(self):
+        self.assertEqual(self.client.get("/courses/open/quizzes.json").json()["quizzes"], [])
+        self.login(self.student)  # enrolled in c1 only
+        self.assertEqual(self.client.get("/courses/open/quizzes.json").json()["quizzes"], [])
+        self.assertEqual(self.client.get(f"/courses/open/quizzes/{self.open_quiz.pk}/").status_code, 404)
+        self.client.post(f"/courses/open/quizzes/{self.open_quiz.pk}/", {"confirm_unanswered": "1"})
+        self.assertFalse(Attempt.objects.filter(quiz=self.open_quiz).exists())
+
+    def test_enrolled_students_and_staff_can_take_common_quizzes(self):
+        Enrollment.objects.create(course=self.common, email="stu@gmail.com")
+        self.login(self.student)
+        self.assertEqual(len(self.client.get("/courses/open/quizzes.json").json()["quizzes"]), 1)
+        self.login(self.staff)
+        self.assertEqual(self.client.get(f"/courses/open/quizzes/{self.open_quiz.pk}/").status_code, 200)
+
+
+class QuizSecurityTests(QuizTestCase):
+    def test_scoreboard_csv_neutralises_formulas_in_student_names(self):
+        self.student.first_name = '=HYPERLINK("http://evil.example","click")'
+        self.student.save()
+        Attempt.objects.create(quiz=self.quiz, user=self.student, score=1, max_score=3)
+        self.login(self.staff)
+        csv = self.client.get("/courses/c1/quizzes/scores.csv").content.decode()
+        self.assertIn("'=HYPERLINK", csv)
+        self.assertNotIn(',=HYPERLINK', csv)
+
+    def test_quiz_submission_requires_csrf_token(self):
+        client = self.client_class(enforce_csrf_checks=True)
+        client.force_login(self.student, backend=MODEL_BACKEND)
+        response = client.post(self.take_url(), {f"q{self.q1.pk}": "1", "confirm_unanswered": "1"})
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(Attempt.objects.exists())
+
+    def test_attempt_ids_cannot_be_guessed_across_users(self):
+        other = User.objects.create_user("o2", email="o2@gmail.com")
+        Enrollment.objects.create(course=self.course, email="o2@gmail.com")
+        attempt = Attempt.objects.create(quiz=self.quiz, user=self.student, score=3, max_score=3)
+        self.login(other)
+        self.assertEqual(self.client.get(f"/courses/c1/quizzes/attempts/{attempt.pk}/").status_code, 404)

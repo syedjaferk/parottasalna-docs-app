@@ -4,22 +4,29 @@
     <h3>{{ course.title }}</h3>
     {% if course.description %}<p class="muted">{{ course.description|truncatechars:140 }}</p>{% endif %}
     <div class="meta">
+      {% if course.total and course.done == course.total %}<span class="tag done-tag">🏆 Completed</span>{% endif %}
       {% if course.is_common %}<span class="tag common-tag">🌐 Open to all</span>{% else %}<span class="tag enrolled-tag">🎓 Enrolled</span>{% endif %}
       {% if course.build_status == "ok" %}
         <span class="tag ok"><span class="dot"></span>Notes available</span>
         {% if course.last_built_at %}<span class="tag info">Updated {{ course.last_built_at|date:"M j, Y" }}</span>{% endif %}
-        {% if course.quiz_count %}<span class="tag info">📝 {{ course.quiz_count }} quiz{{ course.quiz_count|pluralize:"zes" }}</span>{% endif %}
+        {% if course.tracked and course.quiz_count %}<span class="tag info">📝 {{ course.quiz_count }} quiz{{ course.quiz_count|pluralize:"zes" }}</span>{% endif %}
       {% else %}
         <span class="tag wait"><span class="dot"></span>Coming soon</span>
       {% endif %}
     </div>
+    {% if course.total %}
+    <div class="progress" title="{{ course.done }} of {{ course.total }} chapters completed">
+      <div class="progress-label"><span>{% if course.done %}{{ course.done }} of {{ course.total }} chapters{% else %}Not started · {{ course.total }} chapters{% endif %}</span><strong>{{ course.percent }}%</strong></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ course.percent }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ course.percent }}%"></span></div>
+    </div>
+    {% endif %}
     <div class="course-foot">
       {% if course.build_status == "ok" %}
         <a class="btn block" href="{% url 'course_docs' course.slug %}">
-          Open course notes
+          {% if course.total and course.done == course.total %}Review course notes{% elif course.done %}Continue learning{% else %}Open course notes{% endif %}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        {% if course.quiz_count or user.is_staff %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'quiz_list' course.slug %}">📝 Quizzes &amp; scores</a>{% endif %}
+        {% if course.tracked and course.quiz_count or user.is_staff %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'quiz_list' course.slug %}">📝 Quizzes &amp; scores</a>{% endif %}
       {% else %}
         <span class="pending">Notes will appear here after the first session.</span>
       {% endif %}

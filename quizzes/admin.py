@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html
 
+from courses.security import csv_safe, no_store
+
 from .models import Attempt, Question, Quiz
 
 
@@ -107,9 +109,9 @@ class AttemptAdmin(admin.ModelAdmin):
         writer = csv.writer(response)
         writer.writerow(["Email", "Name", "Course", "Quiz", "Score", "Out of", "Percent", "Passed", "Submitted"])
         for a in queryset.select_related("user", "quiz", "quiz__course"):
-            writer.writerow([
+            writer.writerow([csv_safe(v) for v in [
                 a.user.email, a.user.get_full_name(), a.quiz.course.title, a.quiz.title,
                 a.score, a.max_score, a.percentage, "yes" if a.passed else "no",
                 a.submitted_at.isoformat(timespec="seconds"),
-            ])
-        return response
+            ]])
+        return no_store(response)

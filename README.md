@@ -11,7 +11,7 @@ served only to users enrolled in that course.
 - **Docs:** `course_content/<slug>/*.md` -> `sphinx-build` -> `docs_build/<slug>/html/`.
   Every request to `/courses/<slug>/docs/...` is authorised by Django first.
 - **Common courses** (tick *Common course* in the admin) are public: anyone can read their docs without signing in
-  (quizzes still need sign-in so scores can be saved). They are listed on the landing page and indexed by search engines;
+  (progress tracking and quizzes are only for students enrolled in that course). They are listed on the landing page and indexed by search engines;
   other courses are only for enrolled students. The dashboard shows the two groups separately.
 - **Staff** (`is_staff`) can open every course; everyone else only their enrolled ones plus common ones.
 
@@ -49,6 +49,15 @@ Brand name, description, topics and social links live in `courses/branding.py` a
 every portal page (meta tags, Open Graph, JSON-LD, footer) and by the generated Sphinx docs.
 Images are in `static/brand/`. Only the landing page `/` is indexable; `/robots.txt` and
 `/sitemap.xml` are generated.
+
+### Progress tracking
+
+Every chapter page ends with a **Mark as complete** button, but only for students enrolled in that
+course (and staff). Readers who aren't enrolled, e.g. anyone browsing a common course, get no progress
+UI and no quizzes, and nothing is stored for them; enrol them on the course to turn it on. Completed chapters get a
+✓ in the docs sidebar and a "Completed" badge, the sidebar shows "X of Y chapters", and dashboard
+cards show a progress bar and a 🏆 badge when the whole course is done. Records are under
+**Admin → Page progress**.
 
 ### Importing a GitBook space
 
@@ -107,4 +116,11 @@ Run the tests with `python manage.py test`.
 - Path traversal and dotfiles are blocked; the build directory is never exposed as a static root.
 - Sphinx runs with a generated `conf.py` and a stripped environment, so course content can't run code or read secrets.
 - Emails are compared case-insensitively. Only Google-verified emails are trusted.
+- **API (progress, quizzes):** every endpoint re-checks access server-side; progress and quiz scores are
+  only stored for students enrolled in that course (`can_track`). Writes are POST-only with CSRF, reads
+  are GET/HEAD-only, signed-out API calls get `401` JSON, unknown and forbidden courses both return `404`,
+  input is validated against server-side lists, and per-user JSON is sent with `Cache-Control: private, no-store`.
+- Quiz results are visible only to their owner and staff; `max_attempts` is enforced under a row lock.
+- CSV exports neutralise cells starting with `= + - @` (formula injection from user-controlled names).
+- Nginx rate-limits POSTs per IP (5/s, burst 20) in `deploy/docker/nginx.conf` and `deploy/nginx.conf`.
 # parottasalna-docs-app

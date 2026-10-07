@@ -7,7 +7,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.test import RequestFactory, TestCase, override_settings
 
 from .adapters import PortalAccountAdapter, PortalSocialAccountAdapter
-from .models import Course, Enrollment
+from .models import Course, Enrollment, PageProgress
 from .services import accessible_courses, parse_emails
 
 User = get_user_model()
@@ -282,9 +282,9 @@ class PublicCommonCourseTests(TestCase):
             self.assertEqual(response.status_code, 302)
             self.assertIn("/login/?next=", response["Location"])
 
-    def test_anonymous_quiz_feed_for_common_course(self):
-        data = self.client.get("/courses/open/quizzes.json").json()
-        self.assertFalse(data["signed_in"])
+    def test_anonymous_gets_no_quizzes_or_progress_on_common_course(self):
+        self.assertEqual(self.client.get("/courses/open/quizzes.json").json()["quizzes"], [])
+        self.assertEqual(self.client.get("/courses/open/progress.json").json(), {"tracking": False})
         self.assertEqual(self.client.get("/courses/batch/quizzes.json").status_code, 404)
 
     def test_landing_lists_free_courses(self):
@@ -302,3 +302,155 @@ class PublicCommonCourseTests(TestCase):
         self.assertIn("<loc>http://testserver/courses/open/docs/sub/page.html</loc>", sitemap)
         self.assertNotIn("search.html", sitemap)
         self.assertNotIn("/courses/batch/", sitemap)
+
+
+class ProgressTests(TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        root = Path(self._tmp.name)
+        self.override = override_settings(DOCS_BUILD_ROOT=root)
+        self.override.enable()
+        self.addCleanup(self.override.disable)
+        html = root / "c1" / "html"
+        (html / "sub" / "_static").mkdir(parents=True)
+        for name in ("index.html", "intro.html", "sub/part.html", "search.html", "genindex.html"):
+            (html / name).write_text("x")
+        self.course = Course.objects.create(slug="c1", title="C1", build_status="ok")
+        self.common = Course.objects.create(slug="open", title="Open", is_common=True, build_status="ok")
+        Enrollment.objects.create(course=self.course, email="stu@gmail.com")
+        self.student = User.objects.create_user("stu", email="stu@gmail.com")
+        self.client = self.client_class(enforce_csrf_checks=True)
+
+    def mark(self, page, completed=True):
+        token = self.client.get("/courses/c1/progress.json").cookies["csrftoken"].value
+        return self.client.post("/courses/c1/progress/", {"page": page, "completed": str(completed).lower()},
+                                HTTP_X_CSRFTOKEN=token)
+
+    def test_chapters_skip_index_and_sphinx_pages(self):
+        from .services import chapters
+
+        self.assertEqual(chapters(self.course), ["intro", "sub/part"])
+
+    def test_mark_and_unmark(self):
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        response = self.mark("sub/part")
+        self.assertEqual(response.json(), {"page": "sub/part", "completed": True, "done": 1, "total": 2})
+        self.assertEqual(self.client.get("/courses/c1/progress.json").json()["completed"], ["sub/part"])
+        self.assertEqual(self.mark("sub/part", False).json()["done"], 0)
+
+    def test_unknown_page_and_csrf_are_rejected(self):
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        self.assertEqual(self.mark("index").status_code, 400)
+        self.assertEqual(self.mark("../secret").status_code, 400)
+        no_token = self.client.post("/courses/c1/progress/", {"page": "intro", "completed": "true"})
+        self.assertEqual(no_token.status_code, 403)
+
+    def test_anonymous(self):
+        self.assertEqual(self.client.get("/courses/open/progress.json").json(), {"tracking": False})
+        self.assertEqual(self.client.get("/courses/c1/progress.json").status_code, 404)
+        self.assertEqual(self.client.post("/courses/c1/progress/", {"page": "intro"}).status_code, 403)
+
+    def test_not_enrolled_on_common_course_stores_nothing(self):
+        html = Path(self._tmp.name) / "open" / "html"
+        html.mkdir(parents=True)
+        (html / "intro.html").write_text("x")
+        self.client.force_login(self.student, backend=MODEL_BACKEND)  # enrolled in c1, not in "open"
+        response = self.client.get("/courses/open/progress.json")
+        self.assertEqual(response.json(), {"tracking": False})
+        token = response.cookies["csrftoken"].value
+        post = self.client.post("/courses/open/progress/", {"page": "intro", "completed": "true"},
+                                HTTP_X_CSRFTOKEN=token)
+        self.assertEqual(post.status_code, 404)
+        self.assertFalse(PageProgress.objects.exists())
+        card = next(c for c in self.client.get("/").context["common_courses"] if c.slug == "open")
+        self.assertFalse(card.tracked)
+        self.assertEqual(card.total, 0)
+
+    def test_enrolling_in_a_common_course_turns_tracking_on(self):
+        html = Path(self._tmp.name) / "open" / "html"
+        html.mkdir(parents=True)
+        (html / "intro.html").write_text("x")
+        Enrollment.objects.create(course=self.common, email="stu@gmail.com")
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        self.assertTrue(self.client.get("/courses/open/progress.json").json()["tracking"])
+
+    def test_dashboard_shows_progress_and_completed(self):
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        self.mark("intro")
+        card = next(c for c in self.client.get("/").context["enrolled_courses"] if c.slug == "c1")
+        self.assertEqual((card.done, card.total, card.percent), (1, 2, 50))
+        self.mark("sub/part")
+        response = self.client.get("/")
+        self.assertContains(response, "🏆 Completed")
+
+
+class ApiSecurityTests(TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        root = Path(self._tmp.name)
+        self.override = override_settings(DOCS_BUILD_ROOT=root)
+        self.override.enable()
+        self.addCleanup(self.override.disable)
+        (root / "c1" / "html").mkdir(parents=True)
+        (root / "c1" / "html" / "intro.html").write_text("x")
+        self.course = Course.objects.create(slug="c1", title="C1", build_status="ok")
+        Enrollment.objects.create(course=self.course, email="stu@gmail.com")
+        self.student = User.objects.create_user("stu", email="stu@gmail.com")
+        self.client = self.client_class(enforce_csrf_checks=True)
+
+    def token(self):
+        return self.client.get("/courses/c1/progress.json").cookies["csrftoken"].value
+
+    def test_anonymous_write_gets_401_json_not_a_redirect(self):
+        response = self.client.post("/courses/c1/progress/", {"page": "intro", "completed": "true"},
+                                    HTTP_X_CSRFTOKEN="x")
+        self.assertIn(response.status_code, (401, 403))  # CSRF or auth, never a 302 to HTML
+        self.client = self.client_class()  # without CSRF enforcement: auth check answers
+        response = self.client.post("/courses/c1/progress/", {"page": "intro", "completed": "true"})
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json(), {"error": "Authentication required"})
+
+    def test_read_endpoints_only_allow_get(self):
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        token = self.token()
+        for url in ("/courses/c1/progress.json", "/courses/c1/quizzes.json"):
+            self.assertEqual(self.client.post(url, HTTP_X_CSRFTOKEN=token).status_code, 405)
+            self.assertEqual(self.client.put(url, HTTP_X_CSRFTOKEN=token).status_code, 405)
+        self.assertEqual(self.client.get("/courses/c1/progress/").status_code, 405)
+
+    def test_strict_input_validation(self):
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        token = self.token()
+        for completed in ("yes", "", "1"):
+            response = self.client.post("/courses/c1/progress/", {"page": "intro", "completed": completed},
+                                        HTTP_X_CSRFTOKEN=token)
+            self.assertEqual(response.status_code, 400)
+        self.assertFalse(PageProgress.objects.exists())
+
+    def test_api_responses_are_not_cacheable(self):
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        for url in ("/courses/c1/progress.json", "/courses/c1/quizzes.json"):
+            self.assertEqual(self.client.get(url)["Cache-Control"], "private, no-store")
+
+    def test_unknown_course_and_not_enrolled_look_the_same(self):
+        other = User.objects.create_user("other", email="other@gmail.com")
+        Enrollment.objects.create(course=Course.objects.create(slug="c2", title="C2"), email="other@gmail.com")
+        self.client.force_login(other, backend=MODEL_BACKEND)
+        token = self.client.get("/courses/c2/progress.json").cookies["csrftoken"].value
+        for slug in ("c1", "nope"):
+            response = self.client.post(f"/courses/{slug}/progress/", {"page": "intro", "completed": "true"},
+                                        HTTP_X_CSRFTOKEN=token)
+            self.assertEqual(response.status_code, 404)
+
+
+class CsvSafetyTests(TestCase):
+    def test_formula_cells_are_neutralised(self):
+        from .security import csv_safe
+
+        self.assertEqual(csv_safe('=HYPERLINK("http://evil","x")'), '\'=HYPERLINK("http://evil","x")')
+        for value in ("+1", "-1+2", "@SUM(A1)", "\tx"):
+            self.assertTrue(csv_safe(value).startswith("'"))
+        self.assertEqual(csv_safe("Ada Lovelace"), "Ada Lovelace")
+        self.assertEqual(csv_safe(3), "3")

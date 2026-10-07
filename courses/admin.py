@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from django.db.models import Count
 
 from .builder import build_in_background
-from .models import Course, Enrollment
+from .models import Course, Enrollment, PageProgress
 from .services import parse_emails
 
 
@@ -115,3 +115,15 @@ class EnrollmentAdmin(admin.ModelAdmin):
     list_filter = ("course",)
     search_fields = ("email",)
     readonly_fields = ("user",)
+
+
+@admin.register(PageProgress)
+class PageProgressAdmin(admin.ModelAdmin):
+    list_display = ("user", "course", "page", "completed_at")
+    list_filter = ("course",)
+    search_fields = ("user__email", "page")
+    list_select_related = ("user", "course")
+    readonly_fields = ("user", "course", "page", "completed_at")
+
+    def has_add_permission(self, request):
+        return False

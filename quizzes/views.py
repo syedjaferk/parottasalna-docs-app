@@ -6,12 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_http_methods
+from django.db import transaction
+from django.views.decorators.http import require_http_methods, require_safe
 
 from courses.models import Course
-from courses.services import user_can_access
+from courses.security import csv_safe, no_store
+from courses.services import can_track, user_can_access
 
-from .models import Attempt
+from .models import Attempt, Quiz
 from .services import (
     attempts_left,
     attempts_used,
@@ -36,8 +38,9 @@ def _form_items(questions, answers):
 
 
 def _course_for(request, slug):
+    """Quizzes store scores, so they're only for students enrolled in the course (and staff)."""
     course = get_object_or_404(Course, slug=slug, is_active=True)
-    if not user_can_access(request.user, course):
+    if not can_track(request.user, course):
         raise Http404  # same as docs: don't reveal which courses exist
     return course
 
@@ -50,6 +53,7 @@ def _quiz_for(request, course, pk):
 
 
 @login_required
+@require_safe
 def quiz_list(request, slug):
     course = _course_for(request, slug)
     quizzes = list(published_quizzes(course))
@@ -83,9 +87,15 @@ def quiz_take(request, slug, pk):
                 "attempts_left": left, "confirm_unanswered": True,
             })
         score, max_score = grade(questions, answers)
-        attempt = Attempt.objects.create(
-            quiz=quiz, user=request.user, score=score, max_score=max_score, answers=answers
-        )
+        with transaction.atomic():
+            # Lock the quiz row so two simultaneous submissions can't both slip under max_attempts.
+            Quiz.objects.select_for_update().filter(pk=quiz.pk).exists()
+            if attempts_left(quiz, request.user) == 0:
+                messages.info(request, "You have used all your attempts for this quiz.")
+                return redirect("quiz_list", slug=course.slug)
+            attempt = Attempt.objects.create(
+                quiz=quiz, user=request.user, score=score, max_score=max_score, answers=answers
+            )
         return redirect("quiz_result", slug=course.slug, pk=attempt.pk)
 
     return render(request, "quizzes/quiz_take.html", {
@@ -94,6 +104,7 @@ def quiz_take(request, slug, pk):
 
 
 @login_required
+@require_safe
 def quiz_result(request, slug, pk):
     course = _course_for(request, slug)
     attempt = get_object_or_404(Attempt.objects.select_related("quiz"), pk=pk, quiz__course=course)
@@ -121,19 +132,21 @@ def quiz_result(request, slug, pk):
     })
 
 
+@require_safe
 def quiz_feed(request, slug):
     """Quizzes per docs page, fetched by the 'Take the quiz' card inside the Sphinx docs.
 
-    Public for common courses (so signed-out readers see a "Sign in to take the quiz" button).
+    Readers who aren't enrolled (e.g. anyone browsing a common course) get an empty list: no quiz card.
     """
-    course = _course_for(request, slug)
-    signed_in = request.user.is_authenticated
-    quizzes = list(published_quizzes(course))
-    best = best_scores(request.user, quizzes) if signed_in else {}
+    course = get_object_or_404(Course, slug=slug, is_active=True)
+    if not user_can_access(request.user, course):
+        raise Http404
+    quizzes = list(published_quizzes(course)) if can_track(request.user, course) else []
+    best = best_scores(request.user, quizzes) if quizzes else {}
     data = []
     for quiz in quizzes:
         attempt = best.get(quiz.pk)
-        left = attempts_left(quiz, request.user) if signed_in else None
+        left = attempts_left(quiz, request.user)
         data.append({
             "title": quiz.title,
             "chapter": quiz.chapter,
@@ -148,14 +161,7 @@ def quiz_feed(request, slug):
                 "url": reverse("quiz_result", args=[course.slug, attempt.pk]),
             } if attempt else None,
         })
-    response = JsonResponse({
-        "signed_in": signed_in,
-        "login_url": reverse("login"),
-        "list_url": reverse("quiz_list", args=[course.slug]),
-        "quizzes": data,
-    })
-    response["Cache-Control"] = "private, no-cache"
-    return response
+    return no_store(JsonResponse({"list_url": reverse("quiz_list", args=[course.slug]), "quizzes": data}))
 
 
 def _student_key(user):
@@ -195,6 +201,7 @@ def _scoreboard(course):
 
 
 @staff_member_required
+@require_safe
 def scoreboard(request, slug):
     course = get_object_or_404(Course, slug=slug)
     quizzes, rows = _scoreboard(course)
@@ -202,17 +209,18 @@ def scoreboard(request, slug):
 
 
 @staff_member_required
+@require_safe
 def scoreboard_csv(request, slug):
     course = get_object_or_404(Course, slug=slug)
     quizzes, rows = _scoreboard(course)
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f'attachment; filename="{course.slug}-quiz-scores.csv"'
     writer = csv.writer(response)
-    writer.writerow(["Email", "Name", *[q.title for q in quizzes], "Quizzes taken", "Total", "Out of"])
+    writer.writerow([csv_safe(v) for v in ["Email", "Name", *[q.title for q in quizzes], "Quizzes taken", "Total", "Out of"]])
     for row in rows:
-        writer.writerow([
+        writer.writerow([csv_safe(v) for v in [
             row["email"], row["name"],
             *[f"{c.score}/{c.max_score}" if c else "" for c in row["cells"]],
             row["taken"], row["total"], row["max"],
-        ])
-    return response
+        ]])
+    return no_store(response)
