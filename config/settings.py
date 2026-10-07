@@ -152,6 +152,9 @@ X_ACCEL_PREFIX = "/protected-docs/"
 # --- Production hardening -----------------------------------------------------
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    # Build Google's OAuth callback as https://… even if a proxy drops X-Forwarded-Proto,
+    # so it matches the redirect URI registered in Google Cloud Console.
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.environ.get("ACCOUNT_DEFAULT_HTTP_PROTOCOL", "https")
     SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
     # Only turn these off to try a non-DEBUG build over plain HTTP (e.g. docker compose locally).
     SESSION_COOKIE_SECURE = env_bool("SECURE_COOKIES", True)
