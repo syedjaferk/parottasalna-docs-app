@@ -72,6 +72,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "courses.context_processors.brand",
             ],
         },
     },
@@ -99,6 +100,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # --- Static files (portal's own CSS/JS only; docs are NOT served from here) --
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
@@ -150,7 +152,8 @@ X_ACCEL_PREFIX = "/protected-docs/"
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    # Only turn these off to try a non-DEBUG build over plain HTTP (e.g. docker compose locally).
+    SESSION_COOKIE_SECURE = env_bool("SECURE_COOKIES", True)
+    CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
     SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "0"))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = SECURE_HSTS_SECONDS > 0

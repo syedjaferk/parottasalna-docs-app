@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+{% block title %}{{ course.title }} · {{ brand.NAME }}{% endblock %}
 {% block content %}
 <div class="card narrow">
+  <div class="icon-badge">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+  </div>
   <h1>{{ course.title }}</h1>
-  <p class="muted">The documentation for this course hasn't been built yet. Please check back soon.</p>
-  <a class="btn" href="{% url 'home' %}">Back to courses</a>
+  <p class="muted">The notes for this course haven't been published yet. They'll appear here after the first session — please check back soon.</p>
+  <a class="btn" href="{% url 'home' %}">Back to my courses</a>
 </div>
 {% endblock %}

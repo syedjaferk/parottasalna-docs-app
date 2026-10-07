@@ -1,0 +1,48 @@
+# Usage: cp .env.example .env  (fill in), then  docker compose up -d --build
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: portal
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-portal}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portal -d portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://portal:${POSTGRES_PASSWORD:-portal}@db:5432/portal
+      COURSES_SRC_ROOT: /app/course_content
+      DOCS_BUILD_ROOT: /app/docs_build
+      USE_X_ACCEL_REDIRECT: "true"
+    volumes:
+      # Drop session markdown into ./course_content on the host, then rebuild from the admin.
+      - ./course_content:/app/course_content:ro
+      - docs_build:/app/docs_build
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8000}:80"
+    volumes:
+      - ./deploy/docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - docs_build:/srv/docs_build:ro
+    depends_on:
+      - web
+
+volumes:
+  pgdata:
+  docs_build:

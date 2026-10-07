@@ -125,3 +125,35 @@ class DocsAccessTests(TestCase):
         titles = set(accessible_courses(self.student).values_list("slug", flat=True))
         self.assertEqual(titles, {"c1"})
         self.assertNotIn(other.slug, titles)
+
+
+class BrandSeoTests(TestCase):
+    def test_landing_page_is_public_and_indexable(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'content="index, follow')
+        self.assertContains(response, '<link rel="canonical" href="http://testserver/">')
+        self.assertContains(response, 'property="og:image" content="http://testserver/static/brand/og-image.png"')
+        self.assertContains(response, '"@type": "EducationalOrganization"')
+        self.assertContains(response, "https://www.youtube.com/@parottasalnatech")
+
+    def test_private_pages_are_noindex(self):
+        user = User.objects.create_user("s", email="s@gmail.com")
+        self.client.force_login(user, backend=MODEL_BACKEND)
+        response = self.client.get("/")
+        self.assertContains(response, 'content="noindex, follow"')
+        self.assertContains(response, "Parottasalna")
+
+    def test_robots_and_sitemap(self):
+        robots = self.client.get("/robots.txt")
+        self.assertEqual(robots["Content-Type"], "text/plain")
+        self.assertIn(b"Disallow: /courses/", robots.content)
+        self.assertIn(b"Sitemap: http://testserver/sitemap.xml", robots.content)
+        sitemap = self.client.get("/sitemap.xml")
+        self.assertEqual(sitemap["Content-Type"], "application/xml")
+        self.assertIn(b"<loc>http://testserver/</loc>", sitemap.content)
+
+    def test_json_ld_cannot_break_out_of_script(self):
+        from .branding import json_ld
+
+        self.assertNotIn("<", json_ld("http://x/</script>"))

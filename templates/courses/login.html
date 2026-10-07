@@ -1,14 +1,128 @@
 {% extends "base.html" %}
 {% load socialaccount %}
-{% block title %}Sign in · Course Portal{% endblock %}
+{% block title %}{{ brand.SEO_TITLE }}{% endblock %}
+{% block robots %}index, follow, max-image-preview:large{% endblock %}
+{% block canonical %}{{ site_url }}{% endblock %}
+{% block og_url %}{{ site_url }}{% endblock %}
+{% block extra_style %}
+  .auth { display: grid; grid-template-columns: 1.15fr 1fr; max-width: 1000px; margin: 1rem auto 0; border-radius: 22px; overflow: hidden;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-hover); }
+  .auth-side { position: relative; padding: 2.75rem 2.5rem; color: #fff; overflow: hidden;
+    background: linear-gradient(140deg, var(--hero-1) 0%, var(--hero-2) 60%, var(--hero-3) 100%); }
+  .auth-side::before { content: ""; position: absolute; width: 320px; height: 320px; right: -110px; bottom: -110px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,.2), transparent 70%); }
+  .eyebrow { display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    padding: .3rem .7rem; border-radius: 999px; background: rgba(255,255,255,.16); margin-bottom: 1rem; }
+  .auth-side h1 { margin: 0 0 .75rem; font-size: clamp(1.7rem, 3.2vw, 2.3rem); font-weight: 800; }
+  .auth-side p { margin: 0 0 1.5rem; opacity: .92; position: relative; }
+  .features { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; position: relative; }
+  .features li { display: flex; gap: .75rem; align-items: flex-start; }
+  .features .ico { flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: rgba(255,255,255,.16); }
+  .features strong { display: block; font-size: .95rem; }
+  .features span { font-size: .87rem; opacity: .85; }
+  .auth-form { padding: 2.75rem 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+  .auth-form h2 { margin: 0 0 .35rem; font-size: 1.5rem; }
+  .auth-form > p { margin: 0 0 1.75rem; }
+  .google { background: var(--card); color: var(--fg); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .google:hover { border-color: var(--accent); box-shadow: var(--shadow-hover); }
+  .fine { margin-top: 1.25rem; font-size: .82rem; text-align: center; }
+
+  .section { max-width: 1000px; margin: 4rem auto 0; }
+  .section-head { text-align: center; margin-bottom: 1.75rem; }
+  .section-head h2 { margin: 0 0 .4rem; font-size: clamp(1.4rem, 2.6vw, 1.85rem); font-weight: 800; }
+  .section-head p { margin: 0 auto; max-width: 620px; }
+  .topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .topic { padding: 1.4rem; border-radius: 16px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+    transition: transform .18s, box-shadow .18s, border-color .18s; }
+  .topic:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+  .topic .num { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 800;
+    background: var(--accent-soft); color: var(--accent); margin-bottom: .9rem; }
+  .topic h3 { margin: 0 0 .35rem; font-size: 1.05rem; }
+  .topic p { margin: 0; font-size: .92rem; }
+
+  .about { display: grid; grid-template-columns: auto 1fr; gap: 1.75rem; align-items: center; padding: 2rem; border-radius: 20px;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .about .mark { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 4px var(--card), 0 12px 36px rgba(56, 189, 248, .4); }
+  .about h2 { margin: 0 0 .2rem; font-size: 1.4rem; }
+  .about .role { margin: 0 0 .8rem; color: var(--accent); font-weight: 600; font-size: .92rem; }
+  .about p { margin: 0 0 .6rem; }
+  .follow { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.1rem; }
+  .follow a { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .9rem; border-radius: 999px; font-weight: 600; font-size: .9rem;
+    text-decoration: none; color: var(--fg); background: var(--bg); border: 1px solid var(--line); transition: border-color .15s, color .15s; }
+  .follow a:hover { border-color: var(--accent); color: var(--accent); }
+  .follow a.yt { background: #ff0033; border-color: #ff0033; color: #fff; }
+  .follow a.yt:hover { background: #e0002d; color: #fff; }
+  .follow svg { width: 16px; height: 16px; }
+
+  @media (max-width: 760px) {
+    .auth { grid-template-columns: 1fr; margin-top: 0; }
+    .auth-side, .auth-form { padding: 2rem 1.5rem; }
+    .about { grid-template-columns: 1fr; text-align: center; padding: 1.5rem; }
+    .about .mark { margin: 0 auto; }
+    .follow { justify-content: center; }
+  }
+{% endblock %}
 {% block content %}
-<div class="card narrow">
-  <h1>Sign in</h1>
-  <p class="muted">Use the Google account your administrator enrolled.</p>
-  <form method="post" action="{% provider_login_url 'google' %}">
-    {% csrf_token %}
-    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
-    <button class="btn" type="submit">Continue with Google</button>
-  </form>
+{% load static %}
+<div class="auth">
+  <section class="auth-side">
+    <span class="eyebrow">{{ brand.NAME }} · Course Notes</span>
+    <h1>{{ brand.TAGLINE }}</h1>
+    <p>{{ brand.DESCRIPTION }} Revisit every live session at your own pace — notes are published after each class.</p>
+    <ul class="features">
+      <li><span class="ico" aria-hidden="true">📘</span><div><strong>Session-by-session notes</strong><span>Clear write-ups published after every class.</span></div></li>
+      <li><span class="ico" aria-hidden="true">💻</span><div><strong>Real-world examples</strong><span>Copy code straight into your editor and try it.</span></div></li>
+      <li><span class="ico" aria-hidden="true">🔎</span><div><strong>Fast search</strong><span>Find any concept across the whole course.</span></div></li>
+    </ul>
+  </section>
+  <section class="auth-form" aria-labelledby="signin-title">
+    <h2 id="signin-title">Students, sign in</h2>
+    <p class="muted">Use the Google account your instructor enrolled.</p>
+    <form method="post" action="{% provider_login_url 'google' %}">
+      {% csrf_token %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="btn block google" type="submit">
+        <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        Continue with Google
+      </button>
+    </form>
+    <p class="fine muted">Only enrolled accounts can access course material.<br>Not enrolled yet? Learn free on <a href="{{ brand.YOUTUBE }}" target="_blank" rel="noopener">YouTube</a>.</p>
+  </section>
 </div>
+
+<section class="section" aria-labelledby="topics-title">
+  <div class="section-head">
+    <h2 id="topics-title">What you'll find here</h2>
+    <p class="muted">Practical, easy-to-understand tutorials, live sessions and real-world examples.</p>
+  </div>
+  <div class="topics">
+    {% for topic, summary in brand.TOPICS %}
+    <article class="topic">
+      <div class="num" aria-hidden="true">{{ forloop.counter }}</div>
+      <h3>{{ topic }}</h3>
+      <p class="muted">{{ summary }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" aria-labelledby="about-title">
+  <div class="about">
+    <img class="mark" src="{% static 'brand/logo-512.png' %}" alt="{{ brand.AUTHOR }}, founder of {{ brand.NAME }}" width="132" height="132" loading="lazy">
+    <div>
+      <h2 id="about-title">Hi, I'm {{ brand.AUTHOR }}</h2>
+      <p class="role">Founder of {{ brand.NAME }}</p>
+      <p>{{ brand.AUTHOR_BIO }}</p>
+      <p class="muted">{{ brand.CADENCE }} Subscribe to {{ brand.NAME }} and keep learning. 🚀</p>
+      <div class="follow">
+        {% for link in brand.SOCIAL_LINKS %}
+        <a {% if link.key == "youtube" %}class="yt" href="{{ brand.YOUTUBE_SUBSCRIBE }}"{% else %}href="{{ link.url }}"{% endif %} target="_blank" rel="noopener me">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="{{ link.icon }}"/></svg>
+          {% if link.key == "youtube" %}Subscribe on YouTube{% else %}{{ link.name }}{% endif %}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

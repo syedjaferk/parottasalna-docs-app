@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import SuspiciousFileOperation
 from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils._os import safe_join
 
 from .models import Course
@@ -15,7 +16,8 @@ from .services import accessible_courses, user_can_access
 
 def home(request):
     if not request.user.is_authenticated:
-        return redirect("login")
+        # Public landing page (indexable) instead of a redirect.
+        return render(request, "courses/login.html", {"next": ""})
     return render(request, "courses/dashboard.html", {"courses": accessible_courses(request.user)})
 
 
@@ -60,3 +62,21 @@ def course_docs(request, slug, path=""):
         response = FileResponse(open(target, "rb"), content_type=content_type)
     response["Cache-Control"] = "private, no-cache"
     return response
+
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Allow: /$",
+        "Disallow: /admin/",
+        "Disallow: /accounts/",
+        "Disallow: /courses/",
+        "Disallow: /logout/",
+        f"Sitemap: {request.build_absolute_uri(reverse('sitemap'))}",
+    ]
+    return HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
+
+
+def sitemap_xml(request):
+    return render(request, "sitemap.xml", {"home_url": request.build_absolute_uri(reverse("home"))},
+                  content_type="application/xml")

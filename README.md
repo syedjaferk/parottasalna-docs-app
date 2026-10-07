@@ -25,6 +25,28 @@ python manage.py createsuperuser   # use YOUR GOOGLE EMAIL so Google login attac
 python manage.py runserver
 ```
 
+## Docker Compose
+
+```bash
+cp .env.example .env               # set SECRET_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, POSTGRES_PASSWORD
+docker compose up -d --build       # Postgres + Django (gunicorn) + Nginx on http://localhost:8000
+docker compose exec web python manage.py createsuperuser
+```
+
+- `./course_content` is mounted into the app, so new session `.md` files appear without a rebuild of
+  the image; then click **Rebuild documentation** in the admin (or `docker compose exec web python manage.py build_docs`).
+- All courses are rebuilt whenever the `web` container starts (`BUILD_DOCS_ON_START=false` to skip).
+- Built docs live in the `docs_build` volume and are streamed by Nginx via `X-Accel-Redirect`.
+- With `DEBUG=false` and no HTTPS in front, also set `SECURE_SSL_REDIRECT=false` and `SECURE_COOKIES=false`.
+  In production put a TLS terminator in front (it should send `X-Forwarded-Proto: https`).
+
+### Branding & SEO
+
+Brand name, description, topics and social links live in `courses/branding.py` and are used by
+every portal page (meta tags, Open Graph, JSON-LD, footer) and by the generated Sphinx docs.
+Images are in `static/brand/`. Only the landing page `/` is indexable; `/robots.txt` and
+`/sitemap.xml` are generated.
+
 ### Google OAuth client
 
 Google Cloud Console -> APIs & Services -> Credentials -> *Create OAuth client ID* -> Web application.
