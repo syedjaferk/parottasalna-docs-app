@@ -10,7 +10,10 @@ served only to users enrolled in that course.
   A brand-new Google account is rejected unless its verified email is on some course.
 - **Docs:** `course_content/<slug>/*.md` -> `sphinx-build` -> `docs_build/<slug>/html/`.
   Every request to `/courses/<slug>/docs/...` is authorised by Django first.
-- **Staff** (`is_staff`) can open every course; everyone else only their enrolled ones.
+- **Common courses** (tick *Common course* in the admin) are public: anyone can read their docs without signing in
+  (quizzes still need sign-in so scores can be saved). They are listed on the landing page and indexed by search engines;
+  other courses are only for enrolled students. The dashboard shows the two groups separately.
+- **Staff** (`is_staff`) can open every course; everyone else only their enrolled ones plus common ones.
 
 ## Local setup
 
@@ -47,6 +50,29 @@ every portal page (meta tags, Open Graph, JSON-LD, footer) and by the generated 
 Images are in `static/brand/`. Only the landing page `/` is indexable; `/robots.txt` and
 `/sitemap.xml` are generated.
 
+### Importing a GitBook space
+
+A GitBook export (folder with `README.md`, `SUMMARY.md`, `.gitbook/assets/`) can be turned into a course:
+
+```bash
+python manage.py import_gitbook path/to/space my-course --title "My Course" --description "..." --common --apply
+```
+
+It writes `course_content/my-course/` (SUMMARY.md becomes the sidebar, images move to `_assets/`,
+YouTube embeds become players, "Solution" tabs become collapsible blocks) and, with `--apply`,
+creates/updates the course and builds it. Re-run it after editing on GitBook; it replaces the folder.
+
+### Quizzes
+
+Add a quiz in **Admin → Quizzes**: pick the course, set **Chapter** to the docs page name
+(`lesson-1` for `lesson-1.md`), add questions, tick **Is published**.
+
+- Choices go one per line; start the correct one(s) with `*`. Several `*` = "select all that apply".
+- Question text supports Markdown, including code blocks.
+- That chapter's docs page shows a "Check your understanding" card automatically (no docs rebuild needed).
+- Every attempt is stored. Students see their best score; staff see a per-course scoreboard at
+  `/courses/<slug>/quizzes/scores/` (CSV download) and every attempt under **Admin → Attempts**.
+
 ### Google OAuth client
 
 Google Cloud Console -> APIs & Services -> Credentials -> *Create OAuth client ID* -> Web application.
@@ -76,7 +102,8 @@ Run the tests with `python manage.py test`.
 
 ## Security design
 
-- Course access is checked on **every** docs request, not just at login. Non-enrolled users get 404.
+- Course access is checked on **every** docs request, not just at login. Non-enrolled users get 404;
+  signed-out visitors are sent to sign-in (except for public common courses).
 - Path traversal and dotfiles are blocked; the build directory is never exposed as a static root.
 - Sphinx runs with a generated `conf.py` and a stripped environment, so course content can't run code or read secrets.
 - Emails are compared case-insensitively. Only Google-verified emails are trusted.

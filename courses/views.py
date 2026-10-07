@@ -3,35 +3,52 @@ from pathlib import Path
 from urllib.parse import quote
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import SuspiciousFileOperation
+from django.db.models import Count, Q
 from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils._os import safe_join
 
 from .models import Course
-from .services import accessible_courses, user_can_access
+from .services import accessible_courses, public_courses, user_can_access
+
+
+def _landing(request, next_url=""):
+    free = public_courses().filter(build_status=Course.BuildStatus.OK)
+    return render(request, "courses/login.html", {"next": next_url, "free_courses": free})
 
 
 def home(request):
     if not request.user.is_authenticated:
         # Public landing page (indexable) instead of a redirect.
-        return render(request, "courses/login.html", {"next": ""})
-    return render(request, "courses/dashboard.html", {"courses": accessible_courses(request.user)})
+        return _landing(request)
+    courses = list(accessible_courses(request.user).annotate(
+        quiz_count=Count("quizzes", filter=Q(quizzes__is_published=True), distinct=True)
+    ))
+    return render(request, "courses/dashboard.html", {
+        "courses": courses,
+        "enrolled_courses": [c for c in courses if not c.is_common],
+        "common_courses": [c for c in courses if c.is_common],
+    })
 
 
 def login_page(request):
     if request.user.is_authenticated:
         return redirect("home")
-    return render(request, "courses/login.html", {"next": request.GET.get("next", "")})
+    return _landing(request, request.GET.get("next", ""))
 
 
-@login_required
 def course_docs(request, slug, path=""):
-    """Authorise, then hand back one file of the course's built Sphinx site."""
-    course = get_object_or_404(Course, slug=slug, is_active=True)
-    if not user_can_access(request.user, course):
+    """Authorise, then hand back one file of the course's built Sphinx site.
+
+    Common courses are public; everything else needs a signed-in, enrolled user.
+    """
+    course = Course.objects.filter(slug=slug, is_active=True).first()
+    if course is None or not user_can_access(request.user, course):
+        if not request.user.is_authenticated:
+            return redirect_to_login(request.get_full_path())  # same for unknown slugs: reveal nothing
         raise Http404  # 404, not 403: don't reveal which courses exist
 
     html_root = course.html_dir.resolve()
@@ -70,6 +87,7 @@ def robots_txt(request):
         "Allow: /$",
         "Disallow: /admin/",
         "Disallow: /accounts/",
+        *[f"Allow: /courses/{slug}/docs/" for slug in public_courses().values_list("slug", flat=True)],
         "Disallow: /courses/",
         "Disallow: /logout/",
         f"Sitemap: {request.build_absolute_uri(reverse('sitemap'))}",
@@ -77,6 +95,27 @@ def robots_txt(request):
     return HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
 
 
+def _public_doc_pages(course):
+    """Relative paths of a public course's built pages (skipping Sphinx's search/index pages)."""
+    root = course.html_dir
+    if not root.is_dir():
+        return []
+    skip = {"search.html", "genindex.html", "py-modindex.html"}
+    return sorted(
+        p.relative_to(root).as_posix()
+        for p in root.rglob("*.html")
+        if p.name not in skip and not any(part.startswith(("_", ".")) for part in p.relative_to(root).parts)
+    )
+
+
 def sitemap_xml(request):
-    return render(request, "sitemap.xml", {"home_url": request.build_absolute_uri(reverse("home"))},
-                  content_type="application/xml")
+    urls = [{"loc": request.build_absolute_uri(reverse("home")), "priority": "1.0", "lastmod": None}]
+    for course in public_courses().filter(build_status=Course.BuildStatus.OK):
+        for page in _public_doc_pages(course):
+            path = "" if page == "index.html" else page
+            urls.append({
+                "loc": request.build_absolute_uri(reverse("course_docs", args=[course.slug]) + quote(path)),
+                "priority": "0.8" if not path else "0.6",
+                "lastmod": course.last_built_at,
+            })
+    return render(request, "sitemap.xml", {"urls": urls}, content_type="application/xml")

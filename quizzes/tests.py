@@ -1,0 +1,154 @@
+import tempfile
+from pathlib import Path
+
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.test import TestCase, override_settings
+
+from courses.models import Course, Enrollment
+
+from .models import Attempt, Question, Quiz
+
+User = get_user_model()
+MODEL_BACKEND = "django.contrib.auth.backends.ModelBackend"
+
+
+class QuizTestCase(TestCase):
+    def setUp(self):
+        self.course = Course.objects.create(slug="c1", title="C1", build_status="ok")
+        Enrollment.objects.create(course=self.course, email="stu@gmail.com")
+        self.student = User.objects.create_user("stu", email="stu@gmail.com")
+        self.outsider = User.objects.create_user("out", email="out@gmail.com")
+        self.staff = User.objects.create_user("adm", email="adm@gmail.com", is_staff=True)
+        self.quiz = Quiz.objects.create(course=self.course, title="Lesson 1 quiz", chapter="lesson-1",
+                                        is_published=True)
+        self.q1 = Question.objects.create(quiz=self.quiz, text="Pick `tuple`", choices="list\n*tuple\ndict", order=1)
+        self.q2 = Question.objects.create(quiz=self.quiz, text="Mutable?", choices="*list\ntuple\n*dict",
+                                          points=2, order=2)
+
+    def login(self, user):
+        self.client.force_login(user, backend=MODEL_BACKEND)
+
+    def take_url(self, quiz=None):
+        return f"/courses/c1/quizzes/{(quiz or self.quiz).pk}/"
+
+
+class QuestionTests(QuizTestCase):
+    def test_parsing_and_multiple(self):
+        self.assertEqual(self.q1.parsed_choices(), [("list", False), ("tuple", True), ("dict", False)])
+        self.assertFalse(self.q1.is_multiple)
+        self.assertTrue(self.q2.is_multiple)
+
+    def test_validation_needs_a_correct_choice(self):
+        with self.assertRaises(ValidationError):
+            Question(quiz=self.quiz, text="x", choices="a\nb").full_clean()
+        with self.assertRaises(ValidationError):
+            Question(quiz=self.quiz, text="x", choices="*a").full_clean()
+
+    def test_chapter_must_exist_in_course_content(self):
+        with tempfile.TemporaryDirectory() as root:
+            (Path(root) / "c1").mkdir()
+            (Path(root) / "c1" / "lesson-1.md").write_text("# L1")
+            with override_settings(COURSES_SRC_ROOT=Path(root)):
+                Quiz(course=self.course, title="ok", chapter="lesson-1.md").full_clean()
+                with self.assertRaises(ValidationError):
+                    Quiz(course=self.course, title="bad", chapter="lesson-9").full_clean()
+
+
+class TakingTests(QuizTestCase):
+    def test_full_marks(self):
+        self.login(self.student)
+        response = self.client.post(self.take_url(), {f"q{self.q1.pk}": "1", f"q{self.q2.pk}": ["0", "2"]})
+        attempt = Attempt.objects.get()
+        self.assertRedirects(response, f"/courses/c1/quizzes/attempts/{attempt.pk}/")
+        self.assertEqual((attempt.score, attempt.max_score), (3, 3))
+        self.assertTrue(attempt.passed)
+
+    def test_partial_multi_select_scores_zero_for_that_question(self):
+        self.login(self.student)
+        self.client.post(self.take_url(), {f"q{self.q1.pk}": "1", f"q{self.q2.pk}": "0"})
+        self.assertEqual(Attempt.objects.get().score, 1)
+
+    def test_unanswered_asks_for_confirmation_first(self):
+        self.login(self.student)
+        response = self.client.post(self.take_url(), {f"q{self.q1.pk}": "1"})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Attempt.objects.exists())
+        self.client.post(self.take_url(), {f"q{self.q1.pk}": "1", "confirm_unanswered": "1"})
+        self.assertEqual(Attempt.objects.get().score, 1)
+
+    def test_bogus_choice_values_are_ignored(self):
+        self.login(self.student)
+        self.client.post(self.take_url(), {f"q{self.q1.pk}": ["9", "x", "1"], f"q{self.q2.pk}": ["0", "2"],
+                                           "confirm_unanswered": "1"})
+        self.assertEqual(Attempt.objects.get().answers[str(self.q1.pk)], [1])
+
+    def test_answers_are_not_in_the_quiz_page(self):
+        self.login(self.student)
+        response = self.client.get(self.take_url())
+        self.assertContains(response, "tuple")
+        self.assertNotContains(response, "*tuple")
+
+    def test_max_attempts_is_enforced(self):
+        Quiz.objects.filter(pk=self.quiz.pk).update(max_attempts=1)
+        self.login(self.student)
+        data = {f"q{self.q1.pk}": "1", f"q{self.q2.pk}": "0"}
+        self.client.post(self.take_url(), data)
+        response = self.client.post(self.take_url(), data)
+        self.assertRedirects(response, "/courses/c1/quizzes/")
+        self.assertEqual(Attempt.objects.count(), 1)
+
+
+class AccessTests(QuizTestCase):
+    def test_outsider_and_anonymous_are_blocked(self):
+        self.assertEqual(self.client.get(self.take_url()).status_code, 302)
+        self.login(self.outsider)
+        for url in (self.take_url(), "/courses/c1/quizzes/", "/courses/c1/quizzes.json"):
+            self.assertEqual(self.client.get(url).status_code, 404)
+
+    def test_drafts_hidden_from_students_but_staff_can_preview(self):
+        draft = Quiz.objects.create(course=self.course, title="Draft")
+        Question.objects.create(quiz=draft, text="?", choices="*a\nb")
+        self.login(self.student)
+        self.assertEqual(self.client.get(self.take_url(draft)).status_code, 404)
+        self.login(self.staff)
+        self.assertEqual(self.client.get(self.take_url(draft)).status_code, 200)
+
+    def test_students_cannot_see_each_others_results(self):
+        attempt = Attempt.objects.create(quiz=self.quiz, user=self.staff, score=1, max_score=3)
+        Enrollment.objects.create(course=self.course, email="out@gmail.com")
+        self.login(self.outsider)
+        self.assertEqual(self.client.get(f"/courses/c1/quizzes/attempts/{attempt.pk}/").status_code, 404)
+
+    def test_scoreboard_is_staff_only(self):
+        self.login(self.student)
+        self.assertEqual(self.client.get("/courses/c1/quizzes/scores/").status_code, 302)
+
+
+class FeedAndScoresTests(QuizTestCase):
+    def test_feed_lists_published_quizzes_with_best_score(self):
+        Attempt.objects.create(quiz=self.quiz, user=self.student, score=1, max_score=3)
+        Attempt.objects.create(quiz=self.quiz, user=self.student, score=3, max_score=3)
+        self.login(self.student)
+        data = self.client.get("/courses/c1/quizzes.json").json()
+        self.assertEqual(len(data["quizzes"]), 1)
+        item = data["quizzes"][0]
+        self.assertEqual(item["chapter"], "lesson-1")
+        self.assertEqual(item["questions"], 2)
+        self.assertEqual(item["best"]["score"], 3)
+
+    def test_scoreboard_and_csv(self):
+        Attempt.objects.create(quiz=self.quiz, user=self.student, score=2, max_score=3)
+        self.login(self.staff)
+        response = self.client.get("/courses/c1/quizzes/scores/")
+        self.assertContains(response, "stu@gmail.com")
+        self.assertContains(response, "2/3")
+        csv = self.client.get("/courses/c1/quizzes/scores.csv").content.decode()
+        self.assertIn("Email,Name,Lesson 1 quiz,Quizzes taken,Total,Out of", csv)
+        self.assertIn("stu@gmail.com,,2/3,1,2,3", csv)
+
+    def test_scoreboard_handles_users_without_email(self):
+        nomail = User.objects.create_user("teacher", is_staff=True)
+        Attempt.objects.create(quiz=self.quiz, user=nomail, score=1, max_score=3)
+        self.login(self.staff)
+        self.assertIn("teacher,,1/3", self.client.get("/courses/c1/quizzes/scores.csv").content.decode())

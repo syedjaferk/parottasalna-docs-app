@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "courses",
+    "quizzes",
 ]
 
 MIDDLEWARE = [

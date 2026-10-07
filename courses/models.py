@@ -23,6 +23,12 @@ class Course(models.Model):
         "Defaults to the slug.",
     )
     is_active = models.BooleanField(default=True)
+    is_common = models.BooleanField(
+        "Common course",
+        default=False,
+        help_text="Open to every signed-in student without enrolling them. "
+        "Leave unticked for courses only enrolled students can see.",
+    )
 
     build_status = models.CharField(
         max_length=10, choices=BuildStatus.choices, default=BuildStatus.NEVER

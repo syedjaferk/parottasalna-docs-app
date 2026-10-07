@@ -39,16 +39,17 @@ class EnrollmentInline(admin.TabularInline):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     form = CourseAdminForm
-    list_display = ("title", "slug", "is_active", "build_status", "last_built_at",
-                    "user_count", "docs_link")
-    list_filter = ("is_active", "build_status")
+    list_display = ("title", "slug", "is_active", "is_common", "build_status", "last_built_at",
+                    "user_count", "docs_link", "scores_link")
+    list_filter = ("is_common", "is_active", "build_status")
+    list_editable = ("is_common",)
     search_fields = ("title", "slug")
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ("build_status", "last_built_at", "build_log_display")
     inlines = [EnrollmentInline]
     actions = ["rebuild_docs"]
     fieldsets = (
-        (None, {"fields": ("title", "slug", "description", "source_dir", "is_active")}),
+        (None, {"fields": ("title", "slug", "description", "source_dir", "is_active", "is_common")}),
         ("Add users", {"fields": ("bulk_emails",)}),
         ("Documentation build", {"fields": ("build_status", "last_built_at", "build_log_display")}),
     )
@@ -58,13 +59,17 @@ class CourseAdmin(admin.ModelAdmin):
 
     @admin.display(ordering="_users", description="Users")
     def user_count(self, obj):
-        return obj._users
+        return "All students" if obj.is_common else obj._users
 
     @admin.display(description="Docs")
     def docs_link(self, obj):
         if obj.build_status != Course.BuildStatus.OK:
             return "-"
         return format_html('<a href="{}">Open</a>', reverse("course_docs", args=[obj.slug]))
+
+    @admin.display(description="Quizzes")
+    def scores_link(self, obj):
+        return format_html('<a href="{}">Scores</a>', reverse("quiz_scoreboard", args=[obj.slug]))
 
     @admin.display(description="Build log")
     def build_log_display(self, obj):
@@ -74,6 +79,13 @@ class CourseAdmin(admin.ModelAdmin):
             '<pre style="white-space:pre-wrap;max-height:300px;overflow:auto">{}</pre>',
             obj.build_log,
         )
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        # Public vs enrolled changes the docs' search-engine tags, which are baked in at build time.
+        if change and "is_common" in form.changed_data and obj.build_status == Course.BuildStatus.OK:
+            build_in_background([obj.pk])
+            self.message_user(request, f"Rebuilding “{obj.title}” docs for its new visibility.")
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load quiz_extras %}
+{% block title %}Result · {{ quiz.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_style %}
+{% include "quizzes/_styles.html" %}
+  .quiz-wrap { max-width: 780px; margin: 0 auto; }
+  .score-card { display: flex; gap: 1.75rem; align-items: center; flex-wrap: wrap; padding: 1.75rem; border-radius: 20px; margin-bottom: 2rem;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-hover); }
+  .ring { --p: 0; width: 132px; height: 132px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    background: conic-gradient(var(--ring) calc(var(--p) * 1%), var(--accent-soft) 0); }
+  .ring.pass { --ring: var(--ok); } .ring.fail { --ring: var(--warn); }
+  .ring > div { width: 104px; height: 104px; border-radius: 50%; background: var(--card); display: grid; place-items: center; text-align: center; }
+  .ring strong { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+  .ring small { display: block; color: var(--muted); font-size: .8rem; margin-top: .2rem; }
+  .score-card .info { flex: 1; min-width: 220px; }
+  .score-card h1 { margin: 0 0 .3rem; font-size: 1.5rem; font-weight: 800; }
+  .score-card p { margin: 0 0 .9rem; }
+  .review h2 { font-size: 1.15rem; margin: 0 0 1rem; }
+  .question { padding: 1.25rem 1.4rem; border-radius: 16px; background: var(--card); border: 1px solid var(--line); margin-bottom: 1rem;
+    border-left: 4px solid var(--warn); }
+  .question.right { border-left-color: var(--ok); }
+  .q-head { display: flex; gap: .7rem; align-items: flex-start; }
+  .q-head .md { flex: 1; font-weight: 500; }
+  .choices { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .4rem; }
+  .choices li { display: flex; gap: .6rem; align-items: center; padding: .55rem .8rem; border-radius: 10px; border: 1px solid var(--line); font-size: .95rem; }
+  .choices li.correct { border-color: color-mix(in srgb, var(--ok) 55%, transparent); background: var(--ok-soft); }
+  .choices li.wrong { border-color: color-mix(in srgb, #dc2626 50%, transparent); background: color-mix(in srgb, #dc2626 10%, transparent); }
+  .choices .mark { width: 1.2rem; text-align: center; font-weight: 800; flex: none; }
+  .choices .who { margin-left: auto; font-size: .75rem; color: var(--muted); white-space: nowrap; }
+  .explain { margin-top: .8rem; padding: .7rem .9rem; border-radius: 10px; background: var(--accent-soft); font-size: .92rem; }
+  .explain strong { color: var(--accent); }
+{% endblock %}
+{% block content %}
+<div class="quiz-wrap">
+  <nav class="crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{% url 'course_docs' course.slug %}">{{ course.title }}</a> / <a href="{% url 'quiz_list' course.slug %}">Quizzes</a></nav>
+
+  <section class="score-card">
+    <div class="ring {% if attempt.passed %}pass{% else %}fail{% endif %}" style="--p: {{ attempt.percentage }}">
+      <div><div><strong>{{ attempt.percentage }}%</strong><small>{{ attempt.score }} / {{ attempt.max_score }}</small></div></div>
+    </div>
+    <div class="info">
+      <h1>{% if attempt.passed %}Great job! 🎉{% else %}Keep going! 💪{% endif %}</h1>
+      <p class="muted">
+        {{ quiz.title }} · Attempt {{ attempt_number }}
+        {% if attempt.user != user %}· {{ attempt.user.email }}{% endif %}
+        · {{ attempt.submitted_at|date:"M j, Y H:i" }}<br>
+        {% if attempt.passed %}You passed (pass mark {{ quiz.pass_percentage }}%).{% else %}Pass mark is {{ quiz.pass_percentage }}%. Review the chapter and try again.{% endif %}
+      </p>
+      <div class="actions">
+        {% if attempts_left != 0 and attempt.user == user %}<a class="btn sm" href="{% url 'quiz_take' course.slug quiz.pk %}">Retake quiz</a>{% endif %}
+        {% if quiz.chapter %}<a class="btn ghost sm" href="{% url 'course_docs_file' course.slug quiz.chapter|add:'.html' %}">Back to the chapter</a>{% endif %}
+        <a class="btn ghost sm" href="{% url 'quiz_list' course.slug %}">All quizzes</a>
+      </div>
+    </div>
+  </section>
+
+  {% if quiz.show_answers or user.is_staff %}
+  <section class="review">
+    <h2>Review your answers</h2>
+    {% for item in review %}
+    <article class="question{% if item.is_right %} right{% endif %}">
+      <div class="q-head">
+        <span class="tag {% if item.is_right %}ok{% else %}bad{% endif %}">{% if item.is_right %}✓{% else %}✗{% endif %} Q{{ forloop.counter }}</span>
+        <div class="md">{{ item.question.text|markdown }}</div>
+      </div>
+      <ul class="choices">
+        {% for choice in item.choices %}
+        <li class="{% if choice.correct %}correct{% elif choice.picked %}wrong{% endif %}">
+          <span class="mark" aria-hidden="true">{% if choice.correct %}✓{% elif choice.picked %}✗{% endif %}</span>
+          <span class="md">{{ choice.text|markdown_inline }}</span>
+          {% if choice.picked %}<span class="who">Your answer</span>{% elif choice.correct %}<span class="who">Correct answer</span>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% if item.question.explanation %}<div class="explain md"><strong>Why:</strong> {{ item.question.explanation|markdown_inline }}</div>{% endif %}
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

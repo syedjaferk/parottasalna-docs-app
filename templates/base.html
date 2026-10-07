@@ -198,6 +198,10 @@
           <button class="pill-link" type="submit" style="cursor:pointer;font:inherit">Sign out</button>
         </form>
       </div>
+      {% else %}
+      <div class="who">
+        <a class="pill-link" href="{% url 'login' %}">Sign in</a>
+      </div>
       {% endif %}
     </div>
   </header>

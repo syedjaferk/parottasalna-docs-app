@@ -40,6 +40,20 @@
   .topic h3 { margin: 0 0 .35rem; font-size: 1.05rem; }
   .topic p { margin: 0; font-size: .92rem; }
 
+  .free-badge { display: inline-block; margin-bottom: .6rem; padding: .25rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; background: color-mix(in srgb, #0d9488 14%, transparent); color: #0d9488; }
+  .free-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+  .free-course { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; text-decoration: none; color: var(--fg);
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); transition: transform .18s, box-shadow .18s, border-color .18s; }
+  .free-course:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, #0d9488 45%, var(--line)); }
+  .free-cover { height: 70px; display: flex; align-items: flex-end; padding: 0 1.1rem; background: linear-gradient(135deg, #0f766e, #22d3ee); }
+  .free-initials { width: 44px; height: 44px; margin-bottom: -22px; border-radius: 12px; display: grid; place-items: center; font-weight: 800;
+    background: var(--card); color: #0d9488; border: 1px solid var(--line); }
+  .free-body { display: flex; flex-direction: column; gap: .4rem; padding: 1.8rem 1.1rem 1.1rem; flex: 1; }
+  .free-body strong { font-size: 1.02rem; }
+  .free-body .muted { font-size: .88rem; }
+  .free-cta { margin-top: auto; padding-top: .3rem; font-weight: 600; font-size: .9rem; color: #0d9488; }
+
   .about { display: grid; grid-template-columns: auto 1fr; gap: 1.75rem; align-items: center; padding: 2rem; border-radius: 20px;
     background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
   .about .mark { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 4px var(--card), 0 12px 36px rgba(56, 189, 248, .4); }
@@ -86,9 +100,31 @@
         Continue with Google
       </button>
     </form>
-    <p class="fine muted">Only enrolled accounts can access course material.<br>Not enrolled yet? Learn free on <a href="{{ brand.YOUTUBE }}" target="_blank" rel="noopener">YouTube</a>.</p>
+    <p class="fine muted">Only enrolled accounts can access course material.<br>Not enrolled yet? {% if free_courses %}Read the <a href="#free-courses">free courses</a> or learn{% else %}Learn free{% endif %} on <a href="{{ brand.YOUTUBE }}" target="_blank" rel="noopener">YouTube</a>.</p>
   </section>
 </div>
+
+{% if free_courses %}
+<section class="section" id="free-courses" aria-labelledby="free-title">
+  <div class="section-head">
+    <span class="free-badge">No sign-in needed</span>
+    <h2 id="free-title">Free courses</h2>
+    <p class="muted">Start learning right now — these courses are open to everyone.</p>
+  </div>
+  <div class="free-grid">
+    {% for course in free_courses %}
+    <a class="free-course" href="{% url 'course_docs' course.slug %}">
+      <span class="free-cover"><span class="free-initials" aria-hidden="true">{{ course.title|slice:":2"|upper }}</span></span>
+      <span class="free-body">
+        <strong>{{ course.title }}</strong>
+        {% if course.description %}<span class="muted">{{ course.description|truncatechars:130 }}</span>{% endif %}
+        <span class="free-cta">Start reading →</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 
 <section class="section" aria-labelledby="topics-title">
   <div class="section-head">

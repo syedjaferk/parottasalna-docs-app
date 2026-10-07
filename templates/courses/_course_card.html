@@ -1,0 +1,28 @@
+<article class="course{% if course.is_common %} common{% endif %}">
+  <div class="course-cover"><span class="course-initials" aria-hidden="true">{{ course.title|slice:":2"|upper }}</span></div>
+  <div class="course-body">
+    <h3>{{ course.title }}</h3>
+    {% if course.description %}<p class="muted">{{ course.description|truncatechars:140 }}</p>{% endif %}
+    <div class="meta">
+      {% if course.is_common %}<span class="tag common-tag">🌐 Open to all</span>{% else %}<span class="tag enrolled-tag">🎓 Enrolled</span>{% endif %}
+      {% if course.build_status == "ok" %}
+        <span class="tag ok"><span class="dot"></span>Notes available</span>
+        {% if course.last_built_at %}<span class="tag info">Updated {{ course.last_built_at|date:"M j, Y" }}</span>{% endif %}
+        {% if course.quiz_count %}<span class="tag info">📝 {{ course.quiz_count }} quiz{{ course.quiz_count|pluralize:"zes" }}</span>{% endif %}
+      {% else %}
+        <span class="tag wait"><span class="dot"></span>Coming soon</span>
+      {% endif %}
+    </div>
+    <div class="course-foot">
+      {% if course.build_status == "ok" %}
+        <a class="btn block" href="{% url 'course_docs' course.slug %}">
+          Open course notes
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        {% if course.quiz_count or user.is_staff %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'quiz_list' course.slug %}">📝 Quizzes &amp; scores</a>{% endif %}
+      {% else %}
+        <span class="pending">Notes will appear here after the first session.</span>
+      {% endif %}
+    </div>
+  </div>
+</article>

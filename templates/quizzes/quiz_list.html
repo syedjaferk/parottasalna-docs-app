@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Quizzes · {{ course.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_style %}
+{% include "quizzes/_styles.html" %}
+  .quiz-list { display: grid; gap: 1rem; }
+  .quiz-row { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; padding: 1.25rem 1.4rem; border-radius: 16px;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .quiz-row .num { width: 44px; height: 44px; flex: none; border-radius: 12px; display: grid; place-items: center; font-weight: 800;
+    background: var(--accent-soft); color: var(--accent); }
+  .quiz-row .info { flex: 1; min-width: 220px; }
+  .quiz-row h2 { margin: 0 0 .3rem; font-size: 1.1rem; }
+  .quiz-row .meta { display: flex; gap: .5rem; flex-wrap: wrap; font-size: .85rem; color: var(--muted); align-items: center; }
+  .quiz-row .meta a { color: var(--muted); }
+  .empty { text-align: center; padding: 3rem 1.5rem; }
+{% endblock %}
+{% block content %}
+<nav class="crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{% url 'course_docs' course.slug %}">{{ course.title }}</a> / Quizzes</nav>
+<div class="page-head">
+  <div>
+    <h1>Quizzes</h1>
+    <p class="muted">Test what you learned in each session. Your best score is kept.</p>
+  </div>
+  {% if user.is_staff %}<a class="btn ghost sm" href="{% url 'quiz_scoreboard' course.slug %}">📊 Student scores</a>{% endif %}
+</div>
+
+{% if rows %}
+<div class="quiz-list">
+  {% for row in rows %}
+  <article class="quiz-row">
+    <span class="num" aria-hidden="true">{{ forloop.counter }}</span>
+    <div class="info">
+      <h2>{{ row.quiz.title }}</h2>
+      <div class="meta">
+        <span>{{ row.quiz.question_count }} question{{ row.quiz.question_count|pluralize }}</span>
+        {% if row.quiz.chapter %}<span>·</span><a href="{% url 'course_docs_file' course.slug row.quiz.chapter|add:'.html' %}">Read the chapter</a>{% endif %}
+        {% if row.best %}
+          <span class="tag {% if row.best.passed %}ok{% else %}wait{% endif %}">Best: {{ row.best.score }}/{{ row.best.max_score }} · {{ row.best.percentage }}%</span>
+        {% else %}
+          <span class="tag info">Not attempted</span>
+        {% endif %}
+      </div>
+    </div>
+    <div class="actions">
+      {% if row.best %}<a class="btn ghost sm" href="{% url 'quiz_result' course.slug row.best.pk %}">View result</a>{% endif %}
+      <a class="btn sm" href="{% url 'quiz_take' course.slug row.quiz.pk %}">{% if row.best %}Retake{% else %}Start quiz{% endif %}</a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty">
+  <h2>No quizzes yet</h2>
+  <p class="muted">Quizzes will appear here after each session.</p>
+  <a class="btn" href="{% url 'course_docs' course.slug %}">Back to the notes</a>
+</div>
+{% endif %}
+{% endblock %}

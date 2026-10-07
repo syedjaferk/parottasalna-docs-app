@@ -2,6 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.db.models import Q
 
 from .models import Course
 
@@ -26,16 +27,21 @@ def parse_emails(text):
     return valid, invalid
 
 
+def public_courses():
+    """Common courses: readable by anyone, signed in or not."""
+    return Course.objects.filter(is_active=True, is_common=True)
+
+
 def accessible_courses(user):
     """Active courses this user may open."""
     if not user.is_authenticated:
-        return Course.objects.none()
+        return public_courses()
     active = Course.objects.filter(is_active=True)
     if user.is_staff:
         return active
     if not user.email:
-        return Course.objects.none()
-    return active.filter(enrollments__email__iexact=user.email).distinct()
+        return active.filter(is_common=True)
+    return active.filter(Q(is_common=True) | Q(enrollments__email__iexact=user.email)).distinct()
 
 
 def user_can_access(user, course) -> bool:

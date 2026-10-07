@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Scores · {{ course.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_style %}
+{% include "quizzes/_styles.html" %}
+  .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--line); background: var(--card); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  th, td { padding: .7rem .9rem; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { background: var(--accent-soft); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); position: sticky; top: 0; }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: center; }
+  td a { text-decoration: none; }
+  .student small { display: block; color: var(--muted); }
+  .summary { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .summary div { padding: .8rem 1.1rem; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+  .summary strong { display: block; font-size: 1.3rem; }
+  .summary span { font-size: .82rem; color: var(--muted); }
+{% endblock %}
+{% block content %}
+<nav class="crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{% url 'quiz_list' course.slug %}">{{ course.title }} quizzes</a> / Scores</nav>
+<div class="page-head">
+  <div>
+    <h1>Student scores</h1>
+    <p class="muted">{{ course.title }} · best attempt per quiz. Click a score to review that attempt.</p>
+  </div>
+  <div class="actions">
+    <a class="btn ghost sm" href="{% url 'admin:quizzes_attempt_changelist' %}?quiz__course__id__exact={{ course.pk }}">All attempts</a>
+    <a class="btn sm" href="{% url 'quiz_scoreboard_csv' course.slug %}">⬇ Download CSV</a>
+  </div>
+</div>
+
+<div class="summary">
+  <div><strong>{{ rows|length }}</strong><span>Students</span></div>
+  <div><strong>{{ quizzes|length }}</strong><span>Quizzes</span></div>
+</div>
+
+{% if quizzes %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Student</th>
+        {% for quiz in quizzes %}<th class="num" title="{{ quiz.title }}">{{ quiz.title|truncatechars:22 }}{% if not quiz.is_published %} (draft){% endif %}</th>{% endfor %}
+        <th class="num">Taken</th>
+        <th class="num">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td class="student">{{ row.email }}{% if row.name %}<small>{{ row.name }}</small>{% endif %}</td>
+        {% for cell in row.cells %}
+        <td class="num">{% if cell %}<a class="tag {% if cell.passed %}ok{% else %}wait{% endif %}" href="{% url 'quiz_result' course.slug cell.pk %}">{{ cell.score }}/{{ cell.max_score }}</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+        {% endfor %}
+        <td class="num">{{ row.taken }}/{{ quizzes|length }}</td>
+        <td class="num"><strong>{{ row.total }}</strong>{% if row.max %}<span class="muted">/{{ row.max }}</span>{% endif %}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="{{ quizzes|length|add:3 }}" class="muted">No students enrolled yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="card"><p class="muted">No quizzes yet. <a href="{% url 'admin:quizzes_quiz_add' %}">Create the first quiz</a>.</p></div>
+{% endif %}
+{% endblock %}
