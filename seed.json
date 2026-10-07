@@ -1,0 +1,159 @@
+[
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "slug": "test-course",
+    "title": "Test Course",
+    "description": "",
+    "source_dir": "python-101",
+    "is_active": true,
+    "is_common": false,
+    "build_status": "ok",
+    "last_built_at": "2026-10-07T17:47:09.846Z",
+    "build_log": "Running Sphinx v8.1.3\nloading translations [en]... done\nmaking output directory... done\nloading pickled environment... The configuration has changed (6 options: 'html_context', 'html_css_files', 'html_js_files', 'html_static_path', 'html_theme_options', ...)\ndone\nmyst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'tasklist', 'colon_fence', 'deflist'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)\nbuilding [mo]: targets for 0 po files that are out of date\nwriting output... \nbuilding [html]: targets for 3 source files that are out of date\nupdating environment: 0 added, 0 changed, 0 removed\nreading sources... \nlooking for now-outdated files... none found\npreparing documents... done\ncopying assets... \ncopying static files... \nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/test-course/html.new/_static/documentation_options.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/test-course/html.new/_static/basic.css\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/test-course/html.new/_static/language_data.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/test-course/html.new/_static/copybutton.js\ncopying static files: done\ncopying extra files... \ncopying extra files: done\ncopying assets: done\nwriting output... [ 33%] index\nwriting output... [ 67%] lesson-1\nwriting output... [100%] lesson-2\n\ngenerating indices... genindex done\nwriting additional pages... search done\ndumping search index in English (code: en)... done\ndumping object inventory... done\nbuild succeeded.\n\nThe HTML pages are in docs_build/test-course/html.new.\n",
+    "created_at": "2026-10-07T16:10:08.482Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "slug": "database-engineering",
+    "title": "Database Engineering with PostgreSQL",
+    "description": "Learn relational databases and SQL with PostgreSQL: installation, roles, querying, filtering, ER diagrams and joins, with hands-on tasks on the DVD Rental sample database.",
+    "source_dir": "database-engineering",
+    "is_active": true,
+    "is_common": true,
+    "build_status": "ok",
+    "last_built_at": "2026-10-07T17:47:02.322Z",
+    "build_log": "Running Sphinx v8.1.3\nloading translations [en]... done\nmaking output directory... done\nloading pickled environment... The configuration has changed (6 options: 'html_context', 'html_css_files', 'html_js_files', 'html_static_path', 'html_theme_options', ...)\ndone\nmyst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'tasklist', 'colon_fence', 'deflist'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)\nbuilding [mo]: targets for 0 po files that are out of date\nwriting output... \nbuilding [html]: targets for 42 source files that are out of date\nupdating environment: 0 added, 0 changed, 0 removed\nreading sources... \nlooking for now-outdated files... none found\npreparing documents... done\ncopying assets... \ncopying static files... \nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/database-engineering/html.new/_static/documentation_options.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/database-engineering/html.new/_static/basic.css\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/database-engineering/html.new/_static/language_data.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/database-engineering/html.new/_static/copybutton.js\ncopying static files: done\ncopying extra files... \ncopying extra files: done\ncopying assets: done\nwriting output... [  2%] database-and-database-management-system\nwriting output... [  5%] entity-relationship-diagram/attributes\nwriting output... [  7%] entity-relationship-diagram/cardinality\nwriting output... [ 10%] entity-relationship-diagram/db-task-003\nwriting output... [ 12%] entity-relationship-diagram/entity\nwriting output... [ 14%] entity-relationship-diagram/entity-relationship-diagram-tutorial\nwriting output... [ 17%] entity-relationship-diagram/identifiers\nwriting output... [ 19%] entity-relationship-diagram/relationship\nwriting output... [ 21%] entity-relationship-diagram/what-is-an-er-diagram\nwriting output... [ 24%] filtering-data/and-operator\nwriting output... [ 26%] filtering-data/between\nwriting output... [ 29%] filtering-data/db-task-002\nwriting output... [ 31%] filtering-data/escape\nwriting output... [ 33%] filtering-data/fetch\nwriting output... [ 36%] filtering-data/in\nwriting output... [ 38%] filtering-data/is-null\nwriting output... [ 40%] filtering-data/like\nwriting output... [ 43%] filtering-data/limit\nwriting output... [ 45%] filtering-data/or-operator\nwriting output... [ 48%] filtering-data/similar-to\nwriting output... [ 50%] filtering-data/where\nwriting output... [ 52%] index\nwriting output... [ 55%] installing-postgresql/README\nwriting output... [ 57%] installing-postgresql/installing-postgresql-on-linux\nwriting output... [ 60%] installing-postgresql/installing-postgresql-on-mac\nwriting output... [ 62%] installing-postgresql/installing-postgresql-on-windows\nwriting output... [ 64%] installing-postgresql/postgres-in-docker\nwriting output... [ 67%] introduction\nwriting output... [ 69%] joins-on-e-commerce\nwriting output... [ 71%] joins/joins\nwriting output... [ 74%] joins/joins-with-employee-and-departments\nwriting output... [ 76%] querying-data/column-aliases\nwriting output... [ 79%] querying-data/db-task-001\nwriting output... [ 81%] querying-data/order-by\nwriting output... [ 83%] querying-data/select-distinct\nwriting output... [ 86%] querying-data/select-query\nwriting output... [ 88%] sample-databases/README\nwriting output... [ 90%] sample-databases/dvd-rental-database\nwriting output... [ 93%] what-happens-during-the-initial-installation/README\nwriting output... [ 95%] what-happens-during-the-initial-installation/more-examples-on-roles\nwriting output... [ 98%] what-happens-during-the-initial-installation/roles-users-and-groups\nwriting output... [100%] what-is-relational-database-model\n\ngenerating indices... genindex done\nwriting additional pages... search done\ncopying images... [  1%] _assets/image-59.png\ncopying images... [  3%] _assets/image-60.png\ncopying images... [  4%] _assets/image-61.png\ncopying images... [  6%] _assets/image-62.png\ncopying images... [  7%] _assets/image-63.png\ncopying images... [  8%] _assets/image-64.png\ncopying images... [ 10%] _assets/image-2.png\ncopying images... [ 11%] _assets/image-3.png\ncopying images... [ 13%] _assets/image-5.png\ncopying images... [ 14%] _assets/image-6.png\ncopying images... [ 15%] _assets/image-7.png\ncopying images... [ 17%] _assets/image-8.png\ncopying images... [ 18%] _assets/image-4.png\ncopying images... [ 20%] _assets/image-9.png\ncopying images... [ 21%] _assets/image-10.png\ncopying images... [ 23%] _assets/image-11.png\ncopying images... [ 24%] _assets/image-12.png\ncopying images... [ 25%] _assets/image-13.png\ncopying images... [ 27%] _assets/image-14.png\ncopying images... [ 28%] _assets/image-16.png\ncopying images... [ 30%] _assets/image-17.png\ncopying images... [ 31%] _assets/image-19.png\ncopying images... [ 32%] _assets/image-20.png\ncopying images... [ 34%] _assets/image-28.png\ncopying images... [ 35%] _assets/image-25.png\ncopying images... [ 37%] _assets/image-26.png\ncopying images... [ 38%] _assets/image-27.png\ncopying images... [ 39%] _assets/image-29.png\ncopying images... [ 41%] _assets/image-30.png\ncopying images... [ 42%] _assets/image-31.png\ncopying images... [ 44%] _assets/image-32.png\ncopying images... [ 45%] _assets/image-21.png\ncopying images... [ 46%] _assets/image-22.png\ncopying images... [ 48%] _assets/image-23.png\ncopying images... [ 49%] _assets/image-51.png\ncopying images... [ 51%] _assets/image-52.png\ncopying images... [ 52%] _assets/image-53.png\ncopying images... [ 54%] _assets/image-54.png\ncopying images... [ 55%] _assets/image-55.png\ncopying images... [ 56%] _assets/image-56.png\ncopying images... [ 58%] _assets/image-57.png\ncopying images... [ 59%] _assets/image-74.png\ncopying images... [ 61%] _assets/image-76.png\ncopying images... [ 62%] _assets/image-77.png\ncopying images... [ 63%] _assets/image-68.png\ncopying images... [ 65%] _assets/image-65.png\ncopying images... [ 66%] _assets/image-66.png\ncopying images... [ 68%] _assets/image-69.png\ncopying images... [ 69%] _assets/image-70.png\ncopying images... [ 70%] _assets/image-71.png\ncopying images... [ 72%] _assets/image-73.png\ncopying images... [ 73%] _assets/image-72.png\ncopying images... [ 75%] _assets/image.png\ncopying images... [ 76%] _assets/image-1.png\ncopying images... [ 77%] _assets/image-37.png\ncopying images... [ 79%] _assets/image-38.png\ncopying images... [ 80%] _assets/image-39.png\ncopying images... [ 82%] _assets/image-40.png\ncopying images... [ 83%] _assets/image-41.png\ncopying images... [ 85%] _assets/image-42.png\ncopying images... [ 86%] _assets/image-43.png\ncopying images... [ 87%] _assets/image-44.png\ncopying images... [ 89%] _assets/image-45.png\ncopying images... [ 90%] _assets/image-46.png\ncopying images... [ 92%] _assets/image-34.png\ncopying images... [ 93%] _assets/image-35.png\ncopying images... [ 94%] _assets/image-36.png\ncopying images... [ 96%] _assets/image-47.png\ncopying images... [ 97%] _assets/image-48.png\ncopying images... [ 99%] _assets/image-49.png\ncopying images... [100%] _assets/image-50.png\n\ndumping search index in English (code: en)... done\ndumping object inventory... done\nbuild succeeded, 1 warning.\n\nThe HTML pages are in docs_build/database-engineering/html.new.\n/home/syedjaferk/Parottasalna/Application/course_portal/course_content/database-engineering/filtering-data/fetch.md:15: WARNING: Lexing literal_block 'OFFSET row_to_skip { ROW | ROWS }\\nFETCH { FIRST | NEXT } [ row_count ] { ROW | ROWS } ONLY\\n' as \"sql\" resulted in an error at token: '{'. Retrying in relaxed mode. [misc.highlighting_failure]\n",
+    "created_at": "2026-10-07T17:23:04.768Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "slug": "docker-mastery",
+    "title": "Docker Mastery",
+    "description": "Understand containers through stories and hands-on labs: Docker architecture, images and containers, Dockerfiles, port mapping, volumes and practical tasks.",
+    "source_dir": "docker-mastery",
+    "is_active": true,
+    "is_common": true,
+    "build_status": "ok",
+    "last_built_at": "2026-10-07T17:47:04.696Z",
+    "build_log": "Running Sphinx v8.1.3\nloading translations [en]... done\nmaking output directory... done\nloading pickled environment... The configuration has changed (6 options: 'html_context', 'html_css_files', 'html_js_files', 'html_static_path', 'html_theme_options', ...)\ndone\nmyst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'colon_fence', 'deflist', 'tasklist'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)\nbuilding [mo]: targets for 0 po files that are out of date\nwriting output... \nbuilding [html]: targets for 17 source files that are out of date\nupdating environment: 0 added, 0 changed, 0 removed\nreading sources... \nlooking for now-outdated files... none found\npreparing documents... done\ncopying assets... \ncopying static files... \nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/docker-mastery/html.new/_static/documentation_options.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/docker-mastery/html.new/_static/basic.css\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/docker-mastery/html.new/_static/language_data.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/docker-mastery/html.new/_static/copybutton.js\ncopying static files: done\ncopying extra files... \ncopying extra files: done\ncopying assets: done\nwriting output... [  6%] diving-deeper-into-docker-with-detached-mode-naming-and-inspections\nwriting output... [ 12%] docker-tasks/add-a-health-check-to-a-docker-container-running-a-simple-node.js-application.\nwriting output... [ 18%] docker-tasks/create-a-docker-volume-and-use-it-to-persist-data-for-a-mysql-container.\nwriting output... [ 24%] docker-tasks/create-a-dockerfile-for-a-go-application-that-uses-multi-stage-builds-to-reduce-the-final-image-size\nwriting output... [ 29%] docker-tasks/create-a-dockerfile-for-a-simple-node.js-application-that-serves-hello-world-on-port-3000.\nwriting output... [ 35%] docker-tasks/pull-the-nginx-image-from-docker-hub-and-run-it-as-a-container.-map-port-80-of-the-container-to-port\nwriting output... [ 41%] docker-tasks/run-a-container-from-the-ubuntu-image-and-start-an-interactive-shell-session-inside-it.\nwriting output... [ 47%] docker-volumes-explained-a-quick-guide\nwriting output... [ 53%] index\nwriting output... [ 59%] introduction\nwriting output... [ 65%] running-hello-world-with-busybox-a-docker-adventure\nwriting output... [ 71%] the-bakery-recepies-dough-and-cookies-registry-repository-images-containers\nwriting output... [ 76%] the-building-blocks-detailed-structure-of-a-dockerfile\nwriting output... [ 82%] the-digital-tea-kadai-client-server-architecture-and-docker\nwriting output... [ 88%] the-tale-of-magic-kitchen-a-docker-architecture\nwriting output... [ 94%] tomcat-exploring-docker-port-mapping-and-logs\nwriting output... [100%] virtual-machine-vs-containers\n\ngenerating indices... genindex done\nwriting additional pages... search done\ncopying images... [  2%] _assets/image-38.png\ncopying images... [  5%] _assets/image-39.png\ncopying images... [  8%] _assets/image-4.png\ncopying images... [ 10%] _assets/image-37.png\ncopying images... [ 12%] _assets/image.png\ncopying images... [ 15%] _assets/image-1.png\ncopying images... [ 18%] _assets/image-2.png\ncopying images... [ 20%] _assets/image-3.png\ncopying images... [ 22%] _assets/image-18.png\ncopying images... [ 25%] _assets/image-19.png\ncopying images... [ 28%] _assets/image-20.png\ncopying images... [ 30%] _assets/image-21.png\ncopying images... [ 32%] _assets/image-5.png\ncopying images... [ 35%] _assets/image-6.png\ncopying images... [ 38%] _assets/image-7.png\ncopying images... [ 40%] _assets/image-8.png\ncopying images... [ 42%] _assets/image-9.png\ncopying images... [ 45%] _assets/image-10.png\ncopying images... [ 48%] _assets/image-28.png\ncopying images... [ 50%] _assets/image-29.png\ncopying images... [ 52%] _assets/image-30.png\ncopying images... [ 55%] _assets/image-31.png\ncopying images... [ 57%] _assets/image-32.png\ncopying images... [ 60%] _assets/image-33.png\ncopying images... [ 62%] _assets/image-34.png\ncopying images... [ 65%] _assets/image-35.png\ncopying images... [ 68%] _assets/image-23.png\ncopying images... [ 70%] _assets/image-24.png\ncopying images... [ 72%] _assets/image-25.png\ncopying images... [ 75%] _assets/image-26.png\ncopying images... [ 78%] _assets/image-27.png\ncopying images... [ 80%] _assets/image-11.png\ncopying images... [ 82%] _assets/image-12.png\ncopying images... [ 85%] _assets/image-13.png\ncopying images... [ 88%] _assets/image-14.png\ncopying images... [ 90%] _assets/image-15.png\ncopying images... [ 92%] _assets/image-16.png\ncopying images... [ 95%] _assets/image-17.png\ncopying images... [ 98%] _assets/image-22.png\ncopying images... [100%] _assets/image-36.png\n\ndumping search index in English (code: en)... done\ndumping object inventory... done\nbuild succeeded.\n\nThe HTML pages are in docs_build/docker-mastery/html.new.\n",
+    "created_at": "2026-10-07T17:23:08.250Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 4,
+  "fields": {
+    "slug": "git",
+    "title": "Git & Version Control",
+    "description": "Why version control matters, how Git came to be, installing and configuring Git, core terminology and hands-on exercises.",
+    "source_dir": "git",
+    "is_active": true,
+    "is_common": true,
+    "build_status": "ok",
+    "last_built_at": "2026-10-07T17:47:06.512Z",
+    "build_log": "Running Sphinx v8.1.3\nloading translations [en]... done\nmaking output directory... done\nloading pickled environment... The configuration has changed (6 options: 'html_context', 'html_css_files', 'html_js_files', 'html_static_path', 'html_theme_options', ...)\ndone\nmyst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'tasklist', 'colon_fence', 'deflist'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)\nbuilding [mo]: targets for 0 po files that are out of date\nwriting output... \nbuilding [html]: targets for 12 source files that are out of date\nupdating environment: 0 added, 0 changed, 0 removed\nreading sources... \nlooking for now-outdated files... none found\npreparing documents... done\ncopying assets... \ncopying static files... \nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/git/html.new/_static/documentation_options.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/git/html.new/_static/basic.css\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/git/html.new/_static/language_data.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/git/html.new/_static/copybutton.js\ncopying static files: done\ncopying extra files... \ncopying extra files: done\ncopying assets: done\nwriting output... [  8%] basic-terminologies\nwriting output... [ 17%] git-installation-and-initial-configs\nwriting output... [ 25%] index\nwriting output... [ 33%] introduction\nwriting output... [ 42%] q1-initialize-a-repository-and-basic-configurations\nwriting output... [ 50%] q2-adding-and-staging-files\nwriting output... [ 58%] ways-to-exclude-files-in-git\nwriting output... [ 67%] what-is-a-version-control-system/expectations-of-a-tool\nwriting output... [ 75%] what-is-a-version-control-system/generation-of-version-control-system\nwriting output... [ 83%] what-is-a-version-control-system/how-software-would-have-been-developed-before-70s\nwriting output... [ 92%] what-is-a-version-control-system/mercurial-was-invented-by-andrew-then-why-linus-needs-to-create-git\nwriting output... [100%] what-is-a-version-control-system/the-bitkeeper-git-mercurial-saga-how-a-license-agreement-change-shaped-the-open-source-world\n\ngenerating indices... genindex done\nwriting additional pages... search done\ncopying images... [  8%] _assets/image.png\ncopying images... [ 15%] _assets/image-6.png\ncopying images... [ 23%] _assets/image-7.png\ncopying images... [ 31%] _assets/image-8.png\ncopying images... [ 38%] _assets/image-9.png\ncopying images... [ 46%] _assets/image-10.png\ncopying images... [ 54%] _assets/image-11.png\ncopying images... [ 62%] _assets/image-12.png\ncopying images... [ 69%] _assets/image-1.png\ncopying images... [ 77%] _assets/image-2.png\ncopying images... [ 85%] _assets/image-3.png\ncopying images... [ 92%] _assets/image-4.png\ncopying images... [100%] _assets/image-5.png\n\ndumping search index in English (code: en)... done\ndumping object inventory... done\nbuild succeeded.\n\nThe HTML pages are in docs_build/git/html.new.\n",
+    "created_at": "2026-10-07T17:23:10.189Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 5,
+  "fields": {
+    "slug": "locust",
+    "title": "Load Testing with Locust",
+    "description": "Load test web applications with Locust: users and tasks, wait times, events, HTTP requests, response validation, step load and distributed mode.",
+    "source_dir": "locust",
+    "is_active": true,
+    "is_common": true,
+    "build_status": "ok",
+    "last_built_at": "2026-10-07T17:47:08.603Z",
+    "build_log": "Running Sphinx v8.1.3\nloading translations [en]... done\nmaking output directory... done\nloading pickled environment... The configuration has changed (6 options: 'html_context', 'html_css_files', 'html_js_files', 'html_static_path', 'html_theme_options', ...)\ndone\nmyst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'colon_fence', 'deflist', 'tasklist'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)\nbuilding [mo]: targets for 0 po files that are out of date\nwriting output... \nbuilding [html]: targets for 16 source files that are out of date\nupdating environment: 0 added, 0 changed, 0 removed\nreading sources... \nlooking for now-outdated files... none found\npreparing documents... done\ncopying assets... \ncopying static files... \nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/locust/html.new/_static/documentation_options.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/locust/html.new/_static/basic.css\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/locust/html.new/_static/language_data.js\nWriting evaluated template result to /home/syedjaferk/Parottasalna/Application/course_portal/docs_build/locust/html.new/_static/copybutton.js\ncopying static files: done\ncopying extra files... \ncopying extra files: done\ncopying assets: done\nwriting output... [  6%] enhancing-your-locust-tests-with-custom-logging\nwriting output... [ 12%] how-to-use-test_start-and-test_stop-events-in-locust\nwriting output... [ 19%] http-load-testing-with-locusts-httpuser\nwriting output... [ 25%] index\nwriting output... [ 31%] introduction\nwriting output... [ 38%] iterative-load-testing-with-step-size-in-locust\nwriting output... [ 44%] load-testing-with-http-post-requests-in-locust\nwriting output... [ 50%] locust-installation\nwriting output... [ 56%] running-locust-in-distributed-mode-with-master-and-workers\nwriting output... [ 62%] sequential-task-set\nwriting output... [ 69%] simulating-multiple-user-types-in-locust\nwriting output... [ 75%] task-attribute\nwriting output... [ 81%] task-decorator\nwriting output... [ 88%] understanding-locust-wait-times-with-complete-examples\nwriting output... [ 94%] using-catch_response-in-locust-for-custom-response-validation\nwriting output... [100%] why-on_start-and-on_stop-are-essential-for-locust-users\n\ngenerating indices... genindex done\nwriting additional pages... search done\ndumping search index in English (code: en)... done\ndumping object inventory... done\nbuild succeeded.\n\nThe HTML pages are in docs_build/locust/html.new.\n",
+    "created_at": "2026-10-07T17:23:11.707Z"
+  }
+},
+{
+  "model": "quizzes.quiz",
+  "pk": 2,
+  "fields": {
+    "course": 1,
+    "title": "Lesson 1 quiz: Variables",
+    "chapter": "lesson-1",
+    "description": "Five quick questions on variables, strings and f-strings. Takes about 3 minutes.",
+    "is_published": true,
+    "max_attempts": 0,
+    "pass_percentage": 60,
+    "show_answers": true,
+    "order": 0,
+    "created_at": "2026-10-07T17:10:43.002Z",
+    "updated_at": "2026-10-07T17:10:43.002Z"
+  }
+},
+{
+  "model": "quizzes.question",
+  "pk": 4,
+  "fields": {
+    "quiz": 2,
+    "text": "What does this code print?\n\n```python\nname = \"Ada\"\nprint(f\"Hello, {name}!\")\n```",
+    "choices": "Hello, name!\n*Hello, Ada!\nHello, {name}!\nAn error",
+    "explanation": "In an **f-string**, `{name}` is replaced with the value of the variable `name`.",
+    "points": 1,
+    "order": 1
+  }
+},
+{
+  "model": "quizzes.question",
+  "pk": 5,
+  "fields": {
+    "quiz": 2,
+    "text": "Which of these are **valid** Python variable names?",
+    "choices": "*user_name\n2nd_user\n*_count\nmy-var\n*totalAmount",
+    "explanation": "Names can contain letters, digits and `_`, but can't start with a digit. `-` is not allowed.",
+    "points": 2,
+    "order": 2
+  }
+},
+{
+  "model": "quizzes.question",
+  "pk": 6,
+  "fields": {
+    "quiz": 2,
+    "text": "What is the value of `x` after this runs?\n\n```python\nx = 5\nx = x + 3\n```",
+    "choices": "5\n3\n*8\n53",
+    "explanation": "`x + 3` is evaluated first (5 + 3 = 8), then the result is assigned back to `x`.",
+    "points": 1,
+    "order": 3
+  }
+},
+{
+  "model": "quizzes.question",
+  "pk": 7,
+  "fields": {
+    "quiz": 2,
+    "text": "What does `type(\"42\")` return?",
+    "choices": "`<class 'int'>`\n*`<class 'str'>`\n`<class 'float'>`\n`<class 'number'>`",
+    "explanation": "Anything inside quotes is a **string** (`str`), even if it looks like a number.",
+    "points": 1,
+    "order": 4
+  }
+},
+{
+  "model": "quizzes.question",
+  "pk": 8,
+  "fields": {
+    "quiz": 2,
+    "text": "You must declare a variable's type before using it in Python.",
+    "choices": "True\n*False",
+    "explanation": "Python is dynamically typed: the type comes from the value you assign, e.g. `age = 30`.",
+    "points": 1,
+    "order": 5
+  }
+}
+]
