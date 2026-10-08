@@ -10,6 +10,7 @@
         <span class="tag ok"><span class="dot"></span>Notes available</span>
         {% if course.last_built_at %}<span class="tag info">Updated {{ course.last_built_at|date:"M j, Y" }}</span>{% endif %}
         {% if course.tracked and course.quiz_count %}<span class="tag info">📝 {{ course.quiz_count }} quiz{{ course.quiz_count|pluralize:"zes" }}</span>{% endif %}
+        {% if course.tracked and course.deck_count %}<span class="tag info">🃏 {{ course.deck_count }} deck{{ course.deck_count|pluralize }}</span>{% endif %}
       {% else %}
         <span class="tag wait"><span class="dot"></span>Coming soon</span>
       {% endif %}
@@ -26,7 +27,7 @@
           {% if course.total and course.done == course.total %}Review course notes{% elif course.done %}Continue learning{% else %}Open course notes{% endif %}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        {% if course.tracked and course.quiz_count or user.is_staff %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'quiz_list' course.slug %}">📝 Quizzes &amp; scores</a>{% endif %}
+        {% if course.tracked and course.quiz_count or course.tracked and course.deck_count or user.is_staff %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'quiz_list' course.slug %}">📝 Quizzes &amp; flashcards</a>{% endif %}
       {% else %}
         <span class="pending">Notes will appear here after the first session.</span>
       {% endif %}

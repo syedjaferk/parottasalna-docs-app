@@ -50,6 +50,31 @@ every portal page (meta tags, Open Graph, JSON-LD, footer) and by the generated 
 Images are in `static/brand/`. Only the landing page `/` is indexable; `/robots.txt` and
 `/sitemap.xml` are generated.
 
+### Blog
+
+Public blog at `/blog/` (search, categories, tags, RSS at `/blog/feed.xml`), built from the Obsidian
+vault (`second-brain`). Import or refresh posts with:
+
+```bash
+python manage.py import_blog /path/to/second-brain          # or set BLOG_SRC_ROOT
+python manage.py import_blog --prune                         # also delete posts removed from the vault
+```
+
+- Only notes with post frontmatter (`layout: post`, `title`, `date`) are imported; `Templates/` is skipped.
+- `[[wikilinks]]` become links between posts; the `## Related Posts` list becomes related-post cards.
+- HTML is sanitised (nh3): no scripts or event handlers; only YouTube embeds, on youtube-nocookie.com.
+- Local images work like in Obsidian: `<img src="../attachments/x.png">`, `![](pic.png)` or `![[pic.png]]`.
+  Only files a published post uses are served (at `/blog/media/...`); the rest of the vault stays private.
+- **Independent of WordPress.** The vault now holds everything (images and PDFs in `attachments/`,
+  repaired code, internal links). `localize_blog_vault` did that once and is safe to re-run:
+  `python manage.py localize_blog_vault /path/to/vault --dry-run` (needs WordPress online).
+- While `BLOG_WORDPRESS_URL` is set, each post names its WordPress original as canonical. To make the app
+  the only home, set `BLOG_WORDPRESS_URL=` (empty): imports never contact WordPress and posts are canonical
+  here. (`import_blog --no-wordpress` skips WordPress for a single run.)
+- Docker: the vault folder (`BLOG_SOURCE_DIR`, default `../second-brain`) is mounted read-only; run
+  `docker compose exec web python manage.py import_blog` after pulling new posts.
+- Hide a post without deleting it: **Admin → Blog → Posts → untick "Is published"**.
+
 ### Progress tracking
 
 Every chapter page ends with a **Mark as complete** button, but only for students enrolled in that

@@ -33,7 +33,7 @@
   <div><strong>{{ quizzes|length }}</strong><span>Quizzes</span></div>
 </div>
 
-{% if quizzes %}
+{% if quizzes or decks %}
 <div class="table-wrap">
   <table>
     <thead>
@@ -42,6 +42,7 @@
         {% for quiz in quizzes %}<th class="num" title="{{ quiz.title }}">{{ quiz.title|truncatechars:22 }}{% if not quiz.is_published %} (draft){% endif %}</th>{% endfor %}
         <th class="num">Taken</th>
         <th class="num">Total</th>
+        {% for deck in decks %}<th class="num" title="Flashcards: {{ deck.title }}">🃏 {{ deck.title|truncatechars:18 }}</th>{% endfor %}
       </tr>
     </thead>
     <tbody>
@@ -53,9 +54,10 @@
         {% endfor %}
         <td class="num">{{ row.taken }}/{{ quizzes|length }}</td>
         <td class="num"><strong>{{ row.total }}</strong>{% if row.max %}<span class="muted">/{{ row.max }}</span>{% endif %}</td>
+        {% for known, total in row.deck_cells %}<td class="num">{% if known %}<span class="tag {% if known == total %}ok{% else %}wait{% endif %}">{{ known }}/{{ total }}</span>{% else %}<span class="muted">—</span>{% endif %}</td>{% endfor %}
       </tr>
       {% empty %}
-      <tr><td colspan="{{ quizzes|length|add:3 }}" class="muted">No students enrolled yet.</td></tr>
+      <tr><td colspan="{{ columns }}" class="muted">No students enrolled yet.</td></tr>
       {% endfor %}
     </tbody>
   </table>

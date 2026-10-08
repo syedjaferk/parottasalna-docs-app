@@ -37,6 +37,8 @@ services:
       # Drop session markdown into ./course_content on the host, then rebuild from the admin.
       - ./course_content:/app/course_content:ro
       - docs_build:/app/docs_build
+      # Blog posts: the Obsidian vault, imported with  docker compose exec web python manage.py import_blog
+      - ${BLOG_SOURCE_DIR:-../second-brain}:/app/blog_content:ro
     depends_on:
       db:
         condition: service_healthy

@@ -13,6 +13,8 @@ from django.utils._os import safe_join
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST, require_safe
 
+from blog.models import Post
+
 from .models import Course, PageProgress
 from .security import api_login_required, no_store
 from .services import (
@@ -36,7 +38,8 @@ def home(request):
         # Public landing page (indexable) instead of a redirect.
         return _landing(request)
     courses = list(accessible_courses(request.user).annotate(
-        quiz_count=Count("quizzes", filter=Q(quizzes__is_published=True), distinct=True)
+        quiz_count=Count("quizzes", filter=Q(quizzes__is_published=True), distinct=True),
+        deck_count=Count("decks", filter=Q(decks__is_published=True), distinct=True),
     ))
     progress = course_progress(request.user, courses)
     for course in courses:
@@ -120,7 +123,11 @@ def sitemap_xml(request):
     urls = [
         {"loc": request.build_absolute_uri(reverse("home")), "priority": "1.0", "lastmod": None},
         {"loc": request.build_absolute_uri(reverse("privacy")), "priority": "0.3", "lastmod": None},
+        {"loc": request.build_absolute_uri(reverse("blog_index")), "priority": "0.8", "lastmod": None},
     ]
+    for post in Post.objects.filter(is_published=True).only("slug", "imported_at"):
+        urls.append({"loc": request.build_absolute_uri(post.get_absolute_url()), "priority": "0.5",
+                     "lastmod": post.imported_at})
     for course in public_courses().filter(build_status=Course.BuildStatus.OK):
         for page in doc_pages(course):
             path = "" if page == "index.html" else page

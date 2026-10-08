@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block title %}{{ deck.title }} · Flashcards · {{ brand.NAME }}{% endblock %}
+{% block extra_style %}
+{% include "quizzes/_styles.html" %}
+  .fc-wrap { max-width: 760px; margin: 0 auto; }
+  .intro { padding: 1.4rem 1.5rem; border-radius: 16px; margin-bottom: 1.25rem; color: #fff;
+    background: linear-gradient(120deg, #0f766e, #0ea5e9 60%, #38bdf8); }
+  .intro h1 { margin: 0 0 .35rem; font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 800; }
+  .intro p { margin: 0 0 .7rem; opacity: .92; }
+  .intro .facts { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .intro .facts span { font-size: .82rem; font-weight: 600; padding: .25rem .7rem; border-radius: 999px; background: rgba(255,255,255,.18); }
+
+  .toolbar { display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: .9rem; }
+  .toolbar .modes { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .toolbar .modes button { font: inherit; font-size: .88rem; font-weight: 600; padding: .45rem .85rem; border: 0; cursor: pointer;
+    background: var(--card); color: var(--muted); }
+  .toolbar .modes button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
+  .counter { font-size: .9rem; color: var(--muted); }
+  .bar { height: 7px; border-radius: 999px; background: var(--accent-soft); overflow: hidden; margin-bottom: 1.1rem; }
+  .bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #10b981); transition: width .25s; }
+
+  .scene { perspective: 1400px; }
+  .card3d { position: relative; min-height: 300px; cursor: pointer; transform-style: preserve-3d; transition: transform .5s ease;
+    border-radius: 20px; outline: none; }
+  .card3d.flipped { transform: rotateY(180deg); }
+  .card3d:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 45%, transparent); }
+  .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 20px;
+    padding: 2rem 2.25rem 2.75rem; display: flex; flex-direction: column; justify-content: center; overflow-y: auto;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-hover); }
+  .face.back { transform: rotateY(180deg); background: color-mix(in srgb, #10b981 7%, var(--card));
+    border-color: color-mix(in srgb, #10b981 40%, var(--line)); }
+  .face .label { position: absolute; top: .9rem; left: 1.2rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted); }
+  .face .hint { position: absolute; bottom: .9rem; left: 0; right: 0; text-align: center; font-size: .8rem; color: var(--muted); }
+  .face .content { font-size: 1.12rem; line-height: 1.65; }
+  .face.front .content { font-size: 1.3rem; font-weight: 600; text-align: center; }
+  .face .content p { margin: .35rem 0; }
+  .known-badge { position: absolute; top: .8rem; right: 1rem; font-size: .75rem; font-weight: 700; padding: .2rem .6rem; border-radius: 999px;
+    background: var(--ok-soft); color: var(--ok); }
+
+  .actions-row { display: flex; justify-content: center; gap: .75rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .actions-row .btn { min-width: 150px; }
+  .btn.again { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 4px 14px rgba(217, 119, 6, .3); }
+  .btn.gotit { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 14px rgba(5, 150, 105, .3); }
+  .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+  .keys { text-align: center; margin-top: .8rem; font-size: .8rem; color: var(--muted); }
+  .keys kbd { font-family: inherit; font-size: .75rem; padding: .05rem .4rem; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; background: var(--card); }
+
+  .done { text-align: center; padding: 2.25rem 1.5rem; }
+  .done h2 { margin: .3rem 0 .4rem; font-size: 1.5rem; }
+  .done .big { font-size: 2.6rem; }
+  .done .stats { display: flex; justify-content: center; gap: 1rem; margin: 1rem 0 1.25rem; flex-wrap: wrap; }
+  .done .stats div { padding: .7rem 1.1rem; border-radius: 12px; border: 1px solid var(--line); min-width: 110px; }
+  .done .stats strong { display: block; font-size: 1.5rem; }
+  .done .stats span { font-size: .82rem; color: var(--muted); }
+  .error-note { margin-top: .8rem; text-align: center; font-size: .85rem; color: #dc2626; min-height: 1.2em; }
+  @media (max-width: 560px) { .face { padding: 1.75rem 1.25rem 2.5rem; } .actions-row .btn { min-width: 0; flex: 1; } }
+  @media (prefers-reduced-motion: reduce) { .card3d { transition: none; } }
+{% endblock %}
+{% block content %}
+<div class="fc-wrap">
+  <nav class="crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{% url 'course_docs' course.slug %}">{{ course.title }}</a> / <a href="{% url 'quiz_list' course.slug %}">Practice</a></nav>
+  <section class="intro">
+    <h1>🃏 {{ deck.title }}</h1>
+    {% if deck.description %}<p>{{ deck.description }}</p>{% endif %}
+    <div class="facts">
+      <span>{{ data.cards|length }} card{{ data.cards|length|pluralize }}</span>
+      <span id="known-fact">0 known</span>
+      {% if not deck.is_published %}<span>Draft · staff preview</span>{% endif %}
+    </div>
+  </section>
+
+  <div id="study">
+    <div class="toolbar">
+      <div class="modes" role="group" aria-label="Which cards to study">
+        <button type="button" data-mode="all" aria-pressed="true">All cards</button>
+        <button type="button" data-mode="learning" aria-pressed="false">Still learning</button>
+      </div>
+      <div class="actions">
+        <span class="counter" id="counter" aria-live="polite"></span>
+        <button type="button" class="btn ghost sm" id="shuffle">🔀 Shuffle</button>
+      </div>
+    </div>
+    <div class="bar"><span id="bar"></span></div>
+
+    <div class="scene">
+      <div class="card3d" id="card" tabindex="0" role="button" aria-label="Flashcard. Press Space to flip.">
+        <div class="face front"><span class="label">Question</span><span class="known-badge" id="badge" hidden>✓ known</span>
+          <div class="content" id="front"></div><span class="hint">Click or press Space to see the answer</span></div>
+        <div class="face back"><span class="label">Answer</span>
+          <div class="content" id="back"></div><span class="hint">Did you know it?</span></div>
+      </div>
+    </div>
+
+    <div class="actions-row">
+      <button type="button" class="btn again" id="again" disabled>↺ Again</button>
+      <button type="button" class="btn gotit" id="gotit" disabled>✓ Got it</button>
+    </div>
+    <p class="keys"><kbd>Space</kbd> flip · <kbd>←</kbd> again · <kbd>→</kbd> got it</p>
+    <p class="error-note" id="error" role="alert"></p>
+  </div>
+
+  <section class="card done" id="done" hidden>
+    <div class="big" aria-hidden="true">🎉</div>
+    <h2 id="done-title">Round complete!</h2>
+    <p class="muted" id="done-text"></p>
+    <div class="stats">
+      <div><strong id="stat-known">0</strong><span>got it</span></div>
+      <div><strong id="stat-again">0</strong><span>to review</span></div>
+    </div>
+    <div class="actions" style="justify-content:center">
+      <button type="button" class="btn" id="review-missed">Review missed cards</button>
+      <button type="button" class="btn ghost" id="restart">Start over</button>
+      {% if deck.chapter %}<a class="btn ghost" href="{% url 'course_docs_file' course.slug deck.chapter|add:'.html' %}">Back to the chapter</a>{% endif %}
+    </div>
+  </section>
+</div>
+
+{{ data|json_script:"deck-data" }}
+<script>
+(function () {
+  var data = JSON.parse(document.getElementById("deck-data").textContent);
+  var all = data.cards;
+  var known = new Set(all.filter(function (c) { return c.known; }).map(function (c) { return c.id; }));
+  var queue = [], pos = 0, flipped = false, roundKnown = 0, roundMissed = [], busy = false, mode = "all";
+  var $ = function (id) { return document.getElementById(id); };
+  var card = $("card");
+
+  function csrf() {
+    var m = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+  function shuffle(list) {
+    for (var i = list.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = list[i]; list[i] = list[j]; list[j] = t; }
+    return list;
+  }
+  function updateKnown() { $("known-fact").textContent = known.size + " of " + all.length + " known"; }
+
+  function start(cards) {
+    queue = cards.slice(); pos = 0; roundKnown = 0; roundMissed = [];
+    $("done").hidden = true; $("study").hidden = false;
+    if (!queue.length) { finish(true); return; }
+    show();
+  }
+  function show() {
+    var c = queue[pos];
+    flipped = false; card.classList.remove("flipped");
+    $("front").innerHTML = c.front;          // rendered server-side from Markdown with raw HTML disabled
+    $("back").innerHTML = c.back;
+    $("badge").hidden = !known.has(c.id);
+    $("again").disabled = $("gotit").disabled = true;
+    $("counter").textContent = "Card " + (pos + 1) + " of " + queue.length;
+    $("bar").style.width = Math.round(100 * pos / queue.length) + "%";
+    $("error").textContent = "";
+  }
+  function flip() {
+    if (!queue.length || busy) return;
+    flipped = !flipped;
+    card.classList.toggle("flipped", flipped);
+    $("again").disabled = $("gotit").disabled = !flipped;
+  }
+  function answer(isKnown) {
+    if (!flipped || busy) return;
+    var c = queue[pos];
+    busy = true;
+    var body = new URLSearchParams({ card: c.id, known: isKnown ? "true" : "false" });
+    fetch(data.reviewUrl, { method: "POST", credentials: "same-origin", body: body,
+                            headers: { "X-CSRFToken": csrf(), Accept: "application/json" } })
+      .then(function (r) { if (!r.ok) throw r.status; return r.json(); })
+      .then(function () {
+        if (isKnown) { known.add(c.id); roundKnown++; } else { known.delete(c.id); roundMissed.push(c); }
+        updateKnown();
+        busy = false;
+        pos++;
+        if (pos < queue.length) show(); else finish(false);
+      })
+      .catch(function (status) {
+        busy = false;
+        $("error").textContent = status === 401 || status === 403
+          ? "Your session expired. Refresh the page and sign in again." : "Couldn't save. Check your connection and try again.";
+      });
+  }
+  function finish(emptyLearning) {
+    $("bar").style.width = "100%";
+    $("study").hidden = true; $("done").hidden = false;
+    $("stat-known").textContent = roundKnown; $("stat-again").textContent = roundMissed.length;
+    if (emptyLearning) {
+      $("done-title").textContent = "Nothing left to learn!";
+      $("done-text").textContent = "You've marked every card as known. Start over to revise them all.";
+    } else {
+      $("done-title").textContent = roundMissed.length ? "Round complete!" : "Perfect round! 🏆";
+      $("done-text").textContent = known.size + " of " + all.length + " cards known in this deck.";
+    }
+    $("review-missed").hidden = !roundMissed.length;
+  }
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll(".modes button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === m)); });
+    start(m === "all" ? all : all.filter(function (c) { return !known.has(c.id); }));
+  }
+
+  card.addEventListener("click", flip);
+  $("again").addEventListener("click", function () { answer(false); });
+  $("gotit").addEventListener("click", function () { answer(true); });
+  $("shuffle").addEventListener("click", function () { start(shuffle(queue.slice(pos).concat(queue.slice(0, pos)))); });
+  $("review-missed").addEventListener("click", function () { start(roundMissed); });
+  $("restart").addEventListener("click", function () { setMode("all"); });
+  document.querySelectorAll(".modes button").forEach(function (b) { b.addEventListener("click", function () { setMode(b.dataset.mode); }); });
+  document.addEventListener("keydown", function (e) {
+    var t = e.target;
+    // Leave keys alone while typing or when a link/button has focus (it handles Space/Enter itself).
+    if ($("study").hidden || (t && t.closest && t.closest("input, textarea, select, a, button"))) return;
+    if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); }
+    else if (e.key === "ArrowLeft") answer(false);
+    else if (e.key === "ArrowRight") answer(true);
+  });
+
+  updateKnown();
+  setMode("all");
+})();
+</script>
+{% endblock %}

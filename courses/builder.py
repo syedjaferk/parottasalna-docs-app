@@ -171,23 +171,28 @@ QUIZ_JS = r"""
     return node;
   }
 
+  function plural(n, word, many) { return n + " " + (n === 1 ? word : (many || word + "s")); }
+
   fetch(feed.content, { credentials: "same-origin", headers: { Accept: "application/json" } })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
-      if (!data || !data.quizzes.length) return;
+      if (!data) return;
+      var allDecks = data.decks || [];
+      if (!data.quizzes.length && !allDecks.length) return;
       var isIndex = page.content === "index";
-      var quizzes = data.quizzes.filter(function (q) { return q.chapter === page.content; });
-      if (!quizzes.length && !isIndex) return;
+      var here = function (item) { return item.chapter === page.content; };
+      var quizzes = data.quizzes.filter(here), decks = allDecks.filter(here);
+      if (!quizzes.length && !decks.length && !isIndex) return;
 
       var card = el("section", { class: "quiz-card", id: "chapter-quiz" });
-      if (quizzes.length) {
+      if (quizzes.length || decks.length) {
         card.appendChild(el("h2", null, "\ud83d\udcdd Check your understanding"));
-        card.appendChild(el("p", null, "Finished this chapter? Take the quiz to test what you learned."));
+        card.appendChild(el("p", null, "Finished this chapter? Test yourself and revise the key ideas."));
         quizzes.forEach(function (q) {
           var row = el("div", { class: "quiz-item" });
           var info = el("div");
-          info.appendChild(el("strong", null, q.title));
-          var meta = q.questions + " question" + (q.questions === 1 ? "" : "s");
+          info.appendChild(el("strong", null, "\ud83d\udcdd " + q.title));
+          var meta = plural(q.questions, "question");
           if (q.best) meta += " \u00b7 Your best: " + q.best.score + "/" + q.best.max_score + " (" + q.best.percentage + "%)";
           info.appendChild(el("small", null, meta));
           row.appendChild(info);
@@ -197,16 +202,31 @@ QUIZ_JS = r"""
           row.appendChild(actions);
           card.appendChild(row);
         });
+        decks.forEach(function (d) {
+          var row = el("div", { class: "quiz-item" });
+          var info = el("div");
+          info.appendChild(el("strong", null, "\ud83c\udccf " + d.title));
+          info.appendChild(el("small", null, plural(d.cards, "flashcard") + (d.known ? " \u00b7 " + d.known + " known" : "")));
+          row.appendChild(info);
+          var actions = el("div", { class: "quiz-actions" });
+          actions.appendChild(el("a", { class: "quiz-btn", href: d.url }, d.known ? "Continue" : "Study flashcards"));
+          row.appendChild(actions);
+          card.appendChild(row);
+        });
         var h1 = article.querySelector("h1");
         if (h1) {
-          var chip = el("a", { class: "quiz-chip", href: "#chapter-quiz" }, "\ud83d\udcdd Quiz available for this chapter");
+          var what = quizzes.length && decks.length ? "Quiz & flashcards" : (quizzes.length ? "Quiz" : "Flashcards");
+          var chip = el("a", { class: "quiz-chip", href: "#chapter-quiz" }, "\ud83d\udcdd " + what + " available for this chapter");
           h1.insertAdjacentElement("afterend", chip);
         }
       } else {
-        card.appendChild(el("h2", null, "\ud83d\udcdd Course quizzes"));
-        card.appendChild(el("p", null, data.quizzes.length + " quiz" + (data.quizzes.length === 1 ? "" : "zes") + " available. Test yourself after each session."));
+        var parts = [];
+        if (data.quizzes.length) parts.push(plural(data.quizzes.length, "quiz", "quizzes"));
+        if (allDecks.length) parts.push(plural(allDecks.length, "flashcard deck"));
+        card.appendChild(el("h2", null, "\ud83d\udcdd Practice"));
+        card.appendChild(el("p", null, parts.join(" and ") + " available. Test yourself after each session."));
       }
-      card.appendChild(el("a", { class: "quiz-all", href: data.list_url }, "See all quizzes \u2192"));
+      card.appendChild(el("a", { class: "quiz-all", href: data.list_url }, "See all practice \u2192"));
       var progressBox = document.getElementById("page-progress");
       if (progressBox) article.insertBefore(card, progressBox); else article.appendChild(card);
     })
@@ -433,7 +453,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*"]
     if settings.SPHINX_THEME == "shibuya":
         nav_links = [{"title": "All courses", "url": "/"}]
         if not course.is_common:  # common-course readers mostly aren't enrolled, so no quizzes
-            nav_links.append({"title": "Quizzes", "url": reverse("quiz_list", args=[course.slug])})
+            nav_links.append({"title": "Practice", "url": reverse("quiz_list", args=[course.slug])})
         nav_links.append({"title": "YouTube", "url": branding.YOUTUBE, "external": True})
         options = {
             "accent_color": "blue",

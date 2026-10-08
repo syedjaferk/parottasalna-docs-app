@@ -5,16 +5,30 @@ from django.db import models
 from courses.models import Course
 
 
+CHAPTER_HELP = (
+    "Docs page this belongs to: the markdown file name without .md, e.g. <code>lesson-1</code> or "
+    "<code>sessions/04-llm-terminology</code>. A card linking to it is shown on that page. "
+    "Leave blank for a course-level item."
+)
+
+
+def clean_chapter(course, chapter: str) -> str:
+    """Normalise a chapter name and check the page exists in the course's content folder."""
+    chapter = chapter.strip().strip("/").removesuffix(".md").removesuffix(".rst")
+    if chapter and course is not None:
+        try:
+            src = course.src_dir
+        except Exception:
+            return chapter
+        if src.is_dir() and not any((src / f"{chapter}{ext}").is_file() for ext in (".md", ".rst")):
+            raise ValidationError({"chapter": f"No page “{chapter}.md” in this course's content folder."})
+    return chapter
+
+
 class Quiz(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="quizzes")
     title = models.CharField(max_length=200)
-    chapter = models.CharField(
-        max_length=200,
-        blank=True,
-        help_text="Docs page this quiz belongs to: the markdown file name without .md, "
-        "e.g. <code>lesson-1</code> or <code>week-2/intro</code>. "
-        "A “Take the quiz” card is shown on that page. Leave blank for a course-level quiz.",
-    )
+    chapter = models.CharField(max_length=200, blank=True, help_text=CHAPTER_HELP)
     description = models.TextField(blank=True, help_text="Shown before the student starts.")
     is_published = models.BooleanField(
         default=False, help_text="Students only see published quizzes."
@@ -39,18 +53,7 @@ class Quiz(models.Model):
 
     def clean(self):
         super().clean()
-        self.chapter = self.chapter.strip().strip("/").removesuffix(".md").removesuffix(".rst")
-        if self.chapter and self.course_id:
-            try:
-                src = self.course.src_dir
-            except Exception:
-                return
-            if src.is_dir() and not any(
-                (src / f"{self.chapter}{ext}").is_file() for ext in (".md", ".rst")
-            ):
-                raise ValidationError(
-                    {"chapter": f"No page “{self.chapter}.md” in this course's content folder."}
-                )
+        self.chapter = clean_chapter(self.course if self.course_id else None, self.chapter)
 
     @property
     def max_score(self):
@@ -126,3 +129,55 @@ class Attempt(models.Model):
     @property
     def passed(self):
         return self.percentage >= self.quiz.pass_percentage
+
+
+class Deck(models.Model):
+    """A set of flashcards for a course, optionally tied to one chapter."""
+
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="decks")
+    title = models.CharField(max_length=200)
+    chapter = models.CharField(max_length=200, blank=True, help_text=CHAPTER_HELP)
+    description = models.TextField(blank=True, help_text="Shown before the student starts.")
+    is_published = models.BooleanField(default=False, help_text="Students only see published decks.")
+    order = models.PositiveIntegerField(default=0, help_text="Lower numbers are listed first.")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["course", "order", "id"]
+
+    def __str__(self):
+        return f"{self.course.title} · {self.title}"
+
+    def clean(self):
+        super().clean()
+        self.chapter = clean_chapter(self.course if self.course_id else None, self.chapter)
+
+
+class Flashcard(models.Model):
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name="cards")
+    front = models.TextField(help_text="The question or term. Markdown is supported.")
+    back = models.TextField(help_text="The answer or explanation. Markdown is supported.")
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return self.front[:80]
+
+
+class CardReview(models.Model):
+    """A student's latest self-assessment of one card ("Got it" or "Again")."""
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="card_reviews")
+    card = models.ForeignKey(Flashcard, on_delete=models.CASCADE, related_name="reviews")
+    known = models.BooleanField(default=False)
+    times_seen = models.PositiveIntegerField(default=0)
+    reviewed_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["user", "card"], name="uniq_user_card")]
+
+    def __str__(self):
+        return f"{self.user} · {self.card} · {'known' if self.known else 'learning'}"

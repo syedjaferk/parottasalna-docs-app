@@ -7,14 +7,17 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.db import transaction
+from django.db.models import Count
 from django.views.decorators.http import require_http_methods, require_safe
 
 from courses.models import Course
 from courses.security import csv_safe, no_store
 from courses.services import can_track, user_can_access
 
-from .models import Attempt, Quiz
+from .models import Attempt, CardReview, Quiz
 from .services import (
+    known_counts,
+    published_decks,
     attempts_left,
     attempts_used,
     best_scores,
@@ -59,7 +62,10 @@ def quiz_list(request, slug):
     quizzes = list(published_quizzes(course))
     best = best_scores(request.user, quizzes)
     rows = [{"quiz": quiz, "best": best.get(quiz.pk)} for quiz in quizzes]
-    return render(request, "quizzes/quiz_list.html", {"course": course, "rows": rows})
+    decks = list(published_decks(course))
+    known = known_counts(request.user, decks)
+    deck_rows = [{"deck": deck, "known": known.get(deck.pk, 0)} for deck in decks]
+    return render(request, "quizzes/quiz_list.html", {"course": course, "rows": rows, "deck_rows": deck_rows})
 
 
 @login_required
@@ -161,7 +167,17 @@ def quiz_feed(request, slug):
                 "url": reverse("quiz_result", args=[course.slug, attempt.pk]),
             } if attempt else None,
         })
-    return no_store(JsonResponse({"list_url": reverse("quiz_list", args=[course.slug]), "quizzes": data}))
+    decks = list(published_decks(course)) if can_track(request.user, course) else []
+    known = known_counts(request.user, decks)
+    deck_data = [{
+        "title": deck.title,
+        "chapter": deck.chapter,
+        "cards": deck.card_count,
+        "known": known.get(deck.pk, 0),
+        "url": reverse("deck_study", args=[course.slug, deck.pk]),
+    } for deck in decks]
+    return no_store(JsonResponse({"list_url": reverse("quiz_list", args=[course.slug]),
+                                  "quizzes": data, "decks": deck_data}))
 
 
 def _student_key(user):
@@ -170,8 +186,13 @@ def _student_key(user):
 
 
 def _scoreboard(course):
-    """(quizzes, rows) where each row is {email, name, cells: [best attempt | None], total, max}."""
+    """(quizzes, decks, rows). Each row: {email, name, cells: [best attempt | None], deck_cells: [(known, total)], ...}."""
     quizzes = list(course.quizzes.order_by("order", "id"))
+    decks = list(course.decks.annotate(card_count=Count("cards")).order_by("order", "id"))
+    known = {}
+    for review in CardReview.objects.filter(card__deck__course=course, known=True).select_related("user", "card"):
+        key = (_student_key(review.user), review.card.deck_id)
+        known[key] = known.get(key, 0) + 1
     best = {}
     for attempt in (
         Attempt.objects.filter(quiz__course=course)
@@ -184,6 +205,8 @@ def _scoreboard(course):
     for (email, _), attempt in best.items():
         people.setdefault(email, "")
         people[email] = attempt.user.get_full_name() or people[email]
+    for (email, _) in known:
+        people.setdefault(email, "")
 
     rows = []
     for email in sorted(people):
@@ -196,31 +219,36 @@ def _scoreboard(course):
             "total": sum(cell.score for cell in taken),
             "max": sum(cell.max_score for cell in taken),
             "taken": len(taken),
+            "deck_cells": [(known.get((email, deck.pk), 0), deck.card_count) for deck in decks],
         })
-    return quizzes, rows
+    return quizzes, decks, rows
 
 
 @staff_member_required
 @require_safe
 def scoreboard(request, slug):
     course = get_object_or_404(Course, slug=slug)
-    quizzes, rows = _scoreboard(course)
-    return render(request, "quizzes/scoreboard.html", {"course": course, "quizzes": quizzes, "rows": rows})
+    quizzes, decks, rows = _scoreboard(course)
+    return render(request, "quizzes/scoreboard.html", {
+        "course": course, "quizzes": quizzes, "decks": decks, "rows": rows,
+        "columns": len(quizzes) + len(decks) + 3,
+    })
 
 
 @staff_member_required
 @require_safe
 def scoreboard_csv(request, slug):
     course = get_object_or_404(Course, slug=slug)
-    quizzes, rows = _scoreboard(course)
+    quizzes, decks, rows = _scoreboard(course)
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f'attachment; filename="{course.slug}-quiz-scores.csv"'
     writer = csv.writer(response)
-    writer.writerow([csv_safe(v) for v in ["Email", "Name", *[q.title for q in quizzes], "Quizzes taken", "Total", "Out of"]])
+    writer.writerow([csv_safe(v) for v in ["Email", "Name", *[q.title for q in quizzes], "Quizzes taken", "Total", "Out of",
+                                           *[f"Flashcards: {d.title} (known of {d.card_count})" for d in decks]]])
     for row in rows:
         writer.writerow([csv_safe(v) for v in [
             row["email"], row["name"],
             *[f"{c.score}/{c.max_score}" if c else "" for c in row["cells"]],
-            row["taken"], row["total"], row["max"],
+            row["taken"], row["total"], row["max"], *[known for known, _ in row["deck_cells"]],
         ]])
     return no_store(response)

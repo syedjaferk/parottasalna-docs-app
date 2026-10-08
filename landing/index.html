@@ -124,14 +124,18 @@
       font-size: .75rem; font-weight: 800; padding: .35rem .8rem; border-radius: 999px; box-shadow: 0 6px 18px rgba(37,99,235,.35); }
     .hero-card h3 { font-size: 1.15rem; }
     .hero-card .sub { color: var(--muted); font-size: .9rem; margin: 4px 0 18px; }
-    .path { display: grid; gap: 10px; }
-    .step { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--bg-soft); border: 1px solid var(--line); }
-    .step .ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--blue-50); color: var(--blue-700); font-weight: 800; flex: none; }
-    .step b { font-size: .95rem; display: block; }
-    .step small { color: var(--muted); font-size: .8rem; }
-    .step .pct { margin-left: auto; font-size: .78rem; font-weight: 700; color: var(--blue-700); }
-    .bar { height: 6px; background: var(--line); border-radius: 99px; margin-top: 6px; overflow: hidden; }
-    .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--blue-600), var(--sky)); border-radius: 99px; }
+    .hero-card .kv { display: grid; gap: 10px; margin: 0; }
+    .hero-card .kv div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--bg-soft); border: 1px solid var(--line); font-size: .92rem; }
+    .hero-card .kv dt { color: var(--muted); font-weight: 600; }
+    .hero-card .kv dd { margin: 0; font-weight: 700; text-align: right; }
+    .hero-card .kv .hot dd { color: #b45309; }
+    .hero-card .tags { margin-top: 16px; }
+    .hero-card .soon { margin: 14px 0 0; font-size: .82rem; color: var(--muted); text-align: center; }
+    .oss { display: flex; gap: 12px; align-items: flex-start; margin: 18px 0 0; max-width: 560px; padding: 14px 16px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue-50), color-mix(in srgb, var(--sky) 12%, var(--card)));
+      border: 1px solid color-mix(in srgb, var(--blue-600) 25%, transparent); font-size: .95rem; }
+    .oss .ic { font-size: 1.3rem; line-height: 1.4; }
+    .oss b { color: var(--blue-700); }
     .hero-card .btn { width: 100%; margin-top: 18px; }
     @media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; } }
 
@@ -162,7 +166,7 @@
 
     /* Courses */
     .soft { background: var(--bg-soft); }
-    .courses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .courses { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .course { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
     .course .top { padding: 22px 22px 18px; background: linear-gradient(135deg, var(--blue-50), transparent); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .course .emoji { font-size: 1.8rem; }
@@ -173,8 +177,44 @@
     .course h3 { font-size: 1.1rem; }
     .course p { color: var(--muted); font-size: .92rem; margin: 8px 0 16px; flex: 1; }
     .course a.more { font-weight: 700; font-size: .92rem; }
-    @media (max-width: 920px) { .courses { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 1000px) { .courses { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 600px) { .courses { grid-template-columns: 1fr; } }
+
+
+    /* Programs */
+    .programs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .program { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+    .program:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .program .head { padding: 24px 26px 22px; color: #fff; position: relative; overflow: hidden;
+      background: radial-gradient(400px 200px at 100% 0%, rgba(56,189,248,.55), transparent 60%), linear-gradient(135deg, #0b2a6f, #1d4ed8); }
+    .program .head .emoji { font-size: 2rem; line-height: 1; }
+    .program .head .kicker { display: inline-block; margin-top: 14px; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+    .program .head h3 { font-size: 1.35rem; margin-top: 4px; }
+    .program .head .live { position: absolute; top: 22px; right: 22px; font-size: .72rem; font-weight: 800; padding: .3rem .7rem; border-radius: 999px;
+      background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28); }
+    .program .body { padding: 22px 26px 26px; display: flex; flex-direction: column; flex: 1; }
+    .program .body > p { color: var(--muted); margin: 0 0 16px; font-size: .95rem; }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+    .facts div { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+    .facts small { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .facts b { font-size: .9rem; }
+    .program ul { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 7px; }
+    .program li { display: flex; gap: 9px; font-size: .93rem; }
+    .program li::before { content: "✓"; color: var(--blue-600); font-weight: 800; }
+    .program .tags { margin-bottom: 20px; }
+    .program .foot-row { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding-top: 18px; border-top: 1px dashed var(--line); }
+    .program .cost { font-weight: 800; font-size: 1.35rem; }
+    .program .cost s { color: var(--muted); font-weight: 600; font-size: .95rem; margin-left: 6px; }
+    .program .cost small { display: block; font-size: .78rem; color: var(--muted); font-weight: 600; }
+    .offer { color: #b45309; }
+    .program.now { border: 2px solid var(--blue-600); box-shadow: var(--shadow-lg); }
+    .program .head .live.on { background: #16a34a; border-color: #16a34a; }
+    .program .head .live.busy { background: rgba(255,255,255,.1); }
+    .program.running .head { background: radial-gradient(400px 200px at 100% 0%, rgba(56,189,248,.35), transparent 60%), linear-gradient(135deg, #1e3a8a, #3b5bbf); }
+    @media (max-width: 920px) { .programs { grid-template-columns: 1fr; } }
+    @media (max-width: 460px) { .facts { grid-template-columns: 1fr 1fr; } }
 
     /* Why */
     .why { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -210,21 +250,6 @@
     .who small { color: var(--muted); }
     @media (max-width: 920px) { .reviews { grid-template-columns: 1fr; } }
 
-    /* Pricing */
-    .pricing { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); gap: 24px; justify-content: center; }
-    .plan { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 32px; box-shadow: var(--shadow); position: relative; }
-    .plan.best { border: 2px solid var(--blue-600); box-shadow: var(--shadow-lg); }
-    .plan .ribbon { position: absolute; top: -13px; left: 32px; background: var(--blue-600); color: #fff; font-size: .74rem; font-weight: 800; padding: .3rem .75rem; border-radius: 999px; }
-    .plan h3 { font-size: 1.2rem; }
-    .plan .price { font-size: 2.4rem; font-weight: 800; margin: 12px 0 2px; letter-spacing: -0.02em; }
-    .plan .price small { font-size: .95rem; color: var(--muted); font-weight: 600; }
-    .plan .note { color: var(--muted); font-size: .92rem; margin: 0 0 20px; }
-    .plan ul { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 10px; }
-    .plan li { display: flex; gap: 10px; font-size: .95rem; }
-    .plan li::before { content: "✓"; color: var(--blue-600); font-weight: 800; }
-    .plan .btn { width: 100%; }
-    @media (max-width: 760px) { .pricing { grid-template-columns: 1fr; } }
-
     /* FAQ */
     .faq { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
     .faq details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px 22px; }
@@ -241,6 +266,8 @@
     .cta h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; }
     .cta p { opacity: .88; max-width: 620px; margin: 14px auto 28px; font-size: 1.05rem; }
     .cta .cta-row { justify-content: center; }
+    .cta .cta-mail { margin: 24px auto 0; font-size: .95rem; }
+    .cta .cta-mail a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
     .cta .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
 
     /* Footer */
@@ -266,8 +293,8 @@
   <div class="wrap nav-in">
     <a class="brand" href="#top"><img src="logo-192.png" alt="">Parottasalna</a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#tracks">Tracks</a>
-      <a href="#courses">Courses</a>
+      <a href="#programs">Programs</a>
+      <a href="#courses">Free courses</a>
       <a href="#why">Why us</a>
       <a href="#mentor">Mentor</a>
       <a href="#reviews">Reviews</a>
@@ -284,36 +311,39 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><span class="dot"></span> Learn in Tamil · Affordable · Practical</span>
+      <span class="eyebrow"><span class="dot"></span> Learn in Tamil · Open Source · Affordable</span>
       <h1>Learn <span class="grad">Backend, Cloud &amp; AI</span><br>simply — in Tamil.</h1>
       <p class="tamil ta">தமிழில் Backend, Cloud, AI மற்றும் Software Engineering கற்றுக்கொள்ளுங்கள்.</p>
-      <p class="lead">Backend Engineering, System Design, AWS, AI Engineering, Docker &amp; Kubernetes and DSA — explained the way a friend would explain it, with hands-on tasks that build real-world skills.</p>
+      <p class="lead">Backend Engineering, System Design, AWS, AI Agents, Data Engineering, Docker &amp; Kubernetes and DSA — explained the way a friend would explain it, using <strong>open-source tools</strong> and hands-on tasks that build real-world skills.</p>
+      <p class="oss"><span class="ic">🌱</span><span><b>Open source at heart.</b> Learn with the open-source tools the industry runs on — Linux, Python, PostgreSQL, Docker, Kubernetes, Airflow — and build in the open on <a href="https://github.com/syedjaferk/" target="_blank" rel="noopener">GitHub</a>.</span></p>
 
       <div class="chips">
         <div class="chip"><b>1000+</b><span>Students trained</span></div>
-        <div class="chip"><b>5</b><span>Learning tracks</span></div>
+        <div class="chip"><b>4</b><span>Live programs</span></div>
         <div class="chip"><b>100%</b><span>Tamil explanations</span></div>
         <div class="chip"><b>Free</b><span>Starter courses</span></div>
       </div>
 
       <div class="cta-row">
-        <a class="btn btn-primary" href="#courses">Explore courses →</a>
+        <a class="btn btn-primary" href="#programs">Explore programs →</a>
         <a class="btn btn-ghost" href="https://www.youtube.com/@syedjaferk" target="_blank" rel="noopener">▶ Watch on YouTube</a>
       </div>
     </div>
 
-    <aside class="hero-card" aria-label="Sample learning path">
-      <span class="tag">Your learning path</span>
-      <h3>From zero to production-ready</h3>
-      <p class="sub">Structured lessons, quizzes and progress tracking.</p>
-      <div class="path">
-        <div class="step"><div class="ic">01</div><div><b>Git &amp; Python basics</b><small>Foundations</small><div class="bar"><i style="width:100%"></i></div></div><span class="pct">Done</span></div>
-        <div class="step"><div class="ic">02</div><div><b>Databases &amp; Backend</b><small>PostgreSQL · APIs</small><div class="bar"><i style="width:72%"></i></div></div><span class="pct">72%</span></div>
-        <div class="step"><div class="ic">03</div><div><b>Docker &amp; Kubernetes</b><small>Containers · DevOps</small><div class="bar"><i style="width:35%"></i></div></div><span class="pct">35%</span></div>
-        <div class="step"><div class="ic">04</div><div><b>AWS &amp; System Design</b><small>Scale · Certification</small><div class="bar"><i style="width:0%"></i></div></div><span class="pct">Next</span></div>
-        <div class="step"><div class="ic">05</div><div><b>AI Engineering</b><small>LLMs · RAG · Agents</small><div class="bar"><i style="width:0%"></i></div></div><span class="pct">Next</span></div>
-      </div>
-      <a class="btn btn-primary" href="/login/">Start free with Google</a>
+    <aside class="hero-card" aria-label="Now enrolling: End-to-End Data Engineering">
+      <span class="tag">● Now enrolling</span>
+      <h3>End-to-End Data Engineering</h3>
+      <p class="sub">Live in Tamil · Databricks certification prep</p>
+      <dl class="kv">
+        <div><dt>Starts</dt><dd>October 12</dd></div>
+        <div><dt>Duration</dt><dd>40 days</dd></div>
+        <div><dt>Live classes</dt><dd>Mon · Wed · Fri, 8–9 PM IST</dd></div>
+        <div><dt>Level</dt><dd>Beginner → Intermediate</dd></div>
+        <div class="hot"><dt>Offer</dt><dd>🔥 Half price · ends Oct 10</dd></div>
+      </dl>
+      <div class="tags"><span>Python</span><span>SQL</span><span>PySpark</span><span>Airflow</span><span>dbt</span><span>Databricks</span></div>
+      <a class="btn btn-primary" href="https://dataengineering.parottasalna.com/" target="_blank" rel="noopener">Reserve your seat →</a>
+      <p class="soon">AI Agents, AWS and Kubernetes cohorts are in progress.</p>
     </aside>
   </div>
 </section>
@@ -322,8 +352,8 @@
 <div class="band">
   <div class="wrap stats">
     <div><b>1000+</b><span>Students trained</span></div>
-    <div><b>6+</b><span>Hands-on courses</span></div>
-    <div><b>5</b><span>Career tracks</span></div>
+    <div><b>4</b><span>Live cohort programs</span></div>
+    <div><b>Lifetime</b><span>Access to recordings</span></div>
     <div><b>தமிழ்</b><span>Taught in Tamil</span></div>
   </div>
 </div>
@@ -333,7 +363,7 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">What you'll find here</span>
-      <h2>Five tracks. One goal — <span class="grad">real engineering skills</span>.</h2>
+      <h2>Six tracks. One goal — <span class="grad">real engineering skills</span>.</h2>
       <p>Pick a track, or follow them in order. Every concept is explained simply in Tamil, with practical tasks you can put on your résumé.</p>
     </div>
     <div class="tracks">
@@ -368,37 +398,154 @@
         <div class="tags"><span>Containers</span><span>K8s</span><span>DevOps</span></div>
       </article>
       <article class="track reveal">
-        <div class="ic">🧪</div>
-        <h3>Tools of the trade</h3>
-        <p>Git, Python, load testing with Locust — the everyday skills every engineer is expected to know.</p>
-        <div class="tags"><span>Git</span><span>Python</span><span>Testing</span></div>
+        <div class="ic">📊</div>
+        <h3>Data Engineering</h3>
+        <p>Pipelines, warehousing and orchestration — Python, SQL, PySpark, Airflow, dbt and Databricks.</p>
+        <div class="tags"><span>PySpark</span><span>Airflow</span><span>Databricks</span></div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ============ COURSES ============ -->
-<section id="courses" class="soft">
+<!-- ============ PROGRAMS ============ -->
+<section id="programs" class="soft">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Courses</span>
-      <h2>Start today — several courses are <span class="grad">free</span></h2>
+      <span class="eyebrow"><span class="dot"></span> Live cohort programs · Enrolling now: Data Engineering</span>
+      <h2>Go deep with a <span class="grad">live, mentor-led</span> program</h2>
+      <p>Data Engineering is open for enrollment and starts October 12. The AI Agents, AWS and Kubernetes cohorts are already in progress — explore their syllabus and get ready for the next batch.</p>
+    </div>
+    <div class="programs">
+
+      <article class="program now reveal">
+        <div class="head">
+          <span class="live on">● Enrolling now · Oct 12</span>
+          <div class="emoji">📊</div>
+          <span class="kicker">40 days · Databricks cert prep</span>
+          <h3>End-to-End Data Engineering</h3>
+        </div>
+        <div class="body">
+          <p>Master modern data pipelines, warehousing and orchestration, with a strong focus on the Databricks Data Engineer Associate exam.</p>
+          <div class="facts">
+            <div><small>Schedule</small><b>Mon · Wed · Fri</b></div>
+            <div><small>Time</small><b>8–9 PM IST</b></div>
+            <div><small>Level</small><b>Beginner → Inter.</b></div>
+          </div>
+          <ul>
+            <li>Python, SQL, data modeling &amp; cloud warehouses</li>
+            <li>Airflow, dbt, PySpark &amp; streaming with Kafka</li>
+            <li>Databricks Lakehouse, Delta Lake &amp; Unity Catalog</li>
+          </ul>
+          <div class="tags"><span>PySpark</span><span>Airflow</span><span>dbt</span><span>Databricks</span><span>Snowflake</span></div>
+          <div class="foot-row">
+            <!-- TODO: add price; offer ends Oct 10 -->
+            <div class="cost offer">Half-price offer<small>Ends October 10</small></div>
+            <a class="btn btn-primary" href="https://dataengineering.parottasalna.com/" target="_blank" rel="noopener">Reserve your seat →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="program running reveal">
+        <div class="head">
+          <span class="live busy">Batch in progress</span>
+          <div class="emoji">🤖</div>
+          <span class="kicker">Bootcamp · 12 modules</span>
+          <h3>AI Agent Engineering</h3>
+        </div>
+        <div class="body">
+          <p>Build production-ready AI agents from scratch — from LLM fundamentals to autonomous, multi-agent pipelines.</p>
+          <div class="facts">
+            <div><small>Schedule</small><b>Mon · Wed · Fri</b></div>
+            <div><small>Time</small><b>9–10 PM IST</b></div>
+            <div><small>Outcome</small><b>Deploy an agent</b></div>
+          </div>
+          <ul>
+            <li>Prompt engineering, tool calling &amp; memory</li>
+            <li>Advanced RAG, multi-agent systems &amp; MCP servers</li>
+            <li>FastAPI, Docker &amp; AWS deployment, evals &amp; tracing</li>
+          </ul>
+          <div class="tags"><span>LLMs</span><span>LangGraph</span><span>RAG</span><span>MCP</span><span>FastAPI</span></div>
+          <div class="foot-row">
+            <!-- TODO: add price -->
+            <div class="cost">Capstone project<small>Production-ready AI agent platform</small></div>
+            <a class="btn btn-ghost" href="https://aiagents.parottasalna.com/" target="_blank" rel="noopener">View syllabus →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="program running reveal">
+        <div class="head">
+          <span class="live busy">Batch in progress</span>
+          <div class="emoji">☁️</div>
+          <span class="kicker">90 hours · 6 months · SAA-C03</span>
+          <h3>AWS Architecture Masterclass</h3>
+        </div>
+        <div class="body">
+          <p>Go from “I know services” to designing scalable, fault-tolerant, production-grade systems — through live building and real-world debugging.</p>
+          <div class="facts">
+            <div><small>Schedule</small><b>Sat · Sun</b></div>
+            <div><small>Batches</small><b>Morning &amp; night</b></div>
+            <div><small>Level</small><b>No AWS needed</b></div>
+          </div>
+          <ul>
+            <li>12 modules: IAM, S3, EC2, VPC, databases, serverless &amp; more</li>
+            <li>6 full-length mock exams + module-wise tests</li>
+            <li>WhatsApp doubt group &amp; Google Classroom</li>
+          </ul>
+          <div class="tags"><span>VPC</span><span>EKS</span><span>Lambda</span><span>DynamoDB</span><span>Well-Architected</span></div>
+          <div class="foot-row">
+            <!-- TODO: add price -->
+            <div class="cost">Certification prep<small>AWS Solutions Architect Associate</small></div>
+            <a class="btn btn-ghost" href="https://aws.parottasalna.com/" target="_blank" rel="noopener">View syllabus →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="program running reveal">
+        <div class="head">
+          <span class="live busy">Batch in progress</span>
+          <div class="emoji">☸️</div>
+          <span class="kicker">50 sessions · 25 weeks</span>
+          <h3>Docker &amp; Kubernetes Systems Engineering</h3>
+        </div>
+        <div class="body">
+          <p>Docker internals, multi-stage builds, CNI networking, Gateway API, eBPF and production Kubernetes cluster operations.</p>
+          <div class="facts">
+            <div><small>Schedule</small><b>Tue · Thu</b></div>
+            <div><small>Time</small><b>9–10 PM IST</b></div>
+            <div><small>Outcome</small><b>Deploy an AI agent</b></div>
+          </div>
+          <ul>
+            <li>Namespaces, cgroups &amp; container runtime internals</li>
+            <li>Compose, security scanning &amp; observability</li>
+            <li>K8s architecture, Helm, HPA, Cilium/Calico &amp; cluster ops</li>
+          </ul>
+          <div class="tags"><span>Docker</span><span>Kubernetes</span><span>Helm</span><span>eBPF</span><span>Prometheus</span></div>
+          <div class="foot-row">
+            <div class="cost">₹3,000<s>₹6,000</s><small>Recordings + materials included</small></div>
+            <a class="btn btn-ghost" href="https://kubeengineering.parottasalna.com/" target="_blank" rel="noopener">View syllabus →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FREE COURSES ============ -->
+<section id="courses">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Free self-paced courses</span>
+      <h2>Not ready for a cohort? <span class="grad">Start free</span>.</h2>
       <p>Sign in with Google and start learning. Track your progress and test yourself with quizzes after every module.</p>
     </div>
     <div class="courses">
       <article class="course reveal">
-        <div class="top"><span class="emoji">🤖</span><span class="badge pro">Cohort</span></div>
-        <div class="body">
-          <h3>40 Days of Agentic AI</h3>
-          <p>Build AI agents that think, use tools, look things up and remember — starting from Python basics, one small idea at a time.</p>
-          <a class="more" href="/login/">View course →</a>
-        </div>
-      </article>
-      <article class="course reveal">
         <div class="top"><span class="emoji">🐘</span><span class="badge free">Free</span></div>
         <div class="body">
           <h3>Database Engineering with PostgreSQL</h3>
-          <p>Installation, roles, querying, filtering, ER diagrams and joins, with hands-on tasks on the DVD Rental sample database.</p>
+          <p>Installation, roles, querying, filtering, ER diagrams and joins, with hands-on tasks on the DVD Rental database.</p>
           <a class="more" href="/login/">Start free →</a>
         </div>
       </article>
@@ -426,20 +573,12 @@
           <a class="more" href="/login/">Start free →</a>
         </div>
       </article>
-      <article class="course reveal">
-        <div class="top"><span class="emoji">🐍</span><span class="badge pro">Course</span></div>
-        <div class="body">
-          <h3>Python 101</h3>
-          <p>The Python you need for backend and AI work — clear fundamentals with plenty of practice.</p>
-          <a class="more" href="/login/">View course →</a>
-        </div>
-      </article>
     </div>
   </div>
 </section>
 
 <!-- ============ WHY ============ -->
-<section id="why">
+<section id="why" class="soft">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Why Parottasalna</span>
@@ -450,13 +589,13 @@
       <div class="why-item reveal"><div class="num">01</div><div><h3>Explained simply, in Tamil</h3><p>Hard concepts broken down with everyday analogies — tea kadai, kitchens, bakeries — so they actually stick.</p></div></div>
       <div class="why-item reveal"><div class="num">02</div><div><h3>Affordable by design</h3><p>Many courses are completely free. Paid programs are priced for students and early-career engineers, not corporate budgets.</p></div></div>
       <div class="why-item reveal"><div class="num">03</div><div><h3>Practical over theory</h3><p>Every module ends with hands-on tasks and real code. You learn by building what's used in production.</p></div></div>
-      <div class="why-item reveal"><div class="num">04</div><div><h3>Track your progress</h3><p>Built-in quizzes, progress tracking and a scoreboard keep you consistent from the first lesson to the last.</p></div></div>
+      <div class="why-item reveal"><div class="num">04</div><div><h3>Live classes, lifetime recordings</h3><p>Evening live sessions that fit around work or college. Missed one? Recordings are shared daily and stay with you for life.</p></div></div>
     </div>
   </div>
 </section>
 
 <!-- ============ MENTOR ============ -->
-<section id="mentor" class="soft">
+<section id="mentor">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Meet your mentor</span>
@@ -468,9 +607,9 @@
         <h3>Syed Jafer K</h3>
         <div class="role">Founder, Parottasalna · Software Engineer &amp; Educator</div>
         <p>Hi, I'm Syed Jafer K. I create practical, easy-to-understand content to help you learn software engineering and build real-world skills.</p>
-        <p>Through Parottasalna I've trained 1000+ students in backend engineering, cloud, DevOps and AI — all in Tamil, and always with a focus on what you'll actually use at work.</p>
+        <p>Through Parottasalna I've trained 1000+ students in backend engineering, AWS, Kubernetes, data engineering and AI — all in Tamil, and always with a focus on what you'll actually use at work.</p>
         <div class="socials">
-          <a href="https://parottasalna.com/" target="_blank" rel="noopener">🌐 Blog</a>
+          <a href="/blog/">🌐 Blog</a>
           <a href="https://www.youtube.com/@syedjaferk" target="_blank" rel="noopener">▶ YouTube</a>
           <a href="https://github.com/syedjaferk/" target="_blank" rel="noopener">💻 GitHub</a>
           <a href="https://www.linkedin.com/in/syedjaferk" target="_blank" rel="noopener">💼 LinkedIn</a>
@@ -483,7 +622,7 @@
 
 <!-- ============ REVIEWS ============ -->
 <!-- TODO: replace these three placeholders with real student reviews (name, role, quote) -->
-<section id="reviews">
+<section id="reviews" class="soft">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Student reviews</span>
@@ -510,47 +649,8 @@
   </div>
 </section>
 
-<!-- ============ PRICING ============ -->
-<section id="pricing" class="soft">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Pricing</span>
-      <h2>Quality learning at an <span class="grad">affordable</span> price</h2>
-      <p>Start free. Upgrade when you're ready for a guided, cohort-based program.</p>
-    </div>
-    <div class="pricing">
-      <div class="plan reveal">
-        <h3>Free courses</h3>
-        <div class="price">₹0</div>
-        <p class="note">Forever free. Just sign in with Google.</p>
-        <ul>
-          <li>PostgreSQL, Docker, Git &amp; Locust courses</li>
-          <li>Hands-on tasks in every module</li>
-          <li>Quizzes &amp; progress tracking</li>
-          <li>Explained in Tamil</li>
-        </ul>
-        <a class="btn btn-ghost" href="/login/">Start free</a>
-      </div>
-      <div class="plan best reveal">
-        <span class="ribbon">Most popular</span>
-        <h3>Cohort programs</h3>
-        <!-- TODO: set the real price -->
-        <div class="price">₹X,XXX <small>/ program</small></div>
-        <p class="note">Mentor-led cohorts like 40 Days of Agentic AI.</p>
-        <ul>
-          <li>Everything in Free</li>
-          <li>Live sessions with Syed</li>
-          <li>Full source code &amp; session recordings</li>
-          <li>Doubt clearing &amp; community access</li>
-        </ul>
-        <a class="btn btn-primary" href="https://t.me/parottasalna" target="_blank" rel="noopener">Ask about the next cohort</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ FAQ ============ -->
-<section id="faq">
+<section id="faq" class="soft">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">FAQ</span>
@@ -559,10 +659,12 @@
     <div class="faq">
       <details class="reveal"><summary>Is everything taught in Tamil?</summary><p>Yes. Concepts are explained in Tamil so they're easy to understand. Code, commands and technical terms stay in English, exactly as you'll use them at work.</p></details>
       <details class="reveal"><summary>Do I need prior experience?</summary><p>No. Courses start from the fundamentals and build up one idea at a time. If you're new, start with Git and Python, then move to databases and backend.</p></details>
-      <details class="reveal"><summary>Are the courses really free?</summary><p>Several courses — PostgreSQL, Docker, Git and Locust — are free forever. Sign in with Google and start right away. Cohort programs are paid, at an affordable price.</p></details>
+      <details class="reveal"><summary>Are the courses really free?</summary><p>Several self-paced courses — PostgreSQL, Docker, Git and Locust — are free forever. Sign in with Google and start right away. The live cohort programs are paid, at an affordable price.</p></details>
+      <details class="reveal"><summary>When are the live classes? What if I miss one?</summary><p>Classes run in the evening (IST) on weekdays, and on weekends for AWS, so they fit around work or college. Every session is recorded and shared the same day, and you keep lifetime access.</p></details>
+      <details class="reveal"><summary>Which program should I pick?</summary><p>Want to build with LLMs? Pick AI Agent Engineering. Aiming for cloud roles or the SAA-C03 certification? Pick AWS. Into DevOps and platforms? Pick Docker &amp; Kubernetes. Working with data? Pick Data Engineering. Not sure? Mail us at <a href="mailto:learnwithjafer@gmail.com">learnwithjafer@gmail.com</a> and we'll help you choose.</p></details>
       <details class="reveal"><summary>How do I track my progress?</summary><p>Once you sign in, every course has progress tracking and quizzes, so you always know what's done and what's next.</p></details>
       <details class="reveal"><summary>Will this help me get a job?</summary><p>The courses focus on practical skills used in real companies — backend, cloud, DevOps and AI. There are no placement guarantees; the skills and the hands-on work are what make the difference.</p></details>
-      <details class="reveal"><summary>How do I contact you?</summary><p>Join the Telegram community or reach out on LinkedIn or Instagram — links are in the footer.</p></details>
+      <details class="reveal"><summary>How do I contact you?</summary><p>For any queries — courses, enrollment or payments — send a mail to <a href="mailto:learnwithjafer@gmail.com">learnwithjafer@gmail.com</a>. We'll get back to you.</p></details>
     </div>
   </div>
 </section>
@@ -571,11 +673,12 @@
 <div class="wrap">
   <div class="cta reveal">
     <h2>Learn technology, simply — in Tamil. 🚀</h2>
-    <p>Join 1000+ students building real-world skills in backend, cloud and AI engineering.</p>
+    <p>Join 1000+ students building real-world skills in backend, cloud, data and AI engineering.</p>
     <div class="cta-row">
-      <a class="btn btn-white" href="/login/">Start learning free</a>
+      <a class="btn btn-white" href="https://dataengineering.parottasalna.com/" target="_blank" rel="noopener">Join Data Engineering — starts Oct 12</a>
       <a class="btn btn-ghost" href="https://www.youtube.com/@syedjaferk" target="_blank" rel="noopener">Subscribe on YouTube</a>
     </div>
+    <p class="cta-mail">Have questions? Mail us at <a href="mailto:learnwithjafer@gmail.com">learnwithjafer@gmail.com</a></p>
   </div>
 </div>
 
@@ -588,14 +691,17 @@
       <div>
         <a class="brand" href="#top"><img src="logo-192.png" alt="">Parottasalna</a>
         <p>Backend Engineering, System Design, AWS, Cloud, AI &amp; DSA explained simply in Tamil.</p>
+        <p>For queries, mail us at<br><b><a href="mailto:learnwithjafer@gmail.com">learnwithjafer@gmail.com</a></b></p>
       </div>
       <div>
         <h4>Learn</h4>
         <ul>
-          <li><a href="#tracks">Tracks</a></li>
-          <li><a href="#courses">Courses</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="https://parottasalna.com/" target="_blank" rel="noopener">Blog</a></li>
+          <li><a href="https://aiagents.parottasalna.com/" target="_blank" rel="noopener">AI Agent Engineering</a></li>
+          <li><a href="https://aws.parottasalna.com/" target="_blank" rel="noopener">AWS Architecture</a></li>
+          <li><a href="https://kubeengineering.parottasalna.com/" target="_blank" rel="noopener">Docker &amp; Kubernetes</a></li>
+          <li><a href="https://dataengineering.parottasalna.com/" target="_blank" rel="noopener">Data Engineering</a></li>
+          <li><a href="#courses">Free courses</a></li>
+          <li><a href="/blog/">Blog</a></li>
         </ul>
       </div>
       <div>

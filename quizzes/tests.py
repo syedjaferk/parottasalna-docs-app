@@ -200,3 +200,115 @@ class QuizSecurityTests(QuizTestCase):
         attempt = Attempt.objects.create(quiz=self.quiz, user=self.student, score=3, max_score=3)
         self.login(other)
         self.assertEqual(self.client.get(f"/courses/c1/quizzes/attempts/{attempt.pk}/").status_code, 404)
+
+
+class FlashcardTests(QuizTestCase):
+    def setUp(self):
+        super().setUp()
+        from .models import Deck, Flashcard
+
+        self.deck = Deck.objects.create(course=self.course, title="Terms", chapter="lesson-1", is_published=True)
+        self.c1 = Flashcard.objects.create(deck=self.deck, front="What is an **LLM**?", back="A large language model", order=1)
+        self.c2 = Flashcard.objects.create(deck=self.deck, front="Low temperature?", back="Predictable answers", order=2)
+        self.study = f"/courses/c1/flashcards/{self.deck.pk}/"
+        self.review = f"/courses/c1/flashcards/{self.deck.pk}/review/"
+
+    def post_review(self, card_id, known="true", client=None):
+        client = client or self.client
+        token = client.get(self.study).cookies.get("csrftoken")
+        return client.post(self.review, {"card": str(card_id), "known": known},
+                           HTTP_X_CSRFTOKEN=token.value if token else "")
+
+    def test_bulk_card_parsing(self):
+        from .services import parse_bulk_cards
+
+        cards, bad = parse_bulk_cards("A :: B\n\nno separator\nC::D :: E\n :: missing front")
+        self.assertEqual(cards, [("A", "B"), ("C", "D :: E")])
+        self.assertEqual(bad, [3, 5])
+
+    def test_study_page_renders_markdown_and_known_state(self):
+        from .models import CardReview
+
+        CardReview.objects.create(user=self.student, card=self.c1, known=True)
+        self.login(self.student)
+        response = self.client.get(self.study)
+        self.assertEqual(response.status_code, 200)
+        data = response.context["data"]
+        self.assertEqual(data["cards"][0]["front"].strip(), "<p>What is an <strong>LLM</strong>?</p>")
+        self.assertEqual([c["known"] for c in data["cards"]], [True, False])
+
+    def test_access_rules(self):
+        self.assertEqual(self.client.get(self.study).status_code, 302)          # anonymous → sign in
+        self.login(self.outsider)
+        self.assertEqual(self.client.get(self.study).status_code, 404)          # not enrolled
+        from .models import Deck
+        Deck.objects.filter(pk=self.deck.pk).update(is_published=False)
+        self.login(self.student)
+        self.assertEqual(self.client.get(self.study).status_code, 404)          # draft hidden
+        self.login(self.staff)
+        self.assertEqual(self.client.get(self.study).status_code, 200)          # staff preview
+
+    def test_review_saves_and_counts(self):
+        from .models import CardReview
+
+        client = self.client_class(enforce_csrf_checks=True)
+        client.force_login(self.student, backend=MODEL_BACKEND)
+        r = self.post_review(self.c1.pk, "true", client)
+        self.assertEqual(r.json(), {"card": self.c1.pk, "known": True, "known_total": 1, "total": 2})
+        self.post_review(self.c1.pk, "false", client)
+        review = CardReview.objects.get(user=self.student, card=self.c1)
+        self.assertEqual((review.known, review.times_seen), (False, 2))
+
+    def test_review_rejects_bad_input_and_other_decks(self):
+        from .models import Deck, Flashcard
+
+        other = Deck.objects.create(course=self.course, title="Other", is_published=True)
+        foreign = Flashcard.objects.create(deck=other, front="x", back="y")
+        self.login(self.student)
+        self.assertEqual(self.post_review(foreign.pk).status_code, 400)
+        self.assertEqual(self.post_review("abc").status_code, 400)
+        self.assertEqual(self.post_review(self.c1.pk, "maybe").status_code, 400)
+        self.assertEqual(self.client.get(self.review).status_code, 405)
+
+    def test_review_requires_csrf_auth_and_enrolment(self):
+        anon = self.client_class()
+        self.assertEqual(anon.post(self.review, {"card": self.c1.pk, "known": "true"}).status_code, 401)
+        strict = self.client_class(enforce_csrf_checks=True)
+        strict.force_login(self.student, backend=MODEL_BACKEND)
+        self.assertEqual(strict.post(self.review, {"card": self.c1.pk, "known": "true"}).status_code, 403)
+        self.login(self.outsider)
+        self.assertEqual(self.client.post(self.review, {"card": self.c1.pk, "known": "true"}).status_code, 404)
+
+    def test_common_course_decks_hidden_from_non_enrolled(self):
+        from .models import Deck, Flashcard
+
+        common = Course.objects.create(slug="open", title="Open", is_common=True, build_status="ok")
+        deck = Deck.objects.create(course=common, title="Open deck", is_published=True)
+        Flashcard.objects.create(deck=deck, front="a", back="b")
+        self.assertEqual(self.client.get("/courses/open/quizzes.json").json()["decks"], [])
+        self.login(self.student)
+        self.assertEqual(self.client.get(f"/courses/open/flashcards/{deck.pk}/").status_code, 404)
+
+    def test_feed_practice_page_and_scoreboard(self):
+        from .models import CardReview
+
+        CardReview.objects.create(user=self.student, card=self.c1, known=True)
+        self.login(self.student)
+        deck = self.client.get("/courses/c1/quizzes.json").json()["decks"][0]
+        self.assertEqual((deck["chapter"], deck["cards"], deck["known"]), ("lesson-1", 2, 1))
+        self.assertContains(self.client.get("/courses/c1/quizzes/"), "1 of 2 known")
+        self.login(self.staff)
+        self.assertContains(self.client.get("/courses/c1/quizzes/scores/"), "1/2")
+        csv = self.client.get("/courses/c1/quizzes/scores.csv").content.decode()
+        self.assertIn("Flashcards: Terms (known of 2)", csv)
+
+    def test_deck_chapter_must_exist(self):
+        from .models import Deck
+
+        with tempfile.TemporaryDirectory() as root:
+            (Path(root) / "c1").mkdir()
+            (Path(root) / "c1" / "lesson-1.md").write_text("# L1")
+            with override_settings(COURSES_SRC_ROOT=Path(root)):
+                Deck(course=self.course, title="ok", chapter="lesson-1").full_clean()
+                with self.assertRaises(ValidationError):
+                    Deck(course=self.course, title="bad", chapter="nope").full_clean()

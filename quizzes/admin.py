@@ -2,14 +2,15 @@ import csv
 
 from django import forms
 from django.contrib import admin
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Max
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html
 
 from courses.security import csv_safe, no_store
 
-from .models import Attempt, Question, Quiz
+from .models import Attempt, CardReview, Deck, Flashcard, Question, Quiz
+from .services import parse_bulk_cards
 
 
 class QuestionInline(admin.StackedInline):
@@ -115,3 +116,93 @@ class AttemptAdmin(admin.ModelAdmin):
                 a.submitted_at.isoformat(timespec="seconds"),
             ]])
         return no_store(response)
+
+
+# ---------------------------------------------------------------- Flashcards
+
+class DeckAdminForm(forms.ModelForm):
+    bulk_cards = forms.CharField(
+        label="Add cards (bulk)",
+        required=False,
+        widget=forms.Textarea(attrs={"rows": 6, "cols": 90,
+                                     "placeholder": "What does LLM stand for? :: Large Language Model\n"
+                                                    "Low temperature means? :: Predictable, focused answers"}),
+        help_text="One card per line: <code>front :: back</code>. Cards are added after the existing ones. "
+                  "For longer answers with Markdown or code, use the card editor below.",
+    )
+
+    class Meta:
+        model = Deck
+        fields = "__all__"
+
+    def clean_bulk_cards(self):
+        cards, bad = parse_bulk_cards(self.cleaned_data.get("bulk_cards", ""))
+        if bad:
+            raise forms.ValidationError(
+                f"Line(s) {', '.join(map(str, bad))} need the form 'front :: back' with text on both sides."
+            )
+        return cards
+
+
+class FlashcardInline(admin.TabularInline):
+    model = Flashcard
+    extra = 1
+    fields = ("order", "front", "back")
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        for name in ("front", "back"):
+            formset.form.base_fields[name].widget = forms.Textarea(attrs={"rows": 2, "cols": 50})
+        return formset
+
+
+@admin.register(Deck)
+class DeckAdmin(admin.ModelAdmin):
+    form = DeckAdminForm
+    list_display = ("title", "course", "chapter", "is_published", "card_count", "links")
+    list_filter = ("course", "is_published")
+    list_editable = ("is_published",)
+    search_fields = ("title", "chapter")
+    inlines = [FlashcardInline]
+    fieldsets = (
+        (None, {"fields": ("course", "title", "chapter", "description", "is_published", "order")}),
+        ("Add many cards at once", {"fields": ("bulk_cards",)}),
+    )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related("course").annotate(_cards=Count("cards"))
+
+    @admin.display(ordering="_cards", description="Cards")
+    def card_count(self, obj):
+        return obj._cards
+
+    @admin.display(description="")
+    def links(self, obj):
+        return format_html('<a href="{}">Preview</a>', reverse("deck_study", args=[obj.course.slug, obj.pk]))
+
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        cards = form.cleaned_data.get("bulk_cards") or []
+        if cards:
+            start = (form.instance.cards.aggregate(m=Max("order"))["m"] or 0) + 1
+            Flashcard.objects.bulk_create(
+                Flashcard(deck=form.instance, front=front, back=back, order=start + i)
+                for i, (front, back) in enumerate(cards)
+            )
+            self.message_user(request, f"Added {len(cards)} card(s).")
+
+
+@admin.register(CardReview)
+class CardReviewAdmin(admin.ModelAdmin):
+    list_display = ("user", "deck", "card", "known", "times_seen", "reviewed_at")
+    list_filter = ("card__deck__course", "card__deck", "known")
+    search_fields = ("user__email", "card__front")
+    list_select_related = ("user", "card", "card__deck")
+    readonly_fields = ("user", "card", "known", "times_seen", "reviewed_at")
+
+    def has_add_permission(self, request):
+        return False
+
+    @admin.display(description="Deck")
+    def deck(self, obj):
+        return obj.card.deck.title

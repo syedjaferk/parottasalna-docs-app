@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} · {{ brand.NAME }} Blog{% endblock %}
+{% block meta_description %}{{ post.excerpt }}{% endblock %}
+{% block robots %}index, follow, max-image-preview:large{% endblock %}
+{% block canonical %}{{ canonical|default:request.build_absolute_uri }}{% endblock %}
+{% block og_url %}{{ canonical|default:request.build_absolute_uri }}{% endblock %}
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+  <meta property="article:published_time" content="{{ post.published_at|date:'c' }}">
+  {% if post.category %}<meta property="article:section" content="{{ post.category }}">{% endif %}
+  {% for tag in post.tags.all %}<meta property="article:tag" content="{{ tag.name }}">{% endfor %}
+  <link rel="alternate" type="application/rss+xml" title="{{ brand.NAME }} Blog" href="{% url 'blog_feed' %}">
+  <script type="application/ld+json">{{ ld_json }}</script>
+{% endblock %}
+{% block extra_style %}
+  .post-wrap { max-width: 780px; margin: 0 auto; }
+  .crumbs { font-size: .88rem; color: var(--muted); margin-bottom: 1rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; } .crumbs a:hover { color: var(--accent); }
+  .post-head { margin-bottom: 1.75rem; }
+  .post-head .kicker { display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none; margin-bottom: .6rem; }
+  .post-head h1 { margin: 0 0 .8rem; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; }
+  .post-head .byline { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; color: var(--muted); font-size: .92rem; }
+  .post-head .byline img { width: 36px; height: 36px; border-radius: 50%; }
+
+  .prose { font-size: 1.075rem; line-height: 1.85; overflow-wrap: anywhere; }
+  .prose > :first-child { margin-top: 0; }
+  .prose p { margin: 0 0 1.15em; }
+  .prose p:empty, .prose h1:empty, .prose h2:empty, .prose h3:empty { display: none; }
+  .prose h2 { font-size: 1.55rem; margin: 2.4rem 0 .8rem; line-height: 1.3; }
+  .prose h3 { font-size: 1.25rem; margin: 2rem 0 .6rem; }
+  .prose h4 { font-size: 1.08rem; margin: 1.6rem 0 .5rem; }
+  .prose a { color: var(--accent); }
+  .prose ul, .prose ol { padding-left: 1.4rem; margin: 0 0 1.2em; }
+  .prose li + li { margin-top: .35em; }
+  .prose img { max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
+  .prose figure { margin: 1.5rem 0; text-align: center; }
+  .prose figcaption { font-size: .88rem; color: var(--muted); margin-top: .4rem; }
+  .prose blockquote { margin: 1.4rem 0; padding: .8rem 1.2rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; }
+  .prose code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em;
+    background: var(--accent-soft); padding: .12em .38em; border-radius: 5px; }
+  .prose pre { position: relative; margin: 1.3rem 0 1.5rem; padding: 1.1rem 1.2rem; border-radius: 12px; overflow-x: auto;
+    background: #0f172a; color: #e2e8f0; font-size: .9rem; line-height: 1.65; }
+  .prose pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+  .prose pre div:empty { min-height: 1.65em; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: .95rem; display: block; overflow-x: auto; }
+  .prose th, .prose td { border: 1px solid var(--line); padding: .5rem .7rem; text-align: left; }
+  .prose th { background: var(--accent-soft); }
+  .prose hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+  .prose .video-embed { position: relative; aspect-ratio: 16 / 9; margin: 1.5rem 0; border-radius: 12px; overflow: hidden; background: #000; }
+  .prose .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .copy-btn { position: absolute; top: .5rem; right: .5rem; font: inherit; font-size: .75rem; font-weight: 600; padding: .25rem .6rem;
+    border-radius: 6px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #e2e8f0; cursor: pointer; opacity: 0; transition: opacity .15s; }
+  .prose pre:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: .45rem; margin: 2.2rem 0 0; }
+  .tags a { font-size: .84rem; padding: .3rem .75rem; border-radius: 999px; text-decoration: none; color: var(--muted);
+    background: var(--card); border: 1px solid var(--line); }
+  .tags a:hover { color: var(--accent); border-color: var(--accent); }
+  .origin { margin-top: 1.5rem; font-size: .88rem; color: var(--muted); }
+  .section-title { font-size: 1.2rem; margin: 2.75rem 0 1rem; }
+  .related { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+  .related a { display: flex; flex-direction: column; gap: .4rem; padding: 1.1rem; border-radius: 14px; text-decoration: none; color: var(--fg);
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .related a:hover { border-color: var(--accent); }
+  .related .kicker { font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); }
+  .related strong { line-height: 1.35; }
+  .related span.meta { font-size: .8rem; color: var(--muted); margin-top: auto; }
+  .nextprev { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+  .nextprev a { flex: 1; min-width: 220px; padding: 1rem 1.1rem; border-radius: 14px; text-decoration: none; color: var(--fg); border: 1px solid var(--line); background: var(--card); }
+  .nextprev a:hover { border-color: var(--accent); }
+  .nextprev small { display: block; color: var(--muted); font-size: .78rem; margin-bottom: .2rem; }
+  .nextprev .older { text-align: right; }
+{% endblock %}
+{% block content %}
+{% load static %}
+<article class="post-wrap">
+  <nav class="crumbs"><a href="{% url 'blog_index' %}">Blog</a>{% if post.category %} / <a href="{% url 'blog_index' %}?category={{ post.category_slug }}">{{ post.category }}</a>{% endif %}</nav>
+  <header class="post-head">
+    {% if post.category %}<a class="kicker" href="{% url 'blog_index' %}?category={{ post.category_slug }}">{{ post.category }}</a>{% endif %}
+    <h1>{{ post.title }}</h1>
+    <div class="byline">
+      <img src="{% static 'brand/logo-192.png' %}" alt="" width="36" height="36">
+      <span><strong>{{ brand.AUTHOR }}</strong></span>
+      <span>·</span><time datetime="{{ post.published_at|date:'c' }}">{{ post.published_at|date:"F j, Y" }}</time>
+      <span>·</span><span>{{ post.reading_minutes }} min read</span>
+    </div>
+  </header>
+
+  {# body_html was rendered from the author's vault and sanitised with nh3 at import time (blog/render.py) #}
+  <div class="prose" id="post-body">{{ post.body_html|safe }}</div>
+
+  {% with tags=post.tags.all %}{% if tags %}
+  <div class="tags">{% for tag in tags %}<a href="{% url 'blog_index' %}?tag={{ tag.slug }}">#{{ tag.name }}</a>{% endfor %}</div>
+  {% endif %}{% endwith %}
+  {% if canonical %}<p class="origin">Originally published on <a href="{{ canonical }}" rel="noopener">parottasalna.com</a>.</p>{% endif %}
+
+  {% if related %}
+  <h2 class="section-title">Related posts</h2>
+  <div class="related">
+    {% for r in related %}
+    <a href="{% url 'blog_post' r.slug %}">
+      {% if r.category %}<span class="kicker">{{ r.category }}</span>{% endif %}
+      <strong>{{ r.title }}</strong>
+      <span class="meta">{{ r.reading_minutes }} min read</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if newer or older %}
+  <nav class="nextprev" aria-label="More posts">
+    {% if newer %}<a href="{% url 'blog_post' newer.slug %}"><small>← Newer</small>{{ newer.title }}</a>{% endif %}
+    {% if older %}<a class="older" href="{% url 'blog_post' older.slug %}"><small>Older →</small>{{ older.title }}</a>{% endif %}
+  </nav>
+  {% endif %}
+</article>
+<script>
+  // "Copy" buttons on code blocks
+  document.querySelectorAll("#post-body pre").forEach(function (pre) {
+    var text = pre.innerText;                    // read before the button adds its own label
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "copy-btn"; btn.textContent = "Copy";
+    btn.addEventListener("click", function () {
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = "Copied!"; setTimeout(function () { btn.textContent = "Copy"; }, 1500);
+      });
+    });
+    pre.appendChild(btn);
+  });
+</script>
+{% endblock %}

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "courses",
     "quizzes",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -148,6 +149,14 @@ COURSES_SRC_ROOT = Path(os.environ.get("COURSES_SRC_ROOT", BASE_DIR / "course_co
 DOCS_BUILD_ROOT = Path(os.environ.get("DOCS_BUILD_ROOT", BASE_DIR / "docs_build"))
 SPHINX_THEME = os.environ.get("SPHINX_THEME", "shibuya")
 SPHINX_BUILD_TIMEOUT = int(os.environ.get("SPHINX_BUILD_TIMEOUT", "300"))
+
+# --- Blog -----------------------------------------------------------------------
+# Obsidian vault with the posts (import with: python manage.py import_blog).
+BLOG_SRC_ROOT = Path(os.environ.get("BLOG_SRC_ROOT", BASE_DIR / "blog_content"))
+# Live WordPress blog: used once per import to repair code blocks and record each post's original URL.
+BLOG_WORDPRESS_URL = os.environ.get("BLOG_WORDPRESS_URL", "https://parottasalna.com")
+# While WordPress is the original, point search engines there so the two copies don't compete.
+BLOG_CANONICAL_TO_WORDPRESS = env_bool("BLOG_CANONICAL_TO_WORDPRESS", True)
 
 # In production Nginx streams the files; Django only authorises (see deploy/nginx.conf).
 USE_X_ACCEL_REDIRECT = env_bool("USE_X_ACCEL_REDIRECT", False)
