@@ -1,0 +1,67 @@
+name: Test and deploy
+
+# Every push to main: run the tests, build every course's docs and check every practice file,
+# then deploy to learn.parottasalna.com. Pull requests only run the checks.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests and docs build
+    runs-on: ubuntu-latest
+    env:
+      DEBUG: "true"
+      SECRET_KEY: ci-only-not-a-secret
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Django tests
+        run: python manage.py test
+
+      - name: Build every course and load its quizzes and flashcards
+        run: |
+          python manage.py migrate --noinput
+          python manage.py shell -c "
+          from pathlib import Path
+          from courses.models import Course
+          for d in sorted(Path('course_content').iterdir()):
+              if (d / 'index.md').exists() or (d / 'index.rst').exists():
+                  Course.objects.get_or_create(slug=d.name, defaults={'title': d.name, 'source_dir': d.name})
+          "
+          python manage.py deploy_content --all
+
+  deploy:
+    name: Deploy to the server
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Never run two deploys or server tasks at once; queue them instead.
+    concurrency:
+      group: production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/actions
+
+      - uses: ./.github/actions/server-task
+        with:
+          task: deploy ${{ github.sha }}
+          ssh-key: ${{ secrets.DEPLOY_SSH_KEY }}
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          user: ${{ secrets.DEPLOY_SSH_USER }}
+          known-hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}

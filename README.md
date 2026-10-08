@@ -139,6 +139,35 @@ Reloading updates questions and cards in place, so students' scores and card pro
 
 Run the tests with `python manage.py test`.
 
+## CI/CD (GitHub Actions)
+
+| Workflow | When | What |
+|---|---|---|
+| `Test and deploy` (`.github/workflows/deploy.yml`) | every push / PR | tests, builds every course's docs, loads every `practice/*.yaml`; on `main` it then deploys |
+| `Server tasks` (`.github/workflows/server-tasks.yml`) | by hand (Actions → Run workflow) | `build-docs`, `load-practice`, `sync-blog`, `backup`, `deploy`, `status` |
+| `Publish blog` (in the **second-brain** repo) | every push to the vault | `sync-blog`: pull the vault, re-import the blog |
+
+**How a deploy works:** the Action SSHes in as the `deploy` user. Its keys are *forced commands*
+in `/home/deploy/.ssh/authorized_keys`, so they can only run `deploy/ci.sh` (via a sudo rule in
+`/etc/sudoers.d/portal-deploy`), and `ci.sh` only accepts the tasks above with checked arguments.
+`deploy/deploy.sh` pulls `main`; if app code changed it rebuilds the containers and every course,
+otherwise it rebuilds only the `course_content/<folder>` courses that changed and reloads their
+quizzes and flashcards (`manage.py deploy_content`). A new course still needs its Course row in the
+admin once; the deploy log warns about folders with no course.
+
+**Secrets** (repo → Settings → Secrets and variables → Actions):
+
+| Secret | Repo | Value |
+|---|---|---|
+| `DEPLOY_SSH_KEY` | app | `sudo cat /root/github-keys/github_deploy` on the server |
+| `BLOG_SYNC_SSH_KEY` | second-brain | `sudo cat /root/github-keys/github_blog` |
+| `DEPLOY_SSH_HOST` | both | `learn.parottasalna.com` |
+| `DEPLOY_SSH_USER` | both | `deploy` |
+| `DEPLOY_KNOWN_HOSTS` | both | `sudo sh -c 'for f in /etc/ssh/ssh_host_*_key.pub; do echo "learn.parottasalna.com $(cut -d" " -f1,2 $f)"; done'` |
+
+Run any task by hand on the server too: `sudo /opt/course_portal/deploy/ci.sh "build-docs docker-kubernetes"`.
+Every task is logged to `/var/log/portal_ci.log`.
+
 ## Production notes
 
 - Set `DEBUG=false`, a real `SECRET_KEY`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, `USE_X_ACCEL_REDIRECT=true`.

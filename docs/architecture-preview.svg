@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2520 2140" width="2520" height="2140"><defs><marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs><rect x="-100" y="-100" width="3000" height="3000" fill="white"/><text x="40" y="58.25" font-family="Helvetica, Arial" font-size="36" fill="#1e1e1e" xml:space="preserve">Parottasalna Course Portal · Architecture</text>
+<text x="40" y="89.125" font-family="Helvetica, Arial" font-size="18" fill="#495057" xml:space="preserve">learn.parottasalna.com · Django 5 + Sphinx docs + quizzes, flashcards &amp; blog · Docker Compose on a Hostinger VPS</text>
+<rect x="20" y="110" width="340" height="950" rx="14" fill="none" stroke="#495057" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="34" y="141.25" font-family="Helvetica, Arial" font-size="20" fill="#495057" xml:space="preserve">People &amp; bots</text>
+<rect x="40" y="160" width="300" height="120" rx="14" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="54" y="191.125" font-family="Helvetica, Arial" font-size="18" fill="#1971c2" xml:space="preserve">🎓 Enrolled student</text>
+<text x="54" y="219.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">browser · signs in with Google</text>
+<text x="54" y="239.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">reads docs, takes quizzes,</text>
+<text x="54" y="259.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">flashcards, marks progress</text>
+<rect x="40" y="310" width="300" height="120" rx="14" fill="#c5f6fa" stroke="#0c8599" stroke-width="2"/>
+<text x="54" y="341.125" font-family="Helvetica, Arial" font-size="18" fill="#0c8599" xml:space="preserve">🌍 Public visitor</text>
+<text x="54" y="369.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">no sign-in needed</text>
+<text x="54" y="389.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">common courses + blog</text>
+<rect x="40" y="460" width="300" height="140" rx="14" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="54" y="491.125" font-family="Helvetica, Arial" font-size="18" fill="#6741d9" xml:space="preserve">🧑‍🏫 Instructor (staff)</text>
+<text x="54" y="519.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">/admin/: courses, enrolments,</text>
+<text x="54" y="539.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">rebuild docs, quizzes, decks,</text>
+<text x="54" y="559.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">scoreboards + CSV</text>
+<rect x="40" y="630" width="300" height="110" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="54" y="661.125" font-family="Helvetica, Arial" font-size="18" fill="#495057" xml:space="preserve">🤖 Search engines</text>
+<text x="54" y="689.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">robots.txt · sitemap.xml</text>
+<text x="54" y="709.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">(public pages only)</text>
+<rect x="400" y="110" width="1590" height="960" rx="14" fill="none" stroke="#495057" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="414" y="141.25" font-family="Helvetica, Arial" font-size="20" fill="#495057" xml:space="preserve">Hostinger VPS (Ubuntu) · learn.parottasalna.com</text>
+<rect x="440" y="170" width="330" height="190" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="454" y="201.125" font-family="Helvetica, Arial" font-size="18" fill="#495057" xml:space="preserve">Host reverse proxy</text>
+<text x="454" y="229.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Caddy on the VPS (ports 80/443)</text>
+<text x="454" y="249.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">automatic HTTPS (Let&#x27;s Encrypt)</text>
+<text x="454" y="269.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">HTTP → HTTPS redirect</text>
+<text x="454" y="289.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">reverse_proxy → 127.0.0.1:8000</text>
+<text x="454" y="309.5" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">adds X-Forwarded-For / -Proto</text>
+<rect x="810" y="150" width="1150" height="630" rx="14" fill="none" stroke="#1971c2" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="824" y="181.25" font-family="Helvetica, Arial" font-size="20" fill="#1971c2" xml:space="preserve">Docker Compose project  (/opt/course_portal)</text>
+<rect x="840" y="200" width="330" height="230" rx="14" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+<text x="854" y="230.0625" font-family="Helvetica, Arial" font-size="17" fill="#2f9e44" xml:space="preserve">nginx  (container)</text>
+<text x="854" y="257.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">nginx:1.27-alpine · :80 → host :8000</text>
+<text x="854" y="275.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">POST rate limit 5 r/s per client IP</text>
+<text x="854" y="294.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">real IP from X-Forwarded-For</text>
+<text x="854" y="313.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">/protected-docs/ = internal only</text>
+<text x="854" y="332.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">re-resolves web via Docker DNS</text>
+<text x="854" y="350.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">(127.0.0.11) → no stale 502</text>
+<rect x="1250" y="200" width="400" height="320" rx="14" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="1264" y="230.0625" font-family="Helvetica, Arial" font-size="17" fill="#1971c2" xml:space="preserve">web  (container)</text>
+<text x="1264" y="257.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">Django 5 + gunicorn (3 workers)</text>
+<text x="1264" y="275.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">whitenoise → /static/</text>
+<text x="1264" y="294.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">apps: courses · quizzes · blog</text>
+<text x="1264" y="313.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">django-allauth (Google only)</text>
+<text x="1264" y="332.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">/admin/ for staff</text>
+<text x="1264" y="350.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">entrypoint: migrate, then build_docs</text>
+<text x="1264" y="369.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">in the background</text>
+<text x="1264" y="388.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">commands: build_docs · load_practice</text>
+<text x="1264" y="407.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">import_blog · localize_blog_vault</text>
+<text x="1264" y="425.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">import_gitbook</text>
+<rect x="1720" y="200" width="220" height="170" rx="14" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="1734" y="230.0625" font-family="Helvetica, Arial" font-size="17" fill="#6741d9" xml:space="preserve">db  (container)</text>
+<text x="1734" y="257.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">PostgreSQL 16</text>
+<text x="1734" y="275.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">volume: pgdata</text>
+<text x="1734" y="294.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">healthcheck:</text>
+<text x="1734" y="313.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">pg_isready</text>
+<rect x="1720" y="410" width="220" height="200" rx="14" fill="#ffe8cc" stroke="#e8590c" stroke-width="2"/>
+<text x="1734" y="440.0625" font-family="Helvetica, Arial" font-size="17" fill="#e8590c" xml:space="preserve">Sphinx builder</text>
+<text x="1734" y="467.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">courses/builder.py</text>
+<text x="1734" y="485.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">MyST Markdown</text>
+<text x="1734" y="504.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">Shibuya theme</text>
+<text x="1734" y="523.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">injects portal.css,</text>
+<text x="1734" y="542.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">progress.js, quiz.js</text>
+<rect x="840" y="470" width="330" height="130" rx="14" fill="#fff3bf" stroke="#f08c00" stroke-width="2"/>
+<text x="854" y="500.0625" font-family="Helvetica, Arial" font-size="17" fill="#f08c00" xml:space="preserve">volume: docs_build</text>
+<text x="854" y="527.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">&lt;course&gt;/html (Sphinx output)</text>
+<text x="854" y="545.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">web writes · nginx reads (ro)</text>
+<text x="854" y="564.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">new build swapped in when done</text>
+<rect x="1250" y="560" width="400" height="180" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="1264" y="590.0625" font-family="Helvetica, Arial" font-size="17" fill="#495057" xml:space="preserve">Bind mounts (read-only)</text>
+<text x="1264" y="617.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">./course_content → /app/course_content</text>
+<text x="1264" y="635.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  sessions/*.md, diagrams, code,</text>
+<text x="1264" y="654.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  practice/*.yaml</text>
+<text x="1264" y="673.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">../second-brain → /app/blog_content</text>
+<text x="1264" y="692.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  Obsidian vault + attachments</text>
+<rect x="440" y="820" width="520" height="220" rx="14" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<text x="454" y="850.0625" font-family="Helvetica, Arial" font-size="17" fill="#e03131" xml:space="preserve">⏰ cron on the host</text>
+<text x="454" y="877.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">every 6 h  sync_blog.sh (fallback; GitHub</text>
+<text x="454" y="895.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">          Action syncs on every vault push)</text>
+<text x="454" y="914.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">02:30 backup_db.sh → backups/ (14 days)</text>
+<text x="454" y="933.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">03:00 manage.py clearsessions</text>
+<text x="454" y="952.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">Sun 04:00 docker image prune</text>
+<rect x="1000" y="820" width="470" height="220" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="1014" y="850.0625" font-family="Helvetica, Arial" font-size="17" fill="#495057" xml:space="preserve">📁 On the VPS disk</text>
+<text x="1014" y="877.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">/opt/course_portal  (app + course content)</text>
+<text x="1014" y="895.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">../second-brain  (vault checkout)</text>
+<text x="1014" y="914.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">.env: SECRET_KEY, Google OAuth keys,</text>
+<text x="1014" y="933.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  ALLOWED_HOSTS, POSTGRES_PASSWORD</text>
+<text x="1014" y="952.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  (never in git)</text>
+<text x="1014" y="970.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">backups/portal-YYYY-MM-DD.sql.gz</text>
+<rect x="1510" y="820" width="450" height="220" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="1524" y="850.0625" font-family="Helvetica, Arial" font-size="17" fill="#495057" xml:space="preserve">📜 Logs</text>
+<text x="1524" y="877.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">docker json-file logs, 10 MB × 3</text>
+<text x="1524" y="895.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">(rotated; contain visitor IPs,</text>
+<text x="1524" y="914.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">see the privacy policy)</text>
+<text x="1524" y="933.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">docker compose logs -f web</text>
+<text x="1524" y="952.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">build logs: Course.build_log (admin)</text>
+<rect x="2030" y="110" width="420" height="1060" rx="14" fill="none" stroke="#495057" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="2044" y="141.25" font-family="Helvetica, Arial" font-size="20" fill="#495057" xml:space="preserve">Outside services</text>
+<rect x="2050" y="160" width="380" height="170" rx="14" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="2064" y="190.0625" font-family="Helvetica, Arial" font-size="17" fill="#6741d9" xml:space="preserve">🔑 Google OAuth 2.0</text>
+<text x="2064" y="217.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">consent screen: Parottasalna</text>
+<text x="2064" y="235.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">callback (HTTPS):</text>
+<text x="2064" y="254.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">/accounts/google/login/callback/</text>
+<text x="2064" y="273.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">scopes: email + profile</text>
+<rect x="2050" y="360" width="380" height="140" rx="14" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<text x="2064" y="390.0625" font-family="Helvetica, Arial" font-size="17" fill="#e03131" xml:space="preserve">▶ YouTube</text>
+<text x="2064" y="417.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">youtube-nocookie.com embeds</text>
+<text x="2064" y="435.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">in docs chapters + blog posts</text>
+<text x="2064" y="454.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">(Kube Engineering playlist)</text>
+<rect x="2050" y="530" width="380" height="170" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="2064" y="560.0625" font-family="Helvetica, Arial" font-size="17" fill="#495057" xml:space="preserve">🐙 GitHub</text>
+<text x="2064" y="587.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">parottasalna-docs-app repo + Actions:</text>
+<text x="2064" y="605.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  tests → docs build → deploy</text>
+<text x="2064" y="624.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">second-brain repo (PUBLIC) + Action:</text>
+<text x="2064" y="643.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">  push → sync-blog</text>
+<rect x="2050" y="780" width="380" height="200" rx="14" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+<text x="2064" y="810.0625" font-family="Helvetica, Arial" font-size="17" fill="#2f9e44" xml:space="preserve">💻 Your laptop</text>
+<text x="2064" y="837.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">write chapter .md + practice .yaml</text>
+<text x="2064" y="855.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">make_diagrams.py → SVG diagrams</text>
+<text x="2064" y="874.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">Obsidian → blog posts</text>
+<text x="2064" y="893.4375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">git push</text>
+<rect x="2050" y="1010" width="380" height="140" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="2064" y="1040.0625" font-family="Helvetica, Arial" font-size="17" fill="#495057" xml:space="preserve">WordPress (optional)</text>
+<text x="2064" y="1067.1875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">parottasalna.com</text>
+<text x="2064" y="1085.9375" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">old source of blog images;</text>
+<text x="2064" y="1104.6875" font-family="Helvetica, Arial" font-size="15" fill="#1e1e1e" xml:space="preserve">canonical link only if enabled</text>
+<polyline points="340,220 440,230" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#h)"/>
+<text x="350" y="204.875" font-family="Helvetica, Arial" font-size="14" fill="#1971c2" xml:space="preserve">① HTTPS :443</text>
+<polyline points="340,370 390,370 390,280 440,280" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#h)"/>
+<polyline points="340,530 400,530 400,300 440,300" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#h)"/>
+<polyline points="340,685 410,685 410,320 440,320" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#h)"/>
+<polyline points="770,240 840,240" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#h)"/>
+<text x="775" y="226.875" font-family="Helvetica, Arial" font-size="14" fill="#1971c2" xml:space="preserve">② :8000</text>
+<polyline points="1170,260 1250,260" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#h)"/>
+<text x="1178" y="235.8125" font-family="Helvetica, Arial" font-size="13" fill="#1971c2" xml:space="preserve">③ proxy</text>
+<text x="1178" y="252.0625" font-family="Helvetica, Arial" font-size="13" fill="#1971c2" xml:space="preserve">web:8000</text>
+<polyline points="1250,380 1170,380" fill="none" stroke="#2f9e44" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#h)"/>
+<text x="1176" y="401.8125" font-family="Helvetica, Arial" font-size="13" fill="#2f9e44" xml:space="preserve">⑤ X-Accel-</text>
+<text x="1176" y="418.0625" font-family="Helvetica, Arial" font-size="13" fill="#2f9e44" xml:space="preserve">Redirect</text>
+<polyline points="1000,430 1000,470" fill="none" stroke="#2f9e44" stroke-width="2" marker-end="url(#h)"/>
+<text x="1010" y="454.875" font-family="Helvetica, Arial" font-size="14" fill="#2f9e44" xml:space="preserve">⑥ stream file</text>
+<polyline points="1650,260 1720,260" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#h)"/>
+<text x="1660" y="246.875" font-family="Helvetica, Arial" font-size="14" fill="#6741d9" xml:space="preserve">④ SQL</text>
+<polyline points="1650,450 1720,470" fill="none" stroke="#e8590c" stroke-width="2" marker-end="url(#h)"/>
+<text x="1652" y="434.875" font-family="Helvetica, Arial" font-size="14" fill="#e8590c" xml:space="preserve">build_docs</text>
+<polyline points="1650,620 1700,620 1700,580 1720,580" fill="none" stroke="#e8590c" stroke-width="2" marker-end="url(#h)"/>
+<text x="1655" y="644.875" font-family="Helvetica, Arial" font-size="14" fill="#e8590c" xml:space="preserve">reads .md</text>
+<polyline points="1830,610 1830,760 1000,760 1000,600" fill="none" stroke="#e8590c" stroke-width="2" marker-end="url(#h)"/>
+<text x="1840" y="674.875" font-family="Helvetica, Arial" font-size="14" fill="#e8590c" xml:space="preserve">writes HTML</text>
+<polyline points="190,160 190,100 2240,100 2240,160" fill="none" stroke="#6741d9" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#h)"/>
+<text x="900" y="94.875" font-family="Helvetica, Arial" font-size="14" fill="#6741d9" xml:space="preserve">sign-in redirect (browser ↔ Google)</text>
+<polyline points="1450,200 1450,135 2010,135 2010,240 2050,240" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#h)"/>
+<text x="1500" y="129.875" font-family="Helvetica, Arial" font-size="14" fill="#6741d9" xml:space="preserve">code → token (server-side)</text>
+<polyline points="2240,780 2240,700" fill="none" stroke="#2f9e44" stroke-width="2" marker-end="url(#h)"/>
+<text x="2250" y="749.875" font-family="Helvetica, Arial" font-size="14" fill="#2f9e44" xml:space="preserve">git push</text>
+<polyline points="2050,640 2000,640 2000,1055 1235,1055 1235,1040" fill="none" stroke="#2f9e44" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#h)"/>
+<text x="1400" y="1090.875" font-family="Helvetica, Arial" font-size="14" fill="#2f9e44" xml:space="preserve">git pull (deploy · cron for the vault)</text>
+<polyline points="1235,820 1235,795 1450,795 1450,740" fill="none" stroke="#495057" stroke-width="2" marker-end="url(#h)"/>
+<text x="1250" y="810.875" font-family="Helvetica, Arial" font-size="14" fill="#495057" xml:space="preserve">mounted ro</text>
+<polyline points="700,820 700,800 1215,800 1215,470 1250,470" fill="none" stroke="#e03131" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#h)"/>
+<text x="760" y="816.875" font-family="Helvetica, Arial" font-size="14" fill="#e03131" xml:space="preserve">docker compose exec web …</text>
+<text x="40" y="1181.875" font-family="Helvetica, Arial" font-size="30" fill="#1e1e1e" xml:space="preserve">Flows</text>
+<rect x="40" y="1210" width="590" height="330" rx="14" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="54" y="1243.25" font-family="Helvetica, Arial" font-size="20" fill="#1971c2" xml:space="preserve">① Page request &amp; docs protection</text>
+<text x="54" y="1272.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">1. Browser → https://learn.parottasalna.com</text>
+<text x="54" y="1292.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (host Caddy terminates TLS)</text>
+<text x="54" y="1312.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">2. Caddy → 127.0.0.1:8000 → nginx container</text>
+<text x="54" y="1332.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">3. nginx → Django (gunicorn) at web:8000</text>
+<text x="54" y="1352.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">4. Django decides: public (is_common) course?</text>
+<text x="54" y="1372.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   enrolled student? staff? else → login / 403</text>
+<text x="54" y="1392.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">5. Allowed → header X-Accel-Redirect:</text>
+<text x="54" y="1412.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   /protected-docs/&lt;slug&gt;/html/&lt;page&gt;</text>
+<text x="54" y="1432.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">6. nginx streams the file from docs_build</text>
+<text x="54" y="1452.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (internal location: no direct URL exists)</text>
+<text x="54" y="1472.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">7. progress.js + quiz.js on the page call the</text>
+<text x="54" y="1492.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   JSON APIs back through the same path</text>
+<rect x="660" y="1210" width="590" height="330" rx="14" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="674" y="1243.25" font-family="Helvetica, Arial" font-size="20" fill="#6741d9" xml:space="preserve">② Sign-in (Google OAuth + allow-list)</text>
+<text x="674" y="1272.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">1. &quot;Sign in with Google&quot; on /login/</text>
+<text x="674" y="1292.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">2. allauth redirects the browser to Google</text>
+<text x="674" y="1312.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">3. Google → /accounts/google/login/callback/</text>
+<text x="674" y="1332.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (always https in production)</text>
+<text x="674" y="1352.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">4. Django swaps the code for the profile</text>
+<text x="674" y="1372.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   server-side and reads the email</text>
+<text x="674" y="1392.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">5. Allow-list: the email must have an</text>
+<text x="674" y="1412.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Enrollment row (or be staff)</text>
+<text x="674" y="1432.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">6. Session cookie (DB sessions) → signed in</text>
+<text x="674" y="1452.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">7. OAuth tokens are not stored</text>
+<text x="674" y="1472.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (SOCIALACCOUNT_STORE_TOKENS = False)</text>
+<rect x="1280" y="1210" width="590" height="330" rx="14" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2"/>
+<text x="1294" y="1243.25" font-family="Helvetica, Arial" font-size="20" fill="#2f9e44" xml:space="preserve">③ Publish a new chapter</text>
+<text x="1294" y="1272.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">1. Write course_content/&lt;course&gt;/sessions/NN-*.md</text>
+<text x="1294" y="1292.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (+ video block, diagrams, code/, practice yaml)</text>
+<text x="1294" y="1312.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">2. git push → GitHub Actions: tests + build every</text>
+<text x="1294" y="1332.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   course + check practice files</text>
+<text x="1294" y="1352.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">3. Action SSHes in as deploy → deploy.sh: git pull;</text>
+<text x="1294" y="1372.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   code changed? rebuild containers</text>
+<text x="1294" y="1392.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">4. First time only: create the Course row</text>
+<text x="1294" y="1412.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (admin or manage.py shell)</text>
+<text x="1294" y="1432.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">5. deploy_content: build changed courses</text>
+<text x="1294" y="1452.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (Sphinx + MyST + Shibuya) + load_practice</text>
+<text x="1294" y="1472.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">6. Output → docs_build/&lt;slug&gt;/html</text>
+<text x="1294" y="1492.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (old build serves until the new one is ready)</text>
+<text x="1294" y="1512.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">7. Enrol students: admin → Add users (bulk)</text>
+<rect x="1900" y="1210" width="590" height="330" rx="14" fill="#ffe8cc" stroke="#e8590c" stroke-width="2"/>
+<text x="1914" y="1243.25" font-family="Helvetica, Arial" font-size="20" fill="#e8590c" xml:space="preserve">④ Quizzes &amp; flashcards</text>
+<text x="1914" y="1272.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">1. practice/*.yaml → load_practice → Quiz,</text>
+<text x="1914" y="1292.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Question, Deck, Flashcard rows</text>
+<text x="1914" y="1312.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (matched by title; renamed_from keeps scores)</text>
+<text x="1914" y="1332.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">2. quiz.js → GET /courses/&lt;slug&gt;/quizzes.json</text>
+<text x="1914" y="1352.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   → cards for this chapter&#x27;s quizzes + decks</text>
+<text x="1914" y="1372.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">3. Take a quiz → POST with CSRF token →</text>
+<text x="1914" y="1392.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   graded on the server → Attempt row</text>
+<text x="1914" y="1412.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">4. Flashcards: Got it / Again → POST review</text>
+<text x="1914" y="1432.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   → CardReview row</text>
+<text x="1914" y="1452.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">5. Staff: scoreboard + CSV export</text>
+<text x="1914" y="1472.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (formula-injection safe)</text>
+<text x="1914" y="1492.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Only enrolled students + staff (can_track)</text>
+<rect x="40" y="1570" width="590" height="330" rx="14" fill="#c5f6fa" stroke="#0c8599" stroke-width="2"/>
+<text x="54" y="1603.25" font-family="Helvetica, Arial" font-size="20" fill="#0c8599" xml:space="preserve">⑤ Progress tracking</text>
+<text x="54" y="1632.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">1. progress.js → GET /courses/&lt;slug&gt;/progress.json</text>
+<text x="54" y="1652.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">2. &quot;Mark as complete&quot; → POST</text>
+<text x="54" y="1672.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   /courses/&lt;slug&gt;/progress/ (CSRF, rate-limited)</text>
+<text x="54" y="1692.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">3. Saved as PageProgress (user, course, page)</text>
+<text x="54" y="1712.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">4. Dashboard: % done per course +</text>
+<text x="54" y="1732.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   completed hint on each page</text>
+<text x="54" y="1752.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">5. Not enrolled → no button, nothing stored</text>
+<text x="54" y="1772.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (can_track = staff or enrolled in that course)</text>
+<text x="54" y="1792.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">6. APIs: 401 JSON when signed out,</text>
+<text x="54" y="1812.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Cache-Control: no-store</text>
+<rect x="660" y="1570" width="590" height="330" rx="14" fill="#fff3bf" stroke="#f08c00" stroke-width="2"/>
+<text x="674" y="1603.25" font-family="Helvetica, Arial" font-size="20" fill="#f08c00" xml:space="preserve">⑥ Blog from the Obsidian vault</text>
+<text x="674" y="1632.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">1. Write in Obsidian → push second-brain</text>
+<text x="674" y="1652.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   (PUBLIC repo: only blog notes!)</text>
+<text x="674" y="1672.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">2. GitHub Action (on push) → ssh sync-blog →</text>
+<text x="674" y="1692.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   sync_blog.sh → git pull (cron: 6 h fallback)</text>
+<text x="674" y="1712.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">3. import_blog --prune: frontmatter (PyYAML)</text>
+<text x="674" y="1732.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   → markdown-it → wikilinks resolved →</text>
+<text x="674" y="1752.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   nh3 sanitise (only YouTube iframes,</text>
+<text x="674" y="1772.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   → youtube-nocookie) → Post rows</text>
+<text x="674" y="1792.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">4. Images / PDFs → PostAsset, served at</text>
+<text x="674" y="1812.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   /blog/media/&lt;path&gt; only if a post uses them</text>
+<text x="674" y="1832.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">5. /blog/ · /blog/&lt;slug&gt;/ · feed.xml · sitemap</text>
+<text x="674" y="1852.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">6. Works without WordPress (files in the vault)</text>
+<rect x="1280" y="1570" width="590" height="330" rx="14" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<text x="1294" y="1603.25" font-family="Helvetica, Arial" font-size="20" fill="#e03131" xml:space="preserve">⑦ Who sees what</text>
+<text x="1294" y="1632.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Anonymous visitor</text>
+<text x="1294" y="1652.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   ✔ common courses, blog   ✘ enrolled courses</text>
+<text x="1294" y="1672.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve"></text>
+<text x="1294" y="1692.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Student enrolled in course A</text>
+<text x="1294" y="1712.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   ✔ A + common courses</text>
+<text x="1294" y="1732.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   ✔ progress, quizzes, flashcards in A</text>
+<text x="1294" y="1752.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   ✘ other enrolled-only courses</text>
+<text x="1294" y="1772.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve"></text>
+<text x="1294" y="1792.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Staff</text>
+<text x="1294" y="1812.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   ✔ everything + /admin/, draft quizzes,</text>
+<text x="1294" y="1832.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   scoreboards, rebuild docs</text>
+<text x="1294" y="1852.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve"></text>
+<text x="1294" y="1872.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Unknown Google account → sign-in refused</text>
+<rect x="1900" y="1570" width="590" height="330" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="1914" y="1603.25" font-family="Helvetica, Arial" font-size="20" fill="#495057" xml:space="preserve">⑧ Data model (PostgreSQL)</text>
+<text x="1914" y="1632.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">courses</text>
+<text x="1914" y="1652.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Course (slug, source_dir, is_common, build_status)</text>
+<text x="1914" y="1672.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Enrollment (course, email)</text>
+<text x="1914" y="1692.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   PageProgress (user, course, page)</text>
+<text x="1914" y="1712.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">quizzes</text>
+<text x="1914" y="1732.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Quiz → Question · Attempt (user, score, answers)</text>
+<text x="1914" y="1752.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Deck → Flashcard · CardReview (user, card, known)</text>
+<text x="1914" y="1772.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">blog</text>
+<text x="1914" y="1792.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   Post · Tag · PostAsset</text>
+<text x="1914" y="1812.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">auth / allauth</text>
+<text x="1914" y="1832.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">   User · SocialAccount (Google) · Session</text>
+<text x="1914" y="1852.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve"></text>
+<text x="1914" y="1872.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">Not in git → back up with pg_dump</text>
+<rect x="40" y="1930" width="1210" height="300" rx="14" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<text x="54" y="1963.25" font-family="Helvetica, Arial" font-size="20" fill="#e03131" xml:space="preserve">🛡 Security controls</text>
+<text x="54" y="1992.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• HTTPS only (Let&#x27;s Encrypt on the host proxy); secure cookies in production</text>
+<text x="54" y="2012.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Google-only sign-in with an e-mail allow-list; no passwords stored</text>
+<text x="54" y="2032.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Docs are never public files: Django checks access → X-Accel-Redirect → internal nginx location</text>
+<text x="54" y="2052.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• CSRF on every POST · require_safe / require_POST · JSON APIs answer 401, not redirects</text>
+<text x="54" y="2072.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• nginx POST rate limit 5 r/s per real client IP (proxy IPs trusted only from private ranges)</text>
+<text x="54" y="2092.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Blog HTML sanitised with nh3; quiz Markdown renders with raw HTML disabled</text>
+<text x="54" y="2112.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Cache-Control: no-store on personal data · CSV formula-injection guard</text>
+<text x="54" y="2132.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Secrets only in .env · the vault repo is public, so private notes stay out of it</text>
+<rect x="1280" y="1930" width="1210" height="300" rx="14" fill="#f1f3f5" stroke="#495057" stroke-width="2"/>
+<text x="1294" y="1963.25" font-family="Helvetica, Arial" font-size="20" fill="#495057" xml:space="preserve">⚙ Deploy &amp; operations</text>
+<text x="1294" y="1992.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Push to main → GitHub Actions (tests, docs build) → SSH as &#x27;deploy&#x27; → forced command deploy/ci.sh → deploy.sh</text>
+<text x="1294" y="2012.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• The deploy key can only run: deploy · build-docs · load-practice · sync-blog · backup · status</text>
+<text x="1294" y="2032.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">  (Actions → Server tasks for manual runs); the blog key can only run sync-blog</text>
+<text x="1294" y="2052.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• nginx re-resolves web through Docker DNS → no lasting 502 after the web container restarts</text>
+<text x="1294" y="2072.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• cron: blog sync every 6 h (fallback) · backup_db.sh 02:30 (14 days) · clearsessions 03:00 ·</text>
+<text x="1294" y="2092.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">  docker image prune Sundays 04:00</text>
+<text x="1294" y="2112.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• DB rows (courses, enrolments, scores) are not in git: copy backups/ off the VPS too</text>
+<text x="1294" y="2132.0" font-family="Helvetica, Arial" font-size="16" fill="#1e1e1e" xml:space="preserve">• Restore: gunzip -c backups/portal-DATE.sql.gz | docker compose exec -T db psql -U portal portal</text></svg>

@@ -1,0 +1,55 @@
+name: Server tasks
+
+# Run by hand: Actions → Server tasks → Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: What to run on learn.parottasalna.com
+        type: choice
+        default: build-docs
+        options:
+          - build-docs     # rebuild Sphinx docs
+          - load-practice  # reload quizzes + flashcards from practice/*.yaml
+          - sync-blog      # pull the second-brain vault and re-import the blog
+          - backup         # pg_dump the database now
+          - deploy         # pull main and redeploy
+          - status         # deployed commit + container status
+      course:
+        description: Course slug for build-docs / load-practice ("all" for every course)
+        type: string
+        default: all
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    name: ${{ inputs.task }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/actions
+
+      - name: Work out the request
+        id: req
+        env:
+          TASK: ${{ inputs.task }}
+          COURSE: ${{ inputs.course }}
+        run: |
+          case "$TASK" in
+            build-docs|load-practice) echo "task=$TASK $COURSE" >> "$GITHUB_OUTPUT" ;;
+            *) echo "task=$TASK" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - uses: ./.github/actions/server-task
+        with:
+          task: ${{ steps.req.outputs.task }}
+          ssh-key: ${{ secrets.DEPLOY_SSH_KEY }}
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          user: ${{ secrets.DEPLOY_SSH_USER }}
+          known-hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}

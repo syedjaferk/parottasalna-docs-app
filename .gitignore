@@ -7,3 +7,9 @@ __pycache__/
 venv/
 .venv/
 blog_content
+
+# SSH keys: never commit
+hostinger-kvm1*
+*.pem
+id_*
+backups/

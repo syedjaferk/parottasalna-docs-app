@@ -33,6 +33,8 @@ services:
       COURSES_SRC_ROOT: /app/course_content
       DOCS_BUILD_ROOT: /app/docs_build
       USE_X_ACCEL_REDIRECT: "true"
+      # deploy/deploy.sh sets this to false and builds the docs itself, so failures reach CI.
+      BUILD_DOCS_ON_START: ${BUILD_DOCS_ON_START:-true}
     volumes:
       # Drop session markdown into ./course_content on the host, then rebuild from the admin.
       - ./course_content:/app/course_content:ro

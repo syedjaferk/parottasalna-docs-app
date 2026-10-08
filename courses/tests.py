@@ -487,3 +487,32 @@ class OAuthVerificationTests(TestCase):
 
     def test_privacy_page_in_sitemap(self):
         self.assertContains(self.client.get("/sitemap.xml"), "<loc>http://testserver/privacy/</loc>")
+
+
+class DeployContentTests(TestCase):
+    """deploy_content: what GitHub Actions runs after a push (see deploy/deploy.sh)."""
+
+    def setUp(self):
+        self.a = Course.objects.create(slug="course-a", title="A", source_dir="folder-a")
+        self.b = Course.objects.create(slug="course-b", title="B")
+
+    def run_cmd(self, *args):
+        from io import StringIO
+        from unittest import mock
+
+        from django.core.management import call_command
+
+        out = StringIO()
+        with mock.patch("courses.management.commands.deploy_content.build_course", return_value=True) as build:
+            call_command("deploy_content", *args, stdout=out, stderr=StringIO())
+        return [c.args[0] for c in build.call_args_list], out.getvalue()
+
+    def test_targets_match_slug_or_folder_and_unknown_folders_warn(self):
+        built, out = self.run_cmd("folder-a", "course-b", "new-folder")
+        self.assertEqual(built, [self.a.pk, self.b.pk])
+        self.assertIn("new-folder: no active course", out)
+
+    def test_all_no_build_and_empty(self):
+        self.assertEqual(self.run_cmd("--all")[0], [self.a.pk, self.b.pk])
+        self.assertEqual(self.run_cmd("--all", "--no-build")[0], [])
+        self.assertEqual(self.run_cmd()[0], [])
