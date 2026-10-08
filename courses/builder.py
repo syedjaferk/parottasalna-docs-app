@@ -25,140 +25,100 @@ except ImportError:  # pragma: no cover
 LOG_LIMIT = 20_000
 
 
-# Blue brand colours for the Furo theme, kept in step with templates/base.html.
-FURO_LIGHT = {
-    "color-brand-primary": "#1d4ed8",
-    "color-brand-content": "#2563eb",
-    "color-brand-visited": "#1e40af",
-    "color-announcement-background": "#1e3a8a",
-    "color-announcement-text": "#ffffff",
-    "color-sidebar-background": "#f3f7ff",
-    "color-sidebar-background-border": "#dbe4f3",
-    "color-sidebar-item-background--hover": "#e8f0ff",
-    "color-sidebar-search-background": "#ffffff",
-    "color-highlighted-background": "#dbeafe",
-    "color-inline-code-background": "#eef4ff",
-    "color-admonition-title--note": "#2563eb",
-    "color-admonition-title-background--note": "#e8f0ff",
-    "font-stack": "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-    "font-stack--monospace": "'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace",
-}
-FURO_DARK = {
-    "color-brand-primary": "#93c5fd",
-    "color-brand-content": "#60a5fa",
-    "color-brand-visited": "#a5b4fc",
-    "color-background-primary": "#0b1326",
-    "color-background-secondary": "#0e1a33",
-    "color-background-border": "#1f2d4d",
-    "color-announcement-background": "#13275a",
-    "color-announcement-text": "#e6edfb",
-    "color-sidebar-background": "#0e1a33",
-    "color-sidebar-background-border": "#1f2d4d",
-    "color-sidebar-item-background--hover": "#15284f",
-    "color-sidebar-search-background": "#0b1326",
-    "color-highlighted-background": "#1e3a8a",
-    "color-inline-code-background": "#15284f",
-    "color-admonition-title--note": "#60a5fa",
-    "color-admonition-title-background--note": "#15284f",
-}
-
-# Extra polish on top of Furo. Written next to the generated conf.py, never taken from course content.
+# Styling on top of the Shibuya theme. Written next to the generated conf.py, never taken from
+# course content. Brand blue matches templates/base.html.
 PORTAL_CSS = """
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
 
-.announcement { font-size: .9rem; }
-.announcement a { color: inherit; font-weight: 600; text-decoration: none; }
+/* Brand accent (Shibuya's blue scale, pulled toward the portal's #2563eb) */
+:root[data-accent-color] { --accent-9: #2563eb; --accent-10: #1d4ed8; --accent-11: #1d4ed8; --accent-a10: #1d4ed8; }
+html.dark[data-accent-color] { --accent-9: #3b82f6; --accent-10: #60a5fa; --accent-11: #93c5fd; --accent-a10: #93c5fd; }
+:root { --sy-f-text: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --sy-f-heading: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --sy-f-mono: "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace; }
+
+/* Announcement bar */
+.announcement { background: linear-gradient(90deg, #1e3a8a, #2563eb); color: #fff; font-size: .9rem; }
+.announcement a { color: #fff; font-weight: 600; text-decoration: none; }
 .announcement a:hover { text-decoration: underline; }
 
-.sidebar-brand-text { font-weight: 800; letter-spacing: -0.01em; }
-.sidebar-tree .caption, .sidebar-tree :not(.caption) > .caption-text {
-  text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; color: var(--color-brand-content);
-}
-.sidebar-tree .current-page > .reference { font-weight: 600; color: var(--color-brand-primary); }
-.sidebar-tree .reference { border-radius: 8px; margin: 1px 8px; }
+/* Header brand */
+.sy-head-brand img { border-radius: 50%; }
+.sy-head-brand strong { font-weight: 800; letter-spacing: -0.01em; }
 
-article h1 { font-weight: 800; letter-spacing: -0.02em; }
-article h1::after {
-  content: ""; display: block; width: 64px; height: 4px; margin-top: .6rem; border-radius: 4px;
-  background: linear-gradient(90deg, #2563eb, #38bdf8);
-}
-article h2 { font-weight: 700; padding-bottom: .3rem; border-bottom: 1px solid var(--color-background-border); }
-article h3 { font-weight: 600; }
-
-.highlight { border-radius: 10px; }
-div.highlight pre { border-radius: 10px; padding: 1rem 1.1rem; }
-div[class*="highlight-"] { border-radius: 10px; border: 1px solid var(--color-background-border); }
-code.literal { border-radius: 5px; padding: .1em .35em; border: 1px solid var(--color-background-border); }
-
-.admonition { border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(15, 27, 51, .06); }
-
-table.docutils { border-radius: 10px; overflow: hidden; border: 1px solid var(--color-background-border); }
-table.docutils th { background: var(--color-sidebar-item-background--hover); }
-
-.related-pages a { border-radius: 10px; padding: .75rem 1rem; border: 1px solid var(--color-background-border); }
-.related-pages a:hover { border-color: var(--color-brand-content); }
-
-img { border-radius: 8px; }
-
-.sidebar-logo-container { margin: .5rem auto .25rem; }
-.sidebar-logo { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 20px rgba(56, 189, 248, .4); }
-.footer .icons a { transition: color .15s; }
-.footer .icons a:hover { color: var(--color-brand-primary); }
+/* Reading comfort */
+.yue { font-size: 1.0625rem; line-height: 1.8; }
+.yue p { margin: 0 0 1.15em; }
+.yue li + li { margin-top: .4em; }
+.yue h1 { font-weight: 800; letter-spacing: -0.02em; }
+.yue h1::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .7rem; border-radius: 4px;
+  background: linear-gradient(90deg, #2563eb, #38bdf8); }
+.yue h2 { font-weight: 700; margin-top: 2.6rem; }
+.yue h3 { font-weight: 650; margin-top: 2rem; }
+.yue img { border-radius: 10px; }
+.yue div[class*="highlight-"] { margin: 1.3em 0 1.5em; }
+.yue mark { border-radius: 4px; padding: 0 .2em; }
 
 /* Imported GitBook content: video embeds and collapsible solutions */
 .video-embed { position: relative; aspect-ratio: 16 / 9; margin: 1.25rem 0; border-radius: 12px; overflow: hidden;
   background: #000; box-shadow: 0 10px 30px rgba(15, 27, 51, .18); }
 .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-details.solution { margin: .75rem 0 1.75rem; border: 1px solid var(--color-background-border); border-radius: 10px;
-  background: var(--color-background-secondary); }
-details.solution > summary { cursor: pointer; padding: .6rem 1rem; font-weight: 600; color: var(--color-brand-primary); }
+details.solution { margin: .75rem 0 1.75rem; border: 1px solid var(--sy-c-border); border-radius: 10px; background: var(--sy-c-surface); }
+details.solution > summary { cursor: pointer; padding: .6rem 1rem; font-weight: 600; color: var(--sy-c-link); }
 details.solution > summary::before { content: "💡 Show "; }
 details.solution[open] > summary::before { content: "💡 "; }
-details.solution[open] > summary { border-bottom: 1px solid var(--color-background-border); }
+details.solution[open] > summary { border-bottom: 1px solid var(--sy-c-border); }
 details.solution > :not(summary) { margin-left: 1rem; margin-right: 1rem; }
 
 /* Chapter completion (progress.js) */
-.page-progress { margin: 2rem 0 1rem; padding: 1.1rem 1.25rem; border-radius: 14px; display: flex; align-items: center;
-  justify-content: space-between; gap: 1rem; flex-wrap: wrap; border: 1px solid var(--color-background-border);
-  background: var(--color-background-secondary); }
+.page-progress { margin: 2.5rem 0 1rem; padding: 1.1rem 1.25rem; border-radius: 14px; display: flex; align-items: center;
+  justify-content: space-between; gap: 1rem; flex-wrap: wrap; border: 1px solid var(--sy-c-border); background: var(--sy-c-surface); }
 .page-progress.is-done { border-color: rgba(16, 185, 129, .45); background: rgba(16, 185, 129, .08); }
-.page-progress .pp-text strong { display: block; font-size: 1rem; }
-.page-progress .pp-text span { font-size: .88rem; color: var(--color-foreground-secondary); }
+.page-progress .pp-text strong { display: block; font-size: 1rem; color: var(--sy-c-heading); }
+.page-progress .pp-text span { font-size: .88rem; color: var(--sy-c-light); }
 .page-progress .pp-actions { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
 .pp-btn { font: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; padding: .55rem 1rem; border-radius: 10px; border: 0;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; text-decoration: none; display: inline-block; }
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff !important; text-decoration: none !important; display: inline-block; }
 .pp-btn:hover { filter: brightness(1.05); }
 .pp-btn[disabled] { opacity: .6; cursor: wait; }
-.pp-btn.ghost { background: transparent; color: var(--color-foreground-secondary); border: 1px solid var(--color-background-border); font-weight: 600; }
+.pp-btn.ghost { background: transparent; color: var(--sy-c-light) !important; border: 1px solid var(--sy-c-border); font-weight: 600; }
 .pp-btn.next { background: #10b981; }
 .done-chip { display: inline-flex; align-items: center; gap: .35rem; margin: -.25rem .4rem 1rem 0; padding: .3rem .8rem; border-radius: 999px;
   font-size: .85rem; font-weight: 600; background: rgba(16, 185, 129, .12); color: #059669; border: 1px solid rgba(16, 185, 129, .35); }
-.sidebar-tree a.reference.is-done::after { content: "✓"; margin-left: .4rem; font-weight: 800; color: #10b981; }
-.sidebar-progress { margin: .25rem var(--sidebar-item-spacing-horizontal, 1rem) .75rem; font-size: .8rem; color: var(--color-foreground-secondary); }
-.sidebar-progress .bar { height: 6px; border-radius: 999px; background: var(--color-background-border); overflow: hidden; margin-top: .35rem; }
+.globaltoc a.reference.is-done::after { content: "✓"; margin-left: .4rem; font-weight: 800; color: #10b981; }
+.sidebar-progress { margin: 0 0 1.25rem; padding: .75rem .9rem; border-radius: 12px; font-size: .82rem; font-weight: 600;
+  color: var(--sy-c-text); background: var(--sy-c-surface); border: 1px solid var(--sy-c-border); }
+.sidebar-progress .bar { height: 6px; border-radius: 999px; background: var(--sy-c-border); overflow: hidden; margin-top: .45rem; }
 .sidebar-progress .bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #2563eb, #10b981); }
 
 /* Quiz card injected by quiz.js */
 .quiz-chip { display: inline-flex; align-items: center; gap: .4rem; margin: -.25rem 0 1rem; padding: .3rem .8rem; border-radius: 999px;
-  font-size: .85rem; font-weight: 600; text-decoration: none; background: var(--color-sidebar-item-background--hover);
-  color: var(--color-brand-primary); border: 1px solid var(--color-background-border); }
-.quiz-chip:hover { border-color: var(--color-brand-content); }
+  font-size: .85rem; font-weight: 600; text-decoration: none !important; background: var(--accent-a3, rgba(37, 99, 235, .1));
+  color: var(--sy-c-link); border: 1px solid var(--sy-c-border); }
+.quiz-chip:hover { border-color: var(--sy-c-link); }
 .quiz-card { margin: 2.5rem 0 1rem; padding: 1.4rem 1.5rem; border-radius: 16px; color: #fff;
   background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 60%, #38bdf8 100%); box-shadow: 0 14px 40px rgba(30, 58, 138, .25); }
-.quiz-card h2 { margin: 0 0 .25rem !important; padding: 0 !important; border: 0 !important; color: #fff; font-size: 1.3rem; }
+.quiz-card h2 { margin: 0 0 .25rem !important; padding: 0 !important; border: 0 !important; color: #fff !important; font-size: 1.3rem; }
 .quiz-card > p { margin: 0 0 1rem; opacity: .9; }
 .quiz-card .quiz-item { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   padding: .8rem 1rem; border-radius: 12px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .2); }
 .quiz-card .quiz-item + .quiz-item { margin-top: .6rem; }
-.quiz-card .quiz-item strong { display: block; }
+.quiz-card .quiz-item strong { display: block; color: #fff; }
 .quiz-card .quiz-item small { opacity: .85; }
 .quiz-card .quiz-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
 .quiz-card a.quiz-btn { display: inline-block; padding: .5rem 1rem; border-radius: 10px; font-weight: 700; text-decoration: none;
-  background: #fff; color: #1d4ed8; }
-.quiz-card a.quiz-btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, .5); }
+  background: #fff; color: #1d4ed8 !important; }
+.quiz-card a.quiz-btn.ghost { background: transparent; color: #fff !important; border: 1px solid rgba(255, 255, 255, .5); }
 .quiz-card a.quiz-btn:hover { filter: brightness(.95); }
-.quiz-card .quiz-all { display: inline-block; margin-top: .9rem; color: #fff; font-size: .9rem; opacity: .9; }
+.quiz-card .quiz-all { display: inline-block; margin-top: .9rem; color: #fff !important; font-size: .9rem; opacity: .9; }
+
+/* Footer social icons (inline SVG, no third-party icon service) */
+.portal-socials { display: flex; gap: .75rem; align-items: center; }
+.portal-socials a { color: var(--sy-c-foot-text, var(--sy-c-light)); display: inline-flex; }
+.portal-socials a:hover { color: var(--sy-c-link); }
+.portal-socials svg { width: 20px; height: 20px; }
 """
+
 
 # Adds the "Check your understanding" card to docs pages that have a quiz. Quizzes are
 # fetched at view time, so adding one in the admin doesn't need a docs rebuild.
@@ -254,15 +214,15 @@ PROGRESS_JS = r"""
   var state = null;
 
   function renderSidebar() {
-    document.querySelectorAll(".sidebar-tree a.reference").forEach(function (a) {
+    document.querySelectorAll(".globaltoc a.reference").forEach(function (a) {
       a.classList.toggle("is-done", state.done.has(pageOf(a.href)));
     });
     var holder = document.querySelector(".sidebar-progress");
     if (!state.total) { if (holder) holder.remove(); return; }
     if (!holder) {
       holder = el("div", { class: "sidebar-progress" });
-      var anchor = document.querySelector(".sidebar-search-container") || document.querySelector(".sidebar-brand");
-      if (anchor) anchor.insertAdjacentElement("afterend", holder); else return;
+      var anchor = document.querySelector(".globaltoc");
+      if (anchor) anchor.insertAdjacentElement("beforebegin", holder); else return;
     }
     var count = state.done.size, pct = Math.round(100 * count / state.total);
     holder.textContent = count === state.total ? "\ud83c\udfc6 Course completed!" : count + " of " + state.total + " chapters completed";
@@ -288,7 +248,7 @@ PROGRESS_JS = r"""
     if (done) {
       text.appendChild(el("strong", null, "\u2705 You've completed this chapter"));
       text.appendChild(el("span", null, state.done.size + " of " + state.total + " chapters done in this course."));
-      var next = document.querySelector(".related-pages a.next-page");
+      var next = document.querySelector(".navigation-next a");
       if (next) {
         var title = next.querySelector(".title");
         actions.appendChild(el("a", { class: "pp-btn next", href: next.href }, "Next: " + (title ? title.textContent.trim() : "chapter") + " \u2192"));
@@ -342,7 +302,8 @@ PROGRESS_JS = r"""
 """
 
 
-# Wraps Furo's base.html: brand SEO tags on every docs page and "| Parottasalna" in titles.
+# Wraps the theme's base.html: brand SEO tags on every docs page and "| Parottasalna" in titles.
+# (Shibuya already adds og:type, og:title and twitter:card, so those aren't repeated here.)
 BASE_TEMPLATE = """{% extends "!base.html" %}
 {%- block htmltitle -%}
   {%- if pagename == master_doc -%}
@@ -358,11 +319,8 @@ BASE_TEMPLATE = """{% extends "!base.html" %}
 <meta name="author" content="{{ brand_author|e }}">
 <meta name="robots" content="{{ brand_robots|e }}">
 <meta name="theme-color" content="{{ brand_theme_color|e }}">
-<meta property="og:type" content="article">
 <meta property="og:site_name" content="{{ brand_name|e }}">
-<meta property="og:title" content="{{ title|striptags|e }} - {{ docstitle|striptags|e }}">
 <meta property="og:description" content="{{ brand_description|e }}">
-<meta name="twitter:card" content="summary">
 <script type="application/ld+json">{{ brand_json_ld }}</script>
 <meta name="portal-quiz-feed" content="{{ quiz_feed_url|e }}">
 <meta name="portal-page" content="{{ pagename|e }}">
@@ -372,16 +330,26 @@ BASE_TEMPLATE = """{% extends "!base.html" %}
 """
 
 
-def _footer_icons():
-    return [
-        {
-            "name": link["name"],
-            "url": link["url"],
-            "html": f'<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="{link["icon"]}"/></svg>',
-            "class": "",
-        }
+# Shibuya runs relative nav URLs through pathto() (docs-relative); ours are site-relative ("/").
+NAV_LINKS_TEMPLATE = """<ul>
+  {%- for link in theme_nav_links %}
+  <li class="link"><a href="{{ link.url|e }}"{% if link.external %} target="_blank" rel="noopener"{% endif %}><span>{{ link.title|e }}</span></a></li>
+  {%- endfor %}
+</ul>
+"""
+
+# Footer: copyright line plus brand social icons as inline SVG (Shibuya's icons load from a CDN).
+FOOT_COPYRIGHT_TEMPLATE = """<div class="sy-foot-copyright"><p>&copy; {{ brand_name|e }} \u00b7 {{ brand_author|e }}</p></div>
+"""
+
+
+def _foot_socials_template():
+    links = "".join(
+        f'<a href="{link["url"]}" target="_blank" rel="noopener" aria-label="{link["name"]}" title="{link["name"]}">'
+        f'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="{link["icon"]}"/></svg></a>'
         for link in branding.SOCIAL_LINKS
-    ]
+    )
+    return f'<div class="portal-socials">{links}</div>\n'
 
 
 def _conf_py(course: Course) -> str:
@@ -427,20 +395,24 @@ copybutton_prompt_text = r">>> |\\.\\.\\. |\\$ "
 copybutton_prompt_is_regexp = True
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*"]
 """
-    if settings.SPHINX_THEME == "furo":
+    if settings.SPHINX_THEME == "shibuya":
+        nav_links = [{"title": "All courses", "url": "/"}]
+        if not course.is_common:  # common-course readers mostly aren't enrolled, so no quizzes
+            nav_links.append({"title": "Quizzes", "url": reverse("quiz_list", args=[course.slug])})
+        nav_links.append({"title": "YouTube", "url": branding.YOUTUBE, "external": True})
         options = {
+            "accent_color": "blue",
             "announcement": (
-                '<a href="/">&larr; All courses</a> &nbsp;·&nbsp; '
-                + ("" if course.is_common else
-                   f'<a href="{reverse("quiz_list", args=[course.slug])}">📝 Quizzes</a> &nbsp;·&nbsp; ')
-                + f'{branding.CADENCE} <a href="{branding.YOUTUBE_SUBSCRIBE}" target="_blank" '
+                f'{branding.CADENCE} <a href="{branding.YOUTUBE_SUBSCRIBE}" target="_blank" '
                 f'rel="noopener">Subscribe to {branding.NAME} on YouTube</a>'
             ),
-            "footer_icons": _footer_icons(),
-            "light_css_variables": FURO_LIGHT,
-            "dark_css_variables": FURO_DARK,
-            "sidebar_hide_name": False,
-            "navigation_with_keys": True,
+            "nav_links": nav_links,
+            "globaltoc_expand_depth": 1,
+            # No "Open in ChatGPT/Claude" links: they would send students' page URLs to third parties.
+            "show_ai_links": False,
+            # Social icons come from our own footer template (inline SVG, no icon CDN).
+            "nav_socials": [],
+            "foot_socials": [],
         }
         conf += f"html_theme_options = {options!r}\n"
     return conf
@@ -458,8 +430,13 @@ def _write_conf(conf_dir: Path, course: Course):
     shutil.copyfile(brand_dir / "logo-192.png", static / "logo.png")
     templates = conf_dir / "_templates"
     templates.mkdir()
-    if settings.SPHINX_THEME == "furo":
+    if settings.SPHINX_THEME == "shibuya":
         (templates / "base.html").write_text(BASE_TEMPLATE, encoding="utf-8")
+        (templates / "components").mkdir()
+        (templates / "partials").mkdir()
+        (templates / "components" / "nav-links.html").write_text(NAV_LINKS_TEMPLATE, encoding="utf-8")
+        (templates / "components" / "foot-copyright.html").write_text(FOOT_COPYRIGHT_TEMPLATE, encoding="utf-8")
+        (templates / "partials" / "foot-socials.html").write_text(_foot_socials_template(), encoding="utf-8")
 
 
 @contextlib.contextmanager

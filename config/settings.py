@@ -142,7 +142,7 @@ SOCIALACCOUNT_PROVIDERS = {
 COURSES_SRC_ROOT = Path(os.environ.get("COURSES_SRC_ROOT", BASE_DIR / "course_content"))
 # Built HTML lands in DOCS_BUILD_ROOT/<slug>/html/. Keep this OUTSIDE static/media roots.
 DOCS_BUILD_ROOT = Path(os.environ.get("DOCS_BUILD_ROOT", BASE_DIR / "docs_build"))
-SPHINX_THEME = os.environ.get("SPHINX_THEME", "furo")
+SPHINX_THEME = os.environ.get("SPHINX_THEME", "shibuya")
 SPHINX_BUILD_TIMEOUT = int(os.environ.get("SPHINX_BUILD_TIMEOUT", "300"))
 
 # In production Nginx streams the files; Django only authorises (see deploy/nginx.conf).
