@@ -147,6 +147,53 @@ details.source > :not(summary) { margin: .5rem .75rem; }
 .quiz-card a.quiz-btn:hover { filter: brightness(.95); }
 .quiz-card .quiz-all { display: inline-block; margin-top: .9rem; color: #fff !important; font-size: .9rem; opacity: .9; }
 
+/* Private notes (notes.js) */
+.pn-fab { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 60; display: inline-flex; align-items: center; gap: .45rem;
+  font: inherit; font-weight: 700; font-size: .92rem; padding: .65rem 1rem; border-radius: 999px; border: 0; cursor: pointer;
+  color: #fff; background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 10px 28px rgba(29, 78, 216, .35); }
+.pn-fab:hover { filter: brightness(1.06); }
+.pn-fab .pn-count { min-width: 1.4rem; padding: 0 .35rem; border-radius: 999px; background: #fff; color: #1d4ed8; font-size: .78rem; text-align: center; }
+.pn-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(420px, 100vw); display: flex; flex-direction: column;
+  background: var(--sy-c-background); color: var(--sy-c-text); border-left: 1px solid var(--sy-c-border);
+  box-shadow: -18px 0 50px rgba(15, 23, 42, .18); }
+.pn-drawer[hidden] { display: none; }
+.pn-head { display: flex; align-items: center; justify-content: space-between; padding: .9rem 1.1rem; border-bottom: 1px solid var(--sy-c-border); }
+.pn-head strong { color: var(--sy-c-heading); }
+.pn-close { font-size: 1.5rem; line-height: 1; background: none; border: 0; cursor: pointer; color: var(--sy-c-light); padding: .2rem .4rem; }
+.pn-composer { padding: .9rem 1.1rem; border-bottom: 1px solid var(--sy-c-border); }
+.pn-drawer textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: .93rem; padding: .6rem .7rem; border-radius: 10px; resize: vertical;
+  color: var(--sy-c-text); background: var(--sy-c-surface); border: 1px solid var(--sy-c-border); }
+.pn-drawer textarea:focus { outline: 2px solid #2563eb; outline-offset: 1px; }
+.pn-row { display: flex; align-items: center; justify-content: flex-end; gap: .6rem; margin-top: .5rem; flex-wrap: wrap; }
+.pn-status { margin-right: auto; font-size: .82rem; color: var(--sy-c-light); }
+.pn-btn { font: inherit; font-weight: 700; font-size: .88rem; padding: .45rem .9rem; border-radius: 9px; border: 0; cursor: pointer;
+  color: #fff; background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+.pn-btn[disabled] { opacity: .6; cursor: wait; }
+.pn-link { font: inherit; font-size: .8rem; background: none; border: 0; padding: 0; cursor: pointer; color: var(--sy-c-link); }
+.pn-link.danger { color: #dc2626; }
+.pn-quote-pending { margin-bottom: .6rem; }
+.pn-quote-pending small { display: block; font-size: .78rem; color: var(--sy-c-light); margin: .25rem 0; }
+.pn-drawer blockquote { margin: 0 0 .5rem; padding: .4rem .7rem; border-left: 3px solid #2563eb; border-radius: 0 8px 8px 0;
+  background: rgba(37, 99, 235, .08); font-size: .86rem; white-space: pre-wrap; max-height: 9rem; overflow: auto; }
+.pn-list { flex: 1; overflow-y: auto; padding: .9rem 1.1rem; display: flex; flex-direction: column; gap: .7rem; }
+.pn-note { padding: .75rem .85rem; border-radius: 12px; border: 1px solid var(--sy-c-border); background: var(--sy-c-surface); transition: box-shadow .3s; }
+.pn-note.pn-flash { box-shadow: 0 0 0 3px rgba(37, 99, 235, .45); }
+.pn-body { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .93rem; }
+.pn-meta { display: flex; flex-wrap: wrap; gap: .3rem .8rem; align-items: center; margin-top: .5rem; font-size: .78rem; color: var(--sy-c-light); }
+.pn-meta a { color: var(--sy-c-link); }
+.pn-empty { font-size: .9rem; color: var(--sy-c-light); }
+.pn-foot { padding: .75rem 1.1rem; border-top: 1px solid var(--sy-c-border); font-size: .88rem; font-weight: 600; }
+.pn-select { position: absolute; z-index: 65; font: inherit; font-size: .82rem; font-weight: 700; padding: .35rem .7rem; border-radius: 999px;
+  border: 0; cursor: pointer; color: #fff; background: #1d4ed8; box-shadow: 0 6px 18px rgba(29, 78, 216, .35); }
+.pn-select[hidden] { display: none; }
+.pn-marker { margin-left: .5rem; vertical-align: middle; font: inherit; font-size: .72rem; font-weight: 700; padding: .1rem .5rem;
+  border-radius: 999px; cursor: pointer; color: var(--sy-c-link); background: rgba(37, 99, 235, .1); border: 1px solid rgba(37, 99, 235, .3); }
+@media (max-width: 640px) {
+  .pn-drawer { top: auto; height: 78vh; width: 100vw; border-left: 0; border-top: 1px solid var(--sy-c-border); border-radius: 16px 16px 0 0; }
+  .pn-fab { right: .9rem; bottom: .9rem; }
+}
+@media print { .pn-fab, .pn-drawer, .pn-select, .pn-marker { display: none !important; } }
+
 /* Footer social icons (inline SVG, no third-party icon service) */
 .portal-socials { display: flex; gap: .75rem; align-items: center; }
 .portal-socials a { color: var(--sy-c-foot-text, var(--sy-c-light)); display: inline-flex; }
@@ -357,6 +404,251 @@ PROGRESS_JS = r"""
 """
 
 
+# Private notes on docs pages (notes app). Enrolled students and staff only: for anyone else
+# notes.json answers {"enabled": false} and nothing is shown. Note text is always inserted with
+# textContent, never as HTML.
+NOTES_JS = r"""
+(function () {
+  function meta(name) {
+    var node = document.querySelector('meta[name="' + name + '"]');
+    return node ? node.content : "";
+  }
+  var feed = meta("portal-notes"), page = meta("portal-page");
+  var article = document.querySelector("article[role=main]") || document.querySelector("article");
+  if (!feed || !page || !article) return;
+
+  function el(tag, attrs, text) {
+    var node = document.createElement(tag);
+    for (var key in attrs || {}) node.setAttribute(key, attrs[key]);
+    if (text) node.textContent = text;
+    return node;
+  }
+  function csrf() {
+    var match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : "";
+  }
+  function post(url, data) {
+    return fetch(url, {
+      method: "POST", credentials: "same-origin", body: new URLSearchParams(data),
+      headers: { "X-CSRFToken": csrf(), "Accept": "application/json" }
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (body) {
+        if (!r.ok) throw (r.status === 401 || r.status === 403)
+          ? "Your session expired. Refresh the page and sign in again." : (body.error || "Couldn't save. Try again.");
+        return body;
+      });
+    });
+  }
+  function sectionTitle(id) {
+    var section = id && document.getElementById(id);
+    var heading = section && section.querySelector("h1, h2, h3, h4, h5, h6");
+    if (!heading) return "";
+    var copy = heading.cloneNode(true);
+    copy.querySelectorAll(".headerlink, .pn-marker").forEach(function (n) { n.remove(); });
+    return copy.textContent.trim();
+  }
+  function when(iso) {
+    try { return new Date(iso).toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); }
+    catch (e) { return ""; }
+  }
+
+  var state = null, pending = { quote: "", anchor: "" };
+  var fab = el("button", { type: "button", class: "pn-fab", "aria-expanded": "false", "aria-controls": "pn-drawer" });
+  var drawer = el("aside", { id: "pn-drawer", class: "pn-drawer", role: "dialog", "aria-label": "My notes for this page", hidden: "" });
+  var selectBtn = el("button", { type: "button", class: "pn-select", hidden: "" }, "📝 Add note");
+
+  // ---------------------------------------------------------------- drawer
+  var head = el("div", { class: "pn-head" });
+  head.appendChild(el("strong", null, "📝 My notes · this page"));
+  var close = el("button", { type: "button", class: "pn-close", "aria-label": "Close notes" }, "×");
+  head.appendChild(close);
+  var composer = el("form", { class: "pn-composer" });
+  var quoteBox = el("div", { class: "pn-quote-pending", hidden: "" });
+  var textarea = el("textarea", { rows: "4", maxlength: "10000", placeholder: "Write a note…  (Ctrl+Enter to save)", "aria-label": "New note" });
+  var saveRow = el("div", { class: "pn-row" });
+  var status = el("span", { class: "pn-status", role: "status" });
+  var save = el("button", { type: "submit", class: "pn-btn" }, "Save note");
+  saveRow.appendChild(status); saveRow.appendChild(save);
+  composer.appendChild(quoteBox); composer.appendChild(textarea); composer.appendChild(saveRow);
+  var list = el("div", { class: "pn-list" });
+  var foot = el("div", { class: "pn-foot" });
+  drawer.appendChild(head); drawer.appendChild(composer); drawer.appendChild(list); drawer.appendChild(foot);
+
+  function open(focus) {
+    drawer.hidden = false; fab.setAttribute("aria-expanded", "true");
+    document.documentElement.classList.add("pn-open");
+    if (focus) textarea.focus();
+  }
+  function shut() {
+    drawer.hidden = true; fab.setAttribute("aria-expanded", "false");
+    document.documentElement.classList.remove("pn-open");
+  }
+  fab.addEventListener("click", function () { drawer.hidden ? open(true) : shut(); });
+  close.addEventListener("click", shut);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !drawer.hidden) shut(); });
+
+  function setPending(quote, anchor) {
+    pending = { quote: quote || "", anchor: anchor || "" };
+    quoteBox.textContent = "";
+    quoteBox.hidden = !pending.quote;
+    if (!pending.quote) return;
+    quoteBox.appendChild(el("blockquote", null, pending.quote));
+    var title = sectionTitle(pending.anchor);
+    if (title) quoteBox.appendChild(el("small", null, "Section: " + title));
+    var drop = el("button", { type: "button", class: "pn-link", "aria-label": "Remove quote" }, "Remove quote");
+    drop.addEventListener("click", function () { setPending("", ""); textarea.focus(); });
+    quoteBox.appendChild(drop);
+  }
+
+  composer.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var body = textarea.value.trim();
+    if (!body) { status.textContent = "Write something first."; textarea.focus(); return; }
+    save.disabled = true; status.textContent = "Saving…";
+    post(state.create_url, { page: page, anchor: pending.anchor, quote: pending.quote, body: body })
+      .then(function (note) {
+        state.notes.push(note); state.course_count += 1;
+        textarea.value = ""; setPending("", ""); status.textContent = "Saved ✓";
+        render();
+      })
+      .catch(function (msg) { status.textContent = String(msg); })
+      .then(function () { save.disabled = false; });
+  });
+  textarea.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); composer.requestSubmit(); }
+  });
+
+  // ---------------------------------------------------------------- notes list
+  function card(note) {
+    var item = el("article", { class: "pn-note", "data-anchor": note.anchor });
+    if (note.quote) item.appendChild(el("blockquote", null, note.quote));
+    var body = el("div", { class: "pn-body" }, note.body);
+    item.appendChild(body);
+    var metaRow = el("div", { class: "pn-meta" });
+    var title = sectionTitle(note.anchor);
+    if (title) {
+      var jump = el("a", { href: "#" + note.anchor }, "§ " + title);
+      jump.addEventListener("click", function () { if (window.innerWidth < 900) shut(); });
+      metaRow.appendChild(jump);
+    }
+    metaRow.appendChild(el("span", null, when(note.updated)));
+    var edit = el("button", { type: "button", class: "pn-link" }, "Edit");
+    var del = el("button", { type: "button", class: "pn-link danger" }, "Delete");
+    metaRow.appendChild(edit); metaRow.appendChild(del);
+    item.appendChild(metaRow);
+
+    edit.addEventListener("click", function () {
+      var box = el("textarea", { rows: "4", maxlength: "10000", "aria-label": "Edit note" });
+      box.value = note.body;
+      var row = el("div", { class: "pn-row" }), msg = el("span", { class: "pn-status" });
+      var ok = el("button", { type: "button", class: "pn-btn" }, "Save");
+      var cancel = el("button", { type: "button", class: "pn-link" }, "Cancel");
+      row.appendChild(msg); row.appendChild(cancel); row.appendChild(ok);
+      body.replaceWith(box); metaRow.replaceWith(row); box.focus();
+      cancel.addEventListener("click", render);
+      function submit() {
+        if (!box.value.trim()) { msg.textContent = "A note can't be empty."; return; }
+        ok.disabled = true; msg.textContent = "Saving…";
+        post(state.all_url + note.id + "/", { body: box.value.trim() })
+          .then(function (updated) { Object.assign(note, updated); render(); })
+          .catch(function (m) { msg.textContent = String(m); ok.disabled = false; });
+      }
+      ok.addEventListener("click", submit);
+      box.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); submit(); }
+      });
+    });
+    del.addEventListener("click", function () {
+      if (!confirm("Delete this note?")) return;
+      post(state.all_url + note.id + "/delete/", {})
+        .then(function () {
+          state.notes = state.notes.filter(function (n) { return n.id !== note.id; });
+          state.course_count -= 1; render();
+        })
+        .catch(function (m) { alert(m); });
+    });
+    return item;
+  }
+
+  function render() {
+    list.textContent = "";
+    if (!state.notes.length) {
+      list.appendChild(el("p", { class: "pn-empty" }, "No notes on this page yet. Write one above, or select any text in the chapter and click “📝 Add note”."));
+    }
+    state.notes.forEach(function (note) { list.appendChild(card(note)); });
+    foot.textContent = "";
+    foot.appendChild(el("a", { href: state.all_url }, "All my notes in this course (" + state.course_count + ") →"));
+    fab.textContent = "📝 Notes";
+    if (state.notes.length) fab.appendChild(el("span", { class: "pn-count" }, String(state.notes.length)));
+    markHeadings();
+  }
+
+  function markHeadings() {
+    document.querySelectorAll(".pn-marker").forEach(function (n) { n.remove(); });
+    var counts = {};
+    state.notes.forEach(function (n) { if (n.anchor) counts[n.anchor] = (counts[n.anchor] || 0) + 1; });
+    Object.keys(counts).forEach(function (id) {
+      var section = document.getElementById(id);
+      var heading = section && section.querySelector("h1, h2, h3, h4, h5, h6");
+      if (!heading) return;
+      var marker = el("button", { type: "button", class: "pn-marker", title: counts[id] + " note(s) on this section" }, "📝 " + counts[id]);
+      marker.addEventListener("click", function () {
+        open(false);
+        var first = list.querySelector('.pn-note[data-anchor="' + CSS.escape(id) + '"]');
+        if (first) { first.scrollIntoView({ block: "nearest" }); first.classList.add("pn-flash"); setTimeout(function () { first.classList.remove("pn-flash"); }, 1200); }
+      });
+      heading.appendChild(marker);
+    });
+  }
+
+  // ---------------------------------------------------------------- select text → note
+  function selectionInfo() {
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
+    var range = sel.getRangeAt(0);
+    var node = range.commonAncestorContainer;
+    if (node.nodeType !== 1) node = node.parentElement;
+    if (!node || !article.contains(node) || drawer.contains(node)) return null;
+    var text = sel.toString().replace(/\s+\n/g, "\n").trim();
+    if (text.length < 3) return null;
+    var start = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement;
+    var section = start && start.closest("section[id]");
+    return { text: text.slice(0, 1000), anchor: section ? section.id : "", rect: range.getBoundingClientRect() };
+  }
+  var timer = null;
+  function placeSelectBtn() {
+    if (!state) return;
+    var info = selectionInfo();
+    if (!info) { selectBtn.hidden = true; return; }
+    selectBtn.hidden = false;
+    var top = window.scrollY + info.rect.bottom + 8, left = window.scrollX + info.rect.left;
+    left = Math.max(8, Math.min(left, window.scrollX + document.documentElement.clientWidth - selectBtn.offsetWidth - 8));
+    selectBtn.style.top = top + "px"; selectBtn.style.left = left + "px";
+  }
+  document.addEventListener("selectionchange", function () { clearTimeout(timer); timer = setTimeout(placeSelectBtn, 250); });
+  selectBtn.addEventListener("mousedown", function (e) { e.preventDefault(); });  // keep the selection
+  selectBtn.addEventListener("click", function () {
+    var info = selectionInfo();
+    if (!info) return;
+    setPending(info.text, info.anchor);
+    selectBtn.hidden = true;
+    window.getSelection().removeAllRanges();
+    open(true);
+  });
+
+  fetch(feed + "?page=" + encodeURIComponent(page), { credentials: "same-origin", headers: { Accept: "application/json" } })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !data.enabled) return;  // not enrolled (or signed out): no notes UI, nothing stored
+      state = data;
+      document.body.appendChild(fab); document.body.appendChild(drawer); document.body.appendChild(selectBtn);
+      render();
+    })
+    .catch(function () {});
+})();
+"""
+
+
 # Wraps the theme's base.html: brand SEO tags on every docs page and "| Parottasalna" in titles.
 # (Shibuya already adds og:type, og:title and twitter:card, so those aren't repeated here.)
 BASE_TEMPLATE = """{% extends "!base.html" %}
@@ -381,6 +673,7 @@ BASE_TEMPLATE = """{% extends "!base.html" %}
 <meta name="portal-page" content="{{ pagename|e }}">
 <meta name="portal-progress" content="{{ progress_url|e }}">
 <meta name="portal-docs-root" content="{{ docs_root|e }}">
+<meta name="portal-notes" content="{{ notes_url|e }}">
 {%- endblock -%}
 """
 
@@ -421,6 +714,7 @@ def _conf_py(course: Course) -> str:
         "brand_json_ld": branding.json_ld(""),
         "quiz_feed_url": reverse("quiz_feed", args=[course.slug]),
         "progress_url": reverse("course_progress", args=[course.slug]),
+        "notes_url": reverse("notes_json", args=[course.slug]),
         "docs_root": reverse("course_docs", args=[course.slug]),
         # Common courses are public, so let search engines index them.
         "brand_robots": "index, follow" if course.is_common else "noindex, follow",
@@ -442,7 +736,7 @@ html_favicon = "_static/favicon.ico"
 html_logo = "_static/logo.png"
 html_context = {context!r}
 html_css_files = ["portal.css"]
-html_js_files = ["progress.js", "quiz.js"]
+html_js_files = ["progress.js", "quiz.js", "notes.js"]
 html_show_sourcelink = False
 html_show_copyright = False
 html_copy_source = False
@@ -454,6 +748,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*"]
         nav_links = [{"title": "All courses", "url": "/"}]
         if not course.is_common:  # common-course readers mostly aren't enrolled, so no quizzes
             nav_links.append({"title": "Practice", "url": reverse("quiz_list", args=[course.slug])})
+            nav_links.append({"title": "My notes", "url": reverse("course_notes", args=[course.slug])})
         nav_links.append({"title": "YouTube", "url": branding.YOUTUBE, "external": True})
         options = {
             "accent_color": "blue",
@@ -480,6 +775,7 @@ def _write_conf(conf_dir: Path, course: Course):
     (static / "portal.css").write_text(PORTAL_CSS, encoding="utf-8")
     (static / "quiz.js").write_text(QUIZ_JS, encoding="utf-8")
     (static / "progress.js").write_text(PROGRESS_JS, encoding="utf-8")
+    (static / "notes.js").write_text(NOTES_JS, encoding="utf-8")
     brand_dir = Path(settings.BASE_DIR) / "static" / "brand"
     shutil.copyfile(brand_dir / "favicon.ico", static / "favicon.ico")
     shutil.copyfile(brand_dir / "logo-192.png", static / "logo.png")

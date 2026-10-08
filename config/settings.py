@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "courses",
     "quizzes",
     "blog",
+    "notes",
 ]
 
 MIDDLEWARE = [
@@ -161,6 +162,10 @@ BLOG_CANONICAL_TO_WORDPRESS = env_bool("BLOG_CANONICAL_TO_WORDPRESS", True)
 # In production Nginx streams the files; Django only authorises (see deploy/nginx.conf).
 USE_X_ACCEL_REDIRECT = env_bool("USE_X_ACCEL_REDIRECT", False)
 X_ACCEL_PREFIX = "/protected-docs/"
+
+# YouTube embeds refuse to play (error 153) without a referrer. This browser default sends other
+# sites only our origin (https://learn.parottasalna.com), never the page path or query string.
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 # --- Production hardening -----------------------------------------------------
 if not DEBUG:

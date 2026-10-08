@@ -28,6 +28,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         {% if course.tracked and course.quiz_count or course.tracked and course.deck_count or user.is_staff %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'quiz_list' course.slug %}">📝 Quizzes &amp; flashcards</a>{% endif %}
+        {% if course.tracked %}<a class="btn ghost block" style="margin-top:.5rem" href="{% url 'course_notes' course.slug %}">🗒 My notes</a>{% endif %}
       {% else %}
         <span class="pending">Notes will appear here after the first session.</span>
       {% endif %}

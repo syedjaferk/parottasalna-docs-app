@@ -89,10 +89,12 @@
   <ul>
     <li>which chapters you mark as complete, and when</li>
     <li>your quiz answers, scores and the time of each attempt</li>
+    <li>your flashcard progress (which cards you marked as known)</li>
+    <li>the private notes you write on chapters, including any text you quote from the page</li>
   </ul>
   <p>
     Anyone can read our free “common” courses without signing in. For readers who are not enrolled
-    in a course, we store no progress or quiz data for that course.
+    in a course, we store no progress, quiz or notes data for that course.
   </p>
 
   <h3>d) Technical information</h3>
@@ -110,6 +112,7 @@
       <tr><td>Name, email, Google account ID</td><td>sign you in, recognise you on your next visit, and check which courses you are enrolled in</td></tr>
       <tr><td>Name and email</td><td>show who is signed in, and let your instructor match progress and scores to students</td></tr>
       <tr><td>Progress and quiz results</td><td>show your progress and best scores, and give your instructor a class scoreboard</td></tr>
+      <tr><td>Your notes</td><td>show your notes back to you on each chapter and on your “My notes” page, and let you download them</td></tr>
       <tr><td>Cookies and server logs</td><td>keep you signed in, prevent abuse (for example rate limiting), and fix problems</td></tr>
     </tbody>
   </table>
@@ -138,7 +141,8 @@
 
   <h2 id="sharing">4. Who can see your data</h2>
   <ul>
-    <li><strong>You</strong> can see your own progress and quiz results.</li>
+    <li><strong>You</strong> can see your own progress, quiz results and notes.</li>
+    <li><strong>Your notes are private:</strong> no other user, and not your instructor, can see them in the app. Like all data, they are stored in our database and its encrypted backups.</li>
     <li><strong>Your instructor and the portal administrators</strong> can see the names and email
       addresses of enrolled students, their chapter progress and their quiz answers and scores.</li>
     <li><strong>Other students cannot</strong> see your progress, answers or scores.</li>
@@ -152,6 +156,7 @@
     <tbody>
       <tr><td>Google Sign-In</td><td>to sign you in</td><td>the sign-in request; Google's own <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy</a> applies</td></tr>
       <tr><td>Google Fonts</td><td>to display the site's fonts</td><td>your IP address and browser details when fonts load</td></tr>
+      <tr><td>Google Drive</td><td>to keep off-site database backups, so data isn't lost if our server fails</td><td>a nightly copy of the database, <strong>encrypted on our server before upload</strong> (AES-256); Google cannot read it</td></tr>
       <tr><td>YouTube (privacy-enhanced mode)</td><td>some course pages embed lesson videos</td><td>loaded from <code>youtube-nocookie.com</code> when you open those pages; YouTube's policies apply if you play a video</td></tr>
     </tbody>
   </table>
@@ -170,12 +175,12 @@
 
   <h2 id="retention">7. How long we keep data</h2>
   <ul>
-    <li><strong>Account, progress and quiz data:</strong> for as long as you are enrolled or your
+    <li><strong>Account, progress, quiz and notes data:</strong> for as long as you are enrolled or your
       account exists, so you can return to your work. When you ask us to delete your account, we
       delete it within 30 days.</li>
     <li><strong>Sign-in sessions:</strong> they expire after 2 weeks, or when you sign out.</li>
     <li><strong>Server logs:</strong> rotated automatically and kept only for a short time.</li>
-    <li><strong>Backups:</strong> deleted data may remain in database backups until those backups are replaced.</li>
+    <li><strong>Backups:</strong> kept for 14 days on our server and 30 days (encrypted) on Google Drive; deleted data may remain in a backup until that backup expires.</li>
   </ul>
 
   <h2 id="security">8. Security</h2>
@@ -190,8 +195,8 @@
   <ul>
     <li><strong>see</strong> the personal data we hold about you</li>
     <li><strong>correct</strong> anything that's wrong</li>
-    <li><strong>delete</strong> your account, progress and quiz data</li>
-    <li><strong>export</strong> your progress and quiz results</li>
+    <li><strong>delete</strong> your account, progress, quiz and notes data (you can delete single notes yourself at any time)</li>
+    <li><strong>export</strong> your progress and quiz results (your notes can be downloaded from the “My notes” page)</li>
   </ul>
   <p>
     Contact us using the details below. You can also stop using the app and remove its access from

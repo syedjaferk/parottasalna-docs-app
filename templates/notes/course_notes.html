@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load quiz_extras %}
+{% block title %}My notes · {{ course.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_style %}
+{% include "quizzes/_styles.html" %}
+  .page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .page-head h1 { margin: 0 0 .3rem; }
+  .head-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .chapter { margin: 0 0 1.75rem; }
+  .chapter h2 { font-size: 1.15rem; margin: 0 0 .75rem; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+  .chapter h2 a { color: inherit; text-decoration: none; }
+  .chapter h2 a:hover { color: var(--accent); }
+  .chapter h2 .count { font-size: .8rem; font-weight: 600; color: var(--muted); }
+  .note { padding: 1rem 1.2rem; border-radius: 14px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .note + .note { margin-top: .75rem; }
+  .note blockquote { margin: 0 0 .7rem; padding: .45rem .8rem; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+    background: var(--accent-soft); color: var(--fg); font-size: .92rem; white-space: pre-wrap; }
+  .note .body > :first-child { margin-top: 0; }
+  .note .body > :last-child { margin-bottom: 0; }
+  .note .body pre { overflow-x: auto; }
+  .note .foot { margin-top: .6rem; font-size: .8rem; color: var(--muted); display: flex; gap: .8rem; flex-wrap: wrap; }
+  .note .foot a { color: var(--muted); }
+  .empty { text-align: center; padding: 3rem 1.5rem; }
+  @media print {
+    .head-actions, .crumbs, .site-header, .site-footer, header, footer { display: none !important; }
+    .note { box-shadow: none; break-inside: avoid; }
+  }
+{% endblock %}
+{% block content %}
+<nav class="crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{{ docs_root }}">{{ course.title }}</a> / My notes</nav>
+<div class="page-head">
+  <div>
+    <h1>📝 My notes</h1>
+    <p class="muted">{{ total }} note{{ total|pluralize }} in {{ course.title }}. Only you can see them.
+      Add notes from any chapter: select text, or use the <strong>Notes</strong> button.</p>
+  </div>
+  {% if total %}
+  <div class="head-actions">
+    <a class="btn ghost sm" href="{% url 'course_notes_markdown' course.slug %}">⬇ Download (.md)</a>
+    <button class="btn ghost sm" type="button" onclick="window.print()">🖨 Print</button>
+  </div>
+  {% endif %}
+</div>
+
+{% for page, title, notes in groups %}
+<section class="chapter">
+  <h2><a href="{{ docs_root }}{{ page }}.html">{{ title }}</a><span class="count">{{ notes|length }} note{{ notes|length|pluralize }}</span></h2>
+  {% for note in notes %}
+  <article class="note">
+    {% if note.quote %}<blockquote>{{ note.quote }}</blockquote>{% endif %}
+    <div class="body md">{{ note.body|markdown }}</div>
+    <div class="foot">
+      <span>{{ note.updated_at|date:"j M Y, H:i" }}</span>
+      <a href="{{ docs_root }}{{ page }}.html{% if note.anchor %}#{{ note.anchor }}{% endif %}">Open in chapter →</a>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% empty %}
+<div class="card empty">
+  <h2>No notes yet</h2>
+  <p class="muted">Open a chapter, select any sentence and click <strong>📝 Add note</strong>, or use the
+    <strong>Notes</strong> button at the bottom right of every page.</p>
+  <a class="btn" href="{{ docs_root }}">Open the course</a>
+</div>
+{% endfor %}
+{% endblock %}

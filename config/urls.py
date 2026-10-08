@@ -6,5 +6,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),  # provides /accounts/google/login/callback/
     path("", include("blog.urls")),
     path("", include("quizzes.urls")),
+    path("", include("notes.urls")),
     path("", include("courses.urls")),
 ]
