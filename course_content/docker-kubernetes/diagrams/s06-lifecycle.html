@@ -1,0 +1,31 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 210" role="img" aria-labelledby="s06-lifecycle-t s06-lifecycle-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s06-lifecycle-t">Container lifecycle</title>
+<desc id="s06-lifecycle-d">A container moves between these states. Stopping keeps it (and its files); removing deletes it.</desc>
+<defs><marker id="s06-lifecycle-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s06-lifecycle-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s06-lifecycle-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s06-lifecycle-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="135" height="50" rx="10" class="box"/>
+<text x="87.5" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Created</text>
+<text x="87.5" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">docker create</text>
+<rect x="175" y="40" width="135" height="50" rx="10" class="green"/>
+<text x="242.5" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Running</text>
+<text x="242.5" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">docker start / run</text>
+<rect x="330" y="40" width="135" height="50" rx="10" class="amber"/>
+<text x="397.5" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Paused</text>
+<text x="397.5" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">docker pause</text>
+<rect x="485" y="40" width="135" height="50" rx="10" class="amber"/>
+<text x="552.5" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Stopped</text>
+<text x="552.5" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">docker stop</text>
+<path d="M155,65 L173,65" class="arrow" marker-end="url(#s06-lifecycle-h)"/>
+<path d="M310,58 L328,58" class="arrow" marker-end="url(#s06-lifecycle-h)"/>
+<path d="M328,76 L310,76" class="arrow" marker-end="url(#s06-lifecycle-h)"/>
+<path d="M310,85 L310,120 L552,120 L552,92" class="arrow" marker-end="url(#s06-lifecycle-h)"/>
+<text x="430" y="133" text-anchor="middle" dominant-baseline="middle" class="small">docker stop</text>
+<path d="M552,40 L552,20 L242,20 L242,38" class="arrow green" marker-end="url(#s06-lifecycle-h-green)"/>
+<text x="400" y="12" text-anchor="middle" dominant-baseline="middle" class="small">docker start (again)</text>
+<path d="M620,65 L640,65 L640,150 L612,150" class="arrow red" marker-end="url(#s06-lifecycle-h-red)"/>
+<rect x="485" y="135" width="125" height="40" rx="10" class="red"/>
+<text x="547.5" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">Removed</text>
+<text x="668" y="108" text-anchor="middle" dominant-baseline="middle" class="small">docker rm</text>
+</svg>
+<figcaption>A container moves between these states. Stopping keeps it (and its files); removing deletes it.</figcaption>
+</figure>

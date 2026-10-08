@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 200" role="img" aria-labelledby="s09-context-t s09-context-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-context-t">The build context and .dockerignore</title>
+<desc id="s09-context-d">The dot in docker build . is the build context: that folder is sent to the builder. .dockerignore keeps junk and secrets out of it.</desc>
+<defs><marker id="s09-context-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-context-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-context-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-context-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="220" height="100" rx="10" class="blue"/>
+<text x="130.0" y="40.0" text-anchor="middle" dominant-baseline="middle">your project folder</text>
+<text x="130.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">app.py</text>
+<text x="130.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">requirements.txt</text>
+<text x="130.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="code">Dockerfile</text>
+<rect x="20" y="130" width="220" height="48" rx="10" class="red"/>
+<text x="130.0" y="144.0" text-anchor="middle" dominant-baseline="middle">ignored:</text>
+<text x="130.0" y="164.0" text-anchor="middle" dominant-baseline="middle" class="code">.venv/  .git/  .env</text>
+<rect x="280" y="70" width="160" height="60" rx="10" class="amber"/>
+<text x="360.0" y="90.0" text-anchor="middle" dominant-baseline="middle">.dockerignore</text>
+<text x="360.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">filters the context</text>
+<path d="M240,100 L278,100" class="arrow" marker-end="url(#s09-context-h)"/>
+<path d="M440,100 L478,100" class="arrow" marker-end="url(#s09-context-h)"/>
+<text x="470" y="85" text-anchor="middle" dominant-baseline="middle" class="small">sent to builder</text>
+<rect x="480" y="25" width="220" height="150" rx="10" class="green"/>
+<text x="590.0" y="70.0" text-anchor="middle" dominant-baseline="middle">Builder</text>
+<text x="590.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">small, fast context</text>
+<text x="590.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">no secrets in layers</text>
+<text x="590.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">COPY only sees this</text>
+</svg>
+<figcaption>The dot in docker build . is the build context: that folder is sent to the builder. .dockerignore keeps junk and secrets out of it.</figcaption>
+</figure>

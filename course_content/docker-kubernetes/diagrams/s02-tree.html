@@ -1,0 +1,35 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s02-tree-t s02-tree-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s02-tree-t">A process tree</title>
+<desc id="s02-tree-d">Every process has a parent (its PPID). PID 1 starts first and is the ancestor of everything else.</desc>
+<defs><marker id="s02-tree-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s02-tree-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s02-tree-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s02-tree-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="270" y="15" width="180" height="44" rx="10" class="amber"/>
+<text x="360.0" y="27.0" text-anchor="middle" dominant-baseline="middle">PID 1</text>
+<text x="360.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="code">systemd</text>
+<path d="M360,59 L130,98" class="arrow" marker-end="url(#s02-tree-h)"/>
+<rect x="60" y="100" width="140" height="44" rx="10" class="blue"/>
+<text x="130.0" y="112.0" text-anchor="middle" dominant-baseline="middle">PID 312</text>
+<text x="130.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="code">sshd</text>
+<path d="M360,59 L360,98" class="arrow" marker-end="url(#s02-tree-h)"/>
+<rect x="290" y="100" width="140" height="44" rx="10" class="blue"/>
+<text x="360.0" y="112.0" text-anchor="middle" dominant-baseline="middle">PID 640</text>
+<text x="360.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="code">nginx (master)</text>
+<path d="M360,59 L590,98" class="arrow" marker-end="url(#s02-tree-h)"/>
+<rect x="520" y="100" width="140" height="44" rx="10" class="blue"/>
+<text x="590.0" y="112.0" text-anchor="middle" dominant-baseline="middle">PID 980</text>
+<text x="590.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="code">dockerd</text>
+<path d="M130,144 L130,183" class="arrow" marker-end="url(#s02-tree-h)"/>
+<rect x="60" y="185" width="140" height="44" rx="10" class="box"/>
+<text x="130.0" y="197.0" text-anchor="middle" dominant-baseline="middle">PID 1504</text>
+<text x="130.0" y="217.0" text-anchor="middle" dominant-baseline="middle" class="code">bash</text>
+<path d="M360,144 L360,183" class="arrow" marker-end="url(#s02-tree-h)"/>
+<rect x="290" y="185" width="140" height="44" rx="10" class="box"/>
+<text x="360.0" y="197.0" text-anchor="middle" dominant-baseline="middle">PID 641</text>
+<text x="360.0" y="217.0" text-anchor="middle" dominant-baseline="middle" class="code">nginx (worker)</text>
+<path d="M590,144 L590,183" class="arrow" marker-end="url(#s02-tree-h)"/>
+<rect x="520" y="185" width="140" height="44" rx="10" class="box"/>
+<text x="590.0" y="197.0" text-anchor="middle" dominant-baseline="middle">PID 2210</text>
+<text x="590.0" y="217.0" text-anchor="middle" dominant-baseline="middle" class="code">containerd</text>
+</svg>
+<figcaption>Every process has a parent (its PPID). PID 1 starts first and is the ancestor of everything else.</figcaption>
+</figure>

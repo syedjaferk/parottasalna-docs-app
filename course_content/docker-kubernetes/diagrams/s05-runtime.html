@@ -1,0 +1,38 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s05-runtime-t s05-runtime-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s05-runtime-t">Who actually runs a container</title>
+<desc id="s05-runtime-d">Docker is a stack of programs. dockerd hands the job to containerd, which uses runc to create the container. Kubernetes talks to containerd directly through CRI.</desc>
+<defs><marker id="s05-runtime-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s05-runtime-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s05-runtime-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s05-runtime-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="130" y="15" text-anchor="middle" dominant-baseline="middle" class="title">DOCKER</text>
+<text x="590" y="15" text-anchor="middle" dominant-baseline="middle" class="title">KUBERNETES</text>
+<rect x="30" y="30" width="200" height="40" rx="10" class="blue"/>
+<text x="130.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="code">docker CLI</text>
+<path d="M130,70 L130,93" class="arrow" marker-end="url(#s05-runtime-h)"/>
+<text x="180" y="82" text-anchor="middle" dominant-baseline="middle" class="small">REST API</text>
+<rect x="30" y="95" width="200" height="40" rx="10" class="blue"/>
+<text x="130.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="code">dockerd</text>
+<rect x="490" y="30" width="200" height="40" rx="10" class="purple"/>
+<text x="590.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="code">kubelet</text>
+<rect x="490" y="95" width="200" height="40" rx="10" class="purple"/>
+<text x="590.0" y="105.0" text-anchor="middle" dominant-baseline="middle">CRI</text>
+<text x="590.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">(gRPC interface)</text>
+<path d="M590,70 L590,93" class="arrow" marker-end="url(#s05-runtime-h)"/>
+<rect x="250" y="160" width="220" height="44" rx="10" class="green"/>
+<text x="360.0" y="172.0" text-anchor="middle" dominant-baseline="middle">containerd</text>
+<text x="360.0" y="192.0" text-anchor="middle" dominant-baseline="middle" class="small">images · containers · snapshots</text>
+<path d="M130,135 L300,158" class="arrow" marker-end="url(#s05-runtime-h)"/>
+<text x="195" y="140" text-anchor="middle" dominant-baseline="middle" class="small">gRPC</text>
+<path d="M590,135 L420,158" class="arrow" marker-end="url(#s05-runtime-h)"/>
+<rect x="250" y="225" width="105" height="44" rx="10" class="box"/>
+<text x="302.5" y="237.0" text-anchor="middle" dominant-baseline="middle">shim</text>
+<text x="302.5" y="257.0" text-anchor="middle" dominant-baseline="middle" class="small">one per container</text>
+<rect x="365" y="225" width="105" height="44" rx="10" class="amber"/>
+<text x="417.5" y="237.0" text-anchor="middle" dominant-baseline="middle">runc</text>
+<text x="417.5" y="257.0" text-anchor="middle" dominant-baseline="middle" class="small">OCI runtime</text>
+<path d="M330,204 L310,223" class="arrow" marker-end="url(#s05-runtime-h)"/>
+<path d="M390,204 L410,223" class="arrow" marker-end="url(#s05-runtime-h)"/>
+<text x="600" y="247" text-anchor="middle" dominant-baseline="middle" class="small">runc sets up namespaces + cgroups,</text>
+<text x="600" y="265" text-anchor="middle" dominant-baseline="middle" class="small">starts the process, then exits</text>
+</svg>
+<figcaption>Docker is a stack of programs. dockerd hands the job to containerd, which uses runc to create the container. Kubernetes talks to containerd directly through CRI.</figcaption>
+</figure>

@@ -1,0 +1,58 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s01-stack-t s01-stack-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s01-stack-t">Bare metal vs virtual machines vs containers</title>
+<desc id="s01-stack-d">VMs each carry a full guest operating system. Containers share the host&#x27;s kernel, so they are small and start in seconds.</desc>
+<defs><marker id="s01-stack-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s01-stack-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s01-stack-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s01-stack-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="120" y="15" text-anchor="middle" dominant-baseline="middle" class="title">BARE METAL</text>
+<text x="360" y="15" text-anchor="middle" dominant-baseline="middle" class="title">VIRTUAL MACHINES</text>
+<text x="600" y="15" text-anchor="middle" dominant-baseline="middle" class="title">CONTAINERS</text>
+<rect x="20" y="35" width="200" height="80" rx="10" class="blue"/>
+<text x="120.0" y="55.0" text-anchor="middle" dominant-baseline="middle">One app</text>
+<text x="120.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">(or a few, fighting</text>
+<text x="120.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">over libraries)</text>
+<rect x="20" y="125" width="200" height="50" rx="10" class="box"/>
+<text x="120.0" y="150.0" text-anchor="middle" dominant-baseline="middle">Operating system</text>
+<rect x="20" y="185" width="200" height="50" rx="10" class="amber"/>
+<text x="120.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="bold">Hardware</text>
+<rect x="260" y="35" width="96" height="34" rx="10" class="blue"/>
+<text x="308.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">App</text>
+<rect x="260" y="73" width="96" height="34" rx="10" class="box"/>
+<text x="308.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">Libs</text>
+<rect x="260" y="111" width="96" height="34" rx="10" class="red"/>
+<text x="308.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="small">Guest OS</text>
+<rect x="362" y="35" width="96" height="34" rx="10" class="blue"/>
+<text x="410.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">App</text>
+<rect x="362" y="73" width="96" height="34" rx="10" class="box"/>
+<text x="410.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">Libs</text>
+<rect x="362" y="111" width="96" height="34" rx="10" class="red"/>
+<text x="410.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="small">Guest OS</text>
+<rect x="260" y="150" width="198" height="32" rx="10" class="purple"/>
+<text x="359.0" y="166.0" text-anchor="middle" dominant-baseline="middle" class="small">Hypervisor</text>
+<rect x="260" y="186" width="198" height="22" rx="10" class="box"/>
+<text x="359.0" y="197.0" text-anchor="middle" dominant-baseline="middle" class="small">Host OS</text>
+<rect x="260" y="212" width="198" height="23" rx="10" class="amber"/>
+<text x="359.0" y="223.5" text-anchor="middle" dominant-baseline="middle" class="small">Hardware</text>
+<rect x="500" y="35" width="64" height="34" rx="10" class="blue"/>
+<text x="532.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">App</text>
+<rect x="500" y="73" width="64" height="34" rx="10" class="box"/>
+<text x="532.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">Libs</text>
+<rect x="568" y="35" width="64" height="34" rx="10" class="blue"/>
+<text x="600.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">App</text>
+<rect x="568" y="73" width="64" height="34" rx="10" class="box"/>
+<text x="600.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">Libs</text>
+<rect x="636" y="35" width="64" height="34" rx="10" class="blue"/>
+<text x="668.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">App</text>
+<rect x="636" y="73" width="64" height="34" rx="10" class="box"/>
+<text x="668.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">Libs</text>
+<rect x="500" y="111" width="200" height="34" rx="10" class="green"/>
+<text x="600.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="small">Docker Engine</text>
+<rect x="500" y="150" width="200" height="36" rx="10" class="box"/>
+<text x="600.0" y="168.0" text-anchor="middle" dominant-baseline="middle" class="small">Host OS (shared kernel)</text>
+<rect x="500" y="190" width="200" height="45" rx="10" class="amber"/>
+<text x="600.0" y="212.5" text-anchor="middle" dominant-baseline="middle" class="bold">Hardware</text>
+<text x="120" y="265" text-anchor="middle" dominant-baseline="middle" class="small">1 app per server</text>
+<text x="360" y="265" text-anchor="middle" dominant-baseline="middle" class="small">GBs each · boots in minutes</text>
+<text x="600" y="265" text-anchor="middle" dominant-baseline="middle" class="small">MBs each · starts in seconds</text>
+</svg>
+<figcaption>VMs each carry a full guest operating system. Containers share the host&#x27;s kernel, so they are small and start in seconds.</figcaption>
+</figure>

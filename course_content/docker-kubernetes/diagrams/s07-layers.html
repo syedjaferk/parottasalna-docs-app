@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="s07-layers-t s07-layers-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s07-layers-t">Image layers and the container layer</title>
+<desc id="s07-layers-d">An image is a stack of read-only layers. Each container adds one thin writable layer on top. Images that share a base reuse the same layers on disk.</desc>
+<defs><marker id="s07-layers-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s07-layers-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s07-layers-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s07-layers-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="170" y="15" text-anchor="middle" dominant-baseline="middle" class="title">IMAGE A: my-flask-app</text>
+<text x="530" y="15" text-anchor="middle" dominant-baseline="middle" class="title">IMAGE B: my-api</text>
+<rect x="40" y="35" width="260" height="34" rx="10" class="green"/>
+<text x="170.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">container layer (writable)</text>
+<rect x="40" y="79" width="260" height="32" rx="10" class="blue"/>
+<text x="170.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">COPY app.py</text>
+<rect x="40" y="115" width="260" height="32" rx="10" class="blue"/>
+<text x="170.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="code">RUN pip install …</text>
+<rect x="420" y="35" width="260" height="34" rx="10" class="green"/>
+<text x="550.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="small">container layer (writable)</text>
+<rect x="420" y="79" width="260" height="32" rx="10" class="blue"/>
+<text x="550.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">COPY main.py</text>
+<rect x="420" y="115" width="260" height="32" rx="10" class="blue"/>
+<text x="550.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="code">RUN pip install …</text>
+<rect x="40" y="165" width="640" height="32" rx="8" class="purple"/>
+<text x="360" y="181" text-anchor="middle" dominant-baseline="middle" class="code">python:3.12-slim layers  (shared, stored once)</text>
+<rect x="40" y="205" width="640" height="32" rx="8" class="purple"/>
+<text x="360" y="221" text-anchor="middle" dominant-baseline="middle" class="code">debian slim base layer  (shared, stored once)</text>
+<text x="360" y="262" text-anchor="middle" dominant-baseline="middle" class="small">read-only layers are never changed; writes go to the container layer (copy-on-write)</text>
+</svg>
+<figcaption>An image is a stack of read-only layers. Each container adds one thin writable layer on top. Images that share a base reuse the same layers on disk.</figcaption>
+</figure>

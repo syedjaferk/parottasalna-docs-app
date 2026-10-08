@@ -1,0 +1,40 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s03-namespaces-t s03-namespaces-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s03-namespaces-t">Namespaces: what a container is allowed to see</title>
+<desc id="s03-namespaces-d">Namespaces give a process its own view of the system. Inside, your app is PID 1 with its own hostname, network and files; on the host it is just another process.</desc>
+<defs><marker id="s03-namespaces-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s03-namespaces-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s03-namespaces-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s03-namespaces-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="170" y="15" text-anchor="middle" dominant-baseline="middle" class="title">INSIDE THE CONTAINER</text>
+<text x="545" y="15" text-anchor="middle" dominant-baseline="middle" class="title">ON THE HOST</text>
+<rect x="20" y="30" width="300" height="255" rx="14" class="green"/>
+<rect x="32" y="42" width="60" height="32" rx="10" class="box"/>
+<text x="62.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="bold">PID</text>
+<text x="102" y="58" text-anchor="start" dominant-baseline="middle" class="small">python app.py is PID 1</text>
+<rect x="32" y="82" width="60" height="32" rx="10" class="box"/>
+<text x="62.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="bold">UTS</text>
+<text x="102" y="98" text-anchor="start" dominant-baseline="middle" class="small">hostname: web-1</text>
+<rect x="32" y="122" width="60" height="32" rx="10" class="box"/>
+<text x="62.0" y="138.0" text-anchor="middle" dominant-baseline="middle" class="bold">NET</text>
+<text x="102" y="138" text-anchor="start" dominant-baseline="middle" class="small">own eth0, own IP 172.17.0.2</text>
+<rect x="32" y="162" width="60" height="32" rx="10" class="box"/>
+<text x="62.0" y="178.0" text-anchor="middle" dominant-baseline="middle" class="bold">MNT</text>
+<text x="102" y="178" text-anchor="start" dominant-baseline="middle" class="small">own / (the image&#x27;s files)</text>
+<rect x="32" y="202" width="60" height="32" rx="10" class="box"/>
+<text x="62.0" y="218.0" text-anchor="middle" dominant-baseline="middle" class="bold">IPC</text>
+<text x="102" y="218" text-anchor="start" dominant-baseline="middle" class="small">own shared memory</text>
+<rect x="32" y="242" width="60" height="32" rx="10" class="box"/>
+<text x="62.0" y="258.0" text-anchor="middle" dominant-baseline="middle" class="bold">USER</text>
+<text x="102" y="258" text-anchor="start" dominant-baseline="middle" class="small">root here ≠ root on host</text>
+<rect x="380" y="30" width="320" height="255" rx="14" class="box"/>
+<rect x="395" y="50" width="290" height="38" rx="10" class="box"/>
+<text x="540.0" y="69.0" text-anchor="middle" dominant-baseline="middle" class="code">PID 1     systemd</text>
+<rect x="395" y="98" width="290" height="38" rx="10" class="box"/>
+<text x="540.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">PID 980   dockerd</text>
+<rect x="395" y="146" width="290" height="38" rx="10" class="box"/>
+<text x="540.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="code">PID 2210  containerd</text>
+<rect x="395" y="194" width="290" height="38" rx="10" class="blue"/>
+<text x="540.0" y="213.0" text-anchor="middle" dominant-baseline="middle" class="code">PID 4321  python app.py ←</text>
+<text x="540" y="250" text-anchor="middle" dominant-baseline="middle" class="small">the same process, seen from outside</text>
+<path d="M320,66 L393,213" class="arrow green dashed" marker-end="url(#s03-namespaces-h-green)"/>
+</svg>
+<figcaption>Namespaces give a process its own view of the system. Inside, your app is PID 1 with its own hostname, network and files; on the host it is just another process.</figcaption>
+</figure>

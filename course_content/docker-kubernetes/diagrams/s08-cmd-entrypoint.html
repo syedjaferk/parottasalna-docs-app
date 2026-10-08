@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="s08-cmd-entrypoint-t s08-cmd-entrypoint-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-cmd-entrypoint-t">What runs on docker run: CMD vs ENTRYPOINT</title>
+<desc id="s08-cmd-entrypoint-d">CMD is a default that run arguments replace. ENTRYPOINT is fixed and run arguments are added after it.</desc>
+<defs><marker id="s08-cmd-entrypoint-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-cmd-entrypoint-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-cmd-entrypoint-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-cmd-entrypoint-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="260" y="15" width="200" height="44" rx="10" class="blue"/>
+<text x="360.0" y="37.0" text-anchor="middle" dominant-baseline="middle" class="code">docker run img [args]</text>
+<path d="M360,59 L360,83" class="arrow" marker-end="url(#s08-cmd-entrypoint-h)"/>
+<rect x="270" y="85" width="180" height="44" rx="10" class="amber"/>
+<text x="360.0" y="107.0" text-anchor="middle" dominant-baseline="middle">ENTRYPOINT set?</text>
+<path d="M270,107 L190,107 L190,150" class="arrow" marker-end="url(#s08-cmd-entrypoint-h)"/>
+<text x="225" y="95" text-anchor="middle" dominant-baseline="middle" class="small">no</text>
+<path d="M450,107 L530,107 L530,150" class="arrow" marker-end="url(#s08-cmd-entrypoint-h)"/>
+<text x="490" y="95" text-anchor="middle" dominant-baseline="middle" class="small">yes</text>
+<rect x="20" y="152" width="340" height="64" rx="10" class="box"/>
+<text x="190.0" y="164.0" text-anchor="middle" dominant-baseline="middle">Run your args if given,</text>
+<text x="190.0" y="184.0" text-anchor="middle" dominant-baseline="middle">otherwise the CMD</text>
+<text x="190.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">CMD [&quot;python&quot;, &quot;app.py&quot;]</text>
+<rect x="380" y="152" width="320" height="64" rx="10" class="green"/>
+<text x="540.0" y="164.0" text-anchor="middle" dominant-baseline="middle">Run ENTRYPOINT + args</text>
+<text x="540.0" y="184.0" text-anchor="middle" dominant-baseline="middle">(no args: ENTRYPOINT + CMD)</text>
+<text x="540.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">ENTRYPOINT [&quot;echo&quot;, &quot;Hello&quot;]</text>
+<text x="190" y="240" text-anchor="middle" dominant-baseline="middle" class="code">docker run img bash  →  runs bash</text>
+<text x="540" y="240" text-anchor="middle" dominant-baseline="middle" class="code">docker run img Docker  →  Hello Docker</text>
+</svg>
+<figcaption>CMD is a default that run arguments replace. ENTRYPOINT is fixed and run arguments are added after it.</figcaption>
+</figure>

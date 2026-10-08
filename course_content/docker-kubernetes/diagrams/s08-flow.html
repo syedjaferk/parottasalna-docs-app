@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 200" role="img" aria-labelledby="s08-flow-t s08-flow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-flow-t">From Dockerfile to running container</title>
+<desc id="s08-flow-d">A Dockerfile is a recipe. docker build turns it into an image (a read-only template); docker run starts a container from that image.</desc>
+<defs><marker id="s08-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="50" width="128" height="64" rx="10" class="box"/>
+<text x="74.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">Dockerfile</text>
+<text x="74.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">text recipe</text>
+<rect x="153" y="50" width="128" height="64" rx="10" class="amber"/>
+<text x="217.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">docker build</text>
+<text x="217.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">+ build context</text>
+<path d="M138,82 L151,82" class="arrow" marker-end="url(#s08-flow-h)"/>
+<rect x="296" y="50" width="128" height="64" rx="10" class="blue"/>
+<text x="360.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">Image</text>
+<text x="360.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">read-only</text>
+<path d="M281,82 L294,82" class="arrow" marker-end="url(#s08-flow-h)"/>
+<rect x="439" y="50" width="128" height="64" rx="10" class="amber"/>
+<text x="503.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">docker run</text>
+<text x="503.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">+ -e, -p, args</text>
+<path d="M424,82 L437,82" class="arrow" marker-end="url(#s08-flow-h)"/>
+<rect x="582" y="50" width="128" height="64" rx="10" class="green"/>
+<text x="646.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">Container</text>
+<text x="646.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">PID 1 = your CMD</text>
+<path d="M567,82 L580,82" class="arrow" marker-end="url(#s08-flow-h)"/>
+<text x="225" y="140" text-anchor="middle" dominant-baseline="middle" class="small">build time: FROM, RUN, COPY, ARG</text>
+<text x="560" y="140" text-anchor="middle" dominant-baseline="middle" class="small">run time: CMD, ENTRYPOINT, ENV</text>
+</svg>
+<figcaption>A Dockerfile is a recipe. docker build turns it into an image (a read-only template); docker run starts a container from that image.</figcaption>
+</figure>

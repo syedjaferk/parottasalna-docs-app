@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 190" role="img" aria-labelledby="s07-id-digest-t s07-id-digest-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s07-id-digest-t">Tags, image IDs and digests</title>
+<desc id="s07-id-digest-d">A tag is a movable name. A digest is a fingerprint of exact content and can never point to anything else.</desc>
+<defs><marker id="s07-id-digest-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s07-id-digest-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s07-id-digest-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s07-id-digest-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="200" height="50" rx="10" class="amber"/>
+<text x="120.0" y="45.0" text-anchor="middle" dominant-baseline="middle">Tag</text>
+<text x="120.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">nginx:alpine</text>
+<text x="120" y="100" text-anchor="middle" dominant-baseline="middle" class="small">can move to a new image</text>
+<text x="120" y="118" text-anchor="middle" dominant-baseline="middle" class="small">next week</text>
+<path d="M220,55 L268,55" class="arrow" marker-end="url(#s07-id-digest-h)"/>
+<rect x="270" y="30" width="200" height="50" rx="10" class="green"/>
+<text x="370.0" y="45.0" text-anchor="middle" dominant-baseline="middle">Digest</text>
+<text x="370.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">sha256:df221d…</text>
+<text x="370" y="100" text-anchor="middle" dominant-baseline="middle" class="small">hash of the manifest</text>
+<text x="370" y="118" text-anchor="middle" dominant-baseline="middle" class="small">pin this in production</text>
+<path d="M470,55 L518,55" class="arrow" marker-end="url(#s07-id-digest-h)"/>
+<rect x="520" y="30" width="180" height="50" rx="10" class="blue"/>
+<text x="610.0" y="45.0" text-anchor="middle" dominant-baseline="middle">Image ID</text>
+<text x="610.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">sha256:bf8527…</text>
+<text x="610" y="100" text-anchor="middle" dominant-baseline="middle" class="small">hash of the image config</text>
+<text x="610" y="118" text-anchor="middle" dominant-baseline="middle" class="small">(local to your machine)</text>
+<text x="360" y="165" text-anchor="middle" dominant-baseline="middle" class="code">docker pull nginx@sha256:df221d…  →  always the exact same bytes</text>
+</svg>
+<figcaption>A tag is a movable name. A digest is a fingerprint of exact content and can never point to anything else.</figcaption>
+</figure>

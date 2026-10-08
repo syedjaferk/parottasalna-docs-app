@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="s09-cache-t s09-cache-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-cache-t">Layer caching: why order matters</title>
+<desc id="s09-cache-d">When a layer changes, it and every layer after it is rebuilt. Copy the files that change rarely (requirements) before the ones that change often (your code).</desc>
+<defs><marker id="s09-cache-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-cache-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-cache-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-cache-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="180" y="15" text-anchor="middle" dominant-baseline="middle" class="title">BAD ORDER  (you edited app.py)</text>
+<text x="540" y="15" text-anchor="middle" dominant-baseline="middle" class="title">GOOD ORDER  (you edited app.py)</text>
+<rect x="10" y="30" width="340" height="30" rx="10" class="green"/>
+<text x="180.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="code">FROM python:3.12-slim  [CACHED]</text>
+<rect x="10" y="66" width="340" height="30" rx="10" class="green"/>
+<text x="180.0" y="81.0" text-anchor="middle" dominant-baseline="middle" class="code">WORKDIR /app  [CACHED]</text>
+<rect x="10" y="102" width="340" height="30" rx="10" class="red"/>
+<text x="180.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">COPY . .  [REBUILT]</text>
+<rect x="10" y="138" width="340" height="30" rx="10" class="red"/>
+<text x="180.0" y="153.0" text-anchor="middle" dominant-baseline="middle" class="code">RUN pip install …  [REBUILT]</text>
+<rect x="10" y="174" width="340" height="30" rx="10" class="red"/>
+<text x="180.0" y="189.0" text-anchor="middle" dominant-baseline="middle" class="code">CMD [&quot;python&quot;, &quot;app.py&quot;]  [REBUILT]</text>
+<rect x="370" y="30" width="340" height="30" rx="10" class="green"/>
+<text x="540.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="code">FROM python:3.12-slim  [CACHED]</text>
+<rect x="370" y="66" width="340" height="30" rx="10" class="green"/>
+<text x="540.0" y="81.0" text-anchor="middle" dominant-baseline="middle" class="code">WORKDIR /app  [CACHED]</text>
+<rect x="370" y="102" width="340" height="30" rx="10" class="green"/>
+<text x="540.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">COPY requirements.txt .  [CACHED]</text>
+<rect x="370" y="138" width="340" height="30" rx="10" class="green"/>
+<text x="540.0" y="153.0" text-anchor="middle" dominant-baseline="middle" class="code">RUN pip install …  [CACHED]</text>
+<rect x="370" y="174" width="340" height="30" rx="10" class="red"/>
+<text x="540.0" y="189.0" text-anchor="middle" dominant-baseline="middle" class="code">COPY . .  [REBUILT]</text>
+<rect x="370" y="210" width="340" height="30" rx="10" class="red"/>
+<text x="540.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="code">CMD [&quot;python&quot;, &quot;app.py&quot;]  [REBUILT]</text>
+<text x="180" y="230" text-anchor="middle" dominant-baseline="middle" class="small">pip reinstalls everything: slow</text>
+<text x="540" y="248" text-anchor="middle" dominant-baseline="middle" class="small">pip layer reused: about a second</text>
+</svg>
+<figcaption>When a layer changes, it and every layer after it is rebuilt. Copy the files that change rarely (requirements) before the ones that change often (your code).</figcaption>
+</figure>

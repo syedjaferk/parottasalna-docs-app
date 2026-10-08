@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s09-signals-t s09-signals-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-signals-t">Exec form vs shell form on docker stop</title>
+<desc id="s09-signals-d">Measured: exec form with a SIGTERM handler stopped in 0.1 s; shell form waited the full 10 s and was killed (exit 137).</desc>
+<defs><marker id="s09-signals-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-signals-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-signals-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-signals-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="220" y="15" width="280" height="40" rx="10" class="blue"/>
+<text x="360.0" y="35.0" text-anchor="middle" dominant-baseline="middle" class="small">docker stop → SIGTERM to PID 1</text>
+<path d="M330,55 L190,85" class="arrow" marker-end="url(#s09-signals-h)"/>
+<path d="M390,55 L530,85" class="arrow" marker-end="url(#s09-signals-h)"/>
+<rect x="20" y="87" width="340" height="56" rx="10" class="green"/>
+<text x="190.0" y="105.0" text-anchor="middle" dominant-baseline="middle">Exec form</text>
+<text x="190.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">CMD [&quot;python&quot;, &quot;app.py&quot;]</text>
+<rect x="380" y="87" width="320" height="56" rx="10" class="red"/>
+<text x="540.0" y="105.0" text-anchor="middle" dominant-baseline="middle">Shell form</text>
+<text x="540.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">CMD python app.py</text>
+<rect x="20" y="160" width="340" height="64" rx="10" class="green"/>
+<text x="190.0" y="172.0" text-anchor="middle" dominant-baseline="middle">PID 1 = python</text>
+<text x="190.0" y="192.0" text-anchor="middle" dominant-baseline="middle">handler runs · exits in 0.1 s</text>
+<text x="190.0" y="212.0" text-anchor="middle" dominant-baseline="middle" class="code">exit code 0</text>
+<rect x="380" y="160" width="320" height="64" rx="10" class="red"/>
+<text x="540.0" y="172.0" text-anchor="middle" dominant-baseline="middle">PID 1 = /bin/sh -c …</text>
+<text x="540.0" y="192.0" text-anchor="middle" dominant-baseline="middle">SIGTERM not passed on · 10 s wait</text>
+<text x="540.0" y="212.0" text-anchor="middle" dominant-baseline="middle" class="code">SIGKILL · exit code 137</text>
+<path d="M190,143 L190,158" class="arrow green" marker-end="url(#s09-signals-h-green)"/>
+<path d="M540,143 L540,158" class="arrow red" marker-end="url(#s09-signals-h-red)"/>
+<text x="360" y="246" text-anchor="middle" dominant-baseline="middle" class="small">No signal handler in your app? Run with  docker run --init  (also stops in 0.1 s)</text>
+</svg>
+<figcaption>Measured: exec form with a SIGTERM handler stopped in 0.1 s; shell form waited the full 10 s and was killed (exit 137).</figcaption>
+</figure>
