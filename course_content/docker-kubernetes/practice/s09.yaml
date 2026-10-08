@@ -1,0 +1,152 @@
+chapter: sessions/09-dockerfile-deep-dive
+
+quizzes:
+  - title: "Session 9 · Concepts"
+    description: Exec vs shell form, signals, build context and caching.
+    questions:
+      - text: What is the exec form of CMD?
+        choices: |
+          *CMD ["python", "app.py"]
+          CMD python app.py
+          CMD exec python app.py
+          CMD "python app.py"
+
+      - text: With the shell form `CMD python app.py`, what is PID 1 in the container?
+        choices: |
+          python
+          *`/bin/sh -c`
+          docker-init
+          containerd-shim
+
+      - text: Why does the shell form often make `docker stop` take 10 seconds?
+        choices: |
+          The shell starts slowly
+          */bin/sh is PID 1 and doesn't pass SIGTERM to the app, so Docker waits, then sends SIGKILL
+          Docker always waits 10 seconds
+          The app ignores SIGKILL
+
+      - text: What does `docker run --init` add?
+        choices: |
+          A systemd service
+          *A tiny init (tini, shown as docker-init) as PID 1 that forwards signals and reaps zombies
+          A health check
+          An init container like in Kubernetes
+
+      - text: What is the build context?
+        choices: |
+          The Dockerfile itself
+          *The folder (the `.` in `docker build .`) whose files are sent to the builder; COPY can only use files from it
+          The base image
+          The image's layers
+
+      - text: Why add `.env` and `.git` to `.dockerignore`?
+        choices: |
+          They make the image start faster
+          *To keep secrets and unneeded files out of the build context and the image
+          Docker can't read dotfiles
+          So COPY fails loudly
+
+      - text: One step in a Dockerfile changes. Which steps are rebuilt?
+        choices: |
+          Only that step
+          *That step and every step after it
+          Every step in the file
+          Only steps after it
+
+      - text: What is the best order for a Dockerfile?
+        choices: |
+          Your code first, then dependencies
+          *Changes least → changes most (base, system packages, dependency list, install, your code, CMD)
+          Alphabetical
+          It doesn't matter with BuildKit
+
+  - title: "Session 9 · Hands-on"
+    description: "FROM alpine:3.20 / ENTRYPOINT [\"echo\", \"Hello World\"] / CMD [\"World\"]"
+    questions:
+      - text: "`docker run --rm kube-demo-hello` prints…"
+        choices: |
+          Hello World
+          World
+          *Hello World World
+          Nothing
+
+      - text: "`docker run --rm kube-demo-hello Jafer syed` prints…"
+        choices: |
+          Hello World World Jafer syed
+          *Hello World Jafer syed
+          Jafer syed
+          An error
+        explanation: Run arguments replace CMD and are appended to ENTRYPOINT.
+
+      - text: How do you make it print just `bye`?
+        choices: |
+          docker run --rm kube-demo-hello bye
+          *docker run --rm --entrypoint echo kube-demo-hello bye
+          docker run --rm kube-demo-hello --cmd bye
+          docker exec kube-demo-hello echo bye
+
+      - text: "An app in exec form handles SIGTERM and exits cleanly. Roughly how long does `docker stop` take, and what is the exit code?"
+        choices: |
+          10 s, 137
+          *About 0.1 s, 0
+          About 0.1 s, 143
+          10 s, 0
+
+      - text: "An app in exec form has **no** SIGTERM handler. What happens on `docker stop`?"
+        choices: |
+          It stops instantly with 143
+          *About 10 s, then exit 137: PID 1 ignores SIGTERM by default
+          It never stops
+          It exits 0
+        explanation: The kernel doesn't apply default signal actions to PID 1.
+
+      - text: The same app without a handler is run with `--init`. What happens on `docker stop`?
+        choices: |
+          10 s, exit 137
+          *About 0.1 s, exit 143
+          About 0.1 s, exit 0
+          It hangs
+
+      - text: "`docker build -f docker/Dockerfile.prod -t app:prod .` What is the build context?"
+        choices: |
+          docker/
+          *The current folder `.`
+          docker/Dockerfile.prod
+          The parent folder
+
+      - text: "Which order keeps `pip install` cached when you edit app.py?"
+        choices: |
+          COPY . . then RUN pip install
+          *COPY requirements.txt . → RUN pip install → COPY app.py .
+          COPY app.py . → COPY requirements.txt . → RUN pip install
+          RUN pip install → COPY requirements.txt .
+
+decks:
+  - title: "Session 9 · Flashcards"
+    cards:
+      - front: Exec form
+        back: "`CMD [\"python\", \"app.py\"]`, a JSON list, run directly. Your app is **PID 1**."
+      - front: Shell form
+        back: "`CMD python app.py`, run as `/bin/sh -c ...`. **The shell is PID 1** and swallows SIGTERM."
+      - front: ENTRYPOINT + CMD
+        back: ENTRYPOINT = the program, CMD = default args. Run args **replace CMD**, are **appended** to ENTRYPOINT.
+      - front: Replace the ENTRYPOINT
+        back: "`docker run --entrypoint <cmd> image ...`"
+      - front: PID 1 and signals
+        back: The kernel doesn't apply default actions to PID 1. **No handler = SIGTERM ignored.**
+      - front: "--init"
+        back: Adds **tini** (`docker-init`) as PID 1. Forwards signals, reaps zombies.
+      - front: Stop results (measured)
+        back: "Handler 0.1 s/0 · shell form 10.2 s/137 · no handler 10.2 s/137 · `--init` 0.1 s/143."
+      - front: Build context
+        back: The folder sent to the builder (`.`). COPY can only use files **inside** it.
+      - front: .dockerignore
+        back: Keeps files **out of the context**, e.g. `.git`, `.venv/`, `.env`, `node_modules/`, `**/*.log`.
+      - front: "-f in docker build"
+        back: Use another Dockerfile, e.g. `-f docker/Dockerfile.prod`. Paths in COPY are still relative to the context.
+      - front: Layer cache rule
+        back: A changed step **and every step after it** is rebuilt.
+      - front: Cache-friendly order
+        back: Changes least → most. Dependencies list + install **before** your code.
+      - front: Force a full rebuild
+        back: "`docker build --no-cache ...`"

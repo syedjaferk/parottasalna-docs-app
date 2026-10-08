@@ -1,0 +1,128 @@
+chapter: sessions/03-namespaces
+
+quizzes:
+  - title: "Session 3 · Concepts"
+    description: What each namespace isolates.
+    questions:
+      - text: What does a namespace do?
+        choices: |
+          Limits how much CPU a process can use
+          *Gives a process its own private view of one part of the system
+          Encrypts a container's files
+          Gives a container its own kernel
+        explanation: Namespaces control what a process can **see**. Limits are cgroups (Session 4).
+
+      - text: Which namespace gives a container its own hostname?
+        choices: |
+          PID
+          NET
+          *UTS
+          MNT
+
+      - text: Which namespace makes your app PID 1 inside the container?
+        choices: |
+          *PID
+          USER
+          IPC
+          UTS
+
+      - text: Which namespace gives a container its own IP address and ports?
+        choices: |
+          MNT
+          *NET
+          UTS
+          cgroup
+
+      - text: Which namespace lets "root" inside a container map to a normal user outside?
+        choices: |
+          PID
+          IPC
+          *USER
+          MNT
+
+      - text: Why does `cat /etc/os-release` in an Alpine container say Alpine on an Ubuntu laptop?
+        choices: |
+          Docker installs Alpine on your laptop
+          *The MNT namespace gives the container the image's files as its root /
+          The container has its own Alpine kernel
+          Ubuntu and Alpine are the same
+        explanation: Same kernel (Ubuntu's), different files (Alpine's).
+
+      - text: "True or false: namespaces stop a container from using all of the host's memory."
+        choices: |
+          True
+          *False
+        explanation: Namespaces hide things; they don't limit things. Memory and CPU limits are cgroups.
+
+  - title: "Session 3 · Hands-on"
+    questions:
+      - text: What does `docker run --rm --hostname kube-box alpine hostname` print?
+        choices: |
+          Your laptop's hostname
+          *kube-box
+          A random container ID
+          localhost
+
+      - text: "`docker run --rm alpine ps` shows how many processes?"
+        choices: |
+          Every process on the host
+          *Just one: ps itself, as PID 1
+          Two: init and ps
+          None
+        explanation: The PID namespace only shows the container's own processes.
+
+      - text: Which command starts bash in new PID and UTS namespaces, without Docker?
+        choices: |
+          *sudo unshare --pid --fork --mount-proc --uts bash
+          sudo chroot bash
+          sudo nsenter --all bash
+          docker exec bash
+
+      - text: Where can you see which namespaces a process belongs to?
+        choices: |
+          /etc/namespaces
+          *ls -l /proc/<PID>/ns
+          docker ns ls
+          /sys/kernel/ns
+
+      - text: Two processes show the same number for `net:[...]` in /proc/<PID>/ns. What does that mean?
+        choices: |
+          *They share the same network namespace
+          They have the same IP but different networks
+          One is the parent of the other
+          They are in different containers
+
+      - text: Inside an `unshare --uts` shell you run `hostname my-box`, then exit. What does `hostname` show on the host?
+        choices: |
+          my-box
+          *Your original hostname
+          localhost
+          An error
+
+decks:
+  - title: "Session 3 · Flashcards"
+    cards:
+      - front: Namespace
+        back: Gives a process its **own private view** of one part of the system. Controls what it can **see**.
+      - front: PID namespace
+        back: Own process list. The container's first process is **PID 1**.
+      - front: NET namespace
+        back: Own network interfaces, IP address, ports and routes.
+      - front: MNT namespace
+        back: Own mount table, so the image's files appear as `/`.
+      - front: UTS namespace
+        back: Own **hostname** (and domain name).
+      - front: IPC namespace
+        back: Own shared memory and message queues.
+      - front: USER namespace
+        back: Own user/group IDs. **root inside** can be a normal user outside.
+      - front: cgroup namespace
+        back: The container sees only its own cgroup tree.
+      - front: unshare
+        back: Runs a program in **new namespaces**. Example `sudo unshare --pid --fork --mount-proc --uts bash`.
+      - front: /proc/<PID>/ns
+        back: Lists a process's namespaces. **Same number = same namespace.**
+      - front: Hotel analogy
+        back: Rooms (namespaces) are private, but the building, plumbing and power (the **kernel**) are shared.
+      - front: Namespaces vs cgroups
+        back: Namespaces = what you can **see**. cgroups = how much you can **use**.

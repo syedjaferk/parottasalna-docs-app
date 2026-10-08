@@ -1,0 +1,126 @@
+chapter: sessions/01-why-docker
+
+quizzes:
+  - title: "Session 1 · Concepts"
+    description: Bare metal, VMs and containers, and why Docker exists.
+    questions:
+      - text: What problem does Docker mainly solve?
+        choices: |
+          Making code run faster than on bare metal
+          *"It works on my machine": packaging an app with everything it needs so it runs the same everywhere
+          Replacing the operating system
+          Writing code for you
+        explanation: An image carries the app plus its libraries and settings, so dev, test and production run the same thing.
+
+      - text: What do all containers on one host share?
+        choices: |
+          Nothing; each has its own kernel
+          *The host's Linux kernel
+          The same filesystem
+          The same process list
+        explanation: Containers are isolated processes on the host. Each gets its own view of files and processes, but they all use the host's kernel.
+
+      - text: Why does a VM usually take longer to start than a container?
+        choices: |
+          VMs download their image every time
+          *A VM boots a complete operating system; a container just starts a process
+          Containers are written in Go
+          VMs have no CPU limits
+        explanation: A VM is a whole pretend computer with its own kernel. A container is a normal process with a private view.
+
+      - text: Which program lets one physical server run several virtual machines?
+        choices: |
+          Docker
+          runc
+          *A hypervisor (KVM, VMware, VirtualBox)
+          systemd
+
+      - text: An image is to a container as…
+        choices: |
+          *a recipe is to a cooked dish (or a class to an object)
+          a container ship is to a port
+          a VM is to a hypervisor
+          a kernel is to a process
+        explanation: One image can start many containers, just like one recipe can feed many plates.
+
+      - text: Why does Docker Desktop run a small Linux VM on Windows and macOS?
+        choices: |
+          To make containers more secure
+          *Linux containers need a Linux kernel, and Windows/macOS don't provide one
+          Docker Hub only works inside VMs
+          To save disk space
+
+      - text: Which statements about containers are true? (Pick all that apply.)
+        choices: |
+          *They usually start in seconds or less
+          *Their images are usually megabytes, not gigabytes
+          They each run their own full operating system
+          *One machine can run many of them
+        explanation: Containers are light because they skip the extra OS. No boot, no full OS image.
+
+  - title: "Session 1 · Hands-on"
+    description: First commands and what they tell you.
+    questions:
+      - text: You run `docker run hello-world` for the first time. What happens first?
+        choices: |
+          Docker builds the image from a Dockerfile
+          *Docker can't find the image locally, so it pulls it from Docker Hub
+          Docker starts a virtual machine
+          It fails because no tag was given
+        explanation: With no image on your machine, `docker run` pulls it from the registry, then creates and starts the container.
+
+      - text: You run `time docker run --rm alpine echo "hi"` twice. Why is the second run much faster?
+        choices: |
+          Docker caches the output "hi"
+          *The image was already downloaded on the first run
+          The second container reuses the first container
+          `--rm` makes it faster
+        explanation: The first run includes pulling the alpine image. After that, starting the container is just starting a process.
+
+      - text: What does `--rm` do in `docker run --rm alpine echo hi`?
+        choices: |
+          Removes the image after running
+          *Removes the container automatically when it exits
+          Removes all other containers
+          Runs the container read-only
+
+      - text: Which registry does Docker use when you don't name one?
+        choices: |
+          GitHub Container Registry
+          *Docker Hub (docker.io)
+          Your local disk only
+          Quay.io
+
+      - text: Which command lists images on your machine?
+        choices: |
+          docker ps
+          *docker images
+          docker list
+          docker hub ls
+
+decks:
+  - title: "Session 1 · Flashcards"
+    description: Key words from "Why Docker?"
+    cards:
+      - front: What is Docker, in one line?
+        back: A tool that packages an app with everything it needs into an **image**, so it runs the same way everywhere.
+      - front: Container
+        back: A **running instance of an image**. Really a normal Linux process with a private view of the system and resource limits.
+      - front: Image
+        back: A **read-only template** (app + libraries + settings) that containers start from. Like a recipe or a class.
+      - front: Registry
+        back: A store for images, like an app store. Example **Docker Hub** (`docker.io`).
+      - front: Kernel
+        back: The core of the operating system that talks to the hardware. All containers on a host **share** it.
+      - front: Hypervisor
+        back: Software that splits one physical machine into several **virtual machines** (KVM, VMware, VirtualBox).
+      - front: VM vs container, size
+        back: VM = **gigabytes** (a full OS each). Container = **megabytes** (just the app and its libraries).
+      - front: VM vs container, start time
+        back: VM = **minutes** (boots an OS). Container = **seconds or less** (starts a process).
+      - front: Bare metal's big problem
+        back: Apps on one server fight over library versions, so companies ran **one app per server**, and most sat idle.
+      - front: Why is a Linux VM needed on macOS/Windows?
+        back: Linux containers need a **Linux kernel**. Docker Desktop runs a small Linux VM to provide one.
+      - front: "The shipping container analogy"
+        back: A **standard box** any ship, truck or crane can move. Docker is a standard box any machine can run.

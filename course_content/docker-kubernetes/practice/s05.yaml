@@ -1,0 +1,120 @@
+chapter: sessions/05-container-runtimes
+
+quizzes:
+  - title: "Session 5 · Concepts"
+    description: The chain from `docker run` to a running process.
+    questions:
+      - text: What is the order of programs when you type `docker run`?
+        choices: |
+          runc → containerd → dockerd → docker
+          *docker CLI → dockerd → containerd → runc
+          docker CLI → runc → containerd → dockerd
+          dockerd → docker CLI → runc → containerd
+
+      - text: What does runc do?
+        choices: |
+          Pulls images from Docker Hub
+          *Sets up namespaces and cgroups, starts the container's process, then exits
+          Runs forever and watches every container
+          Builds images from Dockerfiles
+
+      - text: Which program keeps a container running even if containerd restarts, and collects its exit code?
+        choices: |
+          runc
+          dockerd
+          *containerd-shim
+          systemd
+
+      - text: What does the OCI **image** spec make possible?
+        choices: |
+          *An image built by Docker runs on Podman, containerd or Kubernetes
+          Images run without a kernel
+          Images are encrypted
+          Only Docker can run images
+
+      - text: Since Kubernetes 1.24, how does Kubernetes start containers?
+        choices: |
+          Through dockerd via dockershim
+          *Directly through a CRI runtime such as containerd or CRI-O
+          With runc only, no runtime manager
+          Kubernetes runs VMs, not containers
+
+      - text: After Kubernetes removed dockershim, do images built with `docker build` still work on Kubernetes?
+        choices: |
+          No, they must be rebuilt with containerd
+          *Yes, they are standard OCI images
+          Only if they are pushed to Docker Hub
+          Only on Docker Desktop
+
+      - text: What is CRI?
+        choices: |
+          Container Registry Index
+          *Container Runtime Interface, the API Kubernetes uses to talk to runtimes
+          A storage driver
+          A Linux namespace
+
+  - title: "Session 5 · Hands-on"
+    questions:
+      - text: Which command shows the default low-level runtime?
+        choices: |
+          *docker info --format '{{.DefaultRuntime}}'
+          runc --default
+          containerd version
+          docker ps --runtime
+
+      - text: You start an nginx container and look at `ps -ef --forest`. What is nginx's parent?
+        choices: |
+          dockerd
+          runc
+          *containerd-shim-runc-v2
+          The docker CLI
+
+      - text: "You look for a running `runc` process while a container is running and find none. Is something broken?"
+        choices: |
+          Yes, the container must be dead
+          *No, runc exits after starting the container
+          Yes, Docker is in rootless mode
+          No, runc only runs on Kubernetes
+        explanation: runc is not a daemon. The shim stays behind to watch the container.
+
+      - text: Which of these are low-level OCI runtimes that can replace runc? (Pick all that apply.)
+        choices: |
+          *crun
+          *gVisor (runsc)
+          *Kata Containers
+          Docker Hub
+
+      - text: Which OCI spec lets Docker Hub, GHCR and AWS ECR all work with `docker pull`?
+        choices: |
+          Image spec
+          Runtime spec
+          *Distribution spec
+          CRI spec
+
+decks:
+  - title: "Session 5 · Flashcards"
+    cards:
+      - front: docker (CLI)
+        back: Reads your command and sends it to the daemon's **API**.
+      - front: dockerd
+        back: The **Docker daemon**. Builds, networking, volumes, the Docker API.
+      - front: containerd
+        back: Manages the **container lifecycle**. Pulls and stores images; starts, stops and watches containers.
+      - front: containerd-shim
+        back: One per container. Keeps it running if containerd restarts, and **collects its exit code**.
+      - front: runc
+        back: Low-level runtime. Sets up namespaces + cgroups, **starts the process, then exits**.
+      - front: OCI
+        back: Open Container Initiative. Open standards so container tools work together.
+      - front: OCI image spec
+        back: The format of an image (layers + config + manifest).
+      - front: OCI runtime spec
+        back: How to run a container from a folder of files + `config.json`.
+      - front: OCI distribution spec
+        back: How registries **push and pull** images.
+      - front: CRI
+        back: Container Runtime Interface. How **Kubernetes** talks to containerd or CRI-O.
+      - front: dockershim
+        back: An old translator between Kubernetes and Docker. **Removed in Kubernetes 1.24.**
+      - front: Restaurant analogy
+        back: Waiter = CLI, kitchen manager = dockerd, head chef = containerd, cook = runc, table helper = shim.

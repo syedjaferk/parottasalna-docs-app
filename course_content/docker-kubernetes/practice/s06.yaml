@@ -1,0 +1,147 @@
+chapter: sessions/06-docker-architecture-cli
+
+quizzes:
+  - title: "Session 6 · Concepts"
+    description: Client, daemon, registry and the container lifecycle.
+    questions:
+      - text: Which part of Docker actually creates and runs containers?
+        choices: |
+          The docker CLI
+          *The Docker daemon (dockerd)
+          Docker Hub
+          The Dockerfile
+
+      - text: How does the docker CLI talk to the daemon on Linux?
+        choices: |
+          Over SSH
+          *Through the socket file /var/run/docker.sock
+          By editing files in /etc/docker
+          Through Docker Hub
+
+      - text: Why is access to /var/run/docker.sock dangerous?
+        choices: |
+          It slows Docker down
+          *Anyone who can use it can start a container that mounts the whole disk, which is root access
+          It deletes images
+          It is not dangerous
+        explanation: Only add trusted users to the docker group.
+
+      - text: "In `nginx:alpine`, what is `alpine`?"
+        choices: |
+          The registry
+          The repository
+          *The tag
+          The digest
+
+      - text: You run `docker pull nginx` with no tag. Which tag do you get?
+        choices: |
+          stable
+          *latest
+          alpine
+          The newest numbered version, always pinned
+
+      - text: What does `docker run` do?
+        choices: |
+          Only starts an existing container
+          *Pulls the image if needed, creates a container and starts it
+          Builds an image
+          Only creates a container
+
+      - text: "What does `docker stop` do?"
+        choices: |
+          Sends SIGKILL immediately
+          *Sends SIGTERM, waits 10 seconds, then sends SIGKILL
+          Pauses the container
+          Removes the container
+
+      - text: What does `-p 8080:80` mean in `docker run`?
+        choices: |
+          *Host port 8080 is mapped to container port 80
+          Container port 8080 is mapped to host port 80
+          The container may use ports 80 to 8080
+          It opens port 8080 in the host firewall only
+
+  - title: "Session 6 · Hands-on"
+    description: Commands from the nginx demo.
+    questions:
+      - text: "You run `docker run -d --name web -p 8080:80 -v \"$PWD/html:/usr/share/nginx/html:ro\" nginx:alpine` and then edit `html/index.html` on your laptop. What does `curl localhost:8080` show?"
+        choices: |
+          The old page until you rebuild the image
+          *The new content right away, because it's a bind mount
+          An error, because the mount is read-only
+          The nginx welcome page
+        explanation: "`:ro` only stops the **container** from writing. Your laptop can still edit the folder."
+
+      - text: Which command opens a shell inside a running container named web?
+        choices: |
+          docker run -it web sh
+          *docker exec -it web sh
+          docker attach web sh
+          docker shell web
+
+      - text: Which command shows stopped containers too?
+        choices: |
+          docker ps
+          *docker ps -a
+          docker images -a
+          docker ls
+
+      - text: "`docker run` fails with \"port is already allocated\". What is the fix?"
+        choices: |
+          Restart Docker
+          *Use another host port, like -p 8081:80, or stop whatever uses 8080
+          Change the container port
+          Remove the image
+
+      - text: You run `docker run alpine` and it exits immediately. Why?
+        choices: |
+          Alpine is broken
+          *A container lives only as long as its main process; `sh` exits with no terminal attached
+          You forgot -p
+          Docker needs sudo
+
+      - text: Which command removes a running container in one step?
+        choices: |
+          docker rm web
+          *docker rm -f web
+          docker rmi web
+          docker stop --rm web
+
+      - text: Put the lifecycle in order.
+        choices: |
+          running → created → stopped → removed
+          *created → running → stopped → removed
+          created → stopped → running → removed
+          pulled → removed → running → stopped
+
+decks:
+  - title: "Session 6 · Flashcards"
+    cards:
+      - front: Docker client
+        back: The `docker` command. Sends requests to the daemon.
+      - front: Docker daemon
+        back: "`dockerd`, the background service that manages images, containers, networks and volumes."
+      - front: /var/run/docker.sock
+        back: The socket the CLI uses to reach the daemon. Access = **root access**.
+      - front: "docker.io/library/nginx:alpine"
+        back: Registry `docker.io`, repository `library/nginx` (official), tag `alpine`.
+      - front: docker run
+        back: "**pull + create + start** in one step."
+      - front: "-d"
+        back: Detached; run in the background.
+      - front: "-p 8080:80"
+        back: Host port **8080** → container port **80**.
+      - front: "-v /host/dir:/container/dir:ro"
+        back: Bind mount a folder; `:ro` = read-only inside the container.
+      - front: "-e KEY=value"
+        back: Set an environment variable.
+      - front: "--rm"
+        back: Delete the container when it exits.
+      - front: docker exec -it web sh
+        back: Open a shell inside a **running** container.
+      - front: docker logs -f web
+        back: Follow a container's output.
+      - front: docker stop
+        back: SIGTERM, wait **10 s**, then SIGKILL.
+      - front: Container lifecycle
+        back: created → running → (paused) → stopped → removed.

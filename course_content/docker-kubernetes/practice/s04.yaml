@@ -1,0 +1,132 @@
+chapter: sessions/04-cgroups
+
+quizzes:
+  - title: "Session 4 · Concepts"
+    description: Limits, cgroups v1 vs v2, and the OOM killer.
+    questions:
+      - text: What do cgroups control?
+        choices: |
+          What a process can see
+          *How much CPU, memory, I/O and how many processes a group of processes can use
+          Which users can log in
+          Which ports are open
+
+      - text: A container goes over its **memory** limit. What happens?
+        choices: |
+          It slows down
+          It starts using the host's swap with no limit
+          *The kernel's OOM killer kills it (SIGKILL)
+          Docker raises the limit automatically
+        explanation: Memory can't be "slowed down", so the process is killed.
+
+      - text: A container goes over its **CPU** limit. What happens?
+        choices: |
+          It is killed
+          *It is throttled (slowed down) but keeps running
+          It is paused until you restart it
+          It gets moved to another host
+
+      - text: What is the main difference between cgroups v1 and v2?
+        choices: |
+          v2 only works with Kubernetes
+          *v1 has a separate tree per resource; v2 has one unified tree
+          v1 can't limit memory
+          v2 needs a VM
+
+      - text: What does OOM stand for?
+        choices: |
+          Out Of Mounts
+          *Out Of Memory
+          Order Of Magnitude
+          Only One Mount
+
+      - text: Which flag stops a fork bomb from taking down the host?
+        choices: |
+          --memory
+          --cpus
+          *--pids-limit
+          --restart
+
+      - text: What is the default memory limit for a container started without `--memory`?
+        choices: |
+          512 MB
+          1 GB
+          *No limit (memory.max is `max`)
+          Half of the host's RAM
+        explanation: That's why you should always set limits in production.
+
+  - title: "Session 4 · Hands-on"
+    description: Read the real numbers Docker writes into cgroup files.
+    questions:
+      - text: "With `--memory=100m`, what does `/sys/fs/cgroup/memory.max` show inside the container?"
+        choices: |
+          100m
+          100000000
+          *104857600
+          max
+        explanation: 100 × 1024 × 1024 = 104857600 bytes.
+
+      - text: "With `--cpus=0.5`, what does `/sys/fs/cgroup/cpu.max` show?"
+        choices: |
+          0.5
+          *50000 100000
+          500 1000
+          50%
+        explanation: 50 ms of CPU time in every 100 ms period = half a CPU.
+
+      - text: "A Python app tries to allocate 200 MB with `--memory=30m --memory-swap=30m`. What is the exit code?"
+        choices: |
+          0
+          1
+          *137
+          143
+        explanation: OOM-killed with SIGKILL → 128 + 9 = 137.
+
+      - text: Which command confirms a container was killed by the OOM killer?
+        choices: |
+          *docker inspect --format '{{.State.OOMKilled}}' <name>
+          docker logs <name>
+          docker stats <name>
+          docker oom <name>
+
+      - text: "`docker run -d --name busy --cpus=0.25 alpine sh -c 'while true; do :; done'`. What CPU % does `docker stats` show?"
+        choices: |
+          100%
+          *About 25%
+          0%
+          400%
+
+      - text: Which command shows whether your host uses cgroups v1 or v2?
+        choices: |
+          *docker info --format '{{.CgroupVersion}}'
+          docker version
+          uname -r
+          cat /proc/cgroups-version
+
+decks:
+  - title: "Session 4 · Flashcards"
+    cards:
+      - front: cgroup
+        back: A **control group**. Limits how much CPU, memory, I/O and how many processes a group of processes can use.
+      - front: "`--memory=100m`"
+        back: At most **100 MB** of RAM.
+      - front: "`--cpus=0.5`"
+        back: At most **half of one CPU core**. In `cpu.max`, `50000 100000`.
+      - front: "`--memory-swap` equal to `--memory`"
+        back: No extra swap. The memory limit is the total.
+      - front: "`--pids-limit=100`"
+        back: At most 100 processes. Stops **fork bombs**.
+      - front: Where Docker writes limits
+        back: Files under **/sys/fs/cgroup**, e.g. `memory.max`, `cpu.max`.
+      - front: cgroups v1 vs v2
+        back: v1 = a tree **per resource**. v2 = **one unified tree** (current Ubuntu, Debian, Fedora, Docker, Kubernetes).
+      - front: OOM killer
+        back: The kernel kills a process that goes over its memory limit, with **SIGKILL**.
+      - front: Exit code 137 + OOMKilled=true
+        back: The container ran **out of memory**. Raise the limit or find why the app uses so much.
+      - front: CPU limit vs memory limit
+        back: Over CPU → **throttled** (slower). Over memory → **killed**.
+      - front: Prepaid plan analogy
+        back: Namespaces decide **who you can call**; cgroups are your **data pack limit**.
+      - front: Kubernetes equivalent of an OOM-kill
+        back: Pod status **OOMKilled**.

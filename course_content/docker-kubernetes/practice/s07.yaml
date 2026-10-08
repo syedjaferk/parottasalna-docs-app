@@ -1,0 +1,137 @@
+chapter: sessions/07-image-mechanics
+
+quizzes:
+  - title: "Session 7 · Concepts"
+    description: Layers, copy-on-write, overlay2, image IDs and digests.
+    questions:
+      - text: What is a Docker image made of?
+        choices: |
+          One big compressed file that changes as containers run
+          *A stack of read-only layers plus a config
+          A virtual disk with an OS
+          A list of commands that run every time
+
+      - text: A container changes a file that comes from an image layer. What happens?
+        choices: |
+          The image layer is edited
+          *The file is copied up into the container's writable layer and changed there (copy-on-write)
+          Docker refuses the change
+          A new image is created automatically
+
+      - text: What happens to the writable layer when you remove the container?
+        choices: |
+          It is merged into the image
+          *It is deleted; the image is untouched
+          It becomes a new layer of the image
+          It is saved to Docker Hub
+
+      - text: Which storage driver does modern Linux Docker use by default?
+        choices: |
+          aufs
+          devicemapper
+          *overlay2
+          zfs
+
+      - text: What is the image **digest**?
+        choices: |
+          A hash of the image's config on your machine
+          *A hash of the image's manifest in a registry, used to pull exactly the same image anywhere
+          The image's tag
+          The image's size
+
+      - text: Why pin an image by digest (or a specific tag) instead of `latest` in production?
+        choices: |
+          Digests download faster
+          *A tag can be moved to a new image; a digest always means the exact same bytes
+          `latest` images are not allowed in production
+          Digests are smaller
+
+      - text: "\"Updating\" an image really means…"
+        choices: |
+          Editing its layers in place
+          *Building a new image (new ID) and moving the tag to it
+          Running `docker update`
+          Restarting all containers
+        explanation: Images are immutable. That's also why rollback is easy; run the previous image.
+
+  - title: "Session 7 · Hands-on"
+    questions:
+      - text: "After `docker exec cow sh -c 'echo hi > /tmp/new.txt'`, `docker diff cow` shows `A /tmp/new.txt`. What does `A` mean?"
+        choices: |
+          *Added
+          Archived
+          Accessed
+          Attached
+
+      - text: "In `docker diff`, what does `C /tmp` mean?"
+        choices: |
+          Copied
+          *Changed
+          Cached
+          Created by the image
+
+      - text: You create a file in container 1, then start container 2 from the same image. Is the file in container 2?
+        choices: |
+          Yes, they share the image
+          *No, each container has its own writable layer
+          Only if container 1 is still running
+          Only with --volumes-from
+
+      - text: Which command shows image digests?
+        choices: |
+          docker images
+          *docker images --digests
+          docker digest ls
+          docker history
+
+      - text: Which command removes untagged (dangling) leftover images?
+        choices: |
+          docker rmi --all
+          *docker image prune
+          docker system reset
+          docker images -f dangling=true
+
+      - text: Which command shows how much disk images, containers and volumes use?
+        choices: |
+          df -h
+          docker info
+          *docker system df
+          docker stats
+
+      - text: "Which Dockerfile instructions add real bytes to an image? (Pick all that apply.)"
+        choices: |
+          *RUN
+          *COPY
+          *ADD
+          ENV
+        explanation: ENV, WORKDIR, EXPOSE, CMD and similar only change the image's settings (0B layers).
+
+decks:
+  - title: "Session 7 · Flashcards"
+    cards:
+      - front: Layer
+        back: A **read-only** set of file changes from one build step.
+      - front: Writable layer
+        back: A thin layer on top for each **container**. Deleted with the container.
+      - front: Copy-on-write
+        back: Changing a lower-layer file first **copies it up** to the writable layer, then changes the copy.
+      - front: overlay2
+        back: The default storage driver. Lower dirs = image layers, upper dir = writable layer, **merged** = what the container sees.
+      - front: Image ID
+        back: SHA-256 of the image's **config**. Identifies it on your machine.
+      - front: Digest
+        back: SHA-256 of the image's **manifest** in a registry. Pull exactly these bytes anywhere.
+      - front: Tag
+        back: A **movable label** (`alpine:3.20`). The publisher can point it at a new image.
+      - front: Immutable image
+        back: Never changes after it's built. Updates = a new image; rollback = run the old one.
+      - front: docker diff
+        back: "Shows a container's changes. `A` added, `C` changed, `D` deleted."
+      - front: docker history
+        back: Lists an image's layers with the instruction and size of each.
+      - front: docker image prune
+        back: Removes **dangling** (untagged) images.
+      - front: docker system df
+        back: Disk used by images, containers, volumes and build cache.
+      - front: Projector-sheet analogy
+        back: Stacked transparent sheets you can't edit; you draw on a **fresh top sheet**.

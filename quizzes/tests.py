@@ -312,3 +312,76 @@ class FlashcardTests(QuizTestCase):
                 Deck(course=self.course, title="ok", chapter="lesson-1").full_clean()
                 with self.assertRaises(ValidationError):
                     Deck(course=self.course, title="bad", chapter="nope").full_clean()
+
+
+PRACTICE_YAML = """
+chapter: lesson-1
+quizzes:
+  - title: "Lesson 1 · Concepts"
+    questions:
+      - text: Pick `b`
+        choices: |
+          a
+          *b
+      - text: Second
+        choices: |
+          *yes
+          no
+decks:
+  - title: "Lesson 1 · Cards"
+    cards:
+      - front: Term
+        back: Meaning
+"""
+
+
+class LoadPracticeTests(QuizTestCase):
+    def run_load(self, text, *args):
+        from io import StringIO
+
+        from django.core.management import call_command
+
+        with tempfile.TemporaryDirectory() as root:
+            folder = Path(root) / "c1"
+            (folder / "practice").mkdir(parents=True)
+            (folder / "lesson-1.md").write_text("# L1")
+            (folder / "practice" / "s01.yaml").write_text(text)
+            with override_settings(COURSES_SRC_ROOT=Path(root)):
+                call_command("load_practice", "c1", *args, stdout=StringIO())
+
+    def test_creates_published_quiz_and_deck_for_the_chapter(self):
+        from .models import Deck
+
+        self.run_load(PRACTICE_YAML)
+        quiz = Quiz.objects.get(course=self.course, title="Lesson 1 · Concepts")
+        self.assertEqual((quiz.chapter, quiz.is_published, quiz.questions.count()), ("lesson-1", True, 2))
+        self.assertEqual(quiz.questions.first().correct_indexes(), {1})
+        deck = Deck.objects.get(course=self.course, title="Lesson 1 · Cards")
+        self.assertEqual([(c.front, c.back) for c in deck.cards.all()], [("Term", "Meaning")])
+
+    def test_reloading_updates_in_place_and_keeps_attempts(self):
+        self.run_load(PRACTICE_YAML)
+        quiz = Quiz.objects.get(course=self.course, title="Lesson 1 · Concepts")
+        first_id = quiz.questions.first().pk
+        Attempt.objects.create(quiz=quiz, user=self.student, score=1, max_score=2)
+        self.run_load(PRACTICE_YAML.replace("Pick `b`", "Pick b now").replace(
+            "      - text: Second\n        choices: |\n          *yes\n          no\n", ""))
+        self.assertEqual(Quiz.objects.filter(course=self.course, title=quiz.title).count(), 1)
+        self.assertEqual(list(quiz.questions.values_list("pk", "text")), [(first_id, "Pick b now")])
+        self.assertEqual(quiz.attempts.count(), 1)
+
+    def test_prune_removes_only_with_flag_and_draft_unpublishes(self):
+        self.run_load(PRACTICE_YAML)
+        self.assertTrue(Quiz.objects.filter(pk=self.quiz.pk).exists())
+        self.run_load(PRACTICE_YAML, "--prune", "--draft")
+        self.assertFalse(Quiz.objects.filter(pk=self.quiz.pk).exists())
+        self.assertFalse(Quiz.objects.get(course=self.course, title="Lesson 1 · Concepts").is_published)
+
+    def test_bad_files_are_rejected_without_partial_writes(self):
+        from django.core.management.base import CommandError
+
+        for bad in (PRACTICE_YAML.replace("*b", "b"), PRACTICE_YAML.replace("chapter: lesson-1", "chapter: nope"),
+                    "chapter: lesson-1\nquizzes: [title: x: y"):
+            with self.assertRaises(CommandError):
+                self.run_load(bad)
+        self.assertEqual(Quiz.objects.filter(course=self.course).count(), 1)

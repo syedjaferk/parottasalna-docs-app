@@ -1,0 +1,150 @@
+chapter: sessions/08-dockerfile-fundamentals
+
+quizzes:
+  - title: "Session 8 · Concepts"
+    description: Every Dockerfile instruction, in plain words.
+    questions:
+      - text: Which instruction must come first in a Dockerfile (apart from ARG and comments)?
+        choices: |
+          RUN
+          WORKDIR
+          *FROM
+          CMD
+
+      - text: When does `RUN` execute?
+        choices: |
+          Every time a container starts
+          *While the image is being built
+          Only when you run `docker exec`
+          After `docker push`
+
+      - text: What is the difference between ARG and ENV?
+        choices: |
+          There is none
+          *ARG exists only during the build; ENV stays in the image and the running app can read it
+          ENV exists only during the build; ARG stays in the image
+          ARG is for numbers, ENV for strings
+
+      - text: Does `EXPOSE 5111` make the app reachable from your laptop?
+        choices: |
+          Yes, always
+          *No, it's documentation; you still need `-p 5111:5111`
+          Only on Linux
+          Only with --network host
+
+      - text: Why use `WORKDIR /app` instead of `RUN cd /app`?
+        choices: |
+          RUN cd is slower
+          *`RUN cd` only affects that one RUN; WORKDIR applies to every later instruction and the container
+          WORKDIR also copies files
+          There is no difference
+
+      - text: When should you choose ADD over COPY?
+        choices: |
+          Always; it does more
+          *Only when you want a local .tar file unpacked
+          For copying single files
+          Never; ADD is removed
+
+      - text: Where should passwords and API keys go?
+        choices: |
+          In ENV, so the app can read them
+          In ARG, because ARG disappears after the build
+          *Pass them at run time (-e, --env-file, Kubernetes Secrets), never in ENV or ARG
+          In a comment in the Dockerfile
+        explanation: Anyone with the image can read ENV and ARG values with `docker history` or `docker inspect`.
+
+      - text: Which base image is usually the best default for Python apps?
+        choices: |
+          python:3.12 (~1 GB)
+          *python:3.12-slim (~150 MB)
+          python:latest
+          ubuntu:latest plus apt-get install python
+
+  - title: "Session 8 · Hands-on"
+    description: Predict the output of the class Flask app.
+    questions:
+      - text: "Built with `--build-arg APP_VERSION=qa` and run with no `-e`. What does `curl localhost:5111` print?"
+        choices: |
+          Hello Vanakamungoo from dev!
+          *Hello Docker from qa!
+          Hello Docker from dev!
+          Hello Vanakamungoo from qa!
+        explanation: ENV sets GREETING="Hello Docker" and copies the ARG into APP_ENV.
+
+      - text: "Same image, run with `-e GREETING=Vanakkam`. What is printed?"
+        choices: |
+          Hello Docker from qa!
+          *Vanakkam from qa!
+          Vanakkam from dev!
+          Vanakkam
+        explanation: "`-e` overrides the ENV value at run time."
+
+      - text: The image was built **without** `--build-arg`, and `ARG APP_VERSION` has no default. What is printed?
+        choices: |
+          Hello Docker from dev!
+          *Hello Docker from !
+          Hello Docker from qa!
+          The build fails
+        explanation: APP_ENV is set to an empty string, so `os.getenv('APP_ENV', 'dev')` returns "" instead of the default. Fix it with `ARG APP_VERSION=dev`.
+
+      - text: "Which RUN is better?"
+        choices: |
+          Three separate RUNs: update, install, then remove the apt cache
+          *One RUN: `apt-get update && apt-get install -y ... && rm -rf /var/lib/apt/lists/*`
+          They produce the same image size
+          RUN apt-get should never be used
+        explanation: A file deleted in a later layer still takes space in the earlier one.
+
+      - text: "`docker run --rm kube-demo-flask:qa python -c \"import flask; print(flask.__version__)\"` prints `3.1.3`. What happened to `CMD [\"python\", \"app.py\"]`?"
+        choices: |
+          It ran first, then the new command
+          *It was replaced by the command after the image name
+          It ran after the new command
+          It was appended as arguments
+
+      - text: "In `docker history kube-demo-flask:qa`, which layer is about 13.8 MB?"
+        choices: |
+          COPY app.py
+          ENV APP_ENV=qa
+          *RUN pip install -r requirements.txt
+          WORKDIR /application
+
+      - text: The Flask app listens on 127.0.0.1 inside the container and `-p` is set. What happens with `curl localhost:5111` on your laptop?
+        choices: |
+          It works
+          *It fails; 127.0.0.1 inside the container only accepts connections from inside. Listen on 0.0.0.0
+          It works only with EXPOSE
+          It works over IPv6 only
+
+decks:
+  - title: "Session 8 · Flashcards"
+    cards:
+      - front: Dockerfile
+        back: A **recipe** of build steps. `docker build` reads it top to bottom; most steps add a layer.
+      - front: FROM
+        back: The **base image**. Pin a tag, e.g. `python:3.12-slim`.
+      - front: ARG
+        back: A **build-time** variable from `--build-arg`. Gone after the build.
+      - front: ENV
+        back: An environment variable **baked into the image**. Change it at run time with `-e`.
+      - front: WORKDIR
+        back: "`cd` (creating the folder) for every later instruction and the container."
+      - front: COPY
+        back: Copy files from the **build context** into the image.
+      - front: ADD
+        back: Like COPY, plus unpacks local `.tar` files and can fetch URLs. Prefer COPY.
+      - front: RUN
+        back: Runs a command **at build time** (install packages). Adds a layer.
+      - front: EXPOSE
+        back: "**Documentation only.** Publishing needs `-p`."
+      - front: CMD
+        back: The **default** command. Replaced by anything after the image name in `docker run`.
+      - front: ENTRYPOINT
+        back: "**The** program. Arguments from `docker run` are **appended**."
+      - front: Base image sizes (Python)
+        back: full ~1 GB, **slim ~150 MB**, alpine ~55 MB (musl; some packages need compiling).
+      - front: Clean up apt in the same RUN
+        back: A file deleted in a later layer **still takes space** in the earlier one.
+      - front: Secrets in ENV or ARG?
+        back: "**Never.** Visible in `docker history` and `docker inspect`. Pass them at run time."

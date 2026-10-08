@@ -1,0 +1,142 @@
+chapter: sessions/02-linux-prerequisites
+
+quizzes:
+  - title: "Session 2 · Concepts"
+    description: Processes, signals, mounts, permissions and /proc.
+    questions:
+      - text: What is PID 1 on a normal Linux host?
+        choices: |
+          The shell you are typing in
+          *The first process the kernel starts (usually systemd), the ancestor of all others
+          The Docker daemon
+          Whatever process uses the most CPU
+
+      - text: A parent process dies before its child. What happens to the child?
+        choices: |
+          It is killed immediately
+          It becomes a zombie
+          *It becomes an orphan and is adopted by PID 1
+          It becomes PID 1
+        explanation: Orphans are re-parented to PID 1. A zombie is a finished process whose exit status hasn't been collected yet.
+
+      - text: Which two signals can never be caught or ignored?
+        choices: |
+          SIGTERM and SIGINT
+          *SIGKILL and SIGSTOP
+          SIGHUP and SIGKILL
+          SIGTERM and SIGKILL
+
+      - text: What does `kill <PID>` send by default?
+        choices: |
+          SIGKILL (9)
+          *SIGTERM (15)
+          SIGINT (2)
+          SIGHUP (1)
+
+      - text: A process was killed by SIGKILL. What exit code do you see?
+        choices: |
+          9
+          1
+          *137
+          143
+        explanation: Killed by a signal → 128 + signal number. 128 + 9 = 137.
+
+      - text: What is a bind mount?
+        choices: |
+          A copy of a folder
+          *The same folder made visible at a second place in the tree
+          A network share
+          A compressed archive
+        explanation: Changes in either place show up in both, because it is one folder. `docker run -v /host:/container` does exactly this.
+
+      - text: What is `/proc`?
+        choices: |
+          A folder on disk where programs are installed
+          *A virtual folder the kernel generates, with information about every running process
+          The Docker config folder
+          A backup of /etc
+
+      - text: Which key press sends SIGINT to the program in your terminal?
+        choices: |
+          Ctrl+Z
+          *Ctrl+C
+          Ctrl+D
+          Ctrl+S
+
+  - title: "Session 2 · Hands-on"
+    description: Read commands and predict what happens.
+    questions:
+      - text: "`ls -l app.py` shows `-rw-r--r--`. Who can write to the file?"
+        choices: |
+          Everyone
+          The group only
+          *Only the owner
+          Nobody
+        explanation: "`rw-` owner, `r--` group, `r--` others."
+
+      - text: What does `chmod 640 secret.txt` give?
+        choices: |
+          *Owner read+write, group read, others nothing
+          Owner read, group read+write, others nothing
+          Everyone read
+          Owner everything, others read
+
+      - text: You run `sleep 300 &`, then `kill <its PID>`, then `wait <PID>; echo $?`. What is printed?
+        choices: |
+          0
+          137
+          *143
+          15
+        explanation: SIGTERM is 15, so the exit code is 128 + 15 = 143.
+
+      - text: "`docker run --rm alpine cat /proc/1/cmdline` prints `cat`. Why isn't it systemd?"
+        choices: |
+          Alpine doesn't use systemd
+          *The container has its own PID namespace, so its own command is PID 1
+          /proc is broken in containers
+          cat replaced systemd on the host
+        explanation: Coming up in Session 3. The container's first process is PID 1 inside its own PID namespace.
+
+      - text: Which commands show the process tree with PIDs? (Pick all that apply.)
+        choices: |
+          *pstree -p
+          *ps -ef (look at PID and PPID columns)
+          ls /proc/tree
+          df -h
+
+      - text: What does `echo $$` print?
+        choices: |
+          The last exit code
+          *The PID of your current shell
+          The PID of PID 1
+          Two dollar signs
+
+decks:
+  - title: "Session 2 · Flashcards"
+    cards:
+      - front: PID / PPID
+        back: "**PID** = process ID. **PPID** = parent's process ID."
+      - front: fork() + exec()
+        back: "`fork()` copies the current process; `exec()` replaces the copy with a new program. Children inherit environment, open files and permissions."
+      - front: Orphan process
+        back: A child whose parent died first. It is **adopted by PID 1**.
+      - front: Zombie process
+        back: A finished process whose parent hasn't collected its exit status. **PID 1 reaps** zombies.
+      - front: SIGTERM (15)
+        back: The **polite stop**. Can be caught so the app can clean up. Sent by `kill` and `docker stop`.
+      - front: SIGKILL (9)
+        back: The **forced stop**. Can't be caught or ignored; no cleanup. Last resort.
+      - front: SIGINT (2)
+        back: Sent by **Ctrl+C**.
+      - front: SIGHUP (1)
+        back: "\"The terminal hung up\". Many servers (nginx, sshd) treat it as **reload config**."
+      - front: Exit code after a signal
+        back: "**128 + signal number**. 137 = SIGKILL, 143 = SIGTERM."
+      - front: Bind mount
+        back: One folder visible at **two places**. `mount --bind src dest`, or `docker run -v host:container`.
+      - front: "`-rw-r--r--`"
+        back: Regular file. Owner read+write, group read, others read.
+      - front: /proc
+        back: A **virtual** folder from the kernel, one subfolder per PID. `ps` and `top` read it.
+      - front: Why PID 1 matters in Docker
+        back: Your `CMD`/`ENTRYPOINT` becomes **PID 1 in the container**, so it must handle stop signals and reap zombies.

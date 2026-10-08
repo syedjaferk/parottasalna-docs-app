@@ -123,6 +123,20 @@ Authorised redirect URIs:
    (or run `python manage.py build_docs python-101`).
 4. Sign in with an enrolled Google account at `/` and open the docs.
 
+### Quizzes and flashcards from files
+
+Instead of typing them into the admin, keep them in `course_content/<course>/practice/*.yaml`
+(one file per chapter; see `course_content/docker-kubernetes/practice/` and the format at the top
+of `quizzes/management/commands/load_practice.py`), then load them:
+
+```bash
+python manage.py load_practice docker-kubernetes            # publish; safe to re-run
+python manage.py load_practice docker-kubernetes --draft    # staff-only preview
+python manage.py load_practice docker-kubernetes --prune    # also delete ones not in the files
+```
+
+Reloading updates questions and cards in place, so students' scores and card progress are kept.
+
 Run the tests with `python manage.py test`.
 
 ## Production notes
