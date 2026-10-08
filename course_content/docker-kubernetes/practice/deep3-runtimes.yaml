@@ -1,7 +1,8 @@
-chapter: sessions/05-container-runtimes
+chapter: deep-dives/container-runtimes
 
 quizzes:
-  - title: "Session 5 · Concepts"
+  - title: "Under the hood · Container runtimes · Concepts"
+    renamed_from: ["Session 5 · Concepts"]
     description: The chain from `docker run` to a running process.
     questions:
       - text: What is the order of programs when you type `docker run`?
@@ -53,7 +54,8 @@ quizzes:
           A storage driver
           A Linux namespace
 
-  - title: "Session 5 · Hands-on"
+  - title: "Under the hood · Container runtimes · Hands-on"
+    renamed_from: ["Session 5 · Hands-on"]
     questions:
       - text: Which command shows the default low-level runtime?
         choices: |
@@ -92,7 +94,8 @@ quizzes:
           CRI spec
 
 decks:
-  - title: "Session 5 · Flashcards"
+  - title: "Under the hood · Container runtimes · Flashcards"
+    renamed_from: ["Session 5 · Flashcards"]
     cards:
       - front: docker (CLI)
         back: Reads your command and sends it to the daemon's **API**.

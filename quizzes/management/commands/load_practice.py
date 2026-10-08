@@ -21,8 +21,9 @@ Files live in ``course_content/<course>/practice/*.yaml``, one per chapter::
 Choices use the same format as the admin: one per line, correct ones start with ``*``
 (use a ``|`` block so YAML doesn't read ``*`` as an alias).
 
-Quizzes and decks are matched by course + chapter + title, and their questions and cards are
-updated in place by position, so loading again keeps students' attempts and card progress.
+Quizzes and decks are matched by course + title, and their questions and cards are updated in
+place by position, so loading again keeps students' attempts and card progress. To rename one (or
+move it to another chapter) without losing that, list its old titles under ``renamed_from:``.
 """
 
 from pathlib import Path
@@ -60,6 +61,23 @@ def _question(row):
         "explanation": (row.get("explanation") or "").strip(),
         "points": row.get("points", 1),
     }
+
+
+def _upsert(model, course, item, defaults):
+    """Find by title (or a former title from ``renamed_from``), then update; else create."""
+    titles = [item["title"], *(item.get("renamed_from") or [])]
+    obj = None
+    for title in titles:
+        obj = model.objects.filter(course=course, title=title).order_by("pk").first()
+        if obj:
+            break
+    if obj is None:
+        obj = model(course=course)
+    obj.title = item["title"]
+    for name, value in defaults.items():
+        setattr(obj, name, value)
+    obj.save()
+    return obj
 
 
 def _card(row):
@@ -112,14 +130,12 @@ class Command(BaseCommand):
             except ValidationError as exc:
                 raise CommandError(f"{path.name}: {exc}")
             for index, item in enumerate(data.get("quizzes") or []):
-                quiz, _ = Quiz.objects.update_or_create(
-                    course=course, chapter=chapter, title=item["title"],
-                    defaults=dict(
-                        description=(item.get("description") or "").strip(),
-                        pass_percentage=item.get("pass_percentage", 60),
-                        is_published=published, order=number * 10 + index,
-                    ),
-                )
+                quiz = _upsert(Quiz, course, item, dict(
+                    chapter=chapter,
+                    description=(item.get("description") or "").strip(),
+                    pass_percentage=item.get("pass_percentage", 60),
+                    is_published=published, order=number * 10 + index,
+                ))
                 try:
                     _sync_children(quiz.questions, item["questions"], _question)
                 except ValidationError as exc:
@@ -128,13 +144,11 @@ class Command(BaseCommand):
                 counts["quizzes"] += 1
                 counts["questions"] += len(item["questions"])
             for index, item in enumerate(data.get("decks") or []):
-                deck, _ = Deck.objects.update_or_create(
-                    course=course, chapter=chapter, title=item["title"],
-                    defaults=dict(
-                        description=(item.get("description") or "").strip(),
-                        is_published=published, order=number * 10 + index,
-                    ),
-                )
+                deck = _upsert(Deck, course, item, dict(
+                    chapter=chapter,
+                    description=(item.get("description") or "").strip(),
+                    is_published=published, order=number * 10 + index,
+                ))
                 _sync_children(deck.cards, item["cards"], _card)
                 keep_decks.add(deck.pk)
                 counts["decks"] += 1

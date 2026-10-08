@@ -377,6 +377,17 @@ class LoadPracticeTests(QuizTestCase):
         self.assertFalse(Quiz.objects.filter(pk=self.quiz.pk).exists())
         self.assertFalse(Quiz.objects.get(course=self.course, title="Lesson 1 · Concepts").is_published)
 
+    def test_renamed_from_keeps_the_same_quiz_and_its_attempts(self):
+        self.run_load(PRACTICE_YAML)
+        quiz = Quiz.objects.get(course=self.course, title="Lesson 1 · Concepts")
+        Attempt.objects.create(quiz=quiz, user=self.student, score=1, max_score=2)
+        self.run_load(PRACTICE_YAML.replace(
+            '  - title: "Lesson 1 · Concepts"\n',
+            '  - title: "Chapter 1 · Concepts"\n    renamed_from: ["Lesson 1 · Concepts"]\n'))
+        quiz.refresh_from_db()
+        self.assertEqual((quiz.title, quiz.attempts.count()), ("Chapter 1 · Concepts", 1))
+        self.assertFalse(Quiz.objects.filter(course=self.course, title="Lesson 1 · Concepts").exists())
+
     def test_bad_files_are_rejected_without_partial_writes(self):
         from django.core.management.base import CommandError
 

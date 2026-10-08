@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="bind-mount-uid-t bind-mount-uid-d" xmlns="http://www.w3.org/2000/svg">
+<title id="bind-mount-uid-t">A bind mount shares one folder, and file owners are just numbers</title>
+<desc id="bind-mount-uid-d">Both sides see the same folder. A file made by root (UID 0) in the container is owned by root on the host too; --user makes it yours.</desc>
+<defs><marker id="bind-mount-uid-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="bind-mount-uid-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="bind-mount-uid-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="bind-mount-uid-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="300" height="200" rx="14" class="blue"/>
+<text x="170" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">Your laptop (host)</text>
+<rect x="40" y="60" width="260" height="46" rx="10" class="box"/>
+<text x="170.0" y="73.0" text-anchor="middle" dominant-baseline="middle">~/project/html</text>
+<text x="170.0" y="93.0" text-anchor="middle" dominant-baseline="middle" class="small">you are UID 1000</text>
+<rect x="40" y="120" width="260" height="40" rx="10" class="red"/>
+<text x="170.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">from-container.txt  owner 0 (root)</text>
+<rect x="40" y="168" width="260" height="40" rx="10" class="green"/>
+<text x="170.0" y="188.0" text-anchor="middle" dominant-baseline="middle" class="small">as-me.txt  owner 1000 (you)</text>
+<rect x="400" y="20" width="300" height="200" rx="14" class="green"/>
+<text x="550" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">Container</text>
+<rect x="420" y="60" width="260" height="46" rx="10" class="box"/>
+<text x="550.0" y="73.0" text-anchor="middle" dominant-baseline="middle">/usr/share/nginx/html</text>
+<text x="550.0" y="93.0" text-anchor="middle" dominant-baseline="middle" class="small">runs as root (UID 0) by default</text>
+<rect x="420" y="120" width="260" height="40" rx="10" class="box"/>
+<text x="550.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">touch from-container.txt</text>
+<rect x="420" y="168" width="260" height="40" rx="10" class="box"/>
+<text x="550.0" y="188.0" text-anchor="middle" dominant-baseline="middle" class="code">--user 1000:1000 touch as-me</text>
+<path d="M302,83 L418,83" class="arrow blue" marker-end="url(#bind-mount-uid-h-blue)"/>
+<text x="360" y="70" text-anchor="middle" dominant-baseline="middle" class="small">-v</text>
+<path d="M418,83 L302,83" class="arrow blue" marker-end="url(#bind-mount-uid-h-blue)"/>
+<text x="360" y="102" text-anchor="middle" dominant-baseline="middle" class="small">same folder</text>
+</svg>
+<figcaption>Both sides see the same folder. A file made by root (UID 0) in the container is owned by root on the host too; --user makes it yours.</figcaption>
+</figure>

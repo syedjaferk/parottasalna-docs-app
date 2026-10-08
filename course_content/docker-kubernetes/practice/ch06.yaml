@@ -1,0 +1,158 @@
+chapter: sessions/06-docker-networking
+
+quizzes:
+  - title: "Chapter 6 · Concepts"
+    description: Bridge, host, none, user-defined networks, NAT, macvlan and overlay.
+    questions:
+      - text: What network does a container join if you don't give `--network`?
+        choices: |
+          host
+          none
+          *The default bridge network
+          A new network per container
+
+      - text: Why can't two containers on the **default** bridge ping each other by name?
+        choices: |
+          Names are only allowed in Kubernetes
+          *The default bridge has no DNS for container names; user-defined networks do
+          Containers don't have names
+          ping is not installed
+        explanation: On a user-defined network, Docker's DNS server at 127.0.0.11 resolves container names.
+
+      - text: What connects a container's eth0 to the docker0 bridge?
+        choices: |
+          A USB cable
+          *A veth pair (a virtual cable)
+          An overlay tunnel
+          The docker.sock file
+
+      - text: What does `--network host` do?
+        choices: |
+          Gives the container a public IP
+          *Shares the host's network directly: no separate namespace, no -p needed
+          Blocks all network access
+          Puts the container on your LAN with its own MAC
+
+      - text: When is `--network none` useful?
+        choices: |
+          For web servers
+          *For jobs that must not talk to any network
+          For faster downloads
+          For multi-host setups
+
+      - text: How does `-p 8080:80` reach a container on a bridge network?
+        choices: |
+          The container gets the host's IP
+          *Docker adds a NAT rule: host port 8080 → container IP port 80
+          It changes the container's port to 8080
+          It opens port 80 on the router
+
+      - text: Which network type spans several hosts?
+        choices: |
+          bridge
+          host
+          *overlay
+          none
+
+      - text: Which network type puts a container on your real LAN with its own MAC address?
+        choices: |
+          overlay
+          *macvlan
+          host
+          bridge
+
+      - text: Why do services in Docker Compose find each other by name?
+        choices: |
+          Compose edits /etc/hosts on your laptop
+          *Compose creates a user-defined network, which has DNS for service names
+          Compose uses the host network
+          Compose uses overlay networks
+
+  - title: "Chapter 6 · Hands-on"
+    description: Predict the output of the class commands.
+    questions:
+      - text: "On the default bridge, `docker exec net-a ping -c1 net-b` prints…"
+        choices: |
+          1 packets received
+          *ping: bad address 'net-b'
+          Permission denied
+          Network unreachable
+
+      - text: "On a user-defined network, what does `cat /etc/resolv.conf` show as the nameserver?"
+        choices: |
+          8.8.8.8
+          172.17.0.1
+          *127.0.0.11
+          Your router's IP
+
+      - text: "`docker run --rm --network none alpine ping -c1 8.8.8.8` prints…"
+        choices: |
+          1 packets received
+          *ping: sendto: Network unreachable
+          bad address
+          It hangs forever
+
+      - text: "`docker run --rm --network host alpine hostname` prints…"
+        choices: |
+          A random container ID
+          *Your host's hostname
+          localhost
+          alpine
+
+      - text: "`docker run -d --name web -p 8099:80 nginx:alpine` then `docker port web`. What is shown?"
+        choices: |
+          8099/tcp -> 0.0.0.0:80
+          *80/tcp -> 0.0.0.0:8099
+          80 -> 8099
+          Nothing; port is only shown in docker ps
+
+      - text: You start a second container with `-p 8099:80` while the first one still uses it. What happens?
+        choices: |
+          Both share the port
+          *It fails: failed to bind host port … address already in use
+          Docker picks 8100 automatically
+          The first container is stopped
+
+      - text: "After `docker network connect mynet web`, how many IP addresses does `web` have?"
+        choices: |
+          One, it moved networks
+          *Two, one per network
+          None until restart
+          It depends on -p
+
+      - text: How should you publish PostgreSQL on a cloud server so only the server itself can reach it?
+        choices: |
+          -p 5432:5432
+          *-p 127.0.0.1:5432:5432
+          --network host
+          -p 0.0.0.0:5432:5432
+
+decks:
+  - title: "Chapter 6 · Flashcards"
+    cards:
+      - front: docker0
+        back: The virtual switch for the **default bridge** network, at `172.17.0.1` on the host.
+      - front: veth pair
+        back: A virtual cable. One end is the container's `eth0`, the other is plugged into the bridge.
+      - front: Default bridge
+        back: Own IP per container, reach from outside with `-p`. **No DNS for names.**
+      - front: User-defined bridge
+        back: "`docker network create mynet`. Containers find each other **by name** (DNS at 127.0.0.11) and are isolated from other networks."
+      - front: host network
+        back: Shares the host's network. No isolation, no `-p` needed. Linux only.
+      - front: none network
+        back: Only loopback. **No network at all.**
+      - front: macvlan
+        back: Container appears on your **real LAN** with its own MAC and IP.
+      - front: overlay
+        back: One network across **many hosts** (VXLAN). Used by Swarm; the idea behind Kubernetes pod networks.
+      - front: "-p 8080:80"
+        back: Docker adds a **NAT rule**. Host port 8080 → container port 80.
+      - front: "-p 127.0.0.1:5432:5432"
+        back: Published **only on localhost**. Safer for databases on servers.
+      - front: docker network connect
+        back: Attach a running container to another network. It gets **one IP per network**.
+      - front: localhost inside a container
+        back: The **container itself**. Reach the host via `172.17.0.1` (Linux) or `host.docker.internal` (Docker Desktop).
+      - front: Compose networking
+        back: Compose makes a user-defined network per project. Services reach each other by **service name**.

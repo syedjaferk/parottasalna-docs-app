@@ -1,7 +1,8 @@
-chapter: sessions/03-namespaces
+chapter: deep-dives/namespaces
 
 quizzes:
-  - title: "Session 3 · Concepts"
+  - title: "Under the hood · Namespaces · Concepts"
+    renamed_from: ["Session 3 · Concepts"]
     description: What each namespace isolates.
     questions:
       - text: What does a namespace do?
@@ -10,7 +11,7 @@ quizzes:
           *Gives a process its own private view of one part of the system
           Encrypts a container's files
           Gives a container its own kernel
-        explanation: Namespaces control what a process can **see**. Limits are cgroups (Session 4).
+        explanation: Namespaces control what a process can **see**. Limits are cgroups.
 
       - text: Which namespace gives a container its own hostname?
         choices: |
@@ -54,7 +55,8 @@ quizzes:
           *False
         explanation: Namespaces hide things; they don't limit things. Memory and CPU limits are cgroups.
 
-  - title: "Session 3 · Hands-on"
+  - title: "Under the hood · Namespaces · Hands-on"
+    renamed_from: ["Session 3 · Hands-on"]
     questions:
       - text: What does `docker run --rm --hostname kube-box alpine hostname` print?
         choices: |
@@ -100,7 +102,8 @@ quizzes:
           An error
 
 decks:
-  - title: "Session 3 · Flashcards"
+  - title: "Under the hood · Namespaces · Flashcards"
+    renamed_from: ["Session 3 · Flashcards"]
     cards:
       - front: Namespace
         back: Gives a process its **own private view** of one part of the system. Controls what it can **see**.

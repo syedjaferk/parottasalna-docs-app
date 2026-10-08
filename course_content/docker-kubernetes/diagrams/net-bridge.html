@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="net-bridge-t net-bridge-d" xmlns="http://www.w3.org/2000/svg">
+<title id="net-bridge-t">The default bridge network and port publishing</title>
+<desc id="net-bridge-d">Each container gets its own eth0 joined to the docker0 bridge by a veth pair. -p 8080:80 adds a NAT rule from the host&#x27;s port 8080 to the container&#x27;s port 80.</desc>
+<defs><marker id="net-bridge-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="net-bridge-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="net-bridge-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="net-bridge-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="680" height="250" rx="14" class="box"/>
+<text x="360" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">Docker host</text>
+<rect x="40" y="60" width="170" height="56" rx="10" class="blue"/>
+<text x="125.0" y="78.0" text-anchor="middle" dominant-baseline="middle">Host eth0</text>
+<text x="125.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="code">192.168.1.10</text>
+<rect x="40" y="140" width="170" height="70" rx="10" class="amber"/>
+<text x="125.0" y="155.0" text-anchor="middle" dominant-baseline="middle">NAT rule (iptables)</text>
+<text x="125.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="code">host:8080 →</text>
+<text x="125.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="code">172.17.0.2:80</text>
+<path d="M125,116 L125,138" class="arrow" marker-end="url(#net-bridge-h)"/>
+<rect x="270" y="120" width="180" height="56" rx="10" class="green"/>
+<text x="360.0" y="138.0" text-anchor="middle" dominant-baseline="middle">docker0 bridge</text>
+<text x="360.0" y="158.0" text-anchor="middle" dominant-baseline="middle" class="code">172.17.0.1</text>
+<path d="M210,175 L268,150" class="arrow" marker-end="url(#net-bridge-h)"/>
+<rect x="520" y="70" width="160" height="60" rx="10" class="purple"/>
+<text x="600.0" y="90.0" text-anchor="middle" dominant-baseline="middle">web (nginx)</text>
+<text x="600.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">eth0 172.17.0.2</text>
+<path d="M450,148 L518,100" class="arrow" marker-end="url(#net-bridge-h)"/>
+<text x="478" y="110" text-anchor="middle" dominant-baseline="middle" class="small">veth</text>
+<rect x="520" y="180" width="160" height="60" rx="10" class="purple"/>
+<text x="600.0" y="200.0" text-anchor="middle" dominant-baseline="middle">db</text>
+<text x="600.0" y="220.0" text-anchor="middle" dominant-baseline="middle" class="code">eth0 172.17.0.3</text>
+<path d="M450,148 L518,210" class="arrow" marker-end="url(#net-bridge-h)"/>
+<text x="125" y="245" text-anchor="middle" dominant-baseline="middle" class="small">curl localhost:8080 → web:80</text>
+</svg>
+<figcaption>Each container gets its own eth0 joined to the docker0 bridge by a veth pair. -p 8080:80 adds a NAT rule from the host&#x27;s port 8080 to the container&#x27;s port 80.</figcaption>
+</figure>

@@ -1,4 +1,13 @@
-# Session 1 · Why Docker?
+# Chapter 1 · Introduction to Docker and Its Need
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/wKEk5kNXllA"
+  title="Episode 1: Introduction to Docker and its need" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 1** of the [Kube Engineering playlist](https://www.youtube.com/playlist?list=PLMtFsmo8jrN8) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=wKEk5kNXllA)
 
 ## The big idea
 
@@ -10,6 +19,8 @@ everywhere: your laptop, a teammate's laptop, a test server, the cloud.
 **Everyday example:** a **shipping container**. Before standard containers, every port loaded
 sacks, barrels and crates differently. Once everything went into the same standard box, any ship,
 truck or crane could move any cargo. Docker does that for software.
+
+
 
 ## Three ways to run an app
 
@@ -57,6 +68,21 @@ Docker Desktop runs a small Linux VM on Windows and macOS.
 - **Isolation:** each app has its own libraries and versions; no more conflicts.
 - **A shared vocabulary:** a `Dockerfile` describes how to build the app, so anyone can rebuild it.
 
+## Where Docker fits: DevOps and Kubernetes
+
+```text
+write code → docker build (image) → push to a registry → run anywhere
+                                                          ├─ your laptop
+                                                          ├─ a test server
+                                                          └─ Kubernetes (many machines)
+```
+
+- **DevOps / CI/CD:** the pipeline builds one image per change and the *same* image moves from
+  test to production. No "it worked in testing" surprises.
+- **Kubernetes:** once you have many containers on many machines, someone has to start them,
+  restart them when they crash, and spread them out. That's Kubernetes, the second half of this
+  course. Kubernetes runs **containers**, so Docker skills come first.
+
 ## Three words to remember
 
 | Word | In simple words | Everyday example |
@@ -88,3 +114,9 @@ One image can start **many** containers, just like one recipe can feed many plat
    host's kernel, so it only carries the app and its libraries and starts like a normal program.
 
    </details>
+
+## Materials from the class
+
+- [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/) (official docs)
+- Blog: [Virtual machine and the grand house](https://parottasalna.com/2024/08/04/virtual-machine-and-the-grand-house/)
+- Blog: [Virtual machines vs containers](https://parottasalna.com/2024/08/12/virtual-machines-vs-containers/)

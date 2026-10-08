@@ -1,7 +1,8 @@
-chapter: sessions/08-dockerfile-fundamentals
+chapter: sessions/07-dockerfile
 
 quizzes:
-  - title: "Session 8 · Concepts"
+  - title: "Chapter 7 · Basics"
+    renamed_from: ["Session 8 · Concepts"]
     description: Every Dockerfile instruction, in plain words.
     questions:
       - text: Which instruction must come first in a Dockerfile (apart from ARG and comments)?
@@ -61,7 +62,8 @@ quizzes:
           python:latest
           ubuntu:latest plus apt-get install python
 
-  - title: "Session 8 · Hands-on"
+  - title: "Chapter 7 · Hands-on: the Flask app"
+    renamed_from: ["Session 8 · Hands-on"]
     description: Predict the output of the class Flask app.
     questions:
       - text: "Built with `--build-arg APP_VERSION=qa` and run with no `-e`. What does `curl localhost:5111` print?"
@@ -118,7 +120,8 @@ quizzes:
           It works over IPv6 only
 
 decks:
-  - title: "Session 8 · Flashcards"
+  - title: "Chapter 7 · Flashcards: instructions"
+    renamed_from: ["Session 8 · Flashcards"]
     cards:
       - front: Dockerfile
         back: A **recipe** of build steps. `docker build` reads it top to bottom; most steps add a layer.

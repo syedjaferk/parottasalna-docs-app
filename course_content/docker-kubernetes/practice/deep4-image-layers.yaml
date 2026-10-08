@@ -1,7 +1,8 @@
-chapter: sessions/07-image-mechanics
+chapter: deep-dives/image-mechanics
 
 quizzes:
-  - title: "Session 7 · Concepts"
+  - title: "Under the hood · Image layers · Concepts"
+    renamed_from: ["Session 7 · Concepts"]
     description: Layers, copy-on-write, overlay2, image IDs and digests.
     questions:
       - text: What is a Docker image made of?
@@ -54,7 +55,8 @@ quizzes:
           Restarting all containers
         explanation: Images are immutable. That's also why rollback is easy; run the previous image.
 
-  - title: "Session 7 · Hands-on"
+  - title: "Under the hood · Image layers · Hands-on"
+    renamed_from: ["Session 7 · Hands-on"]
     questions:
       - text: "After `docker exec cow sh -c 'echo hi > /tmp/new.txt'`, `docker diff cow` shows `A /tmp/new.txt`. What does `A` mean?"
         choices: |
@@ -107,7 +109,8 @@ quizzes:
         explanation: ENV, WORKDIR, EXPOSE, CMD and similar only change the image's settings (0B layers).
 
 decks:
-  - title: "Session 7 · Flashcards"
+  - title: "Under the hood · Image layers · Flashcards"
+    renamed_from: ["Session 7 · Flashcards"]
     cards:
       - front: Layer
         back: A **read-only** set of file changes from one build step.

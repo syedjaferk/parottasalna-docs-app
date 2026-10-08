@@ -1,4 +1,8 @@
-# Session 3 · Container Isolation: Namespaces
+# Under the hood · Namespaces
+
+:::{note}
+**Extra reading, no video yet.** Builds on [Chapter 2 · Linux prerequisites](../sessions/02-linux-prerequisites.md). Read it after Chapter 2 to see how a container gets its private view.
+:::
 
 ## The big idea
 
@@ -24,7 +28,7 @@ same electricity underneath. Namespaces are the walls; the shared building is th
 | **UTS** | hostname | your own hostname |
 | **IPC** | shared memory, message queues | your own IPC objects |
 | **USER** | user and group IDs | "root" inside can map to a normal user outside |
-| **cgroup** | cgroup tree | only your own cgroup (Session 4) |
+| **cgroup** | cgroup tree | only your own cgroup  |
 
 ## PID namespace: "I am PID 1"
 
@@ -71,7 +75,7 @@ docker run --rm alpine ip addr
 
 You'll see a loopback (`lo`) and an `eth0` with an address like `172.17.0.2`. That's the
 container's own network card, separate from your laptop's. Port mapping (`-p 8080:80`) connects the
-two; the networking sessions (13–14) go deeper.
+two; [Chapter 6](../sessions/06-docker-networking.md) goes deeper.
 
 ## MNT namespace: your own files
 
@@ -126,7 +130,7 @@ numbers from your shell's.
 
 :::{warning}
 **Namespaces hide things; they don't limit things.** A container can still use all your CPU and
-memory unless you limit it. That's the job of cgroups, in [Session 4](04-cgroups.md).
+memory unless you limit it. That's the job of cgroups, in [cgroups](cgroups.md).
 :::
 
 ## Try it yourself

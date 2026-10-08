@@ -1,7 +1,8 @@
-chapter: sessions/04-cgroups
+chapter: deep-dives/cgroups
 
 quizzes:
-  - title: "Session 4 · Concepts"
+  - title: "Under the hood · cgroups · Concepts"
+    renamed_from: ["Session 4 · Concepts"]
     description: Limits, cgroups v1 vs v2, and the OOM killer.
     questions:
       - text: What do cgroups control?
@@ -55,7 +56,8 @@ quizzes:
           Half of the host's RAM
         explanation: That's why you should always set limits in production.
 
-  - title: "Session 4 · Hands-on"
+  - title: "Under the hood · cgroups · Hands-on"
+    renamed_from: ["Session 4 · Hands-on"]
     description: Read the real numbers Docker writes into cgroup files.
     questions:
       - text: "With `--memory=100m`, what does `/sys/fs/cgroup/memory.max` show inside the container?"
@@ -104,7 +106,8 @@ quizzes:
           cat /proc/cgroups-version
 
 decks:
-  - title: "Session 4 · Flashcards"
+  - title: "Under the hood · cgroups · Flashcards"
+    renamed_from: ["Session 4 · Flashcards"]
     cards:
       - front: cgroup
         back: A **control group**. Limits how much CPU, memory, I/O and how many processes a group of processes can use.

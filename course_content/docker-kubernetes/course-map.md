@@ -4,31 +4,48 @@
 really work, master Docker, then learn Kubernetes all the way to deploying a production AI Agent
 platform as your final project.
 
-**Legend:** ✅ notes available · ⏳ upcoming
+## 📺 Videos so far
+
+The notes follow the [Kube Engineering playlist](https://www.youtube.com/playlist?list=PLMtFsmo8jrN8),
+one chapter per episode:
+
+| Episode | Chapter |
+|---|---|
+| 1 | [Introduction to Docker and its need](sessions/01-why-docker.md) |
+| 2 | [Core Linux prerequisites: processes, PIDs, mounts, signals](sessions/02-linux-prerequisites.md) |
+| 3 | [File permissions, bind mounts & Docker architecture](sessions/03-permissions-bind-mounts-architecture.md) |
+| 4 | [Your first Docker commands](sessions/04-docker-commands.md) |
+| 5 | [IP addressing & subnetting](sessions/05-ip-addressing-subnets.md) |
+| 6 | [Docker networking: bridge, host, none & overlay](sessions/06-docker-networking.md) |
+| 7 | [Master the Dockerfile from scratch](sessions/07-dockerfile.md) |
+
+## The full syllabus
+
+**Legend:** ✅ covered (in a chapter or an *Under the hood* page) · 🟡 partly covered · ⏳ upcoming
 
 ## 🟢 Phase 1 · Docker & container fundamentals
 
 | # | Session | Status |
 |---|---|---|
 | 1 | [Why Docker? Bare metal vs VMs vs containers, portability](sessions/01-why-docker.md) | ✅ |
-| 2 | [Core Linux prerequisites: processes, PID, mounts, permissions, signals & /proc](sessions/02-linux-prerequisites.md) | ✅ |
-| 3 | [Container isolation: PID, NET, MNT, UTS, USER namespaces](sessions/03-namespaces.md) | ✅ |
-| 4 | [Control groups: cgroups v1/v2, CPU/memory limits & the OOM killer](sessions/04-cgroups.md) | ✅ |
-| 5 | [Container runtime internals: OCI specs, runc, containerd, Docker Engine vs CRI](sessions/05-container-runtimes.md) | ✅ |
+| 2 | Core Linux prerequisites: processes, PID, mounts, permissions, signals & /proc · [Ch 2](sessions/02-linux-prerequisites.md), [Ch 3](sessions/03-permissions-bind-mounts-architecture.md) | ✅ |
+| 3 | [Container isolation: PID, NET, MNT, UTS, USER namespaces](deep-dives/namespaces.md) | ✅ |
+| 4 | [Control groups: cgroups v1/v2, CPU/memory limits & the OOM killer](deep-dives/cgroups.md) | ✅ |
+| 5 | [Container runtime internals: OCI specs, runc, containerd, Docker Engine vs CRI](deep-dives/container-runtimes.md) | ✅ |
 
 ## 🐳 Phase 2 · Docker mastery & workload packaging
 
 | # | Session | Status |
 |---|---|---|
-| 6 | [Docker architecture & CLI: daemon, client, Docker Hub & lifecycle commands](sessions/06-docker-architecture-cli.md) | ✅ |
-| 7 | [Docker image mechanics: storage drivers, layering, image IDs, digests & immutability](sessions/07-image-mechanics.md) | ✅ |
-| 8 | [Dockerfile fundamentals: FROM, RUN, COPY, ADD, WORKDIR, ENV, CMD vs ENTRYPOINT](sessions/08-dockerfile-fundamentals.md) | ✅ |
-| 9 | [Dockerfile deep dive: exec vs shell form, build context, .dockerignore & layer caching](sessions/09-dockerfile-deep-dive.md) | ✅ |
+| 6 | Docker architecture & CLI: daemon, client, Docker Hub & lifecycle commands · [Ch 3](sessions/03-permissions-bind-mounts-architecture.md), [Ch 4](sessions/04-docker-commands.md) | ✅ |
+| 7 | [Docker image mechanics: storage drivers, layering, image IDs, digests & immutability](deep-dives/image-mechanics.md) | ✅ |
+| 8 | [Dockerfile fundamentals: FROM, RUN, COPY, ADD, WORKDIR, ENV, CMD vs ENTRYPOINT](sessions/07-dockerfile.md) | ✅ |
+| 9 | [Dockerfile deep dive: exec vs shell form, build context, .dockerignore & layer caching](sessions/07-dockerfile.md) | ✅ |
 | 10 | Image optimization: Alpine vs distroless vs slim, Dive, Trivy scanning | ⏳ |
-| 11 | Multi-stage builds | ⏳ |
+| 11 | [Multi-stage builds](sessions/07-dockerfile.md) | 🟡 |
 | 12 | Container lifecycle & signal handling: PID 1, graceful shutdowns with FastAPI/Uvicorn | ⏳ |
-| 13 | Docker networking fundamentals: bridge, host, none, veth pairs & NAT port mapping | ⏳ |
-| 14 | Docker networking deep dive: overlay, macvlan, custom networks & DNS | ⏳ |
+| 13 | Docker networking fundamentals: bridge, host, none, veth pairs & NAT port mapping · [Ch 5](sessions/05-ip-addressing-subnets.md), [Ch 6](sessions/06-docker-networking.md) | ✅ |
+| 14 | [Docker networking deep dive: overlay, macvlan, custom networks & DNS](sessions/06-docker-networking.md) | 🟡 |
 | 15 | Docker volumes & persistence: writable layer vs volumes vs bind mounts vs tmpfs | ⏳ |
 
 ## 🔵 Phase 3 · Docker Compose, security & observability

@@ -1,0 +1,141 @@
+chapter: sessions/03-permissions-bind-mounts-architecture
+
+quizzes:
+  - title: "Chapter 3 · Concepts"
+    description: File permissions, bind mounts and how Docker's parts talk.
+    questions:
+      - text: "`ls -l app.py` shows `-rw-r--r--`. Who can write to the file?"
+        choices: |
+          Everyone
+          The group only
+          *Only the owner
+          Nobody
+        explanation: "`rw-` owner, `r--` group, `r--` others."
+
+      - text: What does `chmod 640 secret.txt` give?
+        choices: |
+          *Owner read+write, group read, others nothing
+          Owner read, group read+write, others nothing
+          Everyone read
+          Owner everything, others read
+        explanation: r = 4, w = 2, x = 1. 6 = rw, 4 = r, 0 = nothing.
+
+      - text: How does Linux store a file's owner?
+        choices: |
+          As the user's name
+          *As a number (UID); the name comes from /etc/passwd
+          As an email address
+          It doesn't; only permissions are stored
+
+      - text: What is a bind mount?
+        choices: |
+          A copy of a folder
+          *The same folder made visible at a second place in the tree
+          A network share
+          A compressed archive
+        explanation: Changes in either place show up in both, because it is one folder. `docker run -v /host:/container` does exactly this.
+
+      - text: Which part of Docker actually creates and runs containers?
+        choices: |
+          The docker CLI
+          *The Docker daemon (dockerd)
+          Docker Hub
+          The Dockerfile
+
+      - text: How does the docker CLI talk to the daemon on Linux?
+        choices: |
+          Over SSH
+          *Through the socket file /var/run/docker.sock
+          By editing files in /etc/docker
+          Through Docker Hub
+
+      - text: Why is access to /var/run/docker.sock dangerous?
+        choices: |
+          It slows Docker down
+          *Anyone who can use it can start a container that mounts the whole disk, which is root access
+          It deletes images
+          It is not dangerous
+        explanation: Only add trusted users to the docker group.
+
+      - text: After the daemon receives `docker run`, which programs create the container?
+        choices: |
+          The docker CLI and Docker Hub
+          *containerd, which uses runc
+          systemd and cron
+          The kernel alone, with no helpers
+
+  - title: "Chapter 3 · Hands-on"
+    description: Predict what happens with real bind mounts.
+    questions:
+      - text: "`docker run --rm -v \"$PWD/data:/data\" alpine touch /data/a.txt`. Who owns `a.txt` on your laptop (`ls -ln`)?"
+        choices: |
+          You (UID 1000)
+          *root (UID 0)
+          Nobody (UID 65534)
+          The docker group
+        explanation: Containers run as root by default, and the owner number travels with the file.
+
+      - text: How do you make files created through a bind mount belong to you?
+        choices: |
+          Use `-v` twice
+          *Run the container with `--user "$(id -u):$(id -g)"`
+          Add `:rw` to the mount
+          Use `chmod 777` inside the image
+
+      - text: "`docker run --rm -v \"$PWD/data:/data:ro\" alpine touch /data/x`. What happens?"
+        choices: |
+          The file is created
+          *It fails with "Read-only file system"
+          The file is created inside the image instead
+          Docker asks for sudo
+
+      - text: You bind-mount `html/` into nginx and edit `html/index.html` on your laptop. What do you need to do before nginx serves it?
+        choices: |
+          Rebuild the image
+          Restart the container
+          *Nothing; it's the same folder
+          Run docker cp
+
+      - text: "You get `permission denied while trying to connect to the Docker daemon socket`. Most likely fix?"
+        choices: |
+          Reinstall Docker
+          *Add your user to the docker group, then log out and in (or use sudo)
+          Delete /var/run/docker.sock
+          Use a different image
+
+      - text: What is `rwxr-x---` as a number?
+        choices: |
+          *750
+          755
+          640
+          570
+
+decks:
+  - title: "Chapter 3 · Flashcards"
+    cards:
+      - front: "`-rw-r--r--`"
+        back: Regular file. Owner read+write, group read, others read (**644**).
+      - front: r, w, x as numbers
+        back: "**r = 4, w = 2, x = 1**. Add per owner/group/others: rwx = 7, rw- = 6, r-x = 5."
+      - front: "chmod 600"
+        back: Only the owner can read and write. Use it for private keys.
+      - front: UID 0
+        back: "**root**. Containers run as root by default."
+      - front: "ls -ln"
+        back: Shows owners as **numbers** (UID/GID), which is what really matters across host and container.
+      - front: Bind mount
+        back: One folder visible at **two places**. `mount --bind src dest`, or `docker run -v host:container`.
+      - front: "`:ro` on a mount"
+        back: Read-only **inside the container**. The host can still edit.
+      - front: "--user \"$(id -u):$(id -g)\""
+        back: Run the container as **you**, so files it creates on bind mounts are yours.
+      - front: Docker client
+        back: The `docker` command. Sends requests to the daemon.
+      - front: Docker daemon
+        back: "`dockerd`, the background service that manages images, containers, networks and volumes."
+      - front: Docker Engine
+        back: The daemon + its API + the CLI, installed together. `docker version` shows Client and Server.
+      - front: /var/run/docker.sock
+        back: The socket the CLI uses to reach the daemon. Access = **root access**.
+      - front: "docker run, step by step"
+        back: CLI → API on docker.sock → dockerd (pulls image if needed) → containerd → runc starts the process.

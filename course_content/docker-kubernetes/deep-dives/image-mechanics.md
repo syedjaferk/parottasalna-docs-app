@@ -1,4 +1,8 @@
-# Session 7 · Image Mechanics
+# Under the hood · Image layers
+
+:::{note}
+**Extra reading, no video yet.** Read it alongside [Chapter 7 · Dockerfile](../sessions/07-dockerfile.md): every RUN, COPY and ADD there creates one of these layers.
+:::
 
 ## The big idea
 
@@ -23,7 +27,7 @@ docker image inspect nginx:alpine --format '{{len .RootFS.Layers}} layers'
 docker history nginx:alpine
 ```
 
-- Each `RUN`, `COPY` or `ADD` in a Dockerfile creates a new layer (Session 8).
+- Each `RUN`, `COPY` or `ADD` in a Dockerfile creates a new layer ([Chapter 7](../sessions/07-dockerfile.md)).
 - When a container changes a file from a lower layer, the file is first **copied up** into the
   container's writable layer, then changed there. This is **copy-on-write**.
 - Deleting the container deletes its writable layer. The image is untouched.

@@ -1,4 +1,8 @@
-# Session 5 · Container Runtime Internals
+# Under the hood · Container runtimes
+
+:::{note}
+**Extra reading, no video yet.** Read it after [Chapter 3 · Docker architecture](../sessions/03-permissions-bind-mounts-architecture.md): it zooms in on what the daemon does next.
+:::
 
 ## The big idea
 
@@ -65,7 +69,7 @@ spec, so an image built with `docker build` runs on any Kubernetes cluster uncha
 
 :::{note}
 **`runc` exits after starting your container.** It's not a long-running daemon. It sets everything
-up (namespaces from Session 3, cgroups from Session 4, the root filesystem), starts your process,
+up (from [namespaces](namespaces.md) and [cgroups](cgroups.md), the root filesystem), starts your process,
 and leaves. The shim stays behind to watch the container.
 :::
 

@@ -1,0 +1,141 @@
+chapter: sessions/05-ip-addressing-subnets
+
+quizzes:
+  - title: "Chapter 5 · Concepts"
+    description: IP addresses, public vs private, subnets and CIDR.
+    questions:
+      - text: How many bits are in an IPv4 address?
+        choices: |
+          8
+          16
+          *32
+          128
+        explanation: 4 octets × 8 bits = 32 bits.
+
+      - text: What is the largest number one part (octet) of an IPv4 address can be?
+        choices: |
+          99
+          *255
+          256
+          1024
+
+      - text: Which of these are private addresses? (Pick all that apply.)
+        choices: |
+          *10.1.2.3
+          *172.20.0.5
+          *192.168.0.10
+          8.8.8.8
+        explanation: The private ranges are 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.
+
+      - text: What does `127.0.0.1` mean inside a container?
+        choices: |
+          Your laptop
+          The Docker daemon
+          *The container itself (its own loopback)
+          The router
+
+      - text: Which is the bigger network?
+        choices: |
+          *10.0.0.0/16
+          10.0.0.0/24
+          They are the same size
+          It depends on the gateway
+        explanation: Smaller number after the slash = more host bits = more addresses. /16 has 65,536; /24 has 256.
+
+      - text: What does NAT do?
+        choices: |
+          Encrypts traffic
+          *Lets many private addresses share one public address by rewriting them
+          Assigns names to IP addresses
+          Splits a network into subnets
+
+      - text: Which subnet mask matches /24?
+        choices: |
+          255.0.0.0
+          255.255.0.0
+          *255.255.255.0
+          255.255.255.255
+
+      - text: Two devices are at 192.168.1.10/24 and 192.168.2.10/24. How do they talk?
+        choices: |
+          Directly, they are on the same subnet
+          *Through a gateway (router), because they are on different subnets
+          They can't talk at all
+          Only over IPv6
+
+  - title: "Chapter 5 · Hands-on"
+    description: Small calculations, no heavy maths.
+    questions:
+      - text: How many addresses are in a /26?
+        choices: |
+          26
+          32
+          *64
+          256
+        explanation: 2^(32 − 26) = 2^6 = 64.
+
+      - text: How many addresses in 192.168.1.0/24 can be given to devices?
+        choices: |
+          256
+          *254
+          255
+          24
+        explanation: The first (.0, the network) and the last (.255, broadcast) are reserved.
+
+      - text: What is the broadcast address of 10.0.5.0/24?
+        choices: |
+          10.0.5.0
+          10.0.5.1
+          *10.0.5.255
+          10.0.255.255
+
+      - text: "`docker network inspect bridge` shows `172.17.0.0/16` and gateway `172.17.0.1`. What is 172.17.0.1?"
+        choices: |
+          The first container
+          *The host's side of Docker's bridge, the containers' gateway
+          Google's DNS
+          The broadcast address
+
+      - text: Which command shows your default gateway?
+        choices: |
+          hostname -I
+          *ip route (look for "default via")
+          curl ifconfig.me
+          docker ps
+
+      - text: Is 172.32.0.1 a private address?
+        choices: |
+          Yes, all 172.x addresses are private
+          *No, the private 172 range is only 172.16.0.0 to 172.31.255.255
+          Only inside Docker
+          Only with /16
+
+decks:
+  - title: "Chapter 5 · Flashcards"
+    cards:
+      - front: IPv4 address
+        back: 4 numbers 0–255 separated by dots, **32 bits** in total. Example `192.168.1.10`.
+      - front: Octet
+        back: One of the 4 parts of an IPv4 address, **8 bits** (0–255).
+      - front: Private ranges
+        back: "`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`. Never routed on the internet."
+      - front: Loopback
+        back: "`127.0.0.1` (`localhost`) = **this machine itself**. Each container has its own."
+      - front: Public IP
+        back: The address the internet sees. Check it with `curl ifconfig.me`.
+      - front: NAT
+        back: Network Address Translation. Many private addresses share one public one. Routers and Docker both use it.
+      - front: Subnet
+        back: A block of addresses that talk **directly**. Like houses on one street.
+      - front: CIDR /n
+        back: The first **n bits** are the network part. A /n block has **2^(32 − n)** addresses.
+      - front: /24
+        back: Mask `255.255.255.0`, 256 addresses, **254 usable**.
+      - front: /16
+        back: Mask `255.255.0.0`, **65,536** addresses. Docker's default bridge is `172.17.0.0/16`.
+      - front: Network and broadcast address
+        back: The **first** and **last** addresses of a subnet. Not given to devices.
+      - front: Gateway
+        back: The router that forwards traffic to **other subnets**. Usually `.1`. Find it with `ip route`.
+      - front: Docker's 172.17.0.1
+        back: The host's side of the default bridge, the **gateway** for containers.

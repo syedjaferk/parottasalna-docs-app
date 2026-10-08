@@ -1,0 +1,31 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 240" role="img" aria-labelledby="net-public-private-t net-public-private-d" xmlns="http://www.w3.org/2000/svg">
+<title id="net-public-private-t">Private addresses inside, one public address outside</title>
+<desc id="net-public-private-d">Devices at home or in Docker get private addresses. The router (or Docker&#x27;s NAT) swaps them for a public address on the way out.</desc>
+<defs><marker id="net-public-private-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="net-public-private-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="net-public-private-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="net-public-private-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="380" height="200" rx="14" class="green"/>
+<text x="210" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">Private network 192.168.1.0/24</text>
+<rect x="40" y="60" width="160" height="44" rx="10" class="box"/>
+<text x="120.0" y="72.0" text-anchor="middle" dominant-baseline="middle">Laptop</text>
+<text x="120.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">192.168.1.10</text>
+<path d="M200,82 L268,130" class="arrow" marker-end="url(#net-public-private-h)"/>
+<rect x="40" y="112" width="160" height="44" rx="10" class="box"/>
+<text x="120.0" y="124.0" text-anchor="middle" dominant-baseline="middle">Phone</text>
+<text x="120.0" y="144.0" text-anchor="middle" dominant-baseline="middle" class="code">192.168.1.11</text>
+<path d="M200,134 L268,130" class="arrow" marker-end="url(#net-public-private-h)"/>
+<rect x="40" y="164" width="160" height="44" rx="10" class="box"/>
+<text x="120.0" y="176.0" text-anchor="middle" dominant-baseline="middle">TV</text>
+<text x="120.0" y="196.0" text-anchor="middle" dominant-baseline="middle" class="code">192.168.1.12</text>
+<path d="M200,186 L268,130" class="arrow" marker-end="url(#net-public-private-h)"/>
+<rect x="270" y="95" width="110" height="70" rx="10" class="amber"/>
+<text x="325.0" y="120.0" text-anchor="middle" dominant-baseline="middle">Router</text>
+<text x="325.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">NAT</text>
+<path d="M380,130 L468,130" class="arrow" marker-end="url(#net-public-private-h)"/>
+<text x="424" y="116" text-anchor="middle" dominant-baseline="middle" class="small">public IP</text>
+<rect x="470" y="85" width="230" height="90" rx="10" class="purple"/>
+<text x="585.0" y="110.0" text-anchor="middle" dominant-baseline="middle">Internet</text>
+<text x="585.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">sees only 49.204.x.x</text>
+<text x="585.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">(one public address)</text>
+</svg>
+<figcaption>Devices at home or in Docker get private addresses. The router (or Docker&#x27;s NAT) swaps them for a public address on the way out.</figcaption>
+</figure>

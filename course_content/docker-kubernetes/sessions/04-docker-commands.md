@@ -1,39 +1,29 @@
-# Session 6 · Docker Architecture & CLI
+# Chapter 4 · Your First Docker Commands (Hands-On)
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/9NRT2YsOT3Q"
+  title="Episode 4: Your first Docker commands" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 4** of the [Kube Engineering playlist](https://www.youtube.com/playlist?list=PLMtFsmo8jrN8) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=9NRT2YsOT3Q)
 
 ## The big idea
 
-Docker is a **client–server** system. The `docker` command you type is only the **client**. It
-sends your request to the **Docker daemon** (`dockerd`), a background service that does the real
-work: pulling images, creating containers, setting up networks. Images come from a **registry**
-such as Docker Hub.
+Theory done; now the commands you'll type every day. Almost everything comes down to a short loop:
+**pull** an image, **run** a container from it, **look** at it (`ps`, `logs`, `exec`), then
+**stop** and **remove** it.
 
-**Everyday example:** a TV remote. The remote (`docker` CLI) doesn't play anything itself. It sends
-a signal to the TV (`dockerd`), and the TV streams shows from the internet (the registry).
+**Everyday example:** a music app. You **download** a song (pull), **play** it (run), check
+**what's playing** (ps), **pause or stop** it (stop), and **delete** it to free space (rm / rmi).
 
-```{raw} html
-:file: ../diagrams/s06-architecture.html
-```
-
-## The three parts
-
-| Part | What it is | Example |
-|---|---|---|
-| **Client** | the `docker` command | `docker run nginx` |
-| **Daemon** (`dockerd`) | the background service that manages images, containers, networks and volumes | `systemctl status docker` |
-| **Registry** | a store for images | Docker Hub (`hub.docker.com`), GitHub Container Registry, AWS ECR |
-
-The client talks to the daemon through a socket file, `/var/run/docker.sock`. That's why you need
-to be in the `docker` group (or use `sudo`):
+## Pulling and listing images
 
 ```bash
-docker version     # shows both "Client" and "Server" sections
+docker pull nginx:alpine      # download an image
+docker images                 # list images on this machine
 ```
-
-:::{warning}
-Access to `/var/run/docker.sock` is the same as **root access** to the machine: anyone who can
-talk to the daemon can start a container that mounts your whole disk. Only add trusted users to
-the `docker` group.
-:::
 
 ## Image names
 
@@ -76,7 +66,7 @@ Useful `docker run` flags:
 | `-d` | detached: run in the background |
 | `--name web` | give it a name instead of a random one |
 | `-p 8080:80` | port mapping: **host port 8080 → container port 80** |
-| `-v /host/dir:/container/dir` | bind mount a folder (Session 2) |
+| `-v /host/dir:/container/dir` | bind mount a folder ([Chapter 3](03-permissions-bind-mounts-architecture.md)) |
 | `-e KEY=value` | set an environment variable |
 | `--rm` | delete the container automatically when it exits |
 | `-it` | interactive with a terminal (for shells) |
@@ -110,6 +100,22 @@ docker exec -it web sh   # look around inside; type exit to leave
 docker stop web && docker rm web
 ```
 
+## Cleaning up
+
+```bash
+docker rm web                 # remove one stopped container
+docker rm -f web              # stop + remove in one step
+docker container prune        # remove ALL stopped containers
+docker rmi nginx:alpine       # remove an image (no container may use it)
+docker image prune            # remove dangling (untagged) images
+docker system df              # what is using disk space
+docker system prune           # stopped containers, unused networks, dangling images, build cache
+```
+
+:::{warning}
+`prune` commands ask for confirmation and **can't be undone**. Read the list before you type `y`.
+:::
+
 ## Common mistakes
 
 - **`docker run` again and again** creates a *new* container every time. Use `docker start` to
@@ -142,7 +148,7 @@ docker stop web && docker rm web
 <details class="source">
 <summary>html/index.html</summary>
 
-```{literalinclude} ../code/06-docker-cli/html/index.html
+```{literalinclude} ../code/04-docker-commands/html/index.html
 :language: html
 ```
 

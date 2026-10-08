@@ -366,6 +366,91 @@ def s09_context():
     return d.render()
 
 
+# ------------------------------------------------------------------ Bind mounts & permissions (EP 3)
+@diagram
+def bind_mount_uid():
+    d = D("bind-mount-uid", 720, 250, "A bind mount shares one folder, and file owners are just numbers",
+          "Both sides see the same folder. A file made by root (UID 0) in the container is owned by root on the host too; --user makes it yours.")
+    d.rect(20, 20, 300, 200, "blue", rx=14); d.text(170, 40, "Your laptop (host)", "bold")
+    d.box(40, 60, 260, 46, ["~/project/html", ("you are UID 1000", "small")], "box")
+    d.box(40, 120, 260, 40, ("from-container.txt  owner 0 (root)", "small"), "red")
+    d.box(40, 168, 260, 40, ("as-me.txt  owner 1000 (you)", "small"), "green")
+    d.rect(400, 20, 300, 200, "green", rx=14); d.text(550, 40, "Container", "bold")
+    d.box(420, 60, 260, 46, ["/usr/share/nginx/html", ("runs as root (UID 0) by default", "small")], "box")
+    d.box(420, 120, 260, 40, ("touch from-container.txt", "code"), "box")
+    d.box(420, 168, 260, 40, ("--user 1000:1000 touch as-me", "code"), "box")
+    d.arrow([(302, 83), (418, 83)], "blue", label="-v", lx=360, ly=70)
+    d.arrow([(418, 83), (302, 83)], "blue", head=True)
+    d.text(360, 102, "same folder", "small")
+    return d.render()
+
+
+# ------------------------------------------------------------------ IP addressing (EP 5)
+@diagram
+def net_ip_address():
+    d = D("net-ip-address", 720, 260, "An IPv4 address and its subnet",
+          "An IPv4 address is 4 numbers (0–255), 32 bits in total. The /24 says the first 24 bits name the network and the rest name the host.")
+    octets = ["192", "168", "1", "10"]
+    for i, o in enumerate(octets):
+        x = 60 + i * 155
+        d.box(x, 30, 130, 50, (o, "bold"), "green" if i < 3 else "amber")
+        d.text(x + 65, 98, f"{int(o):08b}", "code")
+        if i < 3:
+            d.text(x + 142, 55, ".", "bold")
+    d.line(60, 120, 500, 120, "line"); d.text(280, 138, "network part (24 bits): 192.168.1", "small")
+    d.line(525, 120, 655, 120, "line"); d.text(590, 138, "host part (8 bits)", "small")
+    d.box(60, 165, 290, 72, ["192.168.1.0/24", ("mask 255.255.255.0", "small"), ("256 addresses, 254 usable", "small")], "blue")
+    d.box(370, 165, 290, 72, ["172.17.0.0/16", ("mask 255.255.0.0", "small"), ("Docker's default bridge: 65,536", "small")], "purple")
+    return d.render()
+
+
+@diagram
+def net_public_private():
+    d = D("net-public-private", 720, 240, "Private addresses inside, one public address outside",
+          "Devices at home or in Docker get private addresses. The router (or Docker's NAT) swaps them for a public address on the way out.")
+    d.rect(20, 20, 380, 200, "green", rx=14); d.text(210, 40, "Private network 192.168.1.0/24", "bold")
+    for i, (n, ip) in enumerate([("Laptop", "192.168.1.10"), ("Phone", "192.168.1.11"), ("TV", "192.168.1.12")]):
+        d.box(40, 60 + i * 52, 160, 44, [n, (ip, "code")], "box")
+        d.arrow([(200, 82 + i * 52), (268, 130)])
+    d.box(270, 95, 110, 70, ["Router", ("NAT", "small")], "amber")
+    d.arrow([(380, 130), (468, 130)], label="public IP", lx=424, ly=116)
+    d.box(470, 85, 230, 90, ["Internet", ("sees only 49.204.x.x", "small"), ("(one public address)", "small")], "purple")
+    return d.render()
+
+
+# ------------------------------------------------------------------ Docker networking (EP 6)
+@diagram
+def net_bridge():
+    d = D("net-bridge", 720, 290, "The default bridge network and port publishing",
+          "Each container gets its own eth0 joined to the docker0 bridge by a veth pair. -p 8080:80 adds a NAT rule from the host's port 8080 to the container's port 80.")
+    d.rect(20, 20, 680, 250, "box", rx=14); d.text(360, 40, "Docker host", "bold")
+    d.box(40, 60, 170, 56, ["Host eth0", ("192.168.1.10", "code")], "blue")
+    d.box(40, 140, 170, 70, ["NAT rule (iptables)", ("host:8080 →", "code"), ("172.17.0.2:80", "code")], "amber")
+    d.arrow([(125, 116), (125, 138)])
+    d.box(270, 120, 180, 56, ["docker0 bridge", ("172.17.0.1", "code")], "green")
+    d.arrow([(210, 175), (268, 150)])
+    for i, (n, ip) in enumerate([("web (nginx)", "172.17.0.2"), ("db", "172.17.0.3")]):
+        y = 70 + i * 110
+        d.box(520, y, 160, 60, [n, ("eth0 " + ip, "code")], "purple")
+        d.arrow([(450, 148), (518, y + 30)], label="veth" if i == 0 else None, lx=478, ly=y + 40)
+    d.text(125, 245, "curl localhost:8080 → web:80", "small")
+    return d.render()
+
+
+@diagram
+def net_modes():
+    d = D("net-modes", 720, 230, "bridge vs host vs none",
+          "bridge: own IP behind NAT (the default). host: shares the host's network directly, no isolation. none: only loopback, no network at all.")
+    cols = [("bridge (default)", "green", ["own namespace + IP", "reach it with -p", "user-defined: DNS", "by container name"]),
+            ("host", "amber", ["shares host network", "no -p needed", "no port isolation", "Linux only"]),
+            ("none", "red", ["only loopback (lo)", "no outside access", "batch jobs,", "max isolation"])]
+    for i, (name, kind, lines) in enumerate(cols):
+        x = 20 + i * 235
+        d.box(x, 20, 210, 46, (name, "bold"), kind)
+        d.box(x, 76, 210, 130, [(l, "small") for l in lines], "box")
+    return d.render()
+
+
 if __name__ == "__main__":
     for fn in ALL:
         fn()

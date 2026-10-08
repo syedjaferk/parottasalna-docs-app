@@ -1,4 +1,8 @@
-# Session 4 · Control Groups (cgroups)
+# Under the hood · cgroups
+
+:::{note}
+**Extra reading, no video yet.** Read it after [Namespaces](namespaces.md). The OOM exit code 137 comes from [Chapter 2](../sessions/02-linux-prerequisites.md).
+:::
 
 ## The big idea
 

@@ -1,11 +1,20 @@
-# Session 2 · Core Linux Prerequisites
+# Chapter 2 · Core Linux Prerequisites: Processes, PIDs, Mounts, Signals
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/cwYNIbfwmls"
+  title="Episode 2: Core Linux prerequisites" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 2** of the [Kube Engineering playlist](https://www.youtube.com/playlist?list=PLMtFsmo8jrN8) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=cwYNIbfwmls)
 
 ## The big idea
 
 A container is not magic: it's **a normal Linux process with some extra rules**. So to understand
 containers you need a few Linux basics: what a process is, how processes are related, how they're
-told to stop (signals), how files and folders are attached (mounts), who may access what
-(permissions), and where Linux shows you all of this (`/proc`).
+told to stop (signals), how files and folders are attached (mounts)
+and where Linux shows you all of this (`/proc`).
 
 **Everyday example:** a company. Every employee (process) has an ID number (PID) and a manager
 (parent). The CEO (PID 1) is at the top. Memos (signals) tell people to stop work, and the office
@@ -38,7 +47,7 @@ echo $PPID      # PID of your shell's parent
 :::{important}
 **Why this matters for Docker:** the command in your Dockerfile's `CMD`/`ENTRYPOINT` becomes
 **PID 1 inside the container**. PID 1 has special duties, like handling stop signals and reaping
-zombies. Session 9 shows what goes wrong when it doesn't.
+zombies. [Chapter 7](07-dockerfile.md) shows what goes wrong when it doesn't.
 :::
 
 ## 2. Watching and controlling processes
@@ -92,44 +101,10 @@ findmnt          # every mount, as a tree
 df -h            # mounted disks and free space
 ```
 
-A **bind mount** makes one folder appear at a second place, like a shortcut that's really the same
-folder. This is exactly what `docker run -v /host/folder:/container/folder` does:
+You'll attach your own folders into containers with **bind mounts** in
+[Chapter 3](03-permissions-bind-mounts-architecture.md).
 
-```bash
-mkdir -p ~/binds/src ~/binds/dest
-echo "hello from src" > ~/binds/src/note.txt
-sudo mount --bind ~/binds/src ~/binds/dest
-cat ~/binds/dest/note.txt          # hello from src   ← same file, second place
-echo "edited" > ~/binds/dest/note.txt
-cat ~/binds/src/note.txt           # edited           ← it really is the same folder
-sudo umount ~/binds/dest
-```
-
-## 5. Permissions: who may do what
-
-```bash
-ls -l app.py
-# -rw-r--r-- 1 jafer jafer 412 Oct  4 09:12 app.py
-```
-
-| Part | Meaning |
-|---|---|
-| `-` | type: `-` file, `d` directory |
-| `rw-` | the **owner** (jafer) can read and write |
-| `r--` | the **group** (jafer) can read |
-| `r--` | **everyone else** can read |
-
-```bash
-chmod +x script.sh        # make a script executable
-chmod 640 secret.txt      # owner rw, group r, others nothing
-chown jafer:dev app.py    # change owner and group
-id                        # your user ID (UID) and groups
-```
-
-The `root` user (UID 0) can do almost anything. By default, processes in a container also run as
-root, which is why the security sessions recommend running containers as a normal user.
-
-## 6. `/proc`: Linux's window into every process
+## 5. `/proc`: Linux's window into every process
 
 `/proc` isn't a real folder on disk. The kernel generates it on the fly, with one folder per running
 process, named by its PID:
@@ -138,12 +113,12 @@ process, named by its PID:
 ls /proc/$$                 # files describing your shell process
 cat /proc/$$/status | head  # name, state, PID, PPID, memory…
 cat /proc/$$/cmdline | tr '\0' ' '   # the exact command line
-ls -l /proc/$$/ns           # the namespaces this process belongs to (Session 3!)
+ls -l /proc/$$/ns           # the namespaces this process belongs to
 cat /proc/1/cmdline | tr '\0' ' '    # what PID 1 is
 ```
 
 Tools like `ps` and `top` simply read these files. Inside a container, `/proc` shows only the
-container's own processes. You'll see why in [Session 3](03-namespaces.md).
+container's own processes. You'll see why in [Under the hood · Namespaces](../deep-dives/namespaces.md).
 
 ## Try it yourself
 
@@ -169,4 +144,3 @@ container's own processes. You'll see why in [Session 3](03-namespaces.md).
 
    </details>
 
-4. Do the bind mount example above, then delete the file from `dest` and look in `src`.

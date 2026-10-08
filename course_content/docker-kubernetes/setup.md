@@ -8,11 +8,11 @@ Let's get Docker running on your machine. You'll do this **once**; it takes abou
 |---|---|---|
 | **Linux** (Ubuntu, Debian, Fedora…) | Docker Engine | Best choice: every lab works, including the Linux internals sessions. |
 | **Windows** | Docker Desktop with **WSL 2** | Also install Ubuntu from the Microsoft Store for the Linux labs. |
-| **macOS** | Docker Desktop | For the Linux internals labs (Sessions 2–5), use a Linux VM such as [Multipass](https://multipass.run). |
+| **macOS** | Docker Desktop | For the Linux internals labs (Chapter 2 and the *Under the hood* pages), use a Linux VM such as [Multipass](https://multipass.run). |
 
 :::{note}
 Containers are a **Linux** feature. On Windows and macOS, Docker Desktop quietly runs a small
-Linux virtual machine for you. That's why commands like `unshare` (Session 3) need a real Linux shell.
+Linux virtual machine for you. That's why commands like `unshare` ([Under the hood · Namespaces](deep-dives/namespaces.md)) need a real Linux shell.
 :::
 
 ## Step 1 · Install Docker
@@ -58,7 +58,7 @@ This message shows that your installation appears to be working correctly.
 ```
 
 🎉 Docker downloaded an image, created a container from it, ran it, and printed this message.
-[Session 6](sessions/06-docker-architecture-cli.md) explains every step of what just happened.
+[Chapter 3](sessions/03-permissions-bind-mounts-architecture.md) explains every step of what just happened.
 
 ## Step 3 · Handy tools
 

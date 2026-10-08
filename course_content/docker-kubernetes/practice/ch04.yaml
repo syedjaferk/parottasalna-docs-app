@@ -1,31 +1,10 @@
-chapter: sessions/06-docker-architecture-cli
+chapter: sessions/04-docker-commands
 
 quizzes:
-  - title: "Session 6 · Concepts"
-    description: Client, daemon, registry and the container lifecycle.
+  - title: "Chapter 4 · Concepts"
+    renamed_from: ["Session 6 · Concepts"]
+    description: Image names, the container lifecycle and everyday commands.
     questions:
-      - text: Which part of Docker actually creates and runs containers?
-        choices: |
-          The docker CLI
-          *The Docker daemon (dockerd)
-          Docker Hub
-          The Dockerfile
-
-      - text: How does the docker CLI talk to the daemon on Linux?
-        choices: |
-          Over SSH
-          *Through the socket file /var/run/docker.sock
-          By editing files in /etc/docker
-          Through Docker Hub
-
-      - text: Why is access to /var/run/docker.sock dangerous?
-        choices: |
-          It slows Docker down
-          *Anyone who can use it can start a container that mounts the whole disk, which is root access
-          It deletes images
-          It is not dangerous
-        explanation: Only add trusted users to the docker group.
-
       - text: "In `nginx:alpine`, what is `alpine`?"
         choices: |
           The registry
@@ -61,7 +40,8 @@ quizzes:
           The container may use ports 80 to 8080
           It opens port 8080 in the host firewall only
 
-  - title: "Session 6 · Hands-on"
+  - title: "Chapter 4 · Hands-on"
+    renamed_from: ["Session 6 · Hands-on"]
     description: Commands from the nginx demo.
     questions:
       - text: "You run `docker run -d --name web -p 8080:80 -v \"$PWD/html:/usr/share/nginx/html:ro\" nginx:alpine` and then edit `html/index.html` on your laptop. What does `curl localhost:8080` show?"
@@ -115,14 +95,9 @@ quizzes:
           pulled → removed → running → stopped
 
 decks:
-  - title: "Session 6 · Flashcards"
+  - title: "Chapter 4 · Flashcards"
+    renamed_from: ["Session 6 · Flashcards"]
     cards:
-      - front: Docker client
-        back: The `docker` command. Sends requests to the daemon.
-      - front: Docker daemon
-        back: "`dockerd`, the background service that manages images, containers, networks and volumes."
-      - front: /var/run/docker.sock
-        back: The socket the CLI uses to reach the daemon. Access = **root access**.
       - front: "docker.io/library/nginx:alpine"
         back: Registry `docker.io`, repository `library/nginx` (official), tag `alpine`.
       - front: docker run

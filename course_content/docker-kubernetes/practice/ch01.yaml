@@ -1,7 +1,8 @@
 chapter: sessions/01-why-docker
 
 quizzes:
-  - title: "Session 1 · Concepts"
+  - title: "Chapter 1 · Concepts"
+    renamed_from: ["Session 1 · Concepts"]
     description: Bare metal, VMs and containers, and why Docker exists.
     questions:
       - text: What problem does Docker mainly solve?
@@ -58,7 +59,8 @@ quizzes:
           *One machine can run many of them
         explanation: Containers are light because they skip the extra OS. No boot, no full OS image.
 
-  - title: "Session 1 · Hands-on"
+  - title: "Chapter 1 · Hands-on"
+    renamed_from: ["Session 1 · Hands-on"]
     description: First commands and what they tell you.
     questions:
       - text: You run `docker run hello-world` for the first time. What happens first?
@@ -99,7 +101,8 @@ quizzes:
           docker hub ls
 
 decks:
-  - title: "Session 1 · Flashcards"
+  - title: "Chapter 1 · Flashcards"
+    renamed_from: ["Session 1 · Flashcards"]
     description: Key words from "Why Docker?"
     cards:
       - front: What is Docker, in one line?

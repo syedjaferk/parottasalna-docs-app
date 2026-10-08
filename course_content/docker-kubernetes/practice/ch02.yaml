@@ -1,8 +1,9 @@
 chapter: sessions/02-linux-prerequisites
 
 quizzes:
-  - title: "Session 2 · Concepts"
-    description: Processes, signals, mounts, permissions and /proc.
+  - title: "Chapter 2 · Concepts"
+    renamed_from: ["Session 2 · Concepts"]
+    description: Processes, PIDs, signals, mounts and /proc.
     questions:
       - text: What is PID 1 on a normal Linux host?
         choices: |
@@ -41,14 +42,6 @@ quizzes:
           143
         explanation: Killed by a signal → 128 + signal number. 128 + 9 = 137.
 
-      - text: What is a bind mount?
-        choices: |
-          A copy of a folder
-          *The same folder made visible at a second place in the tree
-          A network share
-          A compressed archive
-        explanation: Changes in either place show up in both, because it is one folder. `docker run -v /host:/container` does exactly this.
-
       - text: What is `/proc`?
         choices: |
           A folder on disk where programs are installed
@@ -63,24 +56,10 @@ quizzes:
           Ctrl+D
           Ctrl+S
 
-  - title: "Session 2 · Hands-on"
+  - title: "Chapter 2 · Hands-on"
+    renamed_from: ["Session 2 · Hands-on"]
     description: Read commands and predict what happens.
     questions:
-      - text: "`ls -l app.py` shows `-rw-r--r--`. Who can write to the file?"
-        choices: |
-          Everyone
-          The group only
-          *Only the owner
-          Nobody
-        explanation: "`rw-` owner, `r--` group, `r--` others."
-
-      - text: What does `chmod 640 secret.txt` give?
-        choices: |
-          *Owner read+write, group read, others nothing
-          Owner read, group read+write, others nothing
-          Everyone read
-          Owner everything, others read
-
       - text: You run `sleep 300 &`, then `kill <its PID>`, then `wait <PID>; echo $?`. What is printed?
         choices: |
           0
@@ -95,7 +74,7 @@ quizzes:
           *The container has its own PID namespace, so its own command is PID 1
           /proc is broken in containers
           cat replaced systemd on the host
-        explanation: Coming up in Session 3. The container's first process is PID 1 inside its own PID namespace.
+        explanation: See Under the hood · Namespaces. The container's first process is PID 1 inside its own PID namespace.
 
       - text: Which commands show the process tree with PIDs? (Pick all that apply.)
         choices: |
@@ -112,7 +91,8 @@ quizzes:
           Two dollar signs
 
 decks:
-  - title: "Session 2 · Flashcards"
+  - title: "Chapter 2 · Flashcards"
+    renamed_from: ["Session 2 · Flashcards"]
     cards:
       - front: PID / PPID
         back: "**PID** = process ID. **PPID** = parent's process ID."
@@ -132,10 +112,6 @@ decks:
         back: "\"The terminal hung up\". Many servers (nginx, sshd) treat it as **reload config**."
       - front: Exit code after a signal
         back: "**128 + signal number**. 137 = SIGKILL, 143 = SIGTERM."
-      - front: Bind mount
-        back: One folder visible at **two places**. `mount --bind src dest`, or `docker run -v host:container`.
-      - front: "`-rw-r--r--`"
-        back: Regular file. Owner read+write, group read, others read.
       - front: /proc
         back: A **virtual** folder from the kernel, one subfolder per PID. `ps` and `top` read it.
       - front: Why PID 1 matters in Docker

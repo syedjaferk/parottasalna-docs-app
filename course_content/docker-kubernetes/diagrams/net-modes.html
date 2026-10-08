@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="net-modes-t net-modes-d" xmlns="http://www.w3.org/2000/svg">
+<title id="net-modes-t">bridge vs host vs none</title>
+<desc id="net-modes-d">bridge: own IP behind NAT (the default). host: shares the host&#x27;s network directly, no isolation. none: only loopback, no network at all.</desc>
+<defs><marker id="net-modes-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="net-modes-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="net-modes-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="net-modes-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="210" height="46" rx="10" class="green"/>
+<text x="125.0" y="43.0" text-anchor="middle" dominant-baseline="middle" class="bold">bridge (default)</text>
+<rect x="20" y="76" width="210" height="130" rx="10" class="box"/>
+<text x="125.0" y="111.0" text-anchor="middle" dominant-baseline="middle" class="small">own namespace + IP</text>
+<text x="125.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="small">reach it with -p</text>
+<text x="125.0" y="151.0" text-anchor="middle" dominant-baseline="middle" class="small">user-defined: DNS</text>
+<text x="125.0" y="171.0" text-anchor="middle" dominant-baseline="middle" class="small">by container name</text>
+<rect x="255" y="20" width="210" height="46" rx="10" class="amber"/>
+<text x="360.0" y="43.0" text-anchor="middle" dominant-baseline="middle" class="bold">host</text>
+<rect x="255" y="76" width="210" height="130" rx="10" class="box"/>
+<text x="360.0" y="111.0" text-anchor="middle" dominant-baseline="middle" class="small">shares host network</text>
+<text x="360.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="small">no -p needed</text>
+<text x="360.0" y="151.0" text-anchor="middle" dominant-baseline="middle" class="small">no port isolation</text>
+<text x="360.0" y="171.0" text-anchor="middle" dominant-baseline="middle" class="small">Linux only</text>
+<rect x="490" y="20" width="210" height="46" rx="10" class="red"/>
+<text x="595.0" y="43.0" text-anchor="middle" dominant-baseline="middle" class="bold">none</text>
+<rect x="490" y="76" width="210" height="130" rx="10" class="box"/>
+<text x="595.0" y="111.0" text-anchor="middle" dominant-baseline="middle" class="small">only loopback (lo)</text>
+<text x="595.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="small">no outside access</text>
+<text x="595.0" y="151.0" text-anchor="middle" dominant-baseline="middle" class="small">batch jobs,</text>
+<text x="595.0" y="171.0" text-anchor="middle" dominant-baseline="middle" class="small">max isolation</text>
+</svg>
+<figcaption>bridge: own IP behind NAT (the default). host: shares the host&#x27;s network directly, no isolation. none: only loopback, no network at all.</figcaption>
+</figure>

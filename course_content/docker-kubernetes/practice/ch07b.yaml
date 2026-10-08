@@ -1,7 +1,8 @@
-chapter: sessions/09-dockerfile-deep-dive
+chapter: sessions/07-dockerfile
 
 quizzes:
-  - title: "Session 9 · Concepts"
+  - title: "Chapter 7 · Deep dive"
+    renamed_from: ["Session 9 · Concepts"]
     description: Exec vs shell form, signals, build context and caching.
     questions:
       - text: What is the exec form of CMD?
@@ -60,7 +61,30 @@ quizzes:
           Alphabetical
           It doesn't matter with BuildKit
 
-  - title: "Session 9 · Hands-on"
+      - text: What is a multi-stage build for?
+        choices: |
+          Running several containers from one Dockerfile
+          *Building in one stage with all the tools, then copying only the result into a small final image
+          Building for several CPU types at once
+          Splitting an image across registries
+        explanation: In class, a Go app went from a 278 MB build stage to a 2.13 MB final image.
+
+      - text: "In a multi-stage Dockerfile, which stage becomes the image?"
+        choices: |
+          The first one
+          *The last one (unless you pick another with --target)
+          The biggest one
+          All of them, merged
+
+      - text: "What does `COPY --from=build /hello /hello` do?"
+        choices: |
+          Downloads /hello from a registry called build
+          *Copies /hello out of the stage named `build` into the current stage
+          Copies /hello from the host's build folder
+          Builds /hello from source
+
+  - title: "Chapter 7 · Hands-on: ENTRYPOINT, signals & cache"
+    renamed_from: ["Session 9 · Hands-on"]
     description: "FROM alpine:3.20 / ENTRYPOINT [\"echo\", \"Hello World\"] / CMD [\"World\"]"
     questions:
       - text: "`docker run --rm kube-demo-hello` prints…"
@@ -122,7 +146,8 @@ quizzes:
           RUN pip install → COPY requirements.txt .
 
 decks:
-  - title: "Session 9 · Flashcards"
+  - title: "Chapter 7 · Flashcards: deep dive"
+    renamed_from: ["Session 9 · Flashcards"]
     cards:
       - front: Exec form
         back: "`CMD [\"python\", \"app.py\"]`, a JSON list, run directly. Your app is **PID 1**."
@@ -150,3 +175,9 @@ decks:
         back: Changes least → most. Dependencies list + install **before** your code.
       - front: Force a full rebuild
         back: "`docker build --no-cache ...`"
+      - front: Multi-stage build
+        back: Build in a big stage (`FROM golang AS build`), then `COPY --from=build` only the result into a small final stage.
+      - front: "`FROM scratch`"
+        back: An **empty** image. Fine for a static binary; nothing else inside.
+      - front: "`docker build --target build`"
+        back: Stop after the stage named `build`. Handy for debugging or comparing sizes.
