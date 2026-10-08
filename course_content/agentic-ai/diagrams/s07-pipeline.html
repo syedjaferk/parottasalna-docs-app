@@ -1,0 +1,50 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="s07-pipeline-t s07-pipeline-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s07-pipeline-t">The two halves of RAG</title>
+<desc id="s07-pipeline-d">Indexing prepares your documents once. Querying runs for every question and reuses the stored vectors.</desc>
+<defs><marker id="s07-pipeline-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s07-pipeline-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s07-pipeline-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s07-pipeline-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="20" y="18" text-anchor="start" dominant-baseline="middle" class="title">1 · INDEXING (once)</text>
+<rect x="20" y="35" width="100" height="44" rx="10" class="blue"/>
+<text x="70.0" y="57.0" text-anchor="middle" dominant-baseline="middle" class="bold">PDF</text>
+<rect x="137" y="35" width="100" height="44" rx="10" class="box"/>
+<text x="187.0" y="57.0" text-anchor="middle" dominant-baseline="middle">Load</text>
+<path d="M120,57 L135,57" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="254" y="35" width="100" height="44" rx="10" class="box"/>
+<text x="304.0" y="57.0" text-anchor="middle" dominant-baseline="middle">Clean</text>
+<path d="M237,57 L252,57" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="371" y="35" width="100" height="44" rx="10" class="box"/>
+<text x="421.0" y="57.0" text-anchor="middle" dominant-baseline="middle">Split</text>
+<path d="M354,57 L369,57" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="488" y="35" width="100" height="44" rx="10" class="box"/>
+<text x="538.0" y="57.0" text-anchor="middle" dominant-baseline="middle">Embed</text>
+<path d="M471,57 L486,57" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="605" y="35" width="100" height="44" rx="10" class="purple"/>
+<text x="655.0" y="57.0" text-anchor="middle" dominant-baseline="middle" class="bold">Chroma</text>
+<path d="M588,57 L603,57" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<text x="20" y="140" text-anchor="start" dominant-baseline="middle" class="title">2 · QUERYING (every question)</text>
+<rect x="20" y="160" width="86" height="44" rx="10" class="blue"/>
+<text x="63.0" y="182.0" text-anchor="middle" dominant-baseline="middle" class="bold">Question</text>
+<rect x="120" y="160" width="86" height="44" rx="10" class="box"/>
+<text x="163.0" y="182.0" text-anchor="middle" dominant-baseline="middle">Embed</text>
+<path d="M106,182 L118,182" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="220" y="160" width="86" height="44" rx="10" class="box"/>
+<text x="263.0" y="182.0" text-anchor="middle" dominant-baseline="middle">Search</text>
+<path d="M206,182 L218,182" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="320" y="160" width="86" height="44" rx="10" class="box"/>
+<text x="363.0" y="182.0" text-anchor="middle" dominant-baseline="middle">Top 4</text>
+<path d="M306,182 L318,182" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="420" y="160" width="86" height="44" rx="10" class="box"/>
+<text x="463.0" y="182.0" text-anchor="middle" dominant-baseline="middle">Prompt</text>
+<path d="M406,182 L418,182" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="520" y="160" width="86" height="44" rx="10" class="amber"/>
+<text x="563.0" y="182.0" text-anchor="middle" dominant-baseline="middle">LLM</text>
+<path d="M506,182 L518,182" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<rect x="620" y="160" width="86" height="44" rx="10" class="green"/>
+<text x="663.0" y="182.0" text-anchor="middle" dominant-baseline="middle" class="bold">Answer</text>
+<path d="M606,182 L618,182" class="arrow" marker-end="url(#s07-pipeline-h)"/>
+<path d="M263,158 L640,80" class="arrow blue dashed" marker-end="url(#s07-pipeline-h-blue)"/>
+<text x="470" y="105" text-anchor="middle" dominant-baseline="middle" class="small">find the nearest chunks</text>
+<text x="360" y="245" text-anchor="middle" dominant-baseline="middle" class="small">Only the 4 most relevant chunks go into the prompt, not the whole book.</text>
+</svg>
+<figcaption>Indexing prepares your documents once. Querying runs for every question and reuses the stored vectors.</figcaption>
+</figure>

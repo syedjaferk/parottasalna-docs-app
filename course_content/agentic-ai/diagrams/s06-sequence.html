@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 345" role="img" aria-labelledby="s06-sequence-t s06-sequence-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s06-sequence-t">Tool calling step by step</title>
+<desc id="s06-sequence-d">The model only asks for a tool. Your code runs it and sends the result back for the final answer.</desc>
+<defs><marker id="s06-sequence-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s06-sequence-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s06-sequence-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s06-sequence-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="10" width="160" height="38" rx="10" class="blue"/>
+<text x="110.0" y="29.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your code</text>
+<line x1="110" y1="48" x2="110" y2="335" class="line"/>
+<rect x="290" y="10" width="160" height="38" rx="10" class="amber"/>
+<text x="370.0" y="29.0" text-anchor="middle" dominant-baseline="middle" class="bold">LLM</text>
+<line x1="370" y1="48" x2="370" y2="335" class="line"/>
+<rect x="540" y="10" width="160" height="38" rx="10" class="green"/>
+<text x="620.0" y="29.0" text-anchor="middle" dominant-baseline="middle" class="bold">Tool (function)</text>
+<line x1="620" y1="48" x2="620" y2="335" class="line"/>
+<path d="M110,85 L366,85" class="arrow" marker-end="url(#s06-sequence-h)"/>
+<text x="240.0" y="73" text-anchor="middle" dominant-baseline="middle" class="small">① question + list of tools</text>
+<path d="M370,130 L114,130" class="arrow" marker-end="url(#s06-sequence-h)"/>
+<text x="240.0" y="118" text-anchor="middle" dominant-baseline="middle" class="small">② &quot;please call get_weather(city=&#x27;Paris&#x27;)&quot;</text>
+<path d="M110,175 L616,175" class="arrow green" marker-end="url(#s06-sequence-h-green)"/>
+<text x="365.0" y="163" text-anchor="middle" dominant-baseline="middle" class="small">③ your code runs get_weather(&#x27;Paris&#x27;)</text>
+<path d="M620,220 L114,220" class="arrow green" marker-end="url(#s06-sequence-h-green)"/>
+<text x="365.0" y="208" text-anchor="middle" dominant-baseline="middle" class="small">④ result: &#x27;sunny, 25°C&#x27;</text>
+<path d="M110,265 L366,265" class="arrow" marker-end="url(#s06-sequence-h)"/>
+<text x="240.0" y="253" text-anchor="middle" dominant-baseline="middle" class="small">⑤ question + request + result</text>
+<path d="M370,310 L114,310" class="arrow blue" marker-end="url(#s06-sequence-h-blue)"/>
+<text x="240.0" y="298" text-anchor="middle" dominant-baseline="middle" class="small">⑥ &quot;Paris is sunny and 25°C.&quot;</text>
+</svg>
+<figcaption>The model only asks for a tool. Your code runs it and sends the result back for the final answer.</figcaption>
+</figure>

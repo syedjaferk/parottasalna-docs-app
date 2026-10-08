@@ -124,6 +124,10 @@ ACCOUNT_SIGNUP_FIELDS = ["email*"]
 ACCOUNT_EMAIL_VERIFICATION = "none"  # Google already verified the address
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_STORE_TOKENS = False  # we only sign people in; Google access tokens are never kept
+
+# Shown on the privacy policy as the address for data requests (required for Google verification).
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "")
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

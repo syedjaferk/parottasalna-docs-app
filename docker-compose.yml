@@ -1,6 +1,14 @@
 # Usage: cp .env.example .env  (fill in), then  docker compose up -d --build
+# Rotate container logs (they include visitors' IP addresses; see the privacy policy).
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   db:
+    logging: *logging
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
@@ -16,6 +24,7 @@ services:
       retries: 10
 
   web:
+    logging: *logging
     build: .
     restart: unless-stopped
     env_file: .env
@@ -33,6 +42,7 @@ services:
         condition: service_healthy
 
   nginx:
+    logging: *logging
     image: nginx:1.27-alpine
     restart: unless-stopped
     ports:

@@ -97,6 +97,11 @@ def course_docs(request, slug, path=""):
     return response
 
 
+def privacy(request):
+    """Public privacy policy (linked from every page and from Google's OAuth consent screen)."""
+    return render(request, "courses/privacy.html", {"contact_email": settings.CONTACT_EMAIL})
+
+
 def robots_txt(request):
     lines = [
         "User-agent: *",
@@ -112,7 +117,10 @@ def robots_txt(request):
 
 
 def sitemap_xml(request):
-    urls = [{"loc": request.build_absolute_uri(reverse("home")), "priority": "1.0", "lastmod": None}]
+    urls = [
+        {"loc": request.build_absolute_uri(reverse("home")), "priority": "1.0", "lastmod": None},
+        {"loc": request.build_absolute_uri(reverse("privacy")), "priority": "0.3", "lastmod": None},
+    ]
     for course in public_courses().filter(build_status=Course.BuildStatus.OK):
         for page in doc_pages(course):
             path = "" if page == "index.html" else page

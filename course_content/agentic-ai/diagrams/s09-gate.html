@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s09-gate-t s09-gate-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-gate-t">Pydantic as a gate</title>
+<desc id="s09-gate-d">Data must pass the model&#x27;s rules to get in. Bad data is stopped with a clear list of what&#x27;s wrong.</desc>
+<defs><marker id="s09-gate-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-gate-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-gate-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-gate-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="25" width="230" height="50" rx="10" class="box"/>
+<text x="135.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;name&quot;: &quot;Kavya&quot;,</text>
+<text x="135.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;age&quot;: 21}</text>
+<rect x="20" y="140" width="230" height="50" rx="10" class="box"/>
+<text x="135.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;name&quot;: &quot;Kavya&quot;,</text>
+<text x="135.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;age&quot;: -9}</text>
+<rect x="300" y="60" width="140" height="100" rx="10" class="blue"/>
+<text x="370.0" y="90.0" text-anchor="middle" dominant-baseline="middle">class User</text>
+<text x="370.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">name: str</text>
+<text x="370.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">age: int &gt; 0</text>
+<path d="M250,50 L298,90" class="arrow" marker-end="url(#s09-gate-h)"/>
+<path d="M250,165 L298,135" class="arrow" marker-end="url(#s09-gate-h)"/>
+<rect x="490" y="25" width="210" height="50" rx="10" class="green"/>
+<text x="595.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="code">✓ User(name=&#x27;Kavya&#x27;,</text>
+<text x="595.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">age=21)</text>
+<rect x="490" y="140" width="210" height="50" rx="10" class="red"/>
+<text x="595.0" y="155.0" text-anchor="middle" dominant-baseline="middle">✗ ValidationError</text>
+<text x="595.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">age: must be &gt; 0</text>
+<path d="M440,90 L488,50" class="arrow green" marker-end="url(#s09-gate-h-green)"/>
+<path d="M440,135 L488,165" class="arrow red" marker-end="url(#s09-gate-h-red)"/>
+</svg>
+<figcaption>Data must pass the model&#x27;s rules to get in. Bad data is stopped with a clear list of what&#x27;s wrong.</figcaption>
+</figure>

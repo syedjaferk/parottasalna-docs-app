@@ -1,0 +1,188 @@
+﻿1. General Prompting — Asking the question plainly with minimal structure or guidance. The model relies entirely on its own judgment for format and approach.
+
+2. One-Shot Prompting — Giving exactly one worked example before the actual question. This shows the model the expected format and reasoning style.
+
+3. Few-Shot Prompting — Giving multiple (usually 2-5) worked examples before the question. More examples help the model infer patterns, edge cases, and consistent formatting.
+
+4. System Prompting — Setting persistent instructions or rules (often via a separate "system" role) that govern how the model should behave throughout. It shapes tone, constraints, and behavior rather than the specific task content.
+
+5. Role Prompting — Assigning the model a specific persona or profession (e.g., "you are a cashier"). This shifts vocabulary, tone, and the angle from which the answer is framed.
+
+6. Contextual Prompting — Embedding the question inside a real-world scenario or purpose (e.g., "I'm splitting a bill"). Extra context helps the model tailor the answer to practical relevance, not just correctness.
+
+7. Chain-of-Thought Prompting — Instructing the model to reason step by step before answering. This improves accuracy on multi-step problems by making intermediate logic explicit.
+
+8. Self-Consistency Prompting — Asking the model to solve the same problem multiple independent ways and compare results. Agreement across methods increases confidence in the final answer.
+
+9. Tree-of-Thought Prompting — Having the model explore several reasoning branches in parallel, evaluate each, and prune the weak ones. It converges on the most defensible path instead of committing to the first line of reasoning.
+
+10. ReAct Prompting — Interleaving reasoning ("Thought") with concrete actions ("Action") and their results ("Observation"), often using external tools. This lets the model verify intermediate steps rather than reasoning blindly.
+
+
+
+
+
+Problem : Find the sum of all even numbers between 1 and 50.
+
+
+1. Zero Shot:
+Find the sum of all even numbers between 1 and 50.
+Calculate the sum of even integers from 1 to 50.
+
+
+
+
+2. Few Shot:
+Example:
+Find the sum of even numbers between 1 and 10.
+Answer:
+Even numbers: 2, 4, 6, 8, 10
+Sum = 30
+
+
+Now solve:
+Find the sum of even numbers between 1 and 50.
+
+
+—
+
+
+Example:
+Odd numbers between 1 and 9 → 1,3,5,7,9 → Sum = 25
+
+
+Now:
+Find the sum of even numbers between 1 and 50.
+
+
+
+
+
+
+
+
+3. System Prompting
+
+System:
+You are a mathematics tutor who explains every step clearly. Give the response in JSON format.
+
+User:
+Find the sum of all even numbers between 1 and 50.
+
+System:
+You are an exam evaluator. Give a concise answer with formula.
+
+User:
+Find the sum of even numbers from 1 to 50.
+
+
+PS: what is 15% of 80 ?
+System: You are a precise math tutor. Always convert the percentage to a decimal first, then multiply and show units.
+User: What is 15% of 80 ?
+
+
+4. Contextual Prompting
+        You are helping a school student who just learned arithmetic progressions.
+
+
+Find the sum of even numbers between 1 and 50.
+
+
+
+
+This problem is part of a coding interview.
+Explain the mathematical logic and also provide a Python solution.
+
+
+Find the sum of even numbers from 1 to 50.
+
+
+
+
+
+
+5. Role Prompting
+
+        Act as a mathematics teacher.
+Explain step-by-step how to find the sum of even numbers between 1 and 50.
+
+
+
+
+        You are a competitive programming coach.
+Solve the problem efficiently and explain the logic.
+
+
+
+
+
+
+
+6. Chain of Thought
+
+Solve the following problem step by step:
+Find the sum of all even numbers between 1 and 50.
+Explain your reasoning clearly.
+
+
+
+
+Think step by step and show all intermediate calculations.
+
+
+Find the sum of even numbers from 1 to 50.
+
+
+
+
+"Find the sum of all even numbers between 1 and 50.
+To solve this, please think step-by-step:
+1. Identify the sequence: Define the first and last numbers in the set and the common difference.
+2. Count the terms: Calculate how many numbers are actually in this sequence.
+3. Select a method: Choose an appropriate mathematical formula (like the arithmetic series formula).
+4. Calculate: Show the intermediate arithmetic steps.
+5. Verify: Briefly double-check the logic for any missed numbers."
+
+
+
+
+
+
+Self Consistency:
+
+
+Solve this problem using three different methods of reasoning. After you have all three results, determine which answer is the most consistent and provide that as the final conclusion
+
+
+Tree of Thoughts:
+=================
+
+Role: You are a senior tech architect.
+
+You are solving a complex problem.
+
+
+1. Generate 3 possible approaches.
+2. Evaluate the strengths and weakness of each path.
+3. Expand the most optimal approach.
+4. If it is not suitable, backtrack and try another path.
+5. Present the best final solutions.
+
+
+{
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get current weather for a city",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "description": "Name of the city"
+                    }
+                },
+                "required": ["city"]
+            }
+        }
+    }

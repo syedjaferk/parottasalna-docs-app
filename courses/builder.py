@@ -59,6 +59,35 @@ html.dark[data-accent-color] { --accent-9: #3b82f6; --accent-10: #60a5fa; --acce
 .yue div[class*="highlight-"] { margin: 1.3em 0 1.5em; }
 .yue mark { border-radius: 4px; padding: 0 .2em; }
 
+/* Course diagrams: inline SVG coloured from theme variables, so they follow light/dark mode */
+figure.diagram { margin: 1.75rem 0; padding: 1rem; border-radius: 14px; border: 1px solid var(--sy-c-border);
+  background: var(--sy-c-background); overflow-x: auto; }
+figure.diagram svg { display: block; width: 100%; height: auto; min-width: 520px; margin: 0 auto; }
+figure.diagram figcaption { margin-top: .6rem; font-size: .9rem; color: var(--sy-c-light); text-align: center; }
+.dg text { fill: var(--sy-c-text); font-family: var(--sy-f-text); font-size: 15px; }
+.dg text.small { font-size: 13px; fill: var(--sy-c-light); }
+.dg text.bold { font-weight: 700; }
+.dg text.code { font-family: var(--sy-f-mono); font-size: 14px; }
+.dg text.title { font-size: 14px; font-weight: 700; letter-spacing: .04em; fill: var(--sy-c-light); }
+.dg .box { fill: var(--sy-c-surface); stroke: var(--sy-c-border); stroke-width: 1.5; }
+.dg .blue { fill: rgba(37, 99, 235, .10); stroke: #2563eb; stroke-width: 1.5; }
+.dg .green { fill: rgba(16, 185, 129, .12); stroke: #10b981; stroke-width: 1.5; }
+.dg .amber { fill: rgba(245, 158, 11, .14); stroke: #f59e0b; stroke-width: 1.5; }
+.dg .red { fill: rgba(239, 68, 68, .10); stroke: #ef4444; stroke-width: 1.5; }
+.dg .purple { fill: rgba(139, 92, 246, .12); stroke: #8b5cf6; stroke-width: 1.5; }
+.dg .ghost { fill: none; stroke: var(--sy-c-border); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.dg .bar { fill: #2563eb; } .dg .bar.dim { fill: var(--sy-c-border); } .dg .bar.green { fill: #10b981; stroke: none; }
+.dg .bar.amber { fill: #f59e0b; stroke: none; }
+.dg .arrow { fill: none; stroke: var(--sy-c-light); stroke-width: 1.8; }
+.dg .arrow.dashed { stroke-dasharray: 6 5; }
+.dg .arrow.blue { stroke: #2563eb; fill: none; } .dg .arrow.green { stroke: #10b981; fill: none; }
+.dg .arrow.red { stroke: #ef4444; fill: none; }
+.dg .head { fill: var(--sy-c-light); } .dg .head.blue { fill: #2563eb; stroke: none; }
+.dg .head.green { fill: #10b981; stroke: none; } .dg .head.red { fill: #ef4444; stroke: none; }
+.dg .line { stroke: var(--sy-c-border); stroke-width: 1.5; } .dg .line.cut { stroke: #ef4444; stroke-width: 2; stroke-dasharray: 5 4; }
+.dg .circle-a { fill: rgba(37, 99, 235, .12); stroke: #2563eb; stroke-width: 1.5; }
+.dg .circle-b { fill: rgba(16, 185, 129, .12); stroke: #10b981; stroke-width: 1.5; }
+
 /* Imported GitBook content: video embeds and collapsible solutions */
 .video-embed { position: relative; aspect-ratio: 16 / 9; margin: 1.25rem 0; border-radius: 12px; overflow: hidden;
   background: #000; box-shadow: 0 10px 30px rgba(15, 27, 51, .18); }
@@ -69,6 +98,12 @@ details.solution > summary::before { content: "💡 Show "; }
 details.solution[open] > summary::before { content: "💡 "; }
 details.solution[open] > summary { border-bottom: 1px solid var(--sy-c-border); }
 details.solution > :not(summary) { margin-left: 1rem; margin-right: 1rem; }
+details.source { margin: .6rem 0; border: 1px solid var(--sy-c-border); border-radius: 10px; background: var(--sy-c-surface); }
+details.source > summary { cursor: pointer; padding: .55rem 1rem; font-weight: 600; font-family: var(--sy-f-mono); font-size: .9rem;
+  color: var(--sy-c-text); }
+details.source > summary::before { content: "📄 "; }
+details.source[open] > summary { border-bottom: 1px solid var(--sy-c-border); }
+details.source > :not(summary) { margin: .5rem .75rem; }
 
 /* Chapter completion (progress.js) */
 .page-progress { margin: 2.5rem 0 1rem; padding: 1.1rem 1.25rem; border-radius: 14px; display: flex; align-items: center;
@@ -339,7 +374,7 @@ NAV_LINKS_TEMPLATE = """<ul>
 """
 
 # Footer: copyright line plus brand social icons as inline SVG (Shibuya's icons load from a CDN).
-FOOT_COPYRIGHT_TEMPLATE = """<div class="sy-foot-copyright"><p>&copy; {{ brand_name|e }} \u00b7 {{ brand_author|e }}</p></div>
+FOOT_COPYRIGHT_TEMPLATE = """<div class="sy-foot-copyright"><p>&copy; {{ brand_name|e }} \u00b7 {{ brand_author|e }} \u00b7 <a href="/privacy/">Privacy Policy</a></p></div>
 """
 
 

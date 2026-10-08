@@ -187,7 +187,7 @@
     <div class="topbar-inner">
       <a class="brand" href="{% url 'home' %}" aria-label="{{ brand.NAME }} home">
         <img class="logo" src="{% static 'brand/logo-192.png' %}" alt="" width="38" height="38">
-        <span class="brand-text">{{ brand.NAME }}<small>Course Notes</small></span>
+        <span class="brand-text">{{ brand.NAME }} <small>Course Notes</small></span>
       </a>
       {% if user.is_authenticated %}
       <div class="who">
@@ -240,7 +240,7 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <span>© {% now "Y" %} {{ brand.NAME }} · Made by {{ brand.AUTHOR }}</span>
+      <span>© {% now "Y" %} {{ brand.PRODUCT }} · Made by {{ brand.AUTHOR }} · <a href="{% url 'privacy' %}">Privacy Policy</a></span>
       <span>{{ brand.CADENCE }} <a href="{{ brand.YOUTUBE_SUBSCRIBE }}" target="_blank" rel="noopener">Subscribe on YouTube</a></span>
     </div>
   </footer>

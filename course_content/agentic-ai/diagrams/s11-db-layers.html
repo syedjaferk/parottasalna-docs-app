@@ -1,0 +1,35 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s11-db-layers-t s11-db-layers-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-db-layers-t">Three safety layers for SQL tools</title>
+<desc id="s11-db-layers-d">Each layer stops a different kind of mistake. The read-only connection is the one that truly protects the data.</desc>
+<defs><marker id="s11-db-layers-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-db-layers-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-db-layers-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-db-layers-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="25" width="170" height="50" rx="10" class="blue"/>
+<text x="95.0" y="40.0" text-anchor="middle" dominant-baseline="middle">Agent&#x27;s SQL</text>
+<text x="95.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">SELECT ... JOIN</text>
+<rect x="205" y="25" width="125" height="50" rx="10" class="amber"/>
+<text x="267.5" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">① SELECT only</text>
+<text x="267.5" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">check</text>
+<path d="M180,50 L203,50" class="arrow" marker-end="url(#s11-db-layers-h)"/>
+<rect x="340" y="25" width="125" height="50" rx="10" class="amber"/>
+<text x="402.5" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">② read-only</text>
+<text x="402.5" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">connection</text>
+<path d="M315,50 L338,50" class="arrow" marker-end="url(#s11-db-layers-h)"/>
+<rect x="475" y="25" width="125" height="50" rx="10" class="amber"/>
+<text x="537.5" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">③ max 50 rows</text>
+<text x="537.5" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">returned</text>
+<path d="M450,50 L473,50" class="arrow" marker-end="url(#s11-db-layers-h)"/>
+<path d="M600,50 L618,50" class="arrow" marker-end="url(#s11-db-layers-h)"/>
+<rect x="620" y="25" width="85" height="50" rx="10" class="green"/>
+<text x="662.5" y="50.0" text-anchor="middle" dominant-baseline="middle" class="code">shop.db</text>
+<rect x="10" y="130" width="170" height="50" rx="10" class="red"/>
+<text x="95.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">DROP TABLE orders</text>
+<text x="95.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="small">(or UPDATE ...)</text>
+<path d="M180,155 L267,155 L267,77" class="arrow red" marker-end="url(#s11-db-layers-h-red)"/>
+<text x="300" y="165" text-anchor="start" dominant-baseline="middle" class="small">✗ blocked</text>
+<rect x="10" y="200" width="170" height="44" rx="10" class="box"/>
+<text x="95.0" y="222.0" text-anchor="middle" dominant-baseline="middle" class="code">SELECT * FROM orders</text>
+<path d="M180,222 L537,222 L537,77" class="arrow" marker-end="url(#s11-db-layers-h)"/>
+<text x="380" y="236" text-anchor="middle" dominant-baseline="middle" class="small">only 50 rows come back</text>
+</svg>
+<figcaption>Each layer stops a different kind of mistake. The read-only connection is the one that truly protects the data.</figcaption>
+</figure>

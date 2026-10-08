@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 240" role="img" aria-labelledby="s09-nested-t s09-nested-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-nested-t">Nested models</title>
+<desc id="s09-nested-d">Models can contain other models and lists of models. One call validates the whole tree.</desc>
+<defs><marker id="s09-nested-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-nested-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-nested-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-nested-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="95" width="120" height="46" rx="10" class="blue"/>
+<text x="80.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="bold">Order</text>
+<rect x="190" y="40" width="130" height="44" rx="10" class="box"/>
+<text x="255.0" y="62.0" text-anchor="middle" dominant-baseline="middle">customer</text>
+<rect x="190" y="150" width="130" height="44" rx="10" class="box"/>
+<text x="255.0" y="172.0" text-anchor="middle" dominant-baseline="middle">items: list</text>
+<path d="M140,118 L188,62" class="arrow" marker-end="url(#s09-nested-h)"/>
+<path d="M140,118 L188,172" class="arrow" marker-end="url(#s09-nested-h)"/>
+<rect x="370" y="40" width="130" height="44" rx="10" class="blue"/>
+<text x="435.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">Customer</text>
+<path d="M320,62 L368,62" class="arrow" marker-end="url(#s09-nested-h)"/>
+<rect x="590" y="40" width="110" height="44" rx="10" class="blue"/>
+<text x="645.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">Address</text>
+<path d="M500,62 L588,62" class="arrow" marker-end="url(#s09-nested-h)"/>
+<text x="545" y="48" text-anchor="middle" dominant-baseline="middle" class="small">address</text>
+<rect x="370" y="130" width="130" height="40" rx="10" class="blue"/>
+<text x="435.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">OrderItem</text>
+<rect x="370" y="180" width="130" height="40" rx="10" class="blue"/>
+<text x="435.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="bold">OrderItem</text>
+<path d="M320,172 L368,150" class="arrow" marker-end="url(#s09-nested-h)"/>
+<path d="M320,172 L368,200" class="arrow" marker-end="url(#s09-nested-h)"/>
+<text x="610" y="150" text-anchor="middle" dominant-baseline="middle" class="code">order.customer</text>
+<text x="610" y="172" text-anchor="middle" dominant-baseline="middle" class="code">.address.city</text>
+<text x="610" y="195" text-anchor="middle" dominant-baseline="middle" class="code">→ &#x27;Coimbatore&#x27;</text>
+</svg>
+<figcaption>Models can contain other models and lists of models. One call validates the whole tree.</figcaption>
+</figure>

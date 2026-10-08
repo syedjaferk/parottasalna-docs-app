@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s05-react-t s05-react-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s05-react-t">The ReAct loop</title>
+<desc id="s05-react-d">Think, act with a tool, observe the result, and repeat until the model can give a final answer.</desc>
+<defs><marker id="s05-react-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s05-react-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s05-react-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s05-react-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="270" y="30" width="200" height="50" rx="10" class="blue"/>
+<text x="370.0" y="45.0" text-anchor="middle" dominant-baseline="middle">Thought</text>
+<text x="370.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">I need the weather</text>
+<rect x="500" y="125" width="200" height="50" rx="10" class="amber"/>
+<text x="600.0" y="140.0" text-anchor="middle" dominant-baseline="middle">Action</text>
+<text x="600.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">get_weather[Chennai]</text>
+<rect x="270" y="225" width="200" height="50" rx="10" class="green"/>
+<text x="370.0" y="240.0" text-anchor="middle" dominant-baseline="middle">Observation</text>
+<text x="370.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="small">32°C and Sunny</text>
+<path d="M470,55 L600,55 L600,123" class="arrow" marker-end="url(#s05-react-h)"/>
+<path d="M600,175 L600,250 L472,250" class="arrow" marker-end="url(#s05-react-h)"/>
+<path d="M270,250 L225,250 L225,55 L268,55" class="arrow blue" marker-end="url(#s05-react-h-blue)"/>
+<text x="258" y="150" text-anchor="start" dominant-baseline="middle" class="small">repeat</text>
+<rect x="20" y="125" width="160" height="50" rx="10" class="green"/>
+<text x="100.0" y="140.0" text-anchor="middle" dominant-baseline="middle">Final Answer</text>
+<text x="100.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">It&#x27;s 32°C in Chennai</text>
+<path d="M330,30 L330,12 L100,12 L100,123" class="arrow green dashed" marker-end="url(#s05-react-h-green)"/>
+<text x="215" y="24" text-anchor="middle" dominant-baseline="middle" class="small">enough info → stop</text>
+</svg>
+<figcaption>Think, act with a tool, observe the result, and repeat until the model can give a final answer.</figcaption>
+</figure>

@@ -80,7 +80,7 @@
 {% load static %}
 <div class="auth">
   <section class="auth-side">
-    <span class="eyebrow">{{ brand.NAME }} · Course Notes</span>
+    <span class="eyebrow">{{ brand.PRODUCT }}</span>
     <h1>{{ brand.TAGLINE }}</h1>
     <p>{{ brand.DESCRIPTION }} Revisit every live session at your own pace — notes are published after each class.</p>
     <ul class="features">
@@ -100,6 +100,9 @@
         Continue with Google
       </button>
     </form>
+    <p class="fine muted">{{ brand.PRODUCT }} uses Google Sign-In only to confirm your name and email,
+      so enrolled students can open their courses and keep their progress. See our
+      <a href="{% url 'privacy' %}">Privacy Policy</a>.</p>
     <p class="fine muted">Only enrolled accounts can access course material.<br>Not enrolled yet? {% if free_courses %}Read the <a href="#free-courses">free courses</a> or learn{% else %}Learn free{% endif %} on <a href="{{ brand.YOUTUBE }}" target="_blank" rel="noopener">YouTube</a>.</p>
   </section>
 </div>

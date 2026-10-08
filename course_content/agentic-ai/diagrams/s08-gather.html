@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 245" role="img" aria-labelledby="s08-gather-t s08-gather-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-gather-t">Awaiting one by one vs gather</title>
+<desc id="s08-gather-d">await in a row is still sequential. asyncio.gather() starts all tasks together.</desc>
+<defs><marker id="s08-gather-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-gather-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-gather-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-gather-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="20" y="18" text-anchor="start" dominant-baseline="middle" class="code">await task1; await task2; await task3</text>
+<text x="218" y="46" text-anchor="end" dominant-baseline="middle"></text>
+<rect x="230" y="32" width="136" height="28" rx="6" class="amber"/>
+<text x="298.0" y="46" text-anchor="middle" dominant-baseline="middle" class="small">Task 1</text>
+<rect x="370" y="32" width="136" height="28" rx="6" class="amber"/>
+<text x="438.0" y="46" text-anchor="middle" dominant-baseline="middle" class="small">Task 2</text>
+<rect x="510" y="32" width="136" height="28" rx="6" class="amber"/>
+<text x="578.0" y="46" text-anchor="middle" dominant-baseline="middle" class="small">Task 3</text>
+<text x="660" y="46" text-anchor="start" dominant-baseline="middle" class="bold">6 s</text>
+<text x="20" y="100" text-anchor="start" dominant-baseline="middle" class="code">await asyncio.gather(task1, task2, task3)</text>
+<text x="218" y="129" text-anchor="end" dominant-baseline="middle"></text>
+<rect x="230" y="115" width="136" height="28" rx="6" class="green"/>
+<text x="298.0" y="129" text-anchor="middle" dominant-baseline="middle" class="small">Task 1</text>
+<text x="218" y="163" text-anchor="end" dominant-baseline="middle"></text>
+<rect x="230" y="149" width="136" height="28" rx="6" class="green"/>
+<text x="298.0" y="163" text-anchor="middle" dominant-baseline="middle" class="small">Task 2</text>
+<text x="218" y="197" text-anchor="end" dominant-baseline="middle"></text>
+<rect x="230" y="183" width="136" height="28" rx="6" class="green"/>
+<text x="298.0" y="197" text-anchor="middle" dominant-baseline="middle" class="small">Task 3</text>
+<text x="380" y="166" text-anchor="start" dominant-baseline="middle" class="bold">2 s</text>
+</svg>
+<figcaption>await in a row is still sequential. asyncio.gather() starts all tasks together.</figcaption>
+</figure>

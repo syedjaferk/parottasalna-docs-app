@@ -454,3 +454,36 @@ class CsvSafetyTests(TestCase):
             self.assertTrue(csv_safe(value).startswith("'"))
         self.assertEqual(csv_safe("Ada Lovelace"), "Ada Lovelace")
         self.assertEqual(csv_safe(3), "3")
+
+
+class OAuthVerificationTests(TestCase):
+    """What Google's OAuth consent-screen review checks on the public pages."""
+
+    def test_privacy_policy_is_public_and_complete(self):
+        response = self.client.get("/privacy/")
+        self.assertEqual(response.status_code, 200)
+        for text in ("Privacy Policy", "Information we collect", "Google API Services User Data Policy",
+                     "Limited Use", "Your rights and choices", "Cookies", "How long we keep data",
+                     "myaccount.google.com/permissions"):
+            self.assertContains(response, text)
+
+    @override_settings(CONTACT_EMAIL="privacy@example.com")
+    def test_privacy_policy_shows_contact_email(self):
+        self.assertContains(self.client.get("/privacy/"), "mailto:privacy@example.com")
+
+    def test_homepage_shows_app_name_and_links_privacy_policy(self):
+        from django.utils.html import strip_tags
+
+        response = self.client.get("/")
+        text = " ".join(strip_tags(response.content.decode()).split())
+        self.assertIn("Parottasalna Course Notes", text)
+        self.assertContains(response, 'href="/privacy/"')
+        self.assertContains(response, "<title>Parottasalna Course Notes")
+
+    def test_google_tokens_are_not_stored(self):
+        from django.conf import settings
+
+        self.assertIs(settings.SOCIALACCOUNT_STORE_TOKENS, False)
+
+    def test_privacy_page_in_sitemap(self):
+        self.assertContains(self.client.get("/sitemap.xml"), "<loc>http://testserver/privacy/</loc>")

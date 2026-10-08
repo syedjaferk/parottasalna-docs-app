@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s11-mcp-t s11-mcp-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-mcp-t">Model Context Protocol</title>
+<desc id="s11-mcp-d">One MCP server can serve many apps. Each app discovers the server&#x27;s tools at runtime and calls them.</desc>
+<defs><marker id="s11-mcp-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-mcp-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-mcp-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-mcp-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="25" width="200" height="50" rx="10" class="blue"/>
+<text x="120.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your LangChain agent</text>
+<path d="M220,50 L418,130" class="arrow blue" marker-end="url(#s11-mcp-h-blue)"/>
+<rect x="20" y="100" width="200" height="50" rx="10" class="box"/>
+<text x="120.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Claude Desktop</text>
+<path d="M220,125 L418,130" class="arrow" marker-end="url(#s11-mcp-h)"/>
+<rect x="20" y="175" width="200" height="50" rx="10" class="box"/>
+<text x="120.0" y="200.0" text-anchor="middle" dominant-baseline="middle">An IDE assistant</text>
+<path d="M220,200 L418,130" class="arrow" marker-end="url(#s11-mcp-h)"/>
+<text x="320" y="40" text-anchor="middle" dominant-baseline="middle" class="small">MCP (stdio or HTTP)</text>
+<rect x="420" y="70" width="280" height="120" rx="10" class="green"/>
+<text x="560.0" y="110.0" text-anchor="middle" dominant-baseline="middle">MCP server &quot;utils&quot;</text>
+<text x="560.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">tool: add(a, b)</text>
+<text x="560.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="code">tool: reverse_text(text)</text>
+<text x="560" y="225" text-anchor="middle" dominant-baseline="middle" class="code">get_tools() → [&#x27;add&#x27;, &#x27;reverse_text&#x27;]</text>
+</svg>
+<figcaption>One MCP server can serve many apps. Each app discovers the server&#x27;s tools at runtime and calls them.</figcaption>
+</figure>

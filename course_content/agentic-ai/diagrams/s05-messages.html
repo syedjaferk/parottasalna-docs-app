@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s05-messages-t s05-messages-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s05-messages-t">What you send to a chat model</title>
+<desc id="s05-messages-d">A chat request is a list of messages. The model reads all of them and writes the next assistant message.</desc>
+<defs><marker id="s05-messages-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s05-messages-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s05-messages-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s05-messages-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="25" width="110" height="38" rx="10" class="purple"/>
+<text x="75.0" y="44.0" text-anchor="middle" dominant-baseline="middle" class="code">system</text>
+<rect x="140" y="25" width="250" height="38" rx="10" class="box"/>
+<text x="265.0" y="44.0" text-anchor="middle" dominant-baseline="middle">You are a friendly maths tutor.</text>
+<rect x="20" y="75" width="110" height="38" rx="10" class="blue"/>
+<text x="75.0" y="94.0" text-anchor="middle" dominant-baseline="middle" class="code">user</text>
+<rect x="140" y="75" width="250" height="38" rx="10" class="box"/>
+<text x="265.0" y="94.0" text-anchor="middle" dominant-baseline="middle">What is 15% of 80?</text>
+<rect x="20" y="125" width="110" height="38" rx="10" class="green"/>
+<text x="75.0" y="144.0" text-anchor="middle" dominant-baseline="middle" class="code">assistant</text>
+<rect x="140" y="125" width="250" height="38" rx="10" class="box"/>
+<text x="265.0" y="144.0" text-anchor="middle" dominant-baseline="middle">15% of 80 is 12.</text>
+<rect x="20" y="175" width="110" height="38" rx="10" class="blue"/>
+<text x="75.0" y="194.0" text-anchor="middle" dominant-baseline="middle" class="code">user</text>
+<rect x="140" y="175" width="250" height="38" rx="10" class="box"/>
+<text x="265.0" y="194.0" text-anchor="middle" dominant-baseline="middle">And 20%?</text>
+<text x="205" y="230" text-anchor="middle" dominant-baseline="middle" class="small">messages = [ ... ]  (a list of dictionaries)</text>
+<path d="M392,120 L448,120" class="arrow" marker-end="url(#s05-messages-h)"/>
+<rect x="450" y="90" width="110" height="60" rx="10" class="amber"/>
+<text x="505.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">LLM</text>
+<path d="M560,120 L598,120" class="arrow" marker-end="url(#s05-messages-h)"/>
+<rect x="600" y="90" width="110" height="60" rx="10" class="green"/>
+<text x="655.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">assistant:</text>
+<text x="655.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;16&quot;</text>
+</svg>
+<figcaption>A chat request is a list of messages. The model reads all of them and writes the next assistant message.</figcaption>
+</figure>

@@ -1,0 +1,40 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s08-kitchen-t s08-kitchen-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-kitchen-t">Synchronous vs asynchronous</title>
+<desc id="s08-kitchen-d">Sync waits for each job before starting the next. Async starts both and waits once.</desc>
+<defs><marker id="s08-kitchen-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-kitchen-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-kitchen-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-kitchen-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="20" y="18" text-anchor="start" dominant-baseline="middle" class="title">SYNC  (time.sleep)</text>
+<text x="158" y="49" text-anchor="end" dominant-baseline="middle">make_toast</text>
+<rect x="170" y="35" width="251" height="28" rx="6" class="amber"/>
+<text x="295.5" y="49" text-anchor="middle" dominant-baseline="middle" class="small">toasting 3s</text>
+<text x="158" y="86" text-anchor="end" dominant-baseline="middle">make_tea</text>
+<rect x="425" y="72" width="251" height="28" rx="6" class="amber"/>
+<text x="550.5" y="86" text-anchor="middle" dominant-baseline="middle" class="small">boiling 3s</text>
+<text x="690" y="86" text-anchor="start" dominant-baseline="middle" class="bold">6 s</text>
+<text x="20" y="135" text-anchor="start" dominant-baseline="middle" class="title">ASYNC  (await asyncio.sleep + gather)</text>
+<text x="158" y="166" text-anchor="end" dominant-baseline="middle">make_toast</text>
+<rect x="170" y="152" width="166" height="28" rx="6" class="green"/>
+<text x="253.0" y="166" text-anchor="middle" dominant-baseline="middle" class="small">toasting 2s</text>
+<text x="158" y="203" text-anchor="end" dominant-baseline="middle">make_tea</text>
+<rect x="170" y="189" width="251" height="28" rx="6" class="green"/>
+<text x="295.5" y="203" text-anchor="middle" dominant-baseline="middle" class="small">boiling 3s</text>
+<text x="435" y="203" text-anchor="start" dominant-baseline="middle" class="bold">3 s</text>
+<line x1="170" y1="240" x2="680" y2="240" class="line"/>
+<line x1="170" y1="236" x2="170" y2="244" class="line"/>
+<text x="170" y="258" text-anchor="middle" dominant-baseline="middle" class="small">0s</text>
+<line x1="255" y1="236" x2="255" y2="244" class="line"/>
+<text x="255" y="258" text-anchor="middle" dominant-baseline="middle" class="small">1s</text>
+<line x1="340" y1="236" x2="340" y2="244" class="line"/>
+<text x="340" y="258" text-anchor="middle" dominant-baseline="middle" class="small">2s</text>
+<line x1="425" y1="236" x2="425" y2="244" class="line"/>
+<text x="425" y="258" text-anchor="middle" dominant-baseline="middle" class="small">3s</text>
+<line x1="510" y1="236" x2="510" y2="244" class="line"/>
+<text x="510" y="258" text-anchor="middle" dominant-baseline="middle" class="small">4s</text>
+<line x1="595" y1="236" x2="595" y2="244" class="line"/>
+<text x="595" y="258" text-anchor="middle" dominant-baseline="middle" class="small">5s</text>
+<line x1="680" y1="236" x2="680" y2="244" class="line"/>
+<text x="680" y="258" text-anchor="middle" dominant-baseline="middle" class="small">6s</text>
+<text x="360" y="285" text-anchor="middle" dominant-baseline="middle" class="small">While one job waits, the other one runs.</text>
+</svg>
+<figcaption>Sync waits for each job before starting the next. Async starts both and waits once.</figcaption>
+</figure>
