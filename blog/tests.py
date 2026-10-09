@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from io import StringIO
 from pathlib import Path
 
+from django.core.cache import cache
 from django.core.management import call_command
 from django.test import TestCase, override_settings
 
@@ -109,6 +110,7 @@ class ImportTests(TestCase):
 
 class BlogViewTests(TestCase):
     def setUp(self):
+        cache.clear()  # public blog pages are cached for 60 s (courses/cache.py)
         def make(slug, title, day, category="Redis", **kw):
             return Post.objects.create(slug=slug, title=title, category=category, category_slug=category.lower(),
                                        published_at=datetime(2025, 1, day, tzinfo=timezone.utc),
@@ -261,3 +263,31 @@ class LocalizeVaultTests(TestCase):
         self.assertContains(response, '<link rel="canonical" href="http://testserver/blog/p/">')
         self.assertNotContains(response, "Originally published")
         post.refresh_from_db()
+
+
+class BlogCacheTests(TestCase):
+    def setUp(self):
+        cache.clear()
+        self.post = Post.objects.create(slug="p", title="First title", category="Redis", category_slug="redis",
+                                        published_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+                                        body_html="<p>Body</p>", excerpt="x", source_path="p.md")
+
+    def test_anonymous_copy_is_cached_but_signed_in_and_search_are_fresh(self):
+        from django.contrib.auth import get_user_model
+
+        self.assertContains(self.client.get("/blog/p/"), "First title")
+        Post.objects.filter(pk=self.post.pk).update(title="Second title")
+        self.assertContains(self.client.get("/blog/p/"), "First title")  # cached for anonymous visitors
+        self.assertContains(self.client.get("/blog/?q=Second"), "Second title")  # search is never cached
+        user = get_user_model().objects.create_user("u", email="u@gmail.com")
+        self.client.force_login(user, backend="django.contrib.auth.backends.ModelBackend")
+        response = self.client.get("/blog/p/")
+        self.assertContains(response, "Second title")
+        self.assertContains(response, "csrfmiddlewaretoken")  # signed-in pages carry a logout form
+        cache.clear()
+        self.client.logout()
+        self.assertContains(self.client.get("/blog/p/"), "Second title")
+
+    def test_cached_pages_never_contain_a_csrf_token(self):
+        self.client.get("/blog/")
+        self.assertNotContains(self.client.get("/blog/"), "csrfmiddlewaretoken")

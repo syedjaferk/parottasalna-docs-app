@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 from django.conf import settings
+from django.core.cache import cache
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import SuspiciousFileOperation
 from django.db.models import Count, Q
@@ -29,7 +30,13 @@ from .services import (
 
 
 def _landing(request, next_url=""):
-    free = public_courses().filter(build_status=Course.BuildStatus.OK)
+    # The page itself can't be cached (its sign-in form carries a per-visitor CSRF token), so
+    # cache just its database query.
+    free = cache.get_or_set(
+        "landing:free_courses",
+        lambda: list(public_courses().filter(build_status=Course.BuildStatus.OK)),
+        60,
+    )
     return render(request, "courses/login.html", {"next": next_url, "free_courses": free})
 
 
@@ -96,7 +103,14 @@ def course_docs(request, slug, path=""):
         )
     else:
         response = FileResponse(open(target, "rb"), content_type=content_type)
-    response["Cache-Control"] = "private, no-cache"
+    if target.suffix == ".html":
+        # Pages: always revalidate, so a rebuilt chapter shows up straight away.
+        response["Cache-Control"] = "private, no-cache"
+    else:
+        # CSS/JS/images: each page links them with a ?v=<hash> that changes on every rebuild, so
+        # browsers can keep them for a day instead of re-checking ~17 files on every page view.
+        # "private": never stored by shared caches, since most courses need a login.
+        response["Cache-Control"] = "private, max-age=86400"
     return response
 
 

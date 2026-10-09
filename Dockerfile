@@ -23,4 +23,5 @@ USER portal
 EXPOSE 8000
 
 ENTRYPOINT ["deploy/docker/entrypoint.sh"]
-CMD ["gunicorn", "config.wsgi", "--bind", "0.0.0.0:8000", "--workers", "3", "--access-logfile", "-"]
+# 3 processes × 4 threads: a slow request (blog render, sitemap) no longer blocks a whole worker.
+CMD ["gunicorn", "config.wsgi", "--bind", "0.0.0.0:8000", "--workers", "3", "--threads", "4", "--worker-class", "gthread", "--access-logfile", "-"]

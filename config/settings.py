@@ -100,6 +100,15 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Per-process memory cache: short-lived copies of public pages (courses/cache.py). Each gunicorn
+# worker keeps its own, which is fine for 60-second entries.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "OPTIONS": {"MAX_ENTRIES": 1000},
+    }
+}
+
 # --- Static files (portal's own CSS/JS only; docs are NOT served from here) --
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"

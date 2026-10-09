@@ -13,6 +13,7 @@ from django.utils.safestring import mark_safe
 from django.views.decorators.http import require_safe
 
 from courses import branding
+from courses.cache import cache_for_anonymous
 
 from .models import Post, PostAsset, Tag
 
@@ -24,6 +25,7 @@ def published():
 
 
 @require_safe
+@cache_for_anonymous(60)
 def blog_index(request):
     posts = published().prefetch_related("tags")
     q = request.GET.get("q", "").strip()[:100]
@@ -57,6 +59,7 @@ def blog_index(request):
 
 
 @require_safe
+@cache_for_anonymous(60)
 def blog_post(request, slug):
     post = get_object_or_404(published().prefetch_related("tags"), slug=slug)
     related = {p.slug: p for p in published().filter(slug__in=post.related_slugs)}

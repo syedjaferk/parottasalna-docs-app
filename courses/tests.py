@@ -3,6 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.contrib.auth.signals import user_logged_in
 from django.test import RequestFactory, TestCase, override_settings
 
@@ -257,6 +258,7 @@ class CommonCourseTests(TestCase):
 
 class PublicCommonCourseTests(TestCase):
     def setUp(self):
+        cache.clear()  # the landing page caches its free-course list
         self._tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self._tmp.cleanup)
         root = Path(self._tmp.name)
@@ -516,3 +518,28 @@ class DeployContentTests(TestCase):
         self.assertEqual(self.run_cmd("--all")[0], [self.a.pk, self.b.pk])
         self.assertEqual(self.run_cmd("--all", "--no-build")[0], [])
         self.assertEqual(self.run_cmd()[0], [])
+
+
+class DocsCacheHeaderTests(TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        html = Path(self._tmp.name) / "open" / "html"
+        (html / "_static").mkdir(parents=True)
+        (html / "index.html").write_text("<h1>Hi</h1>")
+        (html / "_static" / "portal.css").write_text("body{}")
+        override = override_settings(DOCS_BUILD_ROOT=Path(self._tmp.name), USE_X_ACCEL_REDIRECT=False)
+        override.enable()
+        self.addCleanup(override.disable)
+        Course.objects.create(slug="open", title="Open", is_common=True, build_status="ok")
+
+    def test_pages_revalidate_but_assets_are_kept_for_a_day_privately(self):
+        self.assertEqual(self.client.get("/courses/open/docs/")["Cache-Control"], "private, no-cache")
+        self.assertEqual(self.client.get("/courses/open/docs/_static/portal.css")["Cache-Control"],
+                         "private, max-age=86400")
+
+    def test_landing_page_keeps_a_fresh_csrf_token_per_visitor(self):
+        cache.clear()
+        first = self.client_class().get("/").cookies.get("csrftoken")
+        second = self.client_class().get("/").cookies.get("csrftoken")
+        self.assertTrue(first and second and first.value != second.value)

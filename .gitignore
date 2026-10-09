@@ -13,3 +13,4 @@ hostinger-kvm1*
 *.pem
 id_*
 backups/
+loadtest/reports/
