@@ -103,7 +103,20 @@
     <li><strong>Server logs:</strong> like most websites, our web server briefly records each request
       (IP address, date and time, page requested, browser type) to keep the service running and secure.</li>
   </ul>
-  <p>We do <strong>not</strong> use analytics, tracking pixels or advertising cookies.</p>
+  <h3>e) Usage statistics (Google Analytics)</h3>
+  <p>
+    We use Google Analytics to see which pages and courses are read most, so we know what to improve.
+    It records the pages you open, roughly where you are (country/city), your device and browser,
+    and how you arrived (for example from a search). It does <strong>not</strong> receive your name,
+    email, quiz answers or notes. Google Analytics does not log or store IP addresses, and we have
+    turned off Google signals and ad personalisation, so this data is not used for advertising.
+  </p>
+  <p>
+    It is not loaded at all if your browser sends a “do not track” signal (Global Privacy Control or
+    Do Not Track). You can also block it with Google's
+    <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">opt-out browser add-on</a>.
+    We do not use tracking pixels or advertising cookies.
+  </p>
 
   <h2 id="use">2. How we use your information</h2>
   <table>
@@ -113,6 +126,7 @@
       <tr><td>Name and email</td><td>show who is signed in, and let your instructor match progress and scores to students</td></tr>
       <tr><td>Progress and quiz results</td><td>show your progress and best scores, and give your instructor a class scoreboard</td></tr>
       <tr><td>Your notes</td><td>show your notes back to you on each chapter and on your “My notes” page, and let you download them</td></tr>
+      <tr><td>Usage statistics (Google Analytics)</td><td>see which pages and courses are used, to improve them</td></tr>
       <tr><td>Cookies and server logs</td><td>keep you signed in, prevent abuse (for example rate limiting), and fix problems</td></tr>
     </tbody>
   </table>
@@ -156,6 +170,7 @@
     <tbody>
       <tr><td>Google Sign-In</td><td>to sign you in</td><td>the sign-in request; Google's own <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy</a> applies</td></tr>
       <tr><td>Google Fonts</td><td>to display the site's fonts</td><td>your IP address and browser details when fonts load</td></tr>
+      <tr><td>Google Analytics</td><td>usage statistics (section 1e)</td><td>the pages you open, your device and browser, and approximate location; not your name, email, quiz answers or notes. See <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">how Google uses this data</a></td></tr>
       <tr><td>Google Drive</td><td>to keep off-site database backups, so data isn't lost if our server fails</td><td>a nightly copy of the database, <strong>encrypted on our server before upload</strong> (AES-256); Google cannot read it</td></tr>
       <tr><td>YouTube (privacy-enhanced mode)</td><td>some course pages embed lesson videos</td><td>loaded from <code>youtube-nocookie.com</code> when you open those pages; YouTube's policies apply if you play a video</td></tr>
     </tbody>
@@ -168,10 +183,11 @@
     <tbody>
       <tr><td><code>sessionid</code></td><td>keeps you signed in</td><td>until you sign out, or 2 weeks</td></tr>
       <tr><td><code>csrftoken</code></td><td>protects forms and buttons against cross-site attacks</td><td>1 year</td></tr>
+      <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Google Analytics: tells repeat visits apart (not set if your browser sends a “do not track” signal)</td><td>up to 2 years</td></tr>
       <tr><td><code>_theme</code> (browser storage)</td><td>remembers your light or dark mode choice in the course notes</td><td>until you clear your browser data</td></tr>
     </tbody>
   </table>
-  <p>These are all essential to how the site works. We use no advertising or tracking cookies.</p>
+  <p>All of these except the Google Analytics cookies are essential to how the site works. We use no advertising cookies.</p>
 
   <h2 id="retention">7. How long we keep data</h2>
   <ul>

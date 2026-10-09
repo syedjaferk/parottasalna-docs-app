@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -15,4 +16,5 @@ def brand(request):
         "canonical_url": request.build_absolute_uri(request.path),
         "og_image_url": request.build_absolute_uri(static("brand/og-image.png")),
         "brand_json_ld": mark_safe(branding.json_ld(site_url, logo_url)),
+        "ga_id": settings.GA_MEASUREMENT_ID,
     }

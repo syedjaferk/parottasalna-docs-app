@@ -3,7 +3,7 @@ import json
 
 NAME = "Parottasalna"
 PRODUCT = "Parottasalna Course Notes"   # must match the OAuth consent screen's app name exactly
-PRIVACY_UPDATED = "8 October 2026"
+PRIVACY_UPDATED = "9 October 2026"
 # Kept under ~60 characters so search results show it in full.
 SEO_TITLE = "Parottasalna Course Notes · Backend, Cloud, AI & DSA"
 TAGLINE = "Backend Engineering, System Design, AWS, Cloud, AI & DSA explained simply."

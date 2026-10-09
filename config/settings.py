@@ -1,5 +1,6 @@
 """Settings for the course portal (Django + allauth Google login + gated Sphinx docs)."""
 import os
+import re
 from pathlib import Path
 
 import dj_database_url
@@ -139,6 +140,11 @@ SOCIALACCOUNT_STORE_TOKENS = False  # we only sign people in; Google access toke
 
 # Shown on the privacy policy as the address for data requests (required for Google verification).
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "")
+
+# Google Analytics 4 (static/js/analytics.js). Set GA_MEASUREMENT_ID="" to turn it off.
+GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "G-YPZZF6G7ET").strip()
+if GA_MEASUREMENT_ID and not re.fullmatch(r"G-[A-Z0-9]+", GA_MEASUREMENT_ID):
+    raise ImproperlyConfigured("GA_MEASUREMENT_ID must look like G-XXXXXXXXXX.")
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

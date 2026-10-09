@@ -719,6 +719,9 @@ def _conf_py(course: Course) -> str:
         # Common courses are public, so let search engines index them.
         "brand_robots": "index, follow" if course.is_common else "noindex, follow",
     }
+    analytics = ""
+    if settings.GA_MEASUREMENT_ID:  # Google Analytics, same script and ID as the Django pages
+        analytics = f", ('analytics.js', {{'async': 'async', 'data-ga-id': {settings.GA_MEASUREMENT_ID!r}}})"
     conf = f"""
 project = {course.title!r}
 html_title = {course.title!r}
@@ -736,7 +739,7 @@ html_favicon = "_static/favicon.ico"
 html_logo = "_static/logo.png"
 html_context = {context!r}
 html_css_files = ["portal.css"]
-html_js_files = ["progress.js", "quiz.js", "notes.js"]
+html_js_files = ["progress.js", "quiz.js", "notes.js"{analytics}]
 html_show_sourcelink = False
 html_show_copyright = False
 html_copy_source = False
@@ -776,6 +779,8 @@ def _write_conf(conf_dir: Path, course: Course):
     (static / "quiz.js").write_text(QUIZ_JS, encoding="utf-8")
     (static / "progress.js").write_text(PROGRESS_JS, encoding="utf-8")
     (static / "notes.js").write_text(NOTES_JS, encoding="utf-8")
+    if settings.GA_MEASUREMENT_ID:  # same file the Django pages use
+        shutil.copyfile(Path(settings.BASE_DIR) / "static" / "js" / "analytics.js", static / "analytics.js")
     brand_dir = Path(settings.BASE_DIR) / "static" / "brand"
     shutil.copyfile(brand_dir / "favicon.ico", static / "favicon.ico")
     shutil.copyfile(brand_dir / "logo-192.png", static / "logo.png")

@@ -543,3 +543,25 @@ class DocsCacheHeaderTests(TestCase):
         first = self.client_class().get("/").cookies.get("csrftoken")
         second = self.client_class().get("/").cookies.get("csrftoken")
         self.assertTrue(first and second and first.value != second.value)
+
+
+class AnalyticsTests(TestCase):
+    def test_pages_load_the_analytics_script_with_the_measurement_id(self):
+        cache.clear()
+        html = self.client.get("/privacy/").content.decode()
+        self.assertIn('src="/static/js/analytics.js" data-ga-id="G-YPZZF6G7ET"', html)
+
+    @override_settings(GA_MEASUREMENT_ID="")
+    def test_empty_id_turns_it_off(self):
+        self.assertNotIn("analytics.js", self.client.get("/privacy/").content.decode())
+
+    def test_docs_builds_include_it_and_ship_the_same_script(self):
+        from .builder import _conf_py, _write_conf
+
+        course = Course(slug="c1", title="C1")
+        self.assertIn("('analytics.js', {'async': 'async', 'data-ga-id': 'G-YPZZF6G7ET'})", _conf_py(course))
+        with tempfile.TemporaryDirectory() as tmp:
+            _write_conf(Path(tmp), course)
+            self.assertIn("data-ga-id", (Path(tmp) / "_static" / "analytics.js").read_text())
+        with override_settings(GA_MEASUREMENT_ID=""):
+            self.assertNotIn("analytics.js", _conf_py(course))

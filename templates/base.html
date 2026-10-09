@@ -181,6 +181,7 @@
     }
     {% block extra_style %}{% endblock %}
   </style>
+  {% if ga_id %}<script async src="{% static 'js/analytics.js' %}" data-ga-id="{{ ga_id }}"></script>{% endif %}
   {% block extra_head %}{% endblock %}
 </head>
 <body>
