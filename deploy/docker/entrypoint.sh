@@ -1,7 +1,10 @@
 #!/bin/sh
 set -e
 
-python manage.py migrate --noinput
+# Only the web container migrates; the WebSocket container (ws) sets RUN_MIGRATIONS=false.
+if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
+    python manage.py migrate --noinput
+fi
 
 # Rebuild every active course so new markdown is picked up after a restart. This runs in the
 # background: the web server starts at once and serves the previous build until it finishes.
