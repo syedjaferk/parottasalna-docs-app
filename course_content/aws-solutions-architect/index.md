@@ -5,10 +5,19 @@ systems on AWS, the way a Solutions Architect thinks. It follows the live bootca
 **[YouTube playlist](https://www.youtube.com/playlist?list=PLYmjGMwZ9N88)** (Tamil):
 **one chapter per session**, with the recording at the top.
 
-Every chapter explains the idea in simple words, with an everyday example and a diagram, then shows
-the console steps or CLI commands, the mistakes people usually make, and exercises with answers.
-At the end of each chapter you'll find a **quiz** (including exam-style scenario questions for
-SAA-C03) and a set of **flashcards** for revision.
+## How each chapter works
+
+Every concept is explained four ways:
+
+- **🧑 In plain words:** an everyday comparison anyone can follow
+- **❓ The problem it solves:** why the thing exists at all
+- **⚙️ How it works:** the technical details, limits and numbers an architect needs
+- **💡 Example:** a concrete scenario, command or configuration
+
+Then come the class demos (with the real code from the sessions), the **common mistakes**, and **at
+least 10 hands-on exercises** with step-by-step solutions you can reveal. Exercises that create paid
+resources are marked ⚠️ and end with a clean-up step. At the end of each chapter you'll find a
+**quiz** (including exam-style scenario questions for SAA-C03) and **flashcards** for revision.
 
 :::{tip}
 New to AWS? Start with **[Setup](setup.md)**. It shows how to create your account *safely*: MFA
