@@ -15,6 +15,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST, require_safe
 
 from blog.models import Post
+from live.services import sessions_for
 from streaks.services import has_streak, record_action, summary as streak_summary
 
 from .models import Course, PageProgress
@@ -38,7 +39,9 @@ def _landing(request, next_url=""):
         lambda: list(public_courses().filter(build_status=Course.BuildStatus.OK)),
         60,
     )
-    return render(request, "courses/login.html", {"next": next_url, "free_courses": free})
+    return render(request, "courses/login.html", {
+        "next": next_url, "free_courses": free, "live": sessions_for(request.user),
+    })
 
 
 def home(request):
@@ -59,6 +62,7 @@ def home(request):
         "enrolled_courses": [c for c in courses if not c.is_common],
         "common_courses": [c for c in courses if c.is_common],
         "streak": streak_summary(request.user) if has_streak(request.user) else None,
+        "live": sessions_for(request.user),
     })
 
 

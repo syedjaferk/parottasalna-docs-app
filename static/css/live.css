@@ -1,0 +1,42 @@
+/* "Today's live sessions" card (templates/live/_today.html). */
+.live-card {
+  margin: 0 0 2rem; padding: 1.3rem 1.5rem; border-radius: 18px;
+  background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.live-head { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem 1rem; flex-wrap: wrap; margin-bottom: .9rem; }
+.live-head h2 { margin: 0; font-size: 1.2rem; }
+.live-date { font-size: .85rem; color: var(--muted); }
+
+.live-item {
+  display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) auto; gap: 1rem; align-items: center;
+  padding: .9rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--bg);
+}
+.live-item + .live-item { margin-top: .6rem; }
+.live-time strong { display: block; font-size: 1.05rem; }
+.live-time span { font-size: .82rem; color: var(--muted); }
+.live-course { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+.live-info h3 { margin: .1rem 0 0; font-size: 1rem; }
+.live-info p { margin: .2rem 0 0; font-size: .88rem; color: var(--muted); }
+.live-action { display: flex; flex-direction: column; align-items: flex-end; gap: .45rem; }
+.live-badge { font-size: .8rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+.live-join { white-space: nowrap; }
+.live-join.is-waiting { pointer-events: none; opacity: .55; box-shadow: none; }
+
+.live-item.is-live { border-color: #ef4444; background: color-mix(in srgb, #ef4444 7%, var(--card)); }
+.live-item.is-live .live-badge { color: #dc2626; }
+.live-item.is-live .live-join { animation: live-pulse 2s infinite; }
+.live-item.is-soon { border-color: var(--accent); }
+.live-item.is-soon .live-badge { color: var(--accent); }
+.live-item.is-ended, .live-item.is-cancelled { opacity: .6; }
+.live-item.is-cancelled h3 { text-decoration: line-through; }
+
+.live-none { margin: 0; color: var(--muted); }
+.live-next { margin: .9rem 0 0; font-size: .88rem; color: var(--muted); }
+
+@keyframes live-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, .45); } 50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); } }
+@media (prefers-reduced-motion: reduce) { .live-item.is-live .live-join { animation: none; } }
+@media (max-width: 640px) {
+  .live-item { grid-template-columns: 1fr; gap: .5rem; }
+  .live-action { flex-direction: row; justify-content: space-between; align-items: center; }
+}

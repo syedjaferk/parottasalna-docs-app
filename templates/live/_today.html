@@ -1,0 +1,49 @@
+{% load static %}
+{% if live.today or live.next %}
+<section class="live-card" aria-labelledby="live-title" data-live-card>
+  <div class="live-head">
+    <h2 id="live-title">📅 Today's live sessions</h2>
+    <span class="live-date">{% now "l, j M" %} · times in IST</span>
+  </div>
+
+  {% for item in live.today %}{% with s=item.session %}
+  <article class="live-item is-{{ item.status }}"
+           data-start="{{ s.starts_at|date:'c' }}" data-end="{{ s.ends_at|date:'c' }}"
+           data-join-from="{{ item.join_from|date:'c' }}"{% if s.is_cancelled %} data-cancelled{% endif %}>
+    <div class="live-time">
+      <strong>{{ s.starts_at|time:"g:i A" }}</strong>
+      <span>to {{ s.ends_at|time:"g:i A" }}</span>
+    </div>
+    <div class="live-info">
+      <span class="live-course">{{ s.course.title }}</span>
+      <h3>{{ s.title }}</h3>
+      {% if s.description %}<p>{{ s.description }}</p>{% endif %}
+    </div>
+    <div class="live-action">
+      <span class="live-badge" data-live-badge>
+        {% if item.status == "live" %}🔴 Live now{% elif item.status == "soon" %}Starting soon{% elif item.status == "ended" %}Ended{% elif item.status == "cancelled" %}Cancelled{% else %}Upcoming{% endif %}
+      </span>
+      {% if item.status != "cancelled" and item.status != "ended" %}
+        {% if item.show_link %}
+        <a class="btn live-join{% if item.status == 'upcoming' %} is-waiting{% endif %}" href="{{ s.meet_url }}"
+           target="_blank" rel="noopener noreferrer" data-live-join
+           {% if item.status == "upcoming" %}aria-disabled="true" tabindex="-1"{% endif %}>
+          <span data-live-join-label>{% if item.status == "upcoming" %}Join opens 15 min before{% else %}Join on Google Meet{% endif %}</span>
+        </a>
+        {% else %}
+        <a class="btn ghost live-join" href="#signin-title">Sign in to join</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </article>
+  {% endwith %}{% empty %}
+  <p class="live-none">No live session today.</p>
+  {% endfor %}
+
+  {% if live.next %}
+  <p class="live-next">Next: <strong>{{ live.next.starts_at|date:"D j M" }}, {{ live.next.starts_at|time:"g:i A" }}</strong>
+    · {{ live.next.course.title }} · {{ live.next.title }}</p>
+  {% endif %}
+</section>
+<script src="{% static 'js/live-sessions.js' %}" defer></script>
+{% endif %}

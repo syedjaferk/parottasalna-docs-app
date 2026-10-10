@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Home</a> ›
+  <a href="{% url 'admin:live_livesession_changelist' %}">Live sessions</a> › Schedule a series
+</div>
+{% endblock %}
+{% block content %}
+<p>Creates one session for every selected weekday between the two dates, all with the same time and
+  Meet link. Afterwards you can rename, move or cancel any single day from the list.</p>
+<form method="post">
+  {% csrf_token %}
+  <fieldset class="module aligned">
+    {% for field in form %}
+    <div class="form-row{% if field.errors %} errors{% endif %}">
+      {{ field.errors }}
+      <div>
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+    {{ form.non_field_errors }}
+  </fieldset>
+  <div class="submit-row"><input type="submit" class="default" value="Create sessions"></div>
+</form>
+{% endblock %}

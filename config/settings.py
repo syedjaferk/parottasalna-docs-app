@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "blog",
     "notes",
     "streaks",
+    "live",
 ]
 
 MIDDLEWARE = [
