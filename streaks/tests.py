@@ -77,6 +77,14 @@ class StreakApiTests(TestCase):
         self.assertFalse(self.ping(300).json()["extended"])  # only once a day
         self.assertEqual(ReadingDay.objects.get(user=self.student).seconds_read, 360)
 
+    def test_leaving_the_page_beacon_with_token_in_the_body(self):
+        # navigator.sendBeacon can't set an X-CSRFToken header; the token travels as a form field.
+        self.client.force_login(self.student, backend=MODEL_BACKEND)
+        token = self.client.get("/streak.json", {"course": "c1"}).cookies["csrftoken"].value
+        response = self.client.post("/streak/ping/", {"course": "c1", "seconds": 25, "csrfmiddlewaretoken": token})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ReadingDay.objects.get(user=self.student).seconds_read, 25)
+
     def test_bad_input_and_caps(self):
         self.client.force_login(self.student, backend=MODEL_BACKEND)
         for bad in ("0", "-5", "abc", "100000"):

@@ -1,13 +1,14 @@
 // Reading streak inside the Sphinx docs: counts active reading time and shows the 🔥 chip.
-// "Active" = tab visible and the reader scrolled, typed, clicked or moved in the last minute.
+// "Active" = tab visible and the reader scrolled, typed, clicked or moved in the last 2 minutes.
+// Time is sent every minute of reading, and whatever is left is sent when the reader leaves the page.
 // Only for enrolled students (streak.json answers {"enabled": false} for everyone else).
 (function () {
   var meta = document.querySelector('meta[name="portal-streak"]');
   var url = meta && meta.content;
   if (!url) return;
 
-  var TICK = 5, IDLE_MS = 60000, FIRST_PING = 60, LATER_PING = 300;
-  var state = null, active = 0, sent = 0, lastInput = Date.now(), busy = false;
+  var TICK = 5, IDLE_MS = 120000, PING_EVERY = 60, MIN_FLUSH = 5;
+  var state = null, active = 0, lastInput = Date.now(), busy = false;
 
   function el(tag, cls, text) {
     var node = document.createElement(tag);
@@ -67,6 +68,7 @@
     var seconds = Math.min(active, 330);
     if (!seconds || busy) return;
     busy = true;
+    active -= seconds;  // taken now, so a flush on leaving can't send the same seconds twice
     fetch(state.ping_url, {
       method: "POST", credentials: "same-origin",
       body: new URLSearchParams({ course: state.course, seconds: String(seconds) }),
@@ -74,20 +76,35 @@
     })
       .then(function (r) { if (!r.ok) throw r.status; return r.json(); })
       .then(function (res) {
-        active -= seconds; sent += seconds;
+        state.today_seconds = res.today_seconds;
         state.current = res.current; state.today_done = res.today_done; state.status = res.today_done ? "done" : state.status;
         renderChip();
         if (res.extended) toast(res);
       })
-      .catch(function () { /* try again on the next tick */ })
+      .catch(function () { active += seconds; /* try again on the next tick */ })
       .then(function () { busy = false; });
   }
 
   function tick() {
     if (document.visibilityState === "visible" && Date.now() - lastInput < IDLE_MS) active += TICK;
-    var threshold = sent === 0 && !state.today_done ? Math.max(FIRST_PING - state.today_seconds, 5) : LATER_PING;
+    // Before today's goal, ping as soon as the goal is reached (so the toast shows on time).
+    var threshold = state.today_done ? PING_EVERY : Math.max(Math.min(state.goal_seconds - state.today_seconds, PING_EVERY), TICK);
     if (active >= threshold) ping();
   }
+
+  // Leaving the page, switching tabs or closing the window: send what's left. sendBeacon can't set
+  // headers, so the CSRF token goes in the form body (Django accepts csrfmiddlewaretoken there).
+  function flush() {
+    var seconds = Math.min(active, 330);
+    if (!state || seconds < MIN_FLUSH || !navigator.sendBeacon) return;
+    var body = new URLSearchParams({ course: state.course, seconds: String(seconds), csrfmiddlewaretoken: csrf() });
+    if (navigator.sendBeacon(state.ping_url, body)) {
+      active -= seconds;
+      state.today_seconds += seconds;
+    }
+  }
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") flush(); });
+  window.addEventListener("pagehide", flush);
 
   fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } })
     .then(function (r) { return r.ok ? r.json() : null; })
