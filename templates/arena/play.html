@@ -1,0 +1,16 @@
+{% extends "arena/_base.html" %}
+{% load static %}
+{% block title %}{{ game.quiz.title }} · Live quiz{% endblock %}
+{% block body_class %}arena-play{% endblock %}
+{% block content %}
+<header class="arena-bar">
+  <span class="arena-bar-pin">PIN {{ game.pin }}</span>
+  <span class="arena-bar-title">{{ game.quiz.title }}</span>
+  <span class="arena-bar-me"><strong data-me-name>{{ player.nickname }}</strong> · <span data-me-score>0</span> pts</span>
+</header>
+<div class="arena-banner" data-banner hidden></div>
+<main id="arena-play" class="arena-stage" data-pin="{{ game.pin }}" aria-live="polite">
+  <p class="arena-waiting">Connecting…</p>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/arena-play.js' %}" defer></script>{% endblock %}

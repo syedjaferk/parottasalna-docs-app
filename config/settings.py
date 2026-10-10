@@ -33,6 +33,7 @@ ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
 
 INSTALLED_APPS = [
+    "daphne",  # makes `runserver` serve WebSockets too (live quizzes)
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     "notes",
     "streaks",
     "live",
+    "channels",
+    "arena",
 ]
 
 MIDDLEWARE = [
@@ -102,6 +105,16 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Live quiz WebSockets (arena). Production: Redis, shared by every Daphne process. Local/tests:
+# in-memory (single process only).
+ASGI_APPLICATION = "config.asgi.application"
+REDIS_URL = os.environ.get("REDIS_URL", "")
+if REDIS_URL:
+    CHANNEL_LAYERS = {"default": {"BACKEND": "channels_redis.core.RedisChannelLayer",
+                                  "CONFIG": {"hosts": [REDIS_URL], "capacity": 1500, "expiry": 30}}}
+else:
+    CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
 # Per-process memory cache: short-lived copies of public pages (courses/cache.py). Each gunicorn
 # worker keeps its own, which is fine for 60-second entries.

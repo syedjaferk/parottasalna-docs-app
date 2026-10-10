@@ -35,6 +35,8 @@ services:
       USE_X_ACCEL_REDIRECT: "true"
       # deploy/deploy.sh sets this to false and builds the docs itself, so failures reach CI.
       BUILD_DOCS_ON_START: ${BUILD_DOCS_ON_START:-true}
+      # Live quiz: joining (an HTTP request) tells the host's WebSocket through Redis.
+      REDIS_URL: redis://redis:6379/0
     volumes:
       # Drop session markdown into ./course_content on the host, then rebuild from the admin.
       - ./course_content:/app/course_content:ro
@@ -44,6 +46,33 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
+
+  # Live quiz WebSockets (/ws/). Same image as web, served by Daphne; web runs the migrations.
+  ws:
+    logging: *logging
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    command: ["daphne", "-b", "0.0.0.0", "-p", "8001", "--proxy-headers", "config.asgi:application"]
+    environment:
+      DATABASE_URL: postgres://portal:${POSTGRES_PASSWORD:-portal}@db:5432/portal
+      REDIS_URL: redis://redis:6379/0
+      RUN_MIGRATIONS: "false"
+      BUILD_DOCS_ON_START: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  # Channel layer for the live quiz: passes game updates between web and ws. Nothing is persisted.
+  redis:
+    logging: *logging
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
 
   nginx:
     logging: *logging
@@ -56,6 +85,7 @@ services:
       - docs_build:/srv/docs_build:ro
     depends_on:
       - web
+      - ws
 
 volumes:
   pgdata:
