@@ -1,0 +1,88 @@
+chapter: sessions/16-tools-and-mcp
+
+quizzes:
+  - title: "Session 16 · Quiz"
+    description: "Function calling, custom tools, API and database tools, and MCP."
+    questions:
+      - text: "When a model 'calls a tool', what actually happens?"
+        choices: |
+          *It returns a structured request; your code runs the function and sends the result back
+          It runs Python on Groq's servers
+          It downloads the function
+          It edits your code
+        explanation: "The LLM never runs your function."
+      - text: "What does model.bind_tools(tools) send to the model?"
+        choices: |
+          *Each tool's name, description and argument JSON schema
+          The tools' source code
+          The API key
+          The tool results
+        explanation: "That's all the model knows about a tool, so names and docstrings matter."
+      - text: "In the manual loop, when do you stop?"
+        choices: |
+          *When the model's reply has no tool_calls
+          After exactly one tool call
+          When temperature reaches 0
+          Never
+        explanation: "No tool calls means the model has its final answer."
+      - text: "With @tool, where does the tool's description come from?"
+        choices: |
+          *The function's docstring
+          The function's name only
+          A comment above it
+          The return type
+        explanation: "Type hints become the argument schema."
+      - text: "Which is a golden rule for API tools?"
+        choices: |
+          *Set a timeout and return errors as readable text
+          Return the full raw JSON
+          Let exceptions crash the agent
+          Never validate inputs
+        explanation: "Small, clean results; errors the model can read and react to."
+      - text: "Which is the strongest protection in the database tool?"
+        choices: |
+          *Opening SQLite in read-only mode
+          The docstring
+          The 50-row limit
+          Telling the model to be careful
+        explanation: "file:shop.db?mode=ro makes the database itself refuse writes, whatever SQL arrives."
+      - text: "What is MCP?"
+        choices: |
+          *A standard protocol for apps to discover and call tools from tool servers
+          A vector database
+          A prompt framework
+          A LangChain retriever
+        explanation: "Write a tool server once; any MCP-aware app can use it."
+      - text: "In mcp_client.py, what does transport 'stdio' mean?"
+        choices: |
+          *The client starts the server process and talks to it over standard input/output
+          It uses HTTP on port 80
+          It uses Redis
+          It needs a browser
+        explanation: "That's why you only run the client."
+
+decks:
+  - title: "Session 16 · Flashcards"
+    cards:
+      - front: "Tool"
+        back: "A function an agent may ask to use, described by name, docstring and argument schema."
+      - front: "Function calling"
+        back: "The model returns structured tool_calls instead of text; your code executes them."
+      - front: "tool_calls"
+        back: "List of {name, args, id} on the model's reply."
+      - front: "ToolMessage"
+        back: "The result of a tool, sent back to the model."
+      - front: "create_agent"
+        back: "LangChain 1.x helper that runs the tool loop for you."
+      - front: "args_schema"
+        back: "A Pydantic model giving a tool validation and per-argument descriptions."
+      - front: "StructuredTool.from_function"
+        back: "Wraps an existing function as a tool."
+      - front: "Read-only DB connection"
+        back: "sqlite3.connect('file:x.db?mode=ro', uri=True): writes are impossible."
+      - front: "MCP"
+        back: "Model Context Protocol: standard for exposing tools (and data) to AI apps."
+      - front: "FastMCP"
+        back: "Python helper to build an MCP server with @mcp.tool()."
+      - front: "MultiServerMCPClient"
+        back: "langchain-mcp-adapters client that turns MCP tools into LangChain tools."

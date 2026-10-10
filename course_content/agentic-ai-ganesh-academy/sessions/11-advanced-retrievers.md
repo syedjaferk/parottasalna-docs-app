@@ -27,6 +27,10 @@ PDF pages ──► parents (3,000 chars) ──► stored in a docstore (not em
 question ──► nearest CHILDREN ──► look up their PARENTS ──► LLM
 ```
 
+```{raw} html
+:file: ../diagrams/s11-parent.html
+```
+
 From `parent_retriever.py`:
 
 ```python
@@ -104,6 +108,10 @@ hop 2: "Glacier storage cost"                → "Amazon Glacier is a low-cost a
 answer from both hops
 ```
 
+```{raw} html
+:file: ../diagrams/s11-multihop.html
+```
+
 `multi_hop.py` from class does **hop 1** only. Building hop 2 is the first exercise below. The usual
 way is to ask the LLM: *"Given these facts, what should we search next to answer the question?"*
 
@@ -118,16 +126,87 @@ way is to ask the LLM: *"Given these facts, what should we search next to answer
 - **Chunk size 100 on real text.** It works for the one-fact-per-line `data.txt`, but is far too
   small for a book.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Add hop 2 to `multi_hop.py`: send the hop-1 chunks to Groq, ask it for the next search query,
-   retrieve again, then answer from all the chunks.
-2. In `parent_retriever.py`, print the child that matched and its parent for one question.
-   (Hint: `vectorstore.similarity_search(q, k=1)` gives the child; its metadata has the parent's
-   `doc_id`.)
-3. Try parents of 1,500 and 6,000 characters. How does the answer change?
-4. In `multi_vector.py`, store only the generated **questions** (no summaries or keywords). Is
-   retrieval better or worse for "how do I…" questions?
+Try each one before opening the solution.
+
+**Exercise 1 · The second hop.** Extend `multi_hop.py`: ask Groq what to search next, retrieve again,
+and answer from both hops.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+import os
+from langchain_groq import ChatGroq
+
+llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0, api_key=os.environ["GROQ_API_KEY"])
+
+facts = "\n".join(d.page_content for d in first_docs)
+next_query = llm.invoke(
+    f"Question: {question}\nFacts so far:\n{facts}\n"
+    "What should we search for next to answer the question? Reply with the search query only."
+).content.strip()                                   # e.g. "Glacier storage cost"
+
+second_docs = retriever.invoke(next_query)
+context = "\n".join(d.page_content for d in first_docs + second_docs)
+print(llm.invoke(f"Answer only from this context:\n{context}\n\nQuestion: {question}").content)
+```
+
+</details>
+
+**Exercise 2 · Child and parent.** For one question, print the child chunk that matched and the
+start of its parent.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+child = vectorstore.similarity_search("How do list comprehensions work?", k=1)[0]
+parent_id = child.metadata["doc_id"]
+parent = docstore.mget([parent_id])[0]
+print("CHILD :", child.page_content)
+print("PARENT:", parent.page_content[:500], "…")
+```
+
+The child is ~300 characters; the parent ~3,000. That's what the LLM receives.
+
+</details>
+
+**Exercise 3 · Parent size.** Try parents of 1,500 and 6,000 characters.
+
+<details class="solution"><summary>What to notice</summary>
+
+Smaller parents give focused but sometimes incomplete answers; bigger parents give complete answers
+but a much longer prompt (4 parents × 6,000 characters is ~6,000 tokens). Pick the size of a
+"section" in your documents.
+
+</details>
+
+**Exercise 4 · Questions only.** In `multi_vector.py`, index only the generated questions.
+
+<details class="solution"><summary>What to notice</summary>
+
+Comment out the summary and keyword `add_documents` lines. For "how do I…" and "what is…" questions,
+retrieval often gets **better**, because the indexed text has the same shape as the user's question.
+For keyword-style searches ("dict methods"), the keyword representation helped more.
+
+</details>
+
+**Exercise 5 · Keep the parents.** Make the parent store survive a restart.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+from langchain_classic.storage import LocalFileStore, create_kv_docstore
+
+docstore = create_kv_docstore(LocalFileStore("./parents"))
+retriever = ParentDocumentRetriever(vectorstore=vectorstore, docstore=docstore,
+                                    child_splitter=child_splitter, parent_splitter=parent_splitter)
+```
+
+The parents are now saved as files in `./parents`, next to the child vectors in `./vectorstore`.
+Index once, then remove `retriever.add_documents(...)` on later runs.
+
+</details>
 
 ## Full source
 

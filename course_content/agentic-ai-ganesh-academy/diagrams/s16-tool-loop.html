@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s16-tool-loop-t s16-tool-loop-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s16-tool-loop-t">The tool-calling loop</title>
+<desc id="s16-tool-loop-d">The model never runs code. It returns tool_calls; your code (or the agent) runs each tool and sends the result back as a ToolMessage, until the model replies with no tool calls.</desc>
+<defs><marker id="s16-tool-loop-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s16-tool-loop-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s16-tool-loop-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s16-tool-loop-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="95" width="120" height="60" rx="10" class="box"/>
+<text x="80.0" y="115.0" text-anchor="middle" dominant-baseline="middle">question</text>
+<text x="80.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">12 × 7, then + 5</text>
+<path d="M140,125 L198,125" class="arrow" marker-end="url(#s16-tool-loop-h)"/>
+<rect x="200" y="80" width="170" height="90" rx="10" class="blue"/>
+<text x="285.0" y="105.0" text-anchor="middle" dominant-baseline="middle">LLM + tools</text>
+<text x="285.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">bind_tools([add,</text>
+<text x="285.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">multiply])</text>
+<path d="M370,105 L448,70" class="arrow blue" marker-end="url(#s16-tool-loop-h-blue)"/>
+<text x="400" y="72" text-anchor="middle" dominant-baseline="middle" class="small">tool_calls</text>
+<rect x="450" y="30" width="250" height="70" rx="10" class="amber"/>
+<text x="575.0" y="55.0" text-anchor="middle" dominant-baseline="middle">your code runs it</text>
+<text x="575.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="code">multiply(a=12, b=7) → 84</text>
+<path d="M575,100 L575,140 L372,140" class="arrow green" marker-end="url(#s16-tool-loop-h-green)"/>
+<text x="575" y="155" text-anchor="middle" dominant-baseline="middle" class="small">ToolMessage: 84</text>
+<path d="M285,170 L285,205" class="arrow green" marker-end="url(#s16-tool-loop-h-green)"/>
+<rect x="200" y="205" width="170" height="36" rx="10" class="green"/>
+<text x="285.0" y="223.0" text-anchor="middle" dominant-baseline="middle" class="small">no tool_calls → answer 89</text>
+</svg>
+<figcaption>The model never runs code. It returns tool_calls; your code (or the agent) runs each tool and sends the result back as a ToolMessage, until the model replies with no tool calls.</figcaption>
+</figure>

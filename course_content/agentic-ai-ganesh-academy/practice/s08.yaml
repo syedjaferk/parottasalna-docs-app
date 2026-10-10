@@ -1,0 +1,79 @@
+chapter: sessions/08-metadata-filtering-and-reranking
+
+quizzes:
+  - title: "Session 8 · Quiz"
+    description: "Metadata filters, bi-encoders vs cross-encoders, and reranking."
+    questions:
+      - text: "What does a metadata filter do in a vector search?"
+        choices: |
+          *Restricts which chunks can match, before similarity ranking
+          Re-orders results after search
+          Changes the embedding model
+          Removes stop words
+        explanation: "Like a SQL WHERE clause applied to the candidates, e.g. {'category': 'Database'}."
+      - text: "Which Chroma filter correctly requires two conditions?"
+        choices: |
+          *{'$and': [{'category': 'Programming'}, {'level': 'Advanced'}]}
+          {'category': 'Programming', 'level': 'Advanced'}
+          {'category': 'Programming' & 'level': 'Advanced'}
+          {'$or': [{'category': 'Programming'}, {'level': 'Advanced'}]}
+        explanation: "Chroma accepts one condition per filter; combine several with $and (or $or)."
+      - text: "Which filter finds documents from 2024 or later?"
+        choices: |
+          *{'year': {'$gte': 2024}}
+          {'year': '>=2024'}
+          {'year': 2024}
+          {'$gte': 2024}
+        explanation: "Comparison operators: $eq, $ne, $gt, $gte, $lt, $lte, $in, $nin."
+      - text: "How is a cross-encoder different from the bi-encoder used for vector search?"
+        choices: |
+          *It reads the question and chunk together and outputs one relevance score
+          It embeds them separately
+          It is faster
+          It works without a model
+        explanation: "Reading both together is more accurate but much slower, so it's used on a shortlist only."
+      - text: "A typical reranking setup is…"
+        choices: |
+          *Retrieve ~15–20 with vector search, rerank, keep the top 3–5
+          Retrieve 3, rerank, keep 3
+          Rerank the whole database
+          Rerank before embedding
+        explanation: "If the right chunk isn't in the shortlist, the reranker can't find it, so shortlist generously."
+      - text: "In the PDF chatbot chain, what does RunnablePassthrough() do?"
+        choices: |
+          *Passes the question through unchanged into the prompt
+          Calls the LLM
+          Reranks documents
+          Stores chat history
+        explanation: "The dict {'context': …, 'question': RunnablePassthrough()} builds the prompt's inputs from one question."
+      - text: "A filter on 'Programing' (typo) returns nothing. Why is this dangerous?"
+        choices: |
+          *It fails silently: no error, just no results
+          It crashes the database
+          It deletes data
+          It returns everything
+        explanation: "Use fixed values (enums, dropdowns) for metadata, not free text."
+
+decks:
+  - title: "Session 8 · Flashcards"
+    cards:
+      - front: "Metadata"
+        back: "Facts stored with each chunk: category, author, year, user, page…"
+      - front: "Metadata filter"
+        back: "Limits search to chunks whose metadata matches, before ranking."
+      - front: "$and / $or"
+        back: "Combine several Chroma filter conditions."
+      - front: "$gte / $in"
+        back: "Comparison operators: greater-or-equal, in a list."
+      - front: "Bi-encoder"
+        back: "Embeds question and chunk separately, then compares vectors. Fast, rough."
+      - front: "Cross-encoder"
+        back: "Scores (question, chunk) together. Slow, accurate. Used for reranking."
+      - front: "Reranking"
+        back: "Re-order a generous shortlist with a cross-encoder and keep the best few."
+      - front: "BAAI/bge-reranker-base"
+        back: "The cross-encoder used in class."
+      - front: "RunnableLambda"
+        back: "Wraps a Python function as a step in a LangChain chain."
+      - front: "Per-user filter"
+        back: "Add the user id filter on the server so users only search their own documents."

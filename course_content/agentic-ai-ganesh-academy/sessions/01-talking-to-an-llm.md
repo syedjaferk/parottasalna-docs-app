@@ -48,6 +48,10 @@ The **messages** list is the conversation. Each message has a **role**:
 | `user` | the person asking | the question |
 | `assistant` | the model | its earlier replies (or examples *you* write for it) |
 
+```{raw} html
+:file: ../diagrams/s01-request.html
+```
+
 **Temperature** controls randomness: `0` gives nearly the same answer every time (good for maths,
 code, JSON); `0.7`–`1` gives more variety (good for ideas and writing).
 
@@ -61,6 +65,10 @@ code, JSON); `0.7`–`1` gives more variety (good for ideas and writing).
 | **System prompt** | rules in the `system` message | you need strict output (e.g. JSON only) |
 | **Role prompt** | "You are a …" | you want an expert's style or depth |
 | **Contextual prompt** | facts the model should use | it needs information it doesn't have |
+
+```{raw} html
+:file: ../diagrams/s01-shots.html
+```
 
 ### Zero-shot
 
@@ -137,17 +145,120 @@ finds it in your documents.
 - **Examples that disagree.** In few-shot prompts, the model copies your examples. If they use
   different formats, so will the answers.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Run `1.general_prompting.py` three times with `temperature=1`, then three times with `0`. How
-   different are the answers?
-2. Change the system prompt in `4.system_prompting.py` so the JSON also has a `"method"` key. Parse
-   the answer with `json.loads()` and print only the number.
-3. Write a few-shot prompt that classifies sentences as *positive*, *negative* or *neutral* (see
-   `prompts-from-class.txt` for the sentences we used).
-4. In `6.contextual_prompting.py`, give a **wrong** fact in the context (say, "there are 20 even
-   numbers"). Does the model trust you or correct you?
-5. Turn `call_groq()` into a small helper module and use it from two different scripts.
+Try each one before opening the solution.
+
+**Exercise 1 · Feel the temperature.** Run `1.general_prompting.py` three times with
+`temperature=1`, then three times with `temperature=0`. Compare the answers.
+
+<details class="solution"><summary>What to notice</summary>
+
+At `1` the wording, length and layout change every run (the sum, 650, should stay the same). At `0`
+the answers are almost identical. Use `0` whenever there is one right answer or your code parses the
+reply.
+
+</details>
+
+**Exercise 2 · Parse JSON safely.** Change the system prompt in `4.system_prompting.py` so the reply
+also has a `"method"` key, then print only the number.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+import json
+
+system = ("You are a logic engine. Reply ONLY with JSON, no code fences, no extra text. "
+          "Keys: 'result' (a number) and 'method' (one short sentence).")
+...
+text = get_system_prompt(API_KEY, "Find the sum of all even numbers between 1 and 50.")
+data = json.loads(text)
+print(data["result"])     # 650
+```
+
+If `json.loads` ever fails, the model added text around the JSON: tighten the prompt, or use
+structured output ([Session 14](14-data-validation-with-pydantic.md)).
+
+</details>
+
+**Exercise 3 · A sentiment classifier.** Write a few-shot prompt that labels a sentence
+*positive*, *negative* or *neutral*, and replies with the label only.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+messages = [
+    {"role": "system", "content": "Classify the sentiment. Reply with one word: positive, negative or neutral."},
+    {"role": "user", "content": "The food was nice but it was served late."},
+    {"role": "assistant", "content": "neutral"},
+    {"role": "user", "content": "Children enjoyed the trip."},
+    {"role": "assistant", "content": "positive"},
+    {"role": "user", "content": "The app crashes every time I log in."},
+    {"role": "assistant", "content": "negative"},
+    {"role": "user", "content": "The product quality is amazing and delivery was fast."},
+]
+```
+
+Expected: `positive`. One example of each label keeps the model from leaning towards one answer.
+
+</details>
+
+**Exercise 4 · Does it trust you?** In `6.contextual_prompting.py`, change the context to say there
+are **20** even numbers between 1 and 50. What does the model answer?
+
+<details class="solution"><summary>What to notice</summary>
+
+Often it follows your (wrong) context and gives 20 × 21 = 420; sometimes it notices the mistake.
+Lesson for RAG: the model trusts the context you give it, so **bad retrieval means bad answers**.
+
+</details>
+
+**Exercise 5 · Handle errors.** Make `call_groq()` raise a clear error for a bad key (401) and a rate
+limit (429) instead of crashing with `KeyError: 'choices'`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+response = requests.post(GROQ_URL, headers=headers, json=payload, timeout=60)
+if response.status_code == 401:
+    raise RuntimeError("Groq rejected the API key: check GROQ_API_KEY")
+if response.status_code == 429:
+    raise RuntimeError("Rate limited by Groq: wait a few seconds and retry")
+response.raise_for_status()          # any other 4xx/5xx
+return response.json()["choices"][0]["message"]["content"]
+```
+
+Try it with `GROQ_API_KEY=wrong python 1.general_prompting.py`.
+
+</details>
+
+**Exercise 6 · One helper for everything.** Move `call_groq()` into `groq_client.py` and use it from
+two different scripts.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+# groq_client.py
+import os
+import requests
+
+URL = "https://api.groq.com/openai/v1/chat/completions"
+
+def call_groq(messages, model="openai/gpt-oss-120b", temperature=0):
+    headers = {"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}"}
+    payload = {"model": model, "messages": messages, "temperature": temperature}
+    response = requests.post(URL, headers=headers, json=payload, timeout=60)
+    response.raise_for_status()
+    return response.json()["choices"][0]["message"]["content"]
+```
+
+```python
+# any script in the same folder
+from groq_client import call_groq
+print(call_groq([{"role": "user", "content": "Say hi in Tamil"}]))
+```
+
+</details>
 
 ## Full source
 

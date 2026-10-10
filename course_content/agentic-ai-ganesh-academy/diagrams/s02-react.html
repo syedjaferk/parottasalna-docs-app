@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="s02-react-t s02-react-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s02-react-t">The ReAct loop</title>
+<desc id="s02-react-d">The model writes a Thought and an Action. Your code runs the tool and sends back the Observation. The loop repeats until the model writes a Final Answer (or you hit the round limit).</desc>
+<defs><marker id="s02-react-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s02-react-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s02-react-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s02-react-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="105" width="140" height="60" rx="10" class="box"/>
+<text x="90.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Question</text>
+<text x="90.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">weather in Chennai?</text>
+<path d="M160,135 L178,135 L178,65 L188,65" class="arrow" marker-end="url(#s02-react-h)"/>
+<rect x="190" y="30" width="260" height="70" rx="10" class="blue"/>
+<text x="320.0" y="45.0" text-anchor="middle" dominant-baseline="middle">LLM</text>
+<text x="320.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">Thought: I need the weather</text>
+<text x="320.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">Action: get_weather[Chennai]</text>
+<path d="M450,65 L488,65" class="arrow blue" marker-end="url(#s02-react-h-blue)"/>
+<text x="469" y="20" text-anchor="middle" dominant-baseline="middle" class="small">parse</text>
+<rect x="490" y="30" width="210" height="70" rx="10" class="amber"/>
+<text x="595.0" y="55.0" text-anchor="middle" dominant-baseline="middle">your code runs it</text>
+<text x="595.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="code">get_weather(&#x27;Chennai&#x27;)</text>
+<path d="M595,100 L595,180 L432,180" class="arrow green" marker-end="url(#s02-react-h-green)"/>
+<text x="595" y="200" text-anchor="middle" dominant-baseline="middle" class="small">Observation: 32°C and Sunny</text>
+<path d="M320,160 L320,102" class="arrow green" marker-end="url(#s02-react-h-green)"/>
+<rect x="220" y="160" width="210" height="40" rx="10" class="green"/>
+<text x="325.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="small">messages += Observation</text>
+<path d="M320,200 L320,222" class="arrow" marker-end="url(#s02-react-h)"/>
+<rect x="220" y="222" width="210" height="38" rx="10" class="green"/>
+<text x="325.0" y="241.0" text-anchor="middle" dominant-baseline="middle" class="small">Final Answer: 32°C, sunny</text>
+</svg>
+<figcaption>The model writes a Thought and an Action. Your code runs the tool and sends back the Observation. The loop repeats until the model writes a Final Answer (or you hit the round limit).</figcaption>
+</figure>

@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s14-validate-t s14-validate-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s14-validate-t">What Pydantic does with incoming data</title>
+<desc id="s14-validate-d">Data from a form, an API or an LLM goes through your model. Values that can be safely converted are converted; anything else raises a ValidationError that names the field and the problem.</desc>
+<defs><marker id="s14-validate-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s14-validate-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s14-validate-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s14-validate-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="70" width="170" height="80" rx="10" class="box"/>
+<text x="105.0" y="90.0" text-anchor="middle" dominant-baseline="middle">raw data</text>
+<text x="105.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;name&quot;: &quot;Kavya&quot;,</text>
+<text x="105.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;age&quot;: &quot;9&quot;}</text>
+<path d="M190,110 L238,110" class="arrow" marker-end="url(#s14-validate-h)"/>
+<rect x="240" y="50" width="190" height="120" rx="10" class="blue"/>
+<text x="335.0" y="90.0" text-anchor="middle" dominant-baseline="middle">class User(BaseModel)</text>
+<text x="335.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">name: str</text>
+<text x="335.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">age: int = Field(gt=0)</text>
+<path d="M430,85 L488,55" class="arrow green" marker-end="url(#s14-validate-h-green)"/>
+<text x="455" y="55" text-anchor="middle" dominant-baseline="middle" class="small">valid</text>
+<rect x="490" y="25" width="210" height="60" rx="10" class="green"/>
+<text x="595.0" y="45.0" text-anchor="middle" dominant-baseline="middle">User object</text>
+<text x="595.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">name=&#x27;Kavya&#x27; age=9</text>
+<path d="M430,135 L488,165" class="arrow red" marker-end="url(#s14-validate-h-red)"/>
+<text x="455" y="170" text-anchor="middle" dominant-baseline="middle" class="small">invalid</text>
+<rect x="490" y="135" width="210" height="60" rx="10" class="red"/>
+<text x="595.0" y="155.0" text-anchor="middle" dominant-baseline="middle">ValidationError</text>
+<text x="595.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">age: greater than 0</text>
+</svg>
+<figcaption>Data from a form, an API or an LLM goes through your model. Values that can be safely converted are converted; anything else raises a ValidationError that names the field and the problem.</figcaption>
+</figure>

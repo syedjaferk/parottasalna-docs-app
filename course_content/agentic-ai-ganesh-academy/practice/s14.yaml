@@ -1,0 +1,86 @@
+chapter: sessions/14-data-validation-with-pydantic
+
+quizzes:
+  - title: "Session 14 · Quiz"
+    description: "Pydantic models, fields, validators, FastAPI and structured LLM output."
+    questions:
+      - text: "User(name='Kavya', age='9') with age: int. What happens?"
+        choices: |
+          *It succeeds and age becomes the integer 9
+          ValidationError
+          age stays the string '9'
+          TypeError
+        explanation: "Pydantic converts values that can be converted safely ('9' → 9). Use strict mode to forbid that."
+      - text: "age: int = Field(gt=0) and age=-3. What happens?"
+        choices: |
+          *ValidationError: Input should be greater than 0
+          age becomes 0
+          age becomes 3
+          It's accepted
+        explanation: "The error names the field, the rule and the input value."
+      - text: "Why write tags: list[str] = Field(default_factory=list) instead of = []?"
+        choices: |
+          *Each instance gets its own new list
+          It's faster
+          = [] is a syntax error
+          It allows any type
+        explanation: "A factory creates a fresh default for every object."
+      - text: "Which method turns a model into a dict?"
+        choices: |
+          *model_dump()
+          to_dict()
+          dict_dump()
+          json()
+        explanation: "model_dump_json() gives a JSON string."
+      - text: "What does response_model=UserOut do in FastAPI?"
+        choices: |
+          *Validates and filters the response, so fields like password never leak
+          Validates the request body
+          Creates a database table
+          Hashes the password
+        explanation: "The request body is validated against UserCreate; the response is filtered through UserOut."
+      - text: "A FastAPI request has an invalid email. What does the client get?"
+        choices: |
+          *422 with the Pydantic error details
+          500 Internal Server Error
+          200 with an empty body
+          404
+        explanation: "FastAPI validates before your function runs."
+      - text: "What does llm.with_structured_output(MovieReview) return when invoked?"
+        choices: |
+          *A MovieReview object with typed, validated fields
+          A JSON string
+          A pipe-separated string
+          The raw API response
+        explanation: "No fragile string parsing; Field descriptions are sent to the model."
+      - text: "Which decorator adds a custom rule to one field?"
+        choices: |
+          *@field_validator('username')
+          @validator_field
+          @model_rule
+          @check('username')
+        explanation: "Use @model_validator(mode='after') for rules across several fields."
+
+decks:
+  - title: "Session 14 · Flashcards"
+    cards:
+      - front: "Pydantic"
+        back: "Describe data shapes as classes; it validates and converts incoming data."
+      - front: "BaseModel"
+        back: "The class your models inherit from."
+      - front: "Field(...)"
+        back: "Rules and metadata: gt, ge, le, min_length, max_length, description, default_factory."
+      - front: "ValidationError"
+        back: "Raised for invalid data; lists each field, problem and input."
+      - front: "EmailStr"
+        back: "Validated email type; needs pip install 'pydantic[email]'."
+      - front: "field_validator"
+        back: "Custom check for one field."
+      - front: "model_validator"
+        back: "Custom check across fields (e.g. total = sum of items)."
+      - front: "model_dump / model_dump_json"
+        back: "Convert a model to a dict / JSON string."
+      - front: "response_model"
+        back: "FastAPI filters and validates responses with this model."
+      - front: "with_structured_output"
+        back: "Makes a LangChain chat model return a validated Pydantic object."

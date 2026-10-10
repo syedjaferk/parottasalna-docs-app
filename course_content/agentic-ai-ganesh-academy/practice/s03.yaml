@@ -1,0 +1,84 @@
+chapter: sessions/03-embeddings-and-vector-databases
+
+quizzes:
+  - title: "Session 3 · Quiz"
+    description: "Embeddings, cosine similarity and vector databases."
+    questions:
+      - text: "What is an embedding?"
+        choices: |
+          *A list of numbers representing the meaning of a text
+          A compressed copy of the text
+          A database index on a text column
+          The model's answer
+        explanation: "Similar meanings get similar vectors, so you can search by meaning instead of exact words."
+      - text: "How many numbers does all-MiniLM-L6-v2 produce per sentence?"
+        choices: |
+          *384
+          768
+          1536
+          It depends on the sentence length
+        explanation: "The length is fixed by the model: MiniLM gives 384, nomic-embed-text gives 768, whatever the sentence length."
+      - text: "Cosine similarity close to 1 means…"
+        choices: |
+          *The two texts have very similar meaning
+          The texts are unrelated
+          One text is longer
+          The texts share no words
+        explanation: "Cosine compares the direction of two vectors: ~1 very similar, ~0 unrelated."
+      - text: "Why use a vector database instead of comparing with every vector in a Python list?"
+        choices: |
+          *It stores vectors durably and finds nearest neighbours fast at large scale
+          It makes embeddings more accurate
+          It removes the need for an embedding model
+          It translates text
+        explanation: "Brute-force comparison is fine for 5 sentences, too slow for millions. Vector DBs index and persist vectors."
+      - text: "You stored documents with nomic-embed-text and search with all-MiniLM-L6-v2. What happens?"
+        choices: |
+          *Results are meaningless (and dimensions may not even match)
+          It works fine
+          It's faster
+          Chroma converts them automatically
+        explanation: "Each model has its own vector 'map'. Always embed queries with the same model used for the documents."
+      - text: "What does t-SNE do in the visualisation scripts?"
+        choices: |
+          *Squeezes high-dimensional vectors into 2-D while keeping close points close
+          Creates embeddings
+          Stores vectors on disk
+          Ranks search results
+        explanation: "It's only for looking at the vectors; never use the 2-D points for search."
+      - text: "Running collection.add() twice with the same ids…"
+        choices: |
+          *Doesn't update the existing entries; use upsert to overwrite them
+          Doubles the vectors' accuracy
+          Deletes the collection
+          Raises an out-of-memory error
+        explanation: "Chroma keeps the existing ids. upsert() inserts new ids and overwrites existing ones, so scripts can be re-run."
+      - text: "In RAG, what does the 'R' step return?"
+        choices: |
+          *The most relevant chunks for the question
+          The final answer
+          A list of embedding models
+          The model's temperature
+        explanation: "Retrieval finds the chunks; augmentation puts them in the prompt; generation writes the answer."
+
+decks:
+  - title: "Session 3 · Flashcards"
+    cards:
+      - front: "Embedding"
+        back: "A fixed-length list of numbers that represents a text's meaning."
+      - front: "Cosine similarity"
+        back: "How similar two vectors' directions are: ~1 same meaning, ~0 unrelated."
+      - front: "Vector database"
+        back: "Stores vectors (plus text and metadata) and finds the nearest ones quickly: Chroma, FAISS, Pinecone…"
+      - front: "all-MiniLM-L6-v2"
+        back: "A small, free sentence-transformers model: 384-dimension embeddings, runs on CPU."
+      - front: "nomic-embed-text"
+        back: "An embedding model served by Ollama: 768 dimensions."
+      - front: "Same-model rule"
+        back: "Embed documents and queries with the same model, or the comparison means nothing."
+      - front: "t-SNE"
+        back: "Reduces vectors to 2-D for plotting, keeping neighbours together. For viewing only."
+      - front: "upsert"
+        back: "Insert or overwrite by id: makes ingest scripts safe to run again."
+      - front: "RAG"
+        back: "Retrieval-Augmented Generation: find relevant text, put it in the prompt, let the LLM answer."

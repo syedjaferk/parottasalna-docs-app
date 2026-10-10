@@ -57,6 +57,10 @@ age
   Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='nine', input_type=str]
 ```
 
+```{raw} html
+:file: ../diagrams/s14-validate.html
+```
+
 The error says **which field**, **what's wrong** and **what was sent**.
 
 ## Models in practice
@@ -155,16 +159,123 @@ You get a real object with an `int` between 1 and 10, or an error, never a half-
 - **Expecting strict types.** Pydantic converts `"9"` to `9` by default. If you need exactly an
   `int`, use `Field(strict=True)`.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Add `email: EmailStr` to the `User` in `1.py_val.py` and try `"not-an-email"`.
-2. Add a validator to `SignupRequest` that rejects passwords without a digit.
-3. In `5.nested.py`, add a `model_validator` that checks `total_amount` equals the sum of
-   `quantity × price`. The sample data passes (2 × 500 + 1 × 200 = 1,200); change a price and watch
-   it fail.
-4. Run `6.app.py` with `uvicorn` and open <http://localhost:8000/docs>. The docs page is generated
-   from your models.
-5. Extend `MovieReview` with `genres: list[str]` and `year: int`, and ask about three movies.
+Try each one before opening the solution.
+
+**Exercise 1 · Email validation.** Add `email: EmailStr` to the `User` in `1.py_val.py` and try
+`"not-an-email"`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+from pydantic import BaseModel, EmailStr, Field
+
+class User(BaseModel):
+    name: str
+    age: int = Field(gt=0)
+    email: EmailStr
+
+User(name="Kavya", age=9, email="not-an-email")
+# value is not a valid email address: An email address must have an @-sign.
+```
+
+`EmailStr` needs `pip install "pydantic[email]"`.
+
+</details>
+
+**Exercise 2 · Password rule.** Reject passwords without a digit.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+@field_validator("password")
+@classmethod
+def needs_a_digit(cls, v: str) -> str:
+    if not any(ch.isdigit() for ch in v):
+        raise ValueError("password must contain at least one digit")
+    return v
+```
+
+</details>
+
+**Exercise 3 · Check the total.** In `5.nested.py`, check that `total_amount` equals the sum of
+`quantity × price`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+from pydantic import model_validator
+
+class Order(BaseModel):
+    ...
+    @model_validator(mode="after")
+    def total_matches_items(self):
+        expected = sum(item.quantity * item.price for item in self.items)
+        if abs(expected - self.total_amount) > 0.01:
+            raise ValueError(f"total_amount {self.total_amount} != items total {expected}")
+        return self
+```
+
+The sample passes (2 × 500 + 1 × 200 = 1,200). Change the mouse price to 600 and it fails.
+
+</details>
+
+**Exercise 4 · Free API docs.** Run `6.app.py` and open the docs page.
+
+<details class="solution"><summary>How</summary>
+
+```bash
+uvicorn 6.app:app --reload        # fails: module names can't start with a digit
+cp 6.app.py users_api.py && uvicorn users_api:app --reload
+```
+
+Open <http://localhost:8000/docs>. Try **POST /users** with a bad email: FastAPI answers **422** with
+the Pydantic error, and the response never contains the password.
+
+</details>
+
+**Exercise 5 · Richer structured output.** Add `genres: list[str]` and `year: int` to `MovieReview`
+and ask about three movies.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+class MovieReview(BaseModel):
+    name: str = Field(description="Movie title")
+    year: int = Field(ge=1888, le=2100, description="Release year")
+    genres: list[str] = Field(description="1-3 genres, lowercase")
+    rating: int = Field(ge=1, le=10, description="Rating out of 10")
+    summary: str = Field(description="One-line summary")
+
+for title in ["Interstellar", "Baahubali", "Jailer"]:
+    print(structured_llm.invoke(f"Give me details for the movie {title}"))
+```
+
+Remember to rebuild `structured_llm = llm.with_structured_output(MovieReview)` after changing the
+model.
+
+</details>
+
+**Exercise 6 · Validate LLM JSON yourself.** Without `with_structured_output`, ask for JSON and
+validate it with `model_validate_json`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+from pydantic import ValidationError
+
+text = llm.invoke("Return ONLY JSON with keys name, rating (1-10), summary for Interstellar").content
+try:
+    review = MovieReview.model_validate_json(text)
+except ValidationError as e:
+    print("Bad output from the model:", e)
+```
+
+If the model wraps the JSON in ```` ```json ```` fences, strip them first, which is one more reason
+to prefer `with_structured_output`.
+
+</details>
 
 ## Full source
 

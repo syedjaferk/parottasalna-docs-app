@@ -1,0 +1,86 @@
+chapter: sessions/04-sparse-and-hybrid-search
+
+quizzes:
+  - title: "Session 4 · Quiz"
+    description: "One-hot, TF, IDF, TF-IDF, BM25, dense vs sparse and hybrid search."
+    questions:
+      - text: "What makes a vector 'sparse'?"
+        choices: |
+          *It has one slot per vocabulary word and almost all slots are 0
+          It has very few dimensions
+          It was made by a neural network
+          It is stored on disk
+        explanation: "With a 50,000-word vocabulary, a sentence fills only a handful of slots."
+      - text: "In 'Redis is an in-memory database database database', what is TF('database')?"
+        choices: |
+          *3/7
+          1/7
+          3
+          log(7/3)
+        explanation: "Term frequency = occurrences ÷ words in the document = 3 ÷ 7 ≈ 0.43."
+      - text: "'python' appears in all 5 documents. What is its IDF = log(N/df)?"
+        choices: |
+          *0
+          1
+          5
+          log(5)
+        explanation: "log(5/5) = log 1 = 0. A word in every document can't help ranking."
+      - text: "TF-IDF search for 'db' scores 0 on documents that say 'database'. Why?"
+        choices: |
+          *Sparse search only matches the same tokens, and 'db' never appears
+          The vectorizer is broken
+          IDF of 'db' is negative
+          The query is too short for cosine
+        explanation: "Keyword search has no idea that db = database. Dense search, or a synonym list, fixes it."
+      - text: "Which statement about BM25 is true?"
+        choices: |
+          *It limits the reward for repeating a word and adjusts for document length
+          It uses embeddings
+          It needs a GPU
+          It ignores word frequency
+        explanation: "BM25 is TF-IDF with saturation and length normalisation: the default ranking in Elasticsearch/OpenSearch."
+      - text: "Which query is better served by sparse (keyword) search?"
+        choices: |
+          *Error code E1042 in version 3.2.1
+          How can I lose weight?
+          A movie about a smart girl who plays chess
+          Something like Redis but for queues
+        explanation: "Exact codes, names and versions match by keyword; descriptions and paraphrases match by meaning."
+      - text: "Why normalise scores before adding BM25 and cosine scores?"
+        choices: |
+          *They're on different scales, so the bigger one (BM25) would dominate
+          Normalising makes search faster
+          Cosine scores can't be added
+          BM25 scores are negative
+        explanation: "BM25 can be 0–10+, cosine −1 to 1. Scale both to 0–1, or combine ranks (Reciprocal Rank Fusion)."
+      - text: "In OpenSearch, which field type stores embeddings for vector search?"
+        choices: |
+          *knn_vector
+          text
+          keyword
+          float
+        explanation: "The index needs settings.index.knn = true and a knn_vector field with the right dimension."
+
+decks:
+  - title: "Session 4 · Flashcards"
+    cards:
+      - front: "Sparse vector"
+        back: "One slot per vocabulary word, mostly zeros. Used by TF-IDF and BM25."
+      - front: "Dense vector"
+        back: "A few hundred numbers, all used, capturing meaning. Made by embedding models."
+      - front: "TF (term frequency)"
+        back: "How often a word appears in a document ÷ number of words in that document."
+      - front: "IDF"
+        back: "log(N ÷ documents containing the word): rare words get high weight, common ones ~0."
+      - front: "TF-IDF"
+        back: "TF × IDF: high when a word is frequent here and rare elsewhere."
+      - front: "BM25"
+        back: "Improved TF-IDF with saturation and length normalisation; default in search engines."
+      - front: "Hybrid search"
+        back: "Run keyword and vector search together and merge the results."
+      - front: "Reciprocal Rank Fusion"
+        back: "Combine rankings with Σ 1/(k + rank): no score normalisation needed."
+      - front: "When sparse wins"
+        back: "Exact terms: product codes, error messages, names, versions."
+      - front: "When dense wins"
+        back: "Paraphrases and synonyms: 'reduce body fat' ≈ 'fat loss tips'."

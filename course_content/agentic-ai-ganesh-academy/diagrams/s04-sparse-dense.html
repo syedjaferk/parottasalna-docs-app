@@ -1,0 +1,49 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s04-sparse-dense-t s04-sparse-dense-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s04-sparse-dense-t">Sparse vs dense vectors</title>
+<desc id="s04-sparse-dense-d">A sparse vector has one slot per word in the vocabulary, almost all zero. A dense vector has a few hundred numbers, all used, that capture meaning rather than exact words.</desc>
+<defs><marker id="s04-sparse-dense-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s04-sparse-dense-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s04-sparse-dense-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s04-sparse-dense-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="20" y="30" text-anchor="start" dominant-baseline="middle" class="bold">Sparse (TF-IDF / BM25)</text>
+<rect x="20" y="45" width="64" height="34" rx="6" class="blue"/>
+<text x="52.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">0.6</text>
+<text x="52" y="92" text-anchor="middle" dominant-baseline="middle" class="small">python</text>
+<rect x="90" y="45" width="64" height="34" rx="6" class="ghost"/>
+<text x="122.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">0</text>
+<text x="122" y="92" text-anchor="middle" dominant-baseline="middle" class="small">redis</text>
+<rect x="160" y="45" width="64" height="34" rx="6" class="blue"/>
+<text x="192.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">0.8</text>
+<text x="192" y="92" text-anchor="middle" dominant-baseline="middle" class="small">fastapi</text>
+<rect x="230" y="45" width="64" height="34" rx="6" class="ghost"/>
+<text x="262.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">0</text>
+<text x="262" y="92" text-anchor="middle" dominant-baseline="middle" class="small">docker</text>
+<rect x="300" y="45" width="64" height="34" rx="6" class="ghost"/>
+<text x="332.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">0</text>
+<text x="332" y="92" text-anchor="middle" dominant-baseline="middle" class="small">db</text>
+<rect x="370" y="45" width="64" height="34" rx="6" class="ghost"/>
+<text x="402.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">…</text>
+<text x="402" y="92" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="440" y="45" width="64" height="34" rx="6" class="ghost"/>
+<text x="472.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">0</text>
+<text x="472" y="92" text-anchor="middle" dominant-baseline="middle" class="small">zebra</text>
+<text x="530" y="62" text-anchor="start" dominant-baseline="middle" class="small">50,000 slots, mostly 0</text>
+<text x="20" y="130" text-anchor="start" dominant-baseline="middle" class="bold">Dense (embeddings)</text>
+<rect x="20" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="52.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">-0.07</text>
+<rect x="90" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="122.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">0.21</text>
+<rect x="160" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="192.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">0.03</text>
+<rect x="230" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="262.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">-0.12</text>
+<rect x="300" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="332.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">0.09</text>
+<rect x="370" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="402.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">…</text>
+<rect x="440" y="145" width="64" height="34" rx="6" class="green"/>
+<text x="472.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">0.04</text>
+<text x="530" y="162" text-anchor="start" dominant-baseline="middle" class="small">384 slots, all used</text>
+<text x="20" y="205" text-anchor="start" dominant-baseline="middle" class="small">matches exact words: codes, names, errors</text>
+<text x="420" y="205" text-anchor="start" dominant-baseline="middle" class="small">matches meaning: synonyms, paraphrases</text>
+</svg>
+<figcaption>A sparse vector has one slot per word in the vocabulary, almost all zero. A dense vector has a few hundred numbers, all used, that capture meaning rather than exact words.</figcaption>
+</figure>

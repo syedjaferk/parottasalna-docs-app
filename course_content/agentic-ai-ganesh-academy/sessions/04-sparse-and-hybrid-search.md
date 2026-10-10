@@ -14,6 +14,10 @@ Each fails where the other shines, so real systems often use **both** at once: *
 **Everyday example:** finding a song. If you remember the exact title, search by name (sparse). If
 you only remember "that sad song about rain", you need someone who understands meaning (dense).
 
+```{raw} html
+:file: ../diagrams/s04-sparse-dense.html
+```
+
 ## Sparse vectors, step by step
 
 ### 1. One-hot: is the word there or not?
@@ -114,6 +118,10 @@ dense_scores = cosine_similarity(model.encode([query]), doc_embeddings)[0]
 hybrid_scores = 0.5 * np.array(bm25_scores) + 0.5 * np.array(dense_scores)
 ```
 
+```{raw} html
+:file: ../diagrams/s04-hybrid.html
+```
+
 :::{warning}
 BM25 scores can be 0–10 or more, while cosine is −1 to 1. Adding them raw lets BM25 dominate.
 **Normalise first**, for example divide each list by its maximum, or combine **ranks** instead of
@@ -149,16 +157,102 @@ same columns, so you can share and change it freely.
 - **Adding BM25 and cosine scores without normalising them.**
 - **Not lowercasing or removing punctuation.** `"Redis,"` and `"redis"` become different words.
 
-## Try it yourself
+## Hands-on exercises
 
-1. In `06.tf_idf.py`, search `"in-memory"`, then `"memory"`. Why do they score differently?
-   (Look at how the default tokenizer splits `in-memory`.)
-2. Add `"database"` to every document in `05.idf_implementation.py`. What happens to its IDF?
-3. Change `10.hybrid.py` to normalise both score lists to 0–1 before adding them. Does the ranking
-   change?
-4. Try weights `0.2 / 0.8` and `0.8 / 0.2` in `10.hybrid.py`. Which queries prefer which?
-5. Add three of your own movies to `movies_sample.csv` and find them with each search mode in
-   `11.open_search_hybrid.py`.
+Try each one before opening the solution.
+
+**Exercise 1 · `in-memory` vs `memory`.** In `06.tf_idf.py`, search `"in-memory"`, then `"memory"`.
+Why do the scores differ?
+
+<details class="solution"><summary>Answer</summary>
+
+`TfidfVectorizer` splits `in-memory` into `in` and `memory`. The query `"in-memory"` matches **two**
+words of the Redis document (score 0.540); `"memory"` matches one (0.382). Tokenisation decides what
+a "word" is.
+
+</details>
+
+**Exercise 2 · A word everywhere.** Add `"database"` to every document in `05.idf_implementation.py`.
+What is its IDF?
+
+<details class="solution"><summary>Answer</summary>
+
+`log(5 / 5) = 0.0`, the same as `python`. A word in every document can't help rank them, so IDF
+switches it off.
+
+</details>
+
+**Exercise 3 · Fix the "db" search.** `search("db")` scores 0 everywhere. Make it find the database
+documents without dense embeddings.
+
+<details class="solution"><summary>Solution</summary>
+
+Expand the query with synonyms before searching:
+
+```python
+SYNONYMS = {"db": "database", "k8s": "kubernetes", "py": "python"}
+
+def expand(query):
+    return " ".join(SYNONYMS.get(word, word) for word in query.lower().split())
+
+results = search(expand("db"))
+```
+
+Search engines do the same with synonym lists. Dense search gets this for free, which is one reason
+to go hybrid.
+
+</details>
+
+**Exercise 4 · Normalise before mixing.** Change `10.hybrid.py` so both score lists are scaled to
+0–1 before adding them.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def min_max(scores):
+    scores = np.array(scores, dtype=float)
+    low, high = scores.min(), scores.max()
+    return np.zeros_like(scores) if high == low else (scores - low) / (high - low)
+
+hybrid_scores = 0.5 * min_max(bm25_scores) + 0.5 * min_max(dense_scores)
+```
+
+Now neither method wins just because its numbers are bigger.
+
+</details>
+
+**Exercise 5 · Reciprocal Rank Fusion.** Combine BM25 and dense results by **rank** instead of score.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def rrf(*rankings, k=60):
+    scores = {}
+    for ranking in rankings:                         # each: list of doc indexes, best first
+        for rank, doc in enumerate(ranking, start=1):
+            scores[doc] = scores.get(doc, 0) + 1 / (k + rank)
+    return sorted(scores, key=scores.get, reverse=True)
+
+bm25_rank = list(np.argsort(bm25_scores)[::-1])
+dense_rank = list(np.argsort(dense_scores)[::-1])
+for i in rrf(bm25_rank, dense_rank):
+    print(documents[i])
+```
+
+RRF needs no normalisation at all, which is why many search engines use it.
+
+</details>
+
+**Exercise 6 · Three search modes.** Add three of your own movies to `movies_sample.csv`, re-run
+`11.open_search_hybrid.py`, and find each one with sparse, dense and hybrid search.
+
+<details class="solution"><summary>What to notice</summary>
+
+Search with an exact title word: sparse wins. Describe the plot in different words: dense wins.
+Hybrid is rarely the worst of the two. Remember the script deletes and recreates the index each run,
+so your new rows are always loaded.
+
+</details>
 
 ## Full source
 

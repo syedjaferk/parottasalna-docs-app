@@ -83,6 +83,10 @@ Task 3 completed
 Total time: 2.00 seconds
 ```
 
+```{raw} html
+:file: ../diagrams/s13-async.html
+```
+
 `gather` returns the results **in the order you passed them**, even if they finish in another order
 (`5.gather_return_values.py`):
 
@@ -154,15 +158,95 @@ scales much further, because waiting costs almost nothing.)
 - **Gathering 1,000 LLM calls at once.** You'll hit the provider's rate limit. Limit the number in
   flight with `asyncio.Semaphore(5)`.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Change `make_toast` in `1.app.py` to use `time.sleep(2)` instead of `await asyncio.sleep(2)`
-   (and `import time`). The total jumps from 3 to 5 seconds. Why?
-2. In `5.gather_return_values.py`, make `get_orders` raise an error. What does `gather` do? Then try
-   `gather(..., return_exceptions=True)`.
-3. Fetch 10 URLs with `6.api_call.py`, at most 3 at a time, using `asyncio.Semaphore(3)`.
-4. Time `load.py` against `app.py` and against `app_sync.py`.
-5. Add a timeout: `await asyncio.wait_for(llm.ainvoke(q), timeout=10)`.
+Try each one before opening the solution.
+
+**Exercise 1 · One blocking call.** Change `make_toast` in `1.app.py` to use `time.sleep(2)` instead
+of `await asyncio.sleep(2)` (and `import time`). The total jumps from 3 to 5 seconds. Why?
+
+<details class="solution"><summary>Answer</summary>
+
+`time.sleep` blocks the whole event loop: nothing else can run during those 2 seconds, so the tea
+can't even start boiling. Toast (2 s) and then tea (3 s) gives 5 s. One blocking call ruins the
+concurrency of everything.
+
+</details>
+
+**Exercise 2 · Errors in gather.** Make `get_orders` raise an exception. What does `gather` do? Then
+add `return_exceptions=True`.
+
+<details class="solution"><summary>Answer</summary>
+
+By default the exception propagates out of `await asyncio.gather(...)` and you lose the other results.
+With `return_exceptions=True`, `gather` returns the exception object in that slot:
+
+```python
+user, orders, products = await asyncio.gather(get_user(), get_orders(), get_products(),
+                                              return_exceptions=True)
+if isinstance(orders, Exception):
+    print("orders failed:", orders)
+```
+
+</details>
+
+**Exercise 3 · Limit concurrency.** Fetch 10 URLs, at most 3 at a time.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+limit = asyncio.Semaphore(3)
+
+async def fetch(client, url):
+    async with limit:                       # only 3 coroutines get past this at once
+        response = await client.get(url)
+        return response.status_code
+```
+
+Use the same pattern for LLM calls, so you stay under the provider's rate limit.
+
+</details>
+
+**Exercise 4 · Sync vs async server.** Time `load.py` against `api/app.py` and against
+`api/app_sync.py`.
+
+<details class="solution"><summary>What to notice</summary>
+
+Against `app.py`, three requests take about as long as the slowest one. `app_sync.py` also handles
+them at the same time (FastAPI runs plain `def` endpoints in a thread pool), so the gap is small with
+3 requests. It grows with many requests: threads are limited (40 by default), coroutines are cheap.
+`load_sync.py` is slow against both, because the **client** sends one at a time.
+
+</details>
+
+**Exercise 5 · Timeouts.** Give every LLM call 10 seconds at most.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+try:
+    response = await asyncio.wait_for(llm.ainvoke(question), timeout=10)
+except asyncio.TimeoutError:
+    response = None
+    print("The model took too long, try again")
+```
+
+</details>
+
+**Exercise 6 · as_completed.** Print each agent's answer in `8.crm.py` as soon as it's ready, not all
+at the end.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+tasks = [agent.ainvoke({"messages": [{"role": "user", "content": f"Weather in {city}?"}]})
+         for city in ["Chennai", "Bangalore", "Mumbai"]]
+for next_done in asyncio.as_completed(tasks):
+    result = await next_done
+    print(result["messages"][-1].content)
+```
+
+</details>
 
 ## Full source
 

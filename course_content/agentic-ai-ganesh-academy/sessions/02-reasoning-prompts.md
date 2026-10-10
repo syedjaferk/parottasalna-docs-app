@@ -58,6 +58,10 @@ Generating 5 reasoning paths...
 Consistent Answer: 650 (Found in 5/5 paths)
 ```
 
+```{raw} html
+:file: ../diagrams/s02-self-consistency.html
+```
+
 If the answers disagree (say 3 × 650 and 2 × 625), the vote still picks the likely right one.
 
 ## Tree of thought: explore, judge, then solve
@@ -96,6 +100,10 @@ if "Action:" in ai_text:
     messages.append({"role": "user", "content": f"Observation: {obs}"})
 ```
 
+```{raw} html
+:file: ../diagrams/s02-react.html
+```
+
 Next round the model writes `Final Answer: It's 32°C and sunny in Chennai.` This loop of
 **think → act → observe** is exactly what agents do. In [Session 16](16-tools-and-mcp.md) we let a
 library run the loop with proper tool calling instead of text parsing.
@@ -126,16 +134,94 @@ downloads below.
 - **Letting the model write the Observation.** Sometimes it invents `Observation: 30°C` itself.
   Tell it to stop after `Action:`, or use real tool calling (Session 16).
 
-## Try it yourself
+## Hands-on exercises
 
-1. Remove the worked example from `7.chain_of_thought.py`, keeping only the system prompt. Is the
-   format still the same?
-2. In `8.self_consistency.py`, set `num_samples=9` and ask a trickier question, such as *"How many
-   times does the digit 7 appear from 1 to 100?"* (answer: 20). Do the samples agree?
-3. Add a second tool `get_time[city]` to `10.ReAct.py` and ask *"What's the weather and time in
-   London?"*
-4. Make the ReAct parser survive `Action: get_weather(Chennai)` too (hint: a regular expression).
-5. Write a RICE prompt for a task from your own work and compare it with a one-line prompt.
+Try each one before opening the solution.
+
+**Exercise 1 · CoT without the example.** Remove the worked example from `7.chain_of_thought.py` and
+keep only the system prompt. Is the format the same?
+
+<details class="solution"><summary>What to notice</summary>
+
+The model still reasons step by step (the system prompt asks for it), but the layout varies: no
+reliable "Step 1/2/3" or "Final Answer:" line. The example is what fixes the **format**, which
+matters if your code reads the answer.
+
+</details>
+
+**Exercise 2 · A harder vote.** In `8.self_consistency.py`, set `num_samples=9` and ask *"How many
+times does the digit 7 appear in the numbers from 1 to 100?"*
+
+<details class="solution"><summary>Answer</summary>
+
+The right answer is **20** (7, 17, …, 97 is ten; 70–79 is ten more, and 77 counts twice). Single
+samples sometimes say 19; the majority vote usually lands on 20, which is exactly why
+self-consistency exists.
+
+</details>
+
+**Exercise 3 · Self-consistency needs randomness.** Run `8.self_consistency.py` with
+`temperature=0`. What happens to the vote?
+
+<details class="solution"><summary>Answer</summary>
+
+All samples are (nearly) identical, so you pay 5× for one answer. Self-consistency only helps when
+each path can reason differently, which needs a temperature around 0.5–0.8.
+
+</details>
+
+**Exercise 4 · A second tool for ReAct.** Add `get_time[city]` to `10.ReAct.py` and ask *"What's the
+weather and time in London?"*
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def get_time(city):
+    return {"London": "10:30 AM", "Chennai": "3:00 PM"}.get(city, "Time not found.")
+
+TOOLS = {"get_weather": get_weather, "get_time": get_time}
+```
+
+Add `- get_time[city]: Returns the current time.` to the system prompt, then run the tool with
+`obs = TOOLS[tool_name](arg) if tool_name in TOOLS else "Unknown tool."`. Raise the loop limit to 4,
+because the model now needs two actions.
+
+</details>
+
+**Exercise 5 · A sturdier parser.** Make the ReAct parser accept both `get_weather[Chennai]` and
+`get_weather(Chennai)`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+import re
+
+match = re.search(r"Action:\s*(\w+)\s*[\[(]\s*([^\])]+?)\s*[\])]", ai_text)
+if match:
+    tool_name, arg = match.group(1), match.group(2)
+```
+
+If there's no match, send back `Observation: invalid action format, use tool[argument]` instead of
+crashing.
+
+</details>
+
+**Exercise 6 · Write a RICE prompt.** Use RICE for a task from your work (for example: *speed up a slow
+Django page*). Compare the answer with a one-line prompt.
+
+<details class="solution"><summary>Example</summary>
+
+```text
+ROLE: You are a senior Django performance engineer.
+INPUT: A list page with 200 orders takes 4 seconds. It runs 600 SQL queries.
+CONSTRAINTS: Django 5, PostgreSQL 16, no schema changes, no new services.
+EXPECTATIONS: 1) likely cause 2) the exact ORM fix with code 3) how to verify with numbers.
+```
+
+The structured prompt usually names the N+1 problem and `select_related`/`prefetch_related`
+directly; the one-liner gives a generic checklist.
+
+</details>
 
 ## Full source
 

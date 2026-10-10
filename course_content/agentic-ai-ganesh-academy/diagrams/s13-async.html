@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 210" role="img" aria-labelledby="s13-async-t s13-async-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s13-async-t">Sequential vs gather</title>
+<desc id="s13-async-d">Awaiting three 2-second tasks one by one takes 6 seconds. asyncio.gather starts them together, so the total is the longest task: 2 seconds.</desc>
+<defs><marker id="s13-async-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s13-async-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s13-async-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s13-async-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="158" y="50" text-anchor="end" dominant-baseline="middle">await × 3</text>
+<rect x="170" y="36" width="176" height="28" rx="6" class="blue"/>
+<text x="260" y="50" text-anchor="middle" dominant-baseline="middle" class="small">Task 1</text>
+<rect x="350" y="36" width="176" height="28" rx="6" class="blue"/>
+<text x="440" y="50" text-anchor="middle" dominant-baseline="middle" class="small">Task 2</text>
+<rect x="530" y="36" width="176" height="28" rx="6" class="blue"/>
+<text x="620" y="50" text-anchor="middle" dominant-baseline="middle" class="small">Task 3</text>
+<text x="158" y="120" text-anchor="end" dominant-baseline="middle">gather()</text>
+<rect x="170" y="95" width="176" height="18" rx="5" class="green"/>
+<text x="260" y="104" text-anchor="middle" dominant-baseline="middle" class="small">Task 1</text>
+<rect x="170" y="117" width="176" height="18" rx="5" class="green"/>
+<text x="260" y="126" text-anchor="middle" dominant-baseline="middle" class="small">Task 2</text>
+<rect x="170" y="139" width="176" height="18" rx="5" class="green"/>
+<text x="260" y="148" text-anchor="middle" dominant-baseline="middle" class="small">Task 3</text>
+<line x1="170" y1="170" x2="170" y2="176" class="line"/>
+<text x="170" y="190" text-anchor="middle" dominant-baseline="middle" class="small">0s</text>
+<line x1="260" y1="170" x2="260" y2="176" class="line"/>
+<text x="260" y="190" text-anchor="middle" dominant-baseline="middle" class="small">1s</text>
+<line x1="350" y1="170" x2="350" y2="176" class="line"/>
+<text x="350" y="190" text-anchor="middle" dominant-baseline="middle" class="small">2s</text>
+<line x1="440" y1="170" x2="440" y2="176" class="line"/>
+<text x="440" y="190" text-anchor="middle" dominant-baseline="middle" class="small">3s</text>
+<line x1="530" y1="170" x2="530" y2="176" class="line"/>
+<text x="530" y="190" text-anchor="middle" dominant-baseline="middle" class="small">4s</text>
+<line x1="620" y1="170" x2="620" y2="176" class="line"/>
+<text x="620" y="190" text-anchor="middle" dominant-baseline="middle" class="small">5s</text>
+<line x1="710" y1="170" x2="710" y2="176" class="line"/>
+<text x="710" y="190" text-anchor="middle" dominant-baseline="middle" class="small">6s</text>
+<line x1="170" y1="170" x2="710" y2="170" class="line"/>
+</svg>
+<figcaption>Awaiting three 2-second tasks one by one takes 6 seconds. asyncio.gather starts them together, so the total is the longest task: 2 seconds.</figcaption>
+</figure>

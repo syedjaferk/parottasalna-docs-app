@@ -1,0 +1,66 @@
+chapter: sessions/07-rag-with-n8n
+
+quizzes:
+  - title: "Session 7 · Quiz"
+    description: "Building RAG visually with n8n, Pinecone, Ollama and Groq."
+    questions:
+      - text: "What is n8n?"
+        choices: |
+          *A visual workflow automation tool with AI nodes
+          A vector database
+          An embedding model
+          A Python library
+        explanation: "You connect nodes instead of writing code, and it integrates with hundreds of services."
+      - text: "Why is the n8n_data volume important in the docker run command?"
+        choices: |
+          *It keeps workflows and credentials when the container restarts
+          It makes n8n faster
+          It stores the vectors
+          It's required for Ollama
+        explanation: "With --rm and no volume, everything is lost when the container stops."
+      - text: "In the class workflow, how does the AI Agent use Pinecone?"
+        choices: |
+          *As a retrieval tool it can call when it needs context
+          It doesn't use Pinecone
+          Pinecone generates the answer
+          Pinecone is the chat trigger
+        explanation: "The vector store node is in 'retrieve-as-tool' mode: agentic RAG."
+      - text: "Your Pinecone index is 384-dimensional but you embed with nomic-embed-text. What happens?"
+        choices: |
+          *Inserts fail: nomic vectors have 768 dimensions
+          It works
+          Pinecone pads the vectors
+          n8n converts them
+        explanation: "The index dimension must match the embedding model's output size."
+      - text: "From inside the n8n container on Mac/Windows, how do you reach Ollama running on your computer?"
+        choices: |
+          *http://host.docker.internal:11434
+          http://localhost:11434
+          http://ollama:11434
+          You can't
+        explanation: "Inside a container, localhost is the container itself."
+      - text: "Which is an advantage of building RAG in Python instead of n8n?"
+        choices: |
+          *Full control over chunking, retrieval and prompts, plus normal testing and versioning
+          No code to write
+          Built-in Telegram integration
+          No need for an embedding model
+        explanation: "n8n is fast to build and integrate; code gives control. Many teams prototype in n8n, then move to code."
+
+decks:
+  - title: "Session 7 · Flashcards"
+    cards:
+      - front: "n8n"
+        back: "Open-source visual workflow tool; has nodes for loaders, splitters, embeddings, vector stores, LLMs, agents."
+      - front: "Node"
+        back: "One step/box in an n8n workflow."
+      - front: "Credentials (n8n)"
+        back: "API keys stored inside n8n and attached to nodes; never shared in exported workflows."
+      - front: "Pinecone"
+        back: "A hosted vector database. Index dimension must match your embedding model."
+      - front: "retrieve-as-tool"
+        back: "Vector store mode where the AI Agent decides when to search."
+      - front: "host.docker.internal"
+        back: "How a container on Mac/Windows reaches services on your computer."
+      - front: "Chat Trigger"
+        back: "n8n node to chat with a workflow; the question is in $json.chatInput."

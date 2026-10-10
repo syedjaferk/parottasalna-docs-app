@@ -1,0 +1,38 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s02-self-consistency-t s02-self-consistency-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s02-self-consistency-t">Self-consistency</title>
+<desc id="s02-self-consistency-d">Ask the same question several times with some randomness, pull the final number out of each answer, and keep the most common one.</desc>
+<defs><marker id="s02-self-consistency-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s02-self-consistency-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s02-self-consistency-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s02-self-consistency-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="85" width="130" height="60" rx="10" class="box"/>
+<text x="85.0" y="105.0" text-anchor="middle" dominant-baseline="middle">Question</text>
+<text x="85.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">temperature 0.7</text>
+<path d="M150,115 L238,35" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<rect x="240" y="20" width="170" height="30" rx="6" class="blue"/>
+<text x="325.0" y="35.0" text-anchor="middle" dominant-baseline="middle" class="small">path 1 → Final Answer: 650</text>
+<path d="M410,35 L488,115" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<path d="M150,115 L238,75" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<rect x="240" y="60" width="170" height="30" rx="6" class="blue"/>
+<text x="325.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">path 2 → Final Answer: 650</text>
+<path d="M410,75 L488,115" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<path d="M150,115 L238,115" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<rect x="240" y="100" width="170" height="30" rx="6" class="red"/>
+<text x="325.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">path 3 → Final Answer: 625</text>
+<path d="M410,115 L488,115" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<path d="M150,115 L238,155" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<rect x="240" y="140" width="170" height="30" rx="6" class="blue"/>
+<text x="325.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="small">path 4 → Final Answer: 650</text>
+<path d="M410,155 L488,115" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<path d="M150,115 L238,195" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<rect x="240" y="180" width="170" height="30" rx="6" class="blue"/>
+<text x="325.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">path 5 → Final Answer: 650</text>
+<path d="M410,195 L488,115" class="arrow" marker-end="url(#s02-self-consistency-h)"/>
+<rect x="490" y="75" width="100" height="80" rx="10" class="amber"/>
+<text x="540.0" y="105.0" text-anchor="middle" dominant-baseline="middle">vote</text>
+<text x="540.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">Counter</text>
+<path d="M590,115 L618,115" class="arrow green" marker-end="url(#s02-self-consistency-h-green)"/>
+<rect x="620" y="85" width="85" height="60" rx="10" class="green"/>
+<text x="662.5" y="105.0" text-anchor="middle" dominant-baseline="middle">650</text>
+<text x="662.5" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">4 of 5</text>
+</svg>
+<figcaption>Ask the same question several times with some randomness, pull the final number out of each answer, and keep the most common one.</figcaption>
+</figure>

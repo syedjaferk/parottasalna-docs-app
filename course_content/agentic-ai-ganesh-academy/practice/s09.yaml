@@ -1,0 +1,75 @@
+chapter: sessions/09-semantic-caching
+
+quizzes:
+  - title: "Session 9 · Quiz"
+    description: "Caching answers by the meaning of the question."
+    questions:
+      - text: "How does a semantic cache decide that two questions are 'the same'?"
+        choices: |
+          *Their embeddings' cosine similarity is above a threshold
+          The text is identical
+          They have the same length
+          They were asked by the same user
+        explanation: "That's what lets 'What is a list?' and 'what's a python list' share one answer."
+      - text: "What happens on a cache HIT?"
+        choices: |
+          *The saved answer is returned without retrieval or an LLM call
+          The LLM is called with the cached context
+          The cache is cleared
+          The question is re-embedded and stored again
+        explanation: "Hits cost milliseconds and no tokens."
+      - text: "You lower the threshold from 0.90 to 0.75. What's the risk?"
+        choices: |
+          *Different questions (add vs remove from a list) get the wrong cached answer
+          Fewer cache hits
+          Redis runs out of memory immediately
+          Nothing
+        explanation: "Lower thresholds increase hits and false matches. Test with similar-but-different question pairs."
+      - text: "Why is abs(hash(question)) a poor cache key?"
+        choices: |
+          *Python randomises string hashes per process, so keys change after a restart
+          It's too slow
+          It can't be stored in Redis
+          It reveals the question
+        explanation: "Use a stable hash such as hashlib.sha256(question.encode()).hexdigest()."
+      - text: "How do you make cache entries expire after 7 days in Redis?"
+        choices: |
+          *redis_client.set(key, value, ex=604800)
+          redis_client.expire_all(7)
+          Delete the container weekly
+          Set SIMILARITY_THRESHOLD = 7
+        explanation: "ex= sets a TTL in seconds (60 × 60 × 24 × 7 = 604,800)."
+      - text: "Why doesn't the class cache scale to 100,000 entries?"
+        choices: |
+          *It compares the question with every cached entry one by one
+          Redis can't hold 100,000 keys
+          Embeddings get worse with more entries
+          JSON can't store vectors
+        explanation: "scan_iter + cosine per key is a linear scan. Use a vector index (Redis Stack / redisvl SemanticCache)."
+      - text: "Which question should NOT come from a shared cache?"
+        choices: |
+          *'What's my leave balance?'
+          'What is a Python list?'
+          'How do I install FastAPI?'
+          'What is RAG?'
+        explanation: "Personal answers must be cached per user (or not at all)."
+
+decks:
+  - title: "Session 9 · Flashcards"
+    cards:
+      - front: "Semantic cache"
+        back: "Stores answers keyed by the question's embedding; similar questions reuse the answer."
+      - front: "Cache hit / miss"
+        back: "Hit: similar question found, answer returned instantly. Miss: run RAG, then store."
+      - front: "Similarity threshold"
+        back: "Minimum cosine score for a hit. Too low = wrong answers; too high = no hits. ~0.90 to start."
+      - front: "TTL"
+        back: "Time to live: Redis deletes the key after this many seconds (set(..., ex=TTL))."
+      - front: "Stable cache key"
+        back: "hashlib.sha256(question).hexdigest(): same key across restarts, unlike hash()."
+      - front: "Linear scan"
+        back: "Checking every entry one by one: fine for hundreds, too slow for big caches."
+      - front: "redisvl SemanticCache"
+        back: "A ready-made semantic cache on Redis vector search."
+      - front: "Don't cache errors"
+        back: "Never store 'Request failed…' as an answer."

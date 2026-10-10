@@ -1,0 +1,77 @@
+chapter: sessions/06-your-first-rag-pipeline
+
+quizzes:
+  - title: "Session 6 · Quiz"
+    description: "Ingest and ask: FAISS by hand, then LangChain + Chroma."
+    questions:
+      - text: "Which part of RAG runs once (or when documents change)?"
+        choices: |
+          *Ingest: load, clean, chunk, embed, store
+          Ask: retrieve and generate
+          Both, for every question
+          Neither
+        explanation: "Ingest fills the vector database. Asking runs for every question and only reads from it."
+      - text: "Why does build_index.py save chunks.pkl next to the FAISS index?"
+        choices: |
+          *FAISS stores only vectors; the chunk texts must be looked up by position
+          FAISS can't read PDFs
+          To make the index smaller
+          Pickle is required by sentence-transformers
+        explanation: "index.search returns vector positions. chunks[idx] gives the text, so both files must stay in the same order."
+      - text: "What does IndexFlatL2 compare?"
+        choices: |
+          *Euclidean (straight-line) distance between vectors
+          Cosine similarity
+          Keyword overlap
+          BM25 scores
+        explanation: "Smaller L2 distance = closer. With normalised vectors it ranks the same as cosine."
+      - text: "Which prompt line keeps the model answering from your documents?"
+        choices: |
+          *'Use only provided context.'
+          'You are a helpful assistant.'
+          'Think step by step.'
+          'Be creative.'
+        explanation: "Without it, the model mixes in (or replaces your context with) what it learned in training."
+      - text: "What does Chroma keep next to each vector that FAISS does not?"
+        choices: |
+          *The text and metadata such as page number
+          The LLM's answer
+          The API key
+          The PDF file
+        explanation: "That's why the LangChain version needs no separate pickle file."
+      - text: "A policy PDF was updated. What's the safest way to update the vector DB?"
+        choices: |
+          *Delete all chunks of that file, then insert the new version's chunks
+          Insert the new chunks only
+          Delete the whole database every day
+          Nothing; embeddings update themselves
+        explanation: "Inserting only would leave old (now wrong) chunks behind, especially if the new version is shorter."
+      - text: "A RAG answer is wrong. What should you check first?"
+        choices: |
+          *The retrieved chunks
+          The temperature
+          The font of the PDF
+          The model's name
+        explanation: "Most bad RAG answers come from bad retrieval. Print the chunks before blaming the LLM."
+
+decks:
+  - title: "Session 6 · Flashcards"
+    cards:
+      - front: "Ingest"
+        back: "PDF → clean → chunks → embeddings → vector DB. Runs once or on change."
+      - front: "Ask"
+        back: "Question → embedding → top-k chunks → prompt → LLM → answer. Runs every time."
+      - front: "FAISS"
+        back: "A fast vector index library from Meta. Stores only vectors; you keep the texts."
+      - front: "IndexFlatL2"
+        back: "Exact nearest-neighbour search by Euclidean distance."
+      - front: "k (top-k)"
+        back: "How many chunks to retrieve. 3–5 is a common start."
+      - front: "Augmentation"
+        back: "Putting the retrieved chunks into the prompt."
+      - front: "Stable chunk ids"
+        back: "e.g. 'file:page:n': lets you upsert and delete a document's chunks safely."
+      - front: "Document update"
+        back: "Delete the file's old chunks, then add the new ones."
+      - front: "Source citation"
+        back: "Show page numbers from chunk metadata so users can check the answer."

@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s15-memory-t s15-memory-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s15-memory-t">Short-term vs long-term memory</title>
+<desc id="s15-memory-d">A checkpointer keeps each conversation (thread_id) separately: short-term memory. A Store is shared by all threads and organised by user: long-term memory the agent reads and writes with tools.</desc>
+<defs><marker id="s15-memory-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s15-memory-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s15-memory-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s15-memory-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="400" height="210" rx="14" class="blue"/>
+<text x="220" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">Checkpointer · per thread_id</text>
+<rect x="35" y="60" width="370" height="64" rx="10" class="box"/>
+<text x="220.0" y="82.0" text-anchor="middle" dominant-baseline="middle">thread user-1</text>
+<text x="220.0" y="102.0" text-anchor="middle" dominant-baseline="middle" class="small">Hi, I&#x27;m Jafer… / Where am I from?</text>
+<rect x="35" y="140" width="370" height="64" rx="10" class="box"/>
+<text x="220.0" y="162.0" text-anchor="middle" dominant-baseline="middle">thread user-2</text>
+<text x="220.0" y="182.0" text-anchor="middle" dominant-baseline="middle" class="small">fresh, empty</text>
+<rect x="450" y="20" width="250" height="210" rx="14" class="green"/>
+<text x="575" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">Store · across threads</text>
+<rect x="465" y="60" width="220" height="64" rx="10" class="box"/>
+<text x="575.0" y="82.0" text-anchor="middle" dominant-baseline="middle">(&quot;memories&quot;, &quot;Jafer&quot;)</text>
+<text x="575.0" y="102.0" text-anchor="middle" dominant-baseline="middle" class="small">likes chess, badminton…</text>
+<rect x="465" y="140" width="220" height="64" rx="10" class="box"/>
+<text x="575.0" y="162.0" text-anchor="middle" dominant-baseline="middle">(&quot;memories&quot;, &quot;priya&quot;)</text>
+<text x="575.0" y="182.0" text-anchor="middle" dominant-baseline="middle" class="small">nothing yet</text>
+<path d="M405,92 L463,92" class="arrow green dashed" marker-end="url(#s15-memory-h-green)"/>
+<text x="434" y="78" text-anchor="middle" dominant-baseline="middle" class="small">save_memory</text>
+</svg>
+<figcaption>A checkpointer keeps each conversation (thread_id) separately: short-term memory. A Store is shared by all threads and organised by user: long-term memory the agent reads and writes with tools.</figcaption>
+</figure>

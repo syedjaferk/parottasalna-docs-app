@@ -55,6 +55,10 @@ A typical run:
 FINAL ANSWER: 89
 ```
 
+```{raw} html
+:file: ../diagrams/s16-tool-loop.html
+```
+
 Compare with ReAct in [Session 2](02-reasoning-prompts.md): the same idea, but the tool call is
 structured data instead of text we had to parse.
 
@@ -164,6 +168,10 @@ python mcp_client.py
 Asked to *"Add 21 and 21, then reverse the word 'parottasalna'"*, the agent calls `add` → 42 and
 `reverse_text` → `anlasattorap`.
 
+```{raw} html
+:file: ../diagrams/s16-mcp.html
+```
+
 **Why MCP?** Without it, every app writes its own wrapper for every tool. With it, one GitHub MCP
 server, one Postgres MCP server, one Slack MCP server… work in any MCP-aware app.
 
@@ -177,17 +185,131 @@ server, one Postgres MCP server, one Slack MCP server… work in any MCP-aware a
   database users, allow-lists, limits.
 - **Forgetting `await`** with MCP tools: they're async (`await agent.ainvoke(...)`).
 
-## Try it yourself
+## Hands-on exercises
 
-1. In `1_function_calling.py`, add a `divide(a, b)` tool that returns an error message for
-   `b == 0`. Ask *"What is 10 divided by 0?"*
-2. Add a `get_forecast(latitude, longitude, days)` tool to `3_external_api_tools.py` (Open-Meteo's
-   `daily=temperature_2m_max` parameter).
-3. The SQL guard rejects `WITH … SELECT` queries (CTEs), which are read-only too. Change the check
-   to allow them, but still block `INSERT`, `UPDATE`, `DELETE` and `DROP`.
-4. Add a third tool to `mcp_server.py`, `word_count(text)`, and check the client discovers it.
-5. Turn `4_database_tools.py`'s two tools into an MCP server, so any MCP app can query the shop
-   database.
+Try each one before opening the solution.
+
+**Exercise 1 · Safe division.** Add `divide(a, b)` to `1_function_calling.py` and ask *"What is 10
+divided by 0?"*
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+@tool
+def divide(a: float, b: float) -> str:
+    """Divide a by b."""
+    if b == 0:
+        return "Error: cannot divide by zero."
+    return str(a / b)
+
+tools = [add, multiply, divide]
+```
+
+The model receives the error as the tool result and explains it, instead of the program crashing.
+
+</details>
+
+**Exercise 2 · A forecast tool.** Add `get_forecast(latitude, longitude, days)` to
+`3_external_api_tools.py`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+@tool
+def get_forecast(latitude: float, longitude: float, days: int = 3) -> str:
+    """Daily max/min temperature (C) for the next 1-7 days at the given coordinates."""
+    try:
+        r = requests.get(WEATHER_URL, params={
+            "latitude": latitude, "longitude": longitude, "forecast_days": max(1, min(days, 7)),
+            "daily": "temperature_2m_max,temperature_2m_min", "timezone": "auto",
+        }, timeout=10)
+        r.raise_for_status()
+        daily = r.json()["daily"]
+        return "\n".join(f"{d}: {lo}–{hi} C" for d, lo, hi in
+                         zip(daily["time"], daily["temperature_2m_min"], daily["temperature_2m_max"]))
+    except requests.RequestException as e:
+        return f"Forecast API error: {e}"
+```
+
+Ask *"Will it be hot in Chennai this weekend?"*.
+
+</details>
+
+**Exercise 3 · Allow CTEs, still block writes.** The SQL guard rejects `WITH … SELECT`. Allow it
+safely.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+FORBIDDEN = re.compile(r"\b(insert|update|delete|drop|alter|create|replace|attach|pragma)\b", re.I)
+
+q = query.strip().rstrip(";")
+if ";" in q or not re.match(r"(?is)^\s*(select|with)\b", q) or FORBIDDEN.search(q):
+    return "Error: only a single read-only SELECT query is allowed."
+```
+
+The read-only connection is still the real protection; the check just gives the agent a clear
+message.
+
+</details>
+
+**Exercise 4 · A third MCP tool.** Add `word_count(text)` to `mcp_server.py`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+@mcp.tool()
+def word_count(text: str) -> int:
+    """Count the words in a text."""
+    return len(text.split())
+```
+
+Run `python mcp_client.py`: `Discovered:` now lists three tools, without any change to the client.
+
+</details>
+
+**Exercise 5 · The shop database over MCP.** Turn `list_tables` and `run_sql_query` into an MCP server.
+
+<details class="solution"><summary>Solution outline</summary>
+
+```python
+# shop_mcp.py
+from mcp.server.fastmcp import FastMCP
+from importlib import import_module
+
+db_tools = import_module("4_database_tools")   # reuse the guarded functions
+mcp = FastMCP("shop")
+
+@mcp.tool()
+def list_tables() -> str:
+    """List all tables with their columns. Call this first."""
+    return db_tools.list_tables.invoke({})
+
+@mcp.tool()
+def run_sql_query(query: str) -> str:
+    """Run one read-only SELECT query and return up to 50 rows."""
+    return db_tools.run_sql_query.invoke({"query": query})
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")
+```
+
+Point `mcp_client.py` at `shop_mcp.py` and ask *"Which city has the most customers?"*. Note: importing
+`4_database_tools` also builds its agent, so it needs `GROQ_API_KEY`; moving the tools into their own
+module is cleaner.
+
+</details>
+
+**Exercise 6 · Let the agent pick.** Give one agent all the tools from this session (maths, discount,
+weather, database) and ask a question that needs three of them.
+
+<details class="solution"><summary>What to notice</summary>
+
+With clear names and docstrings the agent picks the right tools in a sensible order. Watch the trace
+(`m.pretty_print()`): if it picks wrongly, improve the **descriptions** before changing anything
+else. With many tools, group them into separate agents or MCP servers.
+
+</details>
 
 ## Full source
 

@@ -1,0 +1,84 @@
+chapter: sessions/13-async-python
+
+quizzes:
+  - title: "Session 13 · Quiz"
+    description: "async/await, gather, async HTTP and async FastAPI."
+    questions:
+      - text: "Three tasks each await asyncio.sleep(2), awaited one after another. Total time?"
+        choices: |
+          *About 6 seconds
+          About 2 seconds
+          About 3 seconds
+          0 seconds
+        explanation: "Awaiting in sequence waits for each before starting the next."
+      - text: "The same three tasks inside asyncio.gather(...). Total time?"
+        choices: |
+          *About 2 seconds
+          About 6 seconds
+          About 4 seconds
+          About 1 second
+        explanation: "gather starts them together; the total is the longest task."
+      - text: "What does calling an async def function (without await) return?"
+        choices: |
+          *A coroutine object; nothing runs yet
+          The result
+          None
+          A thread
+        explanation: "You must await it (or schedule it) for it to run."
+      - text: "Which call blocks the whole event loop inside async code?"
+        choices: |
+          *time.sleep(3)
+          await asyncio.sleep(3)
+          await client.get(url) with httpx.AsyncClient
+          await llm.ainvoke(q)
+        explanation: "Blocking calls stop every coroutine. Use async libraries or asyncio.to_thread."
+      - text: "In what order does gather return results?"
+        choices: |
+          *The order the awaitables were passed in
+          The order they finished
+          Random order
+          Alphabetical order
+        explanation: "user, orders, products = await gather(get_user(), get_orders(), get_products()) is always in that order."
+      - text: "Which LangChain method is the async version of invoke?"
+        choices: |
+          *ainvoke
+          invoke_async
+          await_invoke
+          async_invoke
+        explanation: "Also astream and abatch."
+      - text: "How can you limit how many LLM calls run at the same time?"
+        choices: |
+          *asyncio.Semaphore
+          asyncio.sleep
+          time.sleep
+          A bigger temperature
+        explanation: "async with semaphore: … lets only N coroutines in at once, which keeps you under rate limits."
+      - text: "Where should you NOT call asyncio.run()?"
+        choices: |
+          *Inside code already running in an event loop, such as FastAPI handlers or Jupyter
+          In a script's main block
+          In a command-line tool
+          In a test helper
+        explanation: "There, just await."
+
+decks:
+  - title: "Session 13 · Flashcards"
+    cards:
+      - front: "async def"
+        back: "Defines a coroutine function that can pause at await."
+      - front: "await"
+        back: "Run this awaitable; while it waits, other tasks may run."
+      - front: "Event loop"
+        back: "The scheduler that runs coroutines. asyncio.run() starts one."
+      - front: "asyncio.gather"
+        back: "Run awaitables concurrently and collect their results in order."
+      - front: "Blocking call"
+        back: "A call that holds the thread (time.sleep, requests.get): freezes all async tasks."
+      - front: "httpx.AsyncClient"
+        back: "Async HTTP client. requests is blocking."
+      - front: "ainvoke / astream"
+        back: "Async versions of LangChain's invoke / stream."
+      - front: "asyncio.Semaphore"
+        back: "Limits how many tasks run a section at once."
+      - front: "asyncio.wait_for"
+        back: "Adds a timeout to an awaitable."

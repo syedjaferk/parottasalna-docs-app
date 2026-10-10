@@ -1,0 +1,40 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 240" role="img" aria-labelledby="s11-parent-t s11-parent-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-parent-t">Parent document retriever</title>
+<desc id="s11-parent-d">Small child chunks are embedded and searched, so matches are precise. Each child remembers its parent, and the retriever returns the big parent, so the LLM gets the full context.</desc>
+<defs><marker id="s11-parent-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-parent-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-parent-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-parent-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="230" height="90" rx="10" class="amber"/>
+<text x="135" y="48" text-anchor="middle" dominant-baseline="middle" class="bold">parent 1 (3,000 chars)</text>
+<rect x="30" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="54.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c1</text>
+<rect x="85" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="109.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c2</text>
+<rect x="140" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="164.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c3</text>
+<rect x="195" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="219.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c4</text>
+<rect x="270" y="30" width="230" height="90" rx="10" class="amber"/>
+<text x="385" y="48" text-anchor="middle" dominant-baseline="middle" class="bold">parent 2 (3,000 chars)</text>
+<rect x="280" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="304.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c1</text>
+<rect x="335" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="359.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c2</text>
+<rect x="390" y="70" width="48" height="36" rx="6" class="green"/>
+<text x="414.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c3</text>
+<rect x="445" y="70" width="48" height="36" rx="6" class="blue"/>
+<text x="469.0" y="88.0" text-anchor="middle" dominant-baseline="middle" class="small">c4</text>
+<text x="140" y="140" text-anchor="middle" dominant-baseline="middle" class="small">children (300 chars) → vectors in Chroma</text>
+<text x="390" y="140" text-anchor="middle" dominant-baseline="middle" class="small">parents → docstore (no vectors)</text>
+<rect x="540" y="30" width="160" height="60" rx="10" class="box"/>
+<text x="620.0" y="50.0" text-anchor="middle" dominant-baseline="middle">question</text>
+<text x="620.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">“list comprehension”</text>
+<path d="M540,60 L461,88" class="arrow green" marker-end="url(#s11-parent-h-green)"/>
+<text x="560" y="110" text-anchor="middle" dominant-baseline="middle" class="small">matches child c3</text>
+<path d="M385,120 L385,175 L520,195" class="arrow green" marker-end="url(#s11-parent-h-green)"/>
+<text x="450" y="170" text-anchor="middle" dominant-baseline="middle" class="small">return its parent</text>
+<rect x="520" y="170" width="180" height="50" rx="10" class="green"/>
+<text x="610.0" y="185.0" text-anchor="middle" dominant-baseline="middle">LLM</text>
+<text x="610.0" y="205.0" text-anchor="middle" dominant-baseline="middle" class="small">gets the whole parent</text>
+</svg>
+<figcaption>Small child chunks are embedded and searched, so matches are precise. Each child remembers its parent, and the retriever returns the big parent, so the LLM gets the full context.</figcaption>
+</figure>

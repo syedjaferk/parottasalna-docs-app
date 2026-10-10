@@ -1,0 +1,86 @@
+chapter: sessions/15-agent-memory
+
+quizzes:
+  - title: "Session 15 · Quiz"
+    description: "Checkpointers, window/token/summary memory, and long-term Stores."
+    questions:
+      - text: "How does an LLM 'remember' earlier messages?"
+        choices: |
+          *Your code sends them again with every call
+          The model stores them on the server
+          It learns them permanently
+          Through temperature
+        explanation: "LLMs are stateless; memory is what you put back in the prompt."
+      - text: "What does a checkpointer do in a LangChain/LangGraph agent?"
+        choices: |
+          *Saves each thread's messages, keyed by thread_id
+          Saves facts across all threads
+          Validates tool arguments
+          Streams tokens
+        explanation: "Same thread_id = same conversation. A new id starts empty."
+      - text: "Window memory in class keeps…"
+        choices: |
+          *The first message plus the last 4
+          Everything
+          Only the last message
+          A summary
+        explanation: "Implemented in a @before_model middleware with RemoveMessage(id=REMOVE_ALL_MESSAGES)."
+      - text: "Why trim by tokens instead of message count?"
+        choices: |
+          *Context limits and cost are measured in tokens
+          Tokens are easier to count
+          Message count is not allowed
+          It makes answers longer
+        explanation: "One long message can use more tokens than ten short ones."
+      - text: "What does SummarizationMiddleware do once history passes the trigger?"
+        choices: |
+          *Replaces older messages with an LLM summary and keeps recent ones word for word
+          Deletes all history
+          Doubles the context window
+          Saves history to SQLite
+        explanation: "Facts survive in compressed form."
+      - text: "How is a Store different from a checkpointer?"
+        choices: |
+          *A Store is shared across threads (long-term), organised by namespace
+          A Store is per thread
+          A Store holds only tool results
+          They are the same
+        explanation: "e.g. namespace ('memories', user_id): one 'folder' per user."
+      - text: "What does adding index={'embed': ..., 'dims': 384} to InMemoryStore enable?"
+        choices: |
+          *Searching memories by meaning
+          Encryption
+          Persistence to disk
+          Faster checkpoints
+        explanation: "Semantic memory: 'snack ideas for my trek' finds 'allergic to peanuts'."
+      - text: "Which is a problem with InMemorySaver in production?"
+        choices: |
+          *Everything is lost when the process restarts
+          It's too slow
+          It can't store messages
+          It needs Redis
+        explanation: "Use SqliteSaver/PostgresSaver (and a Postgres store) for real apps."
+
+decks:
+  - title: "Session 15 · Flashcards"
+    cards:
+      - front: "Stateless LLM"
+        back: "The model remembers nothing between calls; memory = what you resend."
+      - front: "Checkpointer"
+        back: "Saves an agent's state per thread_id (InMemorySaver, SqliteSaver…)."
+      - front: "thread_id"
+        back: "Identifies one conversation in the checkpointer."
+      - front: "Window memory"
+        back: "Keep the first + last N messages."
+      - front: "Token memory"
+        back: "Keep the newest messages that fit a token budget (trim_messages)."
+      - front: "Summary memory"
+        back: "Replace old messages with an LLM summary; keep recent ones verbatim."
+      - front: "Store"
+        back: "Long-term key-value memory shared across threads, organised by namespace."
+      - front: "Namespace"
+        back: "A tuple like ('memories', user_id): a folder per user in the Store."
+      - front: "Semantic memory"
+        back: "A Store with an embedding index: search memories by meaning."
+      - front: "@before_model"
+        back: "Middleware hook that runs before every model call, e.g. to trim history."

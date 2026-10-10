@@ -12,6 +12,10 @@ Two problems sit on either side of retrieval:
 **Everyday example:** a librarian first asks what you *really* mean ("deploy… your FastAPI app?"),
 looks in a few sections, and then hands you just the relevant pages, not the whole shelf.
 
+```{raw} html
+:file: ../diagrams/s10-query.html
+```
+
 ## Query transformation and expansion
 
 `query_transformation.py` does three LLM calls.
@@ -138,16 +142,94 @@ was really compressed. The scripts here split on sentence endings (`. ! ?`) inst
 - **Answering the rewritten question instead of the user's.** Search with the rewrite, but answer
   the user's own words (the class code does this correctly).
 
-## Try it yourself
+## Hands-on exercises
 
-1. Change `history` and `user_query` in `query_transformation.py` to a two-turn chat about Redis.
-   Does the rewrite pick up the subject?
-2. Print how many documents each expanded query found and how many were unique overall.
-3. In `embedding_compression.py`, change `TOP_SENTENCES` to 3. Is the answer still complete?
-4. Compare the length (characters) of the original and compressed context for the same question
-   with all three methods.
-5. Add a minimum score to `embedding_compression.py`: drop sentences below 0.3 even if they're in
-   the top 10.
+Try each one before opening the solution.
+
+**Exercise 1 · Rewrite with history.** Change `history` and `user_query` to a two-turn chat about
+Redis ending with *"Is it persistent?"*
+
+<details class="solution"><summary>What to notice</summary>
+
+The rewrite should become something like *"Is Redis data persistent (RDB, AOF)?"*. Without the
+history, "it" can't be resolved and retrieval searches for nothing useful.
+
+</details>
+
+**Exercise 2 · What did expansion add?** Print how many documents each expanded query found, and how
+many were unique overall.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+seen = {}
+for query in expanded_queries:
+    result = collection.query(query_embeddings=[embedding_model.encode(query).tolist()], n_results=3)
+    new = [d for d in result["documents"][0] if d not in seen]
+    for d in result["documents"][0]:
+        seen[d] = True
+    print(f"{len(new)} new  ← {query}")
+print(len(seen), "unique documents")
+```
+
+</details>
+
+**Exercise 3 · How much is enough?** Set `TOP_SENTENCES = 3` in `embedding_compression.py`. Is the
+answer still complete?
+
+<details class="solution"><summary>What to notice</summary>
+
+For "what is X" questions, 3 sentences are often enough. For "how do I…" questions with several
+steps, important steps get dropped. Compression saves tokens but can cut the answer, so measure with
+real questions.
+
+</details>
+
+**Exercise 4 · Measure the savings.** Print the original and compressed context length for the same
+question with all three methods.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+print(f"original  : {len(context):6} chars")
+print(f"compressed: {len(compressed_text):6} chars  ({100 * len(compressed_text) / len(context):.0f} %)")
+```
+
+Use `"\n".join(compressed)` for the keyword list and `compressed.content` for the LLM version.
+Typical results: keyword and embedding keep 10–40 %; LLM compression varies the most.
+
+</details>
+
+**Exercise 5 · A minimum score.** In `embedding_compression.py`, drop sentences scoring below 0.3,
+even inside the top 10.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+MIN_SCORE = 0.3
+kept = [(s, score) for s, score in ranked[:TOP_SENTENCES] if score >= MIN_SCORE]
+```
+
+If `kept` is empty, retrieval found nothing relevant: say so instead of calling the LLM.
+
+</details>
+
+**Exercise 6 · Rewrite, then retrieve.** Add query rewriting to the conversational app from Session
+12 so follow-up questions retrieve the right chunks.
+
+<details class="solution"><summary>Solution outline</summary>
+
+```python
+history = format_history()
+standalone = llm.invoke(
+    f"Conversation:\n{history}\nRewrite this as a standalone search query: {question}\n"
+    "Return only the query."
+).content.strip()
+docs = retriever.invoke(standalone)      # search with the rewrite …
+# … but answer the user's original question with the history in the prompt
+```
+
+</details>
 
 ## Full source
 

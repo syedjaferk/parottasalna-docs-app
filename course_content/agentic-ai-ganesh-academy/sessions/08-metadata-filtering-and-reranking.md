@@ -80,6 +80,10 @@ cross-encoder to pick the winners.
 question ─► vector search (fast) ─► top 15 ─► cross-encoder (accurate) ─► top 4 ─► LLM
 ```
 
+```{raw} html
+:file: ../diagrams/s08-rerank.html
+```
+
 From `rerank.py`:
 
 ```python
@@ -130,15 +134,92 @@ question through unchanged. The `|` pipes each step's output into the next.
 - **Reranking on every keystroke.** A cross-encoder is slow on CPU. Rerank once, on the final
   query.
 
-## Try it yourself
+## Hands-on exercises
 
-1. In `metadata_filtering.py`, search *"what is a container?"* with no filter, then with category
-   *Database*. What comes back?
-2. Find all **Advanced** chunks from **2024 or later** (`$and` with `$gte`).
-3. In `rerank.py`, print the vector rank and the reranked rank side by side for each document.
-4. In `pdf-chatbot/app.py`, change retrieval to `k=5`, rerank to `top_k=4`. Ask the same 3
-   questions as with `k=15`. Any difference?
-5. Try the smaller reranker `cross-encoder/ms-marco-MiniLM-L-6-v2`. Is it faster? Same order?
+Try each one before opening the solution.
+
+**Exercise 1 · Filters beat similarity.** Search *"what is a container?"* with no filter, then with
+category *Database*.
+
+<details class="solution"><summary>What to notice</summary>
+
+Without a filter, Docker and Kubernetes sentences win. With `{"category": "Database"}` only database
+sentences can come back, even though none is really about containers. The filter is applied
+**before** similarity, so it can force poor matches: use filters for hard rules (department, user,
+date), not for topic guessing.
+
+</details>
+
+**Exercise 2 · Combine conditions.** Find all **Advanced** chunks from **2024 or later**.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+search("best practices", k=10, metadata_filter={
+    "$and": [{"level": "Advanced"}, {"year": {"$gte": 2024}}]
+})
+```
+
+Expect six: Transactions, Helm, Neural Networks, LLM, RAG and OAuth (with the default `k=5` you'd
+only see five of them).
+
+</details>
+
+**Exercise 3 · Before vs after.** In `rerank.py`, print each document's vector rank next to its
+reranked rank.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+before = {doc: i for i, doc in enumerate(retrieved_documents, start=1)}
+for after, (doc, score) in enumerate(reranked_results, start=1):
+    print(f"{before[doc]} → {after}   {score:7.3f}   {doc[:60]}")
+```
+
+</details>
+
+**Exercise 4 · Shortlist size.** In `pdf-chatbot/app.py`, retrieve `k=5` instead of 15 (still keeping
+4). Ask the same three questions.
+
+<details class="solution"><summary>What to notice</summary>
+
+With 5 candidates the reranker has almost nothing to choose from, so it barely changes the result.
+Reranking pays off when the shortlist is clearly bigger than what you keep: 15–25 → 3–5 is typical.
+
+</details>
+
+**Exercise 5 · A smaller reranker.** Try `cross-encoder/ms-marco-MiniLM-L-6-v2`. Faster? Same order?
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+import time
+for name in ["BAAI/bge-reranker-base", "cross-encoder/ms-marco-MiniLM-L-6-v2"]:
+    model = CrossEncoder(name)
+    start = time.perf_counter()
+    scores = model.predict(pairs)
+    print(name, f"{time.perf_counter() - start:.2f}s", scores.argsort()[::-1])
+```
+
+The MiniLM model is several times smaller and faster on CPU; the top result is usually the same, with
+small differences lower down. Its scores are on a different scale, so don't reuse thresholds.
+
+</details>
+
+**Exercise 6 · Filter by user.** Add a `"user": "arun"` or `"user": "priya"` field to some
+documents and make search only return the current user's documents.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def search_for_user(user, query, k=5):
+    return db.similarity_search(query, k=k, filter={"user": user})
+```
+
+This is how multi-user RAG keeps people's private documents apart. Always add the user filter on the
+**server**, never trust the client to send it.
+
+</details>
 
 ## Full source
 

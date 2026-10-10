@@ -1,0 +1,84 @@
+chapter: sessions/02-reasoning-prompts
+
+quizzes:
+  - title: "Session 2 · Quiz"
+    description: "Chain of thought, self-consistency, tree of thought, ReAct and prompt frameworks."
+    questions:
+      - text: "What does chain-of-thought prompting ask the model to do?"
+        choices: |
+          *Show its reasoning step by step before the final answer
+          Answer in one word
+          Call a tool
+          Generate several answers and vote
+        explanation: "CoT ('think step by step', usually with a worked example) reduces mistakes on multi-step problems and lets you see where reasoning went wrong."
+      - text: "How does self-consistency pick the final answer?"
+        choices: |
+          *It samples several reasoning paths and takes the most common final answer
+          It trusts the first answer
+          It asks a second model to grade the first
+          It always picks the longest answer
+        explanation: "Several samples at temperature ~0.7, extract each final number, majority vote with Counter."
+      - text: "Why is self-consistency pointless at temperature 0?"
+        choices: |
+          *Every sample is (almost) the same, so the vote tells you nothing
+          Temperature 0 is not allowed
+          The model refuses to answer
+          It makes the answers longer
+        explanation: "The value comes from diverse reasoning paths. At temperature 0 you pay N times for one answer."
+      - text: "What are the three steps of the tree-of-thought demo?"
+        choices: |
+          *Propose several approaches, evaluate them, then solve with the best
+          Retrieve, augment, generate
+          Think, act, observe
+          Embed, store, search
+        explanation: "ToT explores options, judges them, and follows the most promising branch: good for problems with several possible paths."
+      - text: "In ReAct, who actually runs the tool (e.g. get_weather)?"
+        choices: |
+          *Your code, after reading the Action line
+          The LLM itself
+          Groq's servers
+          The browser
+        explanation: "The model only writes 'Action: get_weather[Chennai]'. Your loop parses it, runs the real function, and sends back 'Observation: …'."
+      - text: "Why does the ReAct loop in class stop after 3 rounds?"
+        choices: |
+          *To prevent an endless loop if the model never writes a Final Answer
+          Groq only allows 3 calls
+          Python loops are limited to 3
+          Three is required by the ReAct paper
+        explanation: "Always cap agent loops. A confused model can keep acting forever and burn tokens."
+      - text: "Which framework is Role, Input, Constraints, Expectations?"
+        choices: |
+          *RICE
+          CRISP
+          ReAct
+          CoT
+        explanation: "RICE suits technical tasks with limits (e.g. 'keep PostgreSQL 14'). CRISP = Context, Role, Instruction, Style, Purpose."
+      - text: "The model writes 'Observation: 30°C' itself, without calling any tool. What's the risk?"
+        choices: |
+          *It invented the result: a hallucinated observation
+          None, that's how ReAct works
+          It will crash Python
+          It doubles the temperature
+        explanation: "Observations must come from your code. Stop the model after 'Action:' or use structured tool calling (Session 16)."
+
+decks:
+  - title: "Session 2 · Flashcards"
+    cards:
+      - front: "Chain of thought (CoT)"
+        back: "Ask for step-by-step reasoning (often with a worked example) before the final answer."
+      - front: "Self-consistency"
+        back: "Sample several reasoning paths (temperature > 0), extract each answer, take the majority."
+      - front: "Tree of thought (ToT)"
+        back: "Propose several approaches → evaluate them → continue with the best one."
+      - front: "ReAct"
+        back: "Thought → Action (tool call) → Observation, repeated until a Final Answer."
+      - front: "Observation"
+        back: "The real result of a tool, sent back to the model by your code."
+      - front: "CRISP"
+        back: "Context, Role, Instruction, Style, Purpose: a template for writing tasks."
+      - front: "RICE"
+        back: "Role, Input, Constraints, Expectations: a template for technical tasks with limits."
+      - front: "When NOT to use CoT"
+        back: "Simple lookups or formatting tasks: it only adds length, time and cost."
+      - front: "Loop cap"
+        back: "A maximum number of rounds for any agent loop, so it can't run forever."

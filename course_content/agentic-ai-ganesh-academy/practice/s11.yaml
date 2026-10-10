@@ -1,0 +1,75 @@
+chapter: sessions/11-advanced-retrievers
+
+quizzes:
+  - title: "Session 11 · Quiz"
+    description: "Parent document, multi-vector and multi-hop retrieval."
+    questions:
+      - text: "In a parent document retriever, what is embedded and searched?"
+        choices: |
+          *Small child chunks
+          The full parent chunks
+          Only the page titles
+          LLM summaries
+        explanation: "Small children match precisely; the retriever then returns their bigger parents."
+      - text: "What does the parent document retriever return to the LLM?"
+        choices: |
+          *The parent chunk that contains the matching child
+          Only the child
+          The whole PDF
+          The embedding
+        explanation: "So the LLM gets complete context around the precise match."
+      - text: "Where are the parents stored in the class demo?"
+        choices: |
+          *In an InMemoryStore docstore, lost when the script stops
+          In Chroma with vectors
+          In Redis
+          In the PDF
+        explanation: "The child vectors persist in ./vectorstore, but the parents don't. Use a persistent docstore in real apps."
+      - text: "Which package provides ParentDocumentRetriever in LangChain 1.x?"
+        choices: |
+          *langchain-classic
+          langchain-core
+          langchain-chroma
+          langgraph
+        explanation: "from langchain_classic.retrievers import ParentDocumentRetriever. The old langchain.retrievers path is gone."
+      - text: "What does the multi-vector retriever index for each chunk?"
+        choices: |
+          *Generated summaries, keywords and likely questions, all linked by doc_id
+          Only the raw text
+          Only the page number
+          The chunk translated into English
+        explanation: "Search hits a representation; the shared doc_id leads back to the original chunk."
+      - text: "What is the main cost of the multi-vector approach?"
+        choices: |
+          *Several LLM calls per chunk at ingest time
+          Slower search
+          It needs a GPU
+          Bigger PDFs
+        explanation: "3 calls per chunk (summary, keywords, questions): fine for small, valuable document sets."
+      - text: "Why does 'How does S3 reduce storage cost?' need multi-hop retrieval?"
+        choices: |
+          *The cost facts are about Glacier, which only the first hop's result mentions
+          S3 isn't in the data
+          The chunks are too large
+          Embeddings can't handle questions
+        explanation: "Hop 1 finds 'lifecycle → Glacier'; hop 2 searches Glacier to find the cost facts."
+
+decks:
+  - title: "Session 11 · Flashcards"
+    cards:
+      - front: "Parent document retriever"
+        back: "Search small children, return their big parents: precise and complete."
+      - front: "Child chunk"
+        back: "Small chunk (~300 chars) that is embedded and searched."
+      - front: "Parent chunk"
+        back: "Big chunk (~3,000 chars) returned to the LLM, kept in a docstore."
+      - front: "Docstore"
+        back: "Key-value store holding parents (InMemoryStore, LocalFileStore, Redis…)."
+      - front: "Multi-vector retriever"
+        back: "Index summaries/keywords/questions per chunk; return the original chunk."
+      - front: "doc_id"
+        back: "The metadata key linking a child or representation back to its parent document."
+      - front: "Multi-hop retrieval"
+        back: "Use the first search's result to write a second search; answer from both."
+      - front: "langchain-classic"
+        back: "Package that now holds the older retrievers and stores in LangChain 1.x."

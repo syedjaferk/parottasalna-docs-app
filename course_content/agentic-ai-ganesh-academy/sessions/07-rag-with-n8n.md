@@ -49,6 +49,10 @@ ASK
                                             └─ 2A. Embeddings Ollama
 ```
 
+```{raw} html
+:file: ../diagrams/s07-n8n.html
+```
+
 The **AI Agent** node's prompt:
 
 ```text
@@ -98,15 +102,60 @@ Many teams prototype in n8n, then move the core to code.
 - **Running without the volume.** With `--rm` and no `-v n8n_data:…`, everything is lost when the
   container stops.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Import the workflow, connect your credentials and upload a small PDF. Check in Pinecone that
-   vectors arrived.
-2. Replace the "Edit Fields" node with a **Chat Trigger** so you can ask questions in n8n's chat
-   window.
-3. Change topK from 5 to 2. Do the answers get better or worse?
-4. Swap Pinecone for the **Simple Vector Store** (in-memory) node. What do you lose when n8n
-   restarts?
+Try each one before opening the solution.
+
+**Exercise 1 · Import and connect.** Import the workflow, add your credentials and upload a small
+PDF.
+
+<details class="solution"><summary>Check</summary>
+
+In Pinecone, the `js-book` index's record count goes up after the upload. If the insert node fails
+with a dimension error, the index dimension doesn't match the embedding model (768 for
+`nomic-embed-text`).
+
+</details>
+
+**Exercise 2 · Chat with it.** Replace the "Edit Fields" node with a **Chat Trigger** so you can ask
+questions in n8n's chat panel.
+
+<details class="solution"><summary>Solution</summary>
+
+Add **When chat message received**, connect it to the AI Agent, and change the agent's prompt from
+`{{ $json.query }}` to `{{ $json.chatInput }}` (the chat trigger's field name). Open **Chat** at the
+bottom of the editor and ask a question.
+
+</details>
+
+**Exercise 3 · topK.** Change the retrieval tool's topK from 5 to 2. Better or worse?
+
+<details class="solution"><summary>What to notice</summary>
+
+Fewer chunks means a shorter, cheaper prompt, but answers that need two sections of the document
+become incomplete. Same trade-off as `k` in Session 6.
+
+</details>
+
+**Exercise 4 · In-memory store.** Swap Pinecone for the **Simple Vector Store** node in both flows.
+
+<details class="solution"><summary>What to notice</summary>
+
+No account or API key needed, which is great for testing. But the vectors live in n8n's memory, so
+they're gone when n8n restarts, and they aren't shared between workflows.
+
+</details>
+
+**Exercise 5 · Fix the Telegram output.** Make the answer arrive in Telegram.
+
+<details class="solution"><summary>Solution</summary>
+
+Add a **Telegram Trigger** node (same bot credential) as the start of the ask flow, connect it to
+the AI Agent, and use `{{ $json.message.text }}` as the query. The existing send node's chat id
+expression `$('1. Telegram Trigger').item.json.message.chat.id` works once the trigger node has
+exactly that name.
+
+</details>
 
 ## Downloads
 

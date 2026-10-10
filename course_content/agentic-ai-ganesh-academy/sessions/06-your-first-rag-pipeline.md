@@ -17,6 +17,10 @@ ASK (every question)
 **Everyday example:** an open-book exam. Ingest is putting sticky notes in the book. Asking is
 flipping to the right notes and writing the answer in your own words.
 
+```{raw} html
+:file: ../diagrams/s06-pipeline.html
+```
+
 We built it twice: once **by hand** with FAISS, so you see every step, and once with **LangChain
 + Chroma**, the way most projects do it.
 
@@ -136,17 +140,110 @@ follow, or the bot keeps quoting old text. The usual pattern:
 - **Judging RAG only by the final answer.** Print the retrieved chunks first. Most bad answers are
   bad retrieval.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Run `faiss/query.py` and ask three questions. Are the 3 chunks relevant? Try `k=1` and `k=8`.
-2. In `langchain/retrieval.py`, also print each chunk's `doc.metadata["page"]`. Add the page
-   numbers to the final answer as sources.
-3. Change `augmentation.py` so it says *"I couldn't find that in the book"* when the answer isn't in
-   the context. Test it with a question about cooking.
-4. Make `ingest.py` safe to run twice: give chunks ids like `f"page{page}-chunk{i}"` and pass
-   `ids=` to `Chroma.from_documents`.
-5. Swap `IndexFlatL2` for `IndexFlatIP` with normalised embeddings (`normalize_embeddings=True` in
-   `encode`). Do the results change?
+Try each one before opening the solution.
+
+**Exercise 1 · Test retrieval first.** Run `faiss/query.py`, ask three questions, and try `k=1` and
+`k=8`.
+
+<details class="solution"><summary>What to notice</summary>
+
+With `k=1` a good answer depends on one lucky chunk. With `k=8` you see more of the topic, but also
+unrelated chunks that would distract an LLM. Most pipelines start at 3–5.
+
+</details>
+
+**Exercise 2 · Show sources.** Print the page number of each chunk, and add the pages to the final
+answer.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def retrieval(query):
+    docs = db.similarity_search(query, k=3)
+    pages = sorted({d.metadata.get("page", 0) + 1 for d in docs})   # PyPDFLoader counts from 0
+    context = "\n".join(d.page_content for d in docs)
+    return context, pages
+
+context, pages = retrieval(user_query)
+...
+print(response)
+print("Sources: pages", ", ".join(map(str, pages)))
+```
+
+</details>
+
+**Exercise 3 · An honest bot.** Make `augmentation.py` reply *"I couldn't find that in the book"*
+for off-topic questions.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+PROMPT = """
+You are a Python Expert.
+Use ONLY the context. If the context does not contain the answer, reply exactly:
+I couldn't find that in the book.
+
+Context:
+{context}
+
+Question:
+{query}
+"""
+```
+
+Test with *"How do I make dosa?"*.
+
+</details>
+
+**Exercise 4 · Safe re-runs.** Make `langchain/ingest.py` safe to run twice.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+ids = [f"python.pdf:{c.metadata.get('page')}:{i}" for i, c in enumerate(chunks)]
+db = Chroma.from_documents(chunks, embeddings, ids=ids, persist_directory="./chroma_db")
+```
+
+Same ids on the next run overwrite instead of duplicating. Check with
+`db._collection.count()` before and after.
+
+</details>
+
+**Exercise 5 · Update one document.** Write `reingest(file_name)` that removes a file's old chunks and
+adds the new ones.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def reingest(path):
+    pages = PyPDFLoader(path).load()
+    chunks = splitter.split_documents(pages)       # metadata["source"] == path
+    db.delete(where={"source": path})              # 1. remove every old chunk of this file
+    db.add_documents(chunks)                       # 2. add the new version
+```
+
+Delete first: if the new file is shorter, its old extra chunks would otherwise stay forever.
+
+</details>
+
+**Exercise 6 · L2 vs inner product.** Swap `IndexFlatL2` for `IndexFlatIP` with normalised
+embeddings. Do the results change?
+
+<details class="solution"><summary>Answer</summary>
+
+```python
+embeddings = model.encode(chunks, normalize_embeddings=True)
+index = faiss.IndexFlatIP(embeddings.shape[1])
+...
+query_embedding = model.encode([query], normalize_embeddings=True)
+```
+
+The ranking is the same. For unit-length vectors, a smaller L2 distance and a larger dot product
+(= cosine similarity) mean the same thing. Only the scores change: higher is now better.
+
+</details>
 
 ## Full source
 

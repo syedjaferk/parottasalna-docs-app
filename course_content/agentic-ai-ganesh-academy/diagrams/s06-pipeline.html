@@ -1,0 +1,42 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s06-pipeline-t s06-pipeline-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s06-pipeline-t">The two halves of RAG</title>
+<desc id="s06-pipeline-d">Ingest runs once (or when documents change) and fills the vector database. Ask runs for every question: retrieve chunks, put them in the prompt, generate the answer.</desc>
+<defs><marker id="s06-pipeline-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s06-pipeline-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s06-pipeline-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s06-pipeline-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="20" y="25" text-anchor="start" dominant-baseline="middle" class="bold">INGEST</text>
+<rect x="20" y="40" width="105" height="44" rx="10" class="box"/>
+<text x="72.5" y="62.0" text-anchor="middle" dominant-baseline="middle" class="small">PDF</text>
+<rect x="145" y="40" width="105" height="44" rx="10" class="box"/>
+<text x="197.5" y="62.0" text-anchor="middle" dominant-baseline="middle" class="small">clean</text>
+<path d="M125,62 L143,62" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="270" y="40" width="105" height="44" rx="10" class="box"/>
+<text x="322.5" y="62.0" text-anchor="middle" dominant-baseline="middle" class="small">chunks</text>
+<path d="M250,62 L268,62" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="395" y="40" width="105" height="44" rx="10" class="blue"/>
+<text x="447.5" y="62.0" text-anchor="middle" dominant-baseline="middle" class="small">embeddings</text>
+<path d="M375,62 L393,62" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<path d="M505,62 L548,62" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="550" y="30" width="150" height="64" rx="10" class="green"/>
+<text x="625.0" y="52.0" text-anchor="middle" dominant-baseline="middle">Vector DB</text>
+<text x="625.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="small">Chroma / FAISS</text>
+<text x="20" y="135" text-anchor="start" dominant-baseline="middle" class="bold">ASK</text>
+<rect x="20" y="150" width="115" height="44" rx="10" class="box"/>
+<text x="77.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="small">question</text>
+<rect x="160" y="150" width="115" height="44" rx="10" class="green"/>
+<text x="217.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="small">top-k chunks</text>
+<path d="M135,172 L158,172" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="300" y="150" width="115" height="44" rx="10" class="amber"/>
+<text x="357.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="small">prompt</text>
+<path d="M275,172 L298,172" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="440" y="150" width="115" height="44" rx="10" class="blue"/>
+<text x="497.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="small">LLM</text>
+<path d="M415,172 L438,172" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="580" y="150" width="115" height="44" rx="10" class="green"/>
+<text x="637.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="small">answer</text>
+<path d="M555,172 L578,172" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<path d="M625,94 L625,120 L200,120 L200,148" class="arrow green dashed" marker-end="url(#s06-pipeline-h-green)"/>
+<text x="400" y="108" text-anchor="middle" dominant-baseline="middle" class="small">retrieve</text>
+<text x="420" y="222" text-anchor="middle" dominant-baseline="middle" class="small">“Use only provided context.” + chunks + question</text>
+</svg>
+<figcaption>Ingest runs once (or when documents change) and fills the vector database. Ask runs for every question: retrieve chunks, put them in the prompt, generate the answer.</figcaption>
+</figure>

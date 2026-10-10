@@ -20,6 +20,10 @@ summary and the relevant notes.
 | 5 | Long-term | facts saved by the agent, across conversations | a Store, per user |
 | 6 | Semantic | the same, found by meaning | a Store with embeddings |
 
+```{raw} html
+:file: ../diagrams/s15-memory.html
+```
+
 All scripts share `model.py` (Groq via `ChatGroq`) and use LangChain 1.x's `create_agent`.
 
 ## 1 · Buffer memory: a checkpointer
@@ -125,15 +129,107 @@ hits = store.search(("memories", "arun"), query="what food should I avoid?", lim
 - **Saving everything.** Tell the agent (in the system prompt) to save only *lasting* facts, not
   every sentence.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Run `persistent_demo()` in `1.buffer_memory.py`, then open `memory.db` with `sqlite3` and look at
-   the tables.
-2. In `2.window_memory.py`, keep the last 6 instead of 4. Which questions can it answer now?
-3. Print the summary message in `4.summary_memory.py`. Is the budget in it word for word?
-4. Add a `delete_memory(fact)` tool to `5.long_term.py`, and ask the agent to forget a hobby.
-5. In `6.semantic_memory.py`, add *"I'm vegetarian"* and ask for dinner ideas. Does it find both
-   food facts?
+Try each one before opening the solution.
+
+**Exercise 1 · Persistent threads.** Run `persistent_demo()` in `1.buffer_memory.py`, then look
+inside `memory.db`.
+
+<details class="solution"><summary>How</summary>
+
+Uncomment the last line, run the script, then:
+
+```bash
+sqlite3 memory.db ".tables"
+sqlite3 memory.db "SELECT thread_id, COUNT(*) FROM checkpoints GROUP BY thread_id;"
+```
+
+The agent's state is saved after every step, which is why "Bruno" survives the simulated restart.
+
+</details>
+
+**Exercise 2 · A wider window.** In `2.window_memory.py`, keep the last 6 messages instead of 4.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+if len(messages) <= 6:
+    return None
+return {"messages": [RemoveMessage(id=REMOVE_ALL_MESSAGES), messages[0], *messages[-6:]]}
+```
+
+Now *"Where do I live?"* may be answerable again, depending on whether that message is still inside
+the window when the question arrives. Count the messages to predict it.
+
+</details>
+
+**Exercise 3 · Read the summary.** Print the summary message in `4.summary_memory.py`. Is the budget in
+it?
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+for m in agent.get_state(config).values["messages"]:
+    if "summary" in str(m.content).lower():
+        print(m.content)
+```
+
+The budget usually appears as a fact (₹40,000 for 5 days). Summaries keep facts but lose exact
+wording, so don't rely on them for things that must be quoted word for word.
+
+</details>
+
+**Exercise 4 · Forget something.** Add a `delete_memory` tool to `5.long_term.py`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+@tool
+def delete_memory(text: str, runtime: ToolRuntime[Context]) -> str:
+    """Delete stored facts about the user that contain the given text."""
+    ns = ("memories", runtime.context.user_id)
+    removed = 0
+    for item in runtime.store.search(ns):
+        if text.lower() in item.value["fact"].lower():
+            runtime.store.delete(ns, item.key)
+            removed += 1
+    return f"Deleted {removed} memories."
+```
+
+Add it to `tools=[...]`, then say *"Forget that I play cricket."*
+
+</details>
+
+**Exercise 5 · Find both food facts.** In `6.semantic_memory.py`, add *"I'm vegetarian"* and ask for
+dinner ideas.
+
+<details class="solution"><summary>What to notice</summary>
+
+With `limit=3`, a search like "dinner food preferences" should return both the peanut allergy and
+the vegetarian fact, and the agent's suggestions respect both. If one is missing, raise the limit:
+semantic search ranks; it doesn't guarantee completeness.
+
+</details>
+
+**Exercise 6 · Keep memories in SQLite.** Make long-term memories survive a restart.
+
+<details class="solution"><summary>Solution outline</summary>
+
+Replace `InMemoryStore()` with a persistent store, e.g. Postgres:
+
+```python
+from langgraph.store.postgres import PostgresStore    # pip install langgraph-checkpoint-postgres
+
+with PostgresStore.from_conn_string("postgresql://user:pass@localhost:5432/agent") as store:
+    store.setup()                       # creates the tables once
+    agent = create_agent(model=llm, tools=[...], store=store, context_schema=Context,
+                         checkpointer=InMemorySaver())
+```
+
+Run it twice: the second run still knows the hobbies saved in the first.
+
+</details>
 
 ## Full source
 

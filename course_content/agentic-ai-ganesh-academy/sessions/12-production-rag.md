@@ -113,6 +113,10 @@ source.addEventListener("token", (event) => {
 });
 ```
 
+```{raw} html
+:file: ../diagrams/s12-stream.html
+```
+
 Run it:
 
 ```bash
@@ -139,15 +143,102 @@ any HTML the model produced (a security hole called XSS); it now uses `textConte
   `async for`.
 - **Putting model output into the page with `innerHTML`.**
 
-## Try it yourself
+## Hands-on exercises
 
-1. Give `conversational/app.py` a session id per run: ask for a name at start-up and use it as the
-   Redis key. Check two users don't see each other's history.
-2. Add an expiry to the history: `redis_client.set(SESSION_ID, ..., ex=3600)`.
-3. In `async_rag.py`, time `retrieve()` with `time.perf_counter()`. Then fix `metadata_search` with
-   `asyncio.to_thread` and time it again.
-4. In `streaming/index.html`, add a text box and a button, so the question comes from the user.
-5. Switch `streaming/llm.py` to `AsyncGroq` and make `stream_answer` an `async` generator.
+Try each one before opening the solution.
+
+**Exercise 1 · One history per user.** Ask for a name at start-up and keep each user's chat
+separately.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+user = input("Your name: ").strip().lower()
+SESSION_ID = f"chat:{user}"
+```
+
+Run two terminals with different names: each sees only its own history
+(`redis-cli KEYS 'chat:*'`).
+
+</details>
+
+**Exercise 2 · Expire old chats.** Make a history disappear after one hour of inactivity.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+redis_client.set(SESSION_ID, json.dumps(history), ex=3600)
+```
+
+Every new message resets the hour, because `save_chat` writes the key again.
+
+</details>
+
+**Exercise 3 · Really parallel.** Time `retrieve()` in `async_rag.py`, fix `metadata_search`, and time
+it again.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+async def metadata_search(query):
+    return await asyncio.to_thread(db.similarity_search, query, k=3, filter={"source": "python.pdf"})
+
+start = time.perf_counter()
+docs = await retrieve(query)
+print(f"retrieve: {time.perf_counter() - start:.2f}s")
+```
+
+`asyncio.to_thread` runs the blocking call in a worker thread, so the other searches can run
+meanwhile.
+
+</details>
+
+**Exercise 4 · Ask from the page.** Give `streaming/index.html` a text box and a button.
+
+<details class="solution"><summary>Solution</summary>
+
+```html
+<input id="q" placeholder="Ask about the book">
+<button id="ask">Ask</button>
+<div id="output"></div>
+<script>
+document.getElementById("ask").addEventListener("click", () => {
+  const output = document.getElementById("output");
+  output.textContent = "";
+  const q = document.getElementById("q").value;
+  const source = new EventSource("http://localhost:8000/chat?question=" + encodeURIComponent(q));
+  source.addEventListener("token", (e) => { output.textContent += e.data; });
+  source.addEventListener("done", () => source.close());
+});
+</script>
+```
+
+</details>
+
+**Exercise 5 · An async stream.** Switch `streaming/llm.py` to `AsyncGroq`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+import os
+from groq import AsyncGroq
+
+client = AsyncGroq(api_key=os.environ["GROQ_API_KEY"])
+
+async def stream_answer(question, context):
+    stream = await client.chat.completions.create(
+        model="openai/gpt-oss-120b", stream=True,
+        messages=[{"role": "user", "content": f"Answer only from the context.\n\nContext:\n{context}\n\nQuestion:\n{question}"}],
+    )
+    async for chunk in stream:
+        if chunk.choices and chunk.choices[0].delta.content:
+            yield chunk.choices[0].delta.content
+```
+
+In `app.py`, change the loop to `async for token in stream_answer(question, context):`. Now one slow
+answer no longer blocks other users.
+
+</details>
 
 ## Full source
 

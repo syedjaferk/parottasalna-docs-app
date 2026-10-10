@@ -23,6 +23,10 @@ question ─► embed ─► similar question in cache?
                  └─ no ─► retrieve ─► LLM ─► save in cache ─► answer   (seconds, costs tokens)
 ```
 
+```{raw} html
+:file: ../diagrams/s09-cache.html
+```
+
 From `augmentation.py`:
 
 ```python
@@ -95,15 +99,95 @@ return someone else's cached answer. Add the user id to the key, or only cache g
 - **Forgetting Redis is running in Docker.** `ConnectionError: Error 111 connecting to localhost:6379`
   means it isn't started.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Ask 5 questions, then 5 rewordings of them. How many hits do you get at 0.90? At 0.85?
-2. Find a pair of questions that are *different* but still hit at 0.85. That's why the threshold
-   matters.
-3. Add the TTL: `redis_client.set(key, value, ex=CACHE_TTL)`. Check it with `redis-cli TTL <key>`.
-4. Replace `abs(hash(question))` with a SHA-256 of the question, restart the script and confirm the
-   same question doesn't create a second key (`redis-cli KEYS 'semantic:*'`).
-5. Don't cache answers that start with `"Request failed"`.
+Try each one before opening the solution.
+
+**Exercise 1 · Hit rate.** Ask 5 questions, then 5 rewordings. Count the hits at threshold 0.90 and
+0.85.
+
+<details class="solution"><summary>What to notice</summary>
+
+Close rewordings ("What is a list in Python?" / "what's a python list") usually score above 0.9.
+Looser ones ("explain lists to me") may only hit at 0.85. Every point you lower the threshold buys
+more hits **and** more risk of wrong ones.
+
+</details>
+
+**Exercise 2 · A dangerous pair.** Find two *different* questions that still hit at 0.85.
+
+<details class="solution"><summary>Example</summary>
+
+*"How do I add an item to a list?"* and *"How do I remove an item from a list?"* differ in one word
+and often score very high. The cache would return the "add" answer to the "remove" question. Test
+pairs like this before choosing a threshold.
+
+</details>
+
+**Exercise 3 · Expiry.** Use `CACHE_TTL` so entries disappear after 7 days.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+from config import CACHE_TTL
+
+redis_client.set(key, json.dumps(value), ex=CACHE_TTL)
+```
+
+Check with `docker exec -it redis redis-cli TTL <key>`: it counts down from 604800.
+
+</details>
+
+**Exercise 4 · A stable key.** Replace `abs(hash(question))` with SHA-256, restart the script and
+store the same question again.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+import hashlib
+
+key = CACHE_PREFIX + hashlib.sha256(question.strip().lower().encode()).hexdigest()
+```
+
+`redis-cli KEYS 'semantic:*'` now shows one key per question across restarts, instead of a new one
+each time Python picks a new random hash seed.
+
+</details>
+
+**Exercise 5 · Don't cache failures.** Make sure `"Request failed: …"` answers are never stored.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+answer = call_groq([...])
+if answer.startswith("Request failed"):
+    print(answer)
+    return                       # show it, but don't cache it
+store_cache(user_query, answer)
+```
+
+Better still: make `call_groq` raise on errors (Session 1, exercise 5), so a failure can never look
+like an answer.
+
+</details>
+
+**Exercise 6 · Per-user cache.** Make cached answers private to each user.
+
+<details class="solution"><summary>Solution</summary>
+
+Put the user in the prefix and only scan that user's keys:
+
+```python
+def cache_prefix(user_id):
+    return f"semantic:{user_id}:"
+
+for key in redis_client.scan_iter(f"{cache_prefix(user_id)}*"):
+    ...
+```
+
+Keep a shared prefix only for general questions whose answer is the same for everyone.
+
+</details>
 
 ## Full source
 

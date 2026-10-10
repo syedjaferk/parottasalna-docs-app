@@ -1,0 +1,84 @@
+chapter: sessions/05-chunking
+
+quizzes:
+  - title: "Session 5 · Quiz"
+    description: "Fixed, overlap, sliding, sentence, token and semantic chunking."
+    questions:
+      - text: "Why do we split documents into chunks before embedding?"
+        choices: |
+          *One vector for a whole book is too vague, and it wouldn't fit in the prompt
+          Vector DBs only accept 200 characters
+          Chunking makes the PDF smaller on disk
+          LLMs can't read PDFs
+        explanation: "Small chunks each hold one idea, so their vectors are precise and only the relevant ones go into the prompt."
+      - text: "What is the main problem with fixed-size chunking?"
+        choices: |
+          *It cuts words and sentences in half
+          It's slow
+          It needs an LLM
+          It produces overlapping chunks
+        explanation: "In class the 200-character cut split 'bitmaps' into 'bitma' | 'ps'."
+      - text: "What does chunk overlap solve?"
+        choices: |
+          *Ideas that sit across a chunk border aren't lost
+          It reduces storage
+          It removes duplicates
+          It speeds up embedding
+        explanation: "The end of one chunk repeats at the start of the next, so a sentence cut at the border appears whole somewhere."
+      - text: "With chunk_size=200 and overlap=50, how far does each chunk start after the previous one?"
+        choices: |
+          *150 characters
+          200 characters
+          50 characters
+          250 characters
+        explanation: "start += chunk_size - overlap."
+      - text: "Why chunk by tokens instead of characters?"
+        choices: |
+          *Models measure limits and cost in tokens
+          Tokens are always one word
+          It avoids needing a tokenizer
+          Characters can't be counted in Python
+        explanation: "Token chunking (tiktoken) lets you stay exactly within a model's token budget."
+      - text: "How does embedding-based semantic chunking decide where to cut?"
+        choices: |
+          *When the similarity between neighbouring sentences drops below a threshold
+          Every 200 characters
+          At every full stop
+          Where the LLM says
+        explanation: "A drop in similarity means the topic changed, so a new chunk starts."
+      - text: "What does RecursiveCharacterTextSplitter try first?"
+        choices: |
+          *Splitting at paragraphs, then lines, then words, and mid-word only as a last resort
+          Splitting at every character
+          Splitting by token count only
+          Splitting by page
+        explanation: "That's why it's a good default: chunks tend to end at natural boundaries."
+      - text: "You make chunks very large 'to be safe'. What usually happens?"
+        choices: |
+          *Retrieval gets worse: each vector mixes several topics
+          Answers always improve
+          Embedding becomes free
+          Nothing changes
+        explanation: "Big chunks give vague vectors and fewer fit in the prompt. 500–1,000 characters with 10–20 % overlap is a common start."
+
+decks:
+  - title: "Session 5 · Flashcards"
+    cards:
+      - front: "Chunk"
+        back: "A small piece of a document, ideally holding one idea, that gets its own embedding."
+      - front: "Fixed-size chunking"
+        back: "Cut every N characters. Simple, but cuts words and sentences."
+      - front: "Overlap"
+        back: "Repeat the last part of a chunk at the start of the next so border ideas survive."
+      - front: "Sliding window"
+        back: "A window that moves less than its own size (e.g. window 200, step 100): safe, but stores text twice."
+      - front: "Sentence chunking"
+        back: "Split into sentences (NLTK), then pack whole sentences up to a size limit."
+      - front: "Token chunking"
+        back: "Cut by model tokens (tiktoken) to respect exact token limits."
+      - front: "Semantic chunking"
+        back: "Start a new chunk when neighbouring sentences' similarity drops: topic change."
+      - front: "RecursiveCharacterTextSplitter"
+        back: "LangChain's default: paragraphs → lines → words, with chunk_size and chunk_overlap."
+      - front: "Clean, then split"
+        back: "Remove broken characters and extra whitespace first, so chunk sizes are right."

@@ -18,6 +18,10 @@ re-read the book, you flip to the right paragraph. Chunks are those paragraphs.
 
 All the chunking scripts cut the same Redis text (~1,100 characters) so you can compare them.
 
+```{raw} html
+:file: ../diagrams/s05-chunking.html
+```
+
 ## 1 · Fixed size
 
 Cut every 200 characters, no matter what (`1.fixed.py`):
@@ -146,15 +150,95 @@ first gives better chunks and better embeddings.
 - **`clean_text` removes all newlines.** That's fine for embeddings, but you can no longer split on
   `"\n"` afterwards (we hit this in [Session 10](10-better-queries-and-smaller-context.md)).
 
-## Try it yourself
+## Hands-on exercises
 
-1. Run `1.fixed.py` with sizes 100, 200 and 400. How many chunks contain a cut word?
-2. Change `2.overlap.py` to overlap 0, 50 and 100. Count the chunks.
-3. In `6.embedding_semantic.py`, try thresholds 0.5 and 0.85. Which gives one chunk per paragraph?
-4. Split your own PDF with `RecursiveCharacterTextSplitter` at `chunk_size=500` and print the
-   shortest and longest chunk.
-5. Write a `paragraph_chunking(text)` that splits on blank lines (`"\n\n"`). Compare it with
-   `3.semantic.py`.
+Try each one before opening the solution.
+
+**Exercise 1 · Chunk size.** Run `1.fixed.py` with sizes 100, 200 and 400. How many chunks start or
+end in the middle of a word?
+
+<details class="solution"><summary>What to notice</summary>
+
+Almost every border cuts a word at every size; smaller chunks simply have more borders. Fixed-size
+chunking only works well with overlap, or for text where exact boundaries don't matter.
+
+</details>
+
+**Exercise 2 · Overlap.** Run `2.overlap.py` with overlap 0, 50 and 100 (chunk size 200).
+
+<details class="solution"><summary>Answer</summary>
+
+Each step moves forward `200 - overlap` characters, so the chunk count grows with overlap: roughly
+`len(text) / (200 - overlap)`. On the ~1,100-character Redis text: about 6, 7 and 11 chunks.
+
+</details>
+
+**Exercise 3 · Semantic threshold.** In `6.embedding_semantic.py`, try thresholds 0.5 and 0.85.
+
+<details class="solution"><summary>What to notice</summary>
+
+A low threshold keeps adding lines to the current chunk (few, big chunks). A high one starts a new
+chunk at almost every line (many tiny chunks). Find the value where each chunk is one paragraph:
+persistence, replication, use cases. Remove the `input(...)` line first to run it straight through.
+
+</details>
+
+**Exercise 4 · Paragraph chunking.** Write `paragraph_chunking(text, max_chars=500)` that splits on
+blank lines and merges short paragraphs.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+def paragraph_chunking(text, max_chars=500):
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+    chunks, current = [], ""
+    for p in paragraphs:
+        if current and len(current) + len(p) + 2 > max_chars:
+            chunks.append(current)
+            current = p
+        else:
+            current = f"{current}\n\n{p}" if current else p
+    if current:
+        chunks.append(current)
+    return chunks
+```
+
+</details>
+
+**Exercise 5 · Your PDF.** Split your own PDF with `RecursiveCharacterTextSplitter(chunk_size=500,
+chunk_overlap=50)` and print the shortest and longest chunks.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+pages = PyPDFLoader("python.pdf").load()
+chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_documents(pages)
+sizes = sorted(chunks, key=lambda c: len(c.page_content))
+print(len(chunks), "chunks")
+print("shortest:", repr(sizes[0].page_content))
+print("longest :", len(sizes[-1].page_content), "chars")
+```
+
+Very short chunks are usually page headers or footers. Filtering out chunks under ~50 characters
+often improves retrieval.
+
+</details>
+
+**Exercise 6 · Tokens vs characters.** Count the tokens in each 200-character fixed chunk with
+`tiktoken`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+enc = tiktoken.get_encoding("cl100k_base")
+for c in fixed_chunking(text):
+    print(len(c), "chars →", len(enc.encode(c)), "tokens")
+```
+
+English averages about 4 characters per token, so ~200 characters is ~45 tokens. Tamil and other
+scripts use many more tokens per character, so measure in tokens when you have a budget.
+
+</details>
 
 ## Full source
 

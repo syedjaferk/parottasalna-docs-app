@@ -1,0 +1,75 @@
+chapter: sessions/10-better-queries-and-smaller-context
+
+quizzes:
+  - title: "Session 10 · Quiz"
+    description: "Query rewriting and expansion, and three kinds of context compression."
+    questions:
+      - text: "'How do I deploy it?' follows a chat about FastAPI. What does query transformation produce?"
+        choices: |
+          *A standalone query like 'How to deploy a FastAPI application'
+          The same question
+          An answer
+          Five chunks
+        explanation: "The rewriter uses the history to resolve 'it', so retrieval knows what to look for."
+      - text: "What is query expansion?"
+        choices: |
+          *Generating several different phrasings and searching with all of them
+          Making the question longer with filler
+          Translating the query
+          Increasing k to 100
+        explanation: "Different wordings hit different chunks, which improves recall."
+      - text: "How does the class code remove duplicate documents from the expanded searches?"
+        choices: |
+          *Using the documents as keys of a dictionary
+          Sorting them
+          Asking the LLM
+          Comparing embeddings
+        explanation: "dict keys are unique and keep insertion order: a simple, order-preserving de-duplication."
+      - text: "What does context compression do?"
+        choices: |
+          *Keeps only the parts of the retrieved chunks that help answer the question
+          Zips the vector database
+          Shortens the user's question
+          Reduces the embedding size
+        explanation: "A shorter, focused prompt is cheaper and often gives better answers."
+      - text: "Which compression method understands the question best but costs an extra LLM call?"
+        choices: |
+          *LLM-based compression
+          Keyword compression
+          Embedding compression
+          Fixed-size compression
+        explanation: "Keyword: instant, misses synonyms. Embedding: good and free locally. LLM: best, slowest."
+      - text: "Why did splitting the context on '\\n' fail to compress anything?"
+        choices: |
+          *ingest.py had already replaced all whitespace, newlines included, with single spaces
+          Python can't split on newlines
+          The chunks were empty
+          Chroma removes newlines on search
+        explanation: "The fixed scripts split on sentence endings instead: re.split(r'(?<=[.!?])\\s+', context)."
+      - text: "Which text should the final answer respond to?"
+        choices: |
+          *The user's original question (search with the rewrite)
+          The rewritten query only
+          The first expanded query
+          The compressed context
+        explanation: "Rewrites are for retrieval; answer what the user actually asked."
+
+decks:
+  - title: "Session 10 · Flashcards"
+    cards:
+      - front: "Query transformation"
+        back: "Rewrite the question into a standalone search query, using chat history."
+      - front: "Query expansion"
+        back: "Generate several phrasings, search with each, merge the results."
+      - front: "Recall"
+        back: "How many of the relevant chunks you actually retrieve. Expansion improves it."
+      - front: "Context compression"
+        back: "Trim retrieved chunks to the sentences that matter before calling the LLM."
+      - front: "Keyword compression"
+        back: "Keep sentences containing a question keyword. Instant; misses synonyms."
+      - front: "Embedding compression"
+        back: "Keep the sentences most similar to the question. Good, free locally."
+      - front: "LLM compression"
+        back: "Ask an LLM to remove irrelevant text (NOT answer). Best quality, extra cost."
+      - front: "dict de-duplication"
+        back: "retrieved[doc] = True; list(retrieved) gives unique docs in order."

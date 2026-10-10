@@ -1,0 +1,86 @@
+chapter: sessions/01-talking-to-an-llm
+
+quizzes:
+  - title: "Session 1 · Quiz"
+    description: "Messages and roles, temperature, and the six basic prompting techniques."
+    questions:
+      - text: "In a chat request, which role holds the rules for how the model should behave?"
+        choices: |
+          *system
+          user
+          assistant
+          tool
+        explanation: "The system message sets behaviour, tone and restrictions. user is the question; assistant is the model's (or your example) replies."
+      - text: "You need the same answer every time, for example JSON your code will parse. Which temperature?"
+        choices: |
+          *0
+          0.7
+          1
+          2
+        explanation: "Temperature 0 makes the output (nearly) deterministic. Higher values add variety, which is good for ideas, bad for parsing."
+      - text: "What is few-shot prompting?"
+        choices: |
+          *Showing two or more worked examples before the real question
+          Asking the question with no examples
+          Calling the model several times and voting
+          Giving the model a role like 'senior professor'
+        explanation: "Few-shot = several examples (as user/assistant pairs). One-shot = one example. Zero-shot = none."
+      - text: "How do you write a few-shot example in the messages list?"
+        choices: |
+          *As a user message followed by an assistant message with the ideal reply
+          As a second system message
+          In the temperature field
+          As a tool call
+        explanation: "You write a fake earlier exchange: the example question as 'user' and your ideal answer as 'assistant'. The model copies the pattern."
+      - text: "Which technique pastes facts into the prompt for the model to use?"
+        choices: |
+          *Contextual prompting
+          Role prompting
+          Zero-shot prompting
+          Self-consistency
+        explanation: "Contextual prompting gives the model information it doesn't have. RAG automates exactly this, by finding the facts in your documents."
+      - text: "Where should your Groq API key live?"
+        choices: |
+          *In an environment variable such as GROQ_API_KEY
+          Hard-coded at the top of the script
+          In the system prompt
+          In a comment so teammates can find it
+        explanation: "Keys in code end up on GitHub. Read them with os.environ['GROQ_API_KEY'] and keep the .env file out of git."
+      - text: "The response status is 429. What does that mean?"
+        choices: |
+          *Too many requests: you hit the rate limit
+          The API key is wrong
+          The model doesn't exist
+          Success
+        explanation: "401 = bad key, 429 = rate limited, 200 = success. Check the status before reading response.json()['choices']."
+      - text: "Where is the model's answer in an OpenAI-compatible chat response?"
+        choices: |
+          *response['choices'][0]['message']['content']
+          response['answer']
+          response['messages'][-1]
+          response['output'][0]['text']
+        explanation: "Groq uses the OpenAI-compatible format: a list of choices, each with a message that has content."
+
+decks:
+  - title: "Session 1 · Flashcards"
+    cards:
+      - front: "LLM"
+        back: "A large language model: a program that continues text. You send a conversation, it writes the next message."
+      - front: "system message"
+        back: "The developer's rules: who the model is, how to answer, what not to do."
+      - front: "user message"
+        back: "The question or instruction from the person using the app."
+      - front: "assistant message"
+        back: "The model's replies, or example replies you write for few-shot prompting."
+      - front: "Temperature"
+        back: "Randomness of the output. 0 = (almost) the same answer every time; ~1 = more varied."
+      - front: "Zero-shot"
+        back: "Just the question, no examples."
+      - front: "One-shot / few-shot"
+        back: "One / several worked examples before the real question, so the model copies the method and format."
+      - front: "Role prompting"
+        back: "'You are a senior …': changes the style, depth and vocabulary of the answer."
+      - front: "Contextual prompting"
+        back: "Putting the facts the model should use into the prompt. The idea behind RAG."
+      - front: "Why not hard-code an API key?"
+        back: "It ends up in git and on GitHub, where anyone can use it. Use an environment variable."

@@ -1,0 +1,75 @@
+chapter: sessions/12-production-rag
+
+quizzes:
+  - title: "Session 12 · Quiz"
+    description: "Conversational memory, async retrieval and streaming with SSE."
+    questions:
+      - text: "Why does the conversational app store chat history in Redis rather than a Python list?"
+        choices: |
+          *It survives restarts and can be shared by several app servers
+          Redis makes the LLM smarter
+          Lists can't hold strings
+          Redis does the retrieval
+        explanation: "Keyed by session id, with an optional expiry."
+      - text: "Why does the app include only the last 5 exchanges in the prompt?"
+        choices: |
+          *Every turn adds tokens; unlimited history gets slow and expensive
+          Redis stores only 5
+          Groq allows only 5 messages
+          Older answers are always wrong
+        explanation: "Keep the last N turns or summarise older ones."
+      - text: "asyncio.gather in async_rag.py is used to…"
+        choices: |
+          *Run vector, keyword and metadata searches at the same time
+          Merge duplicate documents
+          Stream tokens
+          Store history
+        explanation: "Total time ≈ the slowest search instead of the sum."
+      - text: "metadata_search is 'async def' but calls db.similarity_search directly. What's the problem?"
+        choices: |
+          *It blocks the event loop, so it doesn't really run in parallel
+          Nothing
+          It returns None
+          It raises a SyntaxError
+        explanation: "Use await db.asimilarity_search(...) or await asyncio.to_thread(db.similarity_search, ...)."
+      - text: "What are Server-Sent Events (SSE)?"
+        choices: |
+          *A one-way stream of events from server to browser over one HTTP response
+          A WebSocket replacement for uploads
+          A Redis feature
+          A LangChain retriever
+        explanation: "The browser listens with EventSource; FastAPI sends events with EventSourceResponse."
+      - text: "Why must streamed model output be added with textContent, not innerHTML?"
+        choices: |
+          *innerHTML would run any HTML/JS the model outputs (XSS)
+          textContent is faster to type
+          innerHTML doesn't work with SSE
+          There is no difference
+        explanation: "Model output is untrusted text."
+      - text: "What was wrong with the class's streaming ingest.py?"
+        choices: |
+          *It split pages into chunks but stored the whole pages
+          It used the wrong PDF
+          It had no embeddings
+          It used Redis
+        explanation: "The fixed version cleans, then splits, then stores the chunks."
+
+decks:
+  - title: "Session 12 · Flashcards"
+    cards:
+      - front: "Conversational RAG"
+        back: "RAG that includes recent chat history in the prompt."
+      - front: "Session id"
+        back: "Key for one user's/chat's history. Never one fixed id for everyone."
+      - front: "asyncio.gather"
+        back: "Run several awaitables concurrently; results come back in the order given."
+      - front: "asyncio.to_thread"
+        back: "Run a blocking function in a worker thread without freezing the event loop."
+      - front: "Streaming"
+        back: "Sending the answer token by token as the model generates it."
+      - front: "SSE"
+        back: "Server-Sent Events: one-way server → browser event stream (EventSource in JS)."
+      - front: "EventSourceResponse"
+        back: "sse-starlette's FastAPI response that sends an async generator's events."
+      - front: "XSS"
+        back: "Cross-site scripting: untrusted text rendered as HTML runs as code. Use textContent."

@@ -27,6 +27,10 @@ One sentence → 384 numbers (the model decides the length: `all-MiniLM-L6-v2` g
 `nomic-embed-text` gives 768). On their own the numbers mean nothing. What matters is **how close two
 vectors are**.
 
+```{raw} html
+:file: ../diagrams/s03-space.html
+```
+
 ## Measuring "closeness": cosine similarity
 
 Cosine similarity compares the **direction** of two vectors: about `1` means same meaning; near `0`
@@ -86,6 +90,10 @@ print(results["documents"])   # typically [['ChromaDB is a vector database', 'Po
 different "maps", so comparing them is meaningless.
 :::
 
+```{raw} html
+:file: ../diagrams/s03-vdb.html
+```
+
 ## Seeing the vectors
 
 384 dimensions can't be drawn, so **t-SNE** squeezes them down to 2 while trying to keep close
@@ -124,16 +132,101 @@ That's **R**etrieval-**A**ugmented **G**eneration. The next sessions make each s
 - **Forgetting Ollama is a separate program.** `ollama.embeddings(...)` fails until Ollama is running
   and you've done `ollama pull nomic-embed-text`.
 
-## Try it yourself
+## Hands-on exercises
 
-1. Add three sentences about cooking to the `sentence_transformer.py` documents. Ask "how do I bake
-   bread?". Do the tech sentences drop to the bottom?
-2. Compare `all-MiniLM-L6-v2` with `BAAI/bge-small-en` on the same query. Do the rankings change?
-   Are the scores on the same scale?
-3. In `simple_vector_search.py`, change `n_results` to 5 and print `results["distances"]` too.
-   Smaller distance = closer.
-4. In `simple_rag.py`, ask something that is **not** in the documents ("What is Kafka?"). Add
-   "If the answer isn't in the context, say you don't know" to the prompt and compare.
+Try each one before opening the solution.
+
+**Exercise 1 · Topics separate.** Add three cooking sentences to the documents in
+`dense/sentence_transformer.py` and ask *"how do I bake bread?"*
+
+<details class="solution"><summary>What to notice</summary>
+
+The cooking sentences take the top places and the tech sentences drop to the bottom, even if no
+sentence contains the word "bake". Meaning, not words, decides the order.
+
+</details>
+
+**Exercise 2 · Compare two models.** Run the same query with `all-MiniLM-L6-v2` and
+`BAAI/bge-small-en`. Do the rankings or the scores change?
+
+<details class="solution"><summary>What to notice</summary>
+
+The order of the top results is usually the same, but the **scores** are on different scales (bge
+scores tend to be higher across the board). Never compare scores, or a fixed threshold, between
+different embedding models.
+
+</details>
+
+**Exercise 3 · Distances.** In `simple_vector_search.py`, set `n_results=5` and print
+`results["distances"]`.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+results = collection.query(query_embeddings=q_emb, n_results=5, include=["documents", "distances"])
+for doc, dist in zip(results["documents"][0], results["distances"][0]):
+    print(f"{dist:8.2f}  {doc}")
+```
+
+Smaller distance = closer meaning. "ChromaDB is a vector database" should have the smallest.
+
+</details>
+
+**Exercise 4 · Say "I don't know".** Ask `simple_rag.py` *"What is Kafka?"* (not in the documents),
+then make it admit it doesn't know.
+
+<details class="solution"><summary>Solution</summary>
+
+```python
+prompt = f"""
+Answer the question using ONLY the context below.
+If the answer is not in the context, reply exactly: I don't know.
+
+Context:
+{context}
+
+Question:
+{query}
+"""
+```
+
+Without that line the model answers from its own memory, which is not what a RAG system should do.
+
+</details>
+
+**Exercise 5 · Re-runs without duplicates.** Run `simple_vector_search.py` twice and count the
+documents. Then fix it.
+
+<details class="solution"><summary>Solution</summary>
+
+`collection.add` with existing ids keeps the old entries (Chroma warns about duplicate ids), so the
+script isn't safe to re-run. Use upsert:
+
+```python
+collection.upsert(documents=docs, embeddings=emb, ids=[str(i) for i in range(len(docs))])
+print(collection.count())    # stays 5
+```
+
+</details>
+
+**Exercise 6 · Your own semantic search.** Build a tiny search over 10 FAQ answers from a product you
+know, and test it with 5 questions phrased differently from the answers.
+
+<details class="solution"><summary>Solution outline</summary>
+
+```python
+model = SentenceTransformer("all-MiniLM-L6-v2")
+faq = ["You can reset your password from Settings → Security.", ...]
+faq_vectors = model.encode(faq)
+
+def ask(q, k=2):
+    scores = cosine_similarity(model.encode([q]), faq_vectors)[0]
+    return [faq[i] for i in scores.argsort()[::-1][:k]]
+
+print(ask("I forgot my login"))     # → the password reset answer
+```
+
+</details>
 
 ## Full source
 

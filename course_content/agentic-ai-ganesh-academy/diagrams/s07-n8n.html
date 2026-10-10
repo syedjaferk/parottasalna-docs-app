@@ -1,0 +1,42 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s07-n8n-t s07-n8n-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s07-n8n-t">The n8n RAG workflow</title>
+<desc id="s07-n8n-d">Ingest: an uploaded file is loaded, split and embedded into Pinecone. Ask: an AI Agent uses Groq as its model and the Pinecone store as a retrieval tool, then sends the answer to Telegram.</desc>
+<defs><marker id="s07-n8n-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s07-n8n-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s07-n8n-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s07-n8n-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="20" y="25" text-anchor="start" dominant-baseline="middle" class="bold">INGEST</text>
+<rect x="20" y="40" width="130" height="50" rx="10" class="box"/>
+<text x="85.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Upload File</text>
+<text x="85.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">form</text>
+<path d="M150,65 L198,65" class="arrow" marker-end="url(#s07-n8n-h)"/>
+<rect x="200" y="40" width="170" height="50" rx="10" class="green"/>
+<text x="285.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Pinecone (insert)</text>
+<text x="285.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">index js-book</text>
+<rect x="400" y="30" width="140" height="30" rx="6" class="box"/>
+<text x="470.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="small">Data Loader</text>
+<rect x="400" y="66" width="140" height="30" rx="6" class="box"/>
+<text x="470.0" y="81.0" text-anchor="middle" dominant-baseline="middle" class="small">Text Splitter</text>
+<rect x="560" y="48" width="140" height="30" rx="6" class="blue"/>
+<text x="630.0" y="63.0" text-anchor="middle" dominant-baseline="middle" class="small">Ollama embeddings</text>
+<path d="M400,45 L372,58" class="arrow dashed" marker-end="url(#s07-n8n-h)"/>
+<path d="M560,63 L372,66" class="arrow dashed" marker-end="url(#s07-n8n-h)"/>
+<text x="20" y="140" text-anchor="start" dominant-baseline="middle" class="bold">ASK</text>
+<rect x="20" y="160" width="130" height="50" rx="10" class="box"/>
+<text x="85.0" y="175.0" text-anchor="middle" dominant-baseline="middle">query</text>
+<text x="85.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">Edit Fields / chat</text>
+<path d="M150,185 L228,185" class="arrow" marker-end="url(#s07-n8n-h)"/>
+<rect x="230" y="155" width="170" height="60" rx="10" class="amber"/>
+<text x="315.0" y="175.0" text-anchor="middle" dominant-baseline="middle">AI Agent</text>
+<text x="315.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">answers from context</text>
+<path d="M400,185 L548,185" class="arrow" marker-end="url(#s07-n8n-h)"/>
+<rect x="550" y="160" width="150" height="50" rx="10" class="box"/>
+<text x="625.0" y="175.0" text-anchor="middle" dominant-baseline="middle">Telegram</text>
+<text x="625.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">send message</text>
+<rect x="200" y="225" width="110" height="28" rx="6" class="blue"/>
+<text x="255.0" y="239.0" text-anchor="middle" dominant-baseline="middle" class="small">Groq model</text>
+<rect x="320" y="225" width="200" height="28" rx="6" class="green"/>
+<text x="420.0" y="239.0" text-anchor="middle" dominant-baseline="middle" class="small">Pinecone (retrieve-as-tool)</text>
+<path d="M255,225 L285,217" class="arrow dashed" marker-end="url(#s07-n8n-h)"/>
+<path d="M400,225 L360,217" class="arrow dashed" marker-end="url(#s07-n8n-h)"/>
+</svg>
+<figcaption>Ingest: an uploaded file is loaded, split and embedded into Pinecone. Ask: an AI Agent uses Groq as its model and the Pinecone store as a retrieval tool, then sends the answer to Telegram.</figcaption>
+</figure>
