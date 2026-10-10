@@ -1,0 +1,93 @@
+chapter: sessions/12-aws-waf
+
+quizzes:
+  - title: "Session 12 · Concepts"
+    description: Web ACLs, rules, managed rules, rate limits.
+    questions:
+      - text: Which resources can AWS WAF be attached to? (Pick all that apply.)
+        choices: |
+          *Amazon CloudFront
+          *Application Load Balancer
+          *API Gateway REST API
+          Network Load Balancer
+      - text: What does the Count action do?
+        choices: |
+          Blocks and counts requests
+          *Only records matches (no blocking), useful for testing rules
+          Counts WCUs
+          Sends a CAPTCHA
+      - text: Rules in a Web ACL are evaluated…
+        choices: |
+          All at once, the most specific wins
+          *In priority order; the first terminating match decides
+          Alphabetically
+          Randomly
+      - text: What is a rate-based rule?
+        choices: |
+          A rule that charges per request
+          *A rule that blocks a client (e.g. IP) sending more than N requests in a time window
+          A rule that limits bandwidth
+          A managed rule for SQL injection
+      - text: Where must a Web ACL for CloudFront be created?
+        choices: |
+          In the Region of the origin
+          *In the Global scope (us-east-1)
+          In ap-south-1
+          Anywhere
+      - text: Why apply text transformations like URL decode and lowercase before matching?
+        choices: |
+          To save WCUs
+          *So encoded or mixed-case attacks still match the rule
+          To speed up the app
+          They are required by law
+  - title: "Session 12 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: An application behind an ALB is hit by SQL injection attempts. What's the quickest managed protection?
+        choices: |
+          A NACL deny rule
+          *AWS WAF with the AWS managed SQL database rule group on the ALB
+          Security groups
+          AWS Shield Standard
+      - text: Bots hammer /login with thousands of password attempts per minute from many IPs. Which WAF features help? (Pick all that apply.)
+        choices: |
+          *A rate-based rule scoped to /login
+          *Bot Control / Account Takeover Prevention managed rules or CAPTCHA
+          A gateway VPC endpoint
+          Moving the ALB to a private subnet
+      - text: Only the office VPN should reach /admin. How do you write the WAF rule?
+        choices: |
+          Allow /admin for everyone, then block the office
+          *Block when path starts with /admin AND source IP is NOT in the office IP set
+          Use a security group on the instance only
+          Put /admin behind CloudFront
+      - text: A new WAF rule might block real customers. What's the safest rollout?
+        choices: |
+          Deploy it in Block mode at night
+          *Deploy in Count mode, review sampled requests and logs, then switch to Block
+          Deploy it only on weekends
+          Disable logging
+
+decks:
+  - title: "Session 12 · Flashcards"
+    cards:
+      - front: AWS WAF
+        back: Layer-7 firewall that inspects HTTP requests (SQLi, XSS, bots, rate limits).
+      - front: Web ACL
+        back: Ordered rules + a default action, attached to CloudFront/ALB/API Gateway/AppSync/Cognito.
+      - front: Rule actions
+        back: Allow · Block (403) · Count · CAPTCHA · Challenge.
+      - front: Managed rule groups
+        back: AWS-maintained rules, e.g. Core rule set, SQL database, Known bad inputs, IP reputation.
+      - front: Rate-based rule
+        back: Block clients over N requests per window (by IP, header, etc.).
+      - front: WCU
+        back: Web ACL capacity units; each rule costs some; default limit 1,500.
+      - front: WAF for CloudFront
+        back: Create the Web ACL in Global scope (us-east-1).
+      - front: Count first
+        back: New rules in Count mode, check logs, then Block.
+      - front: Not supported
+        back: WAF can't attach to an NLB or directly to EC2.
+      - front: AWS Shield
+        back: DDoS protection. Standard is automatic and free; Advanced is paid.

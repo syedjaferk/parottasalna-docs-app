@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s08-nat-t s08-nat-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-nat-t">Outbound internet for a private subnet with a NAT Gateway</title>
+<desc id="s08-nat-d">The private instance sends internet traffic to the NAT Gateway in the public subnet. Replies come back, but nobody on the internet can start a connection to the private instance.</desc>
+<defs><marker id="s08-nat-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-nat-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-nat-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-nat-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="520" height="220" rx="14" class="blue"/>
+<text x="100" y="38" text-anchor="middle" dominant-baseline="middle" class="bold">VPC 10.0.0.0/16</text>
+<rect x="40" y="55" width="230" height="165" rx="10" class="purple"/>
+<text x="155" y="73" text-anchor="middle" dominant-baseline="middle" class="bold">Private subnet</text>
+<rect x="55" y="90" width="200" height="60" rx="10" class="box"/>
+<text x="155.0" y="110.0" text-anchor="middle" dominant-baseline="middle">app EC2 10.0.2.15</text>
+<text x="155.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">apt update / pip install</text>
+<rect x="55" y="160" width="200" height="50" rx="10" class="box"/>
+<text x="155.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="code">0.0.0.0/0 → nat-gw</text>
+<rect x="290" y="55" width="230" height="165" rx="10" class="green"/>
+<text x="405" y="73" text-anchor="middle" dominant-baseline="middle" class="bold">Public subnet</text>
+<rect x="305" y="90" width="200" height="60" rx="10" class="amber"/>
+<text x="405.0" y="110.0" text-anchor="middle" dominant-baseline="middle">NAT Gateway</text>
+<text x="405.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">Elastic IP 13.x.x.x</text>
+<rect x="305" y="160" width="200" height="50" rx="10" class="box"/>
+<text x="405.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="code">0.0.0.0/0 → igw</text>
+<path d="M255,120 L303,120" class="arrow green" marker-end="url(#s08-nat-h-green)"/>
+<rect x="570" y="95" width="130" height="50" rx="10" class="amber"/>
+<text x="635.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">Internet GW</text>
+<path d="M505,120 L568,120" class="arrow green" marker-end="url(#s08-nat-h-green)"/>
+<text x="635" y="175" text-anchor="middle" dominant-baseline="middle" class="small">internet → private:</text>
+<text x="635" y="193" text-anchor="middle" dominant-baseline="middle" class="small">blocked ✗</text>
+</svg>
+<figcaption>The private instance sends internet traffic to the NAT Gateway in the public subnet. Replies come back, but nobody on the internet can start a connection to the private instance.</figcaption>
+</figure>

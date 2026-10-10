@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 200" role="img" aria-labelledby="s06-role-t s06-role-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s06-role-t">An instance role instead of access keys</title>
+<desc id="s06-role-d">The app asks the instance metadata service for temporary credentials of the attached role. Nothing is stored on disk, and the keys rotate by themselves.</desc>
+<defs><marker id="s06-role-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s06-role-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s06-role-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s06-role-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="50" width="200" height="100" rx="10" class="blue"/>
+<text x="120.0" y="80.0" text-anchor="middle" dominant-baseline="middle">EC2 instance</text>
+<text x="120.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">app: boto3 / aws cli</text>
+<text x="120.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">no keys on disk</text>
+<path d="M220,80 L298,80" class="arrow" marker-end="url(#s06-role-h)"/>
+<text x="259" y="67" text-anchor="middle" dominant-baseline="middle" class="small">1 · ask</text>
+<rect x="300" y="40" width="180" height="80" rx="10" class="amber"/>
+<text x="390.0" y="60.0" text-anchor="middle" dominant-baseline="middle">Metadata service</text>
+<text x="390.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">169.254.169.254</text>
+<text x="390.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">(IMDSv2)</text>
+<path d="M298,112 L222,118" class="arrow" marker-end="url(#s06-role-h)"/>
+<text x="259" y="101" text-anchor="middle" dominant-baseline="middle" class="small">2 · temp keys</text>
+<path d="M220,140 L300,175 L520,175" class="arrow green" marker-end="url(#s06-role-h-green)"/>
+<text x="400" y="163" text-anchor="middle" dominant-baseline="middle" class="small">3 · call with temp keys</text>
+<rect x="520" y="40" width="180" height="160" rx="10" class="green"/>
+<text x="610.0" y="90.0" text-anchor="middle" dominant-baseline="middle">Role</text>
+<text x="610.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">app-reads-s3</text>
+<text x="610.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">policy: s3:GetObject</text>
+<text x="610.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">→ Amazon S3</text>
+</svg>
+<figcaption>The app asks the instance metadata service for temporary credentials of the attached role. Nothing is stored on disk, and the keys rotate by themselves.</figcaption>
+</figure>

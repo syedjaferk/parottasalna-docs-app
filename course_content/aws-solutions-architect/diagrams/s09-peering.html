@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s09-peering-t s09-peering-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-peering-t">VPC peering is not transitive</title>
+<desc id="s09-peering-d">A↔B and B↔C are peered, but A still can&#x27;t reach C through B. Every pair that must talk needs its own peering and routes on both sides, and CIDR ranges must not overlap.</desc>
+<defs><marker id="s09-peering-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-peering-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-peering-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-peering-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="180" height="80" rx="10" class="blue"/>
+<text x="110.0" y="70.0" text-anchor="middle" dominant-baseline="middle">VPC A</text>
+<text x="110.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">10.0.0.0/16</text>
+<rect x="270" y="40" width="180" height="80" rx="10" class="blue"/>
+<text x="360.0" y="70.0" text-anchor="middle" dominant-baseline="middle">VPC B</text>
+<text x="360.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">10.1.0.0/16</text>
+<rect x="520" y="40" width="180" height="80" rx="10" class="blue"/>
+<text x="610.0" y="70.0" text-anchor="middle" dominant-baseline="middle">VPC C</text>
+<text x="610.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">10.2.0.0/16</text>
+<path d="M200,80 L268,80" class="arrow green" marker-end="url(#s09-peering-h-green)"/>
+<text x="234" y="67" text-anchor="middle" dominant-baseline="middle" class="small">pcx-ab</text>
+<path d="M268,80 L200,80" class="arrow green" marker-end="url(#s09-peering-h-green)"/>
+<path d="M450,80 L518,80" class="arrow green" marker-end="url(#s09-peering-h-green)"/>
+<text x="484" y="67" text-anchor="middle" dominant-baseline="middle" class="small">pcx-bc</text>
+<path d="M518,80 L450,80" class="arrow green" marker-end="url(#s09-peering-h-green)"/>
+<path d="M110,120 L110,175 L610,175 L610,122" class="arrow red dashed" marker-end="url(#s09-peering-h-red)"/>
+<text x="360" y="163" text-anchor="middle" dominant-baseline="middle" class="small">A → C through B: not allowed ✗</text>
+<text x="360" y="210" text-anchor="middle" dominant-baseline="middle" class="small">fix: peer A↔C directly, or use a Transit Gateway</text>
+</svg>
+<figcaption>A↔B and B↔C are peered, but A still can&#x27;t reach C through B. Every pair that must talk needs its own peering and routes on both sides, and CIDR ranges must not overlap.</figcaption>
+</figure>

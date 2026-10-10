@@ -1,0 +1,100 @@
+chapter: sessions/01-introduction-to-aws
+
+quizzes:
+  - title: "Session 1 · Concepts"
+    description: Cloud basics, global infrastructure and the shared responsibility model.
+    questions:
+      - text: What is an Availability Zone?
+        choices: |
+          A country where AWS operates
+          *One or more data centres with separate power, cooling and networking, inside a Region
+          A CloudFront caching site
+          A group of AWS accounts
+      - text: How many Availability Zones does an AWS Region have at minimum?
+        choices: |
+          1
+          2
+          *3
+          6
+      - text: What are edge locations mainly used for?
+        choices: |
+          Running EC2 instances closer to users
+          *Caching content with CloudFront and answering DNS with Route 53 close to users
+          Storing EBS snapshots
+          Hosting IAM
+      - text: In the shared responsibility model, which of these is the customer's job? (Pick all that apply.)
+        choices: |
+          *Patching the OS of an EC2 instance
+          *Configuring security groups
+          Replacing failed disks in the data centre
+          *Deciding who has IAM access to an S3 bucket
+      - text: EC2 is an example of which cloud model?
+        choices: |
+          *IaaS
+          PaaS
+          SaaS
+          FaaS only
+      - text: Which is NOT a usual reason to choose a particular AWS Region?
+        choices: |
+          Data residency / compliance
+          Latency to users
+          Service availability
+          *The number of IAM users allowed there
+        explanation: IAM is global, not per Region.
+      - text: "True or false: IAM users and policies are created per Region."
+        choices: |
+          True
+          *False
+        explanation: IAM is a global service.
+
+  - title: "Session 1 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: A company must keep customer data inside India and wants low latency for users in Chennai. Which Region should it choose?
+        choices: |
+          us-east-1
+          *ap-south-1 (Mumbai) or ap-south-2 (Hyderabad)
+          eu-west-1
+          Any Region, since data never leaves the edge location
+      - text: A web app runs on two EC2 instances in the same Availability Zone. What is the simplest change to survive a data-centre failure?
+        choices: |
+          Use bigger instances
+          *Run the instances in two different Availability Zones behind a load balancer
+          Add a second EBS volume
+          Move the instances to an edge location
+      - text: A developer uses the root user's access keys in a CI pipeline. What should the architect recommend?
+        choices: |
+          Rotate the root keys monthly
+          *Delete the root access keys, enable MFA on root, and use an IAM role or user with least privilege for CI
+          Store the root keys in the Git repository encrypted
+          Create a second root user
+      - text: A startup is surprised by an AWS bill after a lab. Which control alerts them as soon as costs appear?
+        choices: |
+          AWS Shield
+          *An AWS Budgets alert (e.g. zero-spend or monthly budget)
+          IAM Access Analyzer
+          A security group rule
+
+decks:
+  - title: "Session 1 · Flashcards"
+    cards:
+      - front: Cloud computing
+        back: Renting compute, storage and services over the internet, paying only for what you use.
+      - front: Region
+        back: A geographic area (e.g. `ap-south-1` Mumbai) with its own set of services and at least 3 AZs.
+      - front: Availability Zone (AZ)
+        back: One or more data centres with independent power, cooling and network, linked by fast private connections.
+      - front: Edge location
+        back: A site close to users used by **CloudFront** (cache) and **Route 53** (DNS).
+      - front: Shared responsibility model
+        back: AWS secures **OF** the cloud (hardware, facilities); you secure what's **IN** it (data, IAM, OS, network rules).
+      - front: IaaS / PaaS / SaaS
+        back: Infrastructure (EC2) · Platform (Elastic Beanstalk, App Runner) · Software (Gmail).
+      - front: Root user
+        back: The account owner with full power. MFA on, no access keys, not for daily use.
+      - front: High availability, simplest form
+        back: Run in **at least two AZs** behind a load balancer.
+      - front: Is IAM regional?
+        back: No, IAM is **global**.
+      - front: Free Tier
+        back: Limited free usage for new accounts. Not everything is free; set a budget alert.

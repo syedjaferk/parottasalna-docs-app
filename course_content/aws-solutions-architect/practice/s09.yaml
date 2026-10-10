@@ -1,0 +1,84 @@
+chapter: sessions/09-vpc-peering
+
+quizzes:
+  - title: "Session 9 · Concepts"
+    description: How peering works and its limits.
+    questions:
+      - text: VPC A is peered with B, and B with C. Can A reach C through B?
+        choices: |
+          Yes, peering is transitive
+          *No, peering is not transitive
+          Only in the same Region
+          Only with a NAT Gateway
+      - text: Which VPCs can NOT be peered?
+        choices: |
+          VPCs in different accounts
+          VPCs in different Regions
+          *VPCs with overlapping CIDR ranges
+          VPCs with different instance types
+      - text: After the peering connection is accepted, what else is required? (Pick all that apply.)
+        choices: |
+          *Routes to the peer's CIDR in both VPCs' route tables
+          *Security group rules allowing the traffic
+          A NAT Gateway in each VPC
+          A Transit Gateway
+      - text: Can VPC A use VPC B's Internet Gateway through a peering connection?
+        choices: |
+          Yes
+          *No, there is no edge-to-edge routing over peering
+          Only for IPv6
+          Only with a VPN
+      - text: How many peering connections fully connect 6 VPCs?
+        choices: |
+          6
+          12
+          *15
+          36
+        explanation: n(n−1)/2 = 6 × 5 / 2 = 15.
+      - text: For inter-Region peering, how do you allow the other VPC in a security group?
+        choices: |
+          Reference the peer's security group ID
+          *Use the peer VPC's CIDR range
+          It's allowed automatically
+          Use a prefix list from the other Region only
+  - title: "Session 9 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: Two VPCs in different accounts must communicate privately with minimal cost; there are only two of them. What's the best option?
+        choices: |
+          *VPC peering
+          A Site-to-Site VPN over the internet
+          A Transit Gateway
+          Public IPs with security groups
+      - text: A company plans 20 VPCs today and more later, plus an on-premises VPN. Why might peering be a poor choice?
+        choices: |
+          Peering is too expensive per hour
+          *Full mesh needs many connections, routing isn't transitive, and peers can't share the VPN
+          Peering doesn't support private IPs
+          Peering only works in us-east-1
+      - text: Peering is active and routes exist, but instances can't ping each other. What should you check next?
+        choices: |
+          The Internet Gateway
+          *Security groups (and NACLs) on both sides
+          The NAT Gateway
+          Route 53
+
+decks:
+  - title: "Session 9 · Flashcards"
+    cards:
+      - front: VPC peering
+        back: Private one-to-one connection between two VPCs (same or different account/Region).
+      - front: Transitive peering?
+        back: "**No.** A↔B + B↔C ≠ A↔C."
+      - front: Overlapping CIDRs
+        back: Can't be peered. Plan IP ranges early.
+      - front: Edge-to-edge routing
+        back: Not allowed. A peer can't use your IGW, NAT, VPN or Direct Connect.
+      - front: Peering setup steps
+        back: Request → accept → routes on **both** sides → security group rules.
+      - front: Full mesh count
+        back: n(n−1)/2 peerings for n VPCs.
+      - front: Peering cost
+        back: No hourly fee; data transfer charges only.
+      - front: Inter-Region peering
+        back: Supported and encrypted; reference CIDRs (not SGs) in rules.

@@ -1,0 +1,93 @@
+chapter: sessions/13-vpc-flow-logs-dns
+
+quizzes:
+  - title: "Session 13 · Concepts"
+    description: Flow logs and DNS resolution.
+    questions:
+      - text: Where can VPC Flow Logs be enabled? (Pick all that apply.)
+        choices: |
+          *VPC
+          *Subnet
+          *Network interface (ENI)
+          S3 bucket
+      - text: What do flow logs record?
+        choices: |
+          Full packet contents
+          *IP traffic metadata such as source, destination, ports, bytes and ACCEPT/REJECT
+          HTTP URLs and headers
+          IAM API calls
+      - text: Which destinations can flow logs be delivered to? (Pick all that apply.)
+        choices: |
+          *CloudWatch Logs
+          *Amazon S3
+          *Kinesis Data Firehose
+          Route 53
+      - text: In a flow log record, protocol 6 means…
+        choices: |
+          UDP
+          *TCP
+          ICMP
+          HTTP
+      - text: In DNS resolution, after the root server, who does the resolver ask next?
+        choices: |
+          The authoritative server
+          *The TLD server (e.g. .com)
+          The browser cache
+          The registrar
+      - text: What decides how long a DNS answer is cached?
+        choices: |
+          The browser vendor
+          *The record's TTL
+          The registrar
+          The number of name servers
+      - text: Where is the Amazon-provided DNS resolver in a VPC with CIDR 10.0.0.0/16?
+        choices: |
+          10.0.0.1
+          *10.0.0.2 (VPC base +2), also 169.254.169.253
+          8.8.8.8
+          10.0.255.255
+  - title: "Session 13 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: Flow logs show inbound ACCEPT to port 443 but the outbound reply is REJECT. What's the cause?
+        choices: |
+          A security group blocks the reply
+          *A network ACL blocks the outbound ephemeral ports
+          The Internet Gateway is detached
+          DNS is misconfigured
+      - text: Security needs a year of flow logs at the lowest cost, queried occasionally with SQL. What should you choose?
+        choices: |
+          CloudWatch Logs with infinite retention
+          *Deliver to S3 and query with Athena
+          Store them on an EBS volume
+          Kinesis Data Streams only
+      - text: You will change a website's IP tomorrow, and the A record TTL is 86400. What should you do today?
+        choices: |
+          Nothing
+          *Lower the TTL (e.g. to 60) so resolvers pick up the change quickly
+          Delete the hosted zone
+          Raise the TTL
+
+decks:
+  - title: "Session 13 · Flashcards"
+    cards:
+      - front: VPC Flow Logs
+        back: Metadata of IP traffic (who, where, port, bytes, ACCEPT/REJECT) for VPC/subnet/ENI.
+      - front: Flow log destinations
+        back: CloudWatch Logs (needs IAM role), S3 (Athena), Kinesis Data Firehose.
+      - front: Not captured by flow logs
+        back: Amazon DNS queries, 169.254.169.254 metadata, Time Sync, DHCP, Windows activation.
+      - front: REJECT in a flow log
+        back: Blocked by a security group or NACL.
+      - front: Inbound ACCEPT, reply REJECT
+        back: A stateless NACL is blocking ephemeral reply ports.
+      - front: DNS resolution order
+        back: Cache → resolver → root → TLD → authoritative → answer cached for TTL.
+      - front: TTL
+        back: Seconds a DNS answer may be cached. Lower it before migrations.
+      - front: Amazon VPC resolver
+        back: VPC base +2 (e.g. 10.0.0.2) and 169.254.169.253.
+      - front: A / CNAME / NS / MX / TXT
+        back: IPv4 · alias name · name servers · mail · text (verification, SPF).
+      - front: "dig +trace"
+        back: Shows every DNS step from the root down.

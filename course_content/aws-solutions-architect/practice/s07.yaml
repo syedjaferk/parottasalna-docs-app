@@ -1,0 +1,99 @@
+chapter: sessions/07-public-private-subnets
+
+quizzes:
+  - title: "Session 7 · Concepts"
+    description: VPC, subnets, route tables, IGW, security groups vs NACLs.
+    questions:
+      - text: What makes a subnet "public"?
+        choices: |
+          Its name contains public
+          *Its route table has a route 0.0.0.0/0 to an Internet Gateway
+          It has a NAT Gateway
+          It is in the first AZ
+      - text: A subnet lives in…
+        choices: |
+          *Exactly one Availability Zone
+          All AZs of the Region
+          Two AZs for high availability
+          Any Region
+      - text: How many IP addresses does AWS reserve in every subnet?
+        choices: |
+          2
+          3
+          *5
+          10
+      - text: Which statements about security groups are true? (Pick all that apply.)
+        choices: |
+          *They are stateful (replies are allowed automatically)
+          *They support allow rules only
+          They support deny rules
+          *They can reference other security groups as a source
+      - text: Network ACLs are…
+        choices: |
+          Stateful, allow-only
+          *Stateless, with numbered allow and deny rules
+          Attached to instances
+          Global
+      - text: An instance in a public subnet still isn't reachable from the internet. What might be missing?
+        choices: |
+          A NAT Gateway
+          *A public IP (auto-assign or Elastic IP), or a security group rule
+          A VPC endpoint
+          An EBS volume
+      - text: In the local Docker simulation, what played the role of the private subnet?
+        choices: |
+          The default bridge network
+          *A Docker network created with --internal
+          The host network
+          A volume
+  - title: "Session 7 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: A three-tier app has an ALB, app servers and a database. Where should each go?
+        choices: |
+          All in public subnets
+          *ALB in public subnets; app servers and database in private subnets
+          Database in a public subnet for easy access
+          App servers in public subnets with public IPs
+      - text: The database must accept connections only from the app servers, which scale up and down. How do you write the rule?
+        choices: |
+          Allow port 5432 from 0.0.0.0/0
+          Allow port 5432 from each app server's IP
+          *Allow port 5432 from the app servers' security group
+          Use a NACL deny rule
+      - text: You must block one malicious IP address from reaching a subnet. What do you use?
+        choices: |
+          A security group deny rule
+          *A network ACL deny rule
+          A route table entry
+          An IAM policy
+      - text: A /28 subnet gives how many usable IPs in AWS?
+        choices: |
+          16
+          14
+          *11
+          8
+
+decks:
+  - title: "Session 7 · Flashcards"
+    cards:
+      - front: VPC
+        back: Your private network in one Region with a CIDR range (e.g. 10.0.0.0/16).
+      - front: Subnet
+        back: A slice of the VPC in **one AZ**. AWS reserves 5 IPs per subnet.
+      - front: Public subnet
+        back: Route table has `0.0.0.0/0 → igw`.
+      - front: Private subnet
+        back: No route to the Internet Gateway (local only, or via NAT for outbound).
+      - front: Internet Gateway
+        back: The VPC's free, highly available door to the internet. One per VPC.
+      - front: Security group
+        back: Stateful instance firewall. Allow rules only; can reference other SGs.
+      - front: Network ACL
+        back: Stateless subnet firewall. Numbered allow + deny rules; replies need explicit rules.
+      - front: Ephemeral ports
+        back: 1024–65535, used by replies. Allow them outbound in NACLs.
+      - front: "/24 subnet in AWS"
+        back: 256 addresses, 251 usable.
+      - front: Three-tier SG pattern
+        back: alb-sg ← internet; app-sg ← alb-sg; db-sg ← app-sg.

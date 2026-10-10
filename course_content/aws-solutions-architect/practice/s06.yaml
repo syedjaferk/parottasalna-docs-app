@@ -1,0 +1,101 @@
+chapter: sessions/06-ec2-networking-storage
+
+quizzes:
+  - title: "Session 6 · Concepts"
+    description: Public vs private, Elastic IPs, instance roles, EBS.
+    questions:
+      - text: What happens to an EC2 instance's normal public IPv4 address when you stop and start it?
+        choices: |
+          It stays the same
+          *It changes
+          It becomes an Elastic IP
+          It is removed for good
+      - text: An EBS volume can be attached to instances in…
+        choices: |
+          Any AZ in the Region
+          *The same AZ as the volume
+          Any Region
+          Only the AZ where the account was created
+      - text: How are EBS snapshots stored?
+        choices: |
+          On the instance store
+          *Incrementally, in S3 managed by AWS
+          In a Glacier vault you manage
+          On the root volume
+      - text: Which EBS volume type is the general-purpose default with baseline 3,000 IOPS you can raise independently of size?
+        choices: |
+          gp2
+          *gp3
+          st1
+          sc1
+      - text: What happens to instance store data when the instance is stopped?
+        choices: |
+          It is kept
+          *It is lost
+          It moves to EBS
+          It is snapshotted automatically
+      - text: How does an app on EC2 get credentials from an attached IAM role?
+        choices: |
+          From ~/.aws/credentials written at launch
+          *From the instance metadata service (temporary credentials, refreshed automatically)
+          From the user data script
+          From the AMI
+      - text: Can you shrink an EBS volume from 100 GiB to 50 GiB in place?
+        choices: |
+          Yes, with Modify volume
+          *No; you can only increase size (create a smaller volume and copy data instead)
+          Yes, but only for gp3
+          Only when the instance is stopped
+  - title: "Session 6 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: A database server needs consistent, very high IOPS on its EBS volume. Which volume type?
+        choices: |
+          sc1
+          st1
+          gp2
+          *io2 (Provisioned IOPS SSD)
+      - text: You must move data from an EBS volume in ap-south-1a to an instance in ap-south-1b. What do you do?
+        choices: |
+          Detach and attach it across AZs
+          *Create a snapshot and restore a new volume from it in ap-south-1b
+          Use VPC peering
+          Copy the instance store
+      - text: A company needs daily EBS backups kept for 30 days, with no scripts to maintain. Which service?
+        choices: |
+          CloudTrail
+          *Amazon Data Lifecycle Manager (or AWS Backup)
+          S3 Transfer Acceleration
+          AWS Config
+      - text: Administrators need a shell on private instances without opening port 22 or running a bastion. What should they use?
+        choices: |
+          A public IP on each instance
+          *AWS Systems Manager Session Manager (or EC2 Instance Connect Endpoint)
+          A NAT Gateway
+          VPC peering
+
+decks:
+  - title: "Session 6 · Flashcards"
+    cards:
+      - front: Public IPv4 on stop/start
+        back: Changes. Private IP stays. Use an Elastic IP or a load balancer/DNS for a stable address.
+      - front: Elastic IP
+        back: Static public IPv4 you own until released. All public IPv4 addresses are charged.
+      - front: EC2 Instance Connect
+        back: Browser/CLI SSH with a one-time key pushed for 60 seconds.
+      - front: Session Manager
+        back: Shell via SSM with no inbound ports, using the instance role.
+      - front: Instance profile / role
+        back: Gives the instance temporary AWS credentials via the metadata service. No stored keys.
+      - front: IMDSv2
+        back: Token-based metadata service; protects role credentials from SSRF attacks.
+      - front: EBS
+        back: Network block storage in **one AZ**; persists independently of the instance.
+      - front: EBS snapshot
+        back: Incremental, stored in S3 (managed); restore in any AZ, copy to other Regions.
+      - front: gp3 vs io2
+        back: gp3 = general default (3,000 IOPS baseline). io2 = high, guaranteed IOPS for databases.
+      - front: Instance store
+        back: Fast local disk; data lost on stop/termination. Caches and scratch only.
+      - front: Grow a file system after resizing EBS
+        back: "`growpart` (if partitioned), then `xfs_growfs` (XFS) or `resize2fs` (ext4)."

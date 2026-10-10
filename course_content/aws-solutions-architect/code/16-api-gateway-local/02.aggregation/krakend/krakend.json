@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "port": 8080,
+
+  "endpoints": [
+    {
+      "endpoint": "/customer/{user_id}",
+      "method": "GET",
+
+      "backend": [
+        {
+          "group": "user",
+          "host": [
+            "http://user-service:8000"
+          ],
+          "url_pattern": "/users/{user_id}"
+        },
+        {
+          "group": "orders",
+          "host": [
+            "http://order-service:8000"
+          ],
+          "url_pattern": "/orders/user/{user_id}"
+        },
+        {
+          "group": "wallet",
+          "host": [
+            "http://wallet-service:8000"
+          ],
+          "url_pattern": "/wallet/{user_id}"
+        }
+      ]
+    }
+  ]
+}

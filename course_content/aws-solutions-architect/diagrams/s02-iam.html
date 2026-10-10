@@ -1,0 +1,40 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 280" role="img" aria-labelledby="s02-iam-t s02-iam-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s02-iam-t">IAM building blocks</title>
+<desc id="s02-iam-d">Policies give permissions. Attach them to groups (for people) or roles (for services and other accounts). A role hands out temporary credentials.</desc>
+<defs><marker id="s02-iam-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s02-iam-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s02-iam-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s02-iam-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="150" height="90" rx="10" class="blue"/>
+<text x="95.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Users</text>
+<text x="95.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">arun, priya</text>
+<text x="95.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">long-term login</text>
+<path d="M170,75 L238,75" class="arrow" marker-end="url(#s02-iam-h)"/>
+<text x="204" y="62" text-anchor="middle" dominant-baseline="middle" class="small">member of</text>
+<rect x="240" y="30" width="170" height="90" rx="10" class="blue"/>
+<text x="325.0" y="65.0" text-anchor="middle" dominant-baseline="middle">Group</text>
+<text x="325.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">developers</text>
+<path d="M410,75 L488,75" class="arrow" marker-end="url(#s02-iam-h)"/>
+<text x="449" y="62" text-anchor="middle" dominant-baseline="middle" class="small">attached</text>
+<rect x="490" y="30" width="210" height="90" rx="10" class="green"/>
+<text x="595.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Policy (JSON)</text>
+<text x="595.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="code">Allow s3:GetObject</text>
+<text x="595.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">on arn:aws:s3:::reports/*</text>
+<rect x="20" y="170" width="150" height="90" rx="10" class="amber"/>
+<text x="95.0" y="195.0" text-anchor="middle" dominant-baseline="middle">EC2 / Lambda</text>
+<text x="95.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="small">or another</text>
+<text x="95.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">AWS account</text>
+<path d="M170,215 L238,215" class="arrow" marker-end="url(#s02-iam-h)"/>
+<text x="204" y="202" text-anchor="middle" dominant-baseline="middle" class="small">assumes</text>
+<rect x="240" y="170" width="170" height="90" rx="10" class="purple"/>
+<text x="325.0" y="195.0" text-anchor="middle" dominant-baseline="middle">Role</text>
+<text x="325.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="code">app-reads-s3</text>
+<text x="325.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">no password</text>
+<path d="M410,215 L488,215" class="arrow" marker-end="url(#s02-iam-h)"/>
+<text x="449" y="202" text-anchor="middle" dominant-baseline="middle" class="small">via STS</text>
+<rect x="490" y="170" width="210" height="90" rx="10" class="green"/>
+<text x="595.0" y="195.0" text-anchor="middle" dominant-baseline="middle">Temporary credentials</text>
+<text x="595.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="small">expire automatically</text>
+<text x="595.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">(minutes to hours)</text>
+<path d="M595,168 L595,122" class="arrow dashed" marker-end="url(#s02-iam-h)"/>
+</svg>
+<figcaption>Policies give permissions. Attach them to groups (for people) or roles (for services and other accounts). A role hands out temporary credentials.</figcaption>
+</figure>

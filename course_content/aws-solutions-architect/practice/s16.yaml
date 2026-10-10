@@ -1,0 +1,107 @@
+chapter: sessions/16-api-gateway
+
+quizzes:
+  - title: "Session 16 · Concepts"
+    description: API types, stages, integrations, security and limits.
+    questions:
+      - text: Which API Gateway type is cheapest and has the lowest latency for simple Lambda or HTTP backends?
+        choices: |
+          REST API
+          *HTTP API
+          WebSocket API
+          Private REST API
+      - text: Which features are available on REST APIs but not HTTP APIs? (Pick all that apply.)
+        choices: |
+          *API keys and usage plans
+          *Response caching
+          *AWS WAF integration
+          Lambda integration
+      - text: What is a stage?
+        choices: |
+          A Lambda version
+          *A named deployment of the API with its own URL (e.g. dev, prod)
+          A CloudWatch alarm
+          A route
+      - text: With Lambda proxy integration…
+        choices: |
+          You must map every field manually
+          *The whole request goes to Lambda and its response is returned as-is
+          Lambda can't read headers
+          Only GET is supported
+      - text: What is the default integration timeout for API Gateway?
+        choices: |
+          3 seconds
+          *29 seconds
+          15 minutes
+          No limit
+      - text: API keys in API Gateway are best described as…
+        choices: |
+          A strong authentication method
+          *A way to identify callers for usage plans and quotas, not security on their own
+          A replacement for IAM
+          Encryption keys
+      - text: In the KrakenD aggregation demo, what did one call to /customer/7 return?
+        choices: |
+          Only the user
+          *The user, their orders and their wallet combined into one response
+          A list of services
+          A 404 error
+  - title: "Session 16 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: A mobile app needs a cheap, low-latency API in front of Lambda with Cognito JWT authentication. Which option?
+        choices: |
+          REST API with API keys
+          *HTTP API with a JWT authorizer
+          An ALB with fixed responses
+          A WebSocket API
+      - text: A partner must be limited to 10,000 requests per month and 50 requests per second. What do you configure?
+        choices: |
+          A WAF rate-based rule only
+          *A REST API with an API key and a usage plan (quota + throttle)
+          Lambda reserved concurrency only
+          A larger Lambda memory size
+      - text: A report endpoint takes 2 minutes to generate results and requests time out. What's the best redesign?
+        choices: |
+          Raise Lambda memory
+          *Make it asynchronous - accept the request (202), queue the work (e.g. SQS), and let the client poll or get notified
+          Use a bigger API Gateway
+          Switch to HTTP API
+      - text: A web app on another domain gets browser errors calling the API, but curl works. What's missing?
+        choices: |
+          An API key
+          *CORS configuration (allowed origins, methods, headers)
+          A bigger throttle limit
+          A custom domain
+      - text: Clients receive 429 errors from API Gateway during a traffic spike. What is happening?
+        choices: |
+          The Lambda code has a bug
+          *Requests exceed the throttling limits (account, stage or usage plan)
+          The certificate expired
+          CORS is wrong
+
+decks:
+  - title: "Session 16 · Flashcards"
+    cards:
+      - front: API gateway (concept)
+        back: One front door for APIs. Routing, auth, throttling, monitoring in one place.
+      - front: REST vs HTTP vs WebSocket API
+        back: REST = most features. HTTP = cheaper and faster. WebSocket = two-way real-time.
+      - front: Stage
+        back: Named deployment with its own URL (dev, prod).
+      - front: Lambda proxy integration
+        back: Passes the full request to Lambda; returns Lambda's response directly.
+      - front: Authorizers
+        back: IAM (SigV4), Cognito/JWT, Lambda authorizer (custom logic).
+      - front: API keys + usage plans
+        back: Identify clients, apply quotas and throttles (REST APIs). Not security alone.
+      - front: Default throttling
+        back: About 10,000 req/s per account per Region with 5,000 burst; excess → 429.
+      - front: Integration timeout
+        back: 29 seconds by default; use async patterns for long work.
+      - front: CORS
+        back: Lets browsers on other domains call your API.
+      - front: Custom domain
+        back: ACM certificate + domain mapping + Route 53 Alias. Edge-optimized needs the cert in us-east-1.
+      - front: API aggregation
+        back: One gateway call fans out to several services and combines the answers (KrakenD demo).

@@ -1,0 +1,105 @@
+chapter: sessions/05-elastic-load-balancer
+
+quizzes:
+  - title: "Session 5 · Concepts"
+    description: ALB, NLB, GWLB, listeners, target groups, cross-zone.
+    questions:
+      - text: Which load balancer can route by URL path (e.g. /api/*) and host name?
+        choices: |
+          *Application Load Balancer
+          Network Load Balancer
+          Gateway Load Balancer
+          Classic Load Balancer only
+      - text: Which load balancer gives a static IP address per AZ?
+        choices: |
+          Application Load Balancer
+          *Network Load Balancer
+          Gateway Load Balancer
+          None of them
+      - text: What is the Gateway Load Balancer used for?
+        choices: |
+          Static websites
+          *Sending traffic through third-party security appliances (firewalls, IDS/IPS)
+          WebSocket APIs
+          DNS routing
+      - text: Which targets can an ALB target group contain? (Pick all that apply.)
+        choices: |
+          *EC2 instances
+          *IP addresses
+          *Lambda functions
+          S3 buckets
+      - text: Cross-zone load balancing is on by default for which load balancer?
+        choices: |
+          *ALB
+          NLB
+          GWLB
+          All of them
+      - text: Where do you put the TLS certificate for HTTPS on an ALB?
+        choices: |
+          On every EC2 instance only
+          *On the HTTPS listener (certificate from ACM)
+          In the target group
+          In Route 53
+      - text: What should the instances' security group allow for traffic behind an ALB?
+        choices: |
+          Port 80 from 0.0.0.0/0
+          *The app port from the ALB's security group only
+          All traffic from anywhere
+          Nothing; ALB bypasses security groups
+  - title: "Session 5 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: A microservices app needs /orders and /users sent to different services behind one endpoint. Which is the most cost-effective option?
+        choices: |
+          Two Network Load Balancers
+          *One ALB with path-based listener rules and two target groups
+          A Gateway Load Balancer
+          Route 53 weighted records
+      - text: A gaming company runs a UDP-based service that needs millions of requests per second with very low latency. Which load balancer?
+        choices: |
+          Application Load Balancer
+          *Network Load Balancer
+          Classic Load Balancer
+          API Gateway
+      - text: A partner must allow-list your service's IP addresses in their firewall. What do you place in front of your instances?
+        choices: |
+          An ALB, giving them its DNS name
+          *An NLB with Elastic IPs
+          CloudFront
+          A NAT Gateway
+      - text: All HTTP requests should be upgraded to HTTPS at the load balancer. How?
+        choices: |
+          Install a redirect on each instance
+          *Add an HTTP:80 listener on the ALB with a redirect action to HTTPS:443
+          Use an NLB
+          Change the target group protocol
+      - text: An ALB's targets show as unhealthy, but the app works when you curl the instance directly from inside the VPC. What's the most likely cause?
+        choices: |
+          The ALB is in one AZ
+          *The instance security group doesn't allow the ALB's security group, or the health check path returns an error
+          The certificate expired
+          Cross-zone load balancing is off
+
+decks:
+  - title: "Session 5 · Flashcards"
+    cards:
+      - front: ALB
+        back: Layer 7 (HTTP/HTTPS). Path/host/header routing, redirects, Lambda targets, WAF, user auth.
+      - front: NLB
+        back: Layer 4 (TCP/UDP/TLS). Ultra-low latency, millions of req/s, static/Elastic IP per AZ.
+      - front: GWLB
+        back: Layer 3. Sends traffic through security appliances using GENEVE (port 6081).
+      - front: Listener
+        back: Protocol + port the load balancer accepts (e.g. HTTPS:443), with rules.
+      - front: Target group
+        back: Targets (EC2, IP, Lambda) + health check settings.
+      - front: Cross-zone load balancing
+        back: Spread traffic evenly over all targets in all AZs. On by default for ALB; off (and charged) for NLB/GWLB.
+      - front: TLS termination
+        back: Certificate on the load balancer listener (free from ACM); targets get plain or re-encrypted traffic.
+      - front: Security group chaining
+        back: Instances allow traffic only **from the ALB's security group**.
+      - front: ALB IP addresses
+        back: They change. Use the DNS name or a Route 53 Alias record.
+      - front: Fixed response / redirect
+        back: ALB rule actions that answer without reaching any target.

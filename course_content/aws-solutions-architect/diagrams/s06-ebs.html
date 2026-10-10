@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s06-ebs-t s06-ebs-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s06-ebs-t">EBS volumes and snapshots</title>
+<desc id="s06-ebs-d">An EBS volume lives in one AZ and attaches to an instance there. A snapshot is stored in S3 (managed by AWS) and can create a new volume in any AZ, even another Region.</desc>
+<defs><marker id="s06-ebs-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s06-ebs-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s06-ebs-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s06-ebs-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="300" height="210" rx="14" class="blue"/>
+<text x="170" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">AZ ap-south-1a</text>
+<rect x="40" y="60" width="120" height="70" rx="10" class="box"/>
+<text x="100.0" y="85.0" text-anchor="middle" dominant-baseline="middle">EC2</text>
+<text x="100.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">/dev/xvda</text>
+<rect x="180" y="60" width="120" height="70" rx="10" class="green"/>
+<text x="240.0" y="85.0" text-anchor="middle" dominant-baseline="middle">EBS gp3</text>
+<text x="240.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">20 GiB</text>
+<line x1="160" y1="95" x2="180" y2="95" class="line"/>
+<rect x="40" y="150" width="260" height="60" rx="10" class="green"/>
+<text x="170.0" y="170.0" text-anchor="middle" dominant-baseline="middle">EBS volume /data</text>
+<text x="170.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="code">attach · mkfs · mount</text>
+<path d="M300,180 L383,180" class="arrow" marker-end="url(#s06-ebs-h)"/>
+<text x="342" y="166" text-anchor="middle" dominant-baseline="middle" class="small">snapshot</text>
+<rect x="385" y="140" width="135" height="80" rx="10" class="amber"/>
+<text x="452.5" y="160.0" text-anchor="middle" dominant-baseline="middle">Snapshot</text>
+<text x="452.5" y="180.0" text-anchor="middle" dominant-baseline="middle" class="small">incremental</text>
+<text x="452.5" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">stored in S3</text>
+<path d="M520,180 L583,180" class="arrow" marker-end="url(#s06-ebs-h)"/>
+<text x="552" y="166" text-anchor="middle" dominant-baseline="middle" class="small">restore</text>
+<rect x="585" y="20" width="115" height="210" rx="14" class="purple"/>
+<text x="642" y="40" text-anchor="middle" dominant-baseline="middle" class="bold">AZ 1b</text>
+<rect x="595" y="140" width="95" height="80" rx="10" class="green"/>
+<text x="642.5" y="170.0" text-anchor="middle" dominant-baseline="middle">new EBS</text>
+<text x="642.5" y="190.0" text-anchor="middle" dominant-baseline="middle" class="small">volume</text>
+</svg>
+<figcaption>An EBS volume lives in one AZ and attaches to an instance there. A snapshot is stored in S3 (managed by AWS) and can create a new volume in any AZ, even another Region.</figcaption>
+</figure>

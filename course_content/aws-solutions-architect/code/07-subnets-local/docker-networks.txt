@@ -1,0 +1,14 @@
+docker network create --subnet=10.10.0.0/24 public-net
+docker network create --internal --subnet=10.20.0.0/24 private-net
+
+
+docker run -dit --name public-server --hostname public-server --network public-net ubuntu:24.04
+
+docker network connect private-net public-server
+
+docker run -dit --name private-server --hostname private-server --network private-net ubuntu:24.04
+
+
+docker exec public-server ip addr
+docker exec private-server ip addr
+

@@ -1,0 +1,83 @@
+chapter: sessions/08-nat-gateway
+
+quizzes:
+  - title: "Session 8 · Concepts"
+    description: NAT Gateway vs Internet Gateway, routing, HA and cost.
+    questions:
+      - text: Where must a (public) NAT Gateway be placed?
+        choices: |
+          In the private subnet it serves
+          *In a public subnet
+          Outside the VPC
+          In the Internet Gateway
+      - text: What does a NAT Gateway allow?
+        choices: |
+          Inbound connections from the internet to private instances
+          *Outbound connections from private instances, plus their replies
+          Connections between VPCs
+          Private access to S3 only
+      - text: Which route does the private subnet's route table need?
+        choices: |
+          0.0.0.0/0 → igw
+          *0.0.0.0/0 → nat-gateway
+          10.0.0.0/16 → nat-gateway
+          No route
+      - text: A NAT Gateway is highly available…
+        choices: |
+          Across all AZs of the Region automatically
+          *Within its own AZ only
+          Only if you attach two Elastic IPs
+          Never
+      - text: How is a NAT Gateway billed?
+        choices: |
+          It's free
+          *Per hour plus per GB of data processed
+          Per instance using it
+          Per route table
+      - text: "In the local iptables lab, which rule rewrites the private source address?"
+        choices: |
+          FORWARD -i eth1 -o eth0 -j ACCEPT
+          *-t nat -A POSTROUTING -o eth0 -j MASQUERADE
+          FORWARD with RELATED,ESTABLISHED
+          ip route add default
+  - title: "Session 8 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: Private instances in three AZs use one NAT Gateway in AZ a. What's the risk, and the fix?
+        choices: |
+          No risk; NAT is regional
+          *If AZ a fails, the other AZs lose internet access. Put a NAT Gateway in each AZ and route each private subnet to its own AZ's NAT
+          The NAT will run out of IPs; add Elastic IPs
+          Use VPC peering instead
+      - text: Private instances download large amounts of data from S3 through a NAT Gateway and the bill is high. What reduces cost the most?
+        choices: |
+          A bigger NAT Gateway
+          *An S3 gateway VPC endpoint
+          A second Internet Gateway
+          Moving the instances to a public subnet
+      - text: Private instances must call an external payment API, and the partner wants to allow-list one IP. What gives a stable source IP?
+        choices: |
+          Each instance's private IP
+          *The NAT Gateway's Elastic IP
+          The VPC CIDR
+          The Internet Gateway's IP
+
+decks:
+  - title: "Session 8 · Flashcards"
+    cards:
+      - front: NAT Gateway
+        back: Lets private instances reach the internet outbound; blocks new inbound connections.
+      - front: IGW vs NAT
+        back: IGW = in + out for public subnets (free). NAT = out-only for private subnets (paid).
+      - front: NAT placement
+        back: In a **public** subnet, with an Elastic IP; private route `0.0.0.0/0 → nat`.
+      - front: NAT high availability
+        back: One NAT Gateway **per AZ**; each private subnet uses its own AZ's NAT.
+      - front: NAT cost
+        back: Per hour + per GB processed. Delete after labs; release the EIP.
+      - front: NAT instance
+        back: An EC2 doing NAT (old way). Disable source/destination check; you manage failures.
+      - front: MASQUERADE
+        back: iptables NAT rule that rewrites the source IP to the NAT machine's own address.
+      - front: Cut NAT costs for S3/DynamoDB
+        back: Use free gateway VPC endpoints.

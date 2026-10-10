@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s16-apigw-t s16-apigw-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s16-apigw-t">Amazon API Gateway in front of Lambda</title>
+<desc id="s16-apigw-d">API Gateway receives the request, checks who is calling and how often, then hands it to a Lambda function or another backend. Logs and metrics go to CloudWatch.</desc>
+<defs><marker id="s16-apigw-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s16-apigw-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s16-apigw-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s16-apigw-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="95" width="105" height="70" rx="10" class="box"/>
+<text x="72.5" y="120.0" text-anchor="middle" dominant-baseline="middle">Client</text>
+<text x="72.5" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">app / browser</text>
+<path d="M125,130 L178,130" class="arrow" marker-end="url(#s16-apigw-h)"/>
+<text x="151" y="117" text-anchor="middle" dominant-baseline="middle" class="small">HTTPS</text>
+<rect x="180" y="30" width="300" height="200" rx="14" class="amber"/>
+<text x="330" y="50" text-anchor="middle" dominant-baseline="middle" class="bold">API Gateway · stage prod</text>
+<rect x="195" y="65" width="270" height="30" rx="10" class="box"/>
+<text x="330.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">custom domain + TLS</text>
+<rect x="195" y="103" width="270" height="30" rx="10" class="box"/>
+<text x="330.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="small">authorizer (JWT / IAM / Lambda)</text>
+<rect x="195" y="141" width="270" height="30" rx="10" class="box"/>
+<text x="330.0" y="156.0" text-anchor="middle" dominant-baseline="middle" class="small">throttling · API keys</text>
+<rect x="195" y="179" width="270" height="30" rx="10" class="box"/>
+<text x="330.0" y="194.0" text-anchor="middle" dominant-baseline="middle" class="small">route: GET /courses/{id}</text>
+<path d="M480,100 L538,80" class="arrow green" marker-end="url(#s16-apigw-h-green)"/>
+<text x="510" y="72" text-anchor="middle" dominant-baseline="middle" class="small">invoke</text>
+<rect x="540" y="45" width="160" height="70" rx="10" class="green"/>
+<text x="620.0" y="70.0" text-anchor="middle" dominant-baseline="middle">Lambda</text>
+<text x="620.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">getCourse()</text>
+<path d="M480,170 L538,190" class="arrow" marker-end="url(#s16-apigw-h)"/>
+<rect x="540" y="160" width="160" height="60" rx="10" class="blue"/>
+<text x="620.0" y="180.0" text-anchor="middle" dominant-baseline="middle">CloudWatch</text>
+<text x="620.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">logs · latency · 4XX/5XX</text>
+</svg>
+<figcaption>API Gateway receives the request, checks who is calling and how often, then hands it to a Lambda function or another backend. Logs and metrics go to CloudWatch.</figcaption>
+</figure>

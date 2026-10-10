@@ -1,0 +1,32 @@
+services:
+  user-service:
+    build: ./user-service
+    container_name: user-service
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+
+  wallet-service:
+    build: ./wallet-service
+    container_name: wallet-service
+
+  krakend:
+    image: devopsfaith/krakend
+    container_name: krakend
+
+    ports:
+      - "8082:8080"
+
+    volumes:
+      - ./krakend:/etc/krakend
+
+    command:
+      - run
+      - -c
+      - /etc/krakend/krakend.json
+
+    depends_on:
+      - user-service
+      - order-service
+      - wallet-service

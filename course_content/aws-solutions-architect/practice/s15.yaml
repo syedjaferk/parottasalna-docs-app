@@ -1,0 +1,109 @@
+chapter: sessions/15-amazon-s3
+
+quizzes:
+  - title: "Session 15 · Concepts"
+    description: Buckets, objects, durability, security defaults and storage classes.
+    questions:
+      - text: What is the maximum size of a single S3 object?
+        choices: |
+          5 GB
+          *5 TB
+          50 TB
+          Unlimited
+      - text: What durability is S3 designed for?
+        choices: |
+          99.9 %
+          99.99 %
+          *99.999999999 % (11 nines)
+          100 %
+      - text: Which settings are on by default for a new general purpose bucket? (Pick all that apply.)
+        choices: |
+          *Block Public Access
+          *Default encryption with SSE-S3
+          *ACLs disabled (bucket owner enforced)
+          Versioning
+      - text: Which storage class keeps data in a single Availability Zone?
+        choices: |
+          Standard-IA
+          *One Zone-IA
+          Glacier Deep Archive
+          Intelligent-Tiering
+      - text: What is the minimum storage duration charged for Glacier Deep Archive?
+        choices: |
+          30 days
+          90 days
+          *180 days
+          365 days
+      - text: S3 "folders" in the console are really…
+        choices: |
+          Separate buckets
+          *Prefixes in object keys
+          EBS volumes
+          Directories on a file system
+      - text: Which storage class automatically moves objects between access tiers based on usage?
+        choices: |
+          Standard
+          *Intelligent-Tiering
+          One Zone-IA
+          Glacier Flexible Retrieval
+  - title: "Session 15 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: Logs are read often in the first 30 days, rarely until 90 days, then must be kept 7 years for audit at the lowest cost. What's best?
+        choices: |
+          Keep everything in Standard
+          *A lifecycle rule - Standard → Standard-IA at 30 days → Glacier Deep Archive at 90 days → expire after 7 years
+          One Zone-IA from day one
+          Store them on EBS
+      - text: A user must download a private file for the next hour only. What do you provide?
+        choices: |
+          Make the object public
+          *A pre-signed URL that expires in an hour
+          The root credentials
+          A bucket policy allowing everyone
+      - text: Data access patterns are unknown and change over time. Which class minimizes cost without retrieval surprises?
+        choices: |
+          Standard-IA
+          *Intelligent-Tiering
+          Glacier Instant Retrieval
+          One Zone-IA
+      - text: Thumbnails can be regenerated from the originals and are read about once a month. The cheapest suitable class?
+        choices: |
+          Standard
+          *One Zone-IA
+          Glacier Deep Archive
+          Intelligent-Tiering
+      - text: A team must protect against accidental overwrites and deletes of objects. Which feature?
+        choices: |
+          Transfer Acceleration
+          *Versioning (with MFA Delete or lifecycle rules for old versions)
+          Requester Pays
+          Static website hosting
+
+decks:
+  - title: "Session 15 · Flashcards"
+    cards:
+      - front: Object vs block vs file storage
+        back: S3 (objects over HTTP) · EBS (disk for one instance) · EFS/FSx (shared file system).
+      - front: Bucket
+        back: Container for objects in one Region; general purpose names are globally unique.
+      - front: Object
+        back: Data + metadata + key (+ version ID). Up to 5 TB; single PUT up to 5 GB.
+      - front: Multipart upload
+        back: Upload big objects in parts (recommended > ~100 MB; required > 5 GB).
+      - front: Durability vs availability
+        back: 11 nines durability; availability depends on class (Standard 99.99 %).
+      - front: New bucket defaults
+        back: Block Public Access on, ACLs disabled, SSE-S3 encryption on, versioning off.
+      - front: Standard-IA / One Zone-IA
+        back: Infrequent access, ms retrieval, 30-day minimum, 128 KB minimum billed, retrieval fee.
+      - front: Glacier Instant Retrieval
+        back: Archive with ms access, 90-day minimum.
+      - front: Glacier Flexible Retrieval
+        back: 90-day minimum; expedited 1–5 min, standard 3–5 h, bulk 5–12 h.
+      - front: Glacier Deep Archive
+        back: Cheapest; 180-day minimum; restore within 12 h (standard) or 48 h (bulk).
+      - front: Lifecycle rule
+        back: Automatically transition or expire objects (and old versions) by age.
+      - front: Pre-signed URL
+        back: Time-limited link to a private object (`aws s3 presign`).

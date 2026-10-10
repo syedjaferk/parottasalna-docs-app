@@ -1,0 +1,30 @@
+{
+  "version": 3,
+  "port": 8080,
+
+  "endpoints": [
+    {
+      "endpoint": "/api/users/{user_id}",
+      "method": "GET",
+
+      "backend": [
+        {
+          "host": ["http://user-service:8000"],
+          "url_pattern": "/users/{user_id}"
+        }
+      ]
+    },
+
+    {
+      "endpoint": "/api/products/{product_id}",
+      "method": "GET",
+
+      "backend": [
+        {
+          "host": ["http://product-service:8000"],
+          "url_pattern": "/products/{product_id}"
+        }
+      ]
+    }
+  ]
+}

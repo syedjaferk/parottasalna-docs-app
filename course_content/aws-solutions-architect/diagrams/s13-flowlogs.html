@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s13-flowlogs-t s13-flowlogs-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s13-flowlogs-t">VPC Flow Logs record who talked to whom</title>
+<desc id="s13-flowlogs-d">Flow logs capture IP traffic metadata (not contents) for a VPC, subnet or network interface, and deliver it to CloudWatch Logs, S3 or Firehose.</desc>
+<defs><marker id="s13-flowlogs-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s13-flowlogs-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s13-flowlogs-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s13-flowlogs-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="50" width="170" height="110" rx="10" class="blue"/>
+<text x="105.0" y="85.0" text-anchor="middle" dominant-baseline="middle">VPC / subnet /</text>
+<text x="105.0" y="105.0" text-anchor="middle" dominant-baseline="middle">network interface</text>
+<text x="105.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">flow log on</text>
+<path d="M190,105 L258,105" class="arrow" marker-end="url(#s13-flowlogs-h)"/>
+<rect x="260" y="30" width="230" height="150" rx="10" class="amber"/>
+<text x="375.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">one record:</text>
+<text x="375.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">10.0.1.5 → 10.0.2.9</text>
+<text x="375.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">port 5432 TCP</text>
+<text x="375.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">bytes 4210</text>
+<text x="375.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">action REJECT</text>
+<path d="M490,70 L548,60" class="arrow" marker-end="url(#s13-flowlogs-h)"/>
+<path d="M490,140 L548,150" class="arrow" marker-end="url(#s13-flowlogs-h)"/>
+<rect x="550" y="30" width="150" height="55" rx="10" class="green"/>
+<text x="625.0" y="47.5" text-anchor="middle" dominant-baseline="middle">CloudWatch Logs</text>
+<text x="625.0" y="67.5" text-anchor="middle" dominant-baseline="middle" class="small">search · alarms</text>
+<rect x="550" y="125" width="150" height="55" rx="10" class="green"/>
+<text x="625.0" y="142.5" text-anchor="middle" dominant-baseline="middle">Amazon S3</text>
+<text x="625.0" y="162.5" text-anchor="middle" dominant-baseline="middle" class="small">Athena queries</text>
+</svg>
+<figcaption>Flow logs capture IP traffic metadata (not contents) for a VPC, subnet or network interface, and deliver it to CloudWatch Logs, S3 or Firehose.</figcaption>
+</figure>

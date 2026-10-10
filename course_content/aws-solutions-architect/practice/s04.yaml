@@ -1,0 +1,87 @@
+chapter: sessions/04-load-balancing-haproxy
+
+quizzes:
+  - title: "Session 4 · Concepts"
+    description: Load balancing ideas, algorithms and health checks (HAProxy demo).
+    questions:
+      - text: What does a load balancer do when a backend fails its health checks?
+        choices: |
+          Restarts the backend
+          *Stops sending it traffic until it's healthy again
+          Sends it twice as many requests
+          Shuts down the load balancer
+      - text: Which algorithm sends each new request to the server with the fewest active connections?
+        choices: |
+          roundrobin
+          *leastconn
+          source
+          first
+      - text: "With weights 5, 3 and 2 in round robin, roughly what share of 100 requests reaches the weight-5 server?"
+        choices: |
+          33
+          *50
+          20
+          100
+      - text: "In the class demo, why did one request return 503 right after `docker stop app3`?"
+        choices: |
+          HAProxy crashed
+          *HAProxy hadn't yet marked app3 as down (health checks every 5 s, 3 failures needed)
+          app1 and app2 were also down
+          The port mapping changed
+      - text: Which HAProxy settings make it retry a failed request on another server?
+        choices: |
+          balance source
+          *retries + option redispatch
+          stats enable
+          bind *:80
+      - text: "In AWS terms, what is HAProxy's `backend apps` block?"
+        choices: |
+          A listener
+          *A target group
+          A security group
+          A VPC
+  - title: "Session 4 · Scenarios"
+    description: Apply the ideas.
+    questions:
+      - text: Users get logged out randomly behind a round-robin load balancer. What's the most likely cause?
+        choices: |
+          The health check path is wrong
+          *Sessions are stored in each server's memory, so the next request hits another server
+          The load balancer uses TLS
+          The servers are in two AZs
+      - text: Requests to your API take from 10 ms to 30 s depending on the call. Which algorithm spreads load best?
+        choices: |
+          roundrobin
+          *leastconn
+          source
+          static weights only
+      - text: You want to block any client IP sending more than 100 requests per minute at the load balancer. Which HAProxy feature fits?
+        choices: |
+          option httpchk
+          *A stick-table tracking http_req_rate with a 429 response
+          balance leastconn
+          stats uri
+
+decks:
+  - title: "Session 4 · Flashcards"
+    cards:
+      - front: Load balancer
+        back: One front door that spreads requests across healthy servers.
+      - front: Round robin
+        back: 1, 2, 3, 1, 2, 3… Equal turns.
+      - front: Least connections
+        back: Pick the server with the fewest open connections. Good for uneven request times.
+      - front: Source (IP hash)
+        back: Same client IP → same server.
+      - front: Weighted
+        back: Bigger servers get proportionally more requests (e.g. 5/3/2).
+      - front: Health check
+        back: Regular probe (e.g. `GET /health`); failing servers stop getting traffic.
+      - front: "check inter 5s (fall 3)"
+        back: Probe every 5 s; mark down after 3 failures, so ~15 s to detect a dead server.
+      - front: "retries + option redispatch"
+        back: Retry a failed connection on another server, hiding the detection gap.
+      - front: HAProxy → AWS ELB
+        back: frontend = listener · backend = target group · server = target · httpchk = health check.
+      - front: 429 Too Many Requests
+        back: Response for rate-limited clients (HAProxy stick-table, AWS WAF rate-based rule).

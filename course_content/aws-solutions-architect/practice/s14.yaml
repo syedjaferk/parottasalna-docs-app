@@ -1,0 +1,95 @@
+chapter: sessions/14-route-53
+
+quizzes:
+  - title: "Session 14 · Concepts"
+    description: Hosted zones, record types and routing policies.
+    questions:
+      - text: Why can't you use a CNAME for example.com (the zone apex)?
+        choices: |
+          CNAMEs are deprecated
+          *DNS doesn't allow a CNAME at the apex, alongside the NS/SOA records there
+          Route 53 doesn't support CNAMEs
+          CNAMEs cost extra
+      - text: What is an Alias record?
+        choices: |
+          Another name for a CNAME
+          *A Route 53 record that points to AWS resources (ALB, CloudFront, S3 website…), works at the apex, free queries to AWS targets
+          A record for email
+          A private-only record
+      - text: A private hosted zone answers queries from…
+        choices: |
+          The whole internet
+          *Only the VPCs associated with it
+          Only the registrar
+          Only IAM users
+      - text: You bought a domain at another registrar and created a Route 53 hosted zone. What connects them?
+        choices: |
+          An A record at the registrar
+          *Setting the registrar's name servers to the hosted zone's 4 NS records
+          A CNAME to the hosted zone
+          Nothing; it's automatic
+      - text: Which routing policy uses health checks to switch from a primary to a secondary?
+        choices: |
+          Weighted
+          Geolocation
+          *Failover
+          Simple
+      - text: Which routing policy sends users to the Region with the lowest network latency?
+        choices: |
+          Geolocation
+          *Latency-based
+          Multivalue answer
+          Weighted
+  - title: "Session 14 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: Release a new version to 5 % of users first, then increase gradually. Which policy?
+        choices: |
+          Failover
+          *Weighted
+          Geoproximity
+          Simple
+      - text: Content must differ by country for legal reasons (e.g. users in Germany see a German site). Which policy?
+        choices: |
+          Latency-based
+          *Geolocation
+          Weighted
+          Multivalue answer
+      - text: Point the apex domain parottasalna.com to an Application Load Balancer. Which record?
+        choices: |
+          CNAME to the ALB DNS name
+          A record with the ALB's current IP
+          *A record with Alias to the ALB
+          MX record
+      - text: An active-passive DR setup must send traffic to a standby Region only if the primary site fails. What do you configure?
+        choices: |
+          Weighted records 50/50
+          *Failover routing with a health check on the primary
+          Geolocation routing
+          A private hosted zone
+
+decks:
+  - title: "Session 14 · Flashcards"
+    cards:
+      - front: Route 53
+        back: "AWS DNS service: domain registration, hosted zones, health checks, routing policies."
+      - front: Registrar vs DNS hosting
+        back: Registrar sells the domain and points to name servers; hosted zone answers the records.
+      - front: Public vs private hosted zone
+        back: Public = internet. Private = only associated VPCs.
+      - front: Alias record
+        back: Points to AWS resources, works at the zone apex, free queries to AWS targets.
+      - front: CNAME at apex?
+        back: Not allowed. Use an Alias A/AAAA record.
+      - front: Weighted routing
+        back: Split traffic by weight (canary, A/B).
+      - front: Latency routing
+        back: Region with lowest latency for the user.
+      - front: Failover routing
+        back: Primary while healthy, else secondary (needs health check).
+      - front: Geolocation vs geoproximity
+        back: Geolocation = by country/continent. Geoproximity = by distance with an adjustable bias.
+      - front: Multivalue answer
+        back: Up to 8 healthy records returned at random.
+      - front: ACM DNS validation
+        back: Add the CNAME ACM gives you (one click in Route 53) to prove domain ownership.

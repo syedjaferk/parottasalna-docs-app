@@ -1,0 +1,101 @@
+chapter: sessions/02-iam-deep-dive
+
+quizzes:
+  - title: "Session 2 · Concepts"
+    description: Users, groups, roles, policies and how AWS evaluates them.
+    questions:
+      - text: How does IAM evaluate a request when one policy allows the action and another explicitly denies it?
+        choices: |
+          Allow wins, because it was attached first
+          *Deny wins: an explicit Deny always overrides an Allow
+          The most recent policy wins
+          The request needs MFA to decide
+      - text: If no policy mentions an action at all, what happens?
+        choices: |
+          It's allowed
+          *It's denied (implicit deny)
+          It's allowed for 1 hour
+          AWS asks the root user
+      - text: What does a role's trust policy define?
+        choices: |
+          What the role can do
+          *Who is allowed to assume the role
+          The role's password
+          Which Region the role works in
+      - text: Which statements about IAM groups are true? (Pick all that apply.)
+        choices: |
+          *Groups contain users
+          Groups can contain other groups
+          *Policies attached to a group apply to its users
+          You can sign in as a group
+      - text: What does a role give when assumed?
+        choices: |
+          A permanent password
+          *Temporary security credentials from STS
+          New access keys that never expire
+          Root access
+      - text: Which policy type is attached to a resource and has a Principal field?
+        choices: |
+          AWS managed policy
+          Inline identity policy
+          *Resource-based policy (e.g. an S3 bucket policy)
+          Permissions boundary
+      - text: "To let a user list a bucket AND read its objects, which Resource values are needed?"
+        choices: |
+          Only arn:aws:s3:::bucket/*
+          *arn:aws:s3:::bucket (for ListBucket) and arn:aws:s3:::bucket/* (for GetObject)
+          Only arn:aws:s3:::*
+          Only the bucket name
+  - title: "Session 2 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: An application on EC2 needs to read from an S3 bucket. What is the most secure way to give it credentials?
+        choices: |
+          Store an IAM user's access keys in a config file on the instance
+          Put the keys in environment variables in the user data
+          *Attach an IAM role (instance profile) with read access to the bucket
+          Make the bucket public
+      - text: An external auditing company needs read-only access to your AWS account for one month. What should you set up?
+        choices: |
+          Share the root password
+          Create IAM users with the AdministratorAccess policy
+          *A cross-account IAM role with a read-only policy that their account can assume
+          Email them the access keys of a developer
+      - text: A team of 30 developers needs the same permissions, and people join and leave often. What's the most manageable approach?
+        choices: |
+          Attach the policy to each user
+          *Create a group with the policy and add or remove users from the group
+          Use the root user for all developers
+          Create one shared IAM user
+      - text: Security wants proof that a user signed in with MFA before they can delete S3 objects. What do you use?
+        choices: |
+          A bucket in another Region
+          *A policy condition aws:MultiFactorAuthPresent = true
+          A security group rule
+          A NAT Gateway
+
+decks:
+  - title: "Session 2 · Flashcards"
+    cards:
+      - front: IAM user
+        back: A person or app with **long-term** credentials (password and/or access keys).
+      - front: IAM group
+        back: A collection of users sharing policies. Can't be nested; not an identity.
+      - front: IAM role
+        back: Permissions with **no** long-term credentials; assumed for **temporary** credentials from STS.
+      - front: Trust policy
+        back: Who may assume a role (a service, an account, a federated user).
+      - front: Policy evaluation
+        back: Default **deny** → explicit **Allow** grants → any explicit **Deny** wins.
+      - front: Policy elements
+        back: Effect, Action, Resource, Condition (and Principal in resource-based policies).
+      - front: ARN
+        back: Amazon Resource Name, e.g. `arn:aws:s3:::reports/*`.
+      - front: Least privilege
+        back: Grant only the actions and resources actually needed; remove the rest.
+      - front: STS
+        back: Security Token Service. Issues temporary credentials (`AssumeRole`).
+      - front: Customer managed vs inline policy
+        back: Customer managed = reusable, versioned. Inline = embedded in one identity, deleted with it.
+      - front: Cross-account access
+        back: The other account assumes a role in yours that trusts their account ID.

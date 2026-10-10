@@ -1,0 +1,83 @@
+chapter: sessions/10-transit-gateway
+
+quizzes:
+  - title: "Session 10 · Concepts"
+    description: Hub-and-spoke networking with Transit Gateway.
+    questions:
+      - text: What is the main advantage of Transit Gateway over VPC peering?
+        choices: |
+          It is free
+          *Hub-and-spoke with transitive routing; each network attaches once
+          It works without route tables
+          It encrypts data at rest
+      - text: Which can be attached to a Transit Gateway? (Pick all that apply.)
+        choices: |
+          *VPCs
+          *Site-to-Site VPN connections
+          *Direct Connect gateways
+          S3 buckets
+      - text: How do you stop dev VPCs from reaching prod while both reach shared services?
+        choices: |
+          Security groups only
+          *Separate Transit Gateway route tables (associations and propagations)
+          Delete the attachments
+          Use a NAT Gateway
+      - text: What does "propagation" do in a Transit Gateway route table?
+        choices: |
+          Copies the TGW to another Region
+          *Automatically adds an attachment's CIDRs as routes
+          Encrypts traffic
+          Creates VPC peering connections
+      - text: Besides the TGW route tables, what must each VPC have?
+        choices: |
+          Nothing else
+          *A route in its own route table sending other networks' CIDRs to the TGW
+          A NAT Gateway
+          An Elastic IP
+      - text: How is Transit Gateway billed?
+        choices: |
+          Free
+          *Per attachment per hour plus per GB processed
+          Per VPC per month only
+          Per route
+  - title: "Session 10 · Scenarios"
+    description: Exam-style questions (SAA-C03).
+    questions:
+      - text: 40 VPCs across accounts need connectivity to each other and to the corporate data centre over one VPN. What is the most operationally efficient design?
+        choices: |
+          VPC peering mesh plus a VPN in every VPC
+          *A Transit Gateway with VPC attachments and one VPN attachment (shared via AWS RAM across accounts)
+          Public IPs on every instance
+          One VPC with 40 subnets
+      - text: Instances in some AZs can't reach the Transit Gateway, but others can. What's the likely cause?
+        choices: |
+          The TGW is regional only in one AZ
+          *The VPC attachment has no subnet in those AZs
+          Security groups block the TGW
+          Propagation is off
+      - text: Two VPCs only need to talk to each other and cost is the main concern. TGW or peering?
+        choices: |
+          *VPC peering (no hourly attachment charges)
+          Transit Gateway
+          Direct Connect
+          A NAT Gateway
+
+decks:
+  - title: "Session 10 · Flashcards"
+    cards:
+      - front: Transit Gateway
+        back: Regional hub router; VPCs, VPNs and Direct Connect attach once. Routing is transitive.
+      - front: TGW attachment
+        back: A connection to the hub (VPC, VPN, DX gateway, TGW peering, Connect).
+      - front: Association
+        back: The TGW route table an attachment uses for its lookups.
+      - front: Propagation
+        back: An attachment auto-adds its CIDRs to a TGW route table.
+      - front: Segmentation
+        back: Different TGW route tables per environment (e.g. dev can't reach prod).
+      - front: VPC side of TGW
+        back: VPC route table needs e.g. `10.0.0.0/8 → tgw-…`; attachment subnet in each AZ used.
+      - front: TGW cost
+        back: Per attachment-hour + per GB. Delete lab attachments.
+      - front: Peering vs TGW (rule of thumb)
+        back: Few VPCs, cheapest → peering. Many VPCs / hybrid / central control → TGW.

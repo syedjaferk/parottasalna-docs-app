@@ -1,0 +1,16 @@
+hey -z 60s -c 500 -q 50 http://localhost:8080/
+hey -z 1m -c 100 http://localhost:8080/
+hey -n 100 -c 10 http://localhost:8080/
+
+
+ stick-table type ip size 1m expire 1m store http_req_rate(60s)
+
+    http-request track-sc0 src
+
+    acl abuse sc_http_req_rate(0) gt 100
+
+    http-request return \
+        status 429 \
+        content-type application/json \
+        string '{"error":"Too Many Requests"}' \
+        if abuse

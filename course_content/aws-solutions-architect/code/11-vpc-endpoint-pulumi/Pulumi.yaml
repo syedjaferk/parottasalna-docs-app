@@ -1,0 +1,6 @@
+name: vpc-public-private
+runtime: python
+description: >
+  VPC with a public and private subnet.
+  Public EC2 has S3ReadOnly IAM role and internet access.
+  Private EC2 is reachable only from public EC2 via SSH.
