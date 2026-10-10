@@ -1,0 +1,6 @@
+langchain>=1.0
+langchain-groq
+langchain-mcp-adapters
+mcp
+python-dotenv
+requests

@@ -1,0 +1,159 @@
+Zero Shot Prompting: No Examples. Just the plain query.
+============================
+
+1. Find the sum of all even numbers between 1 and 50.
+2. Classify the sentiment of this sentence as positive, negative or neutral. Sentence: "The product quality is amazing and delivery was fast."
+
+
+One/Few Shot Prompting: One or more examples.
+===================================
+1.  Classify the sentiment of this sentence as positive, negative or neutral.
+
+Example:
+
+Sentence: "The food was nice but it was served late."
+Sentiment: Neutral
+
+Sentence: "Childrens enjoyed the trip"
+Sentiment: Positive
+
+Sentence: "The product quality is amazing and delivery was fast."
+Sentiment:
+
+
+System Prompting:
+=================
+
+High Level Instruction.
+
+1. Behaviour
+2. Rules
+3. Tone
+4. Restrictions
+
+Python Decorators:
+
+Without SP: Explain in detail about Decorators in python.
+
+With SP:
+
+You are a senior teacher teaching 10-year kid. Use analogies and simple examples. Avoid complex jargons.
+Explain in detail about Decorators in python.
+
+
+Role Prompting:
+===============
+
+Act as a Person -- Main Motive.
+
+You are a competitive programming coach.
+Solve the problem efficiently and explain the logic.
+
+
+def add_item(item, items=list()):
+    items.append(item)
+    return items
+
+
+print(add_item("apple"))
+
+a = []
+print(add_item("banana", a))
+
+b = []
+print(add_item("jackfruit", b))
+
+
+print(add_item("mango"))
+print(add_item("pineapple"))
+
+
+
+
+
+Contextual Prompting:
+=====================
+
+Background Info ?
+
+I am building a food delivery application using FastAPI and Postgresql.
+
+Suggest a scalable database schema for,
+Users
+Restaurants
+Orders
+Payments.
+
+
+
+I am building a user persona for login in figma
+
+Suggest a nice theme and design flow for,
+Username/Email entry
+Login/Signup Button
+OAuth Authentication from 3rd party apps
+
+
+Chain of Thought
+
+A person bought a pen for 20 Rs and Sold it for 30 Rs. What is the profit percentage ?
+
+Think step by step.
+
+
+Tree of Thoughs:
+===============
+
+Multiple Possible branches out there.
+
+
+You need to solve the Find the sum of all even numbers between 1 and 50. First identify 3 different
+approaches for step 1, namely step 1a, step 1b, step 1c. And identify the best approach based on the
+given query and proceed with that.
+
+
+
+
+self consistency
+=================
+
+Solve this problem using different methods and pick the most accurate answers.
+A train travels 120km in 2.5 hours. What is its speed ?
+
+
+
+ReAct = Reason + Action.
+
+AI reasons about the problem and performs tools/actions.
+
+Thought -> Action -> Observation -> Final Result.
+
+
+Eg:
+
+Whats is the weather in chennai ?
+
+AI:
+Think it needs weather data.
+Calls weather api
+Observes the result
+Responds.
+
+
+Tool Calling.
+
+
+Prompt:
+======
+
+You are a ReAct Agent. You solve problems by alternating between Thought, Action, and Observation.
+
+Available tools:
+- get_weather[city]: Returns the current weather.
+
+Format:
+Thought: [Your reasoning]
+Action: [tool_name][argument]
+Observation: [Result from tool]
+... (repeat until done)
+Final Answer: [The result]

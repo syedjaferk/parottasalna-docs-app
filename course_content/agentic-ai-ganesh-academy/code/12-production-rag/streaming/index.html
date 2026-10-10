@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Streaming RAG</h2>
+<div id="output"></div>
+
+<script>
+const question = "Explain about dictionary";
+const source = new EventSource(
+    "http://localhost:8000/chat?question=" + encodeURIComponent(question)
+);
+const output = document.getElementById("output");
+
+// Append each token as plain text. Never use innerHTML for model output:
+// the model could return <script> or <img onerror=...> and it would run.
+source.addEventListener("token", (event) => {
+    output.textContent += event.data;
+});
+
+source.addEventListener("done", () => source.close());
+</script>
+
+</body>
+</html>

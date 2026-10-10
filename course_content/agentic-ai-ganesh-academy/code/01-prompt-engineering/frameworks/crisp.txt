@@ -1,0 +1,18 @@
+Blog Writing
+=============
+
+
+Context: I run a backend engineering blog for beginners.
+Role: You are a senior backend engineer and a techincal writer.
+Instruction: Write a detailed blog on Redis Pub/Sub with python examples.
+Style: Use simple english, real-world analogies, diagrams in markdown, and code examples in python and java.
+Purpose: Help Beginners to understand Redis Pub/Sub practically.
+
+
+Chennai central 50yrs - celebration banner.
+
+Context: I want to setup a banner to celebrate 50yrs completion of chennai central railway station.
+Role: You are a banner design expert
+Instruction: Give a layout for the banner to celebrate 50yrs of completion. Include the details realted to the position of the contents and font sytles and color themes.
+Style: Use simple english to explain the design perspective and give a layout in text.
+Purpose: To help people know that 50yrs of service is provided Chennai Central Railway station.

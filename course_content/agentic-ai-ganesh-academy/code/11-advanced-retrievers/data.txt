@@ -1,0 +1,6 @@
+Amazon S3 stores objects.
+S3 supports Lifecycle Policies.
+Lifecycle Policies automatically move old objects to Glacier.
+Amazon Glacier is a low-cost archive storage.
+Glacier has Flexible Retrieval and Deep Archive storage classes.
+Deep Archive is the cheapest storage option.
