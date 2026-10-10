@@ -13,6 +13,7 @@ from django.views.decorators.http import require_http_methods, require_safe
 from courses.models import Course
 from courses.security import csv_safe, no_store
 from courses.services import can_track, user_can_access
+from streaks.services import record_action
 
 from .models import Attempt, CardReview, Quiz
 from .services import (
@@ -102,6 +103,7 @@ def quiz_take(request, slug, pk):
             attempt = Attempt.objects.create(
                 quiz=quiz, user=request.user, score=score, max_score=max_score, answers=answers
             )
+        record_action(request.user)  # counts toward the reading streak
         return redirect("quiz_result", slug=course.slug, pk=attempt.pk)
 
     return render(request, "quizzes/quiz_take.html", {

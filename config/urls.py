@@ -7,5 +7,6 @@ urlpatterns = [
     path("", include("blog.urls")),
     path("", include("quizzes.urls")),
     path("", include("notes.urls")),
+    path("", include("streaks.urls")),
     path("", include("courses.urls")),
 ]

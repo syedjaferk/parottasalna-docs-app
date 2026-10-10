@@ -1,0 +1,42 @@
+<section class="streak-card" aria-labelledby="streak-title">
+  <div class="streak-main">
+    <div class="streak-flame{% if streak.status == 'none' %} is-out{% endif %}" aria-hidden="true">🔥</div>
+    <div>
+      <h2 id="streak-title" class="streak-count">
+        {{ streak.current }} day{{ streak.current|pluralize }}
+        <span>reading streak</span>
+      </h2>
+      <p class="streak-status">
+        {% if streak.status == "done" %}✅ You've read today. Come back tomorrow to keep it going!
+        {% elif streak.status == "pending" %}📖 Read for a minute today to make it {{ streak.current|add:1 }}.
+        {% elif streak.status == "freeze" %}❄️ You missed yesterday. Read today and this week's freeze keeps your streak.
+        {% else %}Read any chapter for a minute to start a streak.{% endif %}
+      </p>
+    </div>
+  </div>
+
+  <dl class="streak-stats">
+    <div><dt>Best</dt><dd>{{ streak.best }}</dd></div>
+    <div><dt>Days read</dt><dd>{{ streak.total_days }}</dd></div>
+    <div><dt>Today</dt><dd>{% widthratio streak.today_seconds 60 1 %} min</dd></div>
+  </dl>
+
+  <div class="streak-calendar" role="img" aria-label="Reading days over the last 12 weeks">
+    <div class="streak-days" aria-hidden="true"><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span>Sun</span></div>
+    {% for week in streak.calendar %}
+    <div class="streak-week">
+      {% for cell in week %}<span class="cell {{ cell.state }}{% if cell.today %} today{% endif %}" title="{{ cell.date|date:'D, j M' }}{% if cell.state == 'read' %} · read{% elif cell.state == 'frozen' %} · freeze used{% endif %}"></span>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <p class="streak-legend"><span class="cell read"></span> read <span class="cell frozen"></span> freeze <span class="cell missed"></span> missed
+    · One missed day per week is covered by a freeze.</p>
+
+  <ul class="streak-badges" aria-label="Milestones">
+    {% for m in streak.milestones %}
+    <li class="{% if m.earned %}earned{% endif %}" title="{% if m.earned %}Earned{% else %}Reach a {{ m.days }}-day streak{% endif %}">
+      <span aria-hidden="true">{% if m.earned %}🏅{% else %}🔒{% endif %}</span>{{ m.days }} days
+    </li>
+    {% endfor %}
+  </ul>
+</section>

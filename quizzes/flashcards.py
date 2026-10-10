@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST, require_safe
 from courses.security import api_login_required, no_store
 from courses.services import can_track
 from courses.models import Course
+from streaks.services import record_action
 
 from .models import CardReview, Deck
 from .templatetags.quiz_extras import markdown
@@ -62,6 +63,7 @@ def deck_review(request, slug, pk):
 
     review, _ = CardReview.objects.get_or_create(user=request.user, card=card)
     CardReview.objects.filter(pk=review.pk).update(known=known == "true", times_seen=F("times_seen") + 1)
+    record_action(request.user)  # counts toward the reading streak
     known_total = CardReview.objects.filter(user=request.user, card__deck=deck, known=True).count()
     return no_store(JsonResponse({"card": card.pk, "known": known == "true",
                                   "known_total": known_total, "total": deck.cards.count()}))

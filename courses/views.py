@@ -15,6 +15,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST, require_safe
 
 from blog.models import Post
+from streaks.services import has_streak, record_action, summary as streak_summary
 
 from .models import Course, PageProgress
 from .security import api_login_required, no_store
@@ -57,6 +58,7 @@ def home(request):
         "courses": courses,
         "enrolled_courses": [c for c in courses if not c.is_common],
         "common_courses": [c for c in courses if c.is_common],
+        "streak": streak_summary(request.user) if has_streak(request.user) else None,
     })
 
 
@@ -194,6 +196,7 @@ def progress_update(request, slug):
         return JsonResponse({"error": "Invalid page or completed value"}, status=400)
     if completed == "true":
         PageProgress.objects.get_or_create(user=request.user, course=course, page=page)
+        record_action(request.user)  # counts toward the reading streak
     else:
         PageProgress.objects.filter(user=request.user, course=course, page=page).delete()
     done = PageProgress.objects.filter(user=request.user, course=course, page__in=pages).count()

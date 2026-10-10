@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}My courses · {{ brand.NAME }}{% endblock %}
 {% block extra_style %}
   .hero {
@@ -80,12 +81,15 @@
   .channel span { font-size: .9rem; color: var(--muted); }
   .channel .btn.yt { background: #ff0033; color: #fff; box-shadow: 0 4px 14px rgba(255, 0, 51, .25); }
 {% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/streak.css' %}">{% endblock %}
 {% block content %}
 <section class="hero">
   <h1>Welcome back{% if user.first_name %}, {{ user.first_name }}{% endif %} 👋</h1>
   <p>Notes from every session are published here as soon as they're ready. Pick a course to continue learning.</p>
   {% if courses %}<span class="stat">📚 {{ enrolled_courses|length }} enrolled · {{ common_courses|length }} common</span>{% endif %}
 </section>
+
+{% if streak %}{% include "streaks/_card.html" %}{% endif %}
 
 {% if courses %}
 {% if enrolled_courses %}

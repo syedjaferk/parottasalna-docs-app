@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST, require_safe
 from courses.models import Course
 from courses.security import api_login_required, no_store
 from courses.services import can_track, chapters, user_can_access
+from streaks.services import record_action
 
 from .models import BODY_MAX, NOTES_PER_COURSE_MAX, QUOTE_MAX, Note
 
@@ -83,6 +84,7 @@ def note_create(request, slug):
     if Note.objects.filter(user=request.user, course=course).count() >= NOTES_PER_COURSE_MAX:
         return JsonResponse({"error": "You have reached the note limit for this course"}, status=400)
     note = Note.objects.create(user=request.user, course=course, **fields)
+    record_action(request.user)  # counts toward the reading streak
     return no_store(JsonResponse(note.as_json(), status=201))
 
 

@@ -1,0 +1,33 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "django",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": [
+        "manage.py",
+        "runserver",
+        "127.0.0.1:8001"
+      ],
+      "port": 8001,
+      "env": {
+        "DEBUG": "true"
+      }
+    },
+    {
+      "name": "tamil-osm-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8000",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "/home/syedjaferk/Parottasalna/Application/tamil-osm-name-gap-finder/public"
+      ],
+      "port": 8000,
+      "url": "http://127.0.0.1:8000"
+    }
+  ]
+}

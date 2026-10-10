@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "quizzes",
     "blog",
     "notes",
+    "streaks",
 ]
 
 MIDDLEWARE = [
