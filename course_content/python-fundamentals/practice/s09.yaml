@@ -1,0 +1,88 @@
+chapter: sessions/09-dictionaries
+
+quizzes:
+  - title: "Session 9 · Quiz"
+    description: "Key-value pairs: create, read, update, loop, count."
+    questions:
+      - text: "prices = {\"rice\": 60}. How do you read rice's price?"
+        choices: |
+          *prices["rice"]
+          prices[0]
+          prices.rice
+          prices("rice")
+        explanation: "Dictionaries are indexed by key, not position."
+      - text: "What does prices[\"tea\"] do if \"tea\" isn't a key?"
+        choices: |
+          *Raises KeyError
+          Returns None
+          Returns 0
+          Adds tea
+        explanation: "Use prices.get(\"tea\") or prices.get(\"tea\", 0) to avoid the error."
+      - text: "What does d[\"a\"] = 5 do if \"a\" already exists?"
+        choices: |
+          *Replaces its value with 5
+          Adds a second "a"
+          Raises an error
+          Nothing
+        explanation: "Keys are unique."
+      - text: "Which loop gives you both keys and values?"
+        choices: |
+          *for k, v in d.items():
+          for k, v in d:
+          for k, v in d.keys():
+          for k, v in d.values():
+        explanation: "items() yields (key, value) pairs."
+      - text: "What does \"rice\" in prices check?"
+        choices: |
+          *Whether "rice" is a key
+          Whether "rice" is a value
+          Both
+          The position of rice
+        explanation: "in checks keys. Use in prices.values() for values."
+      - text: "Which can NOT be a dictionary key?"
+        choices: |
+          *[1, 2]
+          (1, 2)
+          "name"
+          42
+        explanation: "Lists are mutable, so unhashable."
+      - text: "What does d.setdefault(\"k\", 1) do if \"k\" already exists?"
+        choices: |
+          *Leaves it unchanged and returns its value
+          Sets it to 1
+          Raises KeyError
+          Deletes it
+        explanation: "setdefault only adds the key if it's missing."
+      - text: "dict(zip([\"a\", \"b\"], [1, 2])) gives…"
+        choices: |
+          *{"a": 1, "b": 2}
+          [("a", 1), ("b", 2)]
+          {"a": "b", 1: 2}
+          An error
+        explanation: "zip pairs the lists; dict() turns the pairs into key-value pairs."
+
+decks:
+  - title: "Session 9 · Flashcards"
+    cards:
+      - front: "Dictionary"
+        back: "Key → value pairs: {\"rice\": 60}."
+      - front: "d[key]"
+        back: "Read (KeyError if missing) or assign a value."
+      - front: "get(key, default)"
+        back: "Read safely, with a default for missing keys."
+      - front: "del d[k] / pop(k)"
+        back: "Remove a key / remove and return its value."
+      - front: "update(other)"
+        back: "Merge another dict in (overwriting existing keys)."
+      - front: "keys() / values() / items()"
+        back: "Views of the keys, values, and (key, value) pairs."
+      - front: "setdefault(k, v)"
+        back: "Add k with v only if k is missing."
+      - front: "Dict comprehension"
+        back: "{n: n ** 2 for n in range(1, 6)}."
+      - front: "Counting pattern"
+        back: "count[x] = count.get(x, 0) + 1, or collections.Counter."
+      - front: "defaultdict(int)"
+        back: "A dict where missing keys start at 0."
+      - front: "Order"
+        back: "Dictionaries keep insertion order (Python 3.7+)."

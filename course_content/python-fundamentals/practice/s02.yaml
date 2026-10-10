@@ -1,0 +1,86 @@
+chapter: sessions/02-variables-and-data-types
+
+quizzes:
+  - title: "Session 2 · Quiz"
+    description: "Naming, assignment, dynamic typing, constants and the built-in types."
+    questions:
+      - text: "Which is a valid variable name?"
+        choices: |
+          *_count
+          2nd_place
+          my-variable
+          class
+        explanation: "Names start with a letter or underscore, contain letters/digits/underscores, and can't be keywords."
+      - text: "After a, b = 1, 2 and then a, b = b, a, what is a?"
+        choices: |
+          *2
+          1
+          (1, 2)
+          An error
+        explanation: "The right side is evaluated first, then unpacked: a swap in one line."
+      - text: "What does type(3.0) return?"
+        choices: |
+          *<class 'float'>
+          <class 'int'>
+          <class 'str'>
+          <class 'number'>
+        explanation: "Anything with a decimal point is a float."
+      - text: "How are constants marked in Python?"
+        choices: |
+          *By convention, with UPPER_CASE names
+          With the const keyword
+          With #define
+          Python enforces them automatically
+        explanation: "Python doesn't enforce constants; PI = 3.14159 is a signal to other programmers."
+      - text: "What is int(3.99)?"
+        choices: |
+          *3
+          4
+          3.99
+          An error
+        explanation: "int() cuts off the decimals. round(3.99) gives 4."
+      - text: "What is bool(\"0\")?"
+        choices: |
+          *True
+          False
+          0
+          An error
+        explanation: "Only empty strings are False. \"0\" is a non-empty string."
+      - text: "Which type is ordered and changeable?"
+        choices: |
+          *list
+          tuple
+          frozenset
+          str
+        explanation: "Tuples, frozensets and strings are immutable."
+      - text: "What does \"5\" * 3 give?"
+        choices: |
+          *"555"
+          15
+          "15"
+          An error
+        explanation: "Multiplying a string by an int repeats it."
+
+decks:
+  - title: "Session 2 · Flashcards"
+    cards:
+      - front: "Variable"
+        back: "A name that refers to a value, created with =."
+      - front: "= vs =="
+        back: "= assigns a value; == compares two values."
+      - front: "Dynamic typing"
+        back: "You don't declare types; a name can point to an int now and a str later."
+      - front: "type(x)"
+        back: "Tells you the type of the object x refers to."
+      - front: "Constant"
+        back: "A value that shouldn't change, written in UPPER_CASE by convention."
+      - front: "int / float / complex"
+        back: "Whole numbers / decimals / complex numbers like 2+3j."
+      - front: "str / bool / None"
+        back: "Text / True or False / 'no value'."
+      - front: "Falsy values"
+        back: "0, 0.0, \"\", [], {}, set(), None: they count as False."
+      - front: "int(\"42\") / str(42)"
+        back: "Convert text to a number / a number to text."
+      - front: "Unpacking"
+        back: "name, age = (\"Alice\", 30) assigns each item to a variable."

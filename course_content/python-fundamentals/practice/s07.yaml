@@ -1,0 +1,86 @@
+chapter: sessions/07-lists
+
+quizzes:
+  - title: "Session 7 · Quiz"
+    description: "Creating, changing, sorting lists and list comprehensions."
+    questions:
+      - text: "Which method adds an item to the END of a list?"
+        choices: |
+          *append()
+          insert()
+          extend()
+          add()
+        explanation: "insert(i, x) adds at a position; extend() adds every item of another list."
+      - text: "packages = [\"a\", \"b\"]; packages.insert(1, \"x\"). Result?"
+        choices: |
+          *["a", "x", "b"]
+          ["x", "a", "b"]
+          ["a", "b", "x"]
+          ["a", "x"]
+        explanation: "insert puts the item at index 1 and shifts the rest right."
+      - text: "What does pop() with no argument do?"
+        choices: |
+          *Removes and returns the last item
+          Removes the first item
+          Empties the list
+          Returns the last item without removing it
+        explanation: "pop(i) removes the item at index i."
+      - text: "lst = [3, 1, 2]; lst = lst.sort(). What is lst now?"
+        choices: |
+          *None
+          [1, 2, 3]
+          [3, 1, 2]
+          An error
+        explanation: "sort() sorts in place and returns None. Use sorted(lst) for a new list."
+      - text: "What does [1, 2] + [3] give?"
+        choices: |
+          *[1, 2, 3]
+          [1, 2, [3]]
+          [4, 2]
+          An error
+        explanation: "+ joins lists into a new list."
+      - text: "lst.append([4, 5]) on [1, 2] gives…"
+        choices: |
+          *[1, 2, [4, 5]]
+          [1, 2, 4, 5]
+          [4, 5]
+          An error
+        explanation: "append adds ONE item, here a list. extend([4, 5]) would add 4 and 5."
+      - text: "What does [x * 2 for x in [1, 2, 3]] give?"
+        choices: |
+          *[2, 4, 6]
+          [1, 2, 3, 1, 2, 3]
+          6
+          [2]
+        explanation: "A list comprehension builds a new list."
+      - text: "How do you remove duplicates from a list but keep the order?"
+        choices: |
+          *list(dict.fromkeys(lst))
+          list(set(lst))
+          lst.unique()
+          lst.remove_duplicates()
+        explanation: "A set removes duplicates but loses the order; dict keys keep the insertion order."
+
+decks:
+  - title: "Session 7 · Flashcards"
+    cards:
+      - front: "List"
+        back: "Ordered, changeable collection: [\"Letter\", \"Box\"]."
+      - front: "append(x)"
+        back: "Add x at the end."
+      - front: "insert(i, x)"
+        back: "Add x at index i."
+      - front: "remove(x) / pop(i)"
+        back: "Remove the first x by value / remove and return the item at index i."
+      - front: "extend(other)"
+        back: "Add every item of another list."
+      - front: "index(x) / count(x)"
+        back: "Position of the first x / how many times x appears."
+      - front: "sort() vs sorted()"
+        back: "sort(): in place, returns None. sorted(): returns a new sorted list."
+      - front: "x in lst"
+        back: "True if x is in the list."
+      - front: "List comprehension"
+        back: "[expr for item in items if condition]."
+      - front: "clear()"
+        back: "Remove all items."

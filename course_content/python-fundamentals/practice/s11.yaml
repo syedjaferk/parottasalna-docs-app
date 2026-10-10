@@ -1,0 +1,79 @@
+chapter: sessions/11-generators
+
+quizzes:
+  - title: "Session 11 · Quiz"
+    description: "yield, next(), laziness, generator expressions and pipelines."
+    questions:
+      - text: "Which keyword turns a function into a generator?"
+        choices: |
+          *yield
+          return
+          async
+          lambda
+        explanation: "Any function containing yield is a generator function."
+      - text: "What does calling a generator function return?"
+        choices: |
+          *A generator object; the body hasn't run yet
+          A list of all values
+          The first value
+          None
+        explanation: "The body runs step by step as you call next() or loop."
+      - text: "What happens when a generator has no more values and you call next()?"
+        choices: |
+          *StopIteration is raised
+          It returns None
+          It restarts
+          It returns the last value again
+        explanation: "for loops catch StopIteration automatically."
+      - text: "Why are generators memory-efficient?"
+        choices: |
+          *They produce one item at a time instead of storing all
+          They compress data
+          They run on the GPU
+          They delete variables
+        explanation: "A list of a million numbers is ~8 MB; a generator object is a few hundred bytes."
+      - text: "Which creates a generator expression?"
+        choices: |
+          *(n * n for n in range(5))
+          [n * n for n in range(5)]
+          {n * n for n in range(5)}
+          n * n for n in range(5)
+        explanation: "Round brackets: generator. Square: list. Curly: set."
+      - text: "You sum a generator twice. The second sum is…"
+        choices: |
+          *0, because it's already used up
+          The same as the first
+          An error
+          Double the first
+        explanation: "Generators are single-use."
+      - text: "Which task suits a generator best?"
+        choices: |
+          *Reading a 10 GB log file line by line
+          Sorting a small list
+          Storing settings
+          Indexing items by position
+        explanation: "Streams and huge data are where laziness shines."
+
+decks:
+  - title: "Session 11 · Flashcards"
+    cards:
+      - front: "Generator"
+        back: "A function that yields values one at a time, remembering its state."
+      - front: "yield"
+        back: "Hand out a value and pause; resume from here on the next request."
+      - front: "next(gen)"
+        back: "Get the next value from a generator."
+      - front: "StopIteration"
+        back: "Raised when a generator is exhausted; for loops handle it."
+      - front: "Lazy"
+        back: "Nothing is computed until a value is asked for."
+      - front: "Generator expression"
+        back: "(x * 2 for x in data): like a list comprehension, but lazy."
+      - front: "Single-use"
+        back: "Once exhausted, a generator stays empty; call the function again."
+      - front: "yield from"
+        back: "Yield every item of another iterable."
+      - front: "Pipeline"
+        back: "Generators feeding generators: read → filter → transform → sum."
+      - front: "Infinite generator"
+        back: "while True: yield …; a list can't do this."

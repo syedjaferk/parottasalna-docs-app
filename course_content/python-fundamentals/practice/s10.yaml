@@ -1,0 +1,88 @@
+chapter: sessions/10-sets
+
+quizzes:
+  - title: "Session 10 · Quiz"
+    description: "Unique items, union, intersection, difference, frozenset."
+    questions:
+      - text: "len({\"red\", \"white\", \"red\"}) is…"
+        choices: |
+          *2
+          3
+          1
+          An error
+        explanation: "Sets keep only unique items."
+      - text: "How do you create an EMPTY set?"
+        choices: |
+          *set()
+          {}
+          []
+          set[]
+        explanation: "{} is an empty dictionary."
+      - text: "{1, 2, 3} & {2, 3, 4} is…"
+        choices: |
+          *{2, 3}
+          {1, 2, 3, 4}
+          {1}
+          {1, 4}
+        explanation: "& is intersection: in both."
+      - text: "{1, 2, 3} - {2, 3, 4} is…"
+        choices: |
+          *{1}
+          {4}
+          {1, 4}
+          {2, 3}
+        explanation: "- keeps what's only in the first set."
+      - text: "{1, 2} ^ {2, 3} is…"
+        choices: |
+          *{1, 3}
+          {2}
+          {1, 2, 3}
+          set()
+        explanation: "^ is symmetric difference: in one but not both."
+      - text: "What's the difference between remove() and discard()?"
+        choices: |
+          *remove raises KeyError if missing; discard doesn't
+          discard deletes everything
+          There is none
+          remove works only on frozensets
+        explanation: "Use discard when the item might not be there."
+      - text: "What does my_set[0] do?"
+        choices: |
+          *Raises TypeError: sets have no indexes
+          Returns the first item
+          Returns the smallest item
+          Returns None
+        explanation: "Sets are unordered."
+      - text: "What happens with frozenset({1}).add(2)?"
+        choices: |
+          *AttributeError: frozensets can't change
+          Adds 2
+          Returns a new set
+          Nothing
+        explanation: "A frozenset has no methods that modify it."
+
+decks:
+  - title: "Session 10 · Flashcards"
+    cards:
+      - front: "Set"
+        back: "Unordered collection of unique items: {\"red rose\", \"tulip\"}."
+      - front: "set()"
+        back: "An empty set ({} is an empty dict)."
+      - front: "add / remove / discard"
+        back: "Add an item / remove (KeyError if missing) / remove if present."
+      - front: "a | b"
+        back: "Union: everything in either."
+      - front: "a & b"
+        back: "Intersection: in both."
+      - front: "a - b"
+        back: "Difference: only in a."
+      - front: "a ^ b"
+        back: "Symmetric difference: in exactly one."
+      - front: "issubset / issuperset"
+        back: "a <= b / a >= b."
+      - front: "frozenset"
+        back: "An immutable set; can be a dict key."
+      - front: "Removing duplicates"
+        back: "set(lst), but the order is lost."
+      - front: "Fast membership"
+        back: "x in a_set is much faster than x in a_list for big collections."

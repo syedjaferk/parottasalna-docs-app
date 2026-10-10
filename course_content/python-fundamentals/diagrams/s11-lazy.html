@@ -1,0 +1,43 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s11-lazy-t s11-lazy-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-lazy-t">Buffet (list) vs waiter (generator)</title>
+<desc id="s11-lazy-d">A list builds every item first and keeps them all in memory. A generator produces one item each time you ask, pausing at yield in between.</desc>
+<defs><marker id="s11-lazy-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-lazy-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-lazy-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-lazy-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="330" height="190" rx="12" class="blue"/>
+<text x="185" y="42" text-anchor="middle" dominant-baseline="middle" class="bold">list: everything at once</text>
+<rect x="35" y="60" width="55" height="40" rx="6" class="box"/>
+<text x="62.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="96" y="60" width="55" height="40" rx="6" class="box"/>
+<text x="123.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="157" y="60" width="55" height="40" rx="6" class="box"/>
+<text x="184.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="218" y="60" width="55" height="40" rx="6" class="box"/>
+<text x="245.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="279" y="60" width="55" height="40" rx="6" class="box"/>
+<text x="306.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="35" y="110" width="55" height="40" rx="6" class="box"/>
+<text x="62.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">6</text>
+<rect x="96" y="110" width="55" height="40" rx="6" class="box"/>
+<text x="123.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<rect x="157" y="110" width="55" height="40" rx="6" class="box"/>
+<text x="184.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="218" y="110" width="55" height="40" rx="6" class="box"/>
+<text x="245.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<rect x="279" y="110" width="55" height="40" rx="6" class="box"/>
+<text x="306.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="code">10</text>
+<text x="185" y="185" text-anchor="middle" dominant-baseline="middle" class="small">range(1_000_000) as a list ≈ 8 MB</text>
+<rect x="370" y="20" width="330" height="190" rx="12" class="green"/>
+<text x="535" y="42" text-anchor="middle" dominant-baseline="middle" class="bold">generator: one at a time</text>
+<rect x="390" y="70" width="120" height="50" rx="8" class="amber"/>
+<text x="450.0" y="85.0" text-anchor="middle" dominant-baseline="middle">yield n</text>
+<text x="450.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">pause</text>
+<path d="M510,95 L568,95" class="arrow green" marker-end="url(#s11-lazy-h-green)"/>
+<text x="539" y="80" text-anchor="middle" dominant-baseline="middle" class="small">next()</text>
+<rect x="570" y="70" width="110" height="50" rx="8" class="box"/>
+<text x="625.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<path d="M625,120 L625,150 L450,150 L450,122" class="arrow dashed" marker-end="url(#s11-lazy-h)"/>
+<text x="537" y="165" text-anchor="middle" dominant-baseline="middle" class="small">resume where it paused</text>
+<text x="535" y="195" text-anchor="middle" dominant-baseline="middle" class="small">the generator object ≈ 100 bytes</text>
+</svg>
+<figcaption>A list builds every item first and keeps them all in memory. A generator produces one item each time you ask, pausing at yield in between.</figcaption>
+</figure>

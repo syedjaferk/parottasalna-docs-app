@@ -1,0 +1,86 @@
+chapter: sessions/04-operators-conditionals-input
+
+quizzes:
+  - title: "Session 4 · Quiz"
+    description: "Arithmetic, comparison and logical operators, if/elif/else, input()."
+    questions:
+      - text: "What is 7 // 2?"
+        choices: |
+          *3
+          3.5
+          4
+          1
+        explanation: "// is floor division: divide and round down."
+      - text: "What is 7 % 2?"
+        choices: |
+          *1
+          3
+          3.5
+          0
+        explanation: "% gives the remainder. n % 2 == 0 means n is even."
+      - text: "What is 2 ** 3?"
+        choices: |
+          *8
+          6
+          9
+          23
+        explanation: "** is the power operator."
+      - text: "What type does 10 / 2 return?"
+        choices: |
+          *float (5.0)
+          int (5)
+          str
+          bool
+        explanation: "/ always returns a float in Python 3."
+      - text: "What does input() return?"
+        choices: |
+          *Always a string
+          An int if you type digits
+          A float
+          None
+        explanation: "Convert it with int() or float() before doing maths."
+      - text: "x = 15. Which branch runs? if x > 10: A / elif x > 5: B / else: C"
+        choices: |
+          *A
+          B
+          A and B
+          C
+        explanation: "Only the first matching branch runs."
+      - text: "True and False evaluates to…"
+        choices: |
+          *False
+          True
+          None
+          An error
+        explanation: "and needs both sides True."
+      - text: "Which line correctly checks equality?"
+        choices: |
+          *if x == 5:
+          if x = 5:
+          if x === 5:
+          if x is 5:
+        explanation: "= is assignment and gives a syntax error in an if."
+
+decks:
+  - title: "Session 4 · Flashcards"
+    cards:
+      - front: "// (floor division)"
+        back: "Divide and round down: 7 // 2 = 3, -7 // 2 = -4."
+      - front: "% (modulus)"
+        back: "Remainder: 7 % 2 = 1. Even check: n % 2 == 0."
+      - front: "** (power)"
+        back: "2 ** 10 = 1024."
+      - front: "Comparison operators"
+        back: "== != > < >= <=: they return True or False."
+      - front: "and / or / not"
+        back: "Both true / at least one true / flip."
+      - front: "if / elif / else"
+        back: "Run the first block whose condition is True; else if none is."
+      - front: "Indentation"
+        back: "4 spaces mark which lines belong to an if, loop or function."
+      - front: "input()"
+        back: "Shows a prompt and returns what the user typed, as a string."
+      - front: "int(input())"
+        back: "Read a whole number from the user."
+      - front: "Chained comparison"
+        back: "0 < age < 120 is the same as 0 < age and age < 120."

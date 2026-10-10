@@ -1,0 +1,79 @@
+chapter: sessions/12-project-number-guessing-game
+
+quizzes:
+  - title: "Session 12 · Quiz"
+    description: "Putting it together: random, loops, validation, files."
+    questions:
+      - text: "random.randint(1, 100) can return…"
+        choices: |
+          *Any whole number from 1 to 100, including both
+          1 to 99
+          0 to 100
+          Decimals between 1 and 100
+        explanation: "randint includes both ends."
+      - text: "int(input()) gets \"abc\". What happens?"
+        choices: |
+          *ValueError
+          It returns 0
+          TypeError
+          It returns None
+        explanation: "Catch ValueError with try/except and ask again."
+      - text: "What does break do inside while True?"
+        choices: |
+          *Exits the loop immediately
+          Skips to the next round
+          Stops the program
+          Restarts the loop
+        explanation: "continue would skip to the next round."
+      - text: "In for … else, when does the else run?"
+        choices: |
+          *When the loop finishes without break
+          Always
+          Only after break
+          Never
+        explanation: "Perfect for 'out of attempts' messages."
+      - text: "Guessing the middle each time, how many guesses always find a number from 1 to 100?"
+        choices: |
+          *7
+          10
+          50
+          100
+        explanation: "Each guess halves the range: 2^7 = 128 ≥ 100."
+      - text: "sorted(scores, key=lambda x: x[1]) sorts (name, attempts) tuples by…"
+        choices: |
+          *attempts
+          name
+          both
+          length of the tuple
+        explanation: "key tells sorted what to compare; x[1] is the attempts."
+      - text: "Why save the leaderboard in a file?"
+        choices: |
+          *So scores survive after the program ends
+          To make it faster
+          Python can't store lists
+          To use less memory
+        explanation: "Variables disappear when the program stops; files persist."
+
+decks:
+  - title: "Session 12 · Flashcards"
+    cards:
+      - front: "random.randint(a, b)"
+        back: "A random whole number from a to b, both included."
+      - front: "while True + break"
+        back: "Loop until a condition inside decides to stop."
+      - front: "try / except ValueError"
+        back: "Handle bad input instead of crashing."
+      - front: "Input validation loop"
+        back: "Keep asking until the input is valid, then return it."
+      - front: "for … else"
+        back: "The else runs only if the loop didn't break."
+      - front: "Binary search"
+        back: "Guess the middle, halve the range: 7 guesses for 1–100."
+      - front: "Returning several values"
+        back: "return lo, hi, attempts; then unpack: lo, hi, attempts = f()."
+      - front: "File persistence"
+        back: "with open(path, \"w\") as f: write; read it back next time."
+      - front: "sorted(..., key=...)"
+        back: "Sort by a chosen part of each item."
+      - front: "csv module"
+        back: "Reads and writes comma-separated files safely, quoting commas in values."

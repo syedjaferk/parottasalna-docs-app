@@ -1,0 +1,82 @@
+chapter: sessions/06-indexing-and-slicing
+
+quizzes:
+  - title: "Session 6 · Quiz"
+    description: "Positive and negative indexes, slices with start:stop:step."
+    questions:
+      - text: "word = \"Python\". What is word[0]?"
+        choices: |
+          *"P"
+          "y"
+          "n"
+          An error
+        explanation: "Indexes start at 0."
+      - text: "word = \"Python\". What is word[-1]?"
+        choices: |
+          *"n"
+          "P"
+          "o"
+          An error
+        explanation: "-1 is the last item."
+      - text: "\"Hello\"[1:4] is…"
+        choices: |
+          *"ell"
+          "ello"
+          "Hel"
+          "Hell"
+        explanation: "Start included, stop excluded: indexes 1, 2, 3."
+      - text: "\"Python\"[::-1] is…"
+        choices: |
+          *"nohtyP"
+          "Python"
+          "n"
+          An error
+        explanation: "A step of -1 walks backwards: a reversed copy."
+      - text: "\"abcdef\"[::2] is…"
+        choices: |
+          *"ace"
+          "bdf"
+          "ab"
+          "abcdef"
+        explanation: "Every second character from the start."
+      - text: "\"abc\"[1:10] gives…"
+        choices: |
+          *"bc"
+          An IndexError
+          "abc"
+          ""
+        explanation: "Slices never raise errors; they stop at the end."
+      - text: "What happens with word = \"Python\"; word[0] = \"J\"?"
+        choices: |
+          *TypeError: strings can't be changed
+          word becomes "Jython"
+          Nothing
+          IndexError
+        explanation: "Strings are immutable. Build a new one: \"J\" + word[1:]."
+      - text: "quote[9:17] gave 'not to b'. How do you include the final e?"
+        choices: |
+          *quote[9:18]
+          quote[9:16]
+          quote[10:18]
+          quote[9:-17]
+        explanation: "The stop index is excluded, so it must be one past the last character you want."
+
+decks:
+  - title: "Session 6 · Flashcards"
+    cards:
+      - front: "Index"
+        back: "A position number. The first is 0."
+      - front: "Negative index"
+        back: "Counts from the end: -1 is the last item."
+      - front: "Slice"
+        back: "s[start:stop]: from start up to but not including stop."
+      - front: "s[:n] / s[n:]"
+        back: "The first n items / everything from index n."
+      - front: "s[::step]"
+        back: "Every step-th item. s[::-1] reverses."
+      - front: "IndexError"
+        back: "Asking for an index that doesn't exist (slices never raise it)."
+      - front: "Immutable string"
+        back: "You can't change a character; build a new string."
+      - front: "len(s)"
+        back: "The number of items. The last index is len(s) - 1."

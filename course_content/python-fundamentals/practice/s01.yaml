@@ -1,0 +1,86 @@
+chapter: sessions/01-print
+
+quizzes:
+  - title: "Session 1 · Quiz"
+    description: "print(), sep and end, f-strings, escape sequences."
+    questions:
+      - text: "What does print(\"Hello\", \"world\") display?"
+        choices: |
+          *Hello world
+          Helloworld
+          Hello,world
+          "Hello" "world"
+        explanation: "Items separated by commas are printed with a space between them (sep defaults to a space)."
+      - text: "What does print(\"A\", \"B\", sep=\"-\") display?"
+        choices: |
+          *A-B
+          A B
+          A-B-
+          -A-B
+        explanation: "sep goes between items only."
+      - text: "Which parameter stops print() from moving to a new line at the end?"
+        choices: |
+          *end
+          sep
+          file
+          flush
+        explanation: "end defaults to \"\\n\". print(\"Hello\", end=\" \") keeps the next print on the same line."
+      - text: "name = \"Ravi\". Which line prints Hi Ravi?"
+        choices: |
+          *print(f"Hi {name}")
+          print("Hi {name}")
+          print("Hi" + {name})
+          print(f"Hi" name)
+        explanation: "Only an f-string (f before the quote) replaces {name} with the value."
+      - text: "What does print(\"Age: \" + 25) do?"
+        choices: |
+          *Raises a TypeError
+          Prints Age: 25
+          Prints Age: + 25
+          Prints 25
+        explanation: "+ can't join a string and a number. Use an f-string or str(25)."
+      - text: "What does \\n mean inside a string?"
+        choices: |
+          *A new line
+          The letter n
+          A tab
+          End of the program
+        explanation: "It's an escape sequence. \\t is a tab."
+      - text: "How do you print C:\\Users\\Name exactly as written?"
+        choices: |
+          *print(r"C:\Users\Name")
+          print("C:\Users\Name")
+          print(f"C:\Users\Name")
+          print(C:\Users\Name)
+        explanation: "A raw string (r prefix) treats backslashes as normal characters."
+      - text: "What does print(f\"{3.14159:.2f}\") display?"
+        choices: |
+          *3.14
+          3.14159
+          3.1
+          3.15
+        explanation: ":.2f formats a number with exactly two decimals."
+
+decks:
+  - title: "Session 1 · Flashcards"
+    cards:
+      - front: "print()"
+        back: "Shows values on the screen. Several values are separated by commas."
+      - front: "sep"
+        back: "What print puts between items. Default: a space."
+      - front: "end"
+        back: "What print puts after the last item. Default: a new line \\n."
+      - front: "f-string"
+        back: "f\"Name: {name}\": puts variable values inside text. The recommended way."
+      - front: ".format()"
+        back: "\"Name: {}\".format(name): the older way to insert values."
+      - front: "\\n and \\t"
+        back: "Escape sequences for a new line and a tab."
+      - front: "Raw string"
+        back: "r\"C:\\path\": backslashes are kept as they are."
+      - front: "Triple quotes"
+        back: "\"\"\"…\"\"\" lets a string span several lines."
+      - front: "{x:.2f}"
+        back: "Format x with two decimal places."
+      - front: "{x:<10} / {x:>10}"
+        back: "Pad x to 10 characters, aligned left / right."

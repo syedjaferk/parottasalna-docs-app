@@ -1,0 +1,77 @@
+chapter: sessions/08-tuples
+
+quizzes:
+  - title: "Session 8 · Quiz"
+    description: "Creating, reading, unpacking and combining tuples."
+    questions:
+      - text: "What's the main difference between a tuple and a list?"
+        choices: |
+          *A tuple can't be changed after it's created
+          A tuple can't be indexed
+          A tuple is unordered
+          A tuple can only hold numbers
+        explanation: "Tuples are immutable; lists are mutable."
+      - text: "What is type((\"x\"))?"
+        choices: |
+          *str
+          tuple
+          list
+          set
+        explanation: "Brackets alone don't make a tuple; the comma does: (\"x\",)."
+      - text: "t = (1, 2, 3); t[0] = 10 raises…"
+        choices: |
+          *TypeError
+          IndexError
+          ValueError
+          Nothing, it works
+        explanation: "'tuple' object does not support item assignment."
+      - text: "a, b = (1, 2, 3) raises…"
+        choices: |
+          *ValueError: too many values to unpack
+          TypeError
+          Nothing
+          IndexError
+        explanation: "The number of names must match the number of items."
+      - text: "(1, 2) + (3,) gives…"
+        choices: |
+          *(1, 2, 3)
+          (1, 2, (3,))
+          (4, 2)
+          An error
+        explanation: "+ joins tuples into a new tuple."
+      - text: "Why can a tuple be a dictionary key but a list can't?"
+        choices: |
+          *Tuples are immutable (hashable); lists aren't
+          Tuples are faster
+          Lists are ordered
+          Lists are too big
+        explanation: "Dictionary keys must not change."
+      - text: "t = (1, 2, 3, 2, 2). What is t.count(2)?"
+        choices: |
+          *3
+          2
+          1
+          5
+        explanation: "count() counts occurrences."
+
+decks:
+  - title: "Session 8 · Flashcards"
+    cards:
+      - front: "Tuple"
+        back: "Ordered, immutable collection: (\"Ooty\", \"2024-07-01\")."
+      - front: "One-item tuple"
+        back: "(5,): the comma makes it a tuple."
+      - front: "Unpacking"
+        back: "place, date = (\"Ooty\", \"2024\")."
+      - front: "Immutable"
+        back: "Items can't be reassigned; t[0] = x raises TypeError."
+      - front: "t1 + t2 / t * 2"
+        back: "Join / repeat tuples (new tuples)."
+      - front: "count() / index()"
+        back: "The only two tuple methods."
+      - front: "Tuple as dict key"
+        back: "{(0, 0): \"origin\"}: works because tuples are hashable."
+      - front: "tuple(lst) / list(t)"
+        back: "Convert between tuples and lists."
+      - front: "Returning several values"
+        back: "return a, b returns the tuple (a, b)."

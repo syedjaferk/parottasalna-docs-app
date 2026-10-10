@@ -1,0 +1,77 @@
+chapter: sessions/03-variables-are-references
+
+quizzes:
+  - title: "Session 3 · Quiz"
+    description: "Names, objects, identity, mutability and namespaces."
+    questions:
+      - text: "In Python, a variable is best described as…"
+        choices: |
+          *A name that refers to an object
+          A box that contains the value
+          A memory address you can change
+          A copy of the value
+        explanation: "Assignment binds a name to an object; several names can share one object."
+      - text: "a = [1, 2]; b = a; b.append(3). What is a?"
+        choices: |
+          *[1, 2, 3]
+          [1, 2]
+          [3]
+          An error
+        explanation: "a and b point to the same list, so changes through b are seen through a."
+      - text: "What does a is b check?"
+        choices: |
+          *Whether both names refer to the same object
+          Whether the values are equal
+          Whether both are lists
+          Whether a is bigger
+        explanation: "Use == to compare values, and is only for identity (e.g. x is None)."
+      - text: "How do you make an independent copy of a list a?"
+        choices: |
+          *b = a.copy()
+          b = a
+          b is a
+          b == a
+        explanation: "a.copy(), list(a) and a[:] all create a new list."
+      - text: "x = 5; y = x; x += 1. What is y?"
+        choices: |
+          *5
+          6
+          None
+          An error
+        explanation: "Integers are immutable: x += 1 makes a new object 6 and moves x; y still points to 5."
+      - text: "What does sys.getsizeof(10) measure?"
+        choices: |
+          *The size of the int object 10
+          The size of the variable name
+          The size of all variables
+          The number of digits
+        explanation: "It's 28 bytes for a small int. A reference itself is 8 bytes on 64-bit Python."
+      - text: "Where does Python keep the names you create?"
+        choices: |
+          *In namespaces (dictionaries of names to objects)
+          Inside the objects
+          In a file
+          In the CPU
+        explanation: "Each function call has a local namespace; the module has a global one."
+
+decks:
+  - title: "Session 3 · Flashcards"
+    cards:
+      - front: "Reference"
+        back: "A variable points to an object; it doesn't contain it."
+      - front: "Binding"
+        back: "Tying a name to an object, e.g. with =."
+      - front: "id(x)"
+        back: "The identity of the object x refers to (its memory address in CPython)."
+      - front: "is vs =="
+        back: "is: same object? ==: same value?"
+      - front: "Mutable"
+        back: "Can change in place: list, dict, set."
+      - front: "Immutable"
+        back: "Can't change: int, float, str, tuple, frozenset."
+      - front: "Namespace"
+        back: "A dictionary mapping names to objects; locals() shows a function's own."
+      - front: "Size of a reference"
+        back: "8 bytes on 64-bit Python (4 on 32-bit)."
+      - front: "Mutable default argument"
+        back: "def f(x=[]) shares one list across calls; use None instead."

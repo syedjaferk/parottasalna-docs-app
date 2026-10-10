@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s12-game-t s12-game-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-game-t">The guessing game loop</title>
+<desc id="s12-game-d">Pick a secret number, then loop: read a valid guess, count the attempt, compare, and give a hint, until the guess is right or the attempts run out.</desc>
+<defs><marker id="s12-game-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-game-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-game-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-game-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="105" width="160" height="50" rx="10" class="blue"/>
+<text x="90.0" y="120.0" text-anchor="middle" dominant-baseline="middle">secret =</text>
+<text x="90.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">randint(1, 100)</text>
+<path d="M170,130 L188,130" class="arrow" marker-end="url(#s12-game-h)"/>
+<rect x="190" y="105" width="150" height="50" rx="10" class="box"/>
+<text x="265.0" y="120.0" text-anchor="middle" dominant-baseline="middle">read guess</text>
+<text x="265.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">validated int</text>
+<path d="M340,130 L378,130" class="arrow" marker-end="url(#s12-game-h)"/>
+<rect x="380" y="100" width="120" height="60" rx="10" class="amber"/>
+<text x="440.0" y="120.0" text-anchor="middle" dominant-baseline="middle">compare</text>
+<text x="440.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">with secret</text>
+<path d="M500,115 L568,50" class="arrow red" marker-end="url(#s12-game-h-red)"/>
+<text x="520" y="70" text-anchor="middle" dominant-baseline="middle" class="small">lower</text>
+<rect x="570" y="25" width="130" height="44" rx="10" class="red"/>
+<text x="635.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="small">“Too low!”</text>
+<path d="M500,145 L568,210" class="arrow red" marker-end="url(#s12-game-h-red)"/>
+<text x="520" y="195" text-anchor="middle" dominant-baseline="middle" class="small">higher</text>
+<rect x="570" y="190" width="130" height="44" rx="10" class="red"/>
+<text x="635.0" y="212.0" text-anchor="middle" dominant-baseline="middle" class="small">“Too high!”</text>
+<path d="M500,130 L568,130" class="arrow green" marker-end="url(#s12-game-h-green)"/>
+<text x="534" y="118" text-anchor="middle" dominant-baseline="middle" class="small">equal</text>
+<rect x="570" y="108" width="130" height="44" rx="10" class="green"/>
+<text x="635.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">You win! 🎉</text>
+<path d="M635,25 L635,10 L265,10 L265,103" class="arrow dashed" marker-end="url(#s12-game-h)"/>
+<text x="450" y="22" text-anchor="middle" dominant-baseline="middle" class="small">attempts left? try again</text>
+<path d="M635,234 L635,250 L265,250 L265,157" class="arrow dashed" marker-end="url(#s12-game-h)"/>
+</svg>
+<figcaption>Pick a secret number, then loop: read a valid guess, count the attempt, compare, and give a hint, until the guess is right or the attempts run out.</figcaption>
+</figure>

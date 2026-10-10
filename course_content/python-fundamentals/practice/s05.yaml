@@ -1,0 +1,77 @@
+chapter: sessions/05-functions
+
+quizzes:
+  - title: "Session 5 · Quiz"
+    description: "def, parameters, arguments, return, defaults."
+    questions:
+      - text: "Which keyword defines a function?"
+        choices: |
+          *def
+          function
+          fun
+          define
+        explanation: "def name(parameters):"
+      - text: "What does a function return if it has no return statement?"
+        choices: |
+          *None
+          0
+          An empty string
+          An error
+        explanation: "Every function returns something; without return it's None."
+      - text: "def add(a, b): return a + b. In add(2, 3), what are 2 and 3?"
+        choices: |
+          *Arguments
+          Parameters
+          Returns
+          Keywords
+        explanation: "Parameters are the names in the definition (a, b); arguments are the values in the call."
+      - text: "def power(n, e=2): return n ** e. What is power(5)?"
+        choices: |
+          *25
+          10
+          5
+          An error
+        explanation: "e uses its default value 2."
+      - text: "What happens to code after a return in the same block?"
+        choices: |
+          *It never runs
+          It runs after returning
+          It runs first
+          It raises an error
+        explanation: "return ends the function immediately."
+      - text: "What is the main difference between print and return in a function?"
+        choices: |
+          *return gives a value back to the caller; print only shows it
+          There is none
+          print is faster
+          return shows it on screen
+        explanation: "Use return when the program needs the value."
+      - text: "Calling greet without brackets (greet instead of greet())…"
+        choices: |
+          *Refers to the function but doesn't run it
+          Runs it
+          Raises an error
+          Returns None
+        explanation: "Brackets are what call the function."
+
+decks:
+  - title: "Session 5 · Flashcards"
+    cards:
+      - front: "Function"
+        back: "A named, reusable block of code: a recipe."
+      - front: "def"
+        back: "Keyword that defines a function."
+      - front: "Parameter"
+        back: "A name in the definition: def greet(name)."
+      - front: "Argument"
+        back: "A value passed in the call: greet(\"Alice\")."
+      - front: "return"
+        back: "Sends a value back and ends the function."
+      - front: "None"
+        back: "What a function returns when it has no return."
+      - front: "Default value"
+        back: "def power(n, e=2): used when the caller leaves e out."
+      - front: "Keyword argument"
+        back: "power(e=3, n=2): name the arguments, any order."
+      - front: "Recursion"
+        back: "A function calling itself, like factorial(n) = n * factorial(n - 1)."
