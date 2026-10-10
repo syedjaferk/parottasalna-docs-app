@@ -1,0 +1,19 @@
+{% extends "arena/_base.html" %}
+{% load static %}
+{% block title %}{{ game.quiz.title }} · Live quiz{% endblock %}
+{% block content %}
+<main class="arena-center">
+  <form class="arena-card" method="post" autocomplete="off">
+    {% csrf_token %}
+    <img class="arena-logo" src="{% static 'brand/logo-192.png' %}" alt="" width="64" height="64">
+    <p class="arena-kicker">PIN {{ game.pin }}</p>
+    <h1>{{ game.quiz.title }}</h1>
+    <label class="sr-only" for="nickname">Nickname</label>
+    <input id="nickname" name="nickname" class="arena-input" maxlength="20" placeholder="Your nickname"
+           value="{{ value }}" autofocus required>
+    {% if error %}<p class="arena-error" role="alert">{{ error }}</p>{% endif %}
+    <button class="arena-btn" type="submit">Join the game</button>
+    <p class="arena-fine">Your nickname is shown on the leaderboard. No sign-in, nothing else is stored.</p>
+  </form>
+</main>
+{% endblock %}

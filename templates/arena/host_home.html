@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Live quizzes · {{ brand.NAME }}{% endblock %}
+{% block extra_style %}
+{% include "quizzes/_styles.html" %}
+  .lq-list { display: grid; gap: .75rem; }
+  .lq-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 1rem 1.2rem; border-radius: 14px;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .lq-row .info { flex: 1; min-width: 200px; }
+  .lq-row h3 { margin: 0 0 .2rem; font-size: 1.05rem; }
+  .lq-row form { margin: 0; }
+  .section-label { font-size: 1.1rem; margin: 2rem 0 .8rem; }
+{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>🎮 Live quizzes</h1>
+    <p class="muted">Start a game, show the PIN on the shared screen, and players join at <strong>/join</strong>
+      with any device. No sign-in needed for players.</p>
+  </div>
+  <a class="btn ghost sm" href="{% url 'admin:arena_livequiz_add' %}">＋ New quiz</a>
+</div>
+{% for message in messages %}<p class="card">{{ message }}</p>{% endfor %}
+<div class="lq-list">
+  {% for quiz in quizzes %}
+  <div class="lq-row">
+    <div class="info">
+      <h3>{{ quiz.title }}</h3>
+      <span class="muted">{{ quiz.questions.all|length }} question{{ quiz.questions.all|length|pluralize }}</span>
+    </div>
+    <a class="btn ghost sm" href="{% url 'admin:arena_livequiz_change' quiz.pk %}">Edit</a>
+    <form method="post" action="{% url 'arena_host_start' quiz.pk %}">{% csrf_token %}
+      <button class="btn sm" type="submit">▶ Start live game</button>
+    </form>
+  </div>
+  {% empty %}
+  <div class="card">No live quizzes yet. <a href="{% url 'admin:arena_livequiz_add' %}">Create one</a>.</div>
+  {% endfor %}
+</div>
+{% if games %}
+<h2 class="section-label">Your recent games</h2>
+<div class="lq-list">
+  {% for g in games %}
+  <div class="lq-row">
+    <div class="info"><h3>{{ g.quiz.title }}</h3>
+      <span class="muted">PIN {{ g.pin }} · {{ g.get_status_display }} · {{ g.created_at|date:"j M, H:i" }}</span></div>
+    {% if g.status != "finished" %}<a class="btn sm" href="{% url 'arena_host' g.pin %}">Open host screen</a>{% endif %}
+    <a class="btn ghost sm" href="{% url 'arena_results_csv' g.pk %}">Results CSV</a>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

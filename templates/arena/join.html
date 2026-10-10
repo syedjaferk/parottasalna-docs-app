@@ -1,0 +1,19 @@
+{% extends "arena/_base.html" %}
+{% load static %}
+{% block title %}Join a live quiz · {{ brand.NAME }}{% endblock %}
+{% block content %}
+<main class="arena-center">
+  <form class="arena-card" method="post" action="{% url 'arena_join' %}" autocomplete="off">
+    {% csrf_token %}
+    <img class="arena-logo" src="{% static 'brand/logo-192.png' %}" alt="" width="64" height="64">
+    <h1>{{ brand.NAME }} <span>Live Quiz</span></h1>
+    {% for message in messages %}<p class="arena-note">{{ message }}</p>{% endfor %}
+    <label class="sr-only" for="pin">Game PIN</label>
+    <input id="pin" name="pin" class="arena-input pin" inputmode="numeric" pattern="[0-9 ]*" maxlength="7"
+           placeholder="Game PIN" value="{{ pin }}" autofocus required>
+    {% if error %}<p class="arena-error" role="alert">{{ error }}</p>{% endif %}
+    <button class="arena-btn" type="submit">Enter</button>
+    <p class="arena-fine">Enter the 6-digit PIN shown on the host's screen.</p>
+  </form>
+</main>
+{% endblock %}

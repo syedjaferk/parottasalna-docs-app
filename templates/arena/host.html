@@ -1,0 +1,17 @@
+{% extends "arena/_base.html" %}
+{% load static %}
+{% block title %}Host · {{ game.quiz.title }} · PIN {{ game.pin }}{% endblock %}
+{% block body_class %}arena-host{% endblock %}
+{% block content %}
+<header class="arena-bar">
+  <span class="arena-bar-pin">Join at <strong>{{ join_url|cut:"https://"|cut:"http://" }}</strong> · PIN <strong>{{ game.pin }}</strong></span>
+  <span class="arena-bar-title">{{ game.quiz.title }}</span>
+  <span class="arena-bar-me"><span data-players>0</span> players</span>
+</header>
+<div class="arena-banner" data-banner hidden></div>
+<main id="arena-host" class="arena-stage" data-pin="{{ game.pin }}" data-join="{{ join_url }}"
+      data-results="{% url 'arena_results_csv' game.pk %}" data-home="{% url 'arena_host_home' %}" aria-live="polite">
+  <p class="arena-waiting">Connecting…</p>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/arena-host.js' %}" defer></script>{% endblock %}

@@ -1,0 +1,17 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}Live quiz · {{ brand.NAME }}{% endblock %}</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#3b1d8f">
+  <link rel="icon" href="{% static 'brand/favicon.ico' %}" sizes="any">
+  <link rel="stylesheet" href="{% static 'css/arena.css' %}">
+  {% if ga_id %}<script async src="{% static 'js/analytics.js' %}" data-ga-id="{{ ga_id }}"></script>{% endif %}
+</head>
+<body class="arena {% block body_class %}{% endblock %}">
+  {% block content %}{% endblock %}
+  {% block scripts %}{% endblock %}
+</body>
+</html>
