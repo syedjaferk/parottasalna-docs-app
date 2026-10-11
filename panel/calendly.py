@@ -26,6 +26,20 @@ class CalendlyError(Exception):
     """Shown on the panel as-is, so keep messages short and free of secrets."""
 
 
+def _reason(exc):
+    """Calendly's own explanation from an error response, e.g. " (Unauthenticated: The access token is
+    invalid)". Calendly's text only; the token is never echoed."""
+    try:
+        body = json.loads(exc.read() or b"{}")
+    except (ValueError, OSError):
+        return ""
+    if not isinstance(body, dict):
+        return ""
+    parts = [str(body.get("title") or "")[:80], str(body.get("message") or "")[:200]]
+    text = ": ".join(p for p in parts if p)
+    return f" ({text})" if text else ""
+
+
 def _get(path, params=None):
     url = path if path.startswith("http") else API + path
     if params:
@@ -36,9 +50,14 @@ def _get(path, params=None):
         with urlopen(req, timeout=8) as resp:
             return json.load(resp)
     except HTTPError as exc:
-        if exc.code in (401, 403):
-            raise CalendlyError("Calendly rejected the token. Create a new personal access token.")
-        raise CalendlyError(f"Calendly returned an error ({exc.code}).")
+        reason = _reason(exc)
+        if exc.code == 401:
+            raise CalendlyError(f"Calendly says the token is invalid or expired{reason}. Check CALENDLY_TOKEN "
+                                "in the server's .env (no quotes or spaces) or create a new token.")
+        if exc.code == 403:
+            raise CalendlyError(f"The token works but isn't allowed to read your calls{reason}. Create a token "
+                                "with access to users and scheduled events.")
+        raise CalendlyError(f"Calendly returned an error ({exc.code}){reason}.")
     except (URLError, TimeoutError, ValueError) as exc:
         log.warning("Calendly request failed: %s", exc)
         raise CalendlyError("Couldn't reach Calendly. Try again in a minute.")
