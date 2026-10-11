@@ -1,0 +1,10 @@
+{# Result bars. Server-rendered so they work without JavaScript; polls-live.js updates them in place. #}
+<ol class="pl-bars" data-bars>
+  {% for row in rows %}
+  <li class="pl-bar{% if row.index == mine %} is-mine{% endif %}" data-i="{{ row.index }}">
+    <div class="pl-bar-head"><span class="pl-bar-text">{{ row.text }}</span><span class="pl-bar-num"><b data-count>{{ row.count }}</b> · <span data-pct>{{ row.pct }}</span>%</span></div>
+    <div class="pl-track"><span class="pl-fill" data-fill style="width: {{ row.pct }}%"></span></div>
+  </li>
+  {% endfor %}
+</ol>
+<p class="pl-total"><b data-total>{{ total }}</b> <span data-votes-word>vote{{ total|pluralize }}</span></p>

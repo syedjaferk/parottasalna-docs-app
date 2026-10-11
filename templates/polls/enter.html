@@ -1,0 +1,16 @@
+{% extends "polls/_base.html" %}
+{% block title %}Join a poll · {{ brand.NAME }}{% endblock %}
+{% block content %}
+<main class="pl-center">
+  <form class="pl-card" method="post" action="{% url 'poll_enter' %}" autocomplete="off">
+    {% csrf_token %}
+    <h1>Join a live poll</h1>
+    <p class="pl-muted">Scan the QR code on the screen, or type the 5-character code.</p>
+    <label class="sr-only" for="code">Poll code</label>
+    <input id="code" name="code" class="pl-input pl-code-input" maxlength="5" value="{{ code }}"
+           placeholder="K7P2Q" autocapitalize="characters" autofocus required>
+    {% if error %}<p class="pl-error" role="alert">{{ error }}</p>{% endif %}
+    <button class="pl-btn" type="submit">Join</button>
+  </form>
+</main>
+{% endblock %}

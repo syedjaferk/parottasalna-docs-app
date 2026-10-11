@@ -11,10 +11,11 @@ from channels.auth import AuthMiddlewareStack  # noqa: E402
 from channels.routing import ProtocolTypeRouter, URLRouter  # noqa: E402
 from channels.security.websocket import AllowedHostsOriginValidator  # noqa: E402
 
-from arena.routing import websocket_urlpatterns  # noqa: E402
+from arena.routing import websocket_urlpatterns as arena_ws  # noqa: E402
+from polls.routing import websocket_urlpatterns as polls_ws  # noqa: E402
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
     # Origin check stops other websites from opening sockets with a visitor's cookies.
-    "websocket": AllowedHostsOriginValidator(AuthMiddlewareStack(URLRouter(websocket_urlpatterns))),
+    "websocket": AllowedHostsOriginValidator(AuthMiddlewareStack(URLRouter(arena_ws + polls_ws))),
 })

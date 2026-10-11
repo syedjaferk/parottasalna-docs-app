@@ -1,0 +1,25 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}Live poll · {{ brand.NAME }}{% endblock %}</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="icon" href="{% static 'brand/favicon.ico' %}" sizes="any">
+  <link rel="stylesheet" href="{% static 'css/polls.css' %}">
+  {% if ga_id %}<script async src="{% static 'js/analytics.js' %}" data-ga-id="{{ ga_id }}"></script>{% endif %}
+</head>
+<body class="pl {% block body_class %}{% endblock %}">
+  <header class="pl-header">
+    <a class="pl-brand" href="{% url 'home' %}" aria-label="{{ brand.NAME }} home">
+      <img src="{% static 'brand/logo-192.png' %}" alt="" width="34" height="34">
+      <span>{{ brand.NAME }}</span>
+    </a>
+    <span class="pl-header-tag">Live Poll</span>
+  </header>
+  {% if messages %}<div class="pl-messages">{% for message in messages %}<p class="pl-msg pl-msg-{{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
+  {% block content %}{% endblock %}
+  {% block scripts %}{% endblock %}
+</body>
+</html>
