@@ -1,0 +1,84 @@
+chapter: sessions/03-functions-scope-lambda
+
+quizzes:
+  - title: "Session 3 · Quiz"
+    description: "def, arguments, docstrings, LEGB scope, mutable defaults, lambda, map/filter."
+    questions:
+      - text: "What does a function without `return` return?"
+        choices: |
+          *None
+          0
+          The last value computed
+          An error
+        explanation: "Forgetting return is a common source of None bugs."
+      - text: "In order_amount(unit_price=450, quantity=2), these are…"
+        choices: |
+          *Keyword arguments
+          Positional arguments
+          Default arguments
+          Global variables
+        explanation: "Keyword arguments can be in any order."
+      - text: "What order does Python search for a name?"
+        choices: |
+          *Local, Enclosing, Global, Built-in
+          Global, Local, Built-in, Enclosing
+          Built-in first
+          Alphabetically
+        explanation: "LEGB."
+      - text: "Assigning to a global name inside a function without `global`…"
+        choices: |
+          *Makes it local; reading it first raises UnboundLocalError
+          Changes the global
+          Is a syntax error
+          Creates a copy of the global
+        explanation: "Better: pass the value in and return the new one."
+      - text: "Why is `def f(x, errors=[])` dangerous?"
+        choices: |
+          *The same list is shared by every call
+          Lists can't be defaults
+          It's slow
+          It raises a TypeError
+        explanation: "Use None as the default and create the list inside."
+      - text: "sorted(orders, key=lambda o: o['amount'], reverse=True) sorts by…"
+        choices: |
+          *amount, highest first
+          amount, lowest first
+          the dict keys
+          insertion order
+        explanation: "key tells sorted what to compare."
+      - text: "What does filter(None, ['a', '', 'b']) keep?"
+        choices: |
+          *'a' and 'b'
+          ''
+          Everything
+          Nothing
+        explanation: "With None, filter keeps truthy items."
+      - text: "What does `map` return in Python 3?"
+        choices: |
+          *A lazy iterator; wrap it in list() to see the values
+          A list
+          A tuple
+          None
+        explanation: "map and filter are lazy, like generators."
+
+decks:
+  - title: "Session 3 · Flashcards"
+    cards:
+      - front: "def"
+        back: "Defines a function: a named, reusable step."
+      - front: "Type hints"
+        back: "quantity: int, -> float: documentation that tools can check."
+      - front: "Docstring"
+        back: "The first string in a function; shown by help()."
+      - front: "*args / **kwargs"
+        back: "Collect extra positional arguments (tuple) / keyword arguments (dict)."
+      - front: "LEGB"
+        back: "Local → Enclosing → Global → Built-in: where Python looks for names."
+      - front: "Mutable default"
+        back: "def f(x=[]) shares one list; use None and create it inside."
+      - front: "lambda"
+        back: "A small unnamed function: lambda o: o['amount']."
+      - front: "map / filter"
+        back: "Apply a function to every item / keep items where it's true. Lazy."
+      - front: "Functions are values"
+        back: "Store them in lists (e.g. data-quality RULES) and call them later."

@@ -1,0 +1,14 @@
+order_id,order_date,customer_id,city,product,category,quantity,unit_price,status
+1001,2025-01-03,C01,Chennai,Laptop,Electronics,1,55000,delivered
+1002,2025-01-03,C02,Coimbatore,Mouse,Electronics,2,450,delivered
+1003,2025-01-04,C03,Madurai,Notebook,Stationery,10,40,delivered
+1004,2025-01-05,C01,Chennai,Headphones,Electronics,1,1800,returned
+1005,2025-01-05,C04,,Pen,Stationery,20,10,delivered
+1006,2025-01-06,C05,Chennai,Desk Lamp,Home,1,1200,cancelled
+1007,2025-01-07,C02,Coimbatore,Keyboard,Electronics,1,1500,delivered
+1008,2025-01-08,C06,Trichy,Water Bottle,Home,3,250,delivered
+1008,2025-01-08,C06,Trichy,Water Bottle,Home,3,250,delivered
+1009,2025-02-01,C03,Madurai,Laptop,Electronics,1,52000,delivered
+1010,2025-02-02,C04,Salem,Notebook,Stationery,5,40,delivered
+1011,2025-02-03,C05,Chennai,Monitor,Electronics,1,9500,delivered
+1012,2025-02-05,C01,Chennai,Pen,Stationery,50,10,delivered

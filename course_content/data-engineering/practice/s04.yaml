@@ -1,0 +1,86 @@
+chapter: sessions/04-exceptions-and-logging
+
+quizzes:
+  - title: "Session 4 · Quiz"
+    description: "try/except/else/finally, raising, dead letters, retries and logging."
+    questions:
+      - text: "When does the `else` block of try/except run?"
+        choices: |
+          *Only when no exception was raised
+          Always
+          Only after an exception
+          Never in practice
+        explanation: "Put code that should run only on success there."
+      - text: "Why avoid a bare `except:`?"
+        choices: |
+          *It also catches typos (NameError) and Ctrl+C, hiding real bugs
+          It's slower
+          It's a syntax error
+          It only catches ValueError
+        explanation: "Catch the specific exceptions you expect."
+      - text: "What is a dead-letter list?"
+        choices: |
+          *Bad records set aside with the reason, so the run can continue
+          Deleted logs
+          Records waiting to be retried forever
+          A list of finished jobs
+        explanation: "Alert when it grows beyond a threshold."
+      - text: "`raise RuntimeError('…') from e` does what?"
+        choices: |
+          *Raises a new error and keeps the original as its cause
+          Silences e
+          Retries the code
+          Logs e
+        explanation: "The traceback shows both errors."
+      - text: "Which logging level suits 'row 5 has an empty city' when the run continues?"
+        choices: |
+          *WARNING
+          DEBUG
+          CRITICAL
+          INFO
+        explanation: "Something odd, but not a failure."
+      - text: "What does log.exception('…') do inside an except block?"
+        choices: |
+          *Logs at ERROR level with the traceback
+          Raises the exception again
+          Logs at DEBUG
+          Prints only the message
+        explanation: "Use it whenever you catch something unexpected."
+      - text: "Which errors are worth retrying?"
+        choices: |
+          *Timeouts and temporary network or server errors
+          ValueError from bad data
+          KeyError
+          Every error
+        explanation: "Bad data won't fix itself by retrying."
+      - text: "Why pass values as log arguments: log.info('%d rows', n)?"
+        choices: |
+          *The message is only built if the level is enabled
+          It's required
+          f-strings don't work in logs
+          It hides the values
+        explanation: "It's also the convention log tools expect."
+
+decks:
+  - title: "Session 4 · Flashcards"
+    cards:
+      - front: "try / except"
+        back: "Run code; handle specific exceptions."
+      - front: "else / finally"
+        back: "else: only on success. finally: always (cleanup)."
+      - front: "raise"
+        back: "Report a problem yourself; custom classes like DataValidationError."
+      - front: "raise … from e"
+        back: "Chain a meaningful error to its original cause."
+      - front: "Dead letters"
+        back: "Store bad records with the reason; keep the run going; alert on volume."
+      - front: "Logging levels"
+        back: "DEBUG < INFO < WARNING < ERROR < CRITICAL."
+      - front: "logging.basicConfig"
+        back: "Configure once at start-up: level, format, handlers."
+      - front: "getLogger(__name__)"
+        back: "A named logger per module/step."
+      - front: "log.exception"
+        back: "ERROR + traceback, inside except."
+      - front: "Retry rule"
+        back: "Retry temporary failures only, cap the attempts, wait longer each time."

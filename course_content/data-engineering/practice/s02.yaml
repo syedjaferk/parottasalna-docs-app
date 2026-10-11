@@ -1,0 +1,86 @@
+chapter: sessions/02-control-flow-and-loops
+
+quizzes:
+  - title: "Session 2 · Quiz"
+    description: "if/elif/else, truthiness, for/while, enumerate/zip, break/continue/else."
+    questions:
+      - text: "Which values count as False in an if?"
+        choices: |
+          *'', 0, None, [] and {}
+          Only False
+          Only None and False
+          Any string
+        explanation: "Empty and zero values are falsy; almost everything else is truthy."
+      - text: "What does `city or 'UNKNOWN'` give when city is ''?"
+        choices: |
+          *'UNKNOWN'
+          ''
+          None
+          True
+        explanation: "`or` returns the first truthy value."
+      - text: "What does `continue` do inside a loop?"
+        choices: |
+          *Skips the rest of this iteration and moves to the next item
+          Stops the loop
+          Restarts the loop
+          Exits the function
+        explanation: "`break` stops the loop; `continue` skips just this item."
+      - text: "When does a for loop's `else` block run?"
+        choices: |
+          *When the loop finishes without hitting break
+          Always
+          Only after break
+          Only if the loop body never ran
+        explanation: "Perfect for 'not found' messages."
+      - text: "What does enumerate(lines, start=2) give?"
+        choices: |
+          *(2, first_line), (3, second_line), …
+          Only the lines
+          Only numbers
+          Lines starting from the second
+        explanation: "Useful for reporting line numbers (the header is line 1)."
+      - text: "dict(zip(['id', 'city'], ['1005', ''])) is…"
+        choices: |
+          *{'id': '1005', 'city': ''}
+          [('id', '1005'), ('city', '')]
+          {'1005': ''}
+          An error
+        explanation: "zip pairs the lists; dict turns the pairs into a record."
+      - text: "What must every while loop have?"
+        choices: |
+          *A way to end: a changing condition, a counter or a break
+          An else block
+          A for loop inside
+          A try block
+        explanation: "Otherwise it can run forever."
+      - text: "Why might a delivered-revenue total be too high on our dataset?"
+        choices: |
+          *The duplicate row for order 1008 is counted twice
+          Floats round up
+          Returned orders are counted
+          The header is counted
+        explanation: "Loops process exactly what's in the file; de-duplication is a separate step."
+
+decks:
+  - title: "Session 2 · Flashcards"
+    cards:
+      - front: "if / elif / else"
+        back: "Checked top to bottom; only the first true branch runs."
+      - front: "Truthy / falsy"
+        back: "'', 0, None, [], {} are falsy; most other values are truthy."
+      - front: "x if cond else y"
+        back: "A one-line conditional expression."
+      - front: "match / case"
+        back: "Python 3.10+: compare one value against several patterns; case _ is the default."
+      - front: "for"
+        back: "Repeat for every item of a sequence or file."
+      - front: "while"
+        back: "Repeat while a condition holds; make sure it can end."
+      - front: "break / continue"
+        back: "Stop the loop / skip to the next item."
+      - front: "loop else"
+        back: "Runs only if the loop wasn't stopped by break."
+      - front: "enumerate / zip"
+        back: "Add a counter / walk two sequences together."
+      - front: "Exponential backoff"
+        back: "Wait 1, 2, 4, 8… seconds between retries."

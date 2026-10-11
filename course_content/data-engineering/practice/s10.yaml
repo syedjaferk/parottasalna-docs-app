@@ -1,0 +1,86 @@
+chapter: sessions/10-numpy
+
+quizzes:
+  - title: "Session 10 · Quiz"
+    description: "Arrays, dtypes, vectorised maths, slicing, masks, axes and broadcasting."
+    questions:
+      - text: "Why is NumPy faster than Python loops for maths?"
+        choices: |
+          *Arrays are typed and packed, and operations run in compiled code on all elements
+          It uses the GPU
+          It skips some elements
+          It caches results
+        explanation: "Often 100× faster."
+      - text: "quantity * unit_price on two arrays of length 12 gives…"
+        choices: |
+          *12 element-wise products
+          One number
+          A 12×12 matrix
+          An error
+        explanation: "Vectorised, element by element."
+      - text: "How do you combine two conditions in a NumPy mask?"
+        choices: |
+          *(a > 1) & (b < 5)
+          a > 1 and b < 5
+          a > 1 && b < 5
+          (a > 1) and (b < 5)
+        explanation: "Use &, |, ~ with brackets."
+      - text: "Changing a slice of an array…"
+        choices: |
+          *Can change the original, because slices are views
+          Never changes the original
+          Raises an error
+          Copies the array
+        explanation: "Use .copy() when you'll modify it."
+      - text: "weekly_sales.sum(axis=1) on a (3, 4) array gives…"
+        choices: |
+          *3 values: one per row
+          4 values: one per column
+          One number
+          A (3, 4) array
+        explanation: "axis=1 collapses the columns."
+      - text: "Can shapes (3, 4) and (3, 1) broadcast?"
+        choices: |
+          *Yes: the 1 is stretched to 4
+          No
+          Only with a loop
+          Only if both are float
+        explanation: "Compare from the right: 4 vs 1, 3 vs 3."
+      - text: "np.mean([1, np.nan, 3]) is…"
+        choices: |
+          *nan
+          2.0
+          1.33
+          An error
+        explanation: "Use np.nanmean to skip missing values."
+      - text: "np.where(cond, a, b) does what?"
+        choices: |
+          *Picks from a where cond is true, from b elsewhere
+          Returns positions only
+          Filters a
+          Sorts a
+        explanation: "A vectorised if/else."
+
+decks:
+  - title: "Session 10 · Flashcards"
+    cards:
+      - front: "ndarray"
+        back: "A typed, fixed-size, n-dimensional array."
+      - front: "dtype / shape / ndim"
+        back: "Element type / size per dimension / number of dimensions."
+      - front: "Vectorised"
+        back: "Whole-array operations, no Python loop."
+      - front: "Boolean mask"
+        back: "arr[arr > 5000]: NumPy's WHERE."
+      - front: "View vs copy"
+        back: "Slices share memory; .copy() makes them independent."
+      - front: "axis"
+        back: "axis=0 down the rows (per column); axis=1 across columns (per row)."
+      - front: "Broadcasting"
+        back: "Compatible shapes stretch: sizes equal or 1, compared from the right."
+      - front: "keepdims=True"
+        back: "Keeps a reduced axis as size 1 so it broadcasts back."
+      - front: "nan"
+        back: "Missing number; nanmean/nansum skip it; test with np.isnan."
+      - front: "default_rng(seed)"
+        back: "Repeatable random data for tests."

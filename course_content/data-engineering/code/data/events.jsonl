@@ -1,0 +1,8 @@
+{"ts": "2025-01-03T10:00:01", "user": "C01", "event": "page_view", "page": "/laptops"}
+{"ts": "2025-01-03T10:00:09", "user": "C01", "event": "add_to_cart", "page": "/laptops/1"}
+{"ts": "2025-01-03T10:01:30", "user": "C01", "event": "purchase", "page": "/checkout", "amount": 55000}
+{"ts": "2025-01-03T11:15:00", "user": "C02", "event": "page_view", "page": "/mouse"}
+{"ts": "2025-01-03T11:16:12", "user": "C02", "event": "purchase", "page": "/checkout", "amount": 900}
+{"ts": "2025-01-04T09:30:00", "user": "C03", "event": "page_view", "page": "/stationery"}
+this line is broken {
+{"ts": "2025-01-04T09:31:45", "user": "C03", "event": "purchase", "page": "/checkout", "amount": 400}

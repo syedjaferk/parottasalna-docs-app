@@ -1,0 +1,86 @@
+chapter: sessions/05-lists-tuples-dicts-sets
+
+quizzes:
+  - title: "Session 5 · Quiz"
+    description: "Choosing containers: batches, composite keys, lookups, groups and reconciliation."
+    questions:
+      - text: "Which structure is best for 'have I seen this order_id?' on a million IDs?"
+        choices: |
+          *set
+          list
+          tuple
+          str
+        explanation: "Set membership is near-instant; list membership scans every item."
+      - text: "Which can be used as a dict key?"
+        choices: |
+          *('Chennai', '2025-01')
+          ['Chennai', '2025-01']
+          {'Chennai'}
+          {'city': 'Chennai'}
+        explanation: "Keys must be immutable; tuples are, lists, sets and dicts aren't."
+      - text: "What does d.get('coupon', 'NONE') return when the key is missing?"
+        choices: |
+          *'NONE'
+          None
+          KeyError
+          ''
+        explanation: "get never raises for a missing key."
+      - text: "Building {customer_id: customer} before joining is called…"
+        choices: |
+          *An index (a hash join)
+          A list comprehension
+          A pivot
+          A cross join
+        explanation: "One lookup per order instead of scanning the customer list."
+      - text: "source_ids - warehouse_ids gives…"
+        choices: |
+          *IDs missing from the warehouse
+          IDs only in the warehouse
+          IDs in both
+          All IDs
+        explanation: "Set difference: in the first set but not the second."
+      - text: "Counter(o['status'] for o in orders) gives…"
+        choices: |
+          *A count per status
+          The number of orders
+          A sorted list
+          Unique statuses only
+        explanation: "most_common(n) gives the top n."
+      - text: "defaultdict(list) is useful because…"
+        choices: |
+          *Missing keys start as an empty list, so you can append straight away
+          It sorts keys
+          It removes duplicates
+          It's immutable
+        explanation: "Great for grouping."
+      - text: "How do you de-duplicate a list but keep the original order?"
+        choices: |
+          *list(dict.fromkeys(items))
+          list(set(items))
+          sorted(items)
+          items.unique()
+        explanation: "Dict keys keep insertion order; sets don't."
+
+decks:
+  - title: "Session 5 · Flashcards"
+    cards:
+      - front: "list"
+        back: "Ordered, changeable: batches of records."
+      - front: "tuple"
+        back: "Fixed and hashable: composite keys, multiple return values."
+      - front: "dict"
+        back: "Key → value: a record, or an index (id → record)."
+      - front: "set"
+        back: "Unique items: de-duplicate, fast membership, compare systems."
+      - front: "Hash join"
+        back: "Build a dict index once; look up each row in one step."
+      - front: "Counter"
+        back: "Count things: Counter(values).most_common(n)."
+      - front: "defaultdict"
+        back: "Missing keys get a default (list, int…): easy grouping."
+      - front: "Set operations"
+        back: "- difference, & intersection, | union."
+      - front: "Reconciliation"
+        back: "Compare source and target ID sets after every load."
+      - front: "Chunking"
+        back: "ids[i:i+size] for i in range(0, len(ids), size)."

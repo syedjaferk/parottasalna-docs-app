@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 190" role="img" aria-labelledby="s06-pipeline-t s06-pipeline-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s06-pipeline-t">A lazy generator pipeline</title>
+<desc id="s06-pipeline-d">Each stage pulls one row from the stage before it, only when needed. A row travels all the way through before the next one is read, so memory stays tiny however big the file is.</desc>
+<defs><marker id="s06-pipeline-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s06-pipeline-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s06-pipeline-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s06-pipeline-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="12" y="50" width="132" height="60" rx="10" class="blue"/>
+<text x="78.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">read_lines</text>
+<text x="78.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">file</text>
+<rect x="153" y="50" width="132" height="60" rx="10" class="blue"/>
+<text x="219.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">parse</text>
+<text x="219.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">→ dict</text>
+<path d="M144,80 L152,80" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="294" y="50" width="132" height="60" rx="10" class="blue"/>
+<text x="360.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">only_delivered</text>
+<text x="360.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">filter</text>
+<path d="M285,80 L293,80" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="435" y="50" width="132" height="60" rx="10" class="blue"/>
+<text x="501.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">deduplicate</text>
+<text x="501.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">seen set</text>
+<path d="M426,80 L434,80" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<rect x="576" y="50" width="132" height="60" rx="10" class="green"/>
+<text x="642.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">batches</text>
+<text x="642.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">lists of 4</text>
+<path d="M567,80 L575,80" class="arrow" marker-end="url(#s06-pipeline-h)"/>
+<text x="360" y="145" text-anchor="middle" dominant-baseline="middle" class="small">one row at a time ⟶</text>
+<text x="360" y="168" text-anchor="middle" dominant-baseline="middle" class="small">nothing runs until the last stage is looped over</text>
+</svg>
+<figcaption>Each stage pulls one row from the stage before it, only when needed. A row travels all the way through before the next one is read, so memory stays tiny however big the file is.</figcaption>
+</figure>

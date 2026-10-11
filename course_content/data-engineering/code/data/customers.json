@@ -1,0 +1,8 @@
+[
+  {"customer_id": "C01", "name": "Arun", "email": "arun@example.com", "signup_date": "2024-11-02", "address": {"city": "Chennai", "pincode": "600001"}, "tags": ["prime"]},
+  {"customer_id": "C02", "name": "Priya", "email": "priya@example.com", "signup_date": "2024-12-15", "address": {"city": "Coimbatore", "pincode": "641001"}, "tags": []},
+  {"customer_id": "C03", "name": "Karthik", "email": "karthik@example.com", "signup_date": "2025-01-01", "address": {"city": "Madurai", "pincode": "625001"}, "tags": ["student"]},
+  {"customer_id": "C04", "name": "Meena", "email": null, "signup_date": "2025-01-04", "address": {"city": "Salem", "pincode": "636001"}, "tags": []},
+  {"customer_id": "C05", "name": "Ravi", "email": "ravi@example.com", "signup_date": "2025-01-06", "address": {"city": "Chennai", "pincode": "600020"}, "tags": ["prime", "student"]},
+  {"customer_id": "C06", "name": "Divya", "email": "divya@example.com", "signup_date": "2025-01-08", "address": {"city": "Trichy", "pincode": "620001"}, "tags": []}
+]

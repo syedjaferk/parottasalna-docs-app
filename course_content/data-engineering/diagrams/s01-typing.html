@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s01-typing-t s01-typing-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s01-typing-t">From raw text to a typed record</title>
+<desc id="s01-typing-d">Everything in a CSV line is text. Split it into fields, then convert the ones you calculate with: quantity to int, price to float, date to a date.</desc>
+<defs><marker id="s01-typing-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s01-typing-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s01-typing-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s01-typing-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="680" height="44" rx="10" class="box"/>
+<text x="360.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;1002,2025-01-03,C02,Coimbatore,Mouse,…,2,450,delivered&quot;</text>
+<path d="M360,74 L360,98" class="arrow" marker-end="url(#s01-typing-h)"/>
+<text x="420" y="86" text-anchor="middle" dominant-baseline="middle" class="small">.split(&quot;,&quot;)</text>
+<rect x="20" y="100" width="128" height="36" rx="8" class="amber"/>
+<text x="84.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">&#x27;1002&#x27;</text>
+<path d="M84,136 L84,156" class="arrow" marker-end="url(#s01-typing-h)"/>
+<rect x="20" y="158" width="128" height="36" rx="8" class="green"/>
+<text x="84.0" y="176.0" text-anchor="middle" dominant-baseline="middle" class="code">int 1002</text>
+<rect x="158" y="100" width="128" height="36" rx="8" class="amber"/>
+<text x="222.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">&#x27;2025-01-03&#x27;</text>
+<path d="M222,136 L222,156" class="arrow" marker-end="url(#s01-typing-h)"/>
+<rect x="158" y="158" width="128" height="36" rx="8" class="green"/>
+<text x="222.0" y="176.0" text-anchor="middle" dominant-baseline="middle" class="code">date</text>
+<rect x="296" y="100" width="128" height="36" rx="8" class="amber"/>
+<text x="360.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">&#x27;Mouse&#x27;</text>
+<path d="M360,136 L360,156" class="arrow" marker-end="url(#s01-typing-h)"/>
+<rect x="296" y="158" width="128" height="36" rx="8" class="green"/>
+<text x="360.0" y="176.0" text-anchor="middle" dominant-baseline="middle" class="code">str</text>
+<rect x="434" y="100" width="128" height="36" rx="8" class="amber"/>
+<text x="498.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">&#x27;2&#x27;</text>
+<path d="M498,136 L498,156" class="arrow" marker-end="url(#s01-typing-h)"/>
+<rect x="434" y="158" width="128" height="36" rx="8" class="green"/>
+<text x="498.0" y="176.0" text-anchor="middle" dominant-baseline="middle" class="code">int 2</text>
+<rect x="572" y="100" width="128" height="36" rx="8" class="amber"/>
+<text x="636.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">&#x27;450&#x27;</text>
+<path d="M636,136 L636,156" class="arrow" marker-end="url(#s01-typing-h)"/>
+<rect x="572" y="158" width="128" height="36" rx="8" class="green"/>
+<text x="636.0" y="176.0" text-anchor="middle" dominant-baseline="middle" class="code">float 450.0</text>
+</svg>
+<figcaption>Everything in a CSV line is text. Split it into fields, then convert the ones you calculate with: quantity to int, price to float, date to a date.</figcaption>
+</figure>

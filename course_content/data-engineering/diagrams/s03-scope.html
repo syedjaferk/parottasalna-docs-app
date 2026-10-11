@@ -1,0 +1,21 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 280" role="img" aria-labelledby="s03-scope-t s03-scope-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s03-scope-t">Where Python looks for a name: LEGB</title>
+<desc id="s03-scope-d">Python looks in the Local scope first, then Enclosing functions, then the module&#x27;s Global names, and finally Built-ins. Assigning to a name inside a function makes it local.</desc>
+<defs><marker id="s03-scope-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s03-scope-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s03-scope-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s03-scope-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="15" width="680" height="250" rx="12" class="ghost"/>
+<text x="36" y="33" text-anchor="start" dominant-baseline="middle" class="bold">Built-ins</text>
+<text x="684" y="33" text-anchor="end" dominant-baseline="middle" class="code">print, len, round</text>
+<rect x="50" y="45" width="620" height="190" rx="12" class="blue"/>
+<text x="66" y="63" text-anchor="start" dominant-baseline="middle" class="bold">Global (module)</text>
+<text x="654" y="63" text-anchor="end" dominant-baseline="middle" class="code">TAX_RATE = 0.18</text>
+<rect x="80" y="75" width="560" height="130" rx="12" class="amber"/>
+<text x="96" y="93" text-anchor="start" dominant-baseline="middle" class="bold">Enclosing (outer function)</text>
+<text x="624" y="93" text-anchor="end" dominant-baseline="middle" class="code">rate inside make_pricer()</text>
+<rect x="110" y="105" width="500" height="70" rx="12" class="green"/>
+<text x="126" y="123" text-anchor="start" dominant-baseline="middle" class="bold">Local (this function)</text>
+<text x="594" y="123" text-anchor="end" dominant-baseline="middle" class="code">tax, amount</text>
+<text x="360" y="190" text-anchor="middle" dominant-baseline="middle" class="small">search order: L → E → G → B</text>
+</svg>
+<figcaption>Python looks in the Local scope first, then Enclosing functions, then the module&#x27;s Global names, and finally Built-ins. Assigning to a name inside a function makes it local.</figcaption>
+</figure>

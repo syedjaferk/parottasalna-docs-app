@@ -1,0 +1,86 @@
+chapter: sessions/12-pandas-grouping-reshaping
+
+quizzes:
+  - title: "Session 12 · Quiz"
+    description: "groupby, agg, transform, merge, pivot_table, melt, stack and a mini ETL."
+    questions:
+      - text: "What are the three steps of groupby?"
+        choices: |
+          *Split, apply, combine
+          Sort, filter, join
+          Read, write, merge
+          Pivot, melt, stack
+        explanation: "Split into groups, calculate per group, combine the results."
+      - text: "agg vs transform?"
+        choices: |
+          *agg returns one row per group; transform returns a value for every original row
+          They're identical
+          transform is faster
+          agg keeps the original rows
+        explanation: "transform is how you compute share-of-group."
+      - text: "Why pass validate='many_to_one' to merge?"
+        choices: |
+          *It raises if the right table has duplicate keys that would multiply rows
+          It speeds up the join
+          It removes nulls
+          It sorts the result
+        explanation: "Duplicated keys silently multiply rows otherwise."
+      - text: "What does indicator=True add to a merge?"
+        choices: |
+          *A _merge column showing where each row matched
+          An index
+          A row count
+          Nothing
+        explanation: "Count left_only rows after every join."
+      - text: "pivot vs pivot_table?"
+        choices: |
+          *pivot_table aggregates duplicate cells; pivot raises an error on them
+          They're identical
+          pivot aggregates; pivot_table doesn't
+          pivot_table can't fill missing values
+        explanation: "pivot is useful when duplicates would be a bug."
+      - text: "melt turns…"
+        choices: |
+          *Wide data into long data
+          Long data into wide data
+          Strings into numbers
+          Two tables into one
+        explanation: "One row per measurement."
+      - text: "Why store long rather than wide tables in a warehouse?"
+        choices: |
+          *New periods add rows, not columns; most tools expect long data
+          Long tables are smaller
+          Wide tables can't be queried
+          No reason
+        explanation: "Pivot only for reports."
+      - text: "to_parquet(out, partition_cols=['month']) creates…"
+        choices: |
+          *One folder per month (month=2025-01/…)
+          One file per row
+          A single file sorted by month
+          A CSV per month
+        explanation: "Readers can skip folders they don't need."
+
+decks:
+  - title: "Session 12 · Flashcards"
+    cards:
+      - front: "groupby + agg"
+        back: "df.groupby(keys).agg(name=(col, func), …)."
+      - front: "as_index=False"
+        back: "Keep group keys as columns (table-friendly)."
+      - front: "transform"
+        back: "Group result repeated on every row (e.g. city_total)."
+      - front: "merge"
+        back: "SQL JOIN: on=, how='left'/'inner', validate=, indicator=."
+      - front: "pivot_table"
+        back: "Long → wide with aggregation; fill_value, margins."
+      - front: "crosstab"
+        back: "Quick counts of two categorical columns."
+      - front: "melt"
+        back: "Wide → long: id_vars, var_name, value_name."
+      - front: "stack / unstack"
+        back: "Move columns into the index / index level into columns."
+      - front: "Method chain"
+        back: "pd.read_csv(...).drop_duplicates(...).assign(...).query(...)."
+      - front: "Partitioned Parquet"
+        back: "partition_cols=['month']; read with filters=[('month', '=', '2025-02')]."

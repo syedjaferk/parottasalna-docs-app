@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s02-loop-t s02-loop-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s02-loop-t">One record at a time</title>
+<desc id="s02-loop-d">For each line: skip it with continue (not delivered), stop everything with break (impossible value), otherwise process it. The loop&#x27;s else runs only if nothing called break.</desc>
+<defs><marker id="s02-loop-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s02-loop-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s02-loop-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s02-loop-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="12" y="90" width="140" height="50" rx="10" class="blue"/>
+<text x="82.0" y="105.0" text-anchor="middle" dominant-baseline="middle">next line</text>
+<text x="82.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">for line in f</text>
+<path d="M152,115 L178,115" class="arrow" marker-end="url(#s02-loop-h)"/>
+<rect x="180" y="85" width="160" height="60" rx="10" class="amber"/>
+<text x="260.0" y="105.0" text-anchor="middle" dominant-baseline="middle">status ==</text>
+<text x="260.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">&#x27;delivered&#x27;?</text>
+<path d="M260,85 L260,45 L82,45 L82,88" class="arrow red" marker-end="url(#s02-loop-h-red)"/>
+<text x="171" y="33" text-anchor="middle" dominant-baseline="middle" class="small">no → continue</text>
+<path d="M340,115 L378,115" class="arrow green" marker-end="url(#s02-loop-h-green)"/>
+<text x="359" y="103" text-anchor="middle" dominant-baseline="middle" class="small">yes</text>
+<rect x="380" y="85" width="150" height="60" rx="10" class="amber"/>
+<text x="455.0" y="115.0" text-anchor="middle" dominant-baseline="middle">quantity &gt; 0?</text>
+<path d="M455,145 L455,190 L378,190" class="arrow red" marker-end="url(#s02-loop-h-red)"/>
+<rect x="250" y="172" width="128" height="36" rx="8" class="red"/>
+<text x="314.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="small">break: stop</text>
+<path d="M530,115 L568,115" class="arrow green" marker-end="url(#s02-loop-h-green)"/>
+<text x="549" y="103" text-anchor="middle" dominant-baseline="middle" class="small">yes</text>
+<rect x="570" y="85" width="130" height="60" rx="10" class="green"/>
+<text x="635.0" y="105.0" text-anchor="middle" dominant-baseline="middle">process</text>
+<text x="635.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">total += amount</text>
+</svg>
+<figcaption>For each line: skip it with continue (not delivered), stop everything with break (impossible value), otherwise process it. The loop&#x27;s else runs only if nothing called break.</figcaption>
+</figure>

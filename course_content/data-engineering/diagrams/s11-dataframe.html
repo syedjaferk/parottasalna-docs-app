@@ -1,0 +1,53 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s11-dataframe-t s11-dataframe-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-dataframe-t">Anatomy of a DataFrame</title>
+<desc id="s11-dataframe-d">A DataFrame is a set of columns that share one row index. Each column is a Series with its own dtype. Select columns with df[...], rows by label with .loc and by position with .iloc.</desc>
+<defs><marker id="s11-dataframe-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-dataframe-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-dataframe-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-dataframe-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="90" height="30" rx="6" class="ghost"/>
+<text x="65.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="small">index</text>
+<rect x="20" y="66" width="90" height="30" rx="6" class="ghost"/>
+<text x="65.0" y="81.0" text-anchor="middle" dominant-baseline="middle" class="code">0</text>
+<rect x="20" y="102" width="90" height="30" rx="6" class="ghost"/>
+<text x="65.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="20" y="138" width="90" height="30" rx="6" class="ghost"/>
+<text x="65.0" y="153.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="125" y="30" width="135" height="30" rx="6" class="blue"/>
+<text x="192.5" y="45.0" text-anchor="middle" dominant-baseline="middle" class="code">order_id</text>
+<rect x="125" y="66" width="135" height="30" rx="6" class="box"/>
+<text x="192.5" y="81.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="125" y="102" width="135" height="30" rx="6" class="box"/>
+<text x="192.5" y="117.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="125" y="138" width="135" height="30" rx="6" class="box"/>
+<text x="192.5" y="153.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<text x="192" y="186" text-anchor="middle" dominant-baseline="middle" class="small">int64</text>
+<rect x="270" y="30" width="135" height="30" rx="6" class="blue"/>
+<text x="337.5" y="45.0" text-anchor="middle" dominant-baseline="middle" class="code">city</text>
+<rect x="270" y="66" width="135" height="30" rx="6" class="box"/>
+<text x="337.5" y="81.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="270" y="102" width="135" height="30" rx="6" class="box"/>
+<text x="337.5" y="117.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="270" y="138" width="135" height="30" rx="6" class="box"/>
+<text x="337.5" y="153.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<text x="337" y="186" text-anchor="middle" dominant-baseline="middle" class="small">object</text>
+<rect x="415" y="30" width="135" height="30" rx="6" class="blue"/>
+<text x="482.5" y="45.0" text-anchor="middle" dominant-baseline="middle" class="code">unit_price</text>
+<rect x="415" y="66" width="135" height="30" rx="6" class="box"/>
+<text x="482.5" y="81.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="415" y="102" width="135" height="30" rx="6" class="box"/>
+<text x="482.5" y="117.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="415" y="138" width="135" height="30" rx="6" class="box"/>
+<text x="482.5" y="153.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<text x="482" y="186" text-anchor="middle" dominant-baseline="middle" class="small">int64</text>
+<rect x="560" y="30" width="135" height="30" rx="6" class="blue"/>
+<text x="627.5" y="45.0" text-anchor="middle" dominant-baseline="middle" class="code">order_date</text>
+<rect x="560" y="66" width="135" height="30" rx="6" class="box"/>
+<text x="627.5" y="81.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="560" y="102" width="135" height="30" rx="6" class="box"/>
+<text x="627.5" y="117.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<rect x="560" y="138" width="135" height="30" rx="6" class="box"/>
+<text x="627.5" y="153.0" text-anchor="middle" dominant-baseline="middle" class="small">…</text>
+<text x="627" y="186" text-anchor="middle" dominant-baseline="middle" class="small">datetime64</text>
+<text x="360" y="210" text-anchor="middle" dominant-baseline="middle" class="small">df[&#x27;city&#x27;] → a Series · df.loc[1] → a row by label · df.iloc[0] → a row by position</text>
+</svg>
+<figcaption>A DataFrame is a set of columns that share one row index. Each column is a Series with its own dtype. Select columns with df[...], rows by label with .loc and by position with .iloc.</figcaption>
+</figure>

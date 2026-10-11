@@ -1,0 +1,86 @@
+chapter: sessions/09-environment-and-config
+
+quizzes:
+  - title: "Session 9 · Quiz"
+    description: "Environment variables, .env files, INI/JSON/YAML/TOML and layered settings."
+    questions:
+      - text: "What type is every value in os.environ?"
+        choices: |
+          *str
+          It depends on the value
+          int for numbers
+          bytes
+        explanation: "Convert explicitly."
+      - text: "bool(os.getenv('DRY_RUN')) when DRY_RUN='false' is…"
+        choices: |
+          *True
+          False
+          None
+          An error
+        explanation: "Non-empty strings are truthy: compare the text."
+      - text: "Where should passwords and API keys live?"
+        choices: |
+          *Environment variables or a secrets manager
+          The config file in Git
+          The code
+          The README
+        explanation: "Never commit secrets."
+      - text: "By default, does load_dotenv() overwrite variables already set?"
+        choices: |
+          *No: real environment variables win
+          Yes, always
+          Only in production
+          Only for passwords
+        explanation: "override=True changes that."
+      - text: "What should you commit instead of .env?"
+        choices: |
+          *A .env.example with the names and empty values
+          The .env file
+          Nothing
+          A screenshot
+        explanation: "Teammates know what to set."
+      - text: "Why yaml.safe_load instead of yaml.load?"
+        choices: |
+          *yaml.load can be made to run code from a malicious file
+          safe_load is faster
+          load can't read lists
+          There's no difference
+        explanation: "Always safe_load."
+      - text: "In layered settings, which usually wins?"
+        choices: |
+          *Environment variables over the config file over code defaults
+          Code defaults
+          The config file
+          Whichever loads last alphabetically
+        explanation: "Per-machine overrides come from the environment."
+      - text: "Which reads TOML in Python 3.11+ without installing anything?"
+        choices: |
+          *tomllib
+          toml
+          configparser
+          json
+        explanation: "Older versions: pip install tomli."
+
+decks:
+  - title: "Session 9 · Flashcards"
+    cards:
+      - front: "os.environ / os.getenv"
+        back: "Read environment variables; getenv takes a default."
+      - front: "Fail fast"
+        back: "Check required settings at start-up with a clear error."
+      - front: ".env + python-dotenv"
+        back: "Local-only variables; add .env to .gitignore."
+      - front: ".env.example"
+        back: "Committed list of variable names, values empty."
+      - front: "INI / configparser"
+        back: "Built-in; values are text (getint, getboolean)."
+      - front: "YAML"
+        back: "Airflow, dbt, Docker, GitHub Actions; use safe_load."
+      - front: "TOML / tomllib"
+        back: "Typed, readable; built in from Python 3.11."
+      - front: "Layering"
+        back: "defaults < config file < environment variables."
+      - front: "Secrets"
+        back: "Environment only; mask them in logs."
+      - front: "frozen dataclass"
+        back: "Typed, read-only settings object."

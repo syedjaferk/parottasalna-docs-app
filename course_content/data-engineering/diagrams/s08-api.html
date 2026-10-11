@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s08-api-t s08-api-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-api-t">A reliable API ingestion</title>
+<desc id="s08-api-d">Send a request with a timeout and auth header, check the status, retry temporary failures, follow the pages, save the raw JSON first, then transform a copy.</desc>
+<defs><marker id="s08-api-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-api-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-api-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-api-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="80" width="130" height="60" rx="10" class="blue"/>
+<text x="85.0" y="100.0" text-anchor="middle" dominant-baseline="middle">your code</text>
+<text x="85.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">Session + token</text>
+<path d="M150,100 L258,100" class="arrow" marker-end="url(#s08-api-h)"/>
+<text x="204" y="88" text-anchor="middle" dominant-baseline="middle" class="small">GET ?_page=n</text>
+<rect x="260" y="70" width="150" height="80" rx="10" class="amber"/>
+<text x="335.0" y="90.0" text-anchor="middle" dominant-baseline="middle">REST API</text>
+<text x="335.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">200 + JSON</text>
+<text x="335.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">429 / 5xx</text>
+<path d="M260,130 L152,130" class="arrow green" marker-end="url(#s08-api-h-green)"/>
+<text x="206" y="146" text-anchor="middle" dominant-baseline="middle" class="small">response</text>
+<path d="M335,70 L335,30 L85,30 L85,78" class="arrow blue dashed" marker-end="url(#s08-api-h-blue)"/>
+<text x="210" y="20" text-anchor="middle" dominant-baseline="middle" class="small">retry with backoff / next page</text>
+<path d="M410,110 L478,110" class="arrow" marker-end="url(#s08-api-h)"/>
+<rect x="480" y="60" width="220" height="44" rx="8" class="green"/>
+<text x="590.0" y="82.0" text-anchor="middle" dominant-baseline="middle" class="code">raw/dt=…/users.jsonl</text>
+<rect x="480" y="120" width="220" height="44" rx="8" class="green"/>
+<text x="590.0" y="142.0" text-anchor="middle" dominant-baseline="middle" class="code">clean table (Parquet)</text>
+<path d="M590,104 L590,118" class="arrow" marker-end="url(#s08-api-h)"/>
+</svg>
+<figcaption>Send a request with a timeout and auth header, check the status, retry temporary failures, follow the pages, save the raw JSON first, then transform a copy.</figcaption>
+</figure>

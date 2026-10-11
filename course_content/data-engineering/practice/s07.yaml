@@ -1,0 +1,84 @@
+chapter: sessions/07-files-text-csv-json-parquet
+
+quizzes:
+  - title: "Session 7 · Quiz"
+    description: "pathlib, text, csv, JSON, JSON Lines and Parquet."
+    questions:
+      - text: "Why always pass encoding='utf-8' when opening text files?"
+        choices: |
+          *So ₹, Tamil and other characters read and write correctly on every OS
+          It's faster
+          It compresses the file
+          Python requires it
+        explanation: "Windows may default to another encoding."
+      - text: "Why use the csv module instead of line.split(',')?"
+        choices: |
+          *It handles quoted values that contain commas
+          It's the only way to read CSV
+          split is slower
+          csv converts types automatically
+        explanation: "'Laptop, 15 inch' stays one field."
+      - text: "csv.DictReader gives each row as…"
+        choices: |
+          *A dict keyed by the header, with string values
+          A list of ints
+          A tuple
+          A DataFrame
+        explanation: "CSV has no types: convert yourself."
+      - text: "json.load vs json.loads?"
+        choices: |
+          *load reads from a file; loads parses a string
+          They're identical
+          loads is for lists only
+          load writes JSON
+        explanation: "The s is for string."
+      - text: "What's special about JSON Lines?"
+        choices: |
+          *One JSON object per line, so you can stream it and one bad line doesn't ruin the file
+          It's binary
+          It has a schema
+          It can't hold nested data
+        explanation: "Use it for events and big exports."
+      - text: "Why is Parquet faster for analytics than CSV?"
+        choices: |
+          *It stores columns together, typed and compressed, so a query reads only the columns it needs
+          It's text
+          It has no types
+          It's smaller only for tiny files
+        explanation: "Spark, Databricks and BigQuery read it natively."
+      - text: "json.dumps(x, ensure_ascii=False) keeps…"
+        choices: |
+          *Non-English characters as they are instead of \u escapes
+          Only ASCII
+          Keys sorted
+          Indentation
+        explanation: "Readable output for Tamil and ₹."
+      - text: "Which mode adds to the end of an existing file?"
+        choices: |
+          *'a'
+          'w'
+          'r'
+          'x'
+        explanation: "'w' replaces the file."
+
+decks:
+  - title: "Session 7 · Flashcards"
+    cards:
+      - front: "pathlib.Path"
+        back: "Cross-platform paths: Path('data') / 'orders.csv', .glob(), .mkdir()."
+      - front: "with open(...)"
+        back: "Closes the file automatically, even on errors."
+      - front: "encoding='utf-8'"
+        back: "Always specify it for text files."
+      - front: "csv.DictReader / DictWriter"
+        back: "Rows as dicts; handles quoting. Open with newline=''."
+      - front: "JSON"
+        back: "Nested data; json.load/dump (files), loads/dumps (strings)."
+      - front: "JSON Lines"
+        back: "One object per line: stream it, skip bad lines."
+      - front: "Parquet"
+        back: "Columnar, typed, compressed. pandas.to_parquet / read_parquet (pyarrow)."
+      - front: "Read selected columns"
+        back: "pd.read_parquet(path, columns=[...]) reads only those."
+      - front: "Raw vs output"
+        back: "Never write into the input folder; keep raw data read-only."

@@ -1,0 +1,25 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s04-errors-t s04-errors-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s04-errors-t">Decide in advance: skip, retry or stop</title>
+<desc id="s04-errors-d">Bad records go to a dead-letter list and the run continues; temporary failures are retried with a growing wait; anything that breaks the pipeline&#x27;s assumptions stops it loudly. All of it is logged.</desc>
+<defs><marker id="s04-errors-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s04-errors-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s04-errors-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s04-errors-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="90" width="120" height="50" rx="10" class="box"/>
+<text x="80.0" y="105.0" text-anchor="middle" dominant-baseline="middle">record or</text>
+<text x="80.0" y="125.0" text-anchor="middle" dominant-baseline="middle">API call</text>
+<path d="M140,115 L198,115" class="arrow" marker-end="url(#s04-errors-h)"/>
+<rect x="200" y="85" width="120" height="60" rx="10" class="blue"/>
+<text x="260.0" y="105.0" text-anchor="middle" dominant-baseline="middle">try:</text>
+<text x="260.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">process it</text>
+<path d="M320,115 L398,45" class="arrow" marker-end="url(#s04-errors-h)"/>
+<rect x="400" y="25" width="300" height="40" rx="8" class="amber"/>
+<text x="550.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="small">bad record  →  skip → dead letters</text>
+<path d="M320,115 L398,115" class="arrow blue" marker-end="url(#s04-errors-h-blue)"/>
+<rect x="400" y="95" width="300" height="40" rx="8" class="blue"/>
+<text x="550.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">timeout / 503  →  retry with backoff</text>
+<path d="M320,115 L398,185" class="arrow red" marker-end="url(#s04-errors-h-red)"/>
+<rect x="400" y="165" width="300" height="40" rx="8" class="red"/>
+<text x="550.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="small">broken assumption  →  raise → stop</text>
+<text x="560" y="222" text-anchor="middle" dominant-baseline="middle" class="small">every branch writes a log line</text>
+</svg>
+<figcaption>Bad records go to a dead-letter list and the run continues; temporary failures are retried with a growing wait; anything that breaks the pipeline&#x27;s assumptions stops it loudly. All of it is logged.</figcaption>
+</figure>

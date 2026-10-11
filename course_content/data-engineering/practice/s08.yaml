@@ -1,0 +1,86 @@
+chapter: sessions/08-rest-apis-with-requests
+
+quizzes:
+  - title: "Session 8 · Quiz"
+    description: "requests, status codes, params, pagination, auth, retries and raw landing."
+    questions:
+      - text: "Why always pass timeout= to requests?"
+        choices: |
+          *Without it, a request can hang forever
+          It makes requests faster
+          It's required by HTTP
+          It retries automatically
+        explanation: "10–30 seconds is typical."
+      - text: "What does response.raise_for_status() do?"
+        choices: |
+          *Raises HTTPError for 4xx/5xx responses
+          Retries the request
+          Returns the status code
+          Prints the response
+        explanation: "Errors can't slip through as data."
+      - text: "Which status codes are worth retrying?"
+        choices: |
+          *429 and 5xx
+          400 and 404
+          401 and 403
+          200 and 201
+        explanation: "Client errors won't fix themselves."
+      - text: "Why build URLs with params={...} instead of string formatting?"
+        choices: |
+          *requests encodes special characters correctly
+          It's shorter
+          It's required for GET
+          It adds authentication
+        explanation: "Spaces, & and = are escaped for you."
+      - text: "Why use a requests.Session?"
+        choices: |
+          *It reuses connections and keeps headers like auth across calls
+          It's the only way to send headers
+          It caches responses
+          It retries by default
+        explanation: "Mount an HTTPAdapter with Retry for retries."
+      - text: "Why not automatically retry POST requests?"
+        choices: |
+          *Repeating them can create duplicates
+          POST can't be retried
+          It's slower
+          Servers reject retries
+        explanation: "Only retry idempotent requests."
+      - text: "Where should an API token come from?"
+        choices: |
+          *An environment variable or secrets manager
+          A constant in the code
+          The URL
+          A comment
+        explanation: "Never commit secrets."
+      - text: "Why save raw API responses before transforming?"
+        choices: |
+          *So a transformation bug can be fixed and rerun without calling the API again
+          Raw data is smaller
+          APIs require it
+          It's faster to query
+        explanation: "That's the raw/bronze layer."
+
+decks:
+  - title: "Session 8 · Flashcards"
+    cards:
+      - front: "Endpoint"
+        back: "A URL that returns data, e.g. /users/1."
+      - front: "timeout="
+        back: "Always set it: requests.get(url, timeout=10)."
+      - front: "Status codes"
+        back: "2xx ok · 4xx your mistake (don't retry) · 429/5xx temporary (retry)."
+      - front: "raise_for_status()"
+        back: "Turn 4xx/5xx into an exception."
+      - front: "params={}"
+        back: "Query string built and encoded for you."
+      - front: "Pagination"
+        back: "Loop pages (or follow next links/cursors) until empty."
+      - front: "Session"
+        back: "Reused connection + shared headers (auth)."
+      - front: "Retry + HTTPAdapter"
+        back: "Automatic retries with backoff for chosen status codes."
+      - front: "Idempotent"
+        back: "Safe to repeat (GET). POST usually isn't."
+      - front: "dt= partitions"
+        back: "raw/users/dt=2025-01-03/: the folder convention Spark and Hive read."

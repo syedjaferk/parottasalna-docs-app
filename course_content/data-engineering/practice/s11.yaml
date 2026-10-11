@@ -1,0 +1,86 @@
+chapter: sessions/11-pandas-series-dataframes
+
+quizzes:
+  - title: "Session 11 · Quiz"
+    description: "Series, DataFrames, loading, selecting, loc/iloc, cleaning, dates, sorting."
+    questions:
+      - text: "Two Series are added. How are values matched?"
+        choices: |
+          *By index label
+          By position
+          Alphabetically
+          Randomly
+        explanation: "Unmatched labels give NaN unless you use fill_value."
+      - text: "What does df[['a', 'b']] return?"
+        choices: |
+          *A DataFrame with columns a and b
+          A Series
+          Two Series
+          A list
+        explanation: "One column name → Series; a list → DataFrame."
+      - text: "df.loc[1002:1004] on an index of order IDs includes…"
+        choices: |
+          *1002, 1003 and 1004
+          1002 and 1003 only
+          Positions 1002 to 1003
+          Nothing
+        explanation: "Label slices include the end; iloc slices don't."
+      - text: "How do you correctly change matching rows?"
+        choices: |
+          *df.loc[df['status'] != 'delivered', 'amount'] = 0
+          df[df['status'] != 'delivered']['amount'] = 0
+          df.amount[status] = 0
+          df.iloc['status'] = 0
+        explanation: "Chained indexing may change a copy."
+      - text: "Which removes repeated order IDs, keeping the first?"
+        choices: |
+          *df.drop_duplicates(subset='order_id', keep='first')
+          df.unique()
+          df.dropna()
+          df.duplicated()
+        explanation: "duplicated() only marks them."
+      - text: "What does parse_dates=['order_date'] in read_csv do?"
+        choices: |
+          *Converts that column to datetime
+          Sorts by date
+          Removes invalid dates
+          Formats dates as text
+        explanation: "Then .dt accessors work."
+      - text: "Why read IDs like pincode with dtype=str?"
+        choices: |
+          *Leading zeros would be lost as numbers
+          Strings are faster
+          Pandas requires it
+          To save memory
+        explanation: "'007' must stay '007'."
+      - text: "Which shows the count of missing values per column?"
+        choices: |
+          *df.isna().sum()
+          df.count()
+          df.missing()
+          df.info(nan=True)
+        explanation: "count() shows non-missing values."
+
+decks:
+  - title: "Session 11 · Flashcards"
+    cards:
+      - front: "Series"
+        back: "A labelled 1-D column; operations align by label."
+      - front: "DataFrame"
+        back: "Columns sharing one row index; each column has its own dtype."
+      - front: "read_csv options"
+        back: "parse_dates, dtype={...}, usecols."
+      - front: "loc vs iloc"
+        back: "Labels (end included) vs positions (end excluded)."
+      - front: "Boolean filter"
+        back: "df[(cond1) & (cond2)], .isin(), .query()."
+      - front: "Chained assignment"
+        back: "Use df.loc[mask, col] = value; .copy() pieces you modify."
+      - front: "Missing values"
+        back: "isna, fillna, dropna."
+      - front: "Duplicates"
+        back: "duplicated, drop_duplicates(subset=…)."
+      - front: ".dt accessor"
+        back: "Dates: .dt.year, .dt.to_period('M'), .dt.day_name()."
+      - front: "category dtype"
+        back: "For columns with few distinct values: smaller and faster."

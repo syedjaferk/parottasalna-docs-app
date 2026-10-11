@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s07-columnar-t s07-columnar-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s07-columnar-t">Row storage (CSV) vs column storage (Parquet)</title>
+<desc id="s07-columnar-d">CSV stores whole rows one after another, so reading one column still reads everything. Parquet stores each column together, typed and compressed, so a query reads only the columns it needs.</desc>
+<defs><marker id="s07-columnar-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s07-columnar-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s07-columnar-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s07-columnar-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="180" y="25" text-anchor="middle" dominant-baseline="middle" class="bold">CSV: row by row</text>
+<rect x="40" y="40" width="280" height="36" rx="6" class="amber"/>
+<text x="180.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="code">1001 · Laptop · 55000</text>
+<rect x="40" y="84" width="280" height="36" rx="6" class="amber"/>
+<text x="180.0" y="102.0" text-anchor="middle" dominant-baseline="middle" class="code">1002 · Mouse · 450</text>
+<rect x="40" y="128" width="280" height="36" rx="6" class="amber"/>
+<text x="180.0" y="146.0" text-anchor="middle" dominant-baseline="middle" class="code">1003 · Notebook · 40</text>
+<text x="180" y="185" text-anchor="middle" dominant-baseline="middle" class="small">need prices? read every row</text>
+<text x="540" y="25" text-anchor="middle" dominant-baseline="middle" class="bold">Parquet: column by column</text>
+<rect x="400" y="40" width="96" height="124" rx="8" class="ghost"/>
+<text x="448.0" y="92.0" text-anchor="middle" dominant-baseline="middle">order_id</text>
+<text x="448.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="small">int64</text>
+<rect x="504" y="40" width="96" height="124" rx="8" class="ghost"/>
+<text x="552.0" y="92.0" text-anchor="middle" dominant-baseline="middle">product</text>
+<text x="552.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="small">string</text>
+<rect x="608" y="40" width="96" height="124" rx="8" class="green"/>
+<text x="656.0" y="92.0" text-anchor="middle" dominant-baseline="middle">unit_price</text>
+<text x="656.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="small">int64</text>
+<text x="560" y="185" text-anchor="middle" dominant-baseline="middle" class="small">need prices? read one column</text>
+</svg>
+<figcaption>CSV stores whole rows one after another, so reading one column still reads everything. Parquet stores each column together, typed and compressed, so a query reads only the columns it needs.</figcaption>
+</figure>

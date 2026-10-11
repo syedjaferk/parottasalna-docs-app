@@ -1,0 +1,86 @@
+chapter: sessions/01-data-types-variables-io
+
+quizzes:
+  - title: "Session 1 · Quiz"
+    description: "Types, conversion, string cleaning, dates, stdout/stderr and arguments."
+    questions:
+      - text: "A field read from a CSV line is '450'. What type is it?"
+        choices: |
+          *str
+          int
+          float
+          It depends on the column
+        explanation: "Everything read from a text file is a string until you convert it."
+      - text: "What does '2' * 2 give?"
+        choices: |
+          *'22'
+          4
+          '4'
+          An error
+        explanation: "Multiplying a string repeats it. Convert to int first for maths."
+      - text: "What is bool('False')?"
+        choices: |
+          *True
+          False
+          None
+          An error
+        explanation: "Any non-empty string is truthy. Compare the text instead."
+      - text: "int('1,200') raises…"
+        choices: |
+          *ValueError
+          TypeError
+          KeyError
+          Nothing: it returns 1200
+        explanation: "Remove the thousands separator first: int('1,200'.replace(',', ''))."
+      - text: "Which f-string prints 900.0 as '900.00' with separators?"
+        choices: |
+          *f'{amount:,.2f}'
+          f'{amount:.2}'
+          f'{amount:,}'
+          f'{amount!r}'
+        explanation: ":, adds thousands separators; .2f keeps two decimals."
+      - text: "Where should warnings go in a script whose stdout is data?"
+        choices: |
+          *stderr (or logging)
+          stdout
+          A comment
+          Nowhere
+        explanation: "`python x.py > out.csv` captures only stdout, so diagnostics stay out of the data."
+      - text: "Which turns '2025-01-03' into a date object?"
+        choices: |
+          *date.fromisoformat('2025-01-03')
+          date('2025-01-03')
+          int('2025-01-03')
+          str.todate('2025-01-03')
+        explanation: "ISO dates (YYYY-MM-DD) parse with date.fromisoformat; other formats with datetime.strptime."
+      - text: "What does sys.argv[1] hold in `python report.py Chennai 2025-01`?"
+        choices: |
+          *'Chennai'
+          'report.py'
+          '2025-01'
+          ['Chennai', '2025-01']
+        explanation: "argv[0] is the script name; arguments start at index 1, always as strings."
+
+decks:
+  - title: "Session 1 · Flashcards"
+    cards:
+      - front: "str / int / float / bool / None"
+        back: "Text / whole numbers / decimals / True-False / no value."
+      - front: "repr(x)"
+        back: "Shows the value as Python sees it, including quotes: great for spotting text that should be a number."
+      - front: "Type conversion"
+        back: "int(), float(), str(), date.fromisoformat(): raw text → typed values."
+      - front: "bool trap"
+        back: "bool('False') is True. Compare text: s.strip().lower() in {'true', 'yes', '1'}."
+      - front: "Empty vs None"
+        back: "An empty CSV field is '' (empty string), not None. Decide on purpose what it becomes."
+      - front: ".strip()"
+        back: "Removes surrounding whitespace and newlines. 'Chennai ' != 'Chennai'."
+      - front: "f'{x:,.2f}'"
+        back: "Thousands separators and 2 decimals."
+      - front: "stdout vs stderr"
+        back: "Data goes to stdout; diagnostics to stderr (or logging)."
+      - front: "sys.argv"
+        back: "Command-line arguments as a list of strings; [0] is the script name."
+      - front: "Money and floats"
+        back: "0.1 + 0.2 != 0.3. Use Decimal or integer paise for exact money."

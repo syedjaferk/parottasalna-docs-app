@@ -1,0 +1,86 @@
+chapter: sessions/06-comprehensions-and-generators
+
+quizzes:
+  - title: "Session 6 · Quiz"
+    description: "Comprehensions, generator expressions, yield and streaming pipelines."
+    questions:
+      - text: "[x * 2 for x in nums if x > 0] does what?"
+        choices: |
+          *Doubles the positive numbers only
+          Doubles everything
+          Keeps positives without doubling
+          Raises an error
+        explanation: "The trailing if filters."
+      - text: "What's the difference between [ ... ] and ( ... ) comprehensions?"
+        choices: |
+          *[ ] builds a list now; ( ) makes a lazy generator
+          No difference
+          ( ) builds a tuple
+          [ ] is lazy
+        explanation: "Generators produce items on demand."
+      - text: "What happens when you call a function containing `yield`?"
+        choices: |
+          *It returns a generator; the body runs only when you iterate
+          It runs fully and returns a list
+          It raises StopIteration
+          It returns None
+        explanation: "Each next() runs to the next yield."
+      - text: "Why do generator pipelines handle huge files?"
+        choices: |
+          *Only one row is in memory at a time
+          They compress the file
+          They run on many CPUs
+          They skip rows
+        explanation: "Each row flows through every stage before the next is read."
+      - text: "You loop over a generator twice. The second loop…"
+        choices: |
+          *Gets nothing: the generator is used up
+          Repeats the data
+          Raises an error
+          Reads the file again automatically
+        explanation: "Call the generator function again for a fresh one."
+      - text: "itertools.groupby gives wrong groups when…"
+        choices: |
+          *The input isn't sorted by the group key
+          The groups are large
+          Keys are strings
+          Always
+        explanation: "It only groups neighbouring items."
+      - text: "Which counts matching items without building a list?"
+        choices: |
+          *sum(1 for e in events if e['event'] == 'purchase')
+          len(e for e in events)
+          events.count()
+          list(events).len
+        explanation: "A generator expression inside sum."
+      - text: "{o['order_id']: o for o in orders} on rows with a duplicate id gives…"
+        choices: |
+          *One entry per id: the later row wins
+          Two entries for the id
+          An error
+          A list
+        explanation: "Dict keys are unique."
+
+decks:
+  - title: "Session 6 · Flashcards"
+    cards:
+      - front: "List comprehension"
+        back: "[expr for item in items if cond]."
+      - front: "Dict / set comprehension"
+        back: "{k: v for …} / {x for …}."
+      - front: "Filter vs choose"
+        back: "Trailing `if` drops items; `a if c else b` picks a value."
+      - front: "Generator expression"
+        back: "(expr for item in items): lazy, memory-light."
+      - front: "yield"
+        back: "Hand out one value and pause until the next request."
+      - front: "Streaming pipeline"
+        back: "read → parse → filter → dedupe → batch, one row at a time."
+      - front: "islice / chain"
+        back: "Take the first n lazily / join iterables end to end."
+      - front: "groupby"
+        back: "Groups neighbouring items: sort by the key first."
+      - front: "Single use"
+        back: "A generator is empty after one pass."
+      - front: "heapq.nlargest"
+        back: "Top n from any iterable without sorting everything."

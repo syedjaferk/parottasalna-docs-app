@@ -1,0 +1,7 @@
+2025-01-03 10:00:01 INFO  pipeline started
+2025-01-03 10:00:02 INFO  extracted 13 rows from orders.csv
+2025-01-03 10:00:02 WARN  row 5 has an empty city
+2025-01-03 10:00:03 ERROR could not reach payments API (timeout)
+2025-01-03 10:00:05 INFO  retry 1 succeeded
+2025-01-03 10:00:06 INFO  loaded 12 rows into warehouse
+2025-01-03 10:00:06 INFO  pipeline finished in 5.2s
