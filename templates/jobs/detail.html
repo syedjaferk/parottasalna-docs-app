@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ job.title }} at {{ job.company }} · Jobs · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}{{ job.title }} at {{ job.company }}, {{ job.location }} ({{ job.get_job_type_display }}, {{ job.get_work_mode_display }}). {{ job.description|truncatechars:120 }}{% endblock %}
+{% block robots %}{% if job.status == "approved" and not job.is_expired %}index, follow{% else %}noindex, nofollow{% endif %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/jobs.css' %}"><script src="{% static 'js/jobs.js' %}" defer></script>{% endblock %}
+{% block content %}
+<p class="jobs-back"><a href="{% url 'job_list' %}">← All jobs</a></p>
+
+{% if job.status == "pending" %}<p class="job-banner">⏳ Waiting for review. Only you and the admins can see this post until it's approved.</p>
+{% elif job.status == "rejected" %}<p class="job-banner is-bad">This post wasn't approved{% if job.review_note %}: {{ job.review_note }}{% endif %}. Edit it to send it for review again.</p>
+{% elif job.is_expired %}<p class="job-banner">Applications for this job closed on {{ job.last_date|date:"j M Y" }}.</p>{% endif %}
+
+<article class="job-detail">
+  <header>
+    <h1>{{ job.title }}</h1>
+    <p class="job-company-big">{{ job.company }}</p>
+    <p class="job-meta">
+      <span>📍 {{ job.location }}</span>
+      <span>{{ job.get_job_type_display }}</span>
+      <span>{{ job.get_work_mode_display }}</span>
+      {% if job.experience %}<span>{{ job.experience }}</span>{% endif %}
+      {% if job.salary %}<span>{{ job.salary }}</span>{% endif %}
+    </p>
+    {% if job.skill_list %}<p class="job-skills">{% for s in job.skill_list %}<span class="job-skill">{{ s }}</span>{% endfor %}</p>{% endif %}
+  </header>
+
+  <div class="job-body">{{ job.description|linebreaks }}</div>
+
+  <aside class="job-apply">
+    {% if job.last_date %}<p>Apply by <b>{{ job.last_date|date:"j M Y" }}</b></p>{% endif %}
+    {% if not job.is_expired %}
+      {% if job.apply_url %}<a class="btn-solid" href="{{ job.apply_url }}" target="_blank" rel="nofollow noopener noreferrer">Apply on company site ↗</a>{% endif %}
+      {% if job.apply_email %}<a class="btn-outline" href="mailto:{{ job.apply_email }}?subject={{ job.title|urlencode }}">Apply by email</a>{% endif %}
+    {% endif %}
+    <p class="job-note">Posted {{ job.published_at|default:job.created_at|date:"j M Y" }}. {{ brand.NAME }} doesn't verify every employer: never pay to apply for a job.</p>
+  </aside>
+
+  {% if can_manage %}
+  <footer class="job-owner">
+    <a class="btn-outline" href="{% url 'job_edit' job.pk %}">Edit</a>
+    <form method="post" action="{% url 'job_delete' job.pk %}" data-confirm="Delete this job post?">{% csrf_token %}
+      <button class="btn-danger" type="submit">Delete</button>
+    </form>
+    {% if user.is_staff and job.status != "approved" %}
+    <form method="post" action="{% url 'job_moderate' job.pk %}">{% csrf_token %}
+      <button class="btn-solid" name="action" value="approve">Approve</button>
+    </form>
+    {% endif %}
+  </footer>
+  {% endif %}
+</article>
+{% endblock %}

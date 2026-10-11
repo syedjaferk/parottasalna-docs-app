@@ -196,6 +196,7 @@
         <span class="avatar" aria-hidden="true">{{ user.first_name|default:user.email|default:user.username|first|upper }}</span>
         <span class="email">{{ user.email|default:user.username }}</span>
         <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
+        <a class="pill-link" href="{% url 'job_list' %}">Jobs</a>
         {% if user.is_staff %}<a class="pill-link" href="{% url 'admin:index' %}">Admin</a>{% endif %}
         <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
           <button class="pill-link" type="submit" style="cursor:pointer;font:inherit">Sign out</button>
@@ -204,6 +205,7 @@
       {% else %}
       <div class="who">
         <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
+        <a class="pill-link" href="{% url 'job_list' %}">Jobs</a>
         <a class="pill-link" href="{% url 'login' %}">Sign in</a>
       </div>
       {% endif %}

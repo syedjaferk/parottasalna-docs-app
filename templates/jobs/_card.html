@@ -1,0 +1,15 @@
+<li class="job-card">
+  <a class="job-link" href="{{ job.get_absolute_url }}">
+    <span class="job-title">{{ job.title }}</span>
+    <span class="job-company">{{ job.company }}</span>
+  </a>
+  <p class="job-meta">
+    <span>📍 {{ job.location }}</span>
+    <span>{{ job.get_job_type_display }}</span>
+    <span>{{ job.get_work_mode_display }}</span>
+    {% if job.experience %}<span>{{ job.experience }}</span>{% endif %}
+    {% if job.salary %}<span>{{ job.salary }}</span>{% endif %}
+  </p>
+  {% if job.skill_list %}<p class="job-skills">{% for s in job.skill_list|slice:":6" %}<span class="job-skill">{{ s }}</span>{% endfor %}</p>{% endif %}
+  <p class="job-when">Posted {{ job.published_at|default:job.created_at|timesince }} ago{% if job.last_date %} · apply by {{ job.last_date|date:"j M Y" }}{% endif %}</p>
+</li>

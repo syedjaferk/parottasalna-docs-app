@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My job posts · {{ brand.NAME }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/jobs.css' %}">{% endblock %}
+{% block content %}
+<p class="jobs-back"><a href="{% url 'job_list' %}">← All jobs</a></p>
+<section class="jobs-head">
+  <h1>My job posts</h1>
+  <a class="btn-solid" href="{% url 'job_new' %}">Post a job</a>
+</section>
+{% if jobs %}
+<table class="jobs-table">
+  <thead><tr><th>Job</th><th>Status</th><th>Posted</th></tr></thead>
+  <tbody>
+  {% for job in jobs %}
+    <tr>
+      <td><a href="{{ job.get_absolute_url }}">{{ job.title }}</a><br><small>{{ job.company }} · {{ job.location }}</small></td>
+      <td><span class="status status-{{ job.status }}">{{ job.get_status_display }}</span>
+        {% if job.status == "rejected" and job.review_note %}<br><small>{{ job.review_note }}</small>{% endif %}
+        {% if job.status == "approved" and job.is_expired %}<br><small>closed</small>{% endif %}</td>
+      <td>{{ job.created_at|date:"j M Y" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<div class="jobs-empty"><p>You haven't posted any jobs yet.</p></div>{% endif %}
+{% endblock %}

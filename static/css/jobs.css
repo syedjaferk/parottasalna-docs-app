@@ -1,0 +1,101 @@
+/* Job board. Uses the main site's colour tokens (templates/base.html), so it follows light/dark mode.
+   Flat and clean: thin borders, one blue accent, no gradients. */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.btn-solid, .btn-outline, .btn-danger { display: inline-block; padding: .6rem 1.05rem; border-radius: 8px; font: inherit;
+  font-weight: 600; font-size: .95rem; text-decoration: none; cursor: pointer; border: 1px solid var(--accent); line-height: 1.2; }
+.btn-solid { background: var(--accent); color: var(--accent-fg); }
+.btn-outline { background: transparent; color: var(--accent); border-color: var(--line); }
+.btn-outline:hover { border-color: var(--accent); }
+.btn-danger { background: transparent; color: #dc2626; border-color: #fecaca; }
+.btn-danger:hover { border-color: #dc2626; }
+.btn-solid:hover { opacity: .92; }
+
+/* header + filters */
+.jobs-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin: .5rem 0 1.25rem; }
+.jobs-head h1 { margin: 0 0 .25rem; font-size: 1.8rem; }
+.jobs-sub { margin: 0; color: var(--muted); max-width: 620px; }
+.jobs-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.jobs-back { margin: .5rem 0 1rem; }
+.jobs-back a { color: var(--muted); text-decoration: none; }
+.jobs-back a:hover { color: var(--accent); }
+
+.jobs-filter { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: .5rem; align-items: center; margin-bottom: 1.25rem; }
+.jobs-filter input, .jobs-filter select, .job-form input, .job-form select, .job-form textarea, .reject-form input {
+  font: inherit; padding: .6rem .8rem; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); min-width: 0; }
+/* Browsers size <select> by their own rules; match the inputs' height (line + padding + border) exactly. */
+.jobs-filter input, .jobs-filter select, .job-form input, .job-form select { line-height: 1.6; }
+.jobs-filter select, .job-form select { height: calc(1.6em + 1.2rem + 2px); padding-top: 0; padding-bottom: 0; }
+.jobs-filter input:focus, .jobs-filter select:focus, .job-form input:focus, .job-form select:focus, .job-form textarea:focus,
+.reject-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.jobs-clear { color: var(--muted); font-size: .9rem; }
+.jobs-count { margin: 0 0 .6rem; color: var(--muted); font-size: .9rem; }
+
+/* job cards */
+.job-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
+.job-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.25rem; transition: border-color .15s; }
+.job-card:hover { border-color: var(--accent); }
+.job-link { display: flex; flex-direction: column; gap: .1rem; text-decoration: none; color: var(--fg); }
+.job-title { font-size: 1.12rem; font-weight: 700; }
+.job-link:hover .job-title { color: var(--accent); }
+.job-company { color: var(--muted); font-weight: 500; }
+.job-meta { display: flex; flex-wrap: wrap; gap: .35rem 1rem; margin: .55rem 0 0; color: var(--muted); font-size: .92rem; }
+.job-skills { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
+.job-skill { font-size: .8rem; font-weight: 600; padding: .15rem .55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.job-when { margin: .6rem 0 0; color: var(--muted); font-size: .82rem; }
+.jobs-empty { background: var(--card); border: 1px dashed var(--line); border-radius: 12px; padding: 2rem; text-align: center; color: var(--muted); }
+.jobs-pages { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; color: var(--muted); }
+
+/* job detail */
+.job-banner { margin: 0 0 1rem; padding: .7rem 1rem; border-radius: 8px; border: 1px solid #fde68a; background: #fffbeb; color: #92400e; }
+.job-banner.is-bad { border-color: #fecaca; background: #fef2f2; color: #991b1b; }
+.job-detail { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.75rem; display: grid; gap: 1.5rem; }
+.job-detail h1 { margin: 0; font-size: 1.7rem; line-height: 1.25; }
+.job-company-big { margin: .25rem 0 0; font-size: 1.1rem; color: var(--muted); font-weight: 600; }
+.job-body { line-height: 1.7; overflow-wrap: anywhere; }
+.job-body p { margin: 0 0 .9rem; }
+.job-apply { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; padding: 1.1rem; border: 1px solid var(--line); border-radius: 10px; }
+.job-apply p { margin: 0; flex-basis: 100%; }
+.job-note { margin: 0; color: var(--muted); font-size: .85rem; }
+.job-owner { display: flex; gap: .5rem; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid var(--line); }
+.job-owner form { margin: 0; }
+
+/* post / edit form */
+.job-form-wrap { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.75rem; }
+.job-form-wrap h1 { margin: 0 0 .3rem; }
+.job-form { display: grid; gap: 1rem; margin-top: 1.25rem; }
+.job-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem; }
+.field { display: grid; gap: .3rem; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-weight: 600; font-size: .92rem; }
+.field label span { color: #dc2626; }
+.field small { color: var(--muted); font-size: .82rem; }
+.field textarea { resize: vertical; }
+.field.has-error input, .field.has-error textarea, .field.has-error select { border-color: #dc2626; }
+.field-error { margin: 0; color: #dc2626; font-size: .88rem; }
+.job-form > .btn-solid { justify-self: start; }
+
+/* my posts + review */
+.jobs-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.jobs-table th { text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.jobs-table th, .jobs-table td { padding: .75rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.jobs-table small { color: var(--muted); }
+.status { display: inline-block; padding: .1rem .55rem; border-radius: 999px; font-size: .8rem; font-weight: 600; border: 1px solid var(--line); color: var(--muted); }
+.status-approved { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+.status-pending { border-color: #fde68a; background: #fffbeb; color: #92400e; }
+.status-rejected { border-color: #fecaca; background: #fef2f2; color: #991b1b; }
+.review-item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; margin-bottom: .9rem; }
+.review-item h2 { margin: 0; font-size: 1.15rem; }
+.review-item h2 small { color: var(--muted); font-weight: 500; }
+.review-body { margin-top: .75rem; font-size: .95rem; color: var(--fg); }
+.review-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.review-actions form { margin: 0; }
+.reject-form { display: flex; gap: .5rem; flex: 1; min-width: 260px; }
+.reject-form input { flex: 1; }
+
+@media (max-width: 720px) {
+  .jobs-filter { grid-template-columns: 1fr 1fr; }
+  .jobs-filter input { grid-column: 1 / -1; }
+  .job-grid { grid-template-columns: 1fr; }
+  .job-detail, .job-form-wrap { padding: 1.25rem; }
+}

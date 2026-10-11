@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Review jobs · {{ brand.NAME }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/jobs.css' %}">{% endblock %}
+{% block content %}
+<p class="jobs-back"><a href="{% url 'job_list' %}">← All jobs</a></p>
+<section class="jobs-head"><h1>Waiting for review ({{ jobs|length }})</h1></section>
+{% for job in jobs %}
+<article class="review-item">
+  <h2><a href="{{ job.get_absolute_url }}">{{ job.title }}</a> <small>at {{ job.company }}</small></h2>
+  <p class="job-meta"><span>📍 {{ job.location }}</span><span>{{ job.get_job_type_display }}</span><span>{{ job.get_work_mode_display }}</span>
+    <span>by {{ job.posted_by.email|default:job.posted_by.username|default:"deleted user" }}</span><span>{{ job.created_at|timesince }} ago</span></p>
+  <div class="job-body review-body">{{ job.description|truncatewords:80|linebreaks }}</div>
+  <p class="job-meta">{% if job.apply_url %}<span>Link: {{ job.apply_url|truncatechars:70 }}</span>{% endif %}{% if job.apply_email %}<span>Email: {{ job.apply_email }}</span>{% endif %}</p>
+  <div class="review-actions">
+    <form method="post" action="{% url 'job_moderate' job.pk %}">{% csrf_token %}
+      <button class="btn-solid" name="action" value="approve">Approve</button>
+    </form>
+    <form method="post" action="{% url 'job_moderate' job.pk %}" class="reject-form">{% csrf_token %}
+      <input name="note" maxlength="300" placeholder="Reason (shown to the poster)">
+      <button class="btn-danger" name="action" value="reject">Reject</button>
+    </form>
+  </div>
+</article>
+{% empty %}
+<div class="jobs-empty"><p>Nothing to review. 🎉</p></div>
+{% endfor %}
+{% endblock %}
