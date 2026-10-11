@@ -1,4 +1,5 @@
 from datetime import date, datetime, time, timedelta
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
@@ -24,6 +25,11 @@ class LiveTestCase(TestCase):
     def setUp(self):
         cache.clear()
         self.today = timezone.localdate()
+        # Freeze the clock at noon: the 8 PM test sessions would otherwise count as ended when the
+        # suite runs late in the evening, which failed the deploy's test step.
+        clock = mock.patch("django.utils.timezone.now", return_value=at(self.today, 12))
+        clock.start()
+        self.addCleanup(clock.stop)
         self.course = Course.objects.create(slug="k8s", title="Kube", build_status="ok")
         self.other = Course.objects.create(slug="other", title="Other batch", build_status="ok")
         self.free = Course.objects.create(slug="free", title="Free course", is_common=True, build_status="ok")
