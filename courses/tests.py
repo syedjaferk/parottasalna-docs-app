@@ -565,3 +565,30 @@ class AnalyticsTests(TestCase):
             self.assertIn("data-ga-id", (Path(tmp) / "_static" / "analytics.js").read_text())
         with override_settings(GA_MEASUREMENT_ID=""):
             self.assertNotIn("analytics.js", _conf_py(course))
+
+
+class HelpLinksTests(TestCase):
+    """The Q&A forum and the 1:1 call booking are linked from the site and from every docs page."""
+
+    def test_site_header_and_footer_link_both(self):
+        from . import branding
+
+        cache.clear()
+        html = self.client.get("/privacy/").content.decode()
+        self.assertIn(f'href="{branding.DISCUSSIONS_URL}" target="_blank" rel="noopener">Q&amp;A</a>', html)
+        self.assertIn("Ask a question", html)
+        self.assertIn(f'href="{branding.BOOK_CALL_URL}"', html)
+
+    def test_docs_pages_get_the_sidebar_link_and_chapter_box(self):
+        from . import branding
+        from .builder import _conf_py, _write_conf
+
+        course = Course(slug="c1", title="C1")
+        conf = _conf_py(course)
+        self.assertIn(f"'discussion_url': {branding.DISCUSSIONS_URL!r}", conf)
+        self.assertIn(f"'book_call_url': {branding.BOOK_CALL_URL!r}", conf)
+        with tempfile.TemporaryDirectory() as tmp:
+            _write_conf(Path(tmp), course)
+            bottom = (Path(tmp) / "_templates" / "partials" / "page-bottom.html").read_text()
+            self.assertIn("{{ discussions_url|e }}", bottom)
+            self.assertIn("{{ book_call_url|e }}", bottom)

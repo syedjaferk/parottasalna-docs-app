@@ -198,6 +198,17 @@ details.source > :not(summary) { margin: .5rem .75rem; }
 .portal-socials { display: flex; gap: .75rem; align-items: center; }
 .portal-socials a { color: var(--sy-c-foot-text, var(--sy-c-light)); display: inline-flex; }
 .portal-socials a:hover { color: var(--sy-c-link); }
+
+/* "Stuck?" box at the bottom of every chapter: Q&A forum + 1:1 call */
+.portal-help { display: flex; align-items: center; justify-content: space-between; gap: .75rem 1.25rem; flex-wrap: wrap;
+  margin: 2rem 0 1rem; padding: 1rem 1.15rem; border: 1px solid var(--sy-c-border); border-radius: 10px; }
+.portal-help p { margin: 0; color: var(--sy-c-light); font-size: .92rem; }
+.portal-help p strong { color: var(--sy-c-text); }
+.portal-help-links { display: flex; gap: .5rem; flex-wrap: wrap; }
+.portal-help-links a { padding: .45rem .9rem; border-radius: 8px; border: 1px solid var(--sy-c-border); font-weight: 600;
+  font-size: .9rem; text-decoration: none; color: var(--accent-9); }
+.portal-help-links a:hover { border-color: var(--accent-9); }
+.portal-help-links a.primary { background: var(--accent-9); border-color: var(--accent-9); color: #fff; }
 .portal-socials svg { width: 20px; height: 20px; }
 """
 
@@ -692,6 +703,17 @@ FOOT_COPYRIGHT_TEMPLATE = """<div class="sy-foot-copyright"><p>&copy; {{ brand_n
 """
 
 
+# Bottom of every docs page: where to ask when a chapter isn't clear.
+PAGE_BOTTOM_TEMPLATE = """<aside class="portal-help" aria-label="Get help">
+  <p><strong>Stuck on this chapter?</strong> Ask in the Q&amp;A forum, or book a 30-minute call.</p>
+  <div class="portal-help-links">
+    <a class="primary" href="{{ discussions_url|e }}" target="_blank" rel="noopener">Ask in Q&amp;A \u2197</a>
+    <a href="{{ book_call_url|e }}" target="_blank" rel="noopener">Book a call \u2197</a>
+  </div>
+</aside>
+"""
+
+
 def _foot_socials_template():
     links = "".join(
         f'<a href="{link["url"]}" target="_blank" rel="noopener" aria-label="{link["name"]}" title="{link["name"]}">'
@@ -718,6 +740,8 @@ def _conf_py(course: Course) -> str:
         "notes_url": reverse("notes_json", args=[course.slug]),
         "streak_url": f"{reverse('streak_json')}?course={course.slug}",
         "docs_root": reverse("course_docs", args=[course.slug]),
+        "discussions_url": branding.DISCUSSIONS_URL,
+        "book_call_url": branding.BOOK_CALL_URL,
         # Common courses are public, so let search engines index them.
         "brand_robots": "index, follow" if course.is_common else "noindex, follow",
     }
@@ -763,6 +787,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*"]
             ),
             "nav_links": nav_links,
             "globaltoc_expand_depth": 1,
+            "discussion_url": branding.DISCUSSIONS_URL,   # "Discussion" link above the sidebar contents
             # No "Open in ChatGPT/Claude" links: they would send students' page URLs to third parties.
             "show_ai_links": False,
             # Social icons come from our own footer template (inline SVG, no icon CDN).
@@ -799,6 +824,7 @@ def _write_conf(conf_dir: Path, course: Course):
         (templates / "components" / "nav-links.html").write_text(NAV_LINKS_TEMPLATE, encoding="utf-8")
         (templates / "components" / "foot-copyright.html").write_text(FOOT_COPYRIGHT_TEMPLATE, encoding="utf-8")
         (templates / "partials" / "foot-socials.html").write_text(_foot_socials_template(), encoding="utf-8")
+        (templates / "partials" / "page-bottom.html").write_text(PAGE_BOTTOM_TEMPLATE, encoding="utf-8")
 
 
 @contextlib.contextmanager

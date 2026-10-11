@@ -96,6 +96,8 @@
   {% endif %}{% endwith %}
   {% if canonical %}<p class="origin">Originally published on <a href="{{ canonical }}" rel="noopener">parottasalna.com</a>.</p>{% endif %}
 
+  {% include "_help_box.html" with help_title="Questions about this post?" %}
+
   {% if related %}
   <h2 class="section-title">Related posts</h2>
   <div class="related">

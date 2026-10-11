@@ -49,6 +49,10 @@ INSTAGRAM = "https://www.instagram.com/parottasalna.official/"
 GITHUB = "https://github.com/syedjaferk/"
 LINKEDIN = "https://www.linkedin.com/in/syedjaferk"
 
+# Getting help: a public Q&A forum (GitHub Discussions) and 30-minute 1:1 calls (Calendly).
+DISCUSSIONS_URL = "https://github.com/syedjaferk/parottasalna-discussions/discussions/categories/q-a"
+BOOK_CALL_URL = "https://calendly.com/contact-syedjafer/30min"
+
 THEME_COLOR = "#2563eb"
 
 # Inline SVG paths (24x24, fill=currentColor) so no icon font or third-party script is needed.
