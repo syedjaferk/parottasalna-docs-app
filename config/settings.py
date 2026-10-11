@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "arena",
     "polls",
     "jobs",
+    "panel",
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "courses.context_processors.brand",
+                "panel.context_processors.attention",
             ],
         },
     },
@@ -154,6 +156,9 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Google already verified the address
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_STORE_TOKENS = False  # we only sign people in; Google access tokens are never kept
+
+# Admin panel: upcoming calls from Calendly (personal access token; empty = not connected).
+CALENDLY_TOKEN = os.environ.get("CALENDLY_TOKEN", "").strip()
 
 # Shown on the privacy policy as the address for data requests (required for Google verification).
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "")

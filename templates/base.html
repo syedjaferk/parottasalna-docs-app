@@ -142,6 +142,8 @@
       padding: .35rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card);
     }
     .pill-link:hover { border-color: var(--accent); color: var(--accent); }
+    .pill-link .badge { display: inline-block; min-width: 1.25rem; margin-left: .3rem; padding: 0 .35rem; border-radius: 999px;
+      background: #dc2626; color: #fff; font-size: .75rem; font-weight: 700; text-align: center; line-height: 1.25rem; }
 
     main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
@@ -204,7 +206,7 @@
         <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
         <a class="pill-link" href="{% url 'job_list' %}">Jobs</a>
         <a class="pill-link" href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Q&amp;A</a>
-        {% if user.is_staff %}<a class="pill-link" href="{% url 'admin:index' %}">Admin</a>{% endif %}
+        {% if user.is_staff %}<a class="pill-link" href="{% url 'panel_home' %}" title="Admin panel: things waiting for you">Panel{% if panel_attention %}<span class="badge" aria-label="{{ panel_attention }} waiting">{{ panel_attention }}</span>{% endif %}</a>{% endif %}
         <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
           <button class="pill-link" type="submit" style="cursor:pointer;font:inherit">Sign out</button>
         </form>
