@@ -10,7 +10,7 @@ from panel import calendly
 
 
 class Command(BaseCommand):
-    help = "Test CALENDLY_TOKEN against the Calendly API."
+    help = "Test CALENDLY_TOKEN against the Calendly API (needs scopes: users:read, scheduled_events:read)."
 
     def handle(self, *args, **options):
         raw = os.environ.get("CALENDLY_TOKEN", "")
@@ -24,7 +24,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("That doesn't look like a Calendly personal access token "
                                                  "(expected a long token with two dots). Was it copied completely?"))
         try:
-            me = calendly._get("/users/me")["resource"]
+            me = calendly._get("/users/me", scope="users:read")["resource"]
             self.stdout.write(self.style.SUCCESS(f"Connected as {me.get('name')} <{me.get('email')}>"))
             calls, error = calendly.upcoming_calls(refresh=True)
         except calendly.CalendlyError as exc:

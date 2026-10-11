@@ -103,7 +103,9 @@ class PanelTests(TestCase):
         cache.clear()
         err = HTTPError("https://api.calendly.com/users/me", 403, "Forbidden", {}, BytesIO(b"not json"))
         with mock.patch("panel.calendly.urlopen", side_effect=err):
-            self.assertContains(self.client.get(reverse("panel_home")), "isn&#x27;t allowed to read your calls")
+            page = self.client.get(reverse("panel_home"))
+        self.assertContains(page, "missing the &quot;users:read&quot; scope")       # /users/me is the first call
+        self.assertContains(page, "users:read, scheduled_events:read")
 
     @override_settings(CALENDLY_TOKEN="aaa.bbb.ccc")
     def test_check_command_reports_without_printing_the_token(self):

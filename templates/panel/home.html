@@ -57,7 +57,7 @@
     {% if calls is not None %}<a href="?refresh=calls#calls">Refresh</a>{% endif %}
   </div>
   {% if calls is None %}
-    <p class="panel-empty">Calendly isn't connected. Create a personal access token in Calendly (Integrations → API &amp; Webhooks) and set it as <code>CALENDLY_TOKEN</code> in the server's <code>.env</code>.</p>
+    <p class="panel-empty">Calendly isn't connected. Create a personal access token in Calendly (Integrations → API &amp; Webhooks) with the scopes <code>users:read</code> and <code>scheduled_events:read</code>, and set it as <code>CALENDLY_TOKEN</code> in the server's <code>.env</code>.</p>
   {% elif calls_error %}
     <p class="panel-error">{{ calls_error }}</p>
   {% else %}

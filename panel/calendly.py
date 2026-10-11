@@ -20,6 +20,8 @@ API = "https://api.calendly.com"
 CACHE_KEY = "panel:calendly:upcoming"
 CACHE_SECONDS = 300
 MAX_CALLS = 10
+# Scopes a personal access token needs for the admin panel (Calendly grants nothing by default).
+SCOPES = ("users:read", "scheduled_events:read")
 
 
 class CalendlyError(Exception):
@@ -40,7 +42,7 @@ def _reason(exc):
     return f" ({text})" if text else ""
 
 
-def _get(path, params=None):
+def _get(path, params=None, scope="scheduled_events:read"):
     url = path if path.startswith("http") else API + path
     if params:
         url += "?" + urlencode(params)
@@ -55,8 +57,8 @@ def _get(path, params=None):
             raise CalendlyError(f"Calendly says the token is invalid or expired{reason}. Check CALENDLY_TOKEN "
                                 "in the server's .env (no quotes or spaces) or create a new token.")
         if exc.code == 403:
-            raise CalendlyError(f"The token works but isn't allowed to read your calls{reason}. Create a token "
-                                "with access to users and scheduled events.")
+            raise CalendlyError(f"The token works but is missing the \"{scope}\" scope{reason}. Create a new "
+                                f"personal access token with the scopes: {', '.join(SCOPES)}.")
         raise CalendlyError(f"Calendly returned an error ({exc.code}){reason}.")
     except (URLError, TimeoutError, ValueError) as exc:
         log.warning("Calendly request failed: %s", exc)
@@ -64,7 +66,7 @@ def _get(path, params=None):
 
 
 def _fetch_upcoming():
-    me = _get("/users/me")["resource"]["uri"]
+    me = _get("/users/me", scope="users:read")["resource"]["uri"]
     now = datetime.now(dt_timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000000Z")
     events = _get("/scheduled_events", {"user": me, "status": "active", "min_start_time": now,
                                         "sort": "start_time:asc", "count": MAX_CALLS})["collection"]
