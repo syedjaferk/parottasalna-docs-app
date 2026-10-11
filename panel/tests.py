@@ -95,6 +95,27 @@ class PanelTests(TestCase):
     @override_settings(CALENDLY_TOKEN="bad")
     def test_calendly_errors_are_shown_not_raised(self):
         self.client.force_login(self.staff, backend=BACKEND)
-        err = HTTPError("https://api.calendly.com/users/me", 401, "Unauthorized", {}, None)
+        body = BytesIO(json.dumps({"title": "Unauthenticated", "message": "The access token is invalid"}).encode())
+        err = HTTPError("https://api.calendly.com/users/me", 401, "Unauthorized", {}, body)
         with mock.patch("panel.calendly.urlopen", side_effect=err):
-            self.assertContains(self.client.get(reverse("panel_home")), "Calendly rejected the token")
+            page = self.client.get(reverse("panel_home"))
+        self.assertContains(page, "invalid or expired (Unauthenticated: The access token is invalid)")
+        cache.clear()
+        err = HTTPError("https://api.calendly.com/users/me", 403, "Forbidden", {}, BytesIO(b"not json"))
+        with mock.patch("panel.calendly.urlopen", side_effect=err):
+            self.assertContains(self.client.get(reverse("panel_home")), "isn&#x27;t allowed to read your calls")
+
+    @override_settings(CALENDLY_TOKEN="aaa.bbb.ccc")
+    def test_check_command_reports_without_printing_the_token(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        out = StringIO()
+        responses = {**RESPONSES, "/users/me": {"resource": {"uri": "https://api.calendly.com/users/ME",
+                                                             "name": "Syed", "email": "me@example.com"}}}
+        with fake_calendly(responses):
+            call_command("check_calendly", stdout=out)
+        text = out.getvalue()
+        self.assertIn("Connected as Syed", text)
+        self.assertIn("Upcoming calls visible: 1", text)
+        self.assertNotIn("aaa.bbb.ccc", text)
