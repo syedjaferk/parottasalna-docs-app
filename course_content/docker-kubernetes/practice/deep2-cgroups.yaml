@@ -11,6 +11,7 @@ quizzes:
           *How much CPU, memory, I/O and how many processes a group of processes can use
           Which users can log in
           Which ports are open
+        explanation: "cgroups limit and account for resources (CPU, memory, I/O, number of processes). Namespaces control what a process can see."
 
       - text: A container goes over its **memory** limit. What happens?
         choices: |
@@ -26,6 +27,7 @@ quizzes:
           *It is throttled (slowed down) but keeps running
           It is paused until you restart it
           It gets moved to another host
+        explanation: "CPU can be shared, so the kernel throttles the group and the process just runs slower. Memory is different: going over it gets the process OOM-killed."
 
       - text: What is the main difference between cgroups v1 and v2?
         choices: |
@@ -33,6 +35,7 @@ quizzes:
           *v1 has a separate tree per resource; v2 has one unified tree
           v1 can't limit memory
           v2 needs a VM
+        explanation: "v1 has a separate hierarchy per controller (cpu, memory…). v2 has one unified hierarchy where a group has all its controllers together."
 
       - text: What does OOM stand for?
         choices: |
@@ -40,6 +43,7 @@ quizzes:
           *Out Of Memory
           Order Of Magnitude
           Only One Mount
+        explanation: "OOM means Out Of Memory. The OOM killer ends a process when a cgroup (or the system) runs out of memory."
 
       - text: Which flag stops a fork bomb from taking down the host?
         choices: |
@@ -47,6 +51,7 @@ quizzes:
           --cpus
           *--pids-limit
           --restart
+        explanation: "--pids-limit caps how many processes the container can create, so a fork bomb hits the limit instead of exhausting the host."
 
       - text: What is the default memory limit for a container started without `--memory`?
         choices: |
@@ -90,6 +95,7 @@ quizzes:
           docker logs <name>
           docker stats <name>
           docker oom <name>
+        explanation: "State.OOMKilled in docker inspect is true when the kernel's OOM killer ended the container. Exit code 137 alone could be any SIGKILL."
 
       - text: "`docker run -d --name busy --cpus=0.25 alpine sh -c 'while true; do :; done'`. What CPU % does `docker stats` show?"
         choices: |
@@ -97,6 +103,7 @@ quizzes:
           *About 25%
           0%
           400%
+        explanation: "--cpus=0.25 lets the container use a quarter of one CPU per period, so the busy loop is throttled to about 25 %."
 
       - text: Which command shows whether your host uses cgroups v1 or v2?
         choices: |
@@ -104,6 +111,7 @@ quizzes:
           docker version
           uname -r
           cat /proc/cgroups-version
+        explanation: "docker info reports CgroupVersion (1 or 2) for the host."
 
 decks:
   - title: "Under the hood · cgroups · Flashcards"

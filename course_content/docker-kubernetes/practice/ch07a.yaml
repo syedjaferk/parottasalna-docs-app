@@ -11,6 +11,7 @@ quizzes:
           WORKDIR
           *FROM
           CMD
+        explanation: "Every build starts from a base image, so FROM is the first instruction. Only ARG (and comments or parser directives) may come before it."
 
       - text: When does `RUN` execute?
         choices: |
@@ -18,6 +19,7 @@ quizzes:
           *While the image is being built
           Only when you run `docker exec`
           After `docker push`
+        explanation: "RUN executes at build time and its result is saved as a layer. CMD and ENTRYPOINT are what run when a container starts."
 
       - text: What is the difference between ARG and ENV?
         choices: |
@@ -25,6 +27,7 @@ quizzes:
           *ARG exists only during the build; ENV stays in the image and the running app can read it
           ENV exists only during the build; ARG stays in the image
           ARG is for numbers, ENV for strings
+        explanation: "ARG values exist only while building (--build-arg). ENV values are saved in the image and visible to the running app."
 
       - text: Does `EXPOSE 5111` make the app reachable from your laptop?
         choices: |
@@ -32,6 +35,7 @@ quizzes:
           *No, it's documentation; you still need `-p 5111:5111`
           Only on Linux
           Only with --network host
+        explanation: "EXPOSE only documents the port in the image metadata. Publishing it to the host still needs -p (or -P)."
 
       - text: Why use `WORKDIR /app` instead of `RUN cd /app`?
         choices: |
@@ -39,6 +43,7 @@ quizzes:
           *`RUN cd` only affects that one RUN; WORKDIR applies to every later instruction and the container
           WORKDIR also copies files
           There is no difference
+        explanation: "Each RUN is a new shell, so cd is forgotten afterwards. WORKDIR sets the directory for later instructions and for the container."
 
       - text: When should you choose ADD over COPY?
         choices: |
@@ -46,6 +51,7 @@ quizzes:
           *Only when you want a local .tar file unpacked
           For copying single files
           Never; ADD is removed
+        explanation: "COPY is plain and predictable. ADD also auto-extracts local tar archives (and can fetch URLs), so use it only when you need that."
 
       - text: Where should passwords and API keys go?
         choices: |
@@ -61,6 +67,7 @@ quizzes:
           *python:3.12-slim (~150 MB)
           python:latest
           ubuntu:latest plus apt-get install python
+        explanation: "slim has what Python needs at a fraction of the full image's size. Alpine uses musl, which can break pip wheels."
 
   - title: "Chapter 7 · Hands-on: the Flask app"
     renamed_from: ["Session 8 · Hands-on"]
@@ -104,6 +111,7 @@ quizzes:
           *It was replaced by the command after the image name
           It ran after the new command
           It was appended as arguments
+        explanation: "Arguments after the image name replace CMD entirely, so only the python -c command ran."
 
       - text: "In `docker history kube-demo-flask:qa`, which layer is about 13.8 MB?"
         choices: |
@@ -111,6 +119,7 @@ quizzes:
           ENV APP_ENV=qa
           *RUN pip install -r requirements.txt
           WORKDIR /application
+        explanation: "The pip install layer holds Flask and its dependencies, which is why it's large. COPY of app.py, ENV and WORKDIR are tiny."
 
       - text: The Flask app listens on 127.0.0.1 inside the container and `-p` is set. What happens with `curl localhost:5111` on your laptop?
         choices: |
@@ -118,6 +127,7 @@ quizzes:
           *It fails; 127.0.0.1 inside the container only accepts connections from inside. Listen on 0.0.0.0
           It works only with EXPOSE
           It works over IPv6 only
+        explanation: "127.0.0.1 is the container's own loopback, and port-forwarded traffic arrives on its eth0. The app must listen on 0.0.0.0."
 
 decks:
   - title: "Chapter 7 · Flashcards: instructions"

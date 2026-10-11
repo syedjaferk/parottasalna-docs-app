@@ -10,36 +10,42 @@ quizzes:
           *Application Load Balancer
           *API Gateway REST API
           Network Load Balancer
+        explanation: "WAF protects CloudFront, ALB, API Gateway REST APIs, AppSync, Cognito user pools and App Runner. It doesn't attach to an NLB (layer 4)."
       - text: What does the Count action do?
         choices: |
           Blocks and counts requests
           *Only records matches (no blocking), useful for testing rules
           Counts WCUs
           Sends a CAPTCHA
+        explanation: "Count records matches in metrics and logs without blocking, so you can test a rule safely before enforcing it."
       - text: Rules in a Web ACL are evaluated…
         choices: |
           All at once, the most specific wins
           *In priority order; the first terminating match decides
           Alphabetically
           Randomly
+        explanation: "Rules run in priority order, and the first rule whose action is terminating (Allow, Block, CAPTCHA) decides. Count continues to the next rule."
       - text: What is a rate-based rule?
         choices: |
           A rule that charges per request
           *A rule that blocks a client (e.g. IP) sending more than N requests in a time window
           A rule that limits bandwidth
           A managed rule for SQL injection
+        explanation: "A rate-based rule counts requests per key (such as source IP) over a time window and blocks keys that go over the limit."
       - text: Where must a Web ACL for CloudFront be created?
         choices: |
           In the Region of the origin
           *In the Global scope (us-east-1)
           In ap-south-1
           Anywhere
+        explanation: "CloudFront is global, so its Web ACLs are created in the Global (CloudFront) scope, managed in us-east-1."
       - text: Why apply text transformations like URL decode and lowercase before matching?
         choices: |
           To save WCUs
           *So encoded or mixed-case attacks still match the rule
           To speed up the app
           They are required by law
+        explanation: "Attackers encode or change the case of payloads to slip past filters. Transformations normalise the input first so the rule still matches."
   - title: "Session 12 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -49,24 +55,28 @@ quizzes:
           *AWS WAF with the AWS managed SQL database rule group on the ALB
           Security groups
           AWS Shield Standard
+        explanation: "The AWS managed SQL database rule group blocks common SQL injection patterns with no rules to write. Attach the Web ACL to the ALB."
       - text: Bots hammer /login with thousands of password attempts per minute from many IPs. Which WAF features help? (Pick all that apply.)
         choices: |
           *A rate-based rule scoped to /login
           *Bot Control / Account Takeover Prevention managed rules or CAPTCHA
           A gateway VPC endpoint
           Moving the ALB to a private subnet
+        explanation: "A rate-based rule on /login slows brute force, and Bot Control, Account Takeover Prevention or CAPTCHA handle distributed bots. Endpoints and subnets don't help."
       - text: Only the office VPN should reach /admin. How do you write the WAF rule?
         choices: |
           Allow /admin for everyone, then block the office
           *Block when path starts with /admin AND source IP is NOT in the office IP set
           Use a security group on the instance only
           Put /admin behind CloudFront
+        explanation: "Match both conditions: block requests to /admin unless the source IP is in the office IP set."
       - text: A new WAF rule might block real customers. What's the safest rollout?
         choices: |
           Deploy it in Block mode at night
           *Deploy in Count mode, review sampled requests and logs, then switch to Block
           Deploy it only on weekends
           Disable logging
+        explanation: "Count mode shows what the rule would block, using sampled requests and logs, without hurting real users. Switch to Block once you're confident."
 
 decks:
   - title: "Session 12 · Flashcards"

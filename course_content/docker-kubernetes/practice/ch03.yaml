@@ -26,6 +26,7 @@ quizzes:
           *As a number (UID); the name comes from /etc/passwd
           As an email address
           It doesn't; only permissions are stored
+        explanation: "The inode stores numeric UID and GID. Tools like ls translate them to names using /etc/passwd and /etc/group."
 
       - text: What is a bind mount?
         choices: |
@@ -41,6 +42,7 @@ quizzes:
           *The Docker daemon (dockerd)
           Docker Hub
           The Dockerfile
+        explanation: "The docker CLI is just a client. The daemon (dockerd) does the work, with containerd and runc underneath."
 
       - text: How does the docker CLI talk to the daemon on Linux?
         choices: |
@@ -48,6 +50,7 @@ quizzes:
           *Through the socket file /var/run/docker.sock
           By editing files in /etc/docker
           Through Docker Hub
+        explanation: "The CLI sends API requests to dockerd over the Unix socket /var/run/docker.sock."
 
       - text: Why is access to /var/run/docker.sock dangerous?
         choices: |
@@ -63,6 +66,7 @@ quizzes:
           *containerd, which uses runc
           systemd and cron
           The kernel alone, with no helpers
+        explanation: "dockerd hands the request to containerd, which uses runc to create the namespaces and cgroups and start the process."
 
   - title: "Chapter 3 · Hands-on"
     description: Predict what happens with real bind mounts.
@@ -81,6 +85,7 @@ quizzes:
           *Run the container with `--user "$(id -u):$(id -g)"`
           Add `:rw` to the mount
           Use `chmod 777` inside the image
+        explanation: "Containers often run as root (UID 0), so new files belong to root on the host. Running as your own UID:GID makes them yours."
 
       - text: "`docker run --rm -v \"$PWD/data:/data:ro\" alpine touch /data/x`. What happens?"
         choices: |
@@ -88,6 +93,7 @@ quizzes:
           *It fails with "Read-only file system"
           The file is created inside the image instead
           Docker asks for sudo
+        explanation: ":ro mounts the folder read-only inside the container, so touch fails with \"Read-only file system\"."
 
       - text: You bind-mount `html/` into nginx and edit `html/index.html` on your laptop. What do you need to do before nginx serves it?
         choices: |
@@ -95,6 +101,7 @@ quizzes:
           Restart the container
           *Nothing; it's the same folder
           Run docker cp
+        explanation: "A bind mount is the same folder seen from two places. Changes show up instantly, with no rebuild or restart."
 
       - text: "You get `permission denied while trying to connect to the Docker daemon socket`. Most likely fix?"
         choices: |
@@ -102,6 +109,7 @@ quizzes:
           *Add your user to the docker group, then log out and in (or use sudo)
           Delete /var/run/docker.sock
           Use a different image
+        explanation: "The socket is owned by root and the docker group. Join the group (and start a new login session) or use sudo."
 
       - text: What is `rwxr-x---` as a number?
         choices: |
@@ -109,6 +117,7 @@ quizzes:
           755
           640
           570
+        explanation: "Each triple is a digit: rwx = 4+2+1 = 7, r-x = 4+1 = 5, --- = 0, so 750."
 
 decks:
   - title: "Chapter 3 · Flashcards"

@@ -11,6 +11,7 @@ quizzes:
           *The first process the kernel starts (usually systemd), the ancestor of all others
           The Docker daemon
           Whatever process uses the most CPU
+        explanation: "PID 1 is the first user-space process the kernel starts (usually systemd). Every other process descends from it, and it adopts orphans."
 
       - text: A parent process dies before its child. What happens to the child?
         choices: |
@@ -26,6 +27,7 @@ quizzes:
           *SIGKILL and SIGSTOP
           SIGHUP and SIGKILL
           SIGTERM and SIGKILL
+        explanation: "SIGKILL and SIGSTOP are handled by the kernel itself. A process can't catch, block or ignore them."
 
       - text: What does `kill <PID>` send by default?
         choices: |
@@ -33,6 +35,7 @@ quizzes:
           *SIGTERM (15)
           SIGINT (2)
           SIGHUP (1)
+        explanation: "kill sends SIGTERM (15) unless you name another signal, asking the process to shut down cleanly."
 
       - text: A process was killed by SIGKILL. What exit code do you see?
         choices: |
@@ -48,6 +51,7 @@ quizzes:
           *A virtual folder the kernel generates, with information about every running process
           The Docker config folder
           A backup of /etc
+        explanation: "/proc is a virtual filesystem made by the kernel on the fly. /proc/<PID>/ holds live details about each process."
 
       - text: Which key press sends SIGINT to the program in your terminal?
         choices: |
@@ -55,6 +59,7 @@ quizzes:
           *Ctrl+C
           Ctrl+D
           Ctrl+S
+        explanation: "Ctrl+C sends SIGINT. Ctrl+Z sends SIGTSTP (suspend), and Ctrl+D sends end-of-input, not a signal."
 
   - title: "Chapter 2 · Hands-on"
     renamed_from: ["Session 2 · Hands-on"]
@@ -82,6 +87,7 @@ quizzes:
           *ps -ef (look at PID and PPID columns)
           ls /proc/tree
           df -h
+        explanation: "pstree -p draws the tree with PIDs, and ps -ef lists every process with its PID and parent PID (PPID)."
 
       - text: What does `echo $$` print?
         choices: |
@@ -89,6 +95,7 @@ quizzes:
           *The PID of your current shell
           The PID of PID 1
           Two dollar signs
+        explanation: "$$ is a special shell variable holding the PID of the current shell. $? is the last exit code."
 
 decks:
   - title: "Chapter 2 · Flashcards"

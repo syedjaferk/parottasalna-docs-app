@@ -10,42 +10,49 @@ quizzes:
           *Deny wins: an explicit Deny always overrides an Allow
           The most recent policy wins
           The request needs MFA to decide
+        explanation: "IAM's rule: an explicit Deny always wins, no matter how many policies allow the action."
       - text: If no policy mentions an action at all, what happens?
         choices: |
           It's allowed
           *It's denied (implicit deny)
           It's allowed for 1 hour
           AWS asks the root user
+        explanation: "Everything starts as denied. If no policy allows an action, it is implicitly denied."
       - text: What does a role's trust policy define?
         choices: |
           What the role can do
           *Who is allowed to assume the role
           The role's password
           Which Region the role works in
+        explanation: "The trust policy says who (which principal) may assume the role. The permissions policy says what the role can do once assumed."
       - text: Which statements about IAM groups are true? (Pick all that apply.)
         choices: |
           *Groups contain users
           Groups can contain other groups
           *Policies attached to a group apply to its users
           You can sign in as a group
+        explanation: "Groups hold users and pass their policies on to those users. Groups can't be nested, and a group isn't an identity you can sign in as."
       - text: What does a role give when assumed?
         choices: |
           A permanent password
           *Temporary security credentials from STS
           New access keys that never expire
           Root access
+        explanation: "Assuming a role calls STS, which returns temporary credentials (access key, secret key and session token) that expire automatically."
       - text: Which policy type is attached to a resource and has a Principal field?
         choices: |
           AWS managed policy
           Inline identity policy
           *Resource-based policy (e.g. an S3 bucket policy)
           Permissions boundary
+        explanation: "Resource-based policies, such as S3 bucket policies, are attached to the resource and use a Principal field to name who gets access."
       - text: "To let a user list a bucket AND read its objects, which Resource values are needed?"
         choices: |
           Only arn:aws:s3:::bucket/*
           *arn:aws:s3:::bucket (for ListBucket) and arn:aws:s3:::bucket/* (for GetObject)
           Only arn:aws:s3:::*
           Only the bucket name
+        explanation: "ListBucket acts on the bucket itself (arn:aws:s3:::bucket); GetObject acts on objects (arn:aws:s3:::bucket/*). You need both ARNs."
   - title: "Session 2 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,24 +62,28 @@ quizzes:
           Put the keys in environment variables in the user data
           *Attach an IAM role (instance profile) with read access to the bucket
           Make the bucket public
+        explanation: "An instance profile delivers temporary, auto-rotated role credentials through instance metadata. No long-lived keys are stored on the server."
       - text: An external auditing company needs read-only access to your AWS account for one month. What should you set up?
         choices: |
           Share the root password
           Create IAM users with the AdministratorAccess policy
           *A cross-account IAM role with a read-only policy that their account can assume
           Email them the access keys of a developer
+        explanation: "A cross-account role lets the auditor's own account assume read-only access with temporary credentials, and you can remove it when the month ends. No passwords or keys are shared."
       - text: A team of 30 developers needs the same permissions, and people join and leave often. What's the most manageable approach?
         choices: |
           Attach the policy to each user
           *Create a group with the policy and add or remove users from the group
           Use the root user for all developers
           Create one shared IAM user
+        explanation: "Attach the policy to a group once. Onboarding and offboarding then just means adding or removing users from the group."
       - text: Security wants proof that a user signed in with MFA before they can delete S3 objects. What do you use?
         choices: |
           A bucket in another Region
           *A policy condition aws:MultiFactorAuthPresent = true
           A security group rule
           A NAT Gateway
+        explanation: "The condition key aws:MultiFactorAuthPresent is true only when the request was made with MFA-authenticated credentials, so a Deny without it enforces MFA."
 
 decks:
   - title: "Session 2 · Flashcards"

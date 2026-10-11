@@ -19,6 +19,7 @@ quizzes:
           NET
           *UTS
           MNT
+        explanation: "UTS (UNIX Time-Sharing) isolates the hostname and domain name."
 
       - text: Which namespace makes your app PID 1 inside the container?
         choices: |
@@ -26,6 +27,7 @@ quizzes:
           USER
           IPC
           UTS
+        explanation: "A new PID namespace numbers processes from 1, so the container's first process sees itself as PID 1."
 
       - text: Which namespace gives a container its own IP address and ports?
         choices: |
@@ -33,6 +35,7 @@ quizzes:
           *NET
           UTS
           cgroup
+        explanation: "The NET namespace gives the container its own interfaces, IP addresses, routing table and port space."
 
       - text: Which namespace lets "root" inside a container map to a normal user outside?
         choices: |
@@ -40,6 +43,7 @@ quizzes:
           IPC
           *USER
           MNT
+        explanation: "USER namespaces map UIDs, so UID 0 inside the container can be an unprivileged UID on the host."
 
       - text: Why does `cat /etc/os-release` in an Alpine container say Alpine on an Ubuntu laptop?
         choices: |
@@ -64,6 +68,7 @@ quizzes:
           *kube-box
           A random container ID
           localhost
+        explanation: "--hostname sets the hostname inside the container's own UTS namespace, so it prints kube-box."
 
       - text: "`docker run --rm alpine ps` shows how many processes?"
         choices: |
@@ -79,6 +84,7 @@ quizzes:
           sudo chroot bash
           sudo nsenter --all bash
           docker exec bash
+        explanation: "unshare creates new namespaces. --pid with --fork makes bash PID 1, --mount-proc mounts a matching /proc, and --uts isolates the hostname."
 
       - text: Where can you see which namespaces a process belongs to?
         choices: |
@@ -86,6 +92,7 @@ quizzes:
           *ls -l /proc/<PID>/ns
           docker ns ls
           /sys/kernel/ns
+        explanation: "/proc/<PID>/ns has one symlink per namespace type, such as net:[4026531840], naming the namespace the process is in."
 
       - text: Two processes show the same number for `net:[...]` in /proc/<PID>/ns. What does that mean?
         choices: |
@@ -93,6 +100,7 @@ quizzes:
           They have the same IP but different networks
           One is the parent of the other
           They are in different containers
+        explanation: "The number is the namespace's inode. The same number means the same namespace, so they share one network stack."
 
       - text: Inside an `unshare --uts` shell you run `hostname my-box`, then exit. What does `hostname` show on the host?
         choices: |
@@ -100,6 +108,7 @@ quizzes:
           *Your original hostname
           localhost
           An error
+        explanation: "The hostname changed only inside the new UTS namespace. The host's own namespace was never touched."
 
 decks:
   - title: "Under the hood · Namespaces · Flashcards"

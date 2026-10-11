@@ -10,42 +10,49 @@ quizzes:
           *It changes
           It becomes an Elastic IP
           It is removed for good
+        explanation: "An auto-assigned public IPv4 is released on stop and a new one is given on start. Use an Elastic IP if you need it to stay the same."
       - text: An EBS volume can be attached to instances in…
         choices: |
           Any AZ in the Region
           *The same AZ as the volume
           Any Region
           Only the AZ where the account was created
+        explanation: "An EBS volume lives in one AZ and can only attach to instances in that same AZ."
       - text: How are EBS snapshots stored?
         choices: |
           On the instance store
           *Incrementally, in S3 managed by AWS
           In a Glacier vault you manage
           On the root volume
+        explanation: "Snapshots are stored in S3 (managed by AWS, not visible in your buckets) and are incremental: only changed blocks are saved after the first one."
       - text: Which EBS volume type is the general-purpose default with baseline 3,000 IOPS you can raise independently of size?
         choices: |
           gp2
           *gp3
           st1
           sc1
+        explanation: "gp3 gives a 3,000 IOPS and 125 MB/s baseline at any size, and you can buy more IOPS and throughput separately. gp2's IOPS grow with size."
       - text: What happens to instance store data when the instance is stopped?
         choices: |
           It is kept
           *It is lost
           It moves to EBS
           It is snapshotted automatically
+        explanation: "Instance store is temporary disk on the host. Its data is lost when the instance stops, hibernates or terminates, or the host fails."
       - text: How does an app on EC2 get credentials from an attached IAM role?
         choices: |
           From ~/.aws/credentials written at launch
           *From the instance metadata service (temporary credentials, refreshed automatically)
           From the user data script
           From the AMI
+        explanation: "The SDK reads temporary credentials for the attached role from the instance metadata service (IMDS), and they are rotated automatically before they expire."
       - text: Can you shrink an EBS volume from 100 GiB to 50 GiB in place?
         choices: |
           Yes, with Modify volume
           *No; you can only increase size (create a smaller volume and copy data instead)
           Yes, but only for gp3
           Only when the instance is stopped
+        explanation: "EBS volumes can grow but never shrink. To go smaller, create a new smaller volume and copy the data across."
   - title: "Session 6 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,24 +62,28 @@ quizzes:
           st1
           gp2
           *io2 (Provisioned IOPS SSD)
+        explanation: "io2 (Provisioned IOPS SSD) delivers the IOPS you set, consistently, with the highest durability. It's built for critical databases."
       - text: You must move data from an EBS volume in ap-south-1a to an instance in ap-south-1b. What do you do?
         choices: |
           Detach and attach it across AZs
           *Create a snapshot and restore a new volume from it in ap-south-1b
           Use VPC peering
           Copy the instance store
+        explanation: "Volumes are tied to an AZ. A snapshot is regional, so restore it as a new volume in ap-south-1b."
       - text: A company needs daily EBS backups kept for 30 days, with no scripts to maintain. Which service?
         choices: |
           CloudTrail
           *Amazon Data Lifecycle Manager (or AWS Backup)
           S3 Transfer Acceleration
           AWS Config
+        explanation: "Data Lifecycle Manager (or AWS Backup) creates snapshots on a schedule and deletes them after the retention period, with no scripts."
       - text: Administrators need a shell on private instances without opening port 22 or running a bastion. What should they use?
         choices: |
           A public IP on each instance
           *AWS Systems Manager Session Manager (or EC2 Instance Connect Endpoint)
           A NAT Gateway
           VPC peering
+        explanation: "Session Manager gives a browser or CLI shell through the SSM agent (no inbound ports, access through IAM, logged). EC2 Instance Connect Endpoint is the other no-bastion option."
 
 decks:
   - title: "Session 6 · Flashcards"

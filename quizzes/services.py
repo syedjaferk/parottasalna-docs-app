@@ -4,9 +4,11 @@ from .models import Attempt, CardReview, Deck, Quiz
 
 
 def published_quizzes(course):
+    # Explicit order_by: Django ignores Meta.ordering in GROUP BY (annotate) queries, and Postgres then
+    # returns rows in any order (SQLite happens to keep insertion order, which hid the bug locally).
     return Quiz.objects.filter(course=course, is_published=True).annotate(
         question_count=Count("questions")
-    ).filter(question_count__gt=0)
+    ).filter(question_count__gt=0).order_by("order", "id")
 
 
 def selected_answers(post, questions):
@@ -52,9 +54,10 @@ def best_scores(user, quizzes):
 
 
 def published_decks(course):
+    # Explicit order_by for the same reason as published_quizzes.
     return Deck.objects.filter(course=course, is_published=True).annotate(
         card_count=Count("cards")
-    ).filter(card_count__gt=0)
+    ).filter(card_count__gt=0).order_by("order", "id")
 
 
 def known_counts(user, decks):

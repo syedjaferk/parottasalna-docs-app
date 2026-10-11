@@ -10,36 +10,42 @@ quizzes:
           *Stops sending it traffic until it's healthy again
           Sends it twice as many requests
           Shuts down the load balancer
+        explanation: "Health checks exist to take broken backends out of the rotation. The load balancer keeps checking and sends traffic again once the backend passes."
       - text: Which algorithm sends each new request to the server with the fewest active connections?
         choices: |
           roundrobin
           *leastconn
           source
           first
+        explanation: "leastconn picks the server with the fewest active connections, which suits requests of very different lengths."
       - text: "With weights 5, 3 and 2 in round robin, roughly what share of 100 requests reaches the weight-5 server?"
         choices: |
           33
           *50
           20
           100
+        explanation: "Weighted round robin shares traffic in proportion to weight: 5 / (5 + 3 + 2) = 50 %, so about 50 requests."
       - text: "In the class demo, why did one request return 503 right after `docker stop app3`?"
         choices: |
           HAProxy crashed
           *HAProxy hadn't yet marked app3 as down (health checks every 5 s, 3 failures needed)
           app1 and app2 were also down
           The port mapping changed
+        explanation: "HAProxy only marks a server down after the configured failed health checks (3 × 5 s). Until then it can still send requests to the stopped container, which returns 503."
       - text: Which HAProxy settings make it retry a failed request on another server?
         choices: |
           balance source
           *retries + option redispatch
           stats enable
           bind *:80
+        explanation: "retries sets how many times to retry a failed connection, and option redispatch lets the retry go to a different server instead of the same dead one."
       - text: "In AWS terms, what is HAProxy's `backend apps` block?"
         choices: |
           A listener
           *A target group
           A security group
           A VPC
+        explanation: "A backend is the pool of servers that receives traffic, with health checks and a balancing algorithm: the same idea as an AWS target group."
   - title: "Session 4 · Scenarios"
     description: Apply the ideas.
     questions:
@@ -49,18 +55,21 @@ quizzes:
           *Sessions are stored in each server's memory, so the next request hits another server
           The load balancer uses TLS
           The servers are in two AZs
+        explanation: "With in-memory sessions only one server knows you. Round robin sends the next request elsewhere, so you look logged out. Use sticky sessions or a shared store (e.g. Redis)."
       - text: Requests to your API take from 10 ms to 30 s depending on the call. Which algorithm spreads load best?
         choices: |
           roundrobin
           *leastconn
           source
           static weights only
+        explanation: "Round robin ignores how busy a server is. leastconn avoids piling new requests on servers stuck with slow ones."
       - text: You want to block any client IP sending more than 100 requests per minute at the load balancer. Which HAProxy feature fits?
         choices: |
           option httpchk
           *A stick-table tracking http_req_rate with a 429 response
           balance leastconn
           stats uri
+        explanation: "A stick-table can track each source IP's http_req_rate, and an http-request deny rule returns 429 once the limit is exceeded."
 
 decks:
   - title: "Session 4 · Flashcards"

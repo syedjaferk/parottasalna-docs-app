@@ -11,6 +11,7 @@ quizzes:
           *A stack of read-only layers plus a config
           A virtual disk with an OS
           A list of commands that run every time
+        explanation: "An image is an ordered stack of read-only filesystem layers plus a config (env, CMD, entrypoint…), tied together by a manifest."
 
       - text: A container changes a file that comes from an image layer. What happens?
         choices: |
@@ -18,6 +19,7 @@ quizzes:
           *The file is copied up into the container's writable layer and changed there (copy-on-write)
           Docker refuses the change
           A new image is created automatically
+        explanation: "Copy-on-write: overlay2 copies the file up into the container's writable layer and changes it there. The image layer never changes."
 
       - text: What happens to the writable layer when you remove the container?
         choices: |
@@ -25,6 +27,7 @@ quizzes:
           *It is deleted; the image is untouched
           It becomes a new layer of the image
           It is saved to Docker Hub
+        explanation: "The writable layer belongs to the container and is deleted with it. Use volumes for data that must survive."
 
       - text: Which storage driver does modern Linux Docker use by default?
         choices: |
@@ -32,6 +35,7 @@ quizzes:
           devicemapper
           *overlay2
           zfs
+        explanation: "overlay2 (OverlayFS) is the default storage driver on modern Linux kernels. aufs and devicemapper are deprecated."
 
       - text: What is the image **digest**?
         choices: |
@@ -39,6 +43,7 @@ quizzes:
           *A hash of the image's manifest in a registry, used to pull exactly the same image anywhere
           The image's tag
           The image's size
+        explanation: "The digest (sha256:…) is the hash of the manifest, a content address that identifies exactly the same image in any registry."
 
       - text: Why pin an image by digest (or a specific tag) instead of `latest` in production?
         choices: |
@@ -46,6 +51,7 @@ quizzes:
           *A tag can be moved to a new image; a digest always means the exact same bytes
           `latest` images are not allowed in production
           Digests are smaller
+        explanation: "Tags are movable labels (latest especially). A digest can't change, so every deploy runs exactly the same bytes."
 
       - text: "\"Updating\" an image really means…"
         choices: |
@@ -64,6 +70,7 @@ quizzes:
           Archived
           Accessed
           Attached
+        explanation: "docker diff marks paths as A (added), C (changed) or D (deleted) compared with the image."
 
       - text: "In `docker diff`, what does `C /tmp` mean?"
         choices: |
@@ -71,6 +78,7 @@ quizzes:
           *Changed
           Cached
           Created by the image
+        explanation: "C means changed. The /tmp directory changed because a new file was added inside it."
 
       - text: You create a file in container 1, then start container 2 from the same image. Is the file in container 2?
         choices: |
@@ -78,6 +86,7 @@ quizzes:
           *No, each container has its own writable layer
           Only if container 1 is still running
           Only with --volumes-from
+        explanation: "Each container gets its own empty writable layer on top of the shared read-only image, so changes aren't shared."
 
       - text: Which command shows image digests?
         choices: |
@@ -85,6 +94,7 @@ quizzes:
           *docker images --digests
           docker digest ls
           docker history
+        explanation: "docker images --digests adds a DIGEST column to the image list."
 
       - text: Which command removes untagged (dangling) leftover images?
         choices: |
@@ -92,6 +102,7 @@ quizzes:
           *docker image prune
           docker system reset
           docker images -f dangling=true
+        explanation: "docker image prune removes dangling images (untagged leftovers from rebuilds). -a also removes unused tagged ones."
 
       - text: Which command shows how much disk images, containers and volumes use?
         choices: |
@@ -99,6 +110,7 @@ quizzes:
           docker info
           *docker system df
           docker stats
+        explanation: "docker system df summarises disk use by images, containers, local volumes and the build cache."
 
       - text: "Which Dockerfile instructions add real bytes to an image? (Pick all that apply.)"
         choices: |

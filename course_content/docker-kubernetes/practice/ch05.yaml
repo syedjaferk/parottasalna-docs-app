@@ -18,6 +18,7 @@ quizzes:
           *255
           256
           1024
+        explanation: "An octet is 8 bits, so it ranges from 0 to 255."
 
       - text: Which of these are private addresses? (Pick all that apply.)
         choices: |
@@ -33,6 +34,7 @@ quizzes:
           The Docker daemon
           *The container itself (its own loopback)
           The router
+        explanation: "Each container has its own network namespace and its own loopback. 127.0.0.1 there means the container, not your laptop."
 
       - text: Which is the bigger network?
         choices: |
@@ -48,6 +50,7 @@ quizzes:
           *Lets many private addresses share one public address by rewriting them
           Assigns names to IP addresses
           Splits a network into subnets
+        explanation: "NAT rewrites private source addresses to a shared public one (and back for replies), so many devices share one public IP."
 
       - text: Which subnet mask matches /24?
         choices: |
@@ -55,6 +58,7 @@ quizzes:
           255.255.0.0
           *255.255.255.0
           255.255.255.255
+        explanation: "/24 means the first 24 bits are the network part: 255.255.255.0."
 
       - text: Two devices are at 192.168.1.10/24 and 192.168.2.10/24. How do they talk?
         choices: |
@@ -62,6 +66,7 @@ quizzes:
           *Through a gateway (router), because they are on different subnets
           They can't talk at all
           Only over IPv6
+        explanation: "With /24, 192.168.1.x and 192.168.2.x are different networks, so traffic must go through a router (gateway)."
 
   - title: "Chapter 5 · Hands-on"
     description: Small calculations, no heavy maths.
@@ -88,6 +93,7 @@ quizzes:
           10.0.5.1
           *10.0.5.255
           10.0.255.255
+        explanation: "The broadcast address is the last address in the subnet: all host bits set to 1, so 10.0.5.255."
 
       - text: "`docker network inspect bridge` shows `172.17.0.0/16` and gateway `172.17.0.1`. What is 172.17.0.1?"
         choices: |
@@ -95,6 +101,7 @@ quizzes:
           *The host's side of Docker's bridge, the containers' gateway
           Google's DNS
           The broadcast address
+        explanation: "172.17.0.1 is the docker0 bridge interface on the host, which containers on the default bridge use as their gateway."
 
       - text: Which command shows your default gateway?
         choices: |
@@ -102,6 +109,7 @@ quizzes:
           *ip route (look for "default via")
           curl ifconfig.me
           docker ps
+        explanation: "ip route shows the routing table, and the \"default via …\" line is your gateway."
 
       - text: Is 172.32.0.1 a private address?
         choices: |
@@ -109,6 +117,7 @@ quizzes:
           *No, the private 172 range is only 172.16.0.0 to 172.31.255.255
           Only inside Docker
           Only with /16
+        explanation: "The RFC 1918 private 172 range is 172.16.0.0/12, which is 172.16.0.0–172.31.255.255. 172.32.0.1 is public."
 
 decks:
   - title: "Chapter 5 · Flashcards"

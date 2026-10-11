@@ -10,42 +10,49 @@ quizzes:
           *Subnet
           *Network interface (ENI)
           S3 bucket
+        explanation: "Flow logs can be enabled on a VPC, a subnet or a single ENI. S3 is a destination, not a source."
       - text: What do flow logs record?
         choices: |
           Full packet contents
           *IP traffic metadata such as source, destination, ports, bytes and ACCEPT/REJECT
           HTTP URLs and headers
           IAM API calls
+        explanation: "Flow logs record metadata about connections (IPs, ports, protocol, packets, bytes, ACCEPT/REJECT), not packet contents."
       - text: Which destinations can flow logs be delivered to? (Pick all that apply.)
         choices: |
           *CloudWatch Logs
           *Amazon S3
           *Kinesis Data Firehose
           Route 53
+        explanation: "Flow logs can go to CloudWatch Logs, S3 or Kinesis Data Firehose."
       - text: In a flow log record, protocol 6 means…
         choices: |
           UDP
           *TCP
           ICMP
           HTTP
+        explanation: "The protocol field uses IANA numbers: 6 = TCP, 17 = UDP, 1 = ICMP."
       - text: In DNS resolution, after the root server, who does the resolver ask next?
         choices: |
           The authoritative server
           *The TLD server (e.g. .com)
           The browser cache
           The registrar
+        explanation: "The root server refers the resolver to the TLD servers (e.g. .com), which in turn refer it to the domain's authoritative name servers."
       - text: What decides how long a DNS answer is cached?
         choices: |
           The browser vendor
           *The record's TTL
           The registrar
           The number of name servers
+        explanation: "Every DNS record has a TTL (in seconds) that tells resolvers how long they can cache the answer."
       - text: Where is the Amazon-provided DNS resolver in a VPC with CIDR 10.0.0.0/16?
         choices: |
           10.0.0.1
           *10.0.0.2 (VPC base +2), also 169.254.169.253
           8.8.8.8
           10.0.255.255
+        explanation: "The Amazon DNS resolver is at the VPC base address + 2 (10.0.0.2 here), and also at 169.254.169.253 from any instance."
   - title: "Session 13 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,18 +62,21 @@ quizzes:
           *A network ACL blocks the outbound ephemeral ports
           The Internet Gateway is detached
           DNS is misconfigured
+        explanation: "Security groups are stateful and allow replies automatically. NACLs are stateless, so the outbound NACL must allow the ephemeral ports (1024–65535)."
       - text: Security needs a year of flow logs at the lowest cost, queried occasionally with SQL. What should you choose?
         choices: |
           CloudWatch Logs with infinite retention
           *Deliver to S3 and query with Athena
           Store them on an EBS volume
           Kinesis Data Streams only
+        explanation: "S3 is cheap long-term storage (lifecycle to cheaper classes), and Athena runs SQL directly on the logs, paying per query."
       - text: You will change a website's IP tomorrow, and the A record TTL is 86400. What should you do today?
         choices: |
           Nothing
           *Lower the TTL (e.g. to 60) so resolvers pick up the change quickly
           Delete the hosted zone
           Raise the TTL
+        explanation: "Resolvers may cache the old IP for up to a full TTL (86400 s = 1 day). Lower the TTL a day ahead so the switch spreads in minutes."
 
 decks:
   - title: "Session 13 · Flashcards"

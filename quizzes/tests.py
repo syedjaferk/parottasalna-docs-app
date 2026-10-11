@@ -396,3 +396,25 @@ class LoadPracticeTests(QuizTestCase):
             with self.assertRaises(CommandError):
                 self.run_load(bad)
         self.assertEqual(Quiz.objects.filter(course=self.course).count(), 1)
+
+
+class OrderingTests(QuizTestCase):
+    """Quizzes and decks appear in their `order`, whatever order the database returns rows in.
+
+    Django drops Meta.ordering from GROUP BY queries, so the annotated lists need an explicit order_by
+    (Postgres returned them shuffled; SQLite hid it)."""
+
+    def test_published_lists_have_an_explicit_order(self):
+        from .models import Deck, Flashcard
+        from .services import published_decks, published_quizzes
+
+        for title, order in (("Session 10", 100), ("Session 2", 20), ("Session 1", 10)):   # created out of order
+            quiz = Quiz.objects.create(course=self.course, title=title, order=order, is_published=True)
+            Question.objects.create(quiz=quiz, text="?", choices="*a\nb")
+            deck = Deck.objects.create(course=self.course, title=title, order=order, is_published=True)
+            Flashcard.objects.create(deck=deck, front="f", back="b")
+        self.assertIn("ORDER BY", str(published_quizzes(self.course).query))
+        self.assertIn("ORDER BY", str(published_decks(self.course).query))
+        self.assertEqual([q.title for q in published_quizzes(self.course) if q.title.startswith("Session")],
+                         ["Session 1", "Session 2", "Session 10"])
+        self.assertEqual([d.title for d in published_decks(self.course)], ["Session 1", "Session 2", "Session 10"])

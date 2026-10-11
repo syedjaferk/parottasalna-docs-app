@@ -11,6 +11,7 @@ quizzes:
           The repository
           *The tag
           The digest
+        explanation: "In name:tag, the part after the colon is the tag. nginx is the repository, and the registry (docker.io) is implied."
 
       - text: You run `docker pull nginx` with no tag. Which tag do you get?
         choices: |
@@ -18,6 +19,7 @@ quizzes:
           *latest
           alpine
           The newest numbered version, always pinned
+        explanation: "With no tag, Docker uses :latest, which is just a default tag name, not necessarily the newest version."
 
       - text: What does `docker run` do?
         choices: |
@@ -25,6 +27,7 @@ quizzes:
           *Pulls the image if needed, creates a container and starts it
           Builds an image
           Only creates a container
+        explanation: "docker run = pull (if the image is missing) + create + start, all in one command."
 
       - text: "What does `docker stop` do?"
         choices: |
@@ -32,6 +35,7 @@ quizzes:
           *Sends SIGTERM, waits 10 seconds, then sends SIGKILL
           Pauses the container
           Removes the container
+        explanation: "docker stop sends SIGTERM for a graceful shutdown, then SIGKILL after the grace period (10 s by default, change it with -t)."
 
       - text: What does `-p 8080:80` mean in `docker run`?
         choices: |
@@ -39,6 +43,7 @@ quizzes:
           Container port 8080 is mapped to host port 80
           The container may use ports 80 to 8080
           It opens port 8080 in the host firewall only
+        explanation: "The format is -p HOST:CONTAINER, so traffic to host port 8080 goes to port 80 in the container."
 
   - title: "Chapter 4 · Hands-on"
     renamed_from: ["Session 6 · Hands-on"]
@@ -58,6 +63,7 @@ quizzes:
           *docker exec -it web sh
           docker attach web sh
           docker shell web
+        explanation: "docker exec runs a new process inside a running container. -it gives you an interactive terminal."
 
       - text: Which command shows stopped containers too?
         choices: |
@@ -65,6 +71,7 @@ quizzes:
           *docker ps -a
           docker images -a
           docker ls
+        explanation: "docker ps shows only running containers. -a includes stopped (exited) ones too."
 
       - text: "`docker run` fails with \"port is already allocated\". What is the fix?"
         choices: |
@@ -72,6 +79,7 @@ quizzes:
           *Use another host port, like -p 8081:80, or stop whatever uses 8080
           Change the container port
           Remove the image
+        explanation: "Only one process can bind a host port. Choose a free host port or stop whatever already holds it. The container port can stay 80."
 
       - text: You run `docker run alpine` and it exits immediately. Why?
         choices: |
@@ -79,6 +87,7 @@ quizzes:
           *A container lives only as long as its main process; `sh` exits with no terminal attached
           You forgot -p
           Docker needs sudo
+        explanation: "Alpine's default command is sh. With no terminal (-it), sh reads end-of-input and exits, and the container stops with it."
 
       - text: Which command removes a running container in one step?
         choices: |
@@ -86,6 +95,7 @@ quizzes:
           *docker rm -f web
           docker rmi web
           docker stop --rm web
+        explanation: "-f force-removes the container: Docker kills it and removes it in one step. docker rmi removes images."
 
       - text: Put the lifecycle in order.
         choices: |
@@ -93,6 +103,7 @@ quizzes:
           *created → running → stopped → removed
           created → stopped → running → removed
           pulled → removed → running → stopped
+        explanation: "A container is created, then started (running), then stopped (exited), and finally removed."
 
 decks:
   - title: "Chapter 4 · Flashcards"

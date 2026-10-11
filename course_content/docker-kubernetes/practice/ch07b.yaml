@@ -11,6 +11,7 @@ quizzes:
           CMD python app.py
           CMD exec python app.py
           CMD "python app.py"
+        explanation: "The exec form is a JSON array. Docker runs the program directly, with no shell in between."
 
       - text: With the shell form `CMD python app.py`, what is PID 1 in the container?
         choices: |
@@ -18,6 +19,7 @@ quizzes:
           *`/bin/sh -c`
           docker-init
           containerd-shim
+        explanation: "The shell form is wrapped as /bin/sh -c \"python app.py\", so the shell becomes PID 1 and python is its child."
 
       - text: Why does the shell form often make `docker stop` take 10 seconds?
         choices: |
@@ -25,6 +27,7 @@ quizzes:
           */bin/sh is PID 1 and doesn't pass SIGTERM to the app, so Docker waits, then sends SIGKILL
           Docker always waits 10 seconds
           The app ignores SIGKILL
+        explanation: "The shell (PID 1) doesn't forward SIGTERM to python, so the app never hears it. Docker waits 10 s and then sends SIGKILL."
 
       - text: What does `docker run --init` add?
         choices: |
@@ -32,6 +35,7 @@ quizzes:
           *A tiny init (tini, shown as docker-init) as PID 1 that forwards signals and reaps zombies
           A health check
           An init container like in Kubernetes
+        explanation: "--init runs tini (docker-init) as PID 1. It forwards signals to your app and reaps zombie processes."
 
       - text: What is the build context?
         choices: |
@@ -39,6 +43,7 @@ quizzes:
           *The folder (the `.` in `docker build .`) whose files are sent to the builder; COPY can only use files from it
           The base image
           The image's layers
+        explanation: "The build context is the folder you pass to docker build. Its files (minus .dockerignore) are sent to the builder, and COPY can't reach outside it."
 
       - text: Why add `.env` and `.git` to `.dockerignore`?
         choices: |
@@ -46,6 +51,7 @@ quizzes:
           *To keep secrets and unneeded files out of the build context and the image
           Docker can't read dotfiles
           So COPY fails loudly
+        explanation: ".dockerignore keeps secrets like .env and bulky folders like .git out of the context, so they never end up in a layer, and builds are faster."
 
       - text: One step in a Dockerfile changes. Which steps are rebuilt?
         choices: |
@@ -53,6 +59,7 @@ quizzes:
           *That step and every step after it
           Every step in the file
           Only steps after it
+        explanation: "Layers depend on the ones before them. A changed step invalidates its cache and every step after it."
 
       - text: What is the best order for a Dockerfile?
         choices: |
@@ -60,6 +67,7 @@ quizzes:
           *Changes least → changes most (base, system packages, dependency list, install, your code, CMD)
           Alphabetical
           It doesn't matter with BuildKit
+        explanation: "Put rarely changing steps first so they stay cached. Frequent changes (your code) go last, so only those layers rebuild."
 
       - text: What is a multi-stage build for?
         choices: |
@@ -75,6 +83,7 @@ quizzes:
           *The last one (unless you pick another with --target)
           The biggest one
           All of them, merged
+        explanation: "The final stage becomes the image. Earlier stages are only build helpers unless you pick one with --target."
 
       - text: "What does `COPY --from=build /hello /hello` do?"
         choices: |
@@ -82,6 +91,7 @@ quizzes:
           *Copies /hello out of the stage named `build` into the current stage
           Copies /hello from the host's build folder
           Builds /hello from source
+        explanation: "COPY --from=<stage> copies files from an earlier build stage instead of the build context. That's the heart of multi-stage builds."
 
   - title: "Chapter 7 · Hands-on: ENTRYPOINT, signals & cache"
     renamed_from: ["Session 9 · Hands-on"]
@@ -93,6 +103,7 @@ quizzes:
           World
           *Hello World World
           Nothing
+        explanation: "With no arguments, ENTRYPOINT and CMD are combined: echo \"Hello World\" World prints Hello World World."
 
       - text: "`docker run --rm kube-demo-hello Jafer syed` prints…"
         choices: |
@@ -108,6 +119,7 @@ quizzes:
           *docker run --rm --entrypoint echo kube-demo-hello bye
           docker run --rm kube-demo-hello --cmd bye
           docker exec kube-demo-hello echo bye
+        explanation: "--entrypoint echo replaces the ENTRYPOINT, and bye replaces CMD, so the command is echo bye."
 
       - text: "An app in exec form handles SIGTERM and exits cleanly. Roughly how long does `docker stop` take, and what is the exit code?"
         choices: |
@@ -115,6 +127,7 @@ quizzes:
           *About 0.1 s, 0
           About 0.1 s, 143
           10 s, 0
+        explanation: "PID 1 is the app itself, so it receives SIGTERM right away, cleans up and exits 0. There's no 10-second wait."
 
       - text: "An app in exec form has **no** SIGTERM handler. What happens on `docker stop`?"
         choices: |
@@ -130,6 +143,7 @@ quizzes:
           *About 0.1 s, exit 143
           About 0.1 s, exit 0
           It hangs
+        explanation: "tini forwards SIGTERM to the app. With no handler, the default action kills it at once, so the exit code is 128 + 15 = 143."
 
       - text: "`docker build -f docker/Dockerfile.prod -t app:prod .` What is the build context?"
         choices: |
@@ -137,6 +151,7 @@ quizzes:
           *The current folder `.`
           docker/Dockerfile.prod
           The parent folder
+        explanation: "-f only says where the Dockerfile is. The context is still the final argument, ., the current folder."
 
       - text: "Which order keeps `pip install` cached when you edit app.py?"
         choices: |
@@ -144,6 +159,7 @@ quizzes:
           *COPY requirements.txt . → RUN pip install → COPY app.py .
           COPY app.py . → COPY requirements.txt . → RUN pip install
           RUN pip install → COPY requirements.txt .
+        explanation: "Copy only requirements.txt and install first. Editing app.py then invalidates just the last COPY, and the pip layer stays cached."
 
 decks:
   - title: "Chapter 7 · Flashcards: deep dive"

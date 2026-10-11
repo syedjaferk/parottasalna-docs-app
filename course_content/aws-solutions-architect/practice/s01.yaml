@@ -10,30 +10,35 @@ quizzes:
           *One or more data centres with separate power, cooling and networking, inside a Region
           A CloudFront caching site
           A group of AWS accounts
+        explanation: "An AZ is one or more physically separate data centres inside a Region, each with its own power, cooling and networking, so a failure in one AZ doesn't take down the others."
       - text: How many Availability Zones does an AWS Region have at minimum?
         choices: |
           1
           2
           *3
           6
+        explanation: "AWS builds every new Region with at least three Availability Zones, so you can spread workloads for high availability."
       - text: What are edge locations mainly used for?
         choices: |
           Running EC2 instances closer to users
           *Caching content with CloudFront and answering DNS with Route 53 close to users
           Storing EBS snapshots
           Hosting IAM
+        explanation: "Edge locations are the points of presence used by CloudFront (caching) and Route 53 (DNS). You can't run normal EC2 instances there."
       - text: In the shared responsibility model, which of these is the customer's job? (Pick all that apply.)
         choices: |
           *Patching the OS of an EC2 instance
           *Configuring security groups
           Replacing failed disks in the data centre
           *Deciding who has IAM access to an S3 bucket
+        explanation: "AWS secures the cloud itself (hardware, data centres, physical disks). You secure what you put in it: the guest OS and its patches, security groups, and IAM permissions."
       - text: EC2 is an example of which cloud model?
         choices: |
           *IaaS
           PaaS
           SaaS
           FaaS only
+        explanation: "EC2 gives you virtual servers and you manage the OS and everything above it: Infrastructure as a Service."
       - text: Which is NOT a usual reason to choose a particular AWS Region?
         choices: |
           Data residency / compliance
@@ -56,24 +61,28 @@ quizzes:
           *ap-south-1 (Mumbai) or ap-south-2 (Hyderabad)
           eu-west-1
           Any Region, since data never leaves the edge location
+        explanation: "Data residency means the data must stay in an Indian Region, and Mumbai and Hyderabad are also closest to Chennai. Edge locations only cache content; they don't decide where data is stored."
       - text: A web app runs on two EC2 instances in the same Availability Zone. What is the simplest change to survive a data-centre failure?
         choices: |
           Use bigger instances
           *Run the instances in two different Availability Zones behind a load balancer
           Add a second EBS volume
           Move the instances to an edge location
+        explanation: "Two instances in one AZ fail together. Spreading them across two AZs behind a load balancer keeps the app up if one data centre goes down."
       - text: A developer uses the root user's access keys in a CI pipeline. What should the architect recommend?
         choices: |
           Rotate the root keys monthly
           *Delete the root access keys, enable MFA on root, and use an IAM role or user with least privilege for CI
           Store the root keys in the Git repository encrypted
           Create a second root user
+        explanation: "Root has unlimited access and can't be restricted, so its access keys should not exist. Protect root with MFA and give CI a least-privilege IAM role (or user)."
       - text: A startup is surprised by an AWS bill after a lab. Which control alerts them as soon as costs appear?
         choices: |
           AWS Shield
           *An AWS Budgets alert (e.g. zero-spend or monthly budget)
           IAM Access Analyzer
           A security group rule
+        explanation: "AWS Budgets sends an alert when actual or forecast spend crosses a threshold. A zero-spend budget warns you at the first charge."
 
 decks:
   - title: "Session 1 · Flashcards"

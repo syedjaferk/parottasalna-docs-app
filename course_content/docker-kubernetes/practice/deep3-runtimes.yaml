@@ -11,6 +11,7 @@ quizzes:
           *docker CLI → dockerd → containerd → runc
           docker CLI → runc → containerd → dockerd
           dockerd → docker CLI → runc → containerd
+        explanation: "The CLI calls dockerd's API. dockerd asks containerd, and containerd uses runc to create the container."
 
       - text: What does runc do?
         choices: |
@@ -18,6 +19,7 @@ quizzes:
           *Sets up namespaces and cgroups, starts the container's process, then exits
           Runs forever and watches every container
           Builds images from Dockerfiles
+        explanation: "runc is a short-lived OCI runtime: it sets up namespaces and cgroups, starts the process, and exits, handing over to the shim."
 
       - text: Which program keeps a container running even if containerd restarts, and collects its exit code?
         choices: |
@@ -25,6 +27,7 @@ quizzes:
           dockerd
           *containerd-shim
           systemd
+        explanation: "The shim (containerd-shim-runc-v2) is the container's parent. It keeps stdio open and records the exit code, so containerd can restart without killing containers."
 
       - text: What does the OCI **image** spec make possible?
         choices: |
@@ -32,6 +35,7 @@ quizzes:
           Images run without a kernel
           Images are encrypted
           Only Docker can run images
+        explanation: "The OCI image spec standardises the image format, so any OCI-compatible tool can run an image no matter who built it."
 
       - text: Since Kubernetes 1.24, how does Kubernetes start containers?
         choices: |
@@ -39,6 +43,7 @@ quizzes:
           *Directly through a CRI runtime such as containerd or CRI-O
           With runc only, no runtime manager
           Kubernetes runs VMs, not containers
+        explanation: "Kubernetes 1.24 removed dockershim. The kubelet talks CRI directly to runtimes like containerd or CRI-O."
 
       - text: After Kubernetes removed dockershim, do images built with `docker build` still work on Kubernetes?
         choices: |
@@ -46,6 +51,7 @@ quizzes:
           *Yes, they are standard OCI images
           Only if they are pushed to Docker Hub
           Only on Docker Desktop
+        explanation: "docker build produces standard OCI images, which containerd and CRI-O run unchanged. Only Docker as the node's runtime went away."
 
       - text: What is CRI?
         choices: |
@@ -53,6 +59,7 @@ quizzes:
           *Container Runtime Interface, the API Kubernetes uses to talk to runtimes
           A storage driver
           A Linux namespace
+        explanation: "CRI (Container Runtime Interface) is the gRPC API the kubelet uses to ask a runtime to pull images and run pod containers."
 
   - title: "Under the hood · Container runtimes · Hands-on"
     renamed_from: ["Session 5 · Hands-on"]
@@ -63,6 +70,7 @@ quizzes:
           runc --default
           containerd version
           docker ps --runtime
+        explanation: "docker info shows DefaultRuntime, which is normally runc."
 
       - text: You start an nginx container and look at `ps -ef --forest`. What is nginx's parent?
         choices: |
@@ -70,6 +78,7 @@ quizzes:
           runc
           *containerd-shim-runc-v2
           The docker CLI
+        explanation: "runc exits after starting the container, so the shim containerd-shim-runc-v2 becomes nginx's parent."
 
       - text: "You look for a running `runc` process while a container is running and find none. Is something broken?"
         choices: |
@@ -85,6 +94,7 @@ quizzes:
           *gVisor (runsc)
           *Kata Containers
           Docker Hub
+        explanation: "crun (fast, C), gVisor's runsc (user-space kernel) and Kata (lightweight VMs) all implement the OCI runtime spec. Docker Hub is a registry."
 
       - text: Which OCI spec lets Docker Hub, GHCR and AWS ECR all work with `docker pull`?
         choices: |
@@ -92,6 +102,7 @@ quizzes:
           Runtime spec
           *Distribution spec
           CRI spec
+        explanation: "The OCI distribution spec defines the registry API for pushing and pulling, so any compliant registry works with docker pull."
 
 decks:
   - title: "Under the hood · Container runtimes · Flashcards"

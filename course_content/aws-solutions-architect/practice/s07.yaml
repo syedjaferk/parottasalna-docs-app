@@ -10,42 +10,49 @@ quizzes:
           *Its route table has a route 0.0.0.0/0 to an Internet Gateway
           It has a NAT Gateway
           It is in the first AZ
+        explanation: "A subnet is public only because its route table sends 0.0.0.0/0 to an Internet Gateway. The name means nothing."
       - text: A subnet lives in…
         choices: |
           *Exactly one Availability Zone
           All AZs of the Region
           Two AZs for high availability
           Any Region
+        explanation: "A subnet always belongs to exactly one AZ. For high availability you create subnets in several AZs."
       - text: How many IP addresses does AWS reserve in every subnet?
         choices: |
           2
           3
           *5
           10
+        explanation: "AWS reserves 5 addresses in every subnet: network, VPC router (+1), DNS (+2), future use (+3), and the last (broadcast) address."
       - text: Which statements about security groups are true? (Pick all that apply.)
         choices: |
           *They are stateful (replies are allowed automatically)
           *They support allow rules only
           They support deny rules
           *They can reference other security groups as a source
+        explanation: "Security groups are stateful, have allow rules only, and can use another security group as the source or destination."
       - text: Network ACLs are…
         choices: |
           Stateful, allow-only
           *Stateless, with numbered allow and deny rules
           Attached to instances
           Global
+        explanation: "NACLs work at the subnet level, are stateless (you must allow return traffic too), and evaluate numbered allow and deny rules in order."
       - text: An instance in a public subnet still isn't reachable from the internet. What might be missing?
         choices: |
           A NAT Gateway
           *A public IP (auto-assign or Elastic IP), or a security group rule
           A VPC endpoint
           An EBS volume
+        explanation: "A public subnet route isn't enough: the instance also needs a public or Elastic IP, and the security group (and NACL) must allow the traffic."
       - text: In the local Docker simulation, what played the role of the private subnet?
         choices: |
           The default bridge network
           *A Docker network created with --internal
           The host network
           A volume
+        explanation: "A Docker network created with --internal has no route out, just like a private subnet without internet access."
   - title: "Session 7 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,24 +62,28 @@ quizzes:
           *ALB in public subnets; app servers and database in private subnets
           Database in a public subnet for easy access
           App servers in public subnets with public IPs
+        explanation: "Only the internet-facing ALB needs public subnets. App servers and the database stay private and are reached through the ALB and security groups."
       - text: The database must accept connections only from the app servers, which scale up and down. How do you write the rule?
         choices: |
           Allow port 5432 from 0.0.0.0/0
           Allow port 5432 from each app server's IP
           *Allow port 5432 from the app servers' security group
           Use a NACL deny rule
+        explanation: "A security group reference matches whatever instances carry the app servers' group, even as they scale and their IPs change."
       - text: You must block one malicious IP address from reaching a subnet. What do you use?
         choices: |
           A security group deny rule
           *A network ACL deny rule
           A route table entry
           An IAM policy
+        explanation: "Security groups have no deny rules. A NACL can explicitly deny a single IP for the whole subnet."
       - text: A /28 subnet gives how many usable IPs in AWS?
         choices: |
           16
           14
           *11
           8
+        explanation: "A /28 has 16 addresses, minus the 5 AWS reserves, leaving 11 usable."
 
 decks:
   - title: "Session 7 · Flashcards"

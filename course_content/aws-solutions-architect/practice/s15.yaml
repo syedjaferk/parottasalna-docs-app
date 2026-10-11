@@ -10,42 +10,49 @@ quizzes:
           *5 TB
           50 TB
           Unlimited
+        explanation: "One S3 object can be up to 5 TB. Uploads over 5 GB must use multipart upload."
       - text: What durability is S3 designed for?
         choices: |
           99.9 %
           99.99 %
           *99.999999999 % (11 nines)
           100 %
+        explanation: "S3 is designed for 11 nines of durability by storing data across multiple AZs. Availability is a separate, lower figure."
       - text: Which settings are on by default for a new general purpose bucket? (Pick all that apply.)
         choices: |
           *Block Public Access
           *Default encryption with SSE-S3
           *ACLs disabled (bucket owner enforced)
           Versioning
+        explanation: "New buckets have Block Public Access on, SSE-S3 encryption on, and ACLs disabled (Object Ownership: bucket owner enforced). Versioning is off until you enable it."
       - text: Which storage class keeps data in a single Availability Zone?
         choices: |
           Standard-IA
           *One Zone-IA
           Glacier Deep Archive
           Intelligent-Tiering
+        explanation: "One Zone-IA stores data in a single AZ. It's cheaper, but data is lost if that AZ is destroyed."
       - text: What is the minimum storage duration charged for Glacier Deep Archive?
         choices: |
           30 days
           90 days
           *180 days
           365 days
+        explanation: "Deep Archive charges for at least 180 days, even if you delete the object sooner. Glacier Flexible Retrieval and Instant Retrieval charge 90 days."
       - text: S3 "folders" in the console are really…
         choices: |
           Separate buckets
           *Prefixes in object keys
           EBS volumes
           Directories on a file system
+        explanation: "S3 is a flat object store. A \"folder\" is just a key prefix ending in /, which the console shows as a folder."
       - text: Which storage class automatically moves objects between access tiers based on usage?
         choices: |
           Standard
           *Intelligent-Tiering
           One Zone-IA
           Glacier Flexible Retrieval
+        explanation: "Intelligent-Tiering watches access and moves each object between frequent, infrequent and archive tiers automatically, with no retrieval fees."
   - title: "Session 15 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,30 +62,35 @@ quizzes:
           *A lifecycle rule - Standard → Standard-IA at 30 days → Glacier Deep Archive at 90 days → expire after 7 years
           One Zone-IA from day one
           Store them on EBS
+        explanation: "A lifecycle rule follows the access pattern: Standard while hot, Standard-IA when rarely read, Deep Archive for cheap long retention, then expiry after 7 years."
       - text: A user must download a private file for the next hour only. What do you provide?
         choices: |
           Make the object public
           *A pre-signed URL that expires in an hour
           The root credentials
           A bucket policy allowing everyone
+        explanation: "A pre-signed URL gives time-limited access to one private object, using the signer's permissions. The bucket stays private."
       - text: Data access patterns are unknown and change over time. Which class minimizes cost without retrieval surprises?
         choices: |
           Standard-IA
           *Intelligent-Tiering
           Glacier Instant Retrieval
           One Zone-IA
+        explanation: "With unknown patterns, Intelligent-Tiering moves data for you with no retrieval charges. IA classes charge per GB retrieved."
       - text: Thumbnails can be regenerated from the originals and are read about once a month. The cheapest suitable class?
         choices: |
           Standard
           *One Zone-IA
           Glacier Deep Archive
           Intelligent-Tiering
+        explanation: "One Zone-IA is the cheapest instant-access class for infrequently read data you can recreate if an AZ is lost."
       - text: A team must protect against accidental overwrites and deletes of objects. Which feature?
         choices: |
           Transfer Acceleration
           *Versioning (with MFA Delete or lifecycle rules for old versions)
           Requester Pays
           Static website hosting
+        explanation: "Versioning keeps every version, so overwrites and deletes can be undone. MFA Delete and lifecycle rules control old versions."
 
 decks:
   - title: "Session 15 · Flashcards"

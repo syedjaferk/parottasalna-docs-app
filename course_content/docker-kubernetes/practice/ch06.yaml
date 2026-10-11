@@ -10,6 +10,7 @@ quizzes:
           none
           *The default bridge network
           A new network per container
+        explanation: "Without --network, a container joins the default bridge network (docker0)."
 
       - text: Why can't two containers on the **default** bridge ping each other by name?
         choices: |
@@ -25,6 +26,7 @@ quizzes:
           *A veth pair (a virtual cable)
           An overlay tunnel
           The docker.sock file
+        explanation: "A veth pair is two linked virtual interfaces: one end is eth0 in the container, the other is plugged into docker0 on the host."
 
       - text: What does `--network host` do?
         choices: |
@@ -32,6 +34,7 @@ quizzes:
           *Shares the host's network directly: no separate namespace, no -p needed
           Blocks all network access
           Puts the container on your LAN with its own MAC
+        explanation: "Host networking skips the network namespace. The container uses the host's interfaces and ports directly, so -p does nothing."
 
       - text: When is `--network none` useful?
         choices: |
@@ -39,6 +42,7 @@ quizzes:
           *For jobs that must not talk to any network
           For faster downloads
           For multi-host setups
+        explanation: "--network none gives only a loopback interface. That suits isolated batch jobs that must not reach any network."
 
       - text: How does `-p 8080:80` reach a container on a bridge network?
         choices: |
@@ -46,6 +50,7 @@ quizzes:
           *Docker adds a NAT rule: host port 8080 → container IP port 80
           It changes the container's port to 8080
           It opens port 80 on the router
+        explanation: "Docker adds iptables DNAT rules so traffic to host:8080 is forwarded to the container's bridge IP on port 80."
 
       - text: Which network type spans several hosts?
         choices: |
@@ -53,6 +58,7 @@ quizzes:
           host
           *overlay
           none
+        explanation: "Overlay networks tunnel (VXLAN) between Docker hosts, so containers on different machines share one network (Swarm)."
 
       - text: Which network type puts a container on your real LAN with its own MAC address?
         choices: |
@@ -60,6 +66,7 @@ quizzes:
           *macvlan
           host
           bridge
+        explanation: "macvlan gives the container its own MAC address on the physical network, so it looks like a separate device on your LAN."
 
       - text: Why do services in Docker Compose find each other by name?
         choices: |
@@ -67,6 +74,7 @@ quizzes:
           *Compose creates a user-defined network, which has DNS for service names
           Compose uses the host network
           Compose uses overlay networks
+        explanation: "Compose puts the project's services on a user-defined network, and Docker's embedded DNS resolves service names there."
 
   - title: "Chapter 6 · Hands-on"
     description: Predict the output of the class commands.
@@ -77,6 +85,7 @@ quizzes:
           *ping: bad address 'net-b'
           Permission denied
           Network unreachable
+        explanation: "The default bridge has no name-based DNS, so net-b can't be resolved. Use a user-defined network."
 
       - text: "On a user-defined network, what does `cat /etc/resolv.conf` show as the nameserver?"
         choices: |
@@ -84,6 +93,7 @@ quizzes:
           172.17.0.1
           *127.0.0.11
           Your router's IP
+        explanation: "User-defined networks use Docker's embedded DNS server at 127.0.0.11, which resolves container names and forwards the rest."
 
       - text: "`docker run --rm --network none alpine ping -c1 8.8.8.8` prints…"
         choices: |
@@ -91,6 +101,7 @@ quizzes:
           *ping: sendto: Network unreachable
           bad address
           It hangs forever
+        explanation: "With --network none there's only loopback and no route out, so ping fails at once with \"Network unreachable\"."
 
       - text: "`docker run --rm --network host alpine hostname` prints…"
         choices: |
@@ -98,6 +109,7 @@ quizzes:
           *Your host's hostname
           localhost
           alpine
+        explanation: "Host networking also shares the host's UTS namespace, so the container reports the host's hostname."
 
       - text: "`docker run -d --name web -p 8099:80 nginx:alpine` then `docker port web`. What is shown?"
         choices: |
@@ -105,6 +117,7 @@ quizzes:
           *80/tcp -> 0.0.0.0:8099
           80 -> 8099
           Nothing; port is only shown in docker ps
+        explanation: "docker port shows CONTAINER_PORT/proto -> HOST_IP:HOST_PORT, so 80/tcp -> 0.0.0.0:8099."
 
       - text: You start a second container with `-p 8099:80` while the first one still uses it. What happens?
         choices: |
@@ -112,6 +125,7 @@ quizzes:
           *It fails: failed to bind host port … address already in use
           Docker picks 8100 automatically
           The first container is stopped
+        explanation: "Host port 8099 is already bound by the first container, so the second one fails to start with \"address already in use\"."
 
       - text: "After `docker network connect mynet web`, how many IP addresses does `web` have?"
         choices: |
@@ -119,6 +133,7 @@ quizzes:
           *Two, one per network
           None until restart
           It depends on -p
+        explanation: "docker network connect adds another interface. The container keeps its first network and gets one IP per network."
 
       - text: How should you publish PostgreSQL on a cloud server so only the server itself can reach it?
         choices: |
@@ -126,6 +141,7 @@ quizzes:
           *-p 127.0.0.1:5432:5432
           --network host
           -p 0.0.0.0:5432:5432
+        explanation: "Binding to 127.0.0.1 publishes the port on the host's loopback only, so the internet can't reach the database."
 
 decks:
   - title: "Chapter 6 · Flashcards"

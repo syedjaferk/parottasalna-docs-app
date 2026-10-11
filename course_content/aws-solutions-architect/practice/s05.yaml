@@ -10,42 +10,49 @@ quizzes:
           Network Load Balancer
           Gateway Load Balancer
           Classic Load Balancer only
+        explanation: "The ALB works at layer 7 and can route on path, host header, HTTP headers, query strings and methods."
       - text: Which load balancer gives a static IP address per AZ?
         choices: |
           Application Load Balancer
           *Network Load Balancer
           Gateway Load Balancer
           None of them
+        explanation: "The NLB works at layer 4 and gets one static IP per AZ, and you can assign your own Elastic IPs. ALB IPs change."
       - text: What is the Gateway Load Balancer used for?
         choices: |
           Static websites
           *Sending traffic through third-party security appliances (firewalls, IDS/IPS)
           WebSocket APIs
           DNS routing
+        explanation: "The GWLB transparently sends traffic through a fleet of virtual appliances (firewalls, IDS/IPS) using GENEVE, and scales them."
       - text: Which targets can an ALB target group contain? (Pick all that apply.)
         choices: |
           *EC2 instances
           *IP addresses
           *Lambda functions
           S3 buckets
+        explanation: "ALB target groups can be instances, IP addresses, or a Lambda function. S3 isn't a load balancer target."
       - text: Cross-zone load balancing is on by default for which load balancer?
         choices: |
           *ALB
           NLB
           GWLB
           All of them
+        explanation: "Cross-zone load balancing is always on for ALB. It's off by default for NLB and GWLB, where turning it on can add inter-AZ data charges."
       - text: Where do you put the TLS certificate for HTTPS on an ALB?
         choices: |
           On every EC2 instance only
           *On the HTTPS listener (certificate from ACM)
           In the target group
           In Route 53
+        explanation: "TLS terminates at the ALB's HTTPS listener, using a certificate from ACM (or one you import). Targets can then get plain HTTP or re-encrypted traffic."
       - text: What should the instances' security group allow for traffic behind an ALB?
         choices: |
           Port 80 from 0.0.0.0/0
           *The app port from the ALB's security group only
           All traffic from anywhere
           Nothing; ALB bypasses security groups
+        explanation: "Referencing the ALB's security group lets only the load balancer reach the instances, so nobody can bypass it from the internet."
   - title: "Session 5 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,30 +62,35 @@ quizzes:
           *One ALB with path-based listener rules and two target groups
           A Gateway Load Balancer
           Route 53 weighted records
+        explanation: "One ALB can route /orders and /users to different target groups with listener rules. That's cheaper and simpler than several load balancers."
       - text: A gaming company runs a UDP-based service that needs millions of requests per second with very low latency. Which load balancer?
         choices: |
           Application Load Balancer
           *Network Load Balancer
           Classic Load Balancer
           API Gateway
+        explanation: "The NLB handles TCP/UDP at layer 4 with millions of requests per second and very low latency. ALB is HTTP-only."
       - text: A partner must allow-list your service's IP addresses in their firewall. What do you place in front of your instances?
         choices: |
           An ALB, giving them its DNS name
           *An NLB with Elastic IPs
           CloudFront
           A NAT Gateway
+        explanation: "The NLB can have a fixed Elastic IP per AZ, which a partner can allow-list. An ALB only gives a DNS name whose IPs change."
       - text: All HTTP requests should be upgraded to HTTPS at the load balancer. How?
         choices: |
           Install a redirect on each instance
           *Add an HTTP:80 listener on the ALB with a redirect action to HTTPS:443
           Use an NLB
           Change the target group protocol
+        explanation: "An ALB listener rule can return a redirect, so a port 80 listener sends HTTP 301 to HTTPS:443 without touching the app."
       - text: An ALB's targets show as unhealthy, but the app works when you curl the instance directly from inside the VPC. What's the most likely cause?
         choices: |
           The ALB is in one AZ
           *The instance security group doesn't allow the ALB's security group, or the health check path returns an error
           The certificate expired
           Cross-zone load balancing is off
+        explanation: "Health checks come from the ALB, so the instance's security group must allow the ALB's security group, and the health check path must return a success code."
 
 decks:
   - title: "Session 5 · Flashcards"

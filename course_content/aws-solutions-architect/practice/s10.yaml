@@ -10,36 +10,42 @@ quizzes:
           *Hub-and-spoke with transitive routing; each network attaches once
           It works without route tables
           It encrypts data at rest
+        explanation: "Each network attaches to the Transit Gateway hub once, and the TGW routes between them (transitive), instead of a growing mesh of peerings."
       - text: Which can be attached to a Transit Gateway? (Pick all that apply.)
         choices: |
           *VPCs
           *Site-to-Site VPN connections
           *Direct Connect gateways
           S3 buckets
+        explanation: "A TGW can attach VPCs, Site-to-Site VPNs, Direct Connect gateways, Connect (SD-WAN) and peered TGWs. Not S3 buckets."
       - text: How do you stop dev VPCs from reaching prod while both reach shared services?
         choices: |
           Security groups only
           *Separate Transit Gateway route tables (associations and propagations)
           Delete the attachments
           Use a NAT Gateway
+        explanation: "Use separate TGW route tables: associate dev attachments with a table that only has routes to shared services, and do the same for prod."
       - text: What does "propagation" do in a Transit Gateway route table?
         choices: |
           Copies the TGW to another Region
           *Automatically adds an attachment's CIDRs as routes
           Encrypts traffic
           Creates VPC peering connections
+        explanation: "Propagation automatically installs an attachment's CIDRs as routes in a TGW route table, so you don't add static routes by hand."
       - text: Besides the TGW route tables, what must each VPC have?
         choices: |
           Nothing else
           *A route in its own route table sending other networks' CIDRs to the TGW
           A NAT Gateway
           An Elastic IP
+        explanation: "The TGW only routes what reaches it. Each VPC's subnet route tables need routes sending other networks' CIDRs to the TGW."
       - text: How is Transit Gateway billed?
         choices: |
           Free
           *Per attachment per hour plus per GB processed
           Per VPC per month only
           Per route
+        explanation: "You pay per attachment per hour plus per GB of data processed, which is why peering is cheaper for just a couple of VPCs."
   - title: "Session 10 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -49,18 +55,21 @@ quizzes:
           *A Transit Gateway with VPC attachments and one VPN attachment (shared via AWS RAM across accounts)
           Public IPs on every instance
           One VPC with 40 subnets
+        explanation: "One TGW, shared across accounts with AWS RAM, connects all 40 VPCs and a single VPN attachment, with central route tables."
       - text: Instances in some AZs can't reach the Transit Gateway, but others can. What's the likely cause?
         choices: |
           The TGW is regional only in one AZ
           *The VPC attachment has no subnet in those AZs
           Security groups block the TGW
           Propagation is off
+        explanation: "A VPC attachment uses one subnet per AZ. Resources in an AZ without an attachment subnet can't send traffic to the TGW."
       - text: Two VPCs only need to talk to each other and cost is the main concern. TGW or peering?
         choices: |
           *VPC peering (no hourly attachment charges)
           Transit Gateway
           Direct Connect
           A NAT Gateway
+        explanation: "Peering has no hourly charge, and same-AZ peering data transfer is free, so it's the cheaper choice for a simple two-VPC link."
 
 decks:
   - title: "Session 10 · Flashcards"

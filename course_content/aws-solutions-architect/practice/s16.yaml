@@ -10,42 +10,49 @@ quizzes:
           *HTTP API
           WebSocket API
           Private REST API
+        explanation: "HTTP APIs cost about 70 % less than REST APIs and have lower latency, at the price of fewer features."
       - text: Which features are available on REST APIs but not HTTP APIs? (Pick all that apply.)
         choices: |
           *API keys and usage plans
           *Response caching
           *AWS WAF integration
           Lambda integration
+        explanation: "API keys and usage plans, caching and direct WAF integration are REST-API-only. Both API types can integrate with Lambda."
       - text: What is a stage?
         choices: |
           A Lambda version
           *A named deployment of the API with its own URL (e.g. dev, prod)
           A CloudWatch alarm
           A route
+        explanation: "A stage is a named snapshot of a deployment (dev, prod…) with its own invoke URL, settings, throttling and stage variables."
       - text: With Lambda proxy integration…
         choices: |
           You must map every field manually
           *The whole request goes to Lambda and its response is returned as-is
           Lambda can't read headers
           Only GET is supported
+        explanation: "Proxy integration passes the whole request (path, headers, query, body) to Lambda and returns its statusCode/headers/body response as-is."
       - text: What is the default integration timeout for API Gateway?
         choices: |
           3 seconds
           *29 seconds
           15 minutes
           No limit
+        explanation: "API Gateway waits 29 seconds for the integration by default. Some REST APIs can request more, but long jobs should be asynchronous."
       - text: API keys in API Gateway are best described as…
         choices: |
           A strong authentication method
           *A way to identify callers for usage plans and quotas, not security on their own
           A replacement for IAM
           Encryption keys
+        explanation: "API keys identify a caller for usage plans (quotas and throttling). They aren't authentication: pair them with IAM, Cognito or a Lambda authorizer."
       - text: In the KrakenD aggregation demo, what did one call to /customer/7 return?
         choices: |
           Only the user
           *The user, their orders and their wallet combined into one response
           A list of services
           A 404 error
+        explanation: "KrakenD aggregated three backend calls (user, orders, wallet) into one merged response, the Backend-for-Frontend pattern."
   - title: "Session 16 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -55,30 +62,35 @@ quizzes:
           *HTTP API with a JWT authorizer
           An ALB with fixed responses
           A WebSocket API
+        explanation: "HTTP APIs are cheap and fast and have a built-in JWT authorizer that validates Cognito tokens without extra code."
       - text: A partner must be limited to 10,000 requests per month and 50 requests per second. What do you configure?
         choices: |
           A WAF rate-based rule only
           *A REST API with an API key and a usage plan (quota + throttle)
           Lambda reserved concurrency only
           A larger Lambda memory size
+        explanation: "A usage plan linked to the partner's API key sets both a monthly quota (10,000) and throttling (50 rps). Only REST APIs have usage plans."
       - text: A report endpoint takes 2 minutes to generate results and requests time out. What's the best redesign?
         choices: |
           Raise Lambda memory
           *Make it asynchronous - accept the request (202), queue the work (e.g. SQS), and let the client poll or get notified
           Use a bigger API Gateway
           Switch to HTTP API
+        explanation: "API Gateway can't wait 2 minutes. Accept quickly with 202, do the work in the background via a queue, and let the client poll or get notified."
       - text: A web app on another domain gets browser errors calling the API, but curl works. What's missing?
         choices: |
           An API key
           *CORS configuration (allowed origins, methods, headers)
           A bigger throttle limit
           A custom domain
+        explanation: "Browsers enforce CORS and curl doesn't. The API must return Access-Control-Allow-* headers for the web app's origin, methods and headers."
       - text: Clients receive 429 errors from API Gateway during a traffic spike. What is happening?
         choices: |
           The Lambda code has a bug
           *Requests exceed the throttling limits (account, stage or usage plan)
           The certificate expired
           CORS is wrong
+        explanation: "429 Too Many Requests means API Gateway throttled the calls because they went over the account, stage, route or usage-plan limits."
 
 decks:
   - title: "Session 16 · Flashcards"

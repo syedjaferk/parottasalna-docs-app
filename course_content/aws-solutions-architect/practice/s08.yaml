@@ -10,36 +10,42 @@ quizzes:
           *In a public subnet
           Outside the VPC
           In the Internet Gateway
+        explanation: "A public NAT Gateway needs internet access itself, so it sits in a public subnet whose route goes to the Internet Gateway."
       - text: What does a NAT Gateway allow?
         choices: |
           Inbound connections from the internet to private instances
           *Outbound connections from private instances, plus their replies
           Connections between VPCs
           Private access to S3 only
+        explanation: "NAT lets private instances start outbound connections (e.g. for updates) and get the replies. It never accepts new inbound connections."
       - text: Which route does the private subnet's route table need?
         choices: |
           0.0.0.0/0 → igw
           *0.0.0.0/0 → nat-gateway
           10.0.0.0/16 → nat-gateway
           No route
+        explanation: "The private subnet sends internet-bound traffic (0.0.0.0/0) to the NAT Gateway, which forwards it to the Internet Gateway."
       - text: A NAT Gateway is highly available…
         choices: |
           Across all AZs of the Region automatically
           *Within its own AZ only
           Only if you attach two Elastic IPs
           Never
+        explanation: "A NAT Gateway is redundant inside one AZ only. If that AZ fails, so does the NAT."
       - text: How is a NAT Gateway billed?
         choices: |
           It's free
           *Per hour plus per GB of data processed
           Per instance using it
           Per route table
+        explanation: "You pay an hourly charge for each NAT Gateway plus a per-GB data processing charge."
       - text: "In the local iptables lab, which rule rewrites the private source address?"
         choices: |
           FORWARD -i eth1 -o eth0 -j ACCEPT
           *-t nat -A POSTROUTING -o eth0 -j MASQUERADE
           FORWARD with RELATED,ESTABLISHED
           ip route add default
+        explanation: "MASQUERADE in the nat table's POSTROUTING chain rewrites the private source IP to the router's outgoing (eth0) address."
   - title: "Session 8 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -49,18 +55,21 @@ quizzes:
           *If AZ a fails, the other AZs lose internet access. Put a NAT Gateway in each AZ and route each private subnet to its own AZ's NAT
           The NAT will run out of IPs; add Elastic IPs
           Use VPC peering instead
+        explanation: "One NAT in one AZ is a single point of failure, and other AZs pay cross-AZ data charges. Use one NAT per AZ with per-AZ route tables."
       - text: Private instances download large amounts of data from S3 through a NAT Gateway and the bill is high. What reduces cost the most?
         choices: |
           A bigger NAT Gateway
           *An S3 gateway VPC endpoint
           A second Internet Gateway
           Moving the instances to a public subnet
+        explanation: "A gateway endpoint for S3 is free and keeps S3 traffic off the NAT, removing the per-GB processing charge."
       - text: Private instances must call an external payment API, and the partner wants to allow-list one IP. What gives a stable source IP?
         choices: |
           Each instance's private IP
           *The NAT Gateway's Elastic IP
           The VPC CIDR
           The Internet Gateway's IP
+        explanation: "All outbound traffic through the NAT Gateway leaves from its Elastic IP, a single stable address the partner can allow-list."
 
 decks:
   - title: "Session 8 · Flashcards"

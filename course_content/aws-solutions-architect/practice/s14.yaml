@@ -10,36 +10,42 @@ quizzes:
           *DNS doesn't allow a CNAME at the apex, alongside the NS/SOA records there
           Route 53 doesn't support CNAMEs
           CNAMEs cost extra
+        explanation: "The zone apex must have NS and SOA records, and a CNAME can't exist alongside other records for the same name."
       - text: What is an Alias record?
         choices: |
           Another name for a CNAME
           *A Route 53 record that points to AWS resources (ALB, CloudFront, S3 website…), works at the apex, free queries to AWS targets
           A record for email
           A private-only record
+        explanation: "An Alias record is a Route 53 extension that resolves directly to AWS resources' current IPs. It works at the apex, and queries to AWS targets are free."
       - text: A private hosted zone answers queries from…
         choices: |
           The whole internet
           *Only the VPCs associated with it
           Only the registrar
           Only IAM users
+        explanation: "A private hosted zone answers only from the VPCs you associate with it. It's invisible from the internet."
       - text: You bought a domain at another registrar and created a Route 53 hosted zone. What connects them?
         choices: |
           An A record at the registrar
           *Setting the registrar's name servers to the hosted zone's 4 NS records
           A CNAME to the hosted zone
           Nothing; it's automatic
+        explanation: "Delegation: at the registrar, replace the name servers with the 4 NS records Route 53 gave the hosted zone."
       - text: Which routing policy uses health checks to switch from a primary to a secondary?
         choices: |
           Weighted
           Geolocation
           *Failover
           Simple
+        explanation: "Failover routing answers with the primary while its health check passes, and the secondary when it fails."
       - text: Which routing policy sends users to the Region with the lowest network latency?
         choices: |
           Geolocation
           *Latency-based
           Multivalue answer
           Weighted
+        explanation: "Latency-based routing answers with the Region that has the lowest measured latency from the user's location."
   - title: "Session 14 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -49,24 +55,28 @@ quizzes:
           *Weighted
           Geoproximity
           Simple
+        explanation: "Weighted routing splits answers by weight (e.g. 95/5), so you can shift traffic to a new version gradually."
       - text: Content must differ by country for legal reasons (e.g. users in Germany see a German site). Which policy?
         choices: |
           Latency-based
           *Geolocation
           Weighted
           Multivalue answer
+        explanation: "Geolocation routing answers based on the user's country or continent. That's what legal and content rules need. Latency routing only optimises speed."
       - text: Point the apex domain parottasalna.com to an Application Load Balancer. Which record?
         choices: |
           CNAME to the ALB DNS name
           A record with the ALB's current IP
           *A record with Alias to the ALB
           MX record
+        explanation: "Only an Alias A record can point the apex at an ALB. CNAMEs aren't allowed at the apex, and ALB IPs change."
       - text: An active-passive DR setup must send traffic to a standby Region only if the primary site fails. What do you configure?
         choices: |
           Weighted records 50/50
           *Failover routing with a health check on the primary
           Geolocation routing
           A private hosted zone
+        explanation: "Failover routing with a health check on the primary sends users to the standby Region only when the primary is unhealthy."
 
 decks:
   - title: "Session 14 · Flashcards"

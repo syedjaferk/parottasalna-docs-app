@@ -10,36 +10,42 @@ quizzes:
           *Only Amazon S3 and DynamoDB
           Only SQS and SNS
           Only EC2
+        explanation: "Gateway endpoints exist only for S3 and DynamoDB. Every other service uses interface endpoints (PrivateLink)."
       - text: How does a gateway endpoint work?
         choices: |
           It creates an ENI with a private IP
           *It adds a route (prefix list → vpce) to the selected route tables
           It changes the DNS of the VPC
           It needs a NAT Gateway
+        explanation: "A gateway endpoint adds a route (the service's prefix list → vpce-…) to the route tables you choose. There's no ENI or IP."
       - text: What does an interface endpoint create in your subnet?
         choices: |
           A route
           *An elastic network interface (ENI) with a private IP
           An Internet Gateway
           A new VPC
+        explanation: "An interface endpoint places an ENI with a private IP in each chosen subnet, and private DNS can map the service's name to it."
       - text: Which statements are true? (Pick all that apply.)
         choices: |
           *Gateway endpoints are free
           *Interface endpoints are charged per hour per AZ plus per GB
           Gateway endpoints can be reached from on-premises over VPN
           *Interface endpoints can be protected with security groups
+        explanation: "Gateway endpoints are free but only reachable from inside the VPC. Interface endpoints cost per AZ-hour and per GB, can be reached from on-premises, and take security groups."
       - text: What controls which buckets can be reached through an S3 endpoint?
         choices: |
           A security group
           *An endpoint policy
           A NACL
           Route 53
+        explanation: "An endpoint policy (an IAM-style resource policy on the endpoint) limits which buckets and actions can be used through it."
       - text: Which bucket policy condition limits access to traffic from a specific endpoint?
         choices: |
           aws:SourceIp
           *aws:SourceVpce
           aws:MultiFactorAuthPresent
           s3:prefix
+        explanation: "aws:SourceVpce matches the ID of the VPC endpoint the request came through, so a bucket policy can deny anything else."
   - title: "Session 11 · Scenarios"
     description: Exam-style questions (SAA-C03).
     questions:
@@ -49,24 +55,28 @@ quizzes:
           *An S3 gateway endpoint
           An S3 interface endpoint
           A public subnet
+        explanation: "The S3 gateway endpoint gives private instances access to S3 for free. NAT and interface endpoints have hourly and per-GB charges."
       - text: Private ECS tasks with no NAT must pull images from ECR. Which endpoints are needed?
         choices: |
           Only an ECR API interface endpoint
           *ECR API and ECR DKR interface endpoints plus an S3 gateway endpoint (image layers are in S3)
           Only an S3 gateway endpoint
           A Transit Gateway
+        explanation: "Pulling an image calls the ECR API and the Docker registry (dkr) endpoints, and the layers download from S3, so you also need the S3 gateway endpoint."
       - text: On-premises servers connected by Direct Connect must reach S3 privately. What do you use?
         choices: |
           An S3 gateway endpoint
           *An S3 interface endpoint (PrivateLink)
           A NAT Gateway
           VPC peering
+        explanation: "Gateway endpoints only work from inside the VPC. Interface endpoints have private IPs that on-premises networks can reach over Direct Connect or VPN."
       - text: A SaaS company wants to expose one API to customers' VPCs privately, even if their CIDRs overlap. What should it use?
         choices: |
           VPC peering with each customer
           *An endpoint service (PrivateLink) behind a Network Load Balancer
           A public ALB
           Transit Gateway peering
+        explanation: "PrivateLink exposes a service behind an NLB as interface endpoints in customer VPCs. It's one-way and works even with overlapping CIDRs."
 
 decks:
   - title: "Session 11 · Flashcards"
