@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "channels",
     "arena",
     "polls",
+    "jobs",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Jobs · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}Software jobs and internships shared with the {{ brand.NAME }} community: backend, cloud, DevOps, data and AI roles.{% endblock %}
+{% block robots %}{% if filtered or page.number > 1 %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/jobs.css' %}"><script src="{% static 'js/jobs.js' %}" defer></script>{% endblock %}
+{% block content %}
+<section class="jobs-head">
+  <div>
+    <h1>Jobs</h1>
+    <p class="jobs-sub">Openings shared with the {{ brand.NAME }} community. Every post is checked by an admin before it appears.</p>
+  </div>
+  <div class="jobs-actions">
+    {% if pending %}<a class="btn-outline" href="{% url 'job_review' %}">Review ({{ pending }})</a>{% endif %}
+    {% if user.is_authenticated %}<a class="btn-outline" href="{% url 'job_mine' %}">My posts</a>{% endif %}
+    <a class="btn-solid" href="{% url 'job_new' %}">Post a job</a>
+  </div>
+</section>
+
+<form class="jobs-filter" method="get" action="{% url 'job_list' %}" role="search">
+  <label class="sr-only" for="q">Search jobs</label>
+  <input id="q" name="q" value="{{ q }}" placeholder="Search title, company, skill or city" type="search">
+  <label class="sr-only" for="type">Job type</label>
+  <select id="type" name="type">
+    <option value="">All types</option>
+    {% for value, label in job_types %}<option value="{{ value }}"{% if value == job_type %} selected{% endif %}>{{ label }}</option>{% endfor %}
+  </select>
+  <label class="sr-only" for="mode">Work mode</label>
+  <select id="mode" name="mode">
+    <option value="">On-site, remote or hybrid</option>
+    {% for value, label in work_modes %}<option value="{{ value }}"{% if value == work_mode %} selected{% endif %}>{{ label }}</option>{% endfor %}
+  </select>
+  <button class="btn-solid" type="submit">Search</button>
+  {% if filtered %}<a class="jobs-clear" href="{% url 'job_list' %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+  <p class="jobs-count">{{ page.paginator.count }} job{{ page.paginator.count|pluralize }}</p>
+  <ul class="job-list">{% for job in page %}{% include "jobs/_card.html" %}{% endfor %}</ul>
+  {% if page.has_other_pages %}
+  <nav class="jobs-pages" aria-label="Pages">
+    {% if page.has_previous %}<a href="?{% if q %}q={{ q|urlencode }}&amp;{% endif %}{% if job_type %}type={{ job_type }}&amp;{% endif %}{% if work_mode %}mode={{ work_mode }}&amp;{% endif %}page={{ page.previous_page_number }}">← Newer</a>{% endif %}
+    <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a href="?{% if q %}q={{ q|urlencode }}&amp;{% endif %}{% if job_type %}type={{ job_type }}&amp;{% endif %}{% if work_mode %}mode={{ work_mode }}&amp;{% endif %}page={{ page.next_page_number }}">Older →</a>{% endif %}
+  </nav>
+  {% endif %}
+{% else %}
+  <div class="jobs-empty">
+    {% if filtered %}<p>No jobs match your search. <a href="{% url 'job_list' %}">See all jobs</a>.</p>
+    {% else %}<p>No openings right now. Check back soon, or <a href="{% url 'job_new' %}">post one</a>.</p>{% endif %}
+  </div>
+{% endif %}
+{% endblock %}

@@ -10,5 +10,6 @@ urlpatterns = [
     path("", include("streaks.urls")),
     path("", include("arena.urls")),
     path("", include("polls.urls")),
+    path("", include("jobs.urls")),
     path("", include("courses.urls")),
 ]

@@ -15,6 +15,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST, require_safe
 
 from blog.models import Post
+from jobs.models import Job
 from live.services import sessions_for
 from streaks.services import has_streak, record_action, summary as streak_summary
 
@@ -148,6 +149,10 @@ def sitemap_xml(request):
     for post in Post.objects.filter(is_published=True).only("slug", "imported_at"):
         urls.append({"loc": request.build_absolute_uri(post.get_absolute_url()), "priority": "0.5",
                      "lastmod": post.imported_at})
+    urls.append({"loc": request.build_absolute_uri(reverse("job_list")), "priority": "0.6", "lastmod": None})
+    for job in Job.visible().only("pk", "title", "company", "updated_at"):
+        urls.append({"loc": request.build_absolute_uri(job.get_absolute_url()), "priority": "0.4",
+                     "lastmod": job.updated_at})
     for course in public_courses().filter(build_status=Course.BuildStatus.OK):
         for page in doc_pages(course):
             path = "" if page == "index.html" else page
