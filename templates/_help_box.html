@@ -1,0 +1,11 @@
+{# "Need help?" box: ask in the public Q&A forum or book a 1:1 call. Styles: static/css/help.css #}
+<aside class="help-box" aria-label="Get help">
+  <div class="help-text">
+    <strong>{{ help_title|default:"Have a question?" }}</strong>
+    <span>Ask in the {{ brand.NAME }} Q&amp;A forum. Others learn from the answers too. Or book a 30-minute 1:1 call with {{ brand.AUTHOR }}.</span>
+  </div>
+  <div class="help-actions">
+    <a class="help-btn primary" href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Ask in Q&amp;A ↗</a>
+    <a class="help-btn" href="{{ brand.BOOK_CALL_URL }}" target="_blank" rel="noopener">Book a call ↗</a>
+  </div>
+</aside>

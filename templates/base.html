@@ -115,7 +115,7 @@
     /* Footer */
     .site-footer { border-top: 1px solid var(--line); background: color-mix(in srgb, var(--card) 70%, transparent); }
     .footer-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.25rem 1.5rem;
-      display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; }
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2rem; }
     .footer-inner h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .8rem; }
     .footer-inner p { margin: .5rem 0 0; font-size: .92rem; }
     .footer-inner ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; font-size: .92rem; }
@@ -142,6 +142,8 @@
       padding: .35rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card);
     }
     .pill-link:hover { border-color: var(--accent); color: var(--accent); }
+    .pill-link .badge { display: inline-block; min-width: 1.25rem; margin-left: .3rem; padding: 0 .35rem; border-radius: 999px;
+      background: #dc2626; color: #fff; font-size: .75rem; font-weight: 700; text-align: center; line-height: 1.25rem; }
 
     main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
@@ -178,10 +180,16 @@
     @media (max-width: 560px) {
       .who .email { display: none; }
       main { padding-top: 1.25rem; }
+      /* Blog · Jobs · Q&A · Sign in (more for staff) must fit a phone: smaller pills, wrap if still needed */
+      .topbar-inner { padding: .6rem .9rem; gap: .5rem; }
+      .brand-text small { display: none; }
+      .who { flex-wrap: wrap; justify-content: flex-end; gap: .3rem; }
+      .pill-link { padding: .28rem .6rem; font-size: .85rem; }
     }
     {% block extra_style %}{% endblock %}
   </style>
   {% if ga_id %}<script async src="{% static 'js/analytics.js' %}" data-ga-id="{{ ga_id }}"></script>{% endif %}
+  <link rel="stylesheet" href="{% static 'css/help.css' %}">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -197,7 +205,8 @@
         <span class="email">{{ user.email|default:user.username }}</span>
         <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
         <a class="pill-link" href="{% url 'job_list' %}">Jobs</a>
-        {% if user.is_staff %}<a class="pill-link" href="{% url 'admin:index' %}">Admin</a>{% endif %}
+        <a class="pill-link" href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Q&amp;A</a>
+        {% if user.is_staff %}<a class="pill-link" href="{% url 'panel_home' %}" title="Admin panel: things waiting for you">Panel{% if panel_attention %}<span class="badge" aria-label="{{ panel_attention }} waiting">{{ panel_attention }}</span>{% endif %}</a>{% endif %}
         <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
           <button class="pill-link" type="submit" style="cursor:pointer;font:inherit">Sign out</button>
         </form>
@@ -206,6 +215,7 @@
       <div class="who">
         <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
         <a class="pill-link" href="{% url 'job_list' %}">Jobs</a>
+        <a class="pill-link" href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Q&amp;A</a>
         <a class="pill-link" href="{% url 'login' %}">Sign in</a>
       </div>
       {% endif %}
@@ -235,6 +245,14 @@
       <nav aria-label="Topics">
         <h2>What you'll learn</h2>
         <ul>{% for topic, _ in brand.TOPICS %}<li>{{ topic }}</li>{% endfor %}</ul>
+      </nav>
+      <nav aria-label="Get help">
+        <h2>Get help</h2>
+        <ul>
+          <li><a href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Ask a question <span class="muted">· Q&amp;A forum</span></a></li>
+          <li><a href="{{ brand.BOOK_CALL_URL }}" target="_blank" rel="noopener">Book a 1:1 call <span class="muted">· 30 min</span></a></li>
+          <li><a href="{% url 'job_list' %}">Jobs board</a></li>
+        </ul>
       </nav>
       <nav aria-label="Follow {{ brand.NAME }}">
         <h2>Follow along</h2>

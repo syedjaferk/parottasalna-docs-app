@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Admin panel · {{ brand.NAME }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/panel.css' %}">{% endblock %}
+{% block content %}
+<section class="panel-head">
+  <div>
+    <h1>Admin panel</h1>
+    <p class="panel-sub">Everything that's waiting for you, in one place.</p>
+  </div>
+  <a class="panel-btn" href="{% url 'admin:index' %}">Django admin →</a>
+</section>
+
+<div class="panel-stats">
+  <a class="panel-stat{% if jobs_total %} is-hot{% endif %}" href="#jobs">
+    <span class="n">{{ jobs_total }}</span><span>job post{{ jobs_total|pluralize }} to review</span>
+  </a>
+  <a class="panel-stat{% if calls_today %} is-hot{% endif %}" href="#calls">
+    <span class="n">{% if calls is None %}–{% else %}{{ calls|length }}{% endif %}</span>
+    <span>upcoming call{{ calls|length|pluralize }}{% if calls_today %} · {{ calls_today }} today{% endif %}</span>
+  </a>
+  <a class="panel-stat{% if builds %} is-bad{% endif %}" href="#builds">
+    <span class="n">{{ builds|length }}</span><span>course build{{ builds|length|pluralize }} failing</span>
+  </a>
+</div>
+
+{% if all_clear and calls is not None and not calls_error %}<p class="panel-clear">✅ Nothing waiting. All clear.</p>{% endif %}
+
+<section class="panel-section" id="jobs">
+  <div class="panel-section-head">
+    <h2>Job posts waiting for review</h2>
+    {% if jobs_total > jobs|length %}<a href="{% url 'job_review' %}">See all {{ jobs_total }} →</a>{% endif %}
+  </div>
+  {% for job in jobs %}
+  <article class="panel-row">
+    <div class="panel-row-main">
+      <a href="{{ job.get_absolute_url }}"><strong>{{ job.title }}</strong></a> <span class="muted">at {{ job.company }} · {{ job.location }}</span>
+      <p class="muted small">by {{ job.posted_by.email|default:job.posted_by.username|default:"deleted user" }} · {{ job.created_at|timesince }} ago</p>
+    </div>
+    <div class="panel-row-actions">
+      <form method="post" action="{% url 'job_moderate' job.pk %}">{% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'panel_home' %}#jobs">
+        <button class="panel-btn primary" name="action" value="approve">Approve</button>
+      </form>
+      <a class="panel-btn" href="{% url 'job_review' %}">Review →</a>
+    </div>
+  </article>
+  {% empty %}
+  <p class="panel-empty">No job posts waiting.</p>
+  {% endfor %}
+</section>
+
+<section class="panel-section" id="calls">
+  <div class="panel-section-head">
+    <h2>Upcoming calls</h2>
+    {% if calls is not None %}<a href="?refresh=calls#calls">Refresh</a>{% endif %}
+  </div>
+  {% if calls is None %}
+    <p class="panel-empty">Calendly isn't connected. Create a personal access token in Calendly (Integrations → API &amp; Webhooks) and set it as <code>CALENDLY_TOKEN</code> in the server's <code>.env</code>.</p>
+  {% elif calls_error %}
+    <p class="panel-error">{{ calls_error }}</p>
+  {% else %}
+    {% for call in calls %}
+    <article class="panel-row">
+      <div class="panel-when">
+        <strong>{{ call.start|date:"D j M" }}</strong>
+        <span>{{ call.start|time:"g:i A" }}–{{ call.end|time:"g:i A" }}</span>
+      </div>
+      <div class="panel-row-main">
+        {% for i in call.invitees %}<strong>{{ i.name }}</strong> <span class="muted">{{ i.email }}</span>{% if not forloop.last %}<br>{% endif %}{% empty %}<strong>{{ call.name }}</strong>{% endfor %}
+        <p class="muted small">{{ call.name }}</p>
+        {% for i in call.invitees %}{% for q, a in i.answers %}{% if a %}<p class="panel-qa"><span>{{ q }}</span> {{ a }}</p>{% endif %}{% endfor %}{% endfor %}
+      </div>
+      <div class="panel-row-actions">
+        {% if call.join_url %}<a class="panel-btn primary" href="{{ call.join_url }}" target="_blank" rel="noopener noreferrer">Join ↗</a>{% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <p class="panel-empty">No calls booked. <a href="{{ brand.BOOK_CALL_URL }}" target="_blank" rel="noopener">Your booking page ↗</a></p>
+    {% endfor %}
+  {% endif %}
+</section>
+
+<section class="panel-section" id="builds">
+  <div class="panel-section-head"><h2>Course builds failing</h2></div>
+  {% for course in builds %}
+  <article class="panel-row">
+    <div class="panel-row-main">
+      <strong>{{ course.title }}</strong> <span class="muted">({{ course.slug }})</span>
+      <p class="muted small">Last build {{ course.last_built_at|timesince|default:"never" }}{% if course.last_built_at %} ago{% endif %}. Students see the previous version until it builds again.</p>
+    </div>
+    <div class="panel-row-actions">
+      <a class="panel-btn" href="{% url 'admin:courses_course_change' course.pk %}">Build log →</a>
+    </div>
+  </article>
+  {% empty %}
+  <p class="panel-empty">All course builds are fine.</p>
+  {% endfor %}
+</section>
+{% endblock %}

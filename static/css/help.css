@@ -1,0 +1,11 @@
+/* "Need help?" box (templates/_help_box.html): Q&A forum + 1:1 call. Flat, uses the site tokens. */
+.help-box { display: flex; align-items: center; justify-content: space-between; gap: 1rem 1.5rem; flex-wrap: wrap;
+  margin: 1.5rem 0; padding: 1.1rem 1.25rem; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+.help-text { display: flex; flex-direction: column; gap: .2rem; max-width: 620px; }
+.help-text span { color: var(--muted); font-size: .93rem; }
+.help-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.help-btn { display: inline-block; padding: .55rem 1rem; border-radius: 8px; font-weight: 600; font-size: .92rem;
+  text-decoration: none; border: 1px solid var(--line); color: var(--accent); background: transparent; }
+.help-btn:hover { border-color: var(--accent); }
+.help-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.help-btn.primary:hover { opacity: .92; }
