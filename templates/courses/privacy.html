@@ -125,6 +125,12 @@
     the leaderboard shown on the host's screen, and the host can download the results. Please don't use
     your full name or other personal details as a nickname.
   </p>
+  <h3>g) Classroom polls</h3>
+  <p>
+    When you vote in a classroom poll (by scanning its QR code), we store only your choice and a
+    one-way fingerprint of a random id kept in a cookie, so each browser gets one vote. We don't store
+    your name, and votes in different polls can't be linked to each other. The teacher sees the totals.
+  </p>
 
   <h2 id="use">2. How we use your information</h2>
   <table>
@@ -193,6 +199,7 @@
       <tr><td><code>sessionid</code></td><td>keeps you signed in</td><td>until you sign out, or 2 weeks</td></tr>
       <tr><td><code>csrftoken</code></td><td>protects forms and buttons against cross-site attacks</td><td>1 year</td></tr>
       <tr><td><code>arena_player</code></td><td>live quizzes: remembers which player you are in the game you joined (signed, not readable by scripts)</td><td>12 hours</td></tr>
+      <tr><td><code>poll_voter</code></td><td>classroom polls: a random, signed id so you get one vote per poll and can change it (not readable by scripts)</td><td>30 days</td></tr>
       <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Google Analytics: tells repeat visits apart (not set if your browser sends a “do not track” signal)</td><td>up to 2 years</td></tr>
       <tr><td><code>_theme</code> (browser storage)</td><td>remembers your light or dark mode choice in the course notes</td><td>until you clear your browser data</td></tr>
     </tbody>

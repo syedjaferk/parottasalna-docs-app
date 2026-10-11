@@ -1,0 +1,33 @@
+{% extends "polls/_base.html" %}
+{% load static %}
+{% block title %}{{ poll.code }} · {{ poll.question }}{% endblock %}
+{% block body_class %}pl-present{% endblock %}
+{% block content %}
+<main class="pl-stage" data-poll-live data-mode="present" data-code="{{ poll.code }}">
+  <aside class="pl-join">
+    <div class="pl-qr" aria-label="QR code to vote">{{ qr_svg|safe }}</div>
+    <p class="pl-join-text">Scan to vote, or go to</p>
+    <p class="pl-join-url">{{ short_url }}</p>
+    <p class="pl-join-code">code <b>{{ poll.code }}</b></p>
+  </aside>
+
+  <section class="pl-results">
+    <p class="pl-kicker"><span class="pl-badge {% if poll.is_open %}is-open{% endif %}" data-status>{% if poll.is_open %}● live{% else %}closed{% endif %}</span></p>
+    <h1 class="pl-question pl-question-big">{{ poll.question }}</h1>
+    {% include "polls/_bars.html" %}
+
+    <div class="pl-controls">
+      <form method="post" action="{% url 'poll_action' poll.code %}">{% csrf_token %}
+        {% if poll.is_open %}<button class="pl-btn" name="action" value="close">Close voting</button>
+        {% else %}<button class="pl-btn" name="action" value="open">Reopen voting</button>{% endif %}
+        <button class="pl-btn pl-btn-ghost" name="action" value="toggle_results">
+          {% if poll.show_results %}Hide results from students{% else %}Show results to students{% endif %}</button>
+        <button class="pl-btn pl-btn-ghost" name="action" value="reset" data-confirm="Delete all votes and start again?">Reset votes</button>
+      </form>
+      <a class="pl-btn pl-btn-ghost" href="{% url 'poll_qr' poll.code %}">Download QR</a>
+      <a class="pl-btn pl-btn-ghost" href="{% url 'poll_manage' %}">All polls</a>
+    </div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/polls-live.js' %}" defer></script>{% endblock %}

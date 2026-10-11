@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "live",
     "channels",
     "arena",
+    "polls",
 ]
 
 MIDDLEWARE = [

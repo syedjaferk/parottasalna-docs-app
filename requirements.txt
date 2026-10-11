@@ -14,4 +14,5 @@ gunicorn>=22.0
 channels>=4.2,<5         # live quiz WebSockets
 channels-redis>=4.2,<5   # channel layer shared by all WebSocket processes
 daphne>=4.1,<5           # ASGI server for /ws/ (runs as the "ws" service)
+segno>=1.6,<2            # QR codes for classroom polls (pure Python, SVG output)
 psycopg[binary]>=3.2
