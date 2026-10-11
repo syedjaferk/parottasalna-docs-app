@@ -235,17 +235,20 @@ class ConsumerTests(TransactionTestCase):
 
     def test_strangers_are_rejected(self):
         async def scenario():
+            # Accepted, then closed with 4403 as the very first message (so browsers see the code),
+            # without any game state being sent first.
             for role, cookie in (("play", ""), ("play", f"{COOKIE}=forged"), ("host", "")):
                 comm = self.communicator(role, cookie)
-                ok, code = await comm.connect()
-                self.assertFalse(ok)
-                self.assertEqual(code, 4403)
+                ok, _ = await comm.connect()
+                self.assertTrue(ok)
+                self.assertEqual(await comm.receive_output(), {"type": "websocket.close", "code": 4403})
 
             student = await sync_to_async(User.objects.create_user)("stu")
             await sync_to_async(self.client.force_login)(student)
             comm = self.communicator("host", f"sessionid={self.client.cookies['sessionid'].value}")
-            ok, code = await comm.connect()
-            self.assertFalse(ok)
+            ok, _ = await comm.connect()
+            self.assertTrue(ok)
+            self.assertEqual(await comm.receive_output(), {"type": "websocket.close", "code": 4403})
 
         async_to_sync(scenario)()
 

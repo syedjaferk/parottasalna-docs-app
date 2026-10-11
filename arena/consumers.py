@@ -58,6 +58,9 @@ class PlayerConsumer(_Throttled):
         player_id, token = read_player_cookie(self.scope.get("cookies", {}).get(COOKIE))
         self.player = await database_sync_to_async(services.player_for)(self.pin, player_id, token)
         if self.player is None:
+            # Accept first, then close: closing before accept() rejects the handshake (HTTP 403), which
+            # browsers report as code 1006, so the page could never tell why. Nothing is sent before close.
+            await self.accept()
             await self.close(code=4403)
             return
         self.group = services.game_group(self.pin)
@@ -104,6 +107,7 @@ class HostConsumer(_Throttled):
         user = self.scope.get("user")
         self.game = await database_sync_to_async(self._load_game)(user)
         if self.game is None:
+            await self.accept()                # see PlayerConsumer.connect
             await self.close(code=4403)
             return
         self.timer = None
