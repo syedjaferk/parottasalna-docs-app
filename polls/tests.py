@@ -195,9 +195,9 @@ class LiveTests(TransactionTestCase):
             as_staff = self.socket(poll.code, f"sessionid={self.client.cookies['sessionid'].value}")
             await as_staff.connect()
             self.assertIsNone((await as_staff.receive_json_from())["state"]["counts"])   # not the creator
-            missing = self.socket("ZZZZZ")
-            ok, code = await missing.connect()
-            self.assertFalse(ok)
-            self.assertEqual(code, 4404)
+            missing = self.socket("ZZZZZ")                 # accepted, then closed with 4404 straight away
+            ok, _ = await missing.connect()
+            self.assertTrue(ok)
+            self.assertEqual(await missing.receive_output(), {"type": "websocket.close", "code": 4404})
 
         async_to_sync(scenario)()

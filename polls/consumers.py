@@ -15,6 +15,9 @@ class PollConsumer(AsyncJsonWebsocketConsumer):
         self.code = self.scope["url_route"]["kwargs"]["code"]
         found = await database_sync_to_async(self._load)()
         if not found:
+            # Accept first, then close: closing before accept() rejects the handshake (HTTP 403), which
+            # browsers report as code 1006, so the page could never tell why. Nothing is sent before close.
+            await self.accept()
             await self.close(code=4404)
             return
         self.group = services.group_name(self.code)
