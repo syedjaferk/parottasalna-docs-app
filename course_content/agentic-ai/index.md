@@ -70,3 +70,11 @@ sessions/09-data-validation
 sessions/10-memory
 sessions/11-tools-and-mcp
 ```
+
+```{toctree}
+:maxdepth: 1
+:caption: Part 5 · Workflows and control
+
+sessions/12-lcel
+sessions/13-human-in-the-loop
+```

@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 320" role="img" aria-labelledby="s12-passthrough-t s12-passthrough-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-passthrough-t">assign and pick</title>
+<desc id="s12-passthrough-d">RunnablePassthrough.assign keeps every key it receives and adds new ones. pick keeps only the keys you name.</desc>
+<defs><marker id="s12-passthrough-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-passthrough-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-passthrough-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-passthrough-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="20" width="250" height="44" rx="10" class="ghost"/>
+<text x="135.0" y="42.0" text-anchor="middle" dominant-baseline="middle" class="code">input</text>
+<rect x="300" y="20" width="128" height="44" rx="10" class="blue"/>
+<text x="364.0" y="42.0" text-anchor="middle" dominant-baseline="middle" class="code">question</text>
+<path d="M135,64 L135,93" class="arrow" marker-end="url(#s12-passthrough-h)"/>
+<rect x="10" y="95" width="250" height="44" rx="10" class="box"/>
+<text x="135.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">.assign(context=retrieve)</text>
+<rect x="300" y="95" width="128" height="44" rx="10" class="blue"/>
+<text x="364.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">question</text>
+<rect x="440" y="95" width="128" height="44" rx="10" class="green"/>
+<text x="504.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">context</text>
+<path d="M135,139 L135,168" class="arrow" marker-end="url(#s12-passthrough-h)"/>
+<rect x="10" y="170" width="250" height="44" rx="10" class="box"/>
+<text x="135.0" y="192.0" text-anchor="middle" dominant-baseline="middle" class="code">.assign(answer=rag_chain)</text>
+<rect x="300" y="170" width="128" height="44" rx="10" class="blue"/>
+<text x="364.0" y="192.0" text-anchor="middle" dominant-baseline="middle" class="code">question</text>
+<rect x="440" y="170" width="128" height="44" rx="10" class="blue"/>
+<text x="504.0" y="192.0" text-anchor="middle" dominant-baseline="middle" class="code">context</text>
+<rect x="580" y="170" width="128" height="44" rx="10" class="green"/>
+<text x="644.0" y="192.0" text-anchor="middle" dominant-baseline="middle" class="code">answer</text>
+<path d="M135,214 L135,243" class="arrow" marker-end="url(#s12-passthrough-h)"/>
+<rect x="10" y="245" width="250" height="44" rx="10" class="box"/>
+<text x="135.0" y="267.0" text-anchor="middle" dominant-baseline="middle" class="code">.pick(&quot;answer&quot;)</text>
+<rect x="300" y="245" width="128" height="44" rx="10" class="amber"/>
+<text x="364.0" y="267.0" text-anchor="middle" dominant-baseline="middle" class="code">answer</text>
+<text x="360" y="312" text-anchor="middle" dominant-baseline="middle" class="small">blue = carried forward · green = just added · amber = what you keep</text>
+</svg>
+<figcaption>RunnablePassthrough.assign keeps every key it receives and adds new ones. pick keeps only the keys you name.</figcaption>
+</figure>

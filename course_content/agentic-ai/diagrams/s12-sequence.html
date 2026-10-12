@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s12-sequence-t s12-sequence-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-sequence-t">A chain of chains</title>
+<desc id="s12-sequence-d">The output of one step is the input of the next. When the shapes don&#x27;t match (text vs dict), a small function in between reshapes it.</desc>
+<defs><marker id="s12-sequence-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-sequence-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-sequence-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-sequence-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="10" y="18" text-anchor="start" dominant-baseline="middle" class="code">recipe_chain</text>
+<rect x="10" y="35" width="130" height="46" rx="10" class="ghost"/>
+<text x="75.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;dish&quot;: …}</text>
+<rect x="170" y="35" width="100" height="46" rx="10" class="blue"/>
+<text x="220.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="bold">prompt</text>
+<rect x="300" y="35" width="100" height="46" rx="10" class="amber"/>
+<text x="350.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="bold">model</text>
+<rect x="430" y="35" width="100" height="46" rx="10" class="green"/>
+<text x="480.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="bold">parser</text>
+<rect x="560" y="35" width="150" height="46" rx="10" class="box"/>
+<text x="635.0" y="48.0" text-anchor="middle" dominant-baseline="middle">recipe text</text>
+<text x="635.0" y="68.0" text-anchor="middle" dominant-baseline="middle" class="small">(a str)</text>
+<path d="M140,58 L168,58" class="arrow" marker-end="url(#s12-sequence-h)"/>
+<path d="M270,58 L298,58" class="arrow" marker-end="url(#s12-sequence-h)"/>
+<path d="M400,58 L428,58" class="arrow" marker-end="url(#s12-sequence-h)"/>
+<path d="M530,58 L558,58" class="arrow" marker-end="url(#s12-sequence-h)"/>
+<rect x="540" y="150" width="170" height="50" rx="10" class="purple"/>
+<text x="625.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="code">lambda text:</text>
+<text x="625.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;text&quot;: text}</text>
+<path d="M635,81 L635,148" class="arrow blue" marker-end="url(#s12-sequence-h-blue)"/>
+<text x="560" y="118" text-anchor="middle" dominant-baseline="middle" class="small">reshape str → dict</text>
+<rect x="200" y="150" width="300" height="50" rx="10" class="blue"/>
+<text x="350.0" y="165.0" text-anchor="middle" dominant-baseline="middle">translate_chain</text>
+<text x="350.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="code">prompt | model | parser</text>
+<path d="M540,175 L502,175" class="arrow" marker-end="url(#s12-sequence-h)"/>
+<rect x="10" y="150" width="150" height="50" rx="10" class="green"/>
+<text x="85.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="bold">Tamil recipe</text>
+<path d="M200,175 L162,175" class="arrow" marker-end="url(#s12-sequence-h)"/>
+<text x="360" y="240" text-anchor="middle" dominant-baseline="middle" class="code">recipe_in_tamil = recipe_chain | (lambda …) | translate_chain</text>
+</svg>
+<figcaption>The output of one step is the input of the next. When the shapes don&#x27;t match (text vs dict), a small function in between reshapes it.</figcaption>
+</figure>

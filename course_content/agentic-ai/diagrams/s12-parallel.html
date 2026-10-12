@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s12-parallel-t s12-parallel-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-parallel-t">RunnableParallel</title>
+<desc id="s12-parallel-d">Every branch gets the same input and they run at the same time. You get back a dict with one key per branch.</desc>
+<defs><marker id="s12-parallel-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-parallel-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-parallel-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-parallel-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="125" width="130" height="50" rx="10" class="blue"/>
+<text x="75.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">{topic}</text>
+<text x="75.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">Kubernetes</text>
+<rect x="200" y="40" width="230" height="46" rx="10" class="amber"/>
+<text x="315.0" y="53.0" text-anchor="middle" dominant-baseline="middle" class="bold">pros chain</text>
+<text x="315.0" y="73.0" text-anchor="middle" dominant-baseline="middle" class="small">prompt | model | parser</text>
+<path d="M140,150 L198,63" class="arrow blue" marker-end="url(#s12-parallel-h-blue)"/>
+<path d="M430,63 L488,125" class="arrow green" marker-end="url(#s12-parallel-h-green)"/>
+<rect x="200" y="127" width="230" height="46" rx="10" class="amber"/>
+<text x="315.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="bold">cons chain</text>
+<text x="315.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">prompt | model | parser</text>
+<path d="M140,150 L198,150" class="arrow blue" marker-end="url(#s12-parallel-h-blue)"/>
+<path d="M430,150 L488,150" class="arrow green" marker-end="url(#s12-parallel-h-green)"/>
+<rect x="200" y="214" width="230" height="46" rx="10" class="amber"/>
+<text x="315.0" y="227.0" text-anchor="middle" dominant-baseline="middle" class="bold">verdict chain</text>
+<text x="315.0" y="247.0" text-anchor="middle" dominant-baseline="middle" class="small">prompt | model | parser</text>
+<path d="M140,150 L198,237" class="arrow blue" marker-end="url(#s12-parallel-h-blue)"/>
+<path d="M430,237 L488,175" class="arrow green" marker-end="url(#s12-parallel-h-green)"/>
+<rect x="490" y="90" width="220" height="120" rx="10" class="green"/>
+<text x="600.0" y="110.0" text-anchor="middle" dominant-baseline="middle">{</text>
+<text x="600.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">pros: &quot;- Automated scaling…&quot;</text>
+<text x="600.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">cons: &quot;- Steep learning…&quot;</text>
+<text x="600.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">verdict: &quot;Yes, Docker first…&quot;</text>
+<text x="600.0" y="190.0" text-anchor="middle" dominant-baseline="middle">}</text>
+<text x="360" y="285" text-anchor="middle" dominant-baseline="middle" class="small">together ≈ the slowest branch (0.7 s)   ·   one after another = all added up (1.5 s)</text>
+</svg>
+<figcaption>Every branch gets the same input and they run at the same time. You get back a dict with one key per branch.</figcaption>
+</figure>

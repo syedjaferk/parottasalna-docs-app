@@ -1,0 +1,41 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s13-tool-review-t s13-tool-review-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s13-tool-review-t">Level 2: a person reviews each tool call</title>
+<desc id="s13-tool-review-d">The model only proposes tool calls. A person approves, edits or rejects each one, and every call gets a ToolMessage back, even a rejected one. Loop until the model replies without tool calls.</desc>
+<defs><marker id="s13-tool-review-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s13-tool-review-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s13-tool-review-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s13-tool-review-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="30" width="150" height="50" rx="10" class="blue"/>
+<text x="85.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">customer request</text>
+<rect x="190" y="30" width="130" height="50" rx="10" class="amber"/>
+<text x="255.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">model</text>
+<text x="255.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">bind_tools</text>
+<rect x="355" y="20" width="185" height="70" rx="10" class="purple"/>
+<text x="447.5" y="35.0" text-anchor="middle" dominant-baseline="middle" class="bold">tool_call (a slip)</text>
+<text x="447.5" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">issue_refund</text>
+<text x="447.5" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">{order_id, amount, id}</text>
+<rect x="575" y="30" width="135" height="50" rx="10" class="box"/>
+<text x="642.5" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">head chef</text>
+<text x="642.5" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">reviews it</text>
+<path d="M160,55 L188,55" class="arrow" marker-end="url(#s13-tool-review-h)"/>
+<path d="M320,55 L353,55" class="arrow" marker-end="url(#s13-tool-review-h)"/>
+<path d="M540,55 L573,55" class="arrow" marker-end="url(#s13-tool-review-h)"/>
+<rect x="560" y="140" width="150" height="50" rx="10" class="green"/>
+<text x="635.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">run the tool</text>
+<text x="635.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">real result</text>
+<rect x="360" y="140" width="180" height="50" rx="10" class="red"/>
+<text x="450.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">skip the tool</text>
+<text x="450.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">&quot;NOT EXECUTED: …&quot;</text>
+<path d="M660,80 L660,138" class="arrow green" marker-end="url(#s13-tool-review-h-green)"/>
+<text x="652" y="130" text-anchor="end" dominant-baseline="middle" class="small">approve / edit</text>
+<path d="M600,80 L600,112 L450,112 L450,138" class="arrow red" marker-end="url(#s13-tool-review-h-red)"/>
+<text x="525" y="101" text-anchor="middle" dominant-baseline="middle" class="small">reject + reason</text>
+<rect x="150" y="215" width="200" height="56" rx="10" class="blue"/>
+<text x="250.0" y="233.0" text-anchor="middle" dominant-baseline="middle" class="bold">ToolMessage</text>
+<text x="250.0" y="253.0" text-anchor="middle" dominant-baseline="middle" class="small">tool_call_id = the slip&#x27;s id</text>
+<path d="M660,190 L660,255 L352,255" class="arrow green" marker-end="url(#s13-tool-review-h-green)"/>
+<path d="M450,190 L450,232 L352,232" class="arrow red" marker-end="url(#s13-tool-review-h-red)"/>
+<path d="M250,215 L250,82" class="arrow blue" marker-end="url(#s13-tool-review-h-blue)"/>
+<text x="130" y="140" text-anchor="middle" dominant-baseline="middle" class="small">back to the model:</text>
+<text x="130" y="158" text-anchor="middle" dominant-baseline="middle" class="small">next tool, or the reply</text>
+</svg>
+<figcaption>The model only proposes tool calls. A person approves, edits or rejects each one, and every call gets a ToolMessage back, even a rejected one. Loop until the model replies without tool calls.</figcaption>
+</figure>

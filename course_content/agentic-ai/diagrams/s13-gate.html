@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s13-gate-t s13-gate-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s13-gate-t">Level 1: an approval gate inside a chain</title>
+<desc id="s13-gate-d">The cook (LLM) prepares the reply; a person tastes it. Approve or edit and it&#x27;s served. Reject and the chain stops with an exception, so nothing is sent.</desc>
+<defs><marker id="s13-gate-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s13-gate-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s13-gate-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s13-gate-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="40" width="120" height="60" rx="10" class="blue"/>
+<text x="70.0" y="60.0" text-anchor="middle" dominant-baseline="middle">complaint</text>
+<text x="70.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">{complaint}</text>
+<rect x="160" y="40" width="190" height="60" rx="10" class="amber"/>
+<text x="255.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">cook</text>
+<text x="255.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">prompt | model | parser</text>
+<rect x="380" y="40" width="160" height="60" rx="10" class="purple"/>
+<text x="460.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">head chef tastes</text>
+<text x="460.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">input()</text>
+<rect x="575" y="40" width="135" height="60" rx="10" class="green"/>
+<text x="642.5" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">serve</text>
+<text x="642.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">send the email</text>
+<path d="M130,70 L158,70" class="arrow" marker-end="url(#s13-gate-h)"/>
+<path d="M350,70 L378,70" class="arrow" marker-end="url(#s13-gate-h)"/>
+<path d="M540,70 L573,70" class="arrow green" marker-end="url(#s13-gate-h-green)"/>
+<text x="557" y="28" text-anchor="middle" dominant-baseline="middle" class="small">approve / edit</text>
+<rect x="380" y="155" width="160" height="54" rx="10" class="red"/>
+<text x="460.0" y="172.0" text-anchor="middle" dominant-baseline="middle" class="code">RejectedByChef</text>
+<text x="460.0" y="192.0" text-anchor="middle" dominant-baseline="middle" class="small">nothing is served</text>
+<path d="M460,100 L460,153" class="arrow red" marker-end="url(#s13-gate-h-red)"/>
+<text x="490" y="128" text-anchor="middle" dominant-baseline="middle" class="small">reject</text>
+</svg>
+<figcaption>The cook (LLM) prepares the reply; a person tastes it. Approve or edit and it&#x27;s served. Reject and the chain stops with an exception, so nothing is sent.</figcaption>
+</figure>

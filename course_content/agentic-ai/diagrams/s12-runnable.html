@@ -1,0 +1,41 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="s12-runnable-t s12-runnable-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-runnable-t">Everything is a Runnable</title>
+<desc id="s12-runnable-d">Prompt, model and parser are all Runnables, and so is the chain you build from them. That&#x27;s why every one of them has the same buttons.</desc>
+<defs><marker id="s12-runnable-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-runnable-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-runnable-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-runnable-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="360" y="15" text-anchor="middle" dominant-baseline="middle" class="title">THE PIECES</text>
+<rect x="20" y="35" width="200" height="64" rx="10" class="blue"/>
+<text x="120.0" y="57.0" text-anchor="middle" dominant-baseline="middle" class="bold">prompt</text>
+<text x="120.0" y="77.0" text-anchor="middle" dominant-baseline="middle" class="small">ChatPromptTemplate</text>
+<text x="120" y="118" text-anchor="middle" dominant-baseline="middle" class="small">dict → ChatPromptValue</text>
+<rect x="260" y="35" width="200" height="64" rx="10" class="amber"/>
+<text x="360.0" y="57.0" text-anchor="middle" dominant-baseline="middle" class="bold">model</text>
+<text x="360.0" y="77.0" text-anchor="middle" dominant-baseline="middle" class="small">ChatGroq</text>
+<text x="360" y="118" text-anchor="middle" dominant-baseline="middle" class="small">messages → AIMessage</text>
+<rect x="500" y="35" width="200" height="64" rx="10" class="green"/>
+<text x="600.0" y="57.0" text-anchor="middle" dominant-baseline="middle" class="bold">parser</text>
+<text x="600.0" y="77.0" text-anchor="middle" dominant-baseline="middle" class="small">StrOutputParser</text>
+<text x="600" y="118" text-anchor="middle" dominant-baseline="middle" class="small">AIMessage → str</text>
+<path d="M220,67 L258,67" class="arrow" marker-end="url(#s12-runnable-h)"/>
+<text x="239" y="52" text-anchor="middle" dominant-baseline="middle" class="code">|</text>
+<path d="M460,67 L498,67" class="arrow" marker-end="url(#s12-runnable-h)"/>
+<text x="479" y="52" text-anchor="middle" dominant-baseline="middle" class="code">|</text>
+<rect x="20" y="140" width="680" height="50" rx="10" class="purple"/>
+<text x="360.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="code">chain = prompt | model | parser</text>
+<text x="360.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">also a Runnable:  dict → str</text>
+<text x="360" y="215" text-anchor="middle" dominant-baseline="middle" class="title">SAME BUTTONS ON EVERY ONE</text>
+<rect x="20" y="232" width="100" height="40" rx="10" class="box"/>
+<text x="70.0" y="252.0" text-anchor="middle" dominant-baseline="middle" class="code">invoke</text>
+<rect x="136" y="232" width="100" height="40" rx="10" class="box"/>
+<text x="186.0" y="252.0" text-anchor="middle" dominant-baseline="middle" class="code">batch</text>
+<rect x="252" y="232" width="100" height="40" rx="10" class="box"/>
+<text x="302.0" y="252.0" text-anchor="middle" dominant-baseline="middle" class="code">stream</text>
+<rect x="368" y="232" width="100" height="40" rx="10" class="box"/>
+<text x="418.0" y="252.0" text-anchor="middle" dominant-baseline="middle" class="code">ainvoke</text>
+<rect x="484" y="232" width="100" height="40" rx="10" class="box"/>
+<text x="534.0" y="252.0" text-anchor="middle" dominant-baseline="middle" class="code">abatch</text>
+<rect x="600" y="232" width="100" height="40" rx="10" class="box"/>
+<text x="650.0" y="252.0" text-anchor="middle" dominant-baseline="middle" class="code">astream</text>
+</svg>
+<figcaption>Prompt, model and parser are all Runnables, and so is the chain you build from them. That&#x27;s why every one of them has the same buttons.</figcaption>
+</figure>

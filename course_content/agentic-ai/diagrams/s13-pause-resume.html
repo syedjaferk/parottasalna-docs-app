@@ -1,0 +1,43 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 330" role="img" aria-labelledby="s13-pause-resume-t s13-pause-resume-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s13-pause-resume-t">Level 3: pause, save, resume</title>
+<desc id="s13-pause-resume-d">The middleware checks each proposed tool call against the rule book. Safe calls run at once. Risky ones pause the agent; its state is saved under a thread_id, and a later Command(resume=…) carries on from exactly there.</desc>
+<defs><marker id="s13-pause-resume-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s13-pause-resume-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s13-pause-resume-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s13-pause-resume-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="30" width="130" height="56" rx="10" class="blue"/>
+<text x="75.0" y="48.0" text-anchor="middle" dominant-baseline="middle" class="bold">agent</text>
+<text x="75.0" y="68.0" text-anchor="middle" dominant-baseline="middle" class="code">create_agent</text>
+<rect x="180" y="20" width="170" height="76" rx="10" class="amber"/>
+<text x="265.0" y="38.0" text-anchor="middle" dominant-baseline="middle" class="bold">middleware</text>
+<text x="265.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="small">after_model:</text>
+<text x="265.0" y="78.0" text-anchor="middle" dominant-baseline="middle" class="small">check the rule book</text>
+<path d="M140,58 L178,58" class="arrow" marker-end="url(#s13-pause-resume-h)"/>
+<rect x="500" y="25" width="210" height="50" rx="10" class="green"/>
+<text x="605.0" y="40.0" text-anchor="middle" dominant-baseline="middle">run the tool now</text>
+<text x="605.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">e.g. check_order_status</text>
+<path d="M350,50 L498,50" class="arrow green" marker-end="url(#s13-pause-resume-h-green)"/>
+<text x="424" y="36" text-anchor="middle" dominant-baseline="middle" class="small">safe, or refund ≤ ₹200</text>
+<rect x="180" y="150" width="170" height="56" rx="10" class="red"/>
+<text x="265.0" y="168.0" text-anchor="middle" dominant-baseline="middle" class="bold">PAUSE</text>
+<text x="265.0" y="188.0" text-anchor="middle" dominant-baseline="middle" class="code">interrupt()</text>
+<path d="M265,96 L265,148" class="arrow red" marker-end="url(#s13-pause-resume-h-red)"/>
+<text x="320" y="122" text-anchor="middle" dominant-baseline="middle" class="small">needs approval</text>
+<rect x="500" y="150" width="210" height="56" rx="10" class="purple"/>
+<text x="605.0" y="168.0" text-anchor="middle" dominant-baseline="middle" class="bold">checkpointer</text>
+<text x="605.0" y="188.0" text-anchor="middle" dominant-baseline="middle" class="code">thread_id = &quot;ticket-001&quot;</text>
+<path d="M350,178 L498,178" class="arrow" marker-end="url(#s13-pause-resume-h)"/>
+<text x="424" y="164" text-anchor="middle" dominant-baseline="middle" class="small">state saved</text>
+<rect x="500" y="260" width="210" height="56" rx="10" class="box"/>
+<text x="605.0" y="278.0" text-anchor="middle" dominant-baseline="middle" class="bold">head chef decides</text>
+<text x="605.0" y="298.0" text-anchor="middle" dominant-baseline="middle" class="small">seconds or hours later</text>
+<path d="M605,206 L605,258" class="arrow" marker-end="url(#s13-pause-resume-h)"/>
+<rect x="180" y="260" width="170" height="56" rx="10" class="green"/>
+<text x="265.0" y="278.0" text-anchor="middle" dominant-baseline="middle" class="code">Command(resume=</text>
+<text x="265.0" y="298.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;decisions&quot;: […]})</text>
+<path d="M500,288 L352,288" class="arrow green" marker-end="url(#s13-pause-resume-h-green)"/>
+<path d="M180,288 L75,288 L75,88" class="arrow blue" marker-end="url(#s13-pause-resume-h-blue)"/>
+<text x="85" y="205" text-anchor="start" dominant-baseline="middle" class="small">same thread_id:</text>
+<text x="85" y="223" text-anchor="start" dominant-baseline="middle" class="small">carries on from</text>
+<text x="85" y="241" text-anchor="start" dominant-baseline="middle" class="small">where it paused</text>
+</svg>
+<figcaption>The middleware checks each proposed tool call against the rule book. Safe calls run at once. Risky ones pause the agent; its state is saved under a thread_id, and a later Command(resume=…) carries on from exactly there.</figcaption>
+</figure>

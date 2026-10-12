@@ -606,12 +606,205 @@ def s11_mcp():
     return d.render()
 
 
+# ------------------------------------------------------------------ Session 12
+@diagram
+def s12_runnable():
+    d = D("s12-runnable", 720, 290, "Everything is a Runnable",
+          "Prompt, model and parser are all Runnables, and so is the chain you build from them. "
+          "That's why every one of them has the same buttons.")
+    d.text(360, 15, "THE PIECES", "title")
+    pieces = [(20, "prompt", "ChatPromptTemplate", "blue", "dict → ChatPromptValue"),
+              (260, "model", "ChatGroq", "amber", "messages → AIMessage"),
+              (500, "parser", "StrOutputParser", "green", "AIMessage → str")]
+    for x, a, b, k, io in pieces:
+        d.box(x, 35, 200, 64, [(a, "bold"), (b, "small")], k)
+        d.text(x + 100, 118, io, "small")
+    d.arrow([(220, 67), (258, 67)], label="|", lx=239, ly=52, lcls="code")
+    d.arrow([(460, 67), (498, 67)], label="|", lx=479, ly=52, lcls="code")
+    d.box(20, 140, 680, 50, [("chain = prompt | model | parser", "code"), ("also a Runnable:  dict → str", "small")], "purple")
+    d.text(360, 215, "SAME BUTTONS ON EVERY ONE", "title")
+    for i, b in enumerate(["invoke", "batch", "stream", "ainvoke", "abatch", "astream"]):
+        d.box(20 + i * 116, 232, 100, 40, (b, "code"), "box")
+    return d.render()
+
+
+@diagram
+def s12_interface():
+    d = D("s12-interface", 720, 290, "invoke, batch and stream",
+          "invoke: one in, one out. batch: many inputs at the same time. stream: the answer arrives piece by piece.")
+    # invoke
+    d.text(70, 50, "invoke", "code")
+    d.box(150, 30, 170, 40, ('"What is a parotta?"', "small"), "blue")
+    d.box(360, 30, 100, 40, ("model", "bold"), "amber")
+    d.box(500, 30, 210, 40, ("one AIMessage", "small"), "green")
+    d.arrow([(320, 50), (358, 50)]); d.arrow([(460, 50), (498, 50)])
+    # batch
+    d.text(70, 135, "batch", "code")
+    for i, (q, a) in enumerate([("Tamil Nadu?", "Chennai"), ("Karnataka?", "Bengaluru"), ("Kerala?", "Thiruvananthapuram")]):
+        y = 100 + i * 25
+        d.box(150, y, 170, 21, (q, "small"), "blue", rx=6)
+        d.arrow([(320, y + 10), (358, 135)])
+        d.box(500, y, 210, 21, (a, "small"), "green", rx=6)
+        d.arrow([(460, 135), (498, y + 10)])
+    d.box(360, 105, 100, 60, ["model", ("all at once", "small")], "amber")
+    # stream
+    d.text(70, 225, "stream", "code")
+    d.box(150, 205, 170, 40, ('"Count 1 to 10"', "small"), "blue")
+    d.box(360, 205, 100, 40, ("model", "bold"), "amber")
+    d.arrow([(320, 225), (358, 225)]); d.arrow([(460, 225), (498, 225)])
+    for i, w in enumerate(["one,", "two,", "three,"]):
+        d.box(500 + i * 56, 208, 50, 34, (w, "small"), "green", rx=6)
+    d.text(690, 225, "…", "bold")
+    d.text(360, 275, "ainvoke · abatch · astream do the same with await (Session 8)", "small")
+    return d.render()
+
+
+@diagram
+def s12_sequence():
+    d = D("s12-sequence", 720, 260, "A chain of chains",
+          "The output of one step is the input of the next. When the shapes don't match (text vs dict), "
+          "a small function in between reshapes it.")
+    d.text(10, 18, "recipe_chain", "code", "start")
+    d.box(10, 35, 130, 46, ('{"dish": …}', "code"), "ghost")
+    for x, a, k in [(170, "prompt", "blue"), (300, "model", "amber"), (430, "parser", "green")]:
+        d.box(x, 35, 100, 46, (a, "bold"), k)
+    d.box(560, 35, 150, 46, ["recipe text", ("(a str)", "small")], "box")
+    for x in (140, 270, 400, 530):
+        d.arrow([(x, 58), (x + 28, 58)])
+    d.box(540, 150, 170, 50, [("lambda text:", "code"), ('{"text": text}', "code")], "purple")
+    d.arrow([(635, 81), (635, 148)], kind="blue", label="reshape str → dict", lx=560, ly=118)
+    d.box(200, 150, 300, 50, ["translate_chain", ("prompt | model | parser", "code")], "blue")
+    d.arrow([(540, 175), (502, 175)])
+    d.box(10, 150, 150, 50, ("Tamil recipe", "bold"), "green")
+    d.arrow([(200, 175), (162, 175)])
+    d.text(360, 240, "recipe_in_tamil = recipe_chain | (lambda …) | translate_chain", "code")
+    return d.render()
+
+
+@diagram
+def s12_parallel():
+    d = D("s12-parallel", 720, 300, "RunnableParallel",
+          "Every branch gets the same input and they run at the same time. You get back a dict with one key per branch.")
+    d.box(10, 125, 130, 50, [("{topic}", "code"), ("Kubernetes", "small")], "blue")
+    for i, name in enumerate(["pros", "cons", "verdict"]):
+        y = 40 + i * 87
+        d.box(200, y, 230, 46, [(f"{name} chain", "bold"), ("prompt | model | parser", "small")], "amber")
+        d.arrow([(140, 150), (198, y + 23)], kind="blue")
+        d.arrow([(430, y + 23), (488, 125 + i * 25)], kind="green")
+    d.box(490, 90, 220, 120, ["{", ("pros: \"- Automated scaling…\"", "small"), ("cons: \"- Steep learning…\"", "small"),
+                              ("verdict: \"Yes, Docker first…\"", "small"), "}"], "green")
+    d.text(360, 285, "together ≈ the slowest branch (0.7 s)   ·   one after another = all added up (1.5 s)", "small")
+    return d.render()
+
+
+@diagram
+def s12_passthrough():
+    d = D("s12-passthrough", 720, 320, "assign and pick",
+          "RunnablePassthrough.assign keeps every key it receives and adds new ones. pick keeps only the keys you name.")
+    rows = [("input", [("question", "blue")]),
+            (".assign(context=retrieve)", [("question", "blue"), ("context", "green")]),
+            (".assign(answer=rag_chain)", [("question", "blue"), ("context", "blue"), ("answer", "green")]),
+            ('.pick("answer")', [("answer", "amber")])]
+    for i, (op, keys) in enumerate(rows):
+        y = 20 + i * 75
+        d.box(10, y, 250, 44, (op, "code"), "ghost" if i == 0 else "box")
+        for j, (k, kind) in enumerate(keys):
+            d.box(300 + j * 140, y, 128, 44, (k, "code"), kind)
+        if i < len(rows) - 1:
+            d.arrow([(135, y + 44), (135, y + 73)])
+    d.text(360, 312, "blue = carried forward · green = just added · amber = what you keep", "small")
+    return d.render()
+
+
+# ------------------------------------------------------------------ Session 13
+@diagram
+def s13_levels():
+    d = D("s13-levels", 720, 275, "Three levels of human in the loop",
+          "Each level adds control. Level 3 can pause for hours and survive a restart, which is what real apps need.")
+    steps = [(10, 175, "Level 1 · gate in a chain", "input() before serving", "blue", "scripts and learning"),
+             (250, 100, "Level 2 · review tool calls", "approve / edit / reject each one", "amber", "your own agent loop"),
+             (490, 25, "Level 3 · middleware", "rule book + pause and resume", "green", "production apps")]
+    for x, y, a, b, k, use in steps:
+        d.box(x, y, 220, 64, [(a, "bold"), (b, "small")], k)
+        d.text(x + 110, y + 82, use, "small")
+    d.arrow([(120, 175), (120, 132), (248, 132)])
+    d.arrow([(360, 100), (360, 57), (488, 57)])
+    d.text(150, 40, "more control,", "small")
+    d.text(150, 58, "survives restarts →", "small")
+    return d.render()
+
+
+@diagram
+def s13_gate():
+    d = D("s13-gate", 720, 230, "Level 1: an approval gate inside a chain",
+          "The cook (LLM) prepares the reply; a person tastes it. Approve or edit and it's served. Reject and the chain "
+          "stops with an exception, so nothing is sent.")
+    d.box(10, 40, 120, 60, ["complaint", ("{complaint}", "code")], "blue")
+    d.box(160, 40, 190, 60, [("cook", "bold"), ("prompt | model | parser", "small")], "amber")
+    d.box(380, 40, 160, 60, [("head chef tastes", "bold"), ("input()", "code")], "purple")
+    d.box(575, 40, 135, 60, [("serve", "bold"), ("send the email", "small")], "green")
+    d.arrow([(130, 70), (158, 70)]); d.arrow([(350, 70), (378, 70)])
+    d.arrow([(540, 70), (573, 70)], kind="green", label="approve / edit", lx=557, ly=28)
+    d.box(380, 155, 160, 54, [("RejectedByChef", "code"), ("nothing is served", "small")], "red")
+    d.arrow([(460, 100), (460, 153)], kind="red", label="reject", lx=490, ly=128)
+    return d.render()
+
+
+@diagram
+def s13_tool_review():
+    d = D("s13-tool-review", 720, 300, "Level 2: a person reviews each tool call",
+          "The model only proposes tool calls. A person approves, edits or rejects each one, and every call gets a "
+          "ToolMessage back, even a rejected one. Loop until the model replies without tool calls.")
+    d.box(10, 30, 150, 50, ("customer request", "bold"), "blue")
+    d.box(190, 30, 130, 50, [("model", "bold"), ("bind_tools", "code")], "amber")
+    d.box(355, 20, 185, 70, [("tool_call (a slip)", "bold"), ("issue_refund", "code"), ("{order_id, amount, id}", "small")], "purple")
+    d.box(575, 30, 135, 50, [("head chef", "bold"), ("reviews it", "small")], "box")
+    d.arrow([(160, 55), (188, 55)]); d.arrow([(320, 55), (353, 55)]); d.arrow([(540, 55), (573, 55)])
+    d.box(560, 140, 150, 50, [("run the tool", "bold"), ("real result", "small")], "green")
+    d.box(360, 140, 180, 50, [("skip the tool", "bold"), ('"NOT EXECUTED: …"', "small")], "red")
+    d.arrow([(660, 80), (660, 138)], kind="green")
+    d.text(652, 130, "approve / edit", "small", "end")
+    d.arrow([(600, 80), (600, 112), (450, 112), (450, 138)], kind="red", label="reject + reason", lx=525, ly=101)
+    d.box(150, 215, 200, 56, [("ToolMessage", "bold"), ("tool_call_id = the slip's id", "small")], "blue")
+    d.arrow([(660, 190), (660, 255), (352, 255)], kind="green")
+    d.arrow([(450, 190), (450, 232), (352, 232)], kind="red")
+    d.arrow([(250, 215), (250, 82)], kind="blue")
+    d.text(130, 140, "back to the model:", "small")
+    d.text(130, 158, "next tool, or the reply", "small")
+    return d.render()
+
+
+@diagram
+def s13_pause_resume():
+    d = D("s13-pause-resume", 720, 330, "Level 3: pause, save, resume",
+          "The middleware checks each proposed tool call against the rule book. Safe calls run at once. Risky ones pause "
+          "the agent; its state is saved under a thread_id, and a later Command(resume=…) carries on from exactly there.")
+    d.box(10, 30, 130, 56, [("agent", "bold"), ("create_agent", "code")], "blue")
+    d.box(180, 20, 170, 76, [("middleware", "bold"), ("after_model:", "small"), ("check the rule book", "small")], "amber")
+    d.arrow([(140, 58), (178, 58)])
+    d.box(500, 25, 210, 50, ["run the tool now", ("e.g. check_order_status", "code")], "green")
+    d.arrow([(350, 50), (498, 50)], kind="green", label="safe, or refund ≤ ₹200", lx=424, ly=36)
+    d.box(180, 150, 170, 56, [("PAUSE", "bold"), ("interrupt()", "code")], "red")
+    d.arrow([(265, 96), (265, 148)], kind="red", label="needs approval", lx=320, ly=122)
+    d.box(500, 150, 210, 56, [("checkpointer", "bold"), ('thread_id = "ticket-001"', "code")], "purple")
+    d.arrow([(350, 178), (498, 178)], label="state saved", lx=424, ly=164)
+    d.box(500, 260, 210, 56, [("head chef decides", "bold"), ("seconds or hours later", "small")], "box")
+    d.arrow([(605, 206), (605, 258)])
+    d.box(180, 260, 170, 56, [("Command(resume=", "code"), ('{"decisions": […]})', "code")], "green")
+    d.arrow([(500, 288), (352, 288)], kind="green")
+    d.arrow([(180, 288), (75, 288), (75, 88)], kind="blue")
+    d.text(85, 205, "same thread_id:", "small", "start")
+    d.text(85, 223, "carries on from", "small", "start")
+    d.text(85, 241, "where it paused", "small", "start")
+    return d.render()
+
+
 # ------------------------------------------------------------------ Course map
 @diagram
 def map_agent():
     d = D("map-agent", 720, 345, "The building blocks of an agent",
           "Every session adds one building block. Together they make an agent: a model that can think, act, look things up and remember.")
-    d.box(270, 130, 180, 70, ["AI Agent", ("Sessions 1–11", "small")], "blue")
+    d.box(270, 130, 180, 70, ["AI Agent", ("Sessions 1–13", "small")], "blue")
     parts = [(30, 20, "The model", "Sessions 4–5", "amber"), (270, 20, "Tools", "Sessions 6, 11", "green"),
              (510, 20, "Knowledge (RAG)", "Session 7", "purple"), (30, 245, "Memory", "Session 10", "green"),
              (270, 245, "Typed output", "Session 9", "amber"), (510, 245, "Speed (async)", "Session 8", "purple")]

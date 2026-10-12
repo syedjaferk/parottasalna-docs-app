@@ -21,6 +21,8 @@ Building an agent is like building a robot helper. It needs a **brain** (the AI 
 | Speed (async) | doing many slow things at the same time | [8](sessions/08-async.md) |
 | Typed output | answers your program can trust and use | [9](sessions/09-data-validation.md) |
 | Memory | remembering the conversation and the user | [10](sessions/10-memory.md) |
+| Workflows (LCEL) | snapping steps together, one after another or side by side | [12](sessions/12-lcel.md) |
+| Human approval | a person signs off before risky actions | [13](sessions/13-human-in-the-loop.md) |
 
 ## The full syllabus
 
@@ -64,8 +66,8 @@ The course runs day by day in the order below. Each day builds on the ones befor
 |---|---|---|---|
 | 16 | Function calling and custom tools with LangChain |  | [Session 6](sessions/06-tool-calling.md), [Session 11](sessions/11-tools-and-mcp.md) |
 | 17 | Connecting tools to external APIs and databases |  | [Session 11](sessions/11-tools-and-mcp.md) |
-| 18 | Human-in-the-loop integrations |  |  |
-| 19 | Sequential and parallel workflows (LCEL) |  |  |
+| 18 | Human-in-the-loop integrations | ✅ | [Session 13](sessions/13-human-in-the-loop.md) |
+| 19 | Sequential and parallel workflows (LCEL) | ✅ | [Session 12](sessions/12-lcel.md) |
 | 20 | Conditional workflows and branching logic |  |  |
 
 ### Part 5 · Memory and context

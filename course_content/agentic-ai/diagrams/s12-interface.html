@@ -1,0 +1,54 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="s12-interface-t s12-interface-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-interface-t">invoke, batch and stream</title>
+<desc id="s12-interface-d">invoke: one in, one out. batch: many inputs at the same time. stream: the answer arrives piece by piece.</desc>
+<defs><marker id="s12-interface-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-interface-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-interface-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-interface-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="70" y="50" text-anchor="middle" dominant-baseline="middle" class="code">invoke</text>
+<rect x="150" y="30" width="170" height="40" rx="10" class="blue"/>
+<text x="235.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="small">&quot;What is a parotta?&quot;</text>
+<rect x="360" y="30" width="100" height="40" rx="10" class="amber"/>
+<text x="410.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">model</text>
+<rect x="500" y="30" width="210" height="40" rx="10" class="green"/>
+<text x="605.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="small">one AIMessage</text>
+<path d="M320,50 L358,50" class="arrow" marker-end="url(#s12-interface-h)"/>
+<path d="M460,50 L498,50" class="arrow" marker-end="url(#s12-interface-h)"/>
+<text x="70" y="135" text-anchor="middle" dominant-baseline="middle" class="code">batch</text>
+<rect x="150" y="100" width="170" height="21" rx="6" class="blue"/>
+<text x="235.0" y="110.5" text-anchor="middle" dominant-baseline="middle" class="small">Tamil Nadu?</text>
+<path d="M320,110 L358,135" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="500" y="100" width="210" height="21" rx="6" class="green"/>
+<text x="605.0" y="110.5" text-anchor="middle" dominant-baseline="middle" class="small">Chennai</text>
+<path d="M460,135 L498,110" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="150" y="125" width="170" height="21" rx="6" class="blue"/>
+<text x="235.0" y="135.5" text-anchor="middle" dominant-baseline="middle" class="small">Karnataka?</text>
+<path d="M320,135 L358,135" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="500" y="125" width="210" height="21" rx="6" class="green"/>
+<text x="605.0" y="135.5" text-anchor="middle" dominant-baseline="middle" class="small">Bengaluru</text>
+<path d="M460,135 L498,135" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="150" y="150" width="170" height="21" rx="6" class="blue"/>
+<text x="235.0" y="160.5" text-anchor="middle" dominant-baseline="middle" class="small">Kerala?</text>
+<path d="M320,160 L358,135" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="500" y="150" width="210" height="21" rx="6" class="green"/>
+<text x="605.0" y="160.5" text-anchor="middle" dominant-baseline="middle" class="small">Thiruvananthapuram</text>
+<path d="M460,135 L498,160" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="360" y="105" width="100" height="60" rx="10" class="amber"/>
+<text x="410.0" y="125.0" text-anchor="middle" dominant-baseline="middle">model</text>
+<text x="410.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">all at once</text>
+<text x="70" y="225" text-anchor="middle" dominant-baseline="middle" class="code">stream</text>
+<rect x="150" y="205" width="170" height="40" rx="10" class="blue"/>
+<text x="235.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">&quot;Count 1 to 10&quot;</text>
+<rect x="360" y="205" width="100" height="40" rx="10" class="amber"/>
+<text x="410.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="bold">model</text>
+<path d="M320,225 L358,225" class="arrow" marker-end="url(#s12-interface-h)"/>
+<path d="M460,225 L498,225" class="arrow" marker-end="url(#s12-interface-h)"/>
+<rect x="500" y="208" width="50" height="34" rx="6" class="green"/>
+<text x="525.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">one,</text>
+<rect x="556" y="208" width="50" height="34" rx="6" class="green"/>
+<text x="581.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">two,</text>
+<rect x="612" y="208" width="50" height="34" rx="6" class="green"/>
+<text x="637.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">three,</text>
+<text x="690" y="225" text-anchor="middle" dominant-baseline="middle" class="bold">…</text>
+<text x="360" y="275" text-anchor="middle" dominant-baseline="middle" class="small">ainvoke · abatch · astream do the same with await (Session 8)</text>
+</svg>
+<figcaption>invoke: one in, one out. batch: many inputs at the same time. stream: the answer arrives piece by piece.</figcaption>
+</figure>
