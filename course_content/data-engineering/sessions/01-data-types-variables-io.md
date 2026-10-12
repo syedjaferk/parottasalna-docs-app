@@ -1,5 +1,16 @@
 # Session 1 · Data types, variables and I/O
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube.com/embed/sHWDumBI03M"
+  title="Session 1: Introduction to Python Variables, List" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+<br>
+
+**Code :** https://github.com/syedjaferk/e2e_data_engineering.git 
+
 ## The big idea
 
 Almost all data reaches a pipeline as **text**: a line in a CSV file, a field in an API response,
