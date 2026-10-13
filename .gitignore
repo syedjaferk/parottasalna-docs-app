@@ -17,3 +17,6 @@ loadtest/reports/
 
 # Google Drive credentials for resume uploads
 secrets/
+.claude/
+.claude/*
+client_secret.json
