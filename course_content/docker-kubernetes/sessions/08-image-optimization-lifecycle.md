@@ -51,6 +51,16 @@ We built the same FastAPI app four ways and ran `docker images`:
 | `python:3.12-alpine` | **79.2 MB** | Alpine Linux: **musl** libc and BusyBox |
 | `distroless/python3-debian12` | **68.4 MB** | no shell, no package manager: only Python and your files |
 
+To reproduce this, build each Dockerfile from the class files (`08-image-optimization` folder) and compare:
+
+```bash
+docker build -f Dockerfile.fat        -t kube-demo-opt:fat .
+docker build -f Dockerfile.slim       -t kube-demo-opt:slim .
+docker build -f Dockerfile.alpine     -t kube-demo-opt:alpine .
+docker build -f Dockerfile.distroless -t kube-demo-opt:distroless .
+docker images kube-demo-opt
+```
+
 How to choose:
 
 | | **slim** | **alpine** | **distroless** |
@@ -176,6 +186,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 docker build -f Dockerfile.multistage -t kube-demo-opt:multistage .
 docker build -f Dockerfile.multistage --target builder -t kube-demo-opt:builder .   # stop after stage 1
 docker images kube-demo-opt
+docker run --rm kube-demo-opt:builder which gcc                  # the builder has a compiler
 docker run --rm kube-demo-opt:multistage sh -c 'which gcc make || echo "no gcc, no make"; id -un'
 ```
 
@@ -258,7 +269,22 @@ This is why signals matter in containers ([Chapter 2](02-linux-prerequisites.md)
    **PID 1 no default action**, so a PID 1 with no SIGTERM handler simply **ignores** the signal.
 
 We proved it. We started the same app in two containers, started a 5-second request
-(`/slow?seconds=5`), and ran `docker stop` one second later:
+(`/slow?seconds=5`), and ran `docker stop` one second later. Try it yourself, once for each Dockerfile
+(`kube-demo-opt:multistage` is the exec form, `kube-demo-opt:shellform` the shell form):
+
+```bash
+docker build -f Dockerfile.shellform -t kube-demo-opt:shellform .
+
+docker run -d --name web-bad -p 8001:8000 kube-demo-opt:shellform
+docker exec web-bad cat /proc/1/cmdline | tr '\0' ' '      # who is PID 1?
+curl "localhost:8001/slow?seconds=5" &                      # a request that is still running
+time docker stop web-bad                                    # how long did the stop take?
+docker inspect -f '{{.State.ExitCode}}' web-bad             # 137 means killed
+docker logs web-bad                                         # is there a "shutdown" line?
+docker rm web-bad
+```
+
+Repeat with `docker run -d --name web-good -p 8000:8000 kube-demo-opt:multistage` and compare.
 
 | Dockerfile | PID 1 (from `/proc/1/cmdline`) | `docker stop` took | Exit code | Shutdown hook ran? |
 |---|---|---|---|---|
@@ -272,7 +298,7 @@ deploy of that app would be 10 s slower, with no cleanup at all.
 :::{important}
 **Rule:** write `CMD` and `ENTRYPOINT` in the **exec form** (a JSON list), and make sure the app
 handles SIGTERM. Web servers like Uvicorn and Gunicorn already do. If you can't change the app, run
-it with `docker run --init`: a tiny init program (`tini`, shown as `docker-init`) becomes PID 1,
+it with `docker run --init kube-demo-opt:shellform`: a tiny init program (`tini`, shown as `docker-init`) becomes PID 1,
 forwards the signal to your app and cleans up zombie processes.
 :::
 
@@ -334,7 +360,17 @@ PID 1.
 :::{warning}
 **The whole shutdown must fit inside the grace period.** If a request takes 20 s but Docker waits 10 s,
 SIGKILL arrives mid-request. Either shorten the work, raise the timeout (`docker stop -t 30`), or
-both. Uvicorn can also be told how long to wait with `--timeout-graceful-shutdown 8`: set it a
+both:
+
+```bash
+docker run -d --name web-slow -p 8002:8000 --stop-timeout 30 kube-demo-opt:multistage
+curl "localhost:8002/slow?seconds=15" &
+docker stop web-slow           # now waits up to 30 s, so the 15 s request finishes
+# Or, for a container started without --stop-timeout, set it on the stop command:
+#   docker stop -t 30 web-slow
+```
+
+Uvicorn can also be told how long to wait with `--timeout-graceful-shutdown 8`: set it a
 little **below** the Docker timeout, so uvicorn gives up cleanly before Docker kills it.
 :::
 
@@ -455,6 +491,13 @@ lifecycle diagram in [Chapter 4](04-docker-commands.md).
 
 8. Add a second item to the lifespan: a pretend database connection that you open at startup and close
    at shutdown. Prove from `docker logs` that it closed.
+
+## Clean up
+
+```bash
+docker rm -f web-bad web-good web-init web-slow 2>/dev/null
+docker rmi $(docker images -q kube-demo-opt)       # remove the demo images
+```
 
 ## Class files
 
