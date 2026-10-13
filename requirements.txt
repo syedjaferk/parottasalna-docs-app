@@ -17,4 +17,5 @@ daphne>=4.1,<5           # ASGI server for /ws/ (runs as the "ws" service)
 segno>=1.6,<2            # QR codes for classroom polls (pure Python, SVG output)
 psycopg[binary]>=3.2
 google-auth>=2.30,<3      # resume uploads to Google Drive (resumes/drive.py)
+google-auth-oauthlib>=1.2,<2   # only for: manage.py drive_authorize
 requests>=2.32,<3

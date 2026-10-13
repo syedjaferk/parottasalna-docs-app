@@ -117,10 +117,19 @@ anything suspicious is **held** until an admin releases it (Panel → "Resume re
 
 Setup (`.env`):
 
-- `GDRIVE_CREDENTIALS_FILE`: a service-account key for a folder on a **shared drive** (add the service
-  account as a member), or an OAuth `authorized_user` token. In Docker put it in `./secrets/`, which is
-  mounted at `/app/secrets`.
-- `RESUME_DRIVE_FOLDER_ID`: the folder's ID (the last part of its Drive URL).
+- `GDRIVE_CREDENTIALS_FILE` and `RESUME_DRIVE_FOLDER_ID`: the simplest way is your own Google account.
+  In Google Cloud Console (the project with the sign-in client), enable the **Google Drive API** and create
+  an OAuth client of type **Desktop app**; download its JSON. Then, on a computer with a browser:
+
+  ```bash
+  python manage.py drive_authorize --client-secrets client_secret.json --token secrets/drive-token.json
+  ```
+
+  It signs you in, saves the token and creates a "Resume reviews" folder, then prints both `.env` lines.
+  The token only reaches files this app created. Copy it to the server's `./secrets/` (mounted at
+  `/app/secrets`); the worker can use the same file. The OAuth consent screen must be **In production**
+  (or Internal on Workspace): tokens from a "Testing" app stop working after 7 days.
+  Alternatively, use a service-account key with a folder on a shared drive.
 - `ATS_WORKER_TOKEN`: a long random string. The worker sends it as `Authorization: Bearer <token>`.
 - `RESUME_RETENTION_DAYS` (default 7): PDFs are deleted from Drive this many days after the report is
   emailed (or after the review, if the email never went out).

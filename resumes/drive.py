@@ -1,10 +1,12 @@
 """Google Drive storage for uploaded resumes.
 
-The portal only creates files in one folder and later deletes them (scope drive.file); the review worker
-downloads them with its own credentials. Credentials come from GDRIVE_CREDENTIALS_FILE, either:
+The portal only creates files in one folder and later deletes them (scope drive.file). Credentials come
+from GDRIVE_CREDENTIALS_FILE, either:
+  - an OAuth token for a normal Google account, made with  manage.py drive_authorize  (simplest; works with
+    a personal Gmail too). drive.file only reaches files and folders this app created, so that command also
+    creates the folder. The worker can use the same token file to download.
   - a service account key: put the folder on a *shared drive* and add the service account as a member
-    (service accounts have no storage of their own, so uploads to a My Drive folder fail), or
-  - an OAuth "authorized_user" token (like the worker's token.json) for a normal Drive account.
+    (service accounts have no storage of their own, so uploads to a My Drive folder fail).
 """
 import json
 import logging
@@ -78,6 +80,15 @@ def upload_pdf(data, name, tracking_id):
     )
     if resp.status_code != 200:
         raise DriveError(f"Drive upload failed: HTTP {resp.status_code} {resp.text[:300]}")
+    return resp.json()["id"]
+
+
+def create_folder(name, session):
+    """Create a folder in My Drive with the given authorised session. Returns its ID."""
+    resp = session.post(FILES_URL, params={"fields": "id"}, timeout=TIMEOUT,
+                        json={"name": name, "mimeType": "application/vnd.google-apps.folder"})
+    if resp.status_code != 200:
+        raise DriveError(f"Creating the folder failed: HTTP {resp.status_code} {resp.text[:300]}")
     return resp.json()["id"]
 
 

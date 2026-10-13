@@ -317,3 +317,30 @@ class EmailTests(TestCase):
         old = make_review(self.user, status="done", completed_at=long_ago, mailed_at=timezone.now() - timedelta(days=8))
         self.assertEqual(list(services.expired_files()), [old])
         self.assertNotIn(recent, services.expired_files())
+
+
+class DriveAuthorizeTests(TestCase):
+    def test_saves_token_and_creates_folder(self):
+        import tempfile
+        from pathlib import Path
+        tmp = Path(tempfile.mkdtemp())
+        secrets_file = tmp / "client.json"
+        secrets_file.write_text("{}")
+        creds = mock.Mock(to_json=mock.Mock(return_value='{"refresh_token": "r"}'))
+        flow = mock.Mock(run_local_server=mock.Mock(return_value=creds))
+        out = StringIO()
+        with mock.patch("google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file", return_value=flow) as make, \
+                mock.patch("resumes.drive.create_folder", return_value="folder123") as create:
+            call_command("drive_authorize", client_secrets=secrets_file, token=tmp / "s" / "tok.json", stdout=out)
+        self.assertEqual(make.call_args.args[1], drive.SCOPES)          # drive.file only
+        self.assertEqual(flow.run_local_server.call_args.kwargs["prompt"], "consent")
+        token = tmp / "s" / "tok.json"
+        self.assertEqual(token.read_text(), '{"refresh_token": "r"}')
+        self.assertEqual(token.stat().st_mode & 0o777, 0o600)
+        self.assertEqual(create.call_args.args[0], "Resume reviews")
+        self.assertIn("RESUME_DRIVE_FOLDER_ID=folder123", out.getvalue())
+
+    def test_missing_client_file(self):
+        from django.core.management.base import CommandError
+        with self.assertRaises(CommandError):
+            call_command("drive_authorize", client_secrets="nope.json", stdout=StringIO())
