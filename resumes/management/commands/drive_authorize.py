@@ -6,6 +6,7 @@ client of type "Desktop app" (Google Cloud Console → APIs & Services → Crede
 
     python manage.py drive_authorize --client-secrets client_secret.json --token secrets/drive-token.json
 """
+import json
 from pathlib import Path
 
 from django.core.management.base import BaseCommand, CommandError
@@ -37,7 +38,8 @@ class Command(BaseCommand):
         # offline + consent: always return a refresh token, so the server can keep working on its own
         creds = flow.run_local_server(port=0, access_type="offline", prompt="consent")
         token.parent.mkdir(parents=True, exist_ok=True)
-        token.write_text(creds.to_json())
+        # to_json() leaves out "type", which google.auth.load_credentials_from_file needs
+        token.write_text(json.dumps({**json.loads(creds.to_json()), "type": "authorized_user"}, indent=1))
         token.chmod(0o600)
         self.stdout.write(self.style.SUCCESS(f"Saved the token to {token}"))
         if no_folder:

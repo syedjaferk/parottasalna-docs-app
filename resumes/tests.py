@@ -335,7 +335,8 @@ class DriveAuthorizeTests(TestCase):
         self.assertEqual(make.call_args.args[1], drive.SCOPES)          # drive.file only
         self.assertEqual(flow.run_local_server.call_args.kwargs["prompt"], "consent")
         token = tmp / "s" / "tok.json"
-        self.assertEqual(token.read_text(), '{"refresh_token": "r"}')
+        import json
+        self.assertEqual(json.loads(token.read_text()), {"refresh_token": "r", "type": "authorized_user"})
         self.assertEqual(token.stat().st_mode & 0o777, 0o600)
         self.assertEqual(create.call_args.args[0], "Resume reviews")
         self.assertIn("RESUME_DRIVE_FOLDER_ID=folder123", out.getvalue())
