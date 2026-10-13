@@ -1,0 +1,39 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="ch08-graceful-t ch08-graceful-d" xmlns="http://www.w3.org/2000/svg">
+<title id="ch08-graceful-t">A graceful shutdown with Uvicorn and FastAPI</title>
+<desc id="ch08-graceful-d">On SIGTERM, Uvicorn stops accepting new connections, lets in-flight requests finish, then runs your lifespan shutdown code and exits.</desc>
+<defs><marker id="ch08-graceful-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="ch08-graceful-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="ch08-graceful-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="ch08-graceful-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="6" y="40" width="126" height="90" rx="10" class="blue"/>
+<text x="69.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="title">1</text>
+<text x="69.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">SIGTERM</text>
+<text x="69.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">from docker stop</text>
+<rect x="149" y="40" width="126" height="90" rx="10" class="amber"/>
+<text x="212.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="title">2</text>
+<text x="212.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Stop accepting</text>
+<text x="212.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">no new requests</text>
+<path d="M133,85 L147,85" class="arrow" marker-end="url(#ch08-graceful-h)"/>
+<rect x="292" y="40" width="126" height="90" rx="10" class="amber"/>
+<text x="355.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="title">3</text>
+<text x="355.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Drain</text>
+<text x="355.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">in-flight ones finish</text>
+<path d="M276,85 L290,85" class="arrow" marker-end="url(#ch08-graceful-h)"/>
+<rect x="435" y="40" width="126" height="90" rx="10" class="green"/>
+<text x="498.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="title">4</text>
+<text x="498.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Shutdown hook</text>
+<text x="498.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">close DB, flush logs</text>
+<path d="M419,85 L433,85" class="arrow" marker-end="url(#ch08-graceful-h)"/>
+<rect x="578" y="40" width="126" height="90" rx="10" class="green"/>
+<text x="641.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="title">5</text>
+<text x="641.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Exit 0</text>
+<text x="641.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">container stops</text>
+<path d="M562,85 L576,85" class="arrow" marker-end="url(#ch08-graceful-h)"/>
+<rect x="10" y="160" width="340" height="60" rx="10" class="red"/>
+<text x="180.0" y="180.0" text-anchor="middle" dominant-baseline="middle">New requests during steps 2-5</text>
+<text x="180.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">refused: load balancer sends them elsewhere</text>
+<rect x="370" y="160" width="340" height="60" rx="10" class="green"/>
+<text x="540.0" y="180.0" text-anchor="middle" dominant-baseline="middle">Requests already running</text>
+<text x="540.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">complete normally, the client gets its answer</text>
+<text x="360" y="238" text-anchor="middle" dominant-baseline="middle" class="small">All of it must fit inside the stop timeout, or Docker sends SIGKILL (docker stop -t 30 gives more time)</text>
+</svg>
+<figcaption>On SIGTERM, Uvicorn stops accepting new connections, lets in-flight requests finish, then runs your lifespan shutdown code and exits.</figcaption>
+</figure>

@@ -451,6 +451,97 @@ def net_modes():
     return d.render()
 
 
+# ------------------------------------------------------------------ Chapter 8: optimization & lifecycle
+@diagram
+def ch08_base_images():
+    d = D("ch08-base-images", 720, 270, "The same app on four base images",
+          "Measured with docker images: the same FastAPI app. The full image is about 8 times the size of slim; alpine and distroless are smaller still.")
+    rows = [("python:3.12", 1140, "1.14 GB", "red"), ("python:3.12-slim", 142, "142 MB", "amber"),
+            ("python:3.12-alpine", 79.2, "79 MB", "green"), ("distroless (3.11)", 68.4, "68 MB", "green")]
+    x0, full = 190, 450
+    for i, (name, mb, label, kind) in enumerate(rows):
+        y = 25 + i * 52
+        d.text(x0 - 10, y + 18, name, "code", "end")
+        w = max(full * mb / 1140, 6)
+        d.rect(x0, y, w, 36, kind, rx=6)
+        d.text(x0 + w + 8, y + 18, label, "bold", "start")
+    d.text(360, 245, "Bar length is proportional to image size", "small")
+    return d.render()
+
+
+@diagram
+def ch08_multistage():
+    d = D("ch08-multistage", 720, 270, "A multi-stage build",
+          "Stage 1 has the build tools and does the work. Stage 2 starts fresh and copies in only the finished result. Only the last stage becomes the image.")
+    d.box(20, 20, 280, 40, ("Stage 1 · builder  (FROM … AS builder)", "bold"), "amber")
+    d.box(20, 66, 280, 112, ["pip, compilers, headers", "downloaded wheels, caches", ("RUN pip install …", "code"), ("big, and never shipped", "small")], "box")
+    d.box(420, 20, 280, 40, ("Stage 2 · runtime  (FROM … AS runtime)", "bold"), "green")
+    d.box(420, 66, 280, 112, ["clean slim base image", ("COPY --from=builder …", "code"), ("your code · non-root USER", "small"), ("small, and this is the image", "small")], "box")
+    d.arrow([(300, 122), (418, 122)], kind="green", label="only the result", lx=359, ly=106)
+    d.box(20, 196, 280, 40, ("thrown away after the build", "small"), "red")
+    d.arrow([(160, 178), (160, 194)], kind="red")
+    d.box(420, 196, 280, 40, ("docker run / push / deploy this", "small"), "green")
+    d.arrow([(560, 178), (560, 194)], kind="green")
+    d.text(360, 256, "docker build --target builder  stops after stage 1, so you can inspect it", "small")
+    return d.render()
+
+
+@diagram
+def ch08_pid1():
+    d = D("ch08-pid1", 720, 260, "Who is PID 1 in the container?",
+          "docker stop sends SIGTERM to PID 1 only. If PID 1 is a shell, or an app with no handler, the signal is lost and Docker falls back to SIGKILL.")
+    cols = [("Shell form", "red", "CMD uvicorn main:app", ["PID 1  /bin/sh -c", "└ PID 7  uvicorn"], "SIGTERM stops at the shell"),
+            ("Exec form", "green", 'CMD ["uvicorn", …]', ["PID 1  uvicorn", "(has a SIGTERM handler)"], "uvicorn hears SIGTERM, shuts down"),
+            ("Exec form + --init", "blue", "docker run --init", ["PID 1  docker-init (tini)", "└ PID 7  your app"], "tini forwards the signal")]
+    for i, (name, kind, cmd, lines, verdict) in enumerate(cols):
+        x = 15 + i * 238
+        d.box(x, 15, 222, 36, (name, "bold"), kind)
+        d.box(x, 59, 222, 34, (cmd, "code"), "box")
+        d.box(x, 101, 222, 62, [(l, "code") for l in lines], "box")
+        d.arrow([(x + 111, 163), (x + 111, 183)], kind=kind if kind != "blue" else "blue")
+        d.box(x, 185, 222, 50, (verdict, "small"), kind)
+    d.text(360, 250, "Rule: exec form for CMD / ENTRYPOINT, and make sure the app handles SIGTERM", "small")
+    return d.render()
+
+
+@diagram
+def ch08_stop_timeline():
+    d = D("ch08-stop-timeline", 720, 250, "What docker stop does, second by second",
+          "SIGTERM is a polite request. Docker waits (10 seconds by default), then sends SIGKILL, which cannot be caught.")
+    d.line(60, 118, 690, 118)
+    d.circle(60, 118, 7, "blue")
+    d.circle(560, 118, 7, "red")
+    d.box(10, 20, 170, 56, [("docker stop", "code"), ("SIGTERM → PID 1", "small")], "blue")
+    d.arrow([(60, 76), (60, 109)], kind="blue")
+    d.box(450, 20, 230, 56, [("SIGKILL", "code"), ("cannot be caught or ignored", "small")], "red")
+    d.arrow([(560, 76), (560, 109)], kind="red")
+    d.text(60, 140, "t = 0", "small")
+    d.text(560, 140, "t = 10 s", "small")
+    d.rect(80, 111, 460, 14, "green", rx=4)
+    d.text(310, 118, "grace period: the app finishes its work and exits", "small")
+    d.box(100, 166, 380, 66, [("App exits inside the grace period", "bold"), ("exit code 0 (or 143)", "code"), ("clean shutdown, cleanup ran", "small")], "green")
+    d.box(500, 166, 190, 66, [("Still running: killed", "bold"), ("exit code 137", "code"), ("no cleanup ran", "small")], "red")
+    return d.render()
+
+
+@diagram
+def ch08_graceful():
+    d = D("ch08-graceful", 720, 250, "A graceful shutdown with Uvicorn and FastAPI",
+          "On SIGTERM, Uvicorn stops accepting new connections, lets in-flight requests finish, then runs your lifespan shutdown code and exits.")
+    steps = [("1", "SIGTERM", "from docker stop", "blue"), ("2", "Stop accepting", "no new requests", "amber"),
+             ("3", "Drain", "in-flight ones finish", "amber"), ("4", "Shutdown hook", "close DB, flush logs", "green"),
+             ("5", "Exit 0", "container stops", "green")]
+    for i, (n, t, sub, k) in enumerate(steps):
+        x = 6 + i * 143
+        d.box(x, 40, 126, 90, [(n, "title"), (t, "bold"), (sub, "small")], k)
+        if i:
+            d.arrow([(x - 16, 85), (x - 2, 85)])
+    d.box(10, 160, 340, 60, ["New requests during steps 2-5", ("refused: load balancer sends them elsewhere", "small")], "red")
+    d.box(370, 160, 340, 60, ["Requests already running", ("complete normally, the client gets its answer", "small")], "green")
+    d.text(360, 238, "All of it must fit inside the stop timeout, or Docker sends SIGKILL (docker stop -t 30 gives more time)", "small")
+    return d.render()
+
+
 if __name__ == "__main__":
     for fn in ALL:
         fn()

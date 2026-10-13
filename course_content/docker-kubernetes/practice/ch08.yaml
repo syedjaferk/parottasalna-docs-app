@@ -1,0 +1,262 @@
+chapter: sessions/08-image-optimization-lifecycle
+
+quizzes:
+  - title: "Chapter 8 · Image optimization"
+    description: Why image size matters, base images, Dive, Trivy and multi-stage builds.
+    questions:
+      - text: Which is a real benefit of a smaller Docker image?
+        choices: |
+          *Faster pulls and deploys, less disk and bandwidth, and fewer packages for attackers to exploit
+          The container uses less CPU while it runs
+          The app code runs faster
+          It removes the need for a Dockerfile
+        explanation: "A smaller image mostly helps before the app starts (pull, push, scale-up) and shrinks the attack surface. It doesn't make your code faster."
+
+      - text: What is the main trade-off of an Alpine-based image?
+        choices: |
+          It is much larger than Debian
+          *It uses musl libc instead of glibc, so some compiled packages need extra work or behave differently
+          It cannot run Python
+          It has no shell
+        explanation: "Alpine is tiny because it uses musl and BusyBox. Prebuilt glibc wheels may not install and some software behaves slightly differently. Many teams prefer -slim for that reason."
+
+      - text: Which base image has no shell and no package manager?
+        choices: |
+          python:3.12
+          python:3.12-slim
+          python:3.12-alpine
+          *gcr.io/distroless/python3
+        explanation: "Distroless images contain only your language runtime and its dependencies. That shrinks the attack surface, but you can't docker exec into a shell to debug."
+
+      - text: What does the Debian-based `-slim` variant remove compared with the full image?
+        choices: |
+          *Compilers, headers and many extra tools, but it keeps glibc and apt
+          The Python interpreter
+          glibc
+          The package manager and every library
+        explanation: "-slim is Debian without the extras. It keeps glibc, so most pip wheels just work, which makes it a safe default."
+
+      - text: What is the tool Dive used for?
+        choices: |
+          Scanning images for CVEs
+          Pushing images to a registry
+          *Exploring an image layer by layer, to see what each layer added and how much space is wasted
+          Running containers in the background
+        explanation: "Dive shows every layer, the files it changed, an image efficiency score and the wasted space (for example files added in one layer and deleted in the next)."
+
+      - text: What is the tool Trivy used for?
+        choices: |
+          Exploring image layers
+          *Scanning an image for known vulnerabilities (CVEs) in OS packages and language dependencies
+          Building multi-stage images
+          Monitoring container CPU
+        explanation: "`trivy image <name>` lists known CVEs with their severity (LOW to CRITICAL) and the version that fixes them."
+
+      - text: A Trivy scan shows many HIGH findings in the base OS packages. What is the best first step?
+        choices: |
+          Ignore them, since they are only in the base image
+          *Move to a newer, smaller base (slim or distroless) and rebuild, then re-scan
+          Delete the scanner
+          Add more packages
+        explanation: "Fewer packages mean fewer CVEs. A fresh rebuild on a newer base often clears many of them. Re-scan to confirm."
+
+      - text: In a multi-stage Dockerfile, which stage becomes the final image?
+        choices: |
+          The first stage
+          *The last stage (or the one chosen with --target)
+          Every stage, merged
+          The stage with the most layers
+        explanation: "Only the last stage is tagged as the image. Earlier stages are used for building and then thrown away."
+
+      - text: What does `COPY --from=builder /opt/venv /opt/venv` do?
+        choices: |
+          Downloads the venv from a registry
+          *Copies a folder out of the stage named builder into the current stage
+          Mounts the builder container as a volume
+          Runs the builder stage again
+        explanation: "`--from` takes a stage name (or number) and copies files out of it. This is how the result crosses from the build stage to the runtime stage."
+
+      - text: Why separate build dependencies from the runtime image?
+        choices: |
+          *Compilers, headers and pip caches are only needed to build, so keeping them out makes the image smaller and safer
+          Docker refuses to run an image with a compiler
+          It makes the build faster
+          Build tools cannot be installed in the final stage
+        explanation: "Anything in the final image can be pulled, scanned and attacked. Ship only what the app needs at runtime."
+
+      - text: What does `docker build --target builder .` do?
+        choices: |
+          *Builds only up to the stage named builder, so you can inspect or test it
+          Builds only the last stage
+          Deletes the builder stage
+          Pushes the builder stage
+        explanation: "--target stops at the named stage. It is handy for debugging a build stage or running tests in it."
+
+      - text: Which line of a Dockerfile makes the container run as a non-root user?
+        choices: |
+          RUN useradd appuser
+          *USER appuser
+          WORKDIR appuser
+          ENV USER=appuser
+        explanation: "`RUN useradd` only creates the user. `USER appuser` is the instruction that switches to it for the rest of the build and for the running container."
+
+      - text: Which Dockerfile order gives the best layer caching?
+        choices: |
+          *Copy requirements.txt, install packages, then copy your code
+          Copy all the code, then install packages
+          Install packages, then copy requirements.txt
+          Order never matters
+        explanation: "Dependencies change rarely and code changes often, so install dependencies first. The slow install layer stays cached when only code changes."
+
+  - title: "Chapter 8 · Container lifecycle and shutdown"
+    description: PID 1, signals, SIGTERM vs SIGKILL, and graceful shutdown with FastAPI and Uvicorn.
+    questions:
+      - text: What does `docker stop` send first?
+        choices: |
+          SIGKILL to every process
+          *SIGTERM to PID 1 inside the container
+          SIGINT to the Docker daemon
+          Nothing, it just removes the container
+        explanation: "docker stop sends SIGTERM (a polite request) to PID 1, waits, and only then sends SIGKILL."
+
+      - text: How long does `docker stop` wait before sending SIGKILL, by default?
+        choices: |
+          1 second
+          *10 seconds
+          30 seconds
+          It never sends SIGKILL
+        explanation: "The default grace period is 10 seconds. Change it with `docker stop -t 30` or `docker run --stop-timeout 30`."
+
+      - text: What is special about SIGKILL?
+        choices: |
+          *It cannot be caught, blocked or ignored, so the process is ended immediately with no cleanup
+          It is slower than SIGTERM
+          It only works for root
+          It asks the app to save its state
+        explanation: "SIGKILL is handled by the kernel, not the app. Nothing runs after it: open files, connections and in-flight work are cut off."
+
+      - text: A container is stopped with SIGKILL after the grace period. What exit code do you see?
+        choices: |
+          0
+          1
+          *137 (128 + 9)
+          143
+        explanation: "Exit codes above 128 mean 'killed by a signal': 128 + 9 (SIGKILL) = 137. A process stopped by SIGTERM shows 143 (128 + 15)."
+
+      - text: Why is PID 1 inside a container special?
+        choices: |
+          It always runs as root
+          *The kernel gives it no default signal actions, so a PID 1 with no SIGTERM handler simply ignores SIGTERM
+          It cannot be stopped
+          It is the Docker daemon
+        explanation: "For other processes SIGTERM terminates by default. PID 1 must install its own handler, otherwise the signal does nothing."
+
+      - text: With `CMD uvicorn main:app` (shell form), what is PID 1?
+        choices: |
+          uvicorn
+          */bin/sh -c, with uvicorn as its child
+          docker-init
+          python
+        explanation: "The shell form is wrapped in /bin/sh -c. The shell is PID 1 and doesn't forward SIGTERM to uvicorn, so docker stop waits the full timeout and then kills."
+
+      - text: Which form makes uvicorn receive SIGTERM directly?
+        choices: |
+          CMD uvicorn main:app --host 0.0.0.0
+          CMD "uvicorn main:app"
+          *CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
+          RUN uvicorn main:app
+        explanation: "The exec form (a JSON list) runs the program itself as PID 1, with no shell in between."
+
+      - text: What does `docker run --init` do?
+        choices: |
+          *Makes a tiny init (tini) PID 1 that forwards signals to your app and reaps zombie processes
+          Runs the container's init scripts twice
+          Starts systemd inside the container
+          Initialises a volume
+        explanation: "tini sits at PID 1, passes SIGTERM on to your app and cleans up zombies. It is a safe fix when you can't change the app."
+
+      - text: What is a graceful shutdown?
+        choices: |
+          Stopping with SIGKILL as fast as possible
+          *Stop accepting new work, finish what is in flight, release resources, then exit
+          Restarting the container
+          Pausing the container with docker pause
+        explanation: "The goal is that no request is cut off half-way and no connection or file is left dangling."
+
+      - text: What does Uvicorn do on SIGTERM?
+        choices: |
+          *Stops accepting new connections, lets in-flight requests finish, runs the app's lifespan shutdown code, and exits
+          Exits immediately
+          Ignores it
+          Restarts the worker
+        explanation: "Uvicorn handles SIGTERM and SIGINT for you. Your job is to put cleanup code in the lifespan shutdown section."
+
+      - text: In FastAPI, where do you close database connections on shutdown?
+        choices: |
+          *In the part of the lifespan function after `yield`
+          In the route that handles /
+          In the Dockerfile
+          Nowhere, Python does it
+        explanation: "Code before `yield` runs at startup; code after `yield` runs at shutdown."
+
+      - text: A request takes 20 seconds, but your container's stop timeout is 10 seconds. What happens on docker stop?
+        choices: |
+          The request always finishes
+          *SIGKILL arrives at 10 seconds and the request is cut off. Raise the timeout (docker stop -t 30) or shorten the work
+          Docker waits for ever
+          Uvicorn extends the timeout itself
+        explanation: "The grace period belongs to Docker, not Uvicorn. The whole shutdown must fit inside it."
+
+      - text: Which pair of commands lets you SEE how a container stopped?
+        choices: |
+          docker top and docker stats
+          *docker logs (for the shutdown messages) and docker inspect with the .State.ExitCode field
+          docker pause and docker unpause
+          docker images and docker history
+        explanation: "The logs show 'shutdown: done' if your handler ran; the exit code shows 0/143 for a clean stop and 137 for a kill."
+
+decks:
+  - title: "Chapter 8 · Flashcards"
+    cards:
+      - front: Why image size matters
+        back: "Faster pulls, pushes and scale-up; less disk and bandwidth; fewer packages to attack. It does not make the code faster."
+      - front: "python:3.12 (full)"
+        back: "Debian plus compilers and many tools. Biggest, convenient, most CVEs."
+      - front: "python:3.12-slim"
+        back: "Debian without the extras. Keeps glibc, so pip wheels just work. A good default."
+      - front: "python:3.12-alpine"
+        back: "Tiny, uses musl libc and BusyBox. Some compiled packages need extra work."
+      - front: "Distroless"
+        back: "Runtime only: no shell, no package manager. Smallest attack surface; debugging needs another approach."
+      - front: Dive
+        back: "Explore an image layer by layer. Shows what each layer added, the efficiency score and wasted space."
+      - front: Trivy
+        back: "Scans an image for known CVEs in OS packages and language dependencies, with severities and fix versions."
+      - front: "Multi-stage build"
+        back: "Several FROM stages: build in one, copy only the result into a clean final stage. Only the last stage is the image."
+      - front: "COPY --from=<stage>"
+        back: "Copies files out of an earlier stage into the current one."
+      - front: "--target"
+        back: "docker build --target builder stops at that stage. Useful for debugging or tests."
+      - front: "USER appuser"
+        back: "Runs the container as a non-root user. RUN useradd only creates the user."
+      - front: "Cache order"
+        back: "requirements first, install, then your code: the slow install layer stays cached when only code changes."
+      - front: PID 1
+        back: "The first process in the container. It receives docker stop's signal and gets no default signal actions."
+      - front: SIGTERM (15)
+        back: "A polite request to stop. The app can catch it and clean up. docker stop sends it first."
+      - front: SIGKILL (9)
+        back: "Cannot be caught or ignored. The kernel ends the process at once, with no cleanup."
+      - front: "Exit code 137 / 143"
+        back: "137 = 128 + 9 (killed by SIGKILL). 143 = 128 + 15 (stopped by SIGTERM)."
+      - front: "docker stop timeout"
+        back: "10 seconds by default. Change with docker stop -t N or --stop-timeout N."
+      - front: "Exec form vs shell form"
+        back: "Exec ([\"uvicorn\", ...]) makes your app PID 1. Shell form makes /bin/sh PID 1 and your app never sees SIGTERM."
+      - front: "docker run --init"
+        back: "Adds tini as PID 1: forwards signals to your app and reaps zombies."
+      - front: "Graceful shutdown"
+        back: "Stop accepting new work, finish in-flight work, release resources, exit 0."
+      - front: "FastAPI lifespan"
+        back: "An async context manager: code before yield runs at startup, code after yield runs at shutdown."

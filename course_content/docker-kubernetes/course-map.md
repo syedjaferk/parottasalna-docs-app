@@ -18,6 +18,7 @@ one chapter per episode:
 | 5 | [IP addressing & subnetting](sessions/05-ip-addressing-subnets.md) |
 | 6 | [Docker networking: bridge, host, none & overlay](sessions/06-docker-networking.md) |
 | 7 | [Master the Dockerfile from scratch](sessions/07-dockerfile.md) |
+| 8 | [Image optimization, multi-stage builds & container lifecycle](sessions/08-image-optimization-lifecycle.md) |
 
 ## The full syllabus
 
@@ -41,9 +42,9 @@ one chapter per episode:
 | 7 | [Docker image mechanics: storage drivers, layering, image IDs, digests & immutability](deep-dives/image-mechanics.md) | ✅ |
 | 8 | [Dockerfile fundamentals: FROM, RUN, COPY, ADD, WORKDIR, ENV, CMD vs ENTRYPOINT](sessions/07-dockerfile.md) | ✅ |
 | 9 | [Dockerfile deep dive: exec vs shell form, build context, .dockerignore & layer caching](sessions/07-dockerfile.md) | ✅ |
-| 10 | Image optimization: Alpine vs distroless vs slim, Dive, Trivy scanning | ⏳ |
-| 11 | [Multi-stage builds](sessions/07-dockerfile.md) | 🟡 |
-| 12 | Container lifecycle & signal handling: PID 1, graceful shutdowns with FastAPI/Uvicorn | ⏳ |
+| 10 | [Image optimization: Alpine vs distroless vs slim, Dive, Trivy scanning](sessions/08-image-optimization-lifecycle.md) | ✅ |
+| 11 | [Multi-stage builds](sessions/08-image-optimization-lifecycle.md) | ✅ |
+| 12 | [Container lifecycle & signal handling: PID 1, graceful shutdowns with FastAPI/Uvicorn](sessions/08-image-optimization-lifecycle.md) | ✅ |
 | 13 | Docker networking fundamentals: bridge, host, none, veth pairs & NAT port mapping · [Ch 5](sessions/05-ip-addressing-subnets.md), [Ch 6](sessions/06-docker-networking.md) | ✅ |
 | 14 | [Docker networking deep dive: overlay, macvlan, custom networks & DNS](sessions/06-docker-networking.md) | 🟡 |
 | 15 | Docker volumes & persistence: writable layer vs volumes vs bind mounts vs tmpfs | ⏳ |

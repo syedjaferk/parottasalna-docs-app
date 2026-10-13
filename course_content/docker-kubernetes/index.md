@@ -55,9 +55,10 @@ sessions/06-docker-networking
 
 ```{toctree}
 :maxdepth: 1
-:caption: Building images · Episode 7
+:caption: Building images · Episodes 7–8
 
 sessions/07-dockerfile
+sessions/08-image-optimization-lifecycle
 ```
 
 ```{toctree}
