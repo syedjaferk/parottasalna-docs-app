@@ -20,6 +20,9 @@
     <span class="n">{% if calls is None %}–{% else %}{{ calls|length }}{% endif %}</span>
     <span>upcoming call{{ calls|length|pluralize }}{% if calls_today %} · {{ calls_today }} today{% endif %}</span>
   </a>
+  <a class="panel-stat{% if resumes %} is-hot{% endif %}" href="#resumes">
+    <span class="n">{{ resumes|length }}</span><span>resume review{{ resumes|length|pluralize }} to check</span>
+  </a>
   <a class="panel-stat{% if builds %} is-bad{% endif %}" href="#builds">
     <span class="n">{{ builds|length }}</span><span>course build{{ builds|length|pluralize }} failing</span>
   </a>
@@ -48,6 +51,24 @@
   </article>
   {% empty %}
   <p class="panel-empty">No job posts waiting.</p>
+  {% endfor %}
+</section>
+
+<section class="panel-section" id="resumes">
+  <div class="panel-section-head">
+    <h2>Resume reviews held for checking</h2>
+    <a href="{% url 'admin:resumes_resumereview_changelist' %}?status__exact=held">Release in admin →</a>
+  </div>
+  {% if unsent_emails %}<p class="panel-error">{{ unsent_emails }} finished review{{ unsent_emails|pluralize }} still not emailed after an hour. Check the mailer (listmonk) and the web logs; <code>manage.py send_resume_emails</code> retries.</p>{% endif %}
+  {% for r in resumes %}
+  <article class="panel-row">
+    <div class="panel-row-main">
+      <a href="{{ r.get_absolute_url }}"><strong>{{ r.tracking_id }}</strong></a> <span class="muted">{{ r.email }} · ATS {{ r.ats_score }}</span>
+      <p class="muted small">{{ r.flags|join:" · " }}</p>
+    </div>
+  </article>
+  {% empty %}
+  <p class="panel-empty">No resume reviews waiting.</p>
   {% endfor %}
 </section>
 

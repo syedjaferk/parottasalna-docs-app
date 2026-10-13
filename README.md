@@ -107,6 +107,35 @@ Add a quiz in **Admin → Quizzes**: pick the course, set **Chapter** to the doc
 - Every attempt is stored. Students see their best score; staff see a per-course scoreboard at
   `/courses/<slug>/quizzes/scores/` (CSV download) and every attempt under **Admin → Attempts**.
 
+### Resume review (ATS)
+
+Signed-in users upload a PDF at `/resume-review/`, tick the consent box and get a tracking ID
+(`ATS-7K3Q-9XMP`). The PDF goes straight to Google Drive (kept in memory on the way, never written to
+this server's disk). A worker on our own machine polls the API in `resumes/api.py`, reviews the PDF with
+a local model, and posts the result back. Every result goes through the guardrails in `resumes/results.py`;
+anything suspicious is **held** until an admin releases it (Panel → "Resume reviews held for checking").
+
+Setup (`.env`):
+
+- `GDRIVE_CREDENTIALS_FILE`: a service-account key for a folder on a **shared drive** (add the service
+  account as a member), or an OAuth `authorized_user` token. In Docker put it in `./secrets/`, which is
+  mounted at `/app/secrets`.
+- `RESUME_DRIVE_FOLDER_ID`: the folder's ID (the last part of its Drive URL).
+- `ATS_WORKER_TOKEN`: a long random string. The worker sends it as `Authorization: Bearer <token>`.
+- `RESUME_RETENTION_DAYS` (default 7): PDFs are deleted from Drive this many days after the report is
+  emailed (or after the review, if the email never went out).
+- `MAILER_*`: the report email goes through the separate mailer (listmonk, `../mailer/README.md`). It is
+  sent when a review finishes, or when an admin releases a held one; failures get a "couldn't review" email.
+  Leave these empty and nothing is emailed (reports are still on the site). If the mailer runs on this
+  server, also set `COMPOSE_FILE=docker-compose.yml:docker-compose.mailer.yml` so `web` joins its network.
+
+Cron (the purge daily, email retries every 10 minutes):
+
+```bash
+0 3 * * *     cd /opt/course_portal && docker compose exec -T web python manage.py purge_resumes
+*/10 * * * *  cd /opt/course_portal && docker compose exec -T web python manage.py send_resume_emails
+```
+
 ### Google OAuth client
 
 Google Cloud Console -> APIs & Services -> Credentials -> *Create OAuth client ID* -> Web application.

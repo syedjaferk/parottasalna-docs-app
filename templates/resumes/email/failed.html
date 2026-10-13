@@ -1,0 +1,11 @@
+{% extends "resumes/email/_base.html" %}
+{% block preheader %}We couldn't review the resume you uploaded. Here's what to do.{% endblock %}
+{% block body %}
+<p style="margin:0 0 16px;font-size:16px;">Hi {{ name }},</p>
+<p style="margin:0 0 16px;">We couldn't review the resume you uploaded ({{ review.file_name }}).</p>
+<p style="margin:0 0 24px;padding:14px 16px;background:#fef2f2;border-radius:10px;color:#991b1b;">{{ review.status_note|default:"Something went wrong while reviewing it." }}</p>
+<p style="margin:0 0 24px;text-align:center;">
+  <a href="{{ upload_url }}" style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:8px;">Upload again</a>
+</p>
+<p style="margin:0;color:#5b6b86;font-size:13px;">If it keeps happening, export the PDF again straight from Word, Google Docs or LaTeX (not a scan or a photo).</p>
+{% endblock %}

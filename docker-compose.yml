@@ -43,6 +43,8 @@ services:
       - docs_build:/app/docs_build
       # Blog posts: the Obsidian vault, imported with  docker compose exec web python manage.py import_blog
       - ${BLOG_SOURCE_DIR:-../second-brain}:/app/blog_content:ro
+      # Google Drive credentials for resume uploads (GDRIVE_CREDENTIALS_FILE=/app/secrets/<file>.json)
+      - ./secrets:/app/secrets:ro
     depends_on:
       db:
         condition: service_healthy

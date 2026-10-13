@@ -205,6 +205,7 @@
         <span class="email">{{ user.email|default:user.username }}</span>
         <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
         <a class="pill-link" href="{% url 'job_list' %}">Jobs</a>
+        <a class="pill-link" href="{% url 'resume_upload' %}">Resume review</a>
         <a class="pill-link" href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Q&amp;A</a>
         {% if user.is_staff %}<a class="pill-link" href="{% url 'panel_home' %}" title="Admin panel: things waiting for you">Panel{% if panel_attention %}<span class="badge" aria-label="{{ panel_attention }} waiting">{{ panel_attention }}</span>{% endif %}</a>{% endif %}
         <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
@@ -252,6 +253,7 @@
           <li><a href="{{ brand.DISCUSSIONS_URL }}" target="_blank" rel="noopener">Ask a question <span class="muted">· Q&amp;A forum</span></a></li>
           <li><a href="{{ brand.BOOK_CALL_URL }}" target="_blank" rel="noopener">Book a 1:1 call <span class="muted">· 30 min</span></a></li>
           <li><a href="{% url 'job_list' %}">Jobs board</a></li>
+          <li><a href="{% url 'resume_upload' %}">Resume review <span class="muted">· ATS score</span></a></li>
         </ul>
       </nav>
       <nav aria-label="Follow {{ brand.NAME }}">

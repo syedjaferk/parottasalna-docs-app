@@ -14,3 +14,6 @@ hostinger-kvm1*
 id_*
 backups/
 loadtest/reports/
+
+# Google Drive credentials for resume uploads
+secrets/

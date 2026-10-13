@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "arena",
     "polls",
     "jobs",
+    "resumes",
     "panel",
 ]
 
@@ -159,6 +160,24 @@ SOCIALACCOUNT_STORE_TOKENS = False  # we only sign people in; Google access toke
 
 # Admin panel: upcoming calls from Calendly (personal access token; empty = not connected).
 CALENDLY_TOKEN = os.environ.get("CALENDLY_TOKEN", "").strip()
+
+# --- Resume ATS review (resumes app) --------------------------------------------
+# Uploaded PDFs go straight to this Google Drive folder (see resumes/drive.py for the credentials).
+# Leave either empty and the upload page says the service is unavailable.
+GDRIVE_CREDENTIALS_FILE = os.environ.get("GDRIVE_CREDENTIALS_FILE", "").strip()
+RESUME_DRIVE_FOLDER_ID = os.environ.get("RESUME_DRIVE_FOLDER_ID", "").strip()
+# Shared secret for the review worker on our own machine (resumes/api.py). Empty = API closed.
+ATS_WORKER_TOKEN = os.environ.get("ATS_WORKER_TOKEN", "").strip()
+# Days after a review is finished before its PDF is deleted from Drive (manage.py purge_resumes).
+RESUME_RETENTION_DAYS = int(os.environ.get("RESUME_RETENTION_DAYS", "7"))
+# Email goes through the Parottasalna mailer (listmonk, ../mailer). Leave empty and nothing is emailed;
+# reports are still on the site. MAILER_TEMPLATE_ID is printed by the mailer's setup.sh.
+MAILER_URL = os.environ.get("MAILER_URL", "").strip()
+MAILER_API_USER = os.environ.get("MAILER_API_USER", "").strip()
+MAILER_API_TOKEN = os.environ.get("MAILER_API_TOKEN", "").strip()
+MAILER_TEMPLATE_ID = int(os.environ.get("MAILER_TEMPLATE_ID") or 0)
+# Absolute links in emails.
+SITE_URL = os.environ.get("SITE_URL", "https://learn.parottasalna.com").rstrip("/")
 
 # Shown on the privacy policy as the address for data requests (required for Google verification).
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "")

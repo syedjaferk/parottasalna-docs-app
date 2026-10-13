@@ -123,7 +123,9 @@ def course_docs(request, slug, path=""):
 
 def privacy(request):
     """Public privacy policy (linked from every page and from Google's OAuth consent screen)."""
-    return render(request, "courses/privacy.html", {"contact_email": settings.CONTACT_EMAIL})
+    return render(request, "courses/privacy.html", {
+        "contact_email": settings.CONTACT_EMAIL, "resume_retention_days": settings.RESUME_RETENTION_DAYS,
+    })
 
 
 def robots_txt(request):

@@ -1,0 +1,11 @@
+# Optional: lets the portal reach the mailer (../mailer, listmonk) at http://listmonk:9000 when both run on
+# this server. Turn it on by adding to .env:  COMPOSE_FILE=docker-compose.yml:docker-compose.mailer.yml
+# The mailer must be running first: it creates the "mailer" network.
+services:
+  web:
+    networks: [default, mailer]
+
+networks:
+  mailer:
+    external: true
+    name: mailer

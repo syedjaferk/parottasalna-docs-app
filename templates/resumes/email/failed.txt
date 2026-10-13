@@ -1,0 +1,12 @@
+{% autoescape off %}Hi {{ name }},
+
+We couldn't review the resume you uploaded ({{ review.file_name }}).
+
+{{ review.status_note|default:"Something went wrong while reviewing it." }}
+
+Upload again: {{ upload_url }}
+
+--
+Tracking ID {{ review.tracking_id }}. You're getting this because you uploaded a resume for review on learn.parottasalna.com.
+Privacy policy: {{ privacy_url }}#resume
+{% endautoescape %}

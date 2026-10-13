@@ -15,11 +15,14 @@ def home(request):
     calls, calls_error = calendly.upcoming_calls(refresh=request.GET.get("refresh") == "calls")
     jobs = list(services.pending_jobs()[:20])
     builds = list(services.failed_builds())
+    resumes = list(services.held_resume_reviews()[:20])
     today = timezone.localdate()
     calls_today = [c for c in calls or [] if c["start"] and timezone.localtime(c["start"]).date() == today]
     return no_store(render(request, "panel/home.html", {
         "jobs": jobs, "jobs_total": services.pending_jobs().count(),
         "builds": builds,
+        "resumes": resumes,
+        "unsent_emails": services.unsent_resume_emails().count(),
         "calls": calls, "calls_error": calls_error, "calls_today": len(calls_today),
-        "all_clear": not jobs and not builds and not calls,
+        "all_clear": not jobs and not builds and not resumes and not calls,
     }))

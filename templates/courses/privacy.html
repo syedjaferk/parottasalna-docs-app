@@ -42,6 +42,7 @@
       <li>We don't access your Gmail, Drive, Contacts or any other Google data, and we don't keep Google access tokens.</li>
       <li>We store your course progress and quiz scores so you and your instructor can see them.</li>
       <li>We <strong>never sell</strong> your data, show ads, or share it for advertising.</li>
+      <li>If you use resume review, your PDF is reviewed by an AI model on our own computer and deleted from our Google Drive {{ resume_retention_days }} days after the review.</li>
       <li>You can ask us to delete your data at any time.</li>
     </ul>
   </div>
@@ -139,6 +140,24 @@
     admin approves the post.
   </p>
 
+  <h3 id="resume">i) Resume review</h3>
+  <p>
+    If you upload your resume for review, we store the PDF in our own Google Drive account (it is not
+    shared with anyone or made public), together with your sign-in email, the file name, the role you
+    say you're aiming for, the time you agreed to the review, and the finished report. The PDF is read
+    by an AI model that runs on a computer we operate; it is not sent to outside AI services and is not
+    used to train AI models. That computer only receives the PDF and a tracking ID, not your name or email.
+    The report is emailed to your sign-in address and shown to you on the site. Emails are sent through
+    our own mail server software, which does not keep your address in a mailing list, and handed to an
+    email delivery provider only to deliver them.
+  </p>
+  <p>
+    We delete the PDF from Google Drive {{ resume_retention_days }} days after we email you the report
+    (or straight away if you click “Delete this review now”). The report stays in your account until you
+    delete it or your account is deleted. Portal administrators can see the PDF and the report, for
+    example to check a review before it is sent.
+  </p>
+
   <h2 id="use">2. How we use your information</h2>
   <table>
     <thead><tr><th>We use</th><th>To</th></tr></thead>
@@ -147,6 +166,7 @@
       <tr><td>Name and email</td><td>show who is signed in, and let your instructor match progress and scores to students</td></tr>
       <tr><td>Progress and quiz results</td><td>show your progress and best scores, and give your instructor a class scoreboard</td></tr>
       <tr><td>Reading days and minutes</td><td>show your reading streak, best streak and calendar to you</td></tr>
+      <tr><td>Your resume and its report</td><td>review your resume and send you the report; nothing else</td></tr>
       <tr><td>Your notes</td><td>show your notes back to you on each chapter and on your “My notes” page, and let you download them</td></tr>
       <tr><td>Usage statistics (Google Analytics)</td><td>see which pages and courses are used, to improve them</td></tr>
       <tr><td>Cookies and server logs</td><td>keep you signed in, prevent abuse (for example rate limiting), and fix problems</td></tr>
@@ -193,7 +213,8 @@
       <tr><td>Google Sign-In</td><td>to sign you in</td><td>the sign-in request; Google's own <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy</a> applies</td></tr>
       <tr><td>Google Fonts</td><td>to display the site's fonts</td><td>your IP address and browser details when fonts load</td></tr>
       <tr><td>Google Analytics</td><td>usage statistics (section 1e)</td><td>the pages you open, your device and browser, and approximate location; not your name, email, quiz answers or notes. See <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">how Google uses this data</a></td></tr>
-      <tr><td>Google Drive</td><td>to keep off-site database backups, so data isn't lost if our server fails</td><td>a nightly copy of the database, <strong>encrypted on our server before upload</strong> (AES-256); Google cannot read it</td></tr>
+      <tr><td>Google Drive</td><td>to keep off-site database backups, so data isn't lost if our server fails; and to store resumes uploaded for review</td><td>a nightly copy of the database, <strong>encrypted on our server before upload</strong> (AES-256); Google cannot read it. Resumes you upload for review are stored as uploaded, in a private folder of our account, until they are deleted (section 1i)</td></tr>
+      <tr><td>Email delivery provider</td><td>to deliver resume review emails</td><td>your email address and the email itself (your review report), only to deliver it</td></tr>
       <tr><td>Calendly</td><td>to book a 1:1 call, if you choose to</td><td>whatever you enter on Calendly's booking page (name, email, your answers); <a href="https://calendly.com/privacy" target="_blank" rel="noopener">Calendly's privacy policy</a> applies. Our admins see your booking (name, email, time and answers) in our admin panel to prepare for the call</td></tr>
       <tr><td>GitHub Discussions</td><td>our public Q&amp;A forum</td><td>nothing from us: it's an ordinary link. Anything you post there is public and covered by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's privacy statement</a></td></tr>
       <tr><td>YouTube (privacy-enhanced mode)</td><td>some course pages embed lesson videos</td><td>loaded from <code>youtube-nocookie.com</code> when you open those pages; YouTube's policies apply if you play a video</td></tr>
@@ -222,6 +243,7 @@
       delete it within 30 days.</li>
     <li><strong>Live quiz results</strong> (nicknames, answers, scores): kept so the host can review the event; ask us and we will delete them.</li>
     <li><strong>Sign-in sessions:</strong> they expire after 2 weeks, or when you sign out.</li>
+    <li><strong>Resumes uploaded for review:</strong> the PDF is deleted from Google Drive {{ resume_retention_days }} days after the report is emailed to you; the report is kept until you delete it or your account.</li>
     <li><strong>Server logs:</strong> rotated automatically and kept only for a short time.</li>
     <li><strong>Backups:</strong> kept for 14 days on our server and 30 days (encrypted) on Google Drive; deleted data may remain in a backup until that backup expires.</li>
   </ul>

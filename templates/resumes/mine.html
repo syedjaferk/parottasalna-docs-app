@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My resume reviews · {{ brand.NAME }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/resumes.css' %}">{% endblock %}
+{% block content %}
+<section class="rv-head">
+  <div>
+    <h1>My resume reviews</h1>
+    <p class="rv-sub">Check a review's status with its tracking ID, or pick one below.</p>
+  </div>
+  <a class="rv-btn primary" href="{% url 'resume_upload' %}">Upload a resume</a>
+</section>
+
+<form method="get" class="rv-track" role="search">
+  <label class="sr-only" for="track-id">Tracking ID</label>
+  <input id="track-id" name="id" value="{{ query }}" placeholder="ATS-7K3Q-9XMP" autocomplete="off" spellcheck="false">
+  <button class="rv-btn" type="submit">Check status</button>
+</form>
+
+{% if reviews %}
+<table class="rv-table">
+  <thead><tr><th>Tracking ID</th><th>File</th><th>Status</th><th>ATS score</th><th>Uploaded</th></tr></thead>
+  <tbody>
+  {% for r in reviews %}
+    <tr>
+      <td><a href="{{ r.get_absolute_url }}"><code>{{ r.tracking_id }}</code></a></td>
+      <td>{{ r.file_name }}{% if r.target_role %}<br><small class="muted">for {{ r.target_role }}</small>{% endif %}</td>
+      <td><span class="rv-status rv-status-{{ r.status }}">{{ r.get_status_display }}</span></td>
+      <td>{% if r.report %}{{ r.ats_score }}/100{% else %}–{% endif %}</td>
+      <td>{{ r.created_at|date:"j M Y" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<div class="rv-card rv-empty"><p>You haven't uploaded a resume yet.</p></div>{% endif %}
+{% endblock %}
