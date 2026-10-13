@@ -8,3 +8,6 @@ staticfiles
 **/__pycache__
 **/*.pyc
 blog_content
+# Never bake credentials or database dumps into the image (mounted or kept on the host instead)
+secrets
+backups
