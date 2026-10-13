@@ -1,5 +1,14 @@
 # Session 4 · LLMs and Key Terminology
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/28vpcA7BnaE"
+  title="Episode 4: Introduction to LLMs and AI Terminologies" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 4** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=28vpcA7BnaE)
+
 ## The big idea
 
 When you type into ChatGPT or Claude, there's no magic and no person behind it. It's a program that

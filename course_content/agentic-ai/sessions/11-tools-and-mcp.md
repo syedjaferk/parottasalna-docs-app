@@ -1,5 +1,23 @@
 # Session 11 · Custom Tools, API & Database Tools, and MCP
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/hF5tSbjIUrc"
+  title="Episode 14: How Do AI Agents Use Tools?" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 14** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=hF5tSbjIUrc)
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/RmbVkPQrN1w"
+  title="Episode 15: Tool Calling with API calling, DB tools and MCP introduction" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 15** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=RmbVkPQrN1w)
+
 ## The big idea
 
 Tools turn a chatbot into an **agent that does things**. In [Session 6](06-tool-calling.md) you saw

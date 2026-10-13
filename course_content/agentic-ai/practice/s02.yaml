@@ -1,0 +1,97 @@
+chapter: sessions/02-data-structures
+
+quizzes:
+  - title: "Session 2 · Quiz"
+    description: "Lists, dictionaries, tuples and sets: what each one is for and the mistakes to avoid."
+    questions:
+      - text: "`nums = [1, 10, 23, 2]`. What is `nums[-1]`?"
+        choices: |
+          *2
+          1
+          23
+          An IndexError
+        explanation: "Negative indexes count from the end, so -1 is the last item."
+      - text: "`nums = [3, 1, 2]` and then `nums = nums.sort()`. What is `nums` now?"
+        choices: |
+          *None
+          [1, 2, 3]
+          [3, 2, 1]
+          An error
+        explanation: "`.sort()` changes the list in place and returns nothing (None). Write `nums.sort()` alone, or `sorted(nums)` to get a new list."
+      - text: "What is the difference between `nums.append(99)` and `nums.insert(0, 99)`?"
+        choices: |
+          *append adds to the end; insert adds at the given position
+          append adds at the start; insert adds at the end
+          They do the same thing
+          insert replaces the first item
+        explanation: "append always goes to the end. insert(position, value) puts the value at the position you choose."
+      - text: "`profile = {\"name\": \"Ravi\"}`. What does `profile.get(\"address\", \"N/A\")` return?"
+        choices: |
+          *"N/A"
+          None
+          A KeyError
+          An empty string
+        explanation: "`.get(key, fallback)` returns your fallback when the key is missing. Without a fallback it returns None. `profile[\"address\"]` would crash with KeyError."
+      - text: "A chat with an AI model (`[{\"role\": \"user\", \"content\": \"Hi\"}]`) is which kind of structure?"
+        choices: |
+          *A list of dictionaries
+          A set of tuples
+          A dictionary of sets
+          A single string
+        explanation: "Each message is a dictionary with `role` and `content`, and the conversation is a list of them."
+      - text: "Which container cannot be changed after you create it?"
+        choices: |
+          *Tuple
+          List
+          Dictionary
+          Set
+        explanation: "A tuple is a locked list. `vowels[0] = \"Z\"` raises a TypeError."
+      - text: "`a = {1, 2, 3}` and `b = {3, 4}`. What is `a.intersection(b)`?"
+        choices: |
+          *{3}
+          {1, 2, 3, 4}
+          {1, 2, 4}
+          {4}
+        explanation: "Intersection keeps only what is in **both** sets. Union would be {1, 2, 3, 4}; symmetric_difference would be {1, 2, 4}."
+      - text: "Some people registered for a workshop (`registered`) and some attended (`attended`), both sets. Which expression gives those who registered but did not come?"
+        choices: |
+          *registered - attended
+          attended - registered
+          registered.union(attended)
+          registered.intersection(attended)
+        explanation: "Set subtraction keeps the items in the first set that are not in the second."
+      - text: "You add \"Lion\" to a set that already contains \"Lion\". What happens?"
+        choices: |
+          *Nothing: a set keeps each item only once
+          The set now holds two Lions
+          A KeyError is raised
+          The old Lion is replaced and moved to the end
+        explanation: "Sets never hold duplicates, which is why they are great for unique items and for comparing groups."
+
+decks:
+  - title: "Session 2 · Flashcards"
+    cards:
+      - front: "List"
+        back: "`[1, 2, 3]`. Ordered, changeable, duplicates allowed. Use it for things in order."
+      - front: "Index"
+        back: "The position number of an item in a list. It starts at 0; -1 is the last item."
+      - front: "nums = nums.sort()"
+        back: "Classic bug: sort() works in place and returns None, so nums becomes None."
+      - front: "sorted(nums)"
+        back: "Returns a new sorted list and leaves the original alone."
+      - front: "Dictionary"
+        back: "`{\"name\": \"Ravi\"}`. Labelled values: each key has a value. Keys are unique."
+      - front: "dict.get(key, default)"
+        back: "Reads a key that might be missing without crashing. Returns the default (or None)."
+      - front: "KeyError"
+        back: "Raised when you read a dictionary key with `d[key]` and it doesn't exist."
+      - front: "dict.items()"
+        back: "Gives (key, value) pairs so you can write `for key, value in d.items():`."
+      - front: "Tuple"
+        back: "`(1, 2, 3)`. Ordered but locked: it can't change. Used when a function returns several values."
+      - front: "Set"
+        back: "`{1, 2, 3}`. No order, no duplicates. Great for unique items and comparing groups."
+      - front: "Set intersection / union"
+        back: "Intersection: items in both sets. Union: every item from both, each once."
+      - front: "Chat messages shape"
+        back: "A list of dictionaries, each with `role` and `content`. You send this to a model from Session 5."

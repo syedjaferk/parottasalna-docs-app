@@ -1,0 +1,97 @@
+chapter: sessions/03-number-guessing-game
+
+quizzes:
+  - title: "Session 3 · Quiz"
+    description: "Organising a program into functions, loops, files and the mistakes in the class version."
+    questions:
+      - text: "Why does the game keep its difficulty levels in one `MODES` dictionary?"
+        choices: |
+          *You can add or change a level without touching the game logic
+          Dictionaries run faster than if statements
+          Python requires settings to be dictionaries
+          So the secret number is hidden
+        explanation: "Settings stored as data keep the logic untouched: an 'expert' level is one new line."
+      - text: "In `def generate_secret_number(start: int, end: int):`, what does `start: int` mean?"
+        choices: |
+          *A type hint: a note that start should be a whole number (Python does not enforce it)
+          Python will reject any non-integer
+          start is created as an integer automatically
+          It defines a dictionary key
+        explanation: "Type hints help people and tools. They become important in Session 6, where AI tools are built from them."
+      - text: "What does `return True` do in the middle of the `while` loop in `play()`?"
+        choices: |
+          *Ends the function immediately, so the loop stops too
+          Skips to the next loop round
+          Prints True
+          Does nothing until the loop ends
+        explanation: "`return` leaves the function right away, even from inside a loop."
+      - text: "Which file mode keeps the old leaderboard names and adds a new one at the end?"
+        choices: |
+          *\"a\" (append)
+          \"w\" (write)
+          \"r\" (read)
+          \"x\" (create)
+        explanation: "\"w\" erases the file first. \"a\" appends. \"r\" only reads."
+      - text: "Why use `with open(...) as f:`?"
+        choices: |
+          *The file is closed for you automatically when the block ends
+          It makes the file read-only
+          It encrypts the file
+          It creates the file in a temp folder
+        explanation: "The `with` block guarantees the file is closed, even if an error happens inside."
+      - text: "What does `int(input(\"Enter your Guess : \"))` do when the user types `abc`?"
+        choices: |
+          *Raises a ValueError and the program crashes
+          Returns 0
+          Returns None
+          Asks again automatically
+        explanation: "int(\"abc\") can't be converted. Wrap it in try/except ValueError and loop until the user types a number."
+      - text: "The class version calls `main()` from inside `play_again()`. What is the risk?"
+        choices: |
+          *After very many games Python stops with a RecursionError; a `while True:` loop is safer
+          The leaderboard is deleted
+          The secret number never changes
+          The program starts two games at once
+        explanation: "Each nested call stays on the stack. A loop that breaks when the user says no has no such limit."
+      - text: "What is the main lesson of the project, according to the session?"
+        choices: |
+          *Break a big job into small functions that each do one thing, with main() telling the story
+          Always use global variables
+          Put all code in one big function
+          Avoid dictionaries
+        explanation: "Like a kitchen with one cook per task and a head chef, `main()` just calls the small functions in order."
+      - text: "You removed the leftover `print(secret_number)` line from `main()`. What was it doing?"
+        choices: |
+          *Leaking the answer to the player: it was left over from testing
+          Logging the score
+          Starting the game
+          Saving to the leaderboard
+        explanation: "It showed the secret number at the start of every game, spoiling it."
+
+decks:
+  - title: "Session 3 · Flashcards"
+    cards:
+      - front: "Function"
+        back: "A named mini-program. Define it once with `def`, then call it by name."
+      - front: "return"
+        back: "Sends a value back to the caller and ends the function immediately."
+      - front: "Type hint"
+        back: "A note like `start: int`. Python doesn't enforce it, but people and tools (and AI tools, in Session 6) use it."
+      - front: "while loop"
+        back: "Repeats as long as its condition is true, e.g. `while attempts > 0:`."
+      - front: "input()"
+        back: "Waits for the user to type and gives back text. Wrap it in `int()` for a number."
+      - front: "ValueError"
+        back: "Raised by int(\"abc\"). Catch it with try/except and ask again."
+      - front: "MODES dictionary"
+        back: "Settings stored as data, so a new difficulty level is one new line."
+      - front: "File mode \"a\" / \"w\" / \"r\""
+        back: "Append (keep old content) / write (erases first) / read only."
+      - front: "with open(...) as f"
+        back: "Opens a file and closes it automatically when the block ends."
+      - front: "main()"
+        back: "The head chef: calls the small functions in order so the whole program reads like a story."
+      - front: "Multiple return values"
+        back: "`return a, b, c` gives a tuple; unpack it with `start, end, attempts = f()`."
+      - front: "RecursionError"
+        back: "What happens when a function keeps calling itself (like play_again calling main). Use a loop instead."

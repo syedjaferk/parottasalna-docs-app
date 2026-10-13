@@ -1,0 +1,125 @@
+chapter: sessions/13-human-in-the-loop
+
+quizzes:
+  - title: "Session 13 · Quiz"
+    description: "Human in the loop: approval gates, reviewing tool calls, and the middleware pause/resume pattern."
+    questions:
+      - text: "What is human in the loop (HITL)?"
+        choices: |
+          *The agent stops at risky moments and a person decides: approve, edit or reject
+          A human writes every prompt
+          A human trains the model
+          The agent never uses tools
+        explanation: "Like a head chef tasting the dish before it is served."
+      - text: "Which action most clearly needs a human's approval?"
+        choices: |
+          *Refunding money to a customer
+          Looking up an order's status
+          Searching a knowledge base
+          Reading a file
+        explanation: "Ask when an action is hard to undo or visible to someone else. Harmless lookups only slow everyone down."
+      - text: "In Level 1, why does rejecting **raise an exception** instead of returning None?"
+        choices: |
+          *The exception travels out of invoke so `serve` never runs; None might be sent by the next step
+          Exceptions are faster
+          None is not allowed in a chain
+          So the model can see the error
+        explanation: "Reject = raise is the safer default."
+      - text: "What is the limit of using `input()` for approval?"
+        choices: |
+          *It blocks the program until someone types, and the draft is lost if a server restarts
+          It is too slow to type
+          It only works with tools
+          It needs a database
+        explanation: "Fine for scripts and notebooks. For web apps use pause/resume (Level 3)."
+      - text: "In Level 2, the model proposes `issue_refund`. What must your code send back for every tool call, even a rejected one?"
+        choices: |
+          *A ToolMessage with the same tool_call_id
+          Nothing
+          A new system message
+          An email
+        explanation: "Chat APIs reject a conversation where a tool call has no answer. A rejection is also how the model learns what happened."
+      - text: "Why must Level 2 loop until there are no tool calls?"
+        choices: |
+          *Models often propose one action per turn; a single review round would miss later actions like the email
+          To save tokens
+          Because approvals expire
+          The loop is required by Python
+        explanation: "The email was only proposed after the model saw the refund succeed."
+      - text: "You reject a tool call. What is the best way to do it?"
+        choices: |
+          *Give a reason, so the model can change its plan instead of guessing or retrying
+          Reject with no message
+          Reject and delete the thread
+          Approve it anyway
+        explanation: "'The customer asked us to call, not email' made the model ask for a phone number instead."
+      - text: "In the middleware version, what does `\"check_order_status\": False` in `interrupt_on` mean?"
+        choices: |
+          *That tool never pauses for approval
+          That tool is disabled
+          That tool always asks
+          That tool runs twice
+        explanation: "Safe tools pass straight through. `when` can pause only in some cases, like refunds above ₹200."
+      - text: "What happens at an `interrupt()`?"
+        choices: |
+          *The graph stops and the checkpointer saves its state under the thread_id; invoke returns the request in result.interrupts
+          The program crashes
+          The model forgets everything
+          The tool runs anyway
+        explanation: "Nothing blocks, so the decision can come from another request or process, even hours later."
+      - text: "How do you resume a paused agent?"
+        choices: |
+          *invoke(Command(resume={\"decisions\": [...]})) with the **same** thread_id
+          Start a new thread_id
+          Re-run the original message
+          Restart the program
+        explanation: "A new thread_id starts a brand-new conversation with nothing to resume."
+      - text: "Two actions need review. What must the decisions list look like?"
+        choices: |
+          *Exactly one decision per action, in the same order
+          Only one decision for both
+          Any order
+          One decision per tool
+        explanation: "Otherwise you get a ValueError."
+      - text: "You approve an `edit` decision that changes a refund from ₹300 to ₹250. What does the model's next email say?"
+        choices: |
+          *₹250: the middleware tells the model the call was changed on purpose
+          ₹300
+          No amount
+          It tries the original refund again
+        explanation: "The edit carried through to the following steps."
+      - text: "Why should you avoid `InMemorySaver` in production for HITL?"
+        choices: |
+          *A restart forgets every paused approval; use a database-backed checkpointer such as PostgresSaver
+          It is too slow
+          It can't store messages
+          It only works with Groq
+        explanation: "Paused tickets live in RAM only."
+
+decks:
+  - title: "Session 13 · Flashcards"
+    cards:
+      - front: "Human in the loop"
+        back: "The agent pauses at risky actions and a person approves, edits or rejects."
+      - front: "When to ask a human"
+        back: "Hard to undo or visible to someone else: refunds, emails, deleting or updating data."
+      - front: "Level 1: approval gate"
+        back: "A step in a chain that shows the draft and waits for approve / edit / reject. Reject raises an exception."
+      - front: "Level 2: review tool calls"
+        back: "Read each proposed tool call, decide, and always answer with a ToolMessage carrying the same tool_call_id."
+      - front: "Loop until no tool_calls"
+        back: "The model may propose tools one turn at a time, so keep reviewing until it stops."
+      - front: "Level 3: middleware"
+        back: "HumanInTheLoopMiddleware with a rule book (interrupt_on) and a checkpointer for pause/resume."
+      - front: "interrupt_on rules"
+        back: "False = never pause; allowed_decisions = approve/edit/reject/respond; `when` pauses only in some cases."
+      - front: "Decision types"
+        back: "approve (run as proposed), edit (run with your args), reject (don't run, give a reason), respond (your text is the result)."
+      - front: "Pause and resume"
+        back: "interrupt() saves state under the thread_id; Command(resume={\"decisions\": [...]}) with the same thread_id continues."
+      - front: "One decision per action"
+        back: "Same number, same order, otherwise ValueError."
+      - front: "Same thread_id on resume"
+        back: "A new thread_id starts a new conversation. Keep the id with the ticket."
+      - front: "Production checkpointer"
+        back: "Use PostgresSaver or MongoDBSaver. InMemorySaver forgets paused approvals on restart."

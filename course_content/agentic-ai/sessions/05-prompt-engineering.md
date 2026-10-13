@@ -1,5 +1,23 @@
 # Session 5 · Prompt Engineering
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/kSqtlz3uQek"
+  title="Episode 5: Prompt Engineering 101" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 5** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=kSqtlz3uQek)
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/vRwixqqQBR4"
+  title="Episode 6: Prompt Engineering 101 – Code Implementation with LangChain" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 6** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=vRwixqqQBR4)
+
 ## The big idea
 
 The same AI model can give you a vague answer or a brilliant one. The only thing that changes is

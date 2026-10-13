@@ -1,0 +1,118 @@
+chapter: sessions/11-tools-and-mcp
+
+quizzes:
+  - title: "Session 11 · Quiz"
+    description: "The agent loop, three ways to build tools, API and database tools, and MCP."
+    questions:
+      - text: "What is an agent, in the simplest terms of this session?"
+        choices: |
+          *A model running in a loop with tools
+          A model with a very high temperature
+          A database with a chat window
+          A prompt template
+        explanation: "The loop keeps asking the model until it stops requesting tools."
+      - text: "'What is 12 × 7, then add 5?' needs two tool calls. Why can't they happen together?"
+        choices: |
+          *The model can't ask for `add` until it knows the multiplication result
+          The tools are on different servers
+          Models can only call one tool ever
+          Addition needs a database
+        explanation: "The second call depends on the first result, so the loop runs round after round."
+      - text: "When does the agent loop stop?"
+        choices: |
+          *When the model's reply has no tool_calls
+          After exactly two rounds
+          When the user presses Enter
+          When the temperature is 0
+        explanation: "`if not ai_msg.tool_calls: break`."
+      - text: "You need a tool whose inputs have rules (price > 0, percent between 0 and 100). Which way to build it?"
+        choices: |
+          *@tool with an `args_schema` (a Pydantic model)
+          StructuredTool.from_function only
+          A plain function with no docstring
+          A global variable
+        explanation: "The schema carries ranges and a description for every input."
+      - text: "When do you use `StructuredTool.from_function`?"
+        choices: |
+          *To wrap a function you already have or can't change
+          To write a brand-new simple function
+          To call a database
+          To start an MCP server
+        explanation: "You pass the function plus a name and description."
+      - text: "How can you test a tool without any AI?"
+        choices: |
+          *Call `tool.invoke({...})` directly: it's just a function
+          You can't
+          Only through the agent
+          Only with an MCP client
+        explanation: "e.g. `apply_discount.invoke({\"price\": 2000, \"percent\": 15})`."
+      - text: "Which is one of the three golden rules for API tools?"
+        choices: |
+          *Always set a timeout, so a stuck website can't freeze the agent
+          Return the entire website response
+          Let exceptions crash the program
+          Never validate inputs
+        explanation: "Also: return errors as text so the AI can try again, and return small, clean data."
+      - text: "Why return an error as text (\"City 'X' not found.\") instead of crashing?"
+        choices: |
+          *The AI can read it and try again, for example with another spelling
+          Crashes are hidden from developers
+          Text errors are faster
+          APIs require text
+        explanation: "A crash ends everything; a text error lets the agent recover."
+      - text: "Which layer truly protects your database from `DROP TABLE orders`?"
+        choices: |
+          *The read-only connection (the database refuses writes)
+          Checking that the query starts with SELECT
+          Telling the AI not to
+          Limiting to 50 rows
+        explanation: "Text checks can be tricked. In real systems also use a DB user with least privilege."
+      - text: "What is MCP (Model Context Protocol)?"
+        choices: |
+          *A common standard, like USB, so tools in an MCP server can be used by any MCP-aware app
+          A faster version of Python
+          A vector database
+          A type of model
+        explanation: "Put tools in a separate server and your agent, Claude Desktop or an editor can all discover and use them."
+      - text: "In the MCP client, how does the agent learn which tools exist?"
+        choices: |
+          *It discovers them at runtime with `await client.get_tools()`
+          They are hard-coded in the client
+          The user lists them in the prompt
+          They are downloaded from PyPI
+        explanation: "Add a tool to the server and the client finds it without any change."
+      - text: "What does `transport=\"stdio\"` mean for a local MCP server?"
+        choices: |
+          *The client starts the server program itself and they talk through standard input/output
+          The server needs a web address
+          It uses a database
+          It runs in the cloud
+        explanation: "So you only run `python mcp_client.py`."
+
+decks:
+  - title: "Session 11 · Flashcards"
+    cards:
+      - front: "Agent loop"
+        back: "Ask the model, run any tool_calls, send results back, repeat until there are no tool_calls."
+      - front: "Agent"
+        back: "A model in a loop with tools. create_agent() runs this loop for you."
+      - front: "@tool"
+        back: "Quickest way to build a tool: docstring = description, type hints = inputs."
+      - front: "args_schema"
+        back: "A Pydantic model giving a tool's inputs rules and descriptions."
+      - front: "StructuredTool.from_function"
+        back: "Wraps an existing function as a tool by giving it a name and description."
+      - front: "tool.invoke(...)"
+        back: "Test a tool directly without the AI."
+      - front: "API tool golden rules"
+        back: "Set a timeout. Return errors as text. Return small, clean data."
+      - front: "raise_for_status()"
+        back: "Turns HTTP errors into exceptions so you can catch and report them as text."
+      - front: "Safe database tool: 3 layers"
+        back: "1) SELECT only, one statement. 2) Read-only connection. 3) Row limit (50)."
+      - front: "Least privilege"
+        back: "Give the agent a DB user allowed to read only the tables it needs."
+      - front: "MCP"
+        back: "Model Context Protocol: a standard (like USB) to share tools between apps."
+      - front: "FastMCP / MultiServerMCPClient"
+        back: "FastMCP defines tools in a server. MultiServerMCPClient connects an agent to one or many servers and discovers their tools."

@@ -1,0 +1,97 @@
+chapter: sessions/04-llm-terminology
+
+quizzes:
+  - title: "Session 4 · Quiz"
+    description: "What an LLM is, and the dials you can turn: parameters, temperature, top-k, top-p and local models."
+    questions:
+      - text: "What is an LLM's one basic skill?"
+        choices: |
+          *Predicting the next word, again and again
+          Searching the internet for the answer
+          Looking up facts in a database
+          Running Python code
+        explanation: "An LLM writes whole answers by repeatedly guessing the most likely next word."
+      - text: "The model confidently states a wrong fact. What is this called?"
+        choices: |
+          *A hallucination
+          Overfitting
+          A token error
+          Temperature drift
+        explanation: "It predicts instead of looking up, so it can sound sure and be wrong. RAG and tools are the fixes you will learn."
+      - text: "In '7B model', what does the 7B refer to?"
+        choices: |
+          *7 billion parameters (the tiny adjusted numbers inside the model)
+          7 billion training documents
+          7 billion users
+          7 GB of RAM
+        explanation: "Parameters are the knobs adjusted during learning. More usually means smarter, but slower and costlier."
+      - text: "You want your program to parse the model's answer as JSON every time. Which temperature?"
+        choices: |
+          *Low (0 to 0.2)
+          High (1.0 or more)
+          It doesn't matter
+          Exactly 0.5
+        explanation: "Low temperature is predictable and safe: best for facts, maths, code and anything a program reads."
+      - text: "You want ten creative names for a coffee shop. Which temperature?"
+        choices: |
+          *High, around 1.0
+          0
+          Negative
+          Temperature has no effect on creativity
+        explanation: "High temperature gives less likely words a real chance, so answers are varied and surprising."
+      - text: "What does **top-p = 0.9** mean?"
+        choices: |
+          *Keep adding the best words until their chances add up to 90%, then pick only from them
+          Only consider the top 9 words
+          Pick the answer with 90% accuracy
+          Use 90% of the model's parameters
+        explanation: "Top-p is a probability cut-off, so the number of candidate words changes. Top-k is a fixed number of words."
+      - text: "What is the difference between top-k and top-p?"
+        choices: |
+          *Top-k limits to a fixed number of words; top-p limits by their combined probability
+          Top-k is for images, top-p for text
+          Top-k sets randomness, top-p sets length
+          They are the same setting
+        explanation: "k = fixed count (top 5 dishes). p = as many dishes as it takes to cover p of what people order."
+      - text: "What is a good habit when experimenting with temperature and top-p?"
+        choices: |
+          *Change one at a time so you know which made the difference
+          Always change both together
+          Never change either
+          Set both to 0
+        explanation: "Changing both at once hides which setting caused the change."
+      - text: "Which is a real benefit of a local model run with Ollama?"
+        choices: |
+          *Your data never leaves your computer
+          It is always smarter than cloud models
+          It needs no hardware
+          It never hallucinates
+        explanation: "Local models are private and free to use, but need a decent computer and are usually less capable than the biggest cloud models."
+
+decks:
+  - title: "Session 4 · Flashcards"
+    cards:
+      - front: "AI"
+        back: "A program that learns patterns from examples instead of a person writing every rule."
+      - front: "LLM"
+        back: "Large Language Model: an AI that has read a huge amount of text and predicts the next word."
+      - front: "Hallucination"
+        back: "A confident answer that is wrong, because the model predicts text instead of looking facts up."
+      - front: "Prompt"
+        back: "What you send to the model: your question or instruction. Better prompts give better answers."
+      - front: "Parameters"
+        back: "The billions of numbers inside the model that were adjusted while it learned (7B, 175B ...)."
+      - front: "Temperature"
+        back: "How adventurous the next-word choice is. Low = safe and repeatable; high = creative and surprising."
+      - front: "Top-k"
+        back: "Only choose from the k most likely words (a fixed number)."
+      - front: "Top-p"
+        back: "Choose from the best words whose chances add up to p (like 0.9). The number of words varies."
+      - front: "When to use low temperature"
+        back: "Facts, maths, code and answers a program will read (like JSON)."
+      - front: "When to use high temperature"
+        back: "Brainstorming names and ideas, stories, poems and jokes."
+      - front: "Local model"
+        back: "An LLM you run on your own computer (Llama, Mistral, Gemma, Phi, DeepSeek). Private and free, but needs hardware."
+      - front: "Ollama"
+        back: "The easiest way to run local models, e.g. `ollama run llama3.2`."

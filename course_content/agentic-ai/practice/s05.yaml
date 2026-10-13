@@ -1,0 +1,120 @@
+chapter: sessions/05-prompt-engineering
+
+quizzes:
+  - title: "Session 5 · Quiz"
+    description: "Messages and roles, prompt templates, the nine techniques and the prompt frameworks."
+    questions:
+      - text: "In a chat request, which role holds the developer's rules, such as 'You are a friendly maths tutor'?"
+        choices: |
+          *system
+          user
+          assistant
+          tool
+        explanation: "system = your rules. user = the person's question. assistant = the model's earlier replies."
+      - text: "What is a prompt template?"
+        choices: |
+          *A prompt with {blanks} that are filled in later, like a form
+          A saved model response
+          A fine-tuned model
+          A list of API keys
+        explanation: "`ChatPromptTemplate.from_messages` lets you reuse one prompt with different values, e.g. `{question}`."
+      - text: "You need the model to follow an exact output format. Which technique fits best?"
+        choices: |
+          *Few-shot: show worked examples first
+          Zero-shot with no extra detail
+          Tree-of-thought
+          Self-consistency
+        explanation: "Showing a few varied examples teaches the format far better than describing it."
+      - text: "Which tip about few-shot examples is correct?"
+        choices: |
+          *Pick examples that are different from each other, because each one costs tokens on every call
+          Use as many near-identical examples as possible
+          Always use exactly ten examples
+          Examples must be in the system message only
+        explanation: "Three varied examples teach more than ten similar ones, and every example adds cost."
+      - text: "Which technique pastes facts into the prompt for the model to use (like an open-book exam)?"
+        choices: |
+          *Contextual prompting
+          Role-based prompting
+          Zero-shot prompting
+          ReAct
+        explanation: "Contextual prompting supplies information the model doesn't have. RAG automates finding that information."
+      - text: "Why ask for 'only JSON in this shape' (instruction-based prompting)?"
+        choices: |
+          *Programs can't read messy text, but they can parse and validate JSON
+          JSON is shorter than text
+          It makes the model more creative
+          It removes the need for a model
+        explanation: "Structured output is what your code can reliably use. Session 9 shows an easier way: `with_structured_output()`."
+      - text: "Why end a chain-of-thought prompt with a fixed line like `FINAL ANSWER: <number>`?"
+        choices: |
+          *So code can reliably pull the answer out, for example with a regex
+          So the model thinks harder
+          To lower the temperature
+          Because the API requires it
+        explanation: "A fixed marker makes parsing dependable: `re.search(r\"FINAL ANSWER:\\s*(-?\\d+)\", text)`."
+      - text: "Self-consistency asks the same step-by-step question several times (temperature ~0.7). Then what?"
+        choices: |
+          *Take the answer that appears most often (majority vote)
+          Take the longest answer
+          Take the first answer
+          Average the answers' lengths
+        explanation: "Different reasoning paths may disagree. The majority answer is usually right, at the cost of several calls."
+      - text: "What are the three steps of tree-of-thought?"
+        choices: |
+          *Generate several options, judge them, then pick and develop the best
+          Zero-shot, few-shot, one-shot
+          Think, act, observe
+          Context, role, instruction
+        explanation: "ToT is three separate model calls: explore options, evaluate them, choose the best."
+      - text: "What does ReAct (Reason + Act) let the model do?"
+        choices: |
+          *Think, ask for a tool, look at the result (Observation), and repeat
+          Run its own code without help
+          Remember every conversation
+          Translate between languages
+        explanation: "A loop reads `Action:` from the model's text, runs the real function and sends back `Observation:`."
+      - text: "Why does the course move from hand-made ReAct to native tool calling in Session 6?"
+        choices: |
+          *String parsing is fragile: the model can invent an Observation or break the format
+          ReAct is too expensive
+          ReAct cannot use tools
+          Native tool calling needs no code
+        explanation: "Native tool calling returns clean structured requests, and results only come from your code."
+      - text: "In the CRISP framework, what do the letters stand for?"
+        choices: |
+          *Context, Role, Instruction, Style, Purpose
+          Code, Review, Input, Steps, Prompt
+          Clarity, Rules, Intent, Scope, Plan
+          Context, Reason, Input, Style, Prompt
+        explanation: "CRISP is a checklist for a well-structured instruction. RICE (Role, Input, Constraints, Expectations) controls the output."
+
+decks:
+  - title: "Session 5 · Flashcards"
+    cards:
+      - front: "system / user / assistant"
+        back: "Roles in a chat: your rules / the person's question / the model's replies."
+      - front: "Prompt template"
+        back: "A prompt with {blanks} (ChatPromptTemplate) filled in at run time."
+      - front: "Zero-shot"
+        back: "A clear request with rules but no examples. Say who it's for, how long, and in what shape."
+      - front: "Few-shot"
+        back: "Show 2+ varied worked examples first so the model copies the format."
+      - front: "Role-based"
+        back: "\"Act as a ...\": gives an expert's tone, focus and style."
+      - front: "Contextual prompting"
+        back: "Paste the facts the model needs and tell it to use them. The heart of RAG."
+      - front: "Instruction-based"
+        back: "Ask for only JSON in a fixed shape so a program can read and validate it."
+      - front: "Chain-of-thought (CoT)"
+        back: "\"Think step by step\". Best for maths and logic. End with a fixed FINAL ANSWER line."
+      - front: "Self-consistency"
+        back: "Ask several times with higher temperature and take the majority answer. Costs more calls."
+      - front: "Tree-of-thought (ToT)"
+        back: "Generate options, judge them, pick the best. Good for design decisions."
+      - front: "ReAct"
+        back: "Reason, Act (tool), Observe, repeat. Needs live data; hand-made parsing is fragile."
+      - front: "CRISP"
+        back: "Context, Role, Instruction, Style, Purpose: a checklist for a clear instruction."
+      - front: "RICE"
+        back: "Role, Input, Constraints, Expectations: a checklist to tightly control the output."

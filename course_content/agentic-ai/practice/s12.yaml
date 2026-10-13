@@ -1,0 +1,118 @@
+chapter: sessions/12-lcel
+
+quizzes:
+  - title: "Session 12 · Quiz"
+    description: "LCEL: Runnables, invoke/batch/stream, sequences, parallel steps and passthrough."
+    questions:
+      - text: "What does `chain = prompt | model | parser` do?"
+        choices: |
+          *Builds a new Runnable; nothing runs until you call invoke, batch or stream
+          Runs the prompt, model and parser immediately
+          Merges the three into one file
+          Calls the model three times
+        explanation: "`|` only builds the chain (a RunnableSequence)."
+      - text: "What do the prompt, the model, the parser and the chain all have in common?"
+        choices: |
+          *They are all Runnables with the same buttons: invoke, batch, stream
+          They use the same API key
+          They are all strings
+          They run on the same thread
+        explanation: "The Runnable protocol gives every piece, and every chain, invoke, batch, stream and async versions."
+      - text: "You forgot `StrOutputParser()` at the end. What does the chain return?"
+        choices: |
+          *An AIMessage (with token counts and metadata), not plain text
+          Plain text
+          None
+          A dictionary
+        explanation: "The parser is why the chain returns a string. Without it, text is in `.content`."
+      - text: "Which button runs the same job for many inputs at the same time?"
+        choices: |
+          *batch([x1, x2, ...])
+          invoke
+          stream
+          assign
+        explanation: "invoke = one; batch = many; stream = piece by piece."
+      - text: "What does `config={\"max_concurrency\": 3}` do in `batch`?"
+        choices: |
+          *Caps how many inputs run at once, useful to avoid free-plan rate limits
+          Limits the answer to 3 words
+          Retries 3 times
+          Uses 3 models
+        explanation: "Keep it low on a free API plan."
+      - text: "The recipe chain returns text, but the translate prompt needs `{\"text\": ...}`. How do you connect them?"
+        choices: |
+          *Put a small reshaping function between them: `| (lambda text: {\"text\": text}) |`
+          You can't chain them
+          Use a higher temperature
+          Add a second parser
+        explanation: "A plain function in a chain is wrapped as a RunnableLambda."
+      - text: "Why does a prompt with **two or more** variables fail when you give it plain text?"
+        choices: |
+          *It can't guess which variable the text belongs to, so it needs a dict
+          Text is not allowed in prompts
+          The model rejects it
+          Two variables need two models
+        explanation: "With one variable, text is wrapped for you. With several, reshape into a dict."
+      - text: "What does `RunnableParallel(pros=..., cons=..., verdict=...)` return?"
+        choices: |
+          *A dict with one key per branch, in about the time of the slowest branch
+          A single string
+          The fastest branch only
+          A list sorted by length
+        explanation: "Every branch receives the same input and runs at the same time."
+      - text: "What does `RunnablePassthrough()` do?"
+        choices: |
+          *Passes its input through unchanged (the identity)
+          Skips the next step
+          Deletes the input
+          Runs the model twice
+        explanation: "Useful in RAG: `{\"context\": retrieve, \"question\": RunnablePassthrough()}`."
+      - text: "What does `RunnablePassthrough.assign(context=...)` do?"
+        choices: |
+          *Keeps the whole input dict and adds a new key
+          Replaces the input with the new key
+          Removes the other keys
+          Converts a dict to text
+        explanation: "Nothing is lost on the way: the result has the original keys plus `context`."
+      - text: "What does `.pick(\"answer\")` do?"
+        choices: |
+          *Keeps only the named key(s) of the output
+          Chooses the best model
+          Picks a random answer
+          Adds a key
+        explanation: "One key returns the value; a list returns a smaller dict."
+      - text: "When you stream `summary_chain` (parallel pros/cons/verdict, then a summary prompt), when do the first words appear?"
+        choices: |
+          *Only after all three parallel branches finish, because the final prompt needs all three results
+          Immediately
+          Before the branches start
+          Never: parallel chains can't stream
+        explanation: "After the branches finish, the summary model's words stream one by one."
+
+decks:
+  - title: "Session 12 · Flashcards"
+    cards:
+      - front: "LCEL"
+        back: "LangChain Expression Language: snap steps together with the | pipe."
+      - front: "Runnable"
+        back: "Anything with the common interface (invoke, batch, stream). Prompt, model, parser and chains are all Runnables."
+      - front: "a | b"
+        back: "Builds a RunnableSequence that feeds a's output into b. Nothing runs until you invoke it."
+      - front: "invoke / batch / stream"
+        back: "One input / many inputs at once / output piece by piece. Async: ainvoke, abatch, astream."
+      - front: "StrOutputParser"
+        back: "Turns the model's AIMessage into a plain string. Leave it out and you get an AIMessage."
+      - front: "RunnableLambda"
+        back: "A plain function used as a chain step. It receives exactly one argument."
+      - front: "RunnableParallel"
+        back: "Runs branches on the same input at the same time. Output: a dict with one key per branch."
+      - front: "Dict at the start of a chain"
+        back: "A plain dict next to a Runnable becomes a RunnableParallel."
+      - front: "RunnablePassthrough()"
+        back: "Identity: output equals input. Carries the original input forward."
+      - front: "RunnablePassthrough.assign(k=...)"
+        back: "Runs on the whole input dict and returns it plus a new key k. Input must be a dict."
+      - front: ".pick()"
+        back: "Keeps only the named key(s) from the output."
+      - front: "max_concurrency"
+        back: "A config setting that caps simultaneous calls in batch or parallel. Use it on free plans."

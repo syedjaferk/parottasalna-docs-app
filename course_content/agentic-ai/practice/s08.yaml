@@ -1,0 +1,104 @@
+chapter: sessions/08-async
+
+quizzes:
+  - title: "Session 8 · Quiz"
+    description: "async/await, asyncio.gather, async AI calls and putting an agent behind FastAPI."
+    questions:
+      - text: "Most of the time an AI call takes is spent on what?"
+        choices: |
+          *Waiting for the reply to travel over the internet
+          Heavy computation on your laptop
+          Reading the Python file
+          Compiling the code
+        explanation: "Because your program is mostly waiting, async can overlap many waits."
+      - text: "Making toast takes 3 seconds and tea takes 3 seconds. Done one after another with time.sleep, how long?"
+        choices: |
+          *About 6 seconds
+          About 3 seconds
+          About 1 second
+          About 9 seconds
+        explanation: "Synchronous code waits for each job to finish. With asyncio.gather the same two jobs take about 3 seconds."
+      - text: "What does `await` mean?"
+        choices: |
+          *Pause here until this finishes, and let other work run meanwhile
+          Stop the program
+          Run the function twice
+          Convert text to a number
+        explanation: "await hands control back to the event loop while this task waits."
+      - text: "You write `await task(\"A\", 2)`, then `await task(\"B\", 2)`, then `await task(\"C\", 2)`. How long does it take?"
+        choices: |
+          *About 6 seconds: awaiting one by one is still sequential
+          About 2 seconds
+          About 4 seconds
+          It fails
+        explanation: "async alone doesn't run things together. Use `asyncio.gather(...)` to start them all at once."
+      - text: "What does `asyncio.gather(a(), b(), c())` return?"
+        choices: |
+          *The results in the same order you listed the tasks, whichever finishes first
+          Only the fastest result
+          The results sorted by finish time
+          Nothing
+        explanation: "The order matches the order of the arguments, so `user, orders, products = await gather(...)` is safe."
+      - text: "Why must you never call `time.sleep()` inside an `async def`?"
+        choices: |
+          *It blocks everything, so nothing else can run; use await asyncio.sleep()
+          It raises a SyntaxError
+          It makes the sleep shorter
+          It only works in notebooks
+        explanation: "Inside async code use async libraries: `httpx` instead of `requests`, `asyncio.sleep` instead of `time.sleep`."
+      - text: "What is the async version of `llm.invoke(...)`?"
+        choices: |
+          *await llm.ainvoke(...)
+          llm.async_invoke(...)
+          llm.invoke_async(...)
+          await llm.invoke(...)
+        explanation: "Add an `a` in front: ainvoke, astream, abatch."
+      - text: "What does `astream` give users?"
+        choices: |
+          *The answer piece by piece, like the typing effect in ChatGPT
+          A faster model
+          A cheaper bill
+          A shorter answer
+        explanation: "Streaming shows words as they arrive instead of a blank screen."
+      - text: "Which call inside an `async def` FastAPI endpoint freezes the server for everyone?"
+        choices: |
+          *A slow non-async call such as agent.invoke(), requests.get() or time.sleep()
+          await agent.ainvoke()
+          await asyncio.gather()
+          await httpx.AsyncClient().get()
+        explanation: "Blocking calls inside async code stall the event loop. Use the async versions."
+      - text: "What does `asyncio.run(main())` do?"
+        choices: |
+          *Starts the async engine (event loop) and runs main() until it finishes
+          Runs main() in a new thread forever
+          Imports asyncio
+          Makes main() synchronous
+        explanation: "It is the entry point that kicks off your coroutines."
+
+decks:
+  - title: "Session 8 · Flashcards"
+    cards:
+      - front: "Synchronous"
+        back: "Jobs run one after another. Three 2-second waits take 6 seconds."
+      - front: "async def"
+        back: "A function (coroutine) that may pause while it waits."
+      - front: "await"
+        back: "Pause here until this is done and let other work run meanwhile."
+      - front: "asyncio.gather(...)"
+        back: "Start all of these together and wait until they are all done. Results come back in the order listed."
+      - front: "asyncio.run(main())"
+        back: "Starts the async engine and runs main()."
+      - front: "await one by one"
+        back: "Still sequential. Only gather (or similar) makes tasks overlap."
+      - front: "Never time.sleep() in async code"
+        back: "It freezes everything. Use await asyncio.sleep(), and httpx instead of requests."
+      - front: "httpx.AsyncClient"
+        back: "The async version of requests for many web calls at once."
+      - front: "ainvoke / astream / abatch"
+        back: "The async versions of invoke / stream / batch: add an `a`, and use await (or async for)."
+      - front: "Streaming"
+        back: "Send the answer piece by piece so users see words appear."
+      - front: "FastAPI async endpoint"
+        back: "`@app.post(...) async def chat(...)` with `await agent.ainvoke(...)`. Never call blocking code inside it."
+      - front: "Where the speed-up comes from"
+        back: "Mostly from sending requests together (the sender). The async server handles many waiting users efficiently."

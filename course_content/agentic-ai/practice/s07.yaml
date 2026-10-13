@@ -1,0 +1,111 @@
+chapter: sessions/07-rag
+
+quizzes:
+  - title: "Session 7 · Quiz"
+    description: "RAG end to end: load, clean, chunk, embed, store, retrieve and answer."
+    questions:
+      - text: "What is RAG in three words?"
+        choices: |
+          *Find, then answer
+          Train, then test
+          Ask, then forget
+          Search, then delete
+        explanation: "First find the relevant paragraphs in your documents, then give them to the model and ask it to answer from them."
+      - text: "Why not paste a whole book into every prompt?"
+        choices: |
+          *It is too long, slow and expensive, and the model's input has a size limit
+          The model refuses books
+          It makes the answers shorter
+          It deletes the book
+        explanation: "RAG sends only the few relevant paragraphs: short, cheap and always up to date."
+      - text: "Which two stages make up RAG?"
+        choices: |
+          *Indexing (once) and querying (every question)
+          Training and testing
+          Loading and deleting
+          Encoding and decoding
+        explanation: "Prepare the document once so it can be searched quickly; then for every question, retrieve and answer."
+      - text: "Why clean the text from a PDF before chunking?"
+        choices: |
+          *Messy text (double spaces, odd line breaks, invisible characters) gives messy search results
+          Cleaning makes the PDF smaller
+          The loader refuses unclean text
+          It is required by Chroma
+        explanation: "Cleaning is cheap and improves everything after it."
+      - text: "`chunk_size=1000, chunk_overlap=150`. What does the overlap do?"
+        choices: |
+          *Each chunk repeats the last 150 characters of the previous one, so a sentence cut at an edge still appears whole somewhere
+          It skips 150 characters between chunks
+          It limits the number of chunks to 150
+          It deletes duplicate chunks
+        explanation: "Overlap protects sentences that fall on a boundary."
+      - text: "What is the problem with chunks that are too small?"
+        choices: |
+          *A chunk loses its meaning (\"it returns a list\": what does?)
+          Search becomes slow
+          The model refuses them
+          They cost more to store
+        explanation: "Too small loses meaning; too big makes search fuzzy and prompts expensive. 500-1,000 characters is a good start."
+      - text: "What does an embedding model produce?"
+        choices: |
+          *A long list of numbers that act like map coordinates for meaning
+          A shorter summary of the text
+          A translated copy of the text
+          A hash for security
+        explanation: "Texts with similar meaning get coordinates close together, even with different words."
+      - text: "What is the job of a vector database such as Chroma?"
+        choices: |
+          *Store every chunk with its numbers and quickly find the ones closest to a question
+          Run the language model
+          Convert PDFs to text
+          Check the user's password
+        explanation: "It is the searchable index built during indexing."
+      - text: "In `as_retriever(search_kwargs={\"k\": 4})`, what is k?"
+        choices: |
+          *How many chunks to retrieve
+          The chunk size
+          The temperature
+          The number of PDF pages
+        explanation: "k is the number of best-matching chunks sent to the model."
+      - text: "Which two instructions in the final prompt make the answer trustworthy?"
+        choices: |
+          *'Use ONLY the context' and 'say you don't know if it's not there'
+          'Be creative' and 'use your own knowledge'
+          'Answer quickly' and 'be short'
+          'Ignore the context' and 'guess'
+        explanation: "The first stops outside knowledge; the second gives the model permission not to guess."
+      - text: "The class code re-reads the PDF on every run. What is the fix?"
+        choices: |
+          *Check whether ./chromadb exists first, and only load and chunk the PDF when you need to build the database
+          Delete the database each time
+          Use a bigger chunk size
+          Remove the embeddings
+        explanation: "Check first, build only when missing. Delete the chromadb folder if you change the PDF."
+
+decks:
+  - title: "Session 7 · Flashcards"
+    cards:
+      - front: "RAG"
+        back: "Retrieval-Augmented Generation: find the relevant paragraphs first, then answer using only those."
+      - front: "Why RAG?"
+        back: "The model hasn't read your documents. RAG is cheaper and fresher than pasting everything or retraining."
+      - front: "Indexing vs querying"
+        back: "Indexing: prepare the document once. Querying: for each question, find chunks and answer."
+      - front: "Document loader"
+        back: "Reads a file into Documents, e.g. PyPDFLoader gives one Document per page with page_content and metadata."
+      - front: "Chunk"
+        back: "A piece of text (about 1,000 characters) small enough to search and send to the model."
+      - front: "chunk_overlap"
+        back: "Repeated characters between neighbouring chunks, so sentences cut at an edge are still whole in one chunk."
+      - front: "RecursiveCharacterTextSplitter"
+        back: "Cuts at nice places first (paragraphs, lines, sentences) and mid-word only as a last resort."
+      - front: "Embedding"
+        back: "A list of numbers for a text's meaning. Similar meaning = close together."
+      - front: "Vector database"
+        back: "Stores chunks with their embeddings and finds the closest ones to a question (Chroma, here)."
+      - front: "Retriever and k"
+        back: "Finds the best chunks for a question. k = how many chunks to return."
+      - front: "RAG prompt"
+        back: "\"Answer using ONLY the context. If it's not there, say you don't know.\" plus context and question."
+      - front: "Show sources"
+        back: "Each chunk has its page in metadata. Show it so readers can check the answer."

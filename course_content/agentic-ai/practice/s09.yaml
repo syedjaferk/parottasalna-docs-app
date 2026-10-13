@@ -1,0 +1,118 @@
+chapter: sessions/09-data-validation
+
+quizzes:
+  - title: "Session 9 · Quiz"
+    description: "Pydantic models, Field rules, validators, nested models, FastAPI and structured AI output."
+    questions:
+      - text: "What is data validation?"
+        choices: |
+          *Checking data before you use it
+          Encrypting data
+          Sorting data
+          Compressing data
+        explanation: "Like an airport security gate: define the rules once and catch problems before they travel further."
+      - text: "What advantage does Pydantic's error have over hand-written checks?"
+        choices: |
+          *It lists every problem at once, with the field, the rule and the bad value
+          It fixes the data automatically
+          It ignores the first error
+          It is shorter but vaguer
+        explanation: "Hand-written checks usually stop at the first problem."
+      - text: "`class User(BaseModel): age: int = Field(gt=0)`. What does `User(name=\"K\", age=-9)` do?"
+        choices: |
+          *Raises a ValidationError: age must be greater than 0
+          Creates the user
+          Sets age to 0
+          Returns None
+        explanation: "`gt` means 'greater than'. -9 breaks the rule."
+      - text: "`id: int` and you pass `id=\"1\"`. What do you get?"
+        choices: |
+          *id=1, converted for you
+          id=\"1\" as text
+          A ValidationError
+          id=None
+        explanation: "Pydantic converts 'almost right' data. `id=\"abc\"` would fail."
+      - text: "How do you make `bio` optional with no value when missing?"
+        choices: |
+          *bio: str | None = None
+          bio: str
+          bio: optional
+          bio = str
+        explanation: "`str | None = None` means the field may be missing."
+      - text: "Why use `Field(default_factory=list)` for a list field?"
+        choices: |
+          *It creates a fresh empty list each time instead of one shared list
+          It makes the list immutable
+          It sorts the list
+          It limits the list to 10 items
+        explanation: "A shared mutable default is a classic bug in normal functions: `def add(item, items=[])`."
+      - text: "In a custom `@field_validator`, what must the function do when the value is fine?"
+        choices: |
+          *Return the value
+          Return True
+          Return None
+          Print the value
+        explanation: "Always give the value back, or the field becomes None. Raise ValueError to reject."
+      - text: "`Order` contains a `Customer`, which contains an `Address`. How many calls validate the whole structure?"
+        choices: |
+          *One: `Order(**order_data)` (or `Order.model_validate(order_data)`) checks everything
+          One for each model
+          Three, in the right order
+          It cannot be done
+        explanation: "Nested models are checked in one go."
+      - text: "What does `response_model=UserOut` do in FastAPI?"
+        choices: |
+          *Filters the response to the fields in UserOut, so a password accidentally returned is removed
+          Validates the request body
+          Encrypts the response
+          Slows down the response
+        explanation: "UserCreate checks what comes in; UserOut filters what goes out."
+      - text: "A client sends a bad email to your FastAPI endpoint. What happens?"
+        choices: |
+          *FastAPI returns a 422 error listing the problems, and your function never runs
+          Your function runs with the bad email
+          The server crashes
+          The email is fixed silently
+        explanation: "Pydantic checks the request before your code."
+      - text: "What does `llm.with_structured_output(MovieReview)` give you?"
+        choices: |
+          *A real Python object, validated against the model's rules (e.g. rating 1-10)
+          A string that you must split by hand
+          A faster model
+          A cached answer
+        explanation: "It sends your model's shape, including field descriptions, to the AI, then checks the reply."
+      - text: "Why does `description=\"...\"` on a Field matter for AI output?"
+        choices: |
+          *The AI model reads it to understand what each field should contain
+          It sets the field's default
+          It validates the length
+          It is ignored
+        explanation: "Descriptions are part of the schema sent to the model."
+
+decks:
+  - title: "Session 9 · Flashcards"
+    cards:
+      - front: "Validation"
+        back: "Checking data before using it, at the gate rather than on the plane."
+      - front: "Pydantic BaseModel"
+        back: "Describe the shape you expect as a class; Pydantic checks every value against it."
+      - front: "ValidationError"
+        back: "Lists every problem at once: which field, which rule and which value."
+      - front: "gt / ge / lt / le"
+        back: "Greater than / greater or equal / less than / less or equal rules for numbers."
+      - front: "min_length / max_length"
+        back: "How long text (or a list) may be."
+      - front: "Optional field"
+        back: "`bio: str | None = None`. May be missing."
+      - front: "default_factory=list"
+        back: "Makes a fresh empty list every time instead of sharing one."
+      - front: "model_dump() / model_dump_json()"
+        back: "Turn a model into a dict / into JSON text."
+      - front: "@field_validator"
+        back: "Your own rule for a field. Raise ValueError to reject; always return the value."
+      - front: "Nested models"
+        back: "A model inside a model (Order > Customer > Address), all checked with one call."
+      - front: "FastAPI + Pydantic"
+        back: "Bad request = automatic 422. response_model filters what you send back (no password leaks)."
+      - front: "with_structured_output(Model)"
+        back: "Gets a validated Python object from an LLM instead of text you have to parse."

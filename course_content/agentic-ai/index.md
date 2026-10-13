@@ -9,6 +9,9 @@ We start from Python basics and add one small idea at a time.
 also *do* things: check the weather, read your files, search a database, then give you an answer.
 :::
 
+📺 Every session has its class video(s) at the top of the page. All of them are in the
+[40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil).
+
 ## How each session page works
 
 Every session page follows the same pattern, so you always know where to look:

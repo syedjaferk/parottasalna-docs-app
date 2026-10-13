@@ -1,5 +1,23 @@
 # Session 6 · Tool Calling
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/sMVrBlLZPYM"
+  title="Episode 7: Tool Calling with LangChain" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 7** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=sMVrBlLZPYM)
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/hF5tSbjIUrc"
+  title="Episode 14: How Do AI Agents Use Tools?" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 14** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=hF5tSbjIUrc)
+
 ## The big idea
 
 An AI model can only **write text**. It can't check the weather, open a database or calculate

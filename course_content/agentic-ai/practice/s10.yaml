@@ -1,0 +1,111 @@
+chapter: sessions/10-memory
+
+quizzes:
+  - title: "Session 10 · Quiz"
+    description: "Why models forget, and the six ways to manage memory: buffer, window, token budget, summary, long-term and semantic."
+    questions:
+      - text: "Why does a chatbot appear to remember what you said earlier?"
+        choices: |
+          *The app sends the earlier messages again with every new question
+          The model stores a private copy of you
+          The model updates its parameters after each chat
+          The API keeps a hidden session
+        explanation: "AI models remember nothing: every call starts fresh. Memory is about managing the 'patient file' you bring each time."
+      - text: "In the agent examples, what does a **checkpointer** do?"
+        choices: |
+          *Saves the conversation after every turn
+          Checks the code for bugs
+          Counts tokens
+          Limits the temperature
+        explanation: "InMemorySaver is the 'file cabinet' holding each conversation."
+      - text: "What is a `thread_id`?"
+        choices: |
+          *The name of one conversation: same id = same conversation, new id = empty one
+          The id of the user's account
+          The number of messages
+          The id of the model
+        explanation: "Use a new thread_id and the agent knows nothing about the previous chat."
+      - text: "You restart your program and a chat using `InMemorySaver` forgot everything. How do you make memory survive restarts?"
+        choices: |
+          *Use a persistent checkpointer such as SqliteSaver
+          Increase the temperature
+          Use a bigger model
+          Use more tools
+        explanation: "InMemorySaver lives in RAM. SqliteSaver saves to a file; production uses a database-backed saver."
+      - text: "Window memory keeps the first message and the last 4. What is its weakness?"
+        choices: |
+          *It forgets the middle of the conversation
+          It costs an extra model call
+          It only works with tools
+          It can't keep the first message
+        explanation: "'Where do I live?' fails if that message fell out of the window."
+      - text: "Why does the token-budget approach beat counting messages?"
+        choices: |
+          *One message may be 5 words and another 500; tokens are what drive cost and the model's limit
+          Tokens are free
+          Messages cannot be counted
+          It remembers more
+        explanation: "A token is roughly ¾ of a word. `trim_messages(..., max_tokens=1024)` keeps the newest messages that fit."
+      - text: "How does summary memory differ from window and token memory?"
+        choices: |
+          *It compresses old messages into a short note, so the facts survive; the cost is an extra AI call
+          It deletes old messages permanently
+          It stores them in a database
+          It needs an embedding model
+        explanation: "Window and token memory forget; summary memory shrinks. Use a smaller, cheaper model to do the summarising."
+      - text: "A user says 'I like chess' in chat 1 and expects it to be remembered in a brand-new chat next week. What do you need?"
+        choices: |
+          *Long-term memory: a Store shared by all of that user's conversations
+          A larger window
+          A higher temperature
+          A new thread_id each time
+        explanation: "A checkpointer remembers one conversation. A Store holds facts about the user across conversations."
+      - text: "In the long-term memory demo, where does `user_id` come from, and why does it matter?"
+        choices: |
+          *From your app (context), not from the AI, so the AI can't be tricked into reading another user's memories
+          From the model's reply
+          From the user's message
+          From the system prompt
+        explanation: "Security: the app decides whose folder is opened."
+      - text: "What does semantic memory add over a plain long-term store?"
+        choices: |
+          *It finds only the saved facts that mean something related to the question, using embeddings
+          It stores facts faster
+          It needs no model at all
+          It summarises the chat
+        explanation: "'Any snack ideas for my trek?' finds 'I'm allergic to peanuts' even without shared words."
+      - text: "Which memory fits 'short chats'?"
+        choices: |
+          *Buffer, saved with a persistent checkpointer
+          Semantic memory
+          Token budget plus summary plus long-term
+          No memory at all
+        explanation: "Short chats are cheap to resend in full. Long chats need a token budget or summary."
+
+decks:
+  - title: "Session 10 · Flashcards"
+    cards:
+      - front: "Why models need memory"
+        back: "They remember nothing: every call is fresh. The app must resend earlier messages."
+      - front: "Buffer memory"
+        back: "Keep every message. Simple, but it grows forever (cost and size limit)."
+      - front: "Window memory"
+        back: "Keep the first message plus the last few. Forgets the middle."
+      - front: "Token budget"
+        back: "Keep the newest messages that fit a token limit (trim_messages). Still forgets old things."
+      - front: "Summary memory"
+        back: "Replace old messages with a short summary so facts survive. Costs an extra AI call."
+      - front: "Long-term memory"
+        back: "Facts saved in a Store, shared across a user's conversations. The agent decides what to save."
+      - front: "Semantic memory"
+        back: "Long-term facts searched by meaning with embeddings. Needs an embedding model."
+      - front: "Checkpointer"
+        back: "Saves the conversation after each turn (InMemorySaver; SqliteSaver or a database for persistence)."
+      - front: "thread_id"
+        back: "The conversation's file number. Same id continues it; a new id starts fresh."
+      - front: "Middleware (@before_model)"
+        back: "A function that runs right before each AI call and can edit the message list."
+      - front: "Store vs checkpointer"
+        back: "Checkpointer = one conversation. Store = lasting facts about the user across conversations."
+      - front: "user_id in memory tools"
+        back: "Comes from your app's context, not from the AI, so users can't read each other's memories."

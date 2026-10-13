@@ -1,5 +1,14 @@
 # Session 9 · Data Validation with Pydantic
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/r2_dUMrwk0s"
+  title="Episode 11: Pydantic Data Validation for LangChain & AI Agents" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 11** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=r2_dUMrwk0s)
+
 ## The big idea
 
 Data that comes into your program, from a form, a website or an **AI model**, can be wrong: a

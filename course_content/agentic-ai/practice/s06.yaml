@@ -1,0 +1,100 @@
+chapter: sessions/06-tool-calling
+
+quizzes:
+  - title: "Session 6 · Quiz"
+    description: "How tool calling works: tools, bind_tools, tool_calls and the two-call dance."
+    questions:
+      - text: "Who actually runs the `get_weather` function when a model uses a tool?"
+        choices: |
+          *Your own program
+          The AI model
+          The AI company's server
+          The user's browser
+        explanation: "The model only sends a request like `get_weather(city=\"Paris\")`. Your code decides whether to run it, which is also where safety checks go."
+      - text: "What does the `@tool` decorator read from your function to show the model?"
+        choices: |
+          *The name, the docstring and the type hints
+          Only the function body
+          The file name and the line count
+          Only the return value
+        explanation: "Name = tool name, docstring = when to use it, type hints = what inputs to send."
+      - text: "Why does the docstring matter so much?"
+        choices: |
+          *It is how the model decides whether and when to use the tool
+          It makes the function run faster
+          Python requires it
+          It sets the temperature
+        explanation: "A vague docstring makes the model pick the wrong tool or none at all."
+      - text: "What does `llm.bind_tools(tools)` do?"
+        choices: |
+          *Attaches the tool descriptions to every request sent to the model
+          Runs every tool once
+          Installs the tools on the AI server
+          Trains the model on the tools
+        explanation: "bind_tools only describes the tools to the model. Nothing runs yet."
+      - text: "Where does the model put its request to use a tool?"
+        choices: |
+          *In `ai_msg.tool_calls`: a list with name, args and id
+          In the `.content` text
+          In the system prompt
+          In an environment variable
+        explanation: "The reply has no text; `tool_calls` holds entries like `{'name': 'get_weather', 'args': {'city': 'Paris'}, 'id': 'call_1'}`."
+      - text: "What is `tool_call_id` for?"
+        choices: |
+          *It lets the model match each result to the request it made, when several tools are asked at once
+          It is the user's ID
+          It is a password for the tool
+          It counts how many tools exist
+        explanation: "Like a token number at a bank counter: your result must carry the same ID as the request."
+      - text: "What is the 'two-call dance'?"
+        choices: |
+          *Call 1: the model asks for tools. Your code runs them. Call 2: the model writes the final answer from the results
+          Call the same model twice and compare
+          Call the weather tool twice
+          Ask the user twice
+        explanation: "ask, run tools, ask again: the pattern agents automate."
+      - text: "The model has no currency tool, and you ask it to convert 100rs to USD. What will it most likely do?"
+        choices: |
+          *Answer from memory (maybe with an old rate) or say it can't, because tools make it able to act, not forced to
+          Crash with an error
+          Invent a tool and run it
+          Always refuse
+        explanation: "Add a clear system rule: use tools for calculations and live data, and say so if no tool fits."
+      - text: "Why is native tool calling better than the hand-made ReAct loop?"
+        choices: |
+          *Inputs arrive as a ready dictionary in a guaranteed format, and results only come from your code
+          It needs no model
+          It is always free
+          It lets the model run Python itself
+        explanation: "No string cutting, no invented Observations, no broken parsing."
+      - text: "The question needs two tools in a row (multiply first, then add). What must change in this session's code?"
+        choices: |
+          *Loop until the model stops asking for tools, because the code only allows one round
+          Use a higher temperature
+          Bind the tools twice
+          Nothing: it already works
+        explanation: "Session 11 shows the agent loop that handles this."
+
+decks:
+  - title: "Session 6 · Flashcards"
+    cards:
+      - front: "Tool calling"
+        back: "Giving the model 'hands': it asks for a function to be run, your code runs it and reports back."
+      - front: "The AI never runs your code"
+        back: "It only sends a request such as get_weather(city=\"Paris\"). Your program decides whether to execute it."
+      - front: "@tool"
+        back: "Turns a Python function into a tool. Name, docstring and type hints are shown to the model."
+      - front: "Docstring (for tools)"
+        back: "Tells the model when to use the tool. Vague docstring = wrong or no tool."
+      - front: "bind_tools(tools)"
+        back: "Attaches tool descriptions to every request so the model can ask for them."
+      - front: "tool_calls"
+        back: "List on the model's reply: each has name, args and id. No text content when it wants tools."
+      - front: "tool_call_id"
+        back: "The ID that ties each tool result to the request it answers."
+      - front: "Two-call dance"
+        back: "Call 1: model asks for tools. You run them. Call 2: model answers using the results."
+      - front: "System rule for tools"
+        back: "\"Use the tools for any calculation or live data. If no tool fits, say so instead of guessing.\""
+      - front: "Native tool calling vs ReAct text"
+        back: "Native: structured tool_calls, guaranteed format. ReAct text: fragile string parsing."

@@ -1,5 +1,23 @@
 # Session 10 · Memory for Agents
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/LAA7TSVn0Bo"
+  title="Episode 12: Buffer Memory & Window Memory in LangChain" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 12** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=LAA7TSVn0Bo)
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/cJRsxdt8Zzg"
+  title="Episode 13: AI Agent Memory – Token, Summary, Long-Term & Semantic" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 13** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=cJRsxdt8Zzg)
+
 ## The big idea
 
 Here's a surprise: **AI models remember nothing.** Every call starts completely fresh. A chatbot

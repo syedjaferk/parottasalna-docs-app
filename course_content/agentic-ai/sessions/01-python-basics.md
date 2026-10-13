@@ -1,5 +1,14 @@
 # Session 1 · Python Basics
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/pSXNatreTZg"
+  title="Episode 1: Python Basics – Print, Identifiers & Data Types" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 1** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=pSXNatreTZg)
+
 ## The big idea
 
 A program is a list of instructions the computer follows **from top to bottom**. In this session

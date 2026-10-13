@@ -1,5 +1,14 @@
 # Session 2 · Data Structures
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/4F18T8hihSQ"
+  title="Episode 2: Python Basics – List, Dictionary, Tuple" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 2** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=4F18T8hihSQ)
+
 ## The big idea
 
 One variable holds one value. But real programs juggle **many** values: a list of students, a

@@ -1,0 +1,97 @@
+chapter: sessions/01-python-basics
+
+quizzes:
+  - title: "Session 1 · Quiz"
+    description: "print(), variables and types, cleaning text, and the FizzBuzz loop."
+    questions:
+      - text: "What does `print(\"Hello World\", \"Hi\")` show?"
+        choices: |
+          *Hello World Hi
+          Hello WorldHi
+          Hello World, Hi
+          Only Hello World
+        explanation: "print() puts a single space between the items you give it."
+      - text: "How should you read `age = 28`?"
+        choices: |
+          *The name `age` points to the value 28
+          `age` is exactly equal to 28 forever
+          Python checks whether age equals 28
+          `age` becomes a copy of the text 28
+        explanation: "`=` attaches a name tag to a value. It is not a maths equation, and the tag can later be moved to another value."
+      - text: "After `age = 28` and then `age = \"Twenty Eight\"`, what does `print(age)` show?"
+        choices: |
+          *Twenty Eight
+          28
+          An error, because the type changed
+          Both values
+        explanation: "Python lets a name point to a different value, even of a different type. That freedom is why Session 9 introduces Pydantic."
+      - text: "Which function lists all the methods a value has?"
+        choices: |
+          *dir()
+          list()
+          help_me()
+          methods()
+        explanation: "`dir(value)` lists the built-in abilities (methods) of a value, for example `upper` and `strip` for text."
+      - text: "`name = \"   Syed    \"`. What does `name.rstrip()` return?"
+        choices: |
+          *"   Syed"
+          "Syed    "
+          "Syed"
+          "   Syed    " (nothing changes)
+        explanation: "rstrip removes spaces on the **right** only. lstrip removes the left, strip removes both sides."
+      - text: "You call `name.strip()` on its own line and then print `name`. What do you see?"
+        choices: |
+          *The original text with the spaces still there
+          The text without the spaces
+          None
+          An error
+        explanation: "String methods return a **new** string and leave the original alone. You need `name = name.strip()` to keep the result."
+      - text: "What does `range(1, 21)` give you in a `for` loop?"
+        choices: |
+          *1 up to 20 (21 is not included)
+          1 up to 21
+          0 up to 20
+          2 up to 21
+        explanation: "The end number of `range` is never included, so range(1, 21) stops at 20."
+      - text: "What is `10 % 3`?"
+        choices: |
+          *1
+          3
+          0
+          3.33
+        explanation: "`%` gives the remainder after dividing. 10 divided by 3 is 3 with 1 left over."
+      - text: "In the class FizzBuzz code, the check `itr % 3 == 0` comes first. Why does 15 print `Fizz` instead of `FizzBuzz`?"
+        choices: |
+          *15 divides by 3, so the first `if` is true and the `elif` branches below are skipped
+          15 does not divide by 5
+          `range` skips 15
+          `elif` always runs before `if`
+        explanation: "if/elif/else run only the first true branch. Put the most specific check (3 **and** 5) first."
+
+decks:
+  - title: "Session 1 · Flashcards"
+    cards:
+      - front: "print()"
+        back: "Shows text on the screen. Several items separated by commas are printed with a space between them."
+      - front: "Variable"
+        back: "A name tag stuck on a value so you can use it later. `age = 28` means age points to 28."
+      - front: "str"
+        back: "A string: text, always inside quotes, like \"Syed\"."
+      - front: "int"
+        back: "An integer: a whole number such as 28."
+      - front: "bool"
+        back: "A boolean: either True or False."
+      - front: "dir(value)"
+        back: "Lists everything a value can do (its methods), for example upper, lower, strip."
+      - front: "strip() / lstrip() / rstrip()"
+        back: "Remove spaces from both sides / the left / the right. They return a new string."
+      - front: "for ... in range(1, 21)"
+        back: "Repeats for 1, 2, 3 ... 20. The end number is not included."
+      - front: "% (modulo)"
+        back: "The remainder after division. 9 % 3 is 0 and 10 % 3 is 1."
+      - front: "if / elif / else"
+        back: "Checks conditions from top to bottom and runs only the first one that is true."
+      - front: "FizzBuzz bug"
+        back: "Checking `% 3` before `% 3 and % 5` means 15 prints Fizz. Put the most specific check first."
+      - front: "f-string"
+        back: "A string with an f before the quotes so variables can go inside {}, like f\"Hello, {name}!\"."

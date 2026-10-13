@@ -1,5 +1,14 @@
 # Session 8 · Async Python for AI Apps
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/H4LwLdjAIh0"
+  title="Episode 10: Async Python & Virtual Envs" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 10** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=H4LwLdjAIh0)
+
 ## The big idea
 
 Asking an AI model a question takes a few seconds, and almost all of that time your program is

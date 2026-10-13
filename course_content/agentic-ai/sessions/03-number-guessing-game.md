@@ -1,5 +1,14 @@
 # Session 3 · Project: Number Guessing Game
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/po2tgT51oqg"
+  title="Episode 3: Number Guessing Game (Python Mini Project)" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+📺 **Episode 3** of the [40 Days of Agentic AI playlist](https://www.youtube.com/playlist?list=PLaLOgeegFZ78) (Tamil) · [watch on YouTube](https://www.youtube.com/watch?v=po2tgT51oqg)
+
 ## The big idea
 
 Now we build a real, complete program. The computer picks a secret number; you keep guessing; it
