@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "polls",
     "jobs",
     "resumes",
+    "profiles",
     "panel",
 ]
 

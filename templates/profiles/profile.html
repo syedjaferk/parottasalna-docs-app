@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My profile · {{ brand.NAME }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/streak.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">{% endblock %}
+{% block content %}
+<section class="pf-card pf-head">
+  <span class="pf-avatar" aria-hidden="true">{{ user.first_name|default:user.email|default:user.username|first|upper }}</span>
+  <div class="pf-who">
+    <h1>{{ user.get_full_name|default:user.username }}</h1>
+    {% if profile.headline %}<p class="pf-headline">{{ profile.headline }}</p>{% endif %}
+    <p class="pf-meta">{{ user.email }}{% if profile.location %} · {{ profile.location }}{% endif %} · joined {{ user.date_joined|date:"M Y" }}</p>
+    {% if profile.stage or profile.interests %}
+    <p class="pf-chips">
+      {% if profile.stage %}<span class="pf-chip stage">{{ profile.get_stage_display }}</span>{% endif %}
+      {% for label in profile.interest_labels %}<span class="pf-chip">{{ label }}</span>{% endfor %}
+    </p>
+    {% endif %}
+    {% if profile.github or profile.linkedin or profile.website %}
+    <p class="pf-links">
+      {% if profile.github %}<a href="{{ profile.github }}" target="_blank" rel="noopener nofollow">GitHub</a>{% endif %}
+      {% if profile.linkedin %}<a href="{{ profile.linkedin }}" target="_blank" rel="noopener nofollow">LinkedIn</a>{% endif %}
+      {% if profile.website %}<a href="{{ profile.website }}" target="_blank" rel="noopener nofollow">Website</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+</section>
+
+{% if streak %}{% include "streaks/_card.html" %}{% endif %}
+
+<section class="pf-section" aria-labelledby="activity-title">
+  <h2 id="activity-title">Your activity</h2>
+  <div class="pf-tiles">
+    <a class="pf-tile" href="{% url 'resume_mine' %}">
+      <span class="pf-num">{{ resume_count }}</span>
+      <span class="pf-label">resume review{{ resume_count|pluralize }}</span>
+      <span class="pf-go">{% if resume_count %}See reports →{% else %}Get your ATS score →{% endif %}</span>
+    </a>
+    <a class="pf-tile" href="{% url 'job_mine' %}">
+      <span class="pf-num">{{ job_count }}</span>
+      <span class="pf-label">job post{{ job_count|pluralize }}</span>
+      <span class="pf-go">{% if job_count %}Manage posts →{% else %}Post a job →{% endif %}</span>
+    </a>
+    {% for course, count in note_courses %}
+    <a class="pf-tile" href="{% url 'course_notes' course.slug %}">
+      <span class="pf-num">{{ count }}</span>
+      <span class="pf-label">note{{ count|pluralize }} · {{ course.title }}</span>
+      <span class="pf-go">Open notes →</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="pf-section" aria-labelledby="about-title">
+  <h2 id="about-title">About you</h2>
+  <p class="pf-sub">All optional. Only you and the portal admins can see this; there are no public profiles.</p>
+  <form method="post" class="pf-card pf-form" novalidate>
+    {% csrf_token %}
+    <div class="pf-grid">
+      {% for field in form %}
+      <div class="pf-field{% if field.name == 'bio' or field.name == 'interests' %} wide{% endif %}{% if field.errors %} has-error{% endif %}">
+        {% if field.name == "interests" %}
+        <fieldset>
+          <legend>Interests</legend>
+          <div class="pf-checks">{% for box in field %}<label class="pf-check">{{ box.tag }} {{ box.choice_label }}</label>{% endfor %}</div>
+          <small>{{ field.help_text }}</small>
+        </fieldset>
+        {% else %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% endif %}
+        {% for e in field.errors %}<p class="pf-error">{{ e }}</p>{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    <button class="pf-btn" type="submit">Save profile</button>
+  </form>
+</section>
+
+<section class="pf-section pf-account" aria-labelledby="account-title">
+  <h2 id="account-title">Account</h2>
+  <p>You sign in with Google as <b>{{ user.email }}</b>. To delete your account and everything in it,
+    {% if contact_email %}write to <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% else %}contact us{% endif %}.
+    See the <a href="{% url 'privacy' %}">privacy policy</a>.</p>
+  <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="pf-btn ghost" type="submit">Sign out</button></form>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+/* Profile page. Uses the main site's colour tokens (templates/base.html), so it follows light/dark mode. */
+.pf-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.4rem 1.5rem; }
+.pf-head { display: flex; gap: 1.25rem; align-items: flex-start; margin-bottom: 1.25rem; }
+.pf-avatar { flex: none; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent); font-size: 1.6rem; font-weight: 800; }
+.pf-who { min-width: 0; }
+.pf-who h1 { margin: 0; font-size: 1.6rem; line-height: 1.2; }
+.pf-headline { margin: .25rem 0 0; font-weight: 600; }
+.pf-meta { margin: .3rem 0 0; color: var(--muted); font-size: .92rem; overflow-wrap: anywhere; }
+.pf-chips { display: flex; flex-wrap: wrap; gap: .35rem; margin: .7rem 0 0; }
+.pf-chip { font-size: .8rem; font-weight: 600; padding: .15rem .6rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pf-chip.stage { background: var(--warn-soft); color: var(--warn); }
+.pf-links { display: flex; gap: 1rem; margin: .6rem 0 0; font-weight: 600; font-size: .92rem; }
+
+.pf-section { margin-top: 1.75rem; }
+.pf-section h2 { margin: 0 0 .5rem; font-size: 1.2rem; }
+.pf-sub { margin: 0 0 .75rem; color: var(--muted); font-size: .92rem; }
+
+.pf-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .75rem; }
+.pf-tile { display: grid; gap: .15rem; padding: 1rem 1.1rem; border-radius: 14px; background: var(--card); border: 1px solid var(--line);
+  text-decoration: none; color: var(--fg); transition: border-color .15s; }
+.pf-tile:hover { border-color: var(--accent); }
+.pf-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
+.pf-label { color: var(--muted); font-size: .9rem; overflow-wrap: anywhere; }
+.pf-go { margin-top: .35rem; font-size: .88rem; font-weight: 600; color: var(--accent); }
+
+.pf-form { display: grid; gap: 1rem; }
+.pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem 1rem; }
+.pf-field { display: grid; gap: .3rem; min-width: 0; }
+.pf-field.wide { grid-column: 1 / -1; }
+.pf-field label, .pf-field legend { font-weight: 600; font-size: .92rem; }
+.pf-field input[type=text], .pf-field input[type=url], .pf-field select, .pf-field textarea {
+  font: inherit; padding: .55rem .75rem; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); min-width: 0; width: 100%; box-sizing: border-box; }
+.pf-field input:focus, .pf-field select:focus, .pf-field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.pf-field fieldset { border: 0; margin: 0; padding: 0; }
+.pf-field small { color: var(--muted); font-size: .85rem; }
+.pf-checks { display: flex; flex-wrap: wrap; gap: .4rem; margin: .35rem 0 .3rem; }
+.pf-check { display: inline-flex; align-items: center; gap: .35rem; padding: .3rem .7rem; border: 1px solid var(--line); border-radius: 999px;
+  font-weight: 500; font-size: .88rem; cursor: pointer; }
+.pf-check:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.pf-check input { accent-color: var(--accent); margin: 0; }
+.has-error input, .has-error textarea { border-color: #dc2626; }
+.pf-error { margin: 0; color: #dc2626; font-size: .85rem; }
+
+.pf-btn { justify-self: start; font: inherit; font-weight: 600; padding: .6rem 1.1rem; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-fg); }
+.pf-btn.ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+.pf-btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+.pf-account p { color: var(--muted); margin: 0 0 .8rem; }
+
+@media (max-width: 640px) {
+  .pf-head { flex-direction: column; gap: .8rem; }
+  .pf-grid { grid-template-columns: 1fr; }
+  .pf-card { padding: 1.1rem; }
+}
