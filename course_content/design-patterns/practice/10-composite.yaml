@@ -1,0 +1,95 @@
+chapter: sessions/10-composite-pattern
+quizzes:
+- title: Session 10 · Composite
+  description: Check your understanding of the Composite pattern.
+  questions:
+  - text: What does the Composite pattern let you do?
+    choices: |
+      Share one object between everyone
+      *Treat a single item and a group of items the same way
+      Translate interfaces
+      Undo actions
+    explanation: A file and a folder both answer `size()`.
+  - text: What shape of data is Composite for?
+    choices: |
+      *Trees: folders in folders, menus with sub-menus, task plans
+      Flat lists only
+      Single numbers
+      Key-value pairs
+    explanation: Each group can contain items and other groups.
+  - text: How does `Folder.size()` work?
+    choices: |
+      It reads the size from the disk directly
+      It returns the number of children
+      It always returns 0
+      *It asks each child for its size and adds them up
+    explanation: Recursion does the rest.
+  - text: In the example tree (main.py 4, utils.py 2, readme.md 1, LICENSE 1), what is `root.size()`?
+    choices: |
+      4
+      6
+      *8
+      7
+    explanation: 4 + 2 + 1 + 1.
+  - text: What problem does Composite remove from the code?
+    choices: |
+      Slow imports
+      *`isinstance(item, Folder)` checks repeated in every function
+      Too many instances
+      Mismatched units
+    explanation: Without it, size, print, search and delete each repeat the type check.
+  - text: You add a folder inside itself. What happens when you call `size()`?
+    choices: |
+      *It loops forever (until Python's recursion limit)
+      It returns 0
+      It doubles the size
+      Python refuses the add
+    explanation: Check for cycles before adding.
+  - text: Should `File` have an `add()` method?
+    choices: |
+      Yes, every node must support every method
+      Yes, but it should add to the parent
+      Only if the file is empty
+      *No; keep `add()` only on the composite (folder), where it makes sense
+    explanation: Leaf methods that make no sense are a common mistake.
+  - text: In the agent task tree, "Write blog post" = Research (20 + 15) + Outline 10 + Draft 40. What does `total_minutes()`
+      return?
+    choices: |
+      75
+      40
+      *85
+      35
+    explanation: 20 + 15 + 10 + 40 = 85.
+  - text: 'Composite vs Decorator: which statement is right?'
+    choices: |
+      They are the same
+      *A composite has many children and combines their answers; a decorator wraps exactly one object
+      A decorator holds a list of children
+      A composite always changes the interface
+    explanation: One-to-many vs one-to-one.
+  - text: When is a tree NOT worth it?
+    choices: |
+      *When a flat list is enough for your data
+      When you have folders
+      When you need sizes
+      When items have names
+    explanation: Don't add structure you don't need.
+decks:
+- title: Session 10 · Composite flashcards
+  cards:
+  - front: Composite
+    back: Items and groups share one interface; a group combines its children's answers.
+  - front: Leaf
+    back: A single item with no children (a file).
+  - front: Composite node
+    back: A group that holds children (a folder).
+  - front: How sizes add up
+    back: 'Each folder asks its children and sums: recursion.'
+  - front: Cycle bug
+    back: A node added inside itself loops forever.
+  - front: '`add()` belongs on…'
+    back: The composite only, not the leaf.
+  - front: AI example
+    back: An agent plan as a tree of tasks and sub-tasks.
+  - front: Composite vs Decorator
+    back: Many children combined vs exactly one wrapped object.

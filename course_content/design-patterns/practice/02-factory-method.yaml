@@ -1,0 +1,94 @@
+chapter: sessions/02-factory-method-pattern
+quizzes:
+- title: Session 2 · Factory Method
+  description: Check your understanding of the Factory Method pattern.
+  questions:
+  - text: What does the Factory Method pattern move into one place?
+    choices: |
+      All the business logic
+      *The decision of which class to create
+      Every object's data
+      The program's error handling
+    explanation: Callers ask the factory by name; only the factory knows which class to build.
+  - text: Which everyday example matches Factory Method?
+    choices: |
+      *A juice shop: you say "mango" and get mango juice
+      A traffic light
+      A gift wrapped in paper
+      A support escalation line
+    explanation: You state what you want; the shop decides how to make it.
+  - text: You add a WhatsApp channel to the dictionary-based factory. What else must change?
+    choices: |
+      Every function that sends notifications
+      The base `Notifier` class and all callers
+      Nothing; the factory guesses new types automatically
+      *Only one new class and one new dictionary entry; `welcome_user` and `send_invoice` stay the same
+    explanation: 'That''s the point of the pattern: new types touch the factory, not the callers.'
+  - text: What should a factory do when given an unknown name like `"pigeon"`?
+    choices: |
+      Return `None` quietly
+      Return a default notifier
+      *Raise a clear error that lists the valid choices
+      Create every notifier
+    explanation: A silent fallback hides typos. Fail loudly with a helpful message.
+  - text: In the classic version, what is the "factory method"?
+    choices: |
+      `raise_alert()`, which sends the message
+      *`create_notifier()`, overridden by each subclass to return its product
+      `__init__` of the product
+      Any static method
+    explanation: The base class calls `create_notifier()`; subclasses decide which notifier it returns.
+  - text: Past 4 or 5 types, what's better than a long `if/elif` inside the factory?
+    choices: |
+      *A dictionary (registry) mapping names to classes
+      Nested `try/except` blocks
+      One subclass per caller
+      A Singleton
+    explanation: '`{"email": EmailNotifier, "sms": SMSNotifier}` is shorter and easy to extend.'
+  - text: In `create_llm(provider)`, why are imports inside each branch?
+    choices: |
+      Python requires imports inside functions
+      It makes the model answer faster
+      To hide the API key
+      *So you only need the package for the provider you actually use
+    explanation: If you never pick OpenAI, you don't need `langchain_openai` installed.
+  - text: 'A caller writes `if isinstance(n, EmailNotifier): ...` after calling the factory. What''s wrong?'
+    choices: |
+      Nothing, this is the recommended style
+      `isinstance` doesn't work on factory products
+      *The factory is supposed to hide the concrete class; all products should share the same methods
+      It makes the factory create two objects
+    explanation: If callers branch on the type again, the factory isn't hiding anything.
+  - text: When is a factory NOT worth it?
+    choices: |
+      When the class has an `__init__`
+      *When there is only ever one type to create
+      When you use Python 3
+      When the objects are small
+    explanation: '`Notifier()` is fine if there''s nothing to choose between.'
+  - text: How does a self-registering factory add new types?
+    choices: |
+      *Each class adds itself with a `@register("name")` decorator, so the factory never needs editing
+      The factory scans the hard disk for classes
+      Callers pass the class instead of a name
+      It uses `eval` on the name
+    explanation: This is how plugin systems work.
+decks:
+- title: Session 2 · Factory Method flashcards
+  cards:
+  - front: Factory Method
+    back: One place decides which class to create; callers ask by name and just use the result.
+  - front: Problem it fixes
+    back: 'The same `if type == ...: X()` copied into many functions.'
+  - front: Pythonic factory
+    back: A dictionary from name to class, plus a clear error for unknown names.
+  - front: Classic factory method
+    back: A base class calls `create_x()`, and subclasses override it to pick the product.
+  - front: Registry / plugin factory
+    back: Classes register themselves with a decorator, so adding a type never edits the factory.
+  - front: Factory vs Strategy
+    back: 'Factory: which object to create. Strategy: which behaviour to use.'
+  - front: Silent fallback
+    back: 'A mistake: returning a default for unknown names hides typos.'
+  - front: AI example
+    back: '`create_llm(provider)` picks Groq, OpenAI or a local model from a setting.'

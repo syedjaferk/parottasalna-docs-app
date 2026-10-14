@@ -1,0 +1,94 @@
+chapter: sessions/17-template-method-pattern
+quizzes:
+- title: Session 17 · Template Method
+  description: Check your understanding of the Template Method pattern.
+  questions:
+  - text: What does the Template Method pattern do?
+    choices: |
+      Swaps whole algorithms at run time
+      *Writes a fixed sequence of steps once in a base class; subclasses fill in only the steps that differ
+      Notifies observers
+      Creates families of objects
+    explanation: The order lives in one method.
+  - text: Which everyday example fits Template Method?
+    choices: |
+      *Making tea or coffee: boil, brew, pour, add extras
+      Cab, bus or metro
+      A traffic light
+      A travel adapter
+    explanation: Same steps; only brew and extras differ.
+  - text: In `Pipeline`, which method is the template method?
+    choices: |
+      `extract()`
+      `transform()`
+      `load()`
+      *`run()`
+    explanation: '`run()` calls the steps in a fixed order.'
+  - text: Which step MUST `CSVPipeline` override?
+    choices: |
+      `run()`
+      `connect()`
+      *`extract()` (it's abstract)
+      `close()`
+    explanation: Shared steps have defaults; extract differs per source.
+  - text: What is a hook?
+    choices: |
+      A step every subclass must override
+      *A step with an empty default that subclasses may override, like `before_run()`
+      A global callback
+      A decorator
+    explanation: Optional extension points.
+  - text: Which of these are template-method hooks in real frameworks?
+    choices: |
+      *`unittest`'s `setUp()` / `tearDown()` and Django's `get_queryset()`
+      `print()` and `len()`
+      `import` and `from`
+      `list.append` and `dict.get`
+    explanation: The framework calls them at fixed points.
+  - text: A subclass overrides `run()`. What's the danger?
+    choices: |
+      Python raises an error
+      Nothing; that's recommended
+      It runs twice
+      *The fixed order is lost, which defeats the pattern
+    explanation: Treat `run()` as final.
+  - text: If every step must be overridden, what's wrong?
+    choices: |
+      Nothing; that's ideal
+      Python can't run it
+      *There's nothing shared, so the base class adds little
+      It becomes a Singleton
+    explanation: The pattern pays off when most steps are shared.
+  - text: 'Template Method vs Strategy: which uses inheritance?'
+    choices: |
+      Strategy
+      *Template Method
+      Both equally
+      Neither
+    explanation: Strategy uses composition; prefer it to swap behaviour at run time.
+  - text: In the RAG ingestion example, adding a Notion source means…
+    choices: |
+      *Writing one `load()` method; clean, split and store are shared
+      Copying the whole ingest flow
+      Changing every other ingestor
+      Editing `ingest()`
+    explanation: One new step, same flow.
+decks:
+- title: Session 17 · Template Method flashcards
+  cards:
+  - front: Template Method
+    back: A base-class method fixes the order of steps; subclasses fill in the ones that differ.
+  - front: The template method
+    back: The method that calls the steps in order, like `run()`.
+  - front: Abstract step
+    back: Must be written by each subclass (`extract`).
+  - front: Default step
+    back: Shared behaviour that subclasses may override (`transform`).
+  - front: Hook
+    back: An empty default step that subclasses may override (`before_run`).
+  - front: Framework examples
+    back: '`setUp`/`tearDown`, Django `get_queryset`, scikit-learn `fit`.'
+  - front: Main mistake
+    back: Overriding `run()` and losing the fixed order.
+  - front: vs Strategy
+    back: Inheritance and fixed steps vs composition and a swappable algorithm.

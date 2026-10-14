@@ -1,0 +1,103 @@
+chapter: sessions/05-prototype-pattern
+quizzes:
+- title: Session 5 · Prototype
+  description: Check your understanding of the Prototype pattern.
+  questions:
+  - text: What does the Prototype pattern do?
+    choices: |
+      Prevents objects from being copied
+      *Creates new objects by copying an existing, ready-made one
+      Creates objects only when first used
+      Shares one object between everyone
+    explanation: Do the slow setup once, then clone.
+  - text: Which everyday example fits Prototype?
+    choices: |
+      *Photocopying a filled-in form and changing only the name
+      One electricity meter for the house
+      A juice shop
+      A travel adapter
+    explanation: Copy, then change a few details.
+  - text: |
+      What does this print?
+
+      ```python
+      import copy
+      a = {"tools": ["search"]}
+      b = copy.copy(a)
+      b["tools"].append("calc")
+      print(a["tools"])
+      ```
+    choices: |
+      `['search']`
+      `['calc']`
+      an error
+      *`['search', 'calc']`
+    explanation: A shallow copy copies the outer dict but shares the inner list, so `a` changes too.
+  - text: Same code, but with `copy.deepcopy(a)`. What does `print(a["tools"])` show?
+    choices: |
+      `['search', 'calc']`
+      `[]`
+      *`['search']`
+      an error
+    explanation: A deep copy copies the inner list as well, so the original is safe.
+  - text: When is Prototype a good fit?
+    choices: |
+      When objects are tiny and cheap to create
+      *When creating an object from scratch is slow or complicated and copies differ only slightly
+      When every object must be identical and shared
+      When two interfaces don't match
+    explanation: For cheap objects, normal construction is clearer.
+  - text: Which things usually can't be deep-copied safely?
+    choices: |
+      *Open files, database connections and locks
+      Lists and dictionaries
+      Strings and numbers
+      Dataclasses
+    explanation: Give the class a `__deepcopy__` that skips or recreates them.
+  - text: What does a prototype registry let you do?
+    choices: |
+      Count how many objects exist
+      Lock objects so they can't change
+      Share one object everywhere
+      *Keep named, ready-made templates and clone one with a few changes: `registry.clone("default", temperature=0.9)`
+    explanation: Templates by name, copies on demand.
+  - text: '`dataclasses.replace(base, system_prompt="...")` is…'
+    choices: |
+      A deep clone
+      A way to delete fields
+      *A shallow clone with some fields changed
+      A Singleton
+    explanation: 'It''s handy for prototypes, but nested lists are still shared: deepcopy those if you change them.'
+  - text: In the agent example, why clone a tested base agent?
+    choices: |
+      Cloning makes the model smarter
+      *The base already has its tools and settings right; each clone only changes the prompt
+      Agents can't be created any other way
+      To share one conversation between all agents
+    explanation: Less repeated setup, fewer mistakes.
+  - text: After `sales_bot = copy.deepcopy(base)` and `sales_bot.tools.append("crm")`, what is `base.tools`?
+    choices: |
+      *Unchanged: `['search', 'calculator']`
+      `['search', 'calculator', 'crm']`
+      Empty
+      The same list object as `sales_bot.tools`
+    explanation: Deep copies don't share inner lists.
+decks:
+- title: Session 5 · Prototype flashcards
+  cards:
+  - front: Prototype
+    back: Create new objects by cloning a ready-made one, then change a few fields.
+  - front: Shallow copy
+    back: Copies the outer object; inner lists and dicts are still shared.
+  - front: Deep copy
+    back: Copies everything inside too; the clone is fully independent.
+  - front: Main bug
+    back: Shallow-copying nested data, then changing it in the copy changes the original.
+  - front: '`__deepcopy__`'
+    back: Customise cloning, e.g. skip or recreate files, connections and locks.
+  - front: Prototype registry
+    back: Named templates you clone with changes.
+  - front: '`dataclasses.replace`'
+    back: A quick shallow clone with some fields changed.
+  - front: When not to use it
+    back: When creating the object normally is cheap and clear.

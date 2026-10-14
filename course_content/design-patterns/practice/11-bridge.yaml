@@ -1,0 +1,94 @@
+chapter: sessions/11-bridge-pattern
+quizzes:
+- title: Session 11 · Bridge
+  description: Check your understanding of the Bridge pattern.
+  questions:
+  - text: What problem does the Bridge pattern solve?
+    choices: |
+      Two interfaces that don't match
+      *Class explosion when a class varies in two independent directions
+      Too many objects in memory
+      Repeated object creation logic
+    explanation: SalesPDF, SalesCSV, InventoryPDF, InventoryCSV…
+  - text: Which everyday example fits Bridge?
+    choices: |
+      *Any remote works with any TV that speaks the standard signal
+      A travel plug adapter
+      A photocopy
+      A support escalation line
+    explanation: Remotes and TVs vary on their own and still work together.
+  - text: With 3 report types and 3 export formats, how many classes do you need?
+    choices: |
+      Bridge: 9; combinations: 6
+      Both need 9
+      Bridge: 3; combinations: 3
+      *Bridge: 6 (3 + 3); one subclass per combination: 9 (3 × 3)
+    explanation: The gap grows fast as either side grows.
+  - text: In `1.bridge.py`, what is "the bridge"?
+    choices: |
+      Inheritance from `Report`
+      The `generate()` method's return value
+      *The report holding an `exporter` object (composition)
+      A global dictionary
+    explanation: '`Report.__init__(self, exporter)` connects the two hierarchies.'
+  - text: You add `ExcelExporter`. Which report classes change?
+    choices: |
+      All of them
+      *None
+      Only `SalesReport`
+      Only the base `Report`
+    explanation: The two sides evolve independently.
+  - text: How do you switch a report from PDF to CSV while the program runs?
+    choices: |
+      *`report.exporter = CSVExporter()`
+      Create a new subclass
+      Restart the program
+      You can't with Bridge
+    explanation: It's composition, so you can swap the part.
+  - text: 'Bridge vs Adapter: which is right?'
+    choices: |
+      They are the same pattern
+      Bridge translates units
+      Adapter splits a class into two hierarchies
+      *Adapter fixes a mismatch after the fact; Bridge is planned up front to keep two sides independent
+    explanation: Different timing and intent.
+  - text: 'Bridge vs Strategy: which is right?'
+    choices: |
+      Strategy needs inheritance; Bridge doesn't
+      Bridge can't change at run time
+      *The code looks similar; Strategy swaps one algorithm, Bridge splits a whole class into two growing hierarchies
+      They solve unrelated problems
+    explanation: Scale and intent differ.
+  - text: When is Bridge overkill?
+    choices: |
+      When you have two report types
+      *When only one dimension varies; a plain interface is enough
+      When you use composition
+      When exporters are small
+    explanation: No second direction, no bridge.
+  - text: In the AI example, what are the two independent directions?
+    choices: |
+      *The agent type (Support, Research) and the model backend (Groq, OpenAI, local)
+      The prompt and the answer
+      The user and the admin
+      Sync and async
+    explanation: Any agent can run on any backend.
+decks:
+- title: Session 11 · Bridge flashcards
+  cards:
+  - front: Bridge
+    back: Split two independent directions of change into two hierarchies, joined by composition.
+  - front: Class explosion
+    back: 'One subclass per combination: n × m classes instead of n + m.'
+  - front: Abstraction side
+    back: WHAT it is (Sales report, Support agent).
+  - front: Implementation side
+    back: HOW it's done (PDF export, Groq backend).
+  - front: The bridge itself
+    back: The abstraction holds a reference to an implementation object.
+  - front: Bridge vs Adapter
+    back: Bridge is designed up front; Adapter patches a mismatch later.
+  - front: Run-time switch
+    back: 'Assign a different implementation: `report.exporter = CSVExporter()`.'
+  - front: When not to use it
+    back: When only one thing varies.

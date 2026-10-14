@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s15-command-t s15-command-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s15-command-t">Command: actions as objects you can keep</title>
+<desc id="s15-command-d">Each action is an object with execute() and undo(). History keeps them on a stack, so undo pops the last one and reverses it; redo puts it back.</desc>
+<defs><marker id="s15-command-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s15-command-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s15-command-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s15-command-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="200" height="60" rx="10" class="blue"/>
+<text x="120.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="code">AppendText(&quot;Hello&quot;)</text>
+<text x="120.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">execute() · undo()</text>
+<rect x="20" y="100" width="200" height="60" rx="10" class="blue"/>
+<text x="120.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">AppendText(&quot; World&quot;)</text>
+<text x="120.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">execute() · undo()</text>
+<rect x="290" y="40" width="170" height="110" rx="10" class="amber"/>
+<text x="375.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">History</text>
+<text x="375.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">done: [Hello, World]</text>
+<text x="375.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">undone: []</text>
+<path d="M220,50 L288,80" class="arrow" marker-end="url(#s15-command-h)"/>
+<text x="250" y="52" text-anchor="middle" dominant-baseline="middle" class="small">run</text>
+<path d="M220,130 L288,110" class="arrow" marker-end="url(#s15-command-h)"/>
+<rect x="515" y="55" width="195" height="80" rx="10" class="green"/>
+<text x="612.5" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Editor</text>
+<text x="612.5" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">text = &quot;Hello World&quot;</text>
+<path d="M460,95 L513,95" class="arrow green" marker-end="url(#s15-command-h-green)"/>
+<text x="487" y="82" text-anchor="middle" dominant-baseline="middle" class="small">execute</text>
+<path d="M375,150 L375,205 L618,205 L618,137" class="arrow red dashed" marker-end="url(#s15-command-h-red)"/>
+<text x="500" y="222" text-anchor="middle" dominant-baseline="middle" class="small">undo(): pop and reverse</text>
+</svg>
+<figcaption>Each action is an object with execute() and undo(). History keeps them on a stack, so undo pops the last one and reverses it; redo puts it back.</figcaption>
+</figure>

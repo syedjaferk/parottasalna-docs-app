@@ -1,0 +1,94 @@
+chapter: sessions/09-proxy-pattern
+quizzes:
+- title: Session 9 · Proxy
+  description: Check your understanding of the Proxy pattern.
+  questions:
+  - text: What is a Proxy?
+    choices: |
+      An object that translates one interface to another
+      *A stand-in object with the same interface that controls access to the real object
+      A function that creates objects by name
+      A list of handlers
+    explanation: The caller can't tell the difference.
+  - text: Which everyday example fits Proxy?
+    choices: |
+      *A cheque standing in for money, with checks before money moves
+      A gift wrap
+      A traffic light
+      A furniture set
+    explanation: Same purpose, with checks in front.
+  - text: What does a virtual (lazy) proxy do?
+    choices: |
+      Copies the object on every call
+      Encrypts the object
+      Runs the object on another machine
+      *Delays creating the real, expensive object until it's first needed
+    explanation: '`LazyImage` loads the photo only when `show()` is first called.'
+  - text: You create 5 `LazyImage` objects and call `gallery[0].show()` twice. How many images load from disk?
+    choices: |
+      5
+      2
+      *1
+      0
+    explanation: Only photo0 loads, and only once.
+  - text: Which proxy checks whether the user may perform an action?
+    choices: |
+      Virtual proxy
+      *Protection proxy
+      Remote proxy
+      Caching proxy
+    explanation: '`SecureDatabase` raises `PermissionError` unless the user is an admin.'
+  - text: A REST or gRPC client stub that represents a service on another machine is a…
+    choices: |
+      *Remote proxy
+      Composite
+      Builder
+      Flyweight
+    explanation: It looks local but forwards calls over the network.
+  - text: When is caching LLM answers a bad idea?
+    choices: |
+      When the prompt is long
+      When the API is fast
+      Never
+      *When you want varied, random answers (temperature above 0)
+    explanation: Only cache when the same answer is acceptable for the same prompt.
+  - text: What's wrong with `self._cache = {}` that is never limited?
+    choices: |
+      Dicts can't store strings
+      It makes calls slower
+      *It grows forever and can eat all the memory
+      It isn't thread-safe in Python 3
+    explanation: Use `lru_cache` or a size limit.
+  - text: Two threads use a lazy proxy at the same time. What can happen?
+    choices: |
+      Python prevents it automatically
+      *Both may create the real object
+      The program always deadlocks
+      Nothing, lazy proxies are always safe
+    explanation: 'Same race as the unsafe Singleton: use a lock if it matters.'
+  - text: 'Proxy vs Decorator: which statement is right?'
+    choices: |
+      *A proxy controls access (when, who, where); a decorator adds behaviour the caller wants
+      A proxy changes the interface
+      Decorators can't wrap objects
+      A proxy must always be remote
+    explanation: Same code shape, different intent.
+decks:
+- title: Session 9 · Proxy flashcards
+  cards:
+  - front: Proxy
+    back: A same-interface stand-in that controls access to the real object.
+  - front: Virtual proxy
+    back: Creates the real object only on first use (lazy).
+  - front: Caching proxy
+    back: Remembers results, like answers to repeated LLM prompts.
+  - front: Protection proxy
+    back: Checks permission before forwarding the call.
+  - front: Remote proxy
+    back: Represents an object on another machine (an API client stub).
+  - front: Logging proxy
+    back: Records every call, then forwards it; `__getattr__` makes it generic.
+  - front: Unbounded cache
+    back: 'A mistake: use `lru_cache` or a size or time limit.'
+  - front: Proxy vs Decorator
+    back: Proxy controls access; Decorator adds behaviour.

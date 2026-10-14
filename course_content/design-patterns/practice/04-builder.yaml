@@ -1,0 +1,99 @@
+chapter: sessions/04-builder-pattern
+quizzes:
+- title: Session 4 · Builder
+  description: Check your understanding of the Builder pattern.
+  questions:
+  - text: What problem does the Builder pattern solve?
+    choices: |
+      Having too many instances of a class
+      *Constructors with many (mostly optional) arguments that are hard to read and easy to mix up
+      Two interfaces that don't match
+      Slow object creation
+    explanation: '`Pizza("large", "thin", True, [...], False, "tomato", True)`: which `True` is which?'
+  - text: Why does each builder method end with `return self`?
+    choices: |
+      *So the calls can be chained: `.size("large").crust("thin")…`
+      Python requires it for methods
+      To make a copy of the builder
+      To validate the object
+    explanation: Forget it and the chain breaks with `'NoneType' object has no attribute ...`.
+  - text: Where should the checks (like "max 5 toppings") go?
+    choices: |
+      In every setter, with no check in `build()`
+      In the caller
+      Nowhere; builders don't validate
+      *In `build()`, so an invalid object can never be produced
+    explanation: Without validation in `build()`, a builder is just a long-winded constructor.
+  - text: Which everyday example fits Builder?
+    choices: |
+      A hotel receptionist
+      A traffic light
+      *Ordering a custom pizza: base, then sauce, then toppings, made at the end
+      A furniture set
+    explanation: Choose step by step; the kitchen makes it only when you're done.
+  - text: In Python, what often makes a Builder unnecessary?
+    choices: |
+      Global variables
+      *Keyword arguments with defaults, e.g. a `dataclass`
+      Inheritance
+      Lambdas
+    explanation: '`Pizza(size="large", toppings=["olives"])` is already readable.'
+  - text: When IS a Builder worth it in Python?
+    choices: |
+      *When building takes several steps, needs validation at the end, or produces an immutable object
+      Whenever a class has two fields
+      Only for database classes
+      Never in Python
+    explanation: Those are the cases keyword arguments don't cover well.
+  - text: You reuse one builder for two pizzas and the second has the first one's toppings. Why?
+    choices: |
+      Python caches pizzas
+      `build()` returns the same object every time on purpose
+      Toppings are global
+      *The builder wasn't reset after `build()`, so its toppings list carried over
+    explanation: Add a `reset()` and call it after building (or build a fresh builder).
+  - text: |
+      What does this produce?
+
+      ```python
+      QueryBuilder().select("name").from_("users").where("age > 18").build()
+      ```
+    choices: |
+      `SELECT * FROM users`
+      An error, because `where` must come first
+      *`SELECT name FROM users WHERE age > 18`
+      `name users age > 18`
+    explanation: Each step records one part; `build()` joins them in the right order.
+  - text: Why does the SQL builder exercise warn about real code?
+    choices: |
+      Builders are too slow for SQL
+      *Real SQL must use parameterised queries to avoid SQL injection
+      SQL keywords must be lowercase
+      Databases don't accept strings
+    explanation: Building SQL by joining strings is fine for learning, dangerous with user input.
+  - text: In the prompt builder, what happens if you call `build()` without `.question(...)`?
+    choices: |
+      *It raises `ValueError("a prompt needs a question")`
+      It returns an empty string
+      It asks the LLM to invent a question
+      It uses the role as the question
+    explanation: Required parts are checked at build time.
+decks:
+- title: Session 4 · Builder flashcards
+  cards:
+  - front: Builder
+    back: Build a complex object one named step at a time, then `build()` it.
+  - front: '`return self`'
+    back: Lets builder calls chain; forgetting it breaks the chain.
+  - front: Where validation goes
+    back: '`build()`: so you can never get an invalid object.'
+  - front: Python alternative
+    back: Keyword arguments with defaults (a `dataclass`).
+  - front: When to use a Builder
+    back: Many optional parts, several steps, checks at the end, or immutable results.
+  - front: '`reset()`'
+    back: Clears the builder so it can make the next object cleanly.
+  - front: AI example
+    back: 'A prompt builder: role, context, examples, question, format.'
+  - front: Over-use
+    back: 'A builder for a 3-field object: keyword arguments are simpler.'

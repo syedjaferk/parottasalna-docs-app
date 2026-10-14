@@ -1,0 +1,95 @@
+chapter: sessions/14-observer-pattern
+quizzes:
+- title: Session 14 · Observer
+  description: Check your understanding of the Observer pattern.
+  questions:
+  - text: What does the Observer pattern do?
+    choices: |
+      Turns actions into objects
+      *Lets subscribers be notified when something happens, without the publisher knowing who they are
+      Passes a request along a chain
+      Shares memory between objects
+    explanation: Subscribe once, get every notification.
+  - text: Which everyday example fits Observer?
+    choices: |
+      *Subscribers of a YouTube channel getting a notification for each new video
+      A waiter's order slip
+      A travel adapter
+      Making tea
+    explanation: The channel doesn't call each person by hand.
+  - text: Without Observer, `place_order()` calls email, inventory, warehouse and analytics directly. What's the
+      problem?
+    choices: |
+      It runs too fast
+      Python allows only three function calls per method
+      Orders are placed twice
+      *Every new reaction means editing `place_order`, and it can't be tested without all of them
+    explanation: Tight coupling.
+  - text: With an `EventBus`, how do you add an SMS when an order is placed?
+    choices: |
+      Edit `OrderService.place_order`
+      Subclass `EventBus`
+      *`bus.subscribe("order_placed", sms)`, with no change to `OrderService`
+      Publish a new event type
+    explanation: One subscribe call.
+  - text: One subscriber raises an exception inside `publish`. Without protection, what happens?
+    choices: |
+      Python skips it automatically
+      *The remaining subscribers never run
+      All subscribers run twice
+      The event is re-published
+    explanation: Wrap each handler call in `try/except` and log.
+  - text: You forget to unsubscribe an old handler. What can happen?
+    choices: |
+      *It keeps running and keeps objects alive in memory (a leak)
+      It is removed automatically
+      The bus crashes
+      Nothing at all
+    explanation: Unsubscribe when you're done, or use `once()`.
+  - text: A handler publishes the same event it listens to. What happens?
+    choices: |
+      Python detects it and stops
+      The event is ignored
+      It runs exactly twice
+      *An endless loop of notifications
+    explanation: Notification loops are a classic Observer bug.
+  - text: Should subscribers rely on the order they subscribed in?
+    choices: |
+      Yes, always alphabetical
+      Yes, newest first
+      *No; don't assume an order
+      Only for async events
+    explanation: Keep handlers independent of each other.
+  - text: One slow subscriber delays the others. What helps?
+    choices: |
+      Unsubscribe the fast ones
+      *Run heavy work in a queue or a thread
+      Call publish twice
+      Make the bus a Singleton
+    explanation: Keep handlers quick; offload heavy work.
+  - text: In LangChain, callback handlers receiving `on_llm_new_token` are an example of…
+    choices: |
+      *Observer
+      Builder
+      Flyweight
+      Bridge
+    explanation: Each streamed token is published to every subscribed listener.
+decks:
+- title: Session 14 · Observer flashcards
+  cards:
+  - front: Observer
+    back: Subscribers register for events; the publisher notifies all of them without knowing who they are.
+  - front: Subject / publisher
+    back: The thing that announces events (`OrderService`, a token stream).
+  - front: Subscriber / observer
+    back: A handler that reacts to an event.
+  - front: Event bus
+    back: A shared object holding subscribers per event name.
+  - front: Forgetting to unsubscribe
+    back: Old handlers keep running and keep memory alive.
+  - front: Crashing handler
+    back: Wrap each call in try/except so others still run.
+  - front: Notification loop
+    back: A handler that publishes the event it listens to.
+  - front: AI example
+    back: Streaming tokens to the screen, a log and a token counter at once.

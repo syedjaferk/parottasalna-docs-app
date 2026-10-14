@@ -1,0 +1,98 @@
+chapter: sessions/18-chain-of-responsibility-pattern
+quizzes:
+- title: Session 18 · Chain of Responsibility
+  description: Check your understanding of the Chain of Responsibility pattern.
+  questions:
+  - text: What does Chain of Responsibility do?
+    choices: |
+      Wraps an object to add behaviour
+      *Passes a request along a line of handlers; each handles it, stops it, or passes it on
+      Creates objects by name
+      Shares memory
+    explanation: The chain decides who handles it.
+  - text: Which everyday example fits it?
+    choices: |
+      *Support escalation: level 1, then a senior engineer, then a manager
+      A juice shop
+      One electricity meter
+      A photocopy
+    explanation: You don't choose who; the chain does.
+  - text: |
+      ```python
+      chain.handle({"token": None, "user": "kavya", "count": 5, "body": "hi"})
+      ```
+      What is returned?
+    choices: |
+      `200 ok`
+      `403 blocked`
+      `429 too many requests`
+      *`401 not logged in`
+    explanation: AuthCheck stops the request first.
+  - text: Why does `set_next()` return the handler it was given?
+    choices: |
+      To copy the handler
+      To run the handler immediately
+      *So calls can be chained: `a.set_next(b).set_next(c)`
+      Python requires it
+    explanation: Each call returns the newly added link.
+  - text: In what order should checks usually run?
+    choices: |
+      Most expensive first
+      *Cheap, likely-to-fail checks first (auth before database work)
+      Alphabetical
+      Random
+    explanation: Don't pay for work you're about to reject.
+  - text: Every handler passes the request on. What should happen at the end?
+    choices: |
+      *A defined default result or error
+      An infinite loop
+      Python raises StopIteration
+      The first handler runs again
+    explanation: '"Nobody handles it" must be decided, not accidental.'
+  - text: A handler is linked back to an earlier one. What happens?
+    choices: |
+      It runs once more and stops
+      Python prevents it
+      Nothing
+      *The request loops forever
+    explanation: Avoid cycles.
+  - text: Web middleware (auth → logging → CORS → your view) is an example of…
+    choices: |
+      Flyweight
+      Prototype
+      *Chain of Responsibility
+      Abstract Factory
+    explanation: Django, FastAPI and Express all work this way.
+  - text: 'Chain vs Decorator: which is right?'
+    choices: |
+      They're the same
+      *A decorator always runs the wrapped thing; a chain handler may stop the request early
+      A chain always runs every handler
+      A decorator can stop requests but a chain can't
+    explanation: Stopping is the key difference.
+  - text: In the guardrails example, why run `no_empty`, `max_length` and `no_secrets` before the LLM?
+    choices: |
+      *They're cheap, and a rejected message never costs an LLM call
+      The LLM needs them to work
+      To make the answer longer
+      They translate the prompt
+    explanation: In the demo, 4 messages produce just 1 LLM call.
+decks:
+- title: Session 18 · Chain of Responsibility flashcards
+  cards:
+  - front: Chain of Responsibility
+    back: Handlers in a line; each handles, stops, or passes the request on.
+  - front: Real-world picture
+    back: 'Support escalation: L1 → L2 → manager.'
+  - front: '`set_next()` returns…'
+    back: The next handler, so you can chain the calls.
+  - front: Order of handlers
+    back: Cheap, likely-to-fail checks first.
+  - front: End of the chain
+    back: Define the default when nobody stops the request.
+  - front: Function chain
+    back: A list of check functions, each returning an error or None.
+  - front: Where you see it
+    back: Web middleware, logging handlers, `except` blocks tried in order.
+  - front: AI example
+    back: Input guardrails before an LLM call.

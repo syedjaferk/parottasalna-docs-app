@@ -1,0 +1,255 @@
+chapter: patterns-at-a-glance
+quizzes:
+- title: Which pattern fits?
+  description: Real situations from every family. Pick the pattern that solves each one.
+  questions:
+  - text: Your app reads settings from disk in 12 places, and changing one copy doesn't affect the others. Which
+      pattern?
+    choices: |
+      Prototype
+      *Singleton
+      Observer
+      Bridge
+    explanation: Exactly one shared config object.
+  - text: '`if channel == "email": EmailNotifier() elif ...` is copied into five functions. Which pattern?'
+    choices: |
+      *Factory Method
+      Strategy
+      Decorator
+      Composite
+    explanation: Move the which-class decision into one place.
+  - text: Storage, queue and cache must all be local in development and all AWS in production. Which pattern?
+    choices: |
+      Factory Method
+      Facade
+      Adapter
+      *Abstract Factory
+    explanation: A family of objects that must match.
+  - text: A `Request` constructor takes 9 arguments, most optional, and must be validated before use. Which pattern?
+    choices: |
+      Prototype
+      Proxy
+      *Builder
+      State
+    explanation: Named steps, checks in `build()`.
+  - text: Setting up an agent config takes 10 seconds; you need 50 variants that differ by one field. Which pattern?
+    choices: |
+      Singleton
+      *Prototype
+      Builder
+      Flyweight
+    explanation: Set up once, deep-copy and tweak.
+  - text: Your code calls `pay(rupees)`, but the new provider's SDK has `charge(paise)`. Which pattern?
+    choices: |
+      *Adapter
+      Facade
+      Bridge
+      Decorator
+    explanation: Translate names and units.
+  - text: You want timing and retry on 30 functions without editing them. Which pattern?
+    choices: |
+      Proxy
+      Template Method
+      Chain of Responsibility
+      *Decorator
+    explanation: Wrap and add behaviour.
+  - text: Placing an order means calling inventory, payment, shipping and notification in order, from three different
+      apps. Which pattern?
+    choices: |
+      Adapter
+      Composite
+      *Facade
+      Command
+    explanation: One front door for a multi-step flow.
+  - text: A huge image should load only when someone actually opens it. Which pattern?
+    choices: |
+      Flyweight
+      *Proxy (virtual / lazy)
+      Prototype
+      Observer
+    explanation: A stand-in that creates the real object on first use.
+  - text: You need `size()` to work on one file and on a whole folder of folders. Which pattern?
+    choices: |
+      *Composite
+      Decorator
+      Bridge
+      Iterator
+    explanation: Leaves and groups share one interface.
+  - text: 4 report types × 3 export formats = 12 subclasses, and more coming. Which pattern?
+    choices: |
+      Abstract Factory
+      Strategy
+      Builder
+      *Bridge
+    explanation: Two independent hierarchies joined by composition.
+  - text: A game draws 200,000 trees of 5 species, each with a 2 MB texture. Which pattern?
+    choices: |
+      Prototype
+      Composite
+      *Flyweight
+      Singleton
+    explanation: Share the texture per species.
+  - text: 'Checkout applies one of: no discount, student 10%, premium 20%, flat ₹100, chosen per customer. Which
+      pattern?'
+    choices: |
+      State
+      *Strategy
+      Template Method
+      Factory Method
+    explanation: Interchangeable ways to do one job.
+  - text: When an order is placed, email, stock, analytics and a warehouse must react, and new reactions keep coming.
+      Which pattern?
+    choices: |
+      *Observer
+      Chain of Responsibility
+      Mediator
+      Command
+    explanation: Publish once; subscribers react.
+  - text: Your text editor needs undo and redo for every edit. Which pattern?
+    choices: |
+      Memento only
+      State
+      Observer
+      *Command
+    explanation: Actions as objects with execute and undo.
+  - text: An order behaves differently when placed, paid, shipped or cancelled, and every method has an `if status`
+      ladder. Which pattern?
+    choices: |
+      Strategy
+      Command
+      *State
+      Template Method
+    explanation: Each state is a class.
+  - text: CSV, API and database imports all connect, extract, transform, load and close in that order; only extract
+      differs. Which pattern?
+    choices: |
+      Strategy
+      *Template Method
+      Builder
+      Facade
+    explanation: Fixed steps in a base class.
+  - text: A request must pass auth, a block list, a rate limit and a size check; any of them may reject it. Which
+      pattern?
+    choices: |
+      *Chain of Responsibility
+      Decorator
+      Observer
+      Composite
+    explanation: Handlers in a line that may stop the request.
+  - text: You want one `ask()` method over OpenAI, Groq and Ollama SDKs. Which pattern?
+    choices: |
+      Bridge
+      Proxy
+      Singleton
+      *Adapter
+    explanation: Each SDK gets a small translator.
+  - text: Same prompt asked again should be answered from memory instead of paying for another LLM call. Which pattern?
+    choices: |
+      Prototype
+      Flyweight
+      *Proxy (caching)
+      Command
+    explanation: A same-interface stand-in that remembers answers.
+- title: Patterns that look alike
+  description: Tell apart the pairs people mix up most.
+  questions:
+  - text: 'Which pair is described by: "one creates a single product, the other a family of matching products"?'
+    choices: |
+      Adapter vs Facade
+      *Factory Method vs Abstract Factory
+      Strategy vs State
+      Proxy vs Decorator
+    explanation: One product vs a family.
+  - text: 'Which pair is described by: "one changes an interface, the other simplifies a big system"?'
+    choices: |
+      *Adapter vs Facade
+      Composite vs Decorator
+      Bridge vs Strategy
+      Singleton vs Flyweight
+    explanation: Translate vs simplify.
+  - text: 'Which pair is described by: "same wrapping code, but one adds a feature and the other controls access"?'
+    choices: |
+      Adapter vs Bridge
+      Command vs Observer
+      Builder vs Prototype
+      *Decorator vs Proxy
+    explanation: Intent is the difference.
+  - text: 'Which pair is described by: "in one the caller picks the behaviour, in the other the object changes its
+      own behaviour"?'
+    choices: |
+      Factory vs Strategy
+      Template Method vs Builder
+      *Strategy vs State
+      Observer vs Chain
+    explanation: Who decides the behaviour.
+  - text: 'Which pair is described by: "composition swaps a whole algorithm vs inheritance fills in fixed steps"?'
+    choices: |
+      Adapter vs Decorator
+      *Strategy vs Template Method
+      Singleton vs Prototype
+      Composite vs Flyweight
+    explanation: Composition vs inheritance.
+  - text: 'Which pair is described by: "one always calls what it wraps, the other may stop the request"?'
+    choices: |
+      *Decorator vs Chain of Responsibility
+      Proxy vs Facade
+      State vs Command
+      Bridge vs Adapter
+    explanation: Stopping early is the chain's trait.
+  - text: 'Which pair is described by: "exactly one instance vs one shared instance per kind"?'
+    choices: |
+      Prototype vs Builder
+      Factory vs Abstract Factory
+      Observer vs Command
+      *Singleton vs Flyweight
+    explanation: One per class vs one per species.
+  - text: 'Which pair is described by: "many children combined vs exactly one wrapped object"?'
+    choices: |
+      Facade vs Adapter
+      Strategy vs Bridge
+      *Composite vs Decorator
+      State vs Template Method
+    explanation: One-to-many vs one-to-one.
+  - text: 'Which pair is described by: "which object to create vs which behaviour to use"?'
+    choices: |
+      Builder vs Prototype
+      *Factory vs Strategy
+      Proxy vs Decorator
+      Observer vs State
+    explanation: 'They often work together: a factory picks the strategy.'
+  - text: 'Which pair is described by: "fixes a mismatch after the fact vs planned up front to keep two sides independent"?'
+    choices: |
+      *Adapter vs Bridge
+      Facade vs Composite
+      Command vs Strategy
+      Singleton vs Proxy
+    explanation: Timing and intent.
+decks:
+- title: Patterns at a glance flashcards
+  cards:
+  - front: Factory Method vs Abstract Factory
+    back: One product vs a family of matching products.
+  - front: Factory vs Strategy
+    back: Which object to create vs which behaviour to use.
+  - front: Adapter vs Facade
+    back: Changes an interface to fit vs simplifies a big system.
+  - front: Decorator vs Proxy
+    back: Adds a feature vs controls access.
+  - front: Decorator vs Chain
+    back: Always calls the wrapped thing vs may stop the request.
+  - front: Strategy vs State
+    back: Caller picks the behaviour vs object changes its own.
+  - front: Strategy vs Template Method
+    back: Composition, whole algorithm vs inheritance, fixed steps.
+  - front: Bridge vs Strategy
+    back: Two growing hierarchies vs one swappable algorithm.
+  - front: Composite vs Decorator
+    back: Many children vs exactly one wrapped object.
+  - front: Flyweight vs Singleton
+    back: One shared instance per kind vs exactly one instance.
+  - front: Creational patterns
+    back: Singleton, Factory Method, Abstract Factory, Builder, Prototype.
+  - front: Structural patterns
+    back: Adapter, Decorator, Facade, Proxy, Composite, Bridge, Flyweight.
+  - front: Behavioural patterns
+    back: Strategy, Observer, Command, State, Template Method, Chain of Responsibility.

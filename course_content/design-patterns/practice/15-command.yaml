@@ -1,0 +1,94 @@
+chapter: sessions/15-command-pattern
+quizzes:
+- title: Session 15 · Command
+  description: Check your understanding of the Command pattern.
+  questions:
+  - text: What does the Command pattern do?
+    choices: |
+      Runs every action immediately and forgets it
+      *Turns an action into an object that can be stored, queued, logged, undone or replayed
+      Creates one shared instance
+      Simplifies a subsystem
+    explanation: The action becomes data.
+  - text: Which everyday example fits Command?
+    choices: |
+      *A waiter writing your order on a slip that goes to the kitchen queue
+      A traffic light
+      A furniture set
+      A cheque
+    explanation: You and the chef never talk directly, and the slip can be cancelled.
+  - text: What two methods does a command in `1.command.py` have?
+    choices: |
+      `get()` and `set()`
+      `start()` and `stop()`
+      `open()` and `close()`
+      *`execute()` and `undo()`
+    explanation: Undo must reverse exactly what execute did.
+  - text: After `run("Hello")`, `run(" World")`, `undo()`, `redo()`, what is the text?
+    choices: |
+      `Hello`
+      ` World`
+      *`Hello World`
+      `Hello World World`
+    explanation: Undo removes " World"; redo puts it back.
+  - text: Why does `History.run()` clear the redo stack?
+    choices: |
+      To save memory only
+      *A new action makes old "undone" commands stale; redoing them would be wrong
+      Python requires it
+      So undo stops working
+    explanation: Forgetting this is a classic bug.
+  - text: '`DeleteLast(n)` removes the last n characters. What must it remember to support undo?'
+    choices: |
+      *The characters it removed
+      Only n
+      The whole editor history
+      Nothing
+    explanation: Otherwise it can't put them back.
+  - text: A `MacroCommand` runs several commands. In what order should `undo()` reverse them?
+    choices: |
+      In the same order
+      Random order
+      Only the last one
+      *In reverse order
+    explanation: Undo the last thing first.
+  - text: How is a job queue (Celery, RabbitMQ consumers) related to Command?
+    choices: |
+      It isn't related
+      Queues are Singletons
+      *Jobs are command objects put in a queue and executed later by a worker
+      Workers are Observers of the database
+    explanation: Store now, run later.
+  - text: Why is an LLM tool call a command?
+    choices: |
+      Because LLMs run code directly
+      *It's a name plus arguments as data, so you can log, validate, approve or replay it before running
+      Because it's always undoable
+      Because it uses a Singleton client
+    explanation: Data you can inspect before acting.
+  - text: What's a problem with an unlimited undo history?
+    choices: |
+      *It grows forever and uses more and more memory
+      Undo stops working after 10 steps
+      It makes execute() slower
+      Nothing
+    explanation: Cap the undo stack.
+decks:
+- title: Session 15 · Command flashcards
+  cards:
+  - front: Command
+    back: An action turned into an object with `execute()` (and often `undo()`).
+  - front: Real-world picture
+    back: A waiter's order slip.
+  - front: Undo
+    back: Pop the last command and call its `undo()`.
+  - front: Redo
+    back: Pop from the undone stack and `execute()` again.
+  - front: Clear redo when…
+    back: A new command runs after an undo.
+  - front: Macro command
+    back: Runs several commands; undoes them in reverse.
+  - front: Job queues
+    back: Commands stored now and executed later by workers.
+  - front: AI example
+    back: 'LLM tool calls: name + arguments, logged and approved before running.'

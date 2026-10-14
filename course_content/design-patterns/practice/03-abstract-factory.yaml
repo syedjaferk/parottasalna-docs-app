@@ -1,0 +1,95 @@
+chapter: sessions/03-abstract-factory-pattern
+quizzes:
+- title: Session 3 · Abstract Factory
+  description: Check your understanding of the Abstract Factory pattern.
+  questions:
+  - text: How is Abstract Factory different from Factory Method?
+    choices: |
+      It creates objects lazily
+      *It creates a whole family of related objects that must match, not just one object
+      It can only create abstract classes
+      It is the same thing with a longer name
+    explanation: 'Factory Method: one product. Abstract Factory: a matching set of products.'
+  - text: Which everyday example fits Abstract Factory?
+    choices: |
+      *A furniture showroom's "Modern" set, where the sofa, table and chair all match
+      A single juice order
+      A photocopy
+      A cheque
+    explanation: Pick the set once, and every piece comes from it.
+  - text: What bug does Abstract Factory prevent?
+    choices: |
+      Creating too many objects
+      Slow imports
+      Forgetting to close files
+      *Mixing parts from different families, like S3 storage with a local in-memory queue
+    explanation: '`run_app` never names a concrete class, so it can''t mix families.'
+  - text: '`run_app(factory)` uses `factory.create_storage()` and `factory.create_queue()`. How do you switch the
+      whole app to AWS?'
+    choices: |
+      Edit every place that creates storage or a queue
+      Subclass `run_app`
+      *Pass `AWSFactory()` instead of `LocalFactory()`: one change
+      Set `S3Storage.default = True`
+    explanation: The family is chosen in one spot.
+  - text: Which change is the hard direction for Abstract Factory?
+    choices: |
+      Adding a new family (e.g. `AzureFactory`)
+      *Adding a new product type (e.g. `create_cache()`), because every factory must implement it
+      Renaming a factory
+      Calling the factory twice
+    explanation: New families are easy; new product types touch every factory. Decide the product list early.
+  - text: You add `AzureFactory` with `BlobStorage` and `ServiceBusQueue`. What happens to `run_app`?
+    choices: |
+      *Nothing; it works unchanged
+      It needs a new `elif` for Azure
+      It must import the Azure classes
+      It must be rewritten
+    explanation: 'That''s the payoff: callers only know the abstract factory.'
+  - text: Your two objects don't actually have to match each other. What should you use?
+    choices: |
+      Abstract Factory anyway, to be safe
+      A Singleton
+      A Composite
+      *Plain factories (or just constructors); Abstract Factory adds structure you don't need
+    explanation: Use it only when products really belong to families.
+  - text: In the RAG example, what forms one family?
+    choices: |
+      The prompt and the answer
+      The user and the session
+      *The LLM, the embedding model and the vector store
+      Two copies of the same LLM
+    explanation: A local stack (Ollama + Chroma) and a cloud stack (hosted LLM + pgvector) are two families.
+  - text: Code does `isinstance(storage, S3Storage)` after getting it from the factory. What's the problem?
+    choices: |
+      `isinstance` is slow
+      *It leaks the concrete class, so the family is no longer hidden behind the interface
+      Factories can't return S3Storage
+      Nothing, it's recommended
+    explanation: Depend on `Storage`, not on one family's class.
+  - text: A good way to pick the factory at run time is…
+    choices: |
+      *A dict from an environment value to a factory, e.g. `APP_ENV=aws`
+      Random choice
+      Asking the user every time an object is created
+      Hard-coding `AWSFactory()` everywhere
+    explanation: '`factories[os.getenv("APP_ENV", "local")]()` chooses the whole family in one line.'
+decks:
+- title: Session 3 · Abstract Factory flashcards
+  cards:
+  - front: Abstract Factory
+    back: One factory per family; every object it creates belongs to the same family.
+  - front: Family
+    back: A set of objects that must work together, like local storage + local queue.
+  - front: Factory Method vs Abstract Factory
+    back: One product vs a matching family of products.
+  - front: Easy change
+    back: Adding a new family (a new factory class).
+  - front: Hard change
+    back: 'Adding a new product type: every factory must implement it.'
+  - front: Leaking concrete classes
+    back: Checking `isinstance(x, S3Storage)` defeats the pattern.
+  - front: AI example
+    back: 'A RAG stack factory: LLM + embeddings + vector store, local or cloud.'
+  - front: Choosing the factory
+    back: Read one setting (like `APP_ENV`) and pick the factory once.

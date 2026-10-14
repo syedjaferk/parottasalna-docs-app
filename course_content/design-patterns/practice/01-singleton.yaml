@@ -1,0 +1,111 @@
+chapter: sessions/01-singleton-pattern
+quizzes:
+- title: Session 1 · Singleton
+  description: Check your understanding of the Singleton pattern.
+  questions:
+  - text: What two things does the Singleton pattern guarantee?
+    choices: |
+      The class can't be subclassed, and its methods are static
+      *The class has only one instance, and everyone gets that same instance
+      The object can't be changed after it is created
+      Every call returns a fresh copy of the object
+    explanation: One instance, shared by everyone. That's the whole pattern.
+  - text: Which is the best everyday example of a Singleton?
+    choices: |
+      *The one electricity meter that counts the whole house
+      A photocopy of a filled-in form
+      A travel plug adapter
+      A waiter's order slip
+    explanation: Every room is counted on the same meter. Nobody installs a second one per room.
+  - text: Without a Singleton, `a = Config()` and `b = Config()` run. You set `a.settings['debug'] = True`. What
+      is `b.settings['debug']`?
+    choices: |
+      True, because both share one object
+      It raises AttributeError
+      None
+      *False, because `b` is a different object that never saw the change
+    explanation: 'Two calls build two objects. Changing one doesn''t touch the other: "I changed the setting but
+      nothing happened".'
+  - text: In the `__new__` version, why is the data set inside `__new__` instead of `__init__`?
+    choices: |
+      `__init__` can't set attributes
+      `__new__` runs faster
+      *Python runs `__init__` on every `Config()` call, even when `__new__` returns the old object, so it would reset the data
+      `__init__` is only called for subclasses
+    explanation: '`Config()` always calls `__new__` and then `__init__`. Putting data in `__init__` wipes it on
+      every call.'
+  - text: What is the simplest Singleton in Python?
+    choices: |
+      A class with only static methods
+      *A module: Python imports it once and caches it
+      A global list
+      A tuple
+    explanation: '`import settings` anywhere gets the same cached module object from `sys.modules`.'
+  - text: Two threads call the plain `__new__` Singleton at the same moment. What can happen?
+    choices: |
+      *Both see `_instance is None` and each creates an object, so you get two
+      Python raises a RuntimeError
+      The second thread waits automatically
+      Nothing: `__new__` is always thread-safe
+    explanation: Between the check and the assignment, another thread can slip in. A lock with a second check (double-checked
+      locking) fixes it.
+  - text: In double-checked locking, why check `_instance is None` a second time inside the lock?
+    choices: |
+      The first check might raise an error
+      Locks reset class attributes
+      It's only for speed; it isn't needed for correctness
+      *Another thread may have created the instance while this one was waiting for the lock
+    explanation: The first check avoids the lock in the common case. The second makes sure only one thread creates
+      the object.
+  - text: |
+      What does this print?
+
+      ```python
+      from functools import lru_cache
+
+      @lru_cache(maxsize=1)
+      def get_llm():
+          print("creating")
+          return object()
+
+      get_llm(); get_llm(); get_llm()
+      ```
+    choices: |
+      `creating` three times
+      nothing
+      *`creating` once
+      `creating` twice
+    explanation: With no arguments, the first result is cached and returned on every later call.
+  - text: Why is a Singleton often called "global state in a nice costume"?
+    choices: |
+      It always lives in a global variable called `instance`
+      *Any code can reach and change it, which makes code harder to test and reason about
+      It can only be used in global scope
+      It is slower than a global variable
+    explanation: Use it only when "exactly one" is a real rule (config, connection pool, logger), not just for convenience.
+  - text: Tests share one Singleton and one test's changes leak into the next. What's a good fix?
+    choices: |
+      *Add a `reset()` class method for tests, or pass the object in as an argument instead of importing it
+      Run every test in a new terminal
+      Make the Singleton's attributes private
+      Use `__init__` instead of `__new__`
+    explanation: Reset it in test setup/teardown, or inject the dependency so tests can pass their own object.
+decks:
+- title: Session 1 · Singleton flashcards
+  cards:
+  - front: Singleton
+    back: A class with exactly one instance, which everyone shares.
+  - front: Why not just call Config() everywhere?
+    back: 'Each call makes a new object: wasted work, and copies that disagree.'
+  - front: '`__new__` vs `__init__`'
+    back: '`__new__` builds (or returns) the object; `__init__` runs after it on every call.'
+  - front: Module as a Singleton
+    back: Python imports a module once and caches it, so its variables are shared by every importer.
+  - front: Double-checked locking
+    back: Check, take a lock, check again, then create. Safe with threads and fast after the first call.
+  - front: Shortest Singleton in Python
+    back: '`@lru_cache(maxsize=1)` on a function with no arguments.'
+  - front: Good uses
+    back: Config, logger, connection pool, an LLM client.
+  - front: Main risk
+    back: 'Hidden global state: harder testing and surprising coupling.'

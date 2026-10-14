@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s11-bridge-t s11-bridge-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-bridge-t">Bridge: two hierarchies joined by one link</title>
+<desc id="s11-bridge-d">WHAT the report is and HOW it is exported vary on their own. Any report works with any exporter: 2 + 2 classes instead of 2 × 2.</desc>
+<defs><marker id="s11-bridge-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-bridge-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-bridge-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-bridge-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="160" y="18" text-anchor="middle" dominant-baseline="middle" class="title">ABSTRACTION: what</text>
+<text x="560" y="18" text-anchor="middle" dominant-baseline="middle" class="title">IMPLEMENTATION: how</text>
+<rect x="60" y="35" width="200" height="46" rx="10" class="blue"/>
+<text x="160.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="bold">Report</text>
+<rect x="460" y="35" width="200" height="46" rx="10" class="green"/>
+<text x="560.0" y="58.0" text-anchor="middle" dominant-baseline="middle" class="bold">Exporter</text>
+<path d="M260,58 L458,58" class="arrow" marker-end="url(#s11-bridge-h)"/>
+<text x="360" y="45" text-anchor="middle" dominant-baseline="middle" class="small">has an exporter (the bridge)</text>
+<rect x="20" y="150" width="145" height="44" rx="10" class="box"/>
+<text x="92.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="code">SalesReport</text>
+<path d="M160,81 L92,148" class="arrow" marker-end="url(#s11-bridge-h)"/>
+<rect x="180" y="150" width="145" height="44" rx="10" class="box"/>
+<text x="252.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="code">InventoryReport</text>
+<path d="M160,81 L252,148" class="arrow" marker-end="url(#s11-bridge-h)"/>
+<rect x="410" y="150" width="145" height="44" rx="10" class="box"/>
+<text x="482.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="code">PDFExporter</text>
+<path d="M560,81 L482,148" class="arrow" marker-end="url(#s11-bridge-h)"/>
+<rect x="565" y="150" width="145" height="44" rx="10" class="box"/>
+<text x="637.5" y="172.0" text-anchor="middle" dominant-baseline="middle" class="code">CSVExporter</text>
+<path d="M560,81 L637,148" class="arrow" marker-end="url(#s11-bridge-h)"/>
+<text x="360" y="228" text-anchor="middle" dominant-baseline="middle" class="code">SalesReport(PDFExporter())   ·   InventoryReport(CSVExporter())</text>
+</svg>
+<figcaption>WHAT the report is and HOW it is exported vary on their own. Any report works with any exporter: 2 + 2 classes instead of 2 × 2.</figcaption>
+</figure>

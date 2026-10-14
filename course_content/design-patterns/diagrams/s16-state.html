@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="s16-state-t s16-state-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s16-state-t">State: each state knows what happens next</title>
+<desc id="s16-state-d">The order holds its current state and passes every call to it. Paying in Placed moves to Paid; cancelling after Shipped is refused.</desc>
+<defs><marker id="s16-state-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s16-state-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s16-state-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s16-state-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="140" height="50" rx="10" class="blue"/>
+<text x="90.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Placed</text>
+<rect x="290" y="30" width="140" height="50" rx="10" class="blue"/>
+<text x="360.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Paid</text>
+<rect x="560" y="30" width="140" height="50" rx="10" class="green"/>
+<text x="630.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Shipped</text>
+<rect x="290" y="175" width="140" height="50" rx="10" class="red"/>
+<text x="360.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="bold">Cancelled</text>
+<path d="M160,55 L288,55" class="arrow green" marker-end="url(#s16-state-h-green)"/>
+<text x="224" y="43" text-anchor="middle" dominant-baseline="middle" class="small">pay()</text>
+<path d="M430,55 L558,55" class="arrow green" marker-end="url(#s16-state-h-green)"/>
+<text x="494" y="43" text-anchor="middle" dominant-baseline="middle" class="small">ship()</text>
+<path d="M90,80 L90,200 L288,200" class="arrow red" marker-end="url(#s16-state-h-red)"/>
+<text x="190" y="188" text-anchor="middle" dominant-baseline="middle" class="small">cancel()</text>
+<path d="M360,80 L360,173" class="arrow red" marker-end="url(#s16-state-h-red)"/>
+<text x="400" y="128" text-anchor="middle" dominant-baseline="middle" class="small">cancel()</text>
+<text x="630" y="110" text-anchor="middle" dominant-baseline="middle" class="small">cancel() here:</text>
+<text x="630" y="128" text-anchor="middle" dominant-baseline="middle" class="small">“too late to cancel”</text>
+</svg>
+<figcaption>The order holds its current state and passes every call to it. Paying in Placed moves to Paid; cancelling after Shipped is refused.</figcaption>
+</figure>

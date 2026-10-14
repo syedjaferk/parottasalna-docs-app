@@ -1,0 +1,94 @@
+chapter: sessions/16-state-pattern
+quizzes:
+- title: Session 16 · State
+  description: Check your understanding of the State pattern.
+  questions:
+  - text: What does the State pattern do?
+    choices: |
+      Stores the state in a database
+      *Makes each state its own class; the object delegates to its current state
+      Shares one state between all objects
+      Fixes the steps of an algorithm
+    explanation: Changing state = swapping the state object.
+  - text: Which everyday example fits State?
+    choices: |
+      *A traffic light: red, green and yellow each know what comes next
+      A juice shop
+      A photocopy
+      A gift wrap
+    explanation: Same light, different behaviour per colour.
+  - text: What problem does State remove?
+    choices: |
+      Too many instances
+      Slow imports
+      Mismatched interfaces
+      *The same `if status == ...` ladder repeated in every method
+    explanation: Adding a state no longer means editing every method.
+  - text: New order, then `ship()`. What does `1.state.py` print?
+    choices: |
+      `🚚 shipped`
+      `already shipped`
+      *`❌ pay first`
+      nothing
+    explanation: In `Placed`, shipping isn't allowed yet.
+  - text: After `pay()` and `ship()`, the customer calls `cancel()`. What happens?
+    choices: |
+      The order is cancelled and refunded
+      *`❌ too late to cancel`, and the order stays Shipped
+      An exception is raised
+      It goes back to Placed
+    explanation: The Shipped state refuses cancellation.
+  - text: Where should the order's data (items, amounts) live?
+    choices: |
+      *In the context (`Order`); state classes hold only behaviour
+      In each state class
+      In a global dict
+      In the transition table
+    explanation: States shouldn't carry the order's data.
+  - text: Who should change `order.state`?
+    choices: |
+      Any code, from anywhere
+      Only the database
+      The user interface directly
+      *The state classes, during transitions
+    explanation: Letting outside code set it bypasses the rules.
+  - text: When is a transition table (dict) enough instead of state classes?
+    choices: |
+      Never
+      When there are more than 10 states
+      *For few states with simple rules and no real per-state behaviour
+      Only for traffic lights
+    explanation: '`{("placed", "pay"): "paid", ...}` covers simple machines.'
+  - text: With the table, `move("shipped", "cancel")` does what?
+    choices: |
+      Returns `"cancelled"`
+      *Raises `ValueError("cannot cancel when shipped")`
+      Returns `None`
+      Returns `"shipped"`
+    explanation: A missing pair means the move isn't allowed.
+  - text: How does State relate to LangGraph agents?
+    choices: |
+      *Nodes are states and edges are transitions, which stops bugs like answering before a tool result arrives
+      It doesn't
+      LangGraph forbids states
+      LangGraph uses Singletons instead
+    explanation: Planning → calling_tool → planning → answering → finished.
+decks:
+- title: Session 16 · State flashcards
+  cards:
+  - front: State
+    back: Each state is a class; the object delegates to its current state and swaps it on transitions.
+  - front: Context
+    back: The object that holds the current state (`Order`).
+  - front: Transition
+    back: Moving from one state to another, done inside the states.
+  - front: Terminal state
+    back: Where the process ends (Shipped, Cancelled); define it clearly.
+  - front: Transition table
+    back: A dict of (state, action) → next state, for simple machines.
+  - front: Allowed actions
+    back: '`[a for (s, a) in transitions if s == state]`, handy for showing UI buttons.'
+  - front: State vs Strategy
+    back: The object changes its own behaviour vs the caller picks it.
+  - front: AI example
+    back: 'An agent lifecycle: planning, calling_tool, answering, finished, failed.'

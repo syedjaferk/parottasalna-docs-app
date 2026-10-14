@@ -1,0 +1,96 @@
+chapter: sessions/08-facade-pattern
+quizzes:
+- title: Session 8 · Facade
+  description: Check your understanding of the Facade pattern.
+  questions:
+  - text: What does a Facade give you?
+    choices: |
+      A translation between two interfaces
+      *One simple entry point that runs a complex system's steps for you
+      A stand-in that controls access
+      One shared instance
+    explanation: One call instead of a multi-step dance.
+  - text: Which everyday example fits Facade?
+    choices: |
+      *A hotel receptionist who arranges the room, dinner and a cab for you
+      A travel plug adapter
+      A photocopy
+      A cheque
+    explanation: You never visit housekeeping or the kitchen yourself.
+  - text: Without a facade, the checkout page, mobile API and admin tool each repeat the order steps. What goes
+      wrong?
+    choices: |
+      The code runs slower
+      Python forbids repeated code
+      Payments are charged twice
+      *One change to the steps must be made in three places, and they drift apart
+    explanation: The order of steps should live in one place.
+  - text: Does a facade stop advanced users from calling `Payment` directly?
+    choices: |
+      Yes, it makes them private
+      Yes, it deletes them
+      *No; the subsystems stay usable, the facade is just an easy front door
+      Only in production
+    explanation: Blocking access is a common mistake.
+  - text: A facade has grown to 40 methods covering orders, reports and users. What's the fix?
+    choices: |
+      Add more methods
+      *Split it into several small facades, like `OrderFacade` and `ReportFacade`
+      Make it a Singleton
+      Turn it into an adapter
+    explanation: A "god" facade is hard to understand and change.
+  - text: What should the facade's methods mostly do?
+    choices: |
+      *Coordinate: call the subsystems in the right order
+      Hold the main business rules and decisions
+      Store all the data
+      Translate units
+    explanation: Coordinate, don't decide.
+  - text: In the RAG facade, what does a web app need to call?
+    choices: |
+      The loader, splitter, embedder, vector store and LLM directly
+      The vector store's internal index
+      Nothing; it runs by itself
+      *Only `ingest()` and `ask()`
+    explanation: Seven moving parts, two methods.
+  - text: 'Facade vs Adapter: which is right?'
+    choices: |
+      Facade changes method names; Adapter hides complexity
+      They are identical
+      *Facade simplifies many things behind one interface; Adapter makes one thing fit an expected interface
+      Adapter always wraps several classes
+    explanation: Simplify vs translate.
+  - text: Your code calls `place_order()` and it returns `False`. With the facade in `1.facade.py`, what could have
+      happened?
+    choices: |
+      Shipping failed after payment
+      *The item was out of stock or the payment failed, so shipping was never booked
+      The notifier crashed
+      The facade has a bug; it should never return False
+    explanation: The facade stops at the first failed step.
+  - text: Where is the order of steps (check stock → charge → ship → notify) written?
+    choices: |
+      *Once, inside the facade's method
+      In every caller
+      In the database
+      In each subsystem
+    explanation: 'That''s the whole point: one place.'
+decks:
+- title: Session 8 · Facade flashcards
+  cards:
+  - front: Facade
+    back: One simple front door that runs a complex system's steps in the right order.
+  - front: Real-world picture
+    back: A hotel receptionist.
+  - front: Subsystems
+    back: Stay usable directly; the facade doesn't hide or block them.
+  - front: God facade
+    back: One facade doing everything; split it into small focused ones.
+  - front: What a facade does
+    back: Coordinates. Business decisions belong elsewhere.
+  - front: Facade vs Adapter
+    back: Facade simplifies; Adapter translates one interface into another.
+  - front: AI example
+    back: A RAG facade with just `ingest()` and `ask()`.
+  - front: Benefit
+    back: The sequence of steps lives in one place, so callers stay simple and consistent.

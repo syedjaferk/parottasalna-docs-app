@@ -1,0 +1,100 @@
+chapter: sessions/07-decorator-pattern
+quizzes:
+- title: Session 7 · Decorator
+  description: Check your understanding of the Decorator pattern.
+  questions:
+  - text: What does the Decorator pattern do?
+    choices: |
+      Converts one interface into another
+      *Wraps an object or function to add behaviour, keeping the same interface
+      Creates one shared instance
+      Splits a class into two hierarchies
+    explanation: Same shape outside, a little extra inside.
+  - text: Which everyday example fits Decorator?
+    choices: |
+      *A gift wrapped in paper, then a ribbon, then a card
+      A travel adapter
+      A juice shop
+      A hotel receptionist
+    explanation: Each layer adds something; you choose which layers.
+  - text: What is `Sugar(Milk(Espresso())).cost()` if Espresso is 100, Milk adds 20 and Sugar adds 5?
+    choices: |
+      100
+      120
+      25
+      *125
+    explanation: Each layer adds its part to the cost of what it wraps.
+  - text: Why use `@wraps(func)` inside a decorator?
+    choices: |
+      It makes the function run faster
+      It is required for the decorator to work at all
+      *It keeps the original function's `__name__` and docstring
+      It caches the result
+    explanation: Without it, every decorated function is called `wrapper`, which makes debugging painful.
+  - text: |
+      ```python
+      @logged
+      @timed
+      def get_price(item): ...
+      ```
+      Which decorator is applied to `get_price` first?
+    choices: |
+      `@logged`
+      *`@timed` (the one closest to the function)
+      Both at the same time
+      Neither, until the function is called
+    explanation: 'Read stacked decorators from bottom to top: `get_price = logged(timed(get_price))`.'
+  - text: Without decorators, adding Milk and Sugar options to coffee would need…
+    choices: |
+      *A class for every combination: `EspressoWithMilk`, `EspressoWithMilkAndSugar`, …
+      Only one extra class
+      A Singleton
+      An adapter
+    explanation: Decorators compose instead of multiplying subclasses.
+  - text: Why is caching a function that sends emails a bad idea?
+    choices: |
+      Emails are too large to cache
+      `lru_cache` can't cache strings
+      Caching makes it send two emails
+      *The second call returns the cached result and the email is never sent again
+    explanation: Only cache pure functions without side effects.
+  - text: In `3.llm_decorators.py`, `@lru_cache` sits above `@retry`. What gets cached?
+    choices: |
+      Each failed attempt
+      The retry counter
+      *The final successful answer for each prompt
+      Nothing; the order doesn't matter
+    explanation: The cache wraps the retrying function, so only finished answers are stored.
+  - text: A decorator's wrapper returns a string when the original returned a number. What's wrong?
+    choices: |
+      Nothing, decorators can change anything
+      *The wrapper must behave like the original, including its return type
+      Decorators must always return None
+      Only class decorators may return values
+    explanation: Callers shouldn't notice the wrapper.
+  - text: 'Decorator vs Proxy: what''s the key difference?'
+    choices: |
+      *Intent: a decorator adds behaviour; a proxy controls access to the object
+      A proxy always changes the interface
+      A decorator can't wrap objects
+      They differ only in name
+    explanation: The code can look identical; the purpose differs.
+decks:
+- title: Session 7 · Decorator flashcards
+  cards:
+  - front: Decorator
+    back: Wrap something to add behaviour while keeping the same interface.
+  - front: Python `@decorator`
+    back: A function that takes a function and returns a wrapped one.
+  - front: '`@wraps`'
+    back: Keeps the original function's name and docstring on the wrapper.
+  - front: Stacking order
+    back: 'Bottom to top: the decorator nearest the function is applied first.'
+  - front: Classic object decorator
+    back: '`Sugar(Milk(Espresso()))`: each layer adds to what it wraps.'
+  - front: Typical uses
+    back: Logging, timing, retry, caching, permission checks.
+  - front: Don't cache…
+    back: Functions with side effects, like sending emails.
+  - front: Decorator vs Chain
+    back: A decorator always calls the wrapped thing; a chain handler may stop.

@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s09-proxy-t s09-proxy-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-proxy-t">Proxy: a stand-in with the same interface</title>
+<desc id="s09-proxy-d">The caller can&#x27;t tell the proxy from the real object. The proxy decides whether, when and how the real object is used.</desc>
+<defs><marker id="s09-proxy-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-proxy-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-proxy-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-proxy-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="95" width="130" height="50" rx="10" class="blue"/>
+<text x="85.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">caller</text>
+<rect x="200" y="70" width="200" height="100" rx="10" class="amber"/>
+<text x="300.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">proxy</text>
+<text x="300.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">same methods</text>
+<text x="300.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">lazy · cache · check · log</text>
+<path d="M150,120 L198,120" class="arrow" marker-end="url(#s09-proxy-h)"/>
+<text x="175" y="108" text-anchor="middle" dominant-baseline="middle" class="small">show()</text>
+<rect x="500" y="70" width="200" height="100" rx="10" class="green"/>
+<text x="600.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="bold">real object</text>
+<text x="600.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">slow / remote / costly</text>
+<path d="M400,120 L498,120" class="arrow green" marker-end="url(#s09-proxy-h-green)"/>
+<text x="450" y="108" text-anchor="middle" dominant-baseline="middle" class="small">only if needed</text>
+<path d="M300,170 L300,215 L85,215 L85,147" class="arrow blue dashed" marker-end="url(#s09-proxy-h-blue)"/>
+<text x="200" y="232" text-anchor="middle" dominant-baseline="middle" class="small">cache hit or refused: answers itself</text>
+</svg>
+<figcaption>The caller can&#x27;t tell the proxy from the real object. The proxy decides whether, when and how the real object is used.</figcaption>
+</figure>

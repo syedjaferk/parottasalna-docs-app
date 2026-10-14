@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s12-flyweight-t s12-flyweight-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-flyweight-t">Flyweight: share the heavy part</title>
+<desc id="s12-flyweight-d">Every tree keeps only its own position. The species and the 1 MB texture live once, in a shared TreeType: about 100 MB becomes about 1 MB.</desc>
+<defs><marker id="s12-flyweight-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-flyweight-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-flyweight-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-flyweight-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="10" width="150" height="30" rx="6" class="blue"/>
+<text x="95.0" y="25.0" text-anchor="middle" dominant-baseline="middle" class="small">Tree x=0 y=0</text>
+<path d="M170,25 L398,120" class="arrow" marker-end="url(#s12-flyweight-h)"/>
+<rect x="20" y="48" width="150" height="30" rx="6" class="blue"/>
+<text x="95.0" y="63.0" text-anchor="middle" dominant-baseline="middle" class="small">Tree x=1 y=2</text>
+<path d="M170,63 L398,120" class="arrow" marker-end="url(#s12-flyweight-h)"/>
+<rect x="20" y="86" width="150" height="30" rx="6" class="blue"/>
+<text x="95.0" y="101.0" text-anchor="middle" dominant-baseline="middle" class="small">Tree x=2 y=4</text>
+<path d="M170,101 L398,120" class="arrow" marker-end="url(#s12-flyweight-h)"/>
+<rect x="20" y="124" width="150" height="30" rx="6" class="blue"/>
+<text x="95.0" y="139.0" text-anchor="middle" dominant-baseline="middle" class="small">Tree x=3 y=6</text>
+<path d="M170,139 L398,120" class="arrow" marker-end="url(#s12-flyweight-h)"/>
+<rect x="20" y="162" width="150" height="30" rx="6" class="blue"/>
+<text x="95.0" y="177.0" text-anchor="middle" dominant-baseline="middle" class="small">Tree x=4 y=8</text>
+<path d="M170,177 L398,120" class="arrow" marker-end="url(#s12-flyweight-h)"/>
+<rect x="20" y="200" width="150" height="30" rx="6" class="blue"/>
+<text x="95.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="small">Tree x=5 y=10</text>
+<path d="M170,215 L398,120" class="arrow" marker-end="url(#s12-flyweight-h)"/>
+<text x="95" y="245" text-anchor="middle" dominant-baseline="middle" class="small">… 100 trees</text>
+<rect x="400" y="70" width="300" height="100" rx="10" class="green"/>
+<text x="550.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">TreeType (shared)</text>
+<text x="550.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">species = Neem</text>
+<text x="550.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">texture = 1 MB, read-only</text>
+<text x="290" y="30" text-anchor="middle" dominant-baseline="middle" class="small">extrinsic: x, y</text>
+<text x="550" y="200" text-anchor="middle" dominant-baseline="middle" class="small">intrinsic: stored once</text>
+</svg>
+<figcaption>Every tree keeps only its own position. The species and the 1 MB texture live once, in a shared TreeType: about 100 MB becomes about 1 MB.</figcaption>
+</figure>

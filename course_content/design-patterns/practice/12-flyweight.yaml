@@ -1,0 +1,94 @@
+chapter: sessions/12-flyweight-pattern
+quizzes:
+- title: Session 12 · Flyweight
+  description: Check your understanding of the Flyweight pattern.
+  questions:
+  - text: What does Flyweight save?
+    choices: |
+      CPU time, by caching function results
+      *Memory, by sharing the identical part of many similar objects
+      Disk space, by compressing files
+      Network calls
+    explanation: 100 trees share one 1 MB texture instead of 100 copies.
+  - text: What is intrinsic state?
+    choices: |
+      *The shared part that doesn't change, stored once (species, texture)
+      The unique part of each object (x, y position)
+      Data stored on disk
+      The object's methods
+    explanation: Intrinsic = inside the shared flyweight.
+  - text: What is extrinsic state?
+    choices: |
+      The shared texture
+      The class name
+      A cache
+      *The unique, per-object part, passed in from outside (x, y position)
+    explanation: Extrinsic = outside the flyweight, one per object.
+  - text: Which everyday example fits Flyweight?
+    choices: |
+      One electricity meter for a house
+      A hotel receptionist
+      *One set of printing blocks used thousands of times on a page
+      A photocopy
+    explanation: You don't carve a new "A" for every position.
+  - text: What does `TreeFactory.get("Neem", texture)` do the second time it's called?
+    choices: |
+      Creates a new TreeType
+      *Returns the TreeType already created for Neem
+      Raises an error
+      Copies the texture
+    explanation: The factory caches one flyweight per species.
+  - text: One tree changes `self.type.texture`. What happens?
+    choices: |
+      *Every tree of that species changes, because they share the same object
+      Only that tree changes
+      Python makes a copy automatically
+      Nothing; textures can't change
+    explanation: Keep flyweights read-only.
+  - text: What does `sys.intern(s)` do?
+    choices: |
+      Encrypts a string
+      Translates a string
+      Deletes duplicate strings from a list
+      *Makes equal strings share one object in memory
+    explanation: A built-in flyweight for strings.
+  - text: What does `__slots__ = ("x", "y")` do?
+    choices: |
+      Makes the class a Singleton
+      Makes attributes private
+      *Removes the per-object `__dict__`, so each instance uses less memory
+      Shares x and y between all instances
+    explanation: In `2.python_builtin.py`, 100,000 points drop from about 19 MB to about 8 MB.
+  - text: When is Flyweight worth it?
+    choices: |
+      Always, from the start
+      *With a very large number of objects and measured memory problems
+      For any class with more than 3 fields
+      When objects are all different
+    explanation: Measure first; it only pays off at scale.
+  - text: In the AI example, what is shared between 100 retrievers?
+    choices: |
+      *The embedding model (heavy, loaded once)
+      The collection name
+      The user's question
+      Nothing
+    explanation: The collection is extrinsic; the model is intrinsic.
+decks:
+- title: Session 12 · Flyweight flashcards
+  cards:
+  - front: Flyweight
+    back: Share the heavy, identical part of many objects; keep only the unique part per object.
+  - front: Intrinsic state
+    back: Shared and unchanging; stored once.
+  - front: Extrinsic state
+    back: Unique per object; passed in from outside.
+  - front: Flyweight factory
+    back: Returns the existing shared object for a key, or creates it once.
+  - front: Must be…
+    back: Read-only, or one change affects every user.
+  - front: '`sys.intern`'
+    back: Python's built-in flyweight for strings.
+  - front: '`__slots__`'
+    back: Removes the per-instance `__dict__` to save memory.
+  - front: Flyweight vs Singleton
+    back: One shared instance per kind vs exactly one instance of a class.

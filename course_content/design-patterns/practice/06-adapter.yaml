@@ -1,0 +1,94 @@
+chapter: sessions/06-adapter-pattern
+quizzes:
+- title: Session 6 · Adapter
+  description: Check your understanding of the Adapter pattern.
+  questions:
+  - text: What does an Adapter do?
+    choices: |
+      Adds new behaviour while keeping the same interface
+      *Translates one interface into another so two pieces of code can work together
+      Gives a simple front door to a large system
+      Creates objects by name
+    explanation: It changes the shape; it doesn't add features.
+  - text: Which everyday example fits Adapter?
+    choices: |
+      *A travel plug adapter between an Indian charger and a UK socket
+      Gift wrapping
+      A hotel receptionist
+      A photocopy
+    explanation: You change neither the charger nor the socket.
+  - text: '`StripeAdapter.pay(499)` calls `StripeClient.charge(...)` with which value?'
+    choices: |
+      `499`
+      `4.99`
+      `"499"`
+      *`49900` (rupees converted to paise)
+    explanation: The adapter translates units as well as method names.
+  - text: After adding adapters, what does `checkout()` need to know?
+    choices: |
+      Every provider's method names
+      Which provider is cheapest
+      *Only the `PaymentGateway` interface (`pay(rupees)`)
+      The adapters' internal clients
+    explanation: No more `isinstance` ladders in `checkout`.
+  - text: What should an adapter NOT contain?
+    choices: |
+      A reference to the wrapped object
+      *Business logic: it should only translate names, units and formats
+      A method matching the target interface
+      Error conversion
+    explanation: Keep decisions elsewhere; adapters translate.
+  - text: Why convert provider exceptions into your own error type (e.g. `PaymentError`)?
+    choices: |
+      *So callers handle one error type instead of every provider's own exceptions
+      Python requires it
+      It makes payments faster
+      To hide all errors
+    explanation: Otherwise provider details leak through the adapter.
+  - text: When should you NOT write an adapter?
+    choices: |
+      When the library is third-party
+      When there are two providers
+      When units differ
+      *When you own the code: just change it to the interface you want
+    explanation: Adapters are for code you can't or shouldn't change.
+  - text: 'Adapter vs Facade: which statement is right?'
+    choices: |
+      They are the same pattern
+      Facade translates units; Adapter adds features
+      *Adapter changes an interface to fit; Facade simplifies a big system behind a smaller one
+      Adapter wraps many classes; Facade wraps exactly one
+    explanation: One fixes a mismatch, the other hides complexity.
+  - text: 'Adapter vs Decorator: which statement is right?'
+    choices: |
+      Both change the interface
+      *A decorator keeps the same interface and adds behaviour; an adapter changes the interface
+      Decorators translate units
+      An adapter always adds caching
+    explanation: Same-shape wrapper vs different-shape wrapper.
+  - text: In the LLM example, what does `OllamaAdapter.ask(prompt)` return?
+    choices: |
+      *`r["response"]` from Ollama's `generate`, so the app gets plain text like every other adapter
+      The raw Ollama response dict
+      An OpenAI response object
+      Nothing; it prints the answer
+    explanation: 'Every adapter returns the same thing: a string.'
+decks:
+- title: Session 6 · Adapter flashcards
+  cards:
+  - front: Adapter
+    back: A small class that translates one interface into the one your code expects.
+  - front: Real-world picture
+    back: A travel plug adapter.
+  - front: What adapters translate
+    back: Method names, units (₹ → paise) and data formats.
+  - front: What adapters shouldn't contain
+    back: Business logic.
+  - front: Error conversion
+    back: Wrap provider exceptions into your own error type.
+  - front: Adapter vs Facade
+    back: Adapter changes an interface; Facade simplifies a system.
+  - front: Adapter vs Decorator
+    back: Adapter changes the interface; Decorator keeps it and adds behaviour.
+  - front: AI example
+    back: One `ask()` interface over OpenAI, Ollama and other SDKs.

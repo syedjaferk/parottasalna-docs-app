@@ -1,0 +1,38 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s18-chain-t s18-chain-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s18-chain-t">Chain of Responsibility: pass it down the line</title>
+<desc id="s18-chain-d">Each handler either stops the request with an answer or passes it to the next one. Cheap checks go first, so expensive work only happens for good requests.</desc>
+<defs><marker id="s18-chain-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s18-chain-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s18-chain-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s18-chain-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="60" width="90" height="46" rx="10" class="blue"/>
+<text x="55.0" y="83.0" text-anchor="middle" dominant-baseline="middle" class="bold">request</text>
+<rect x="130" y="60" width="110" height="46" rx="10" class="amber"/>
+<text x="185.0" y="83.0" text-anchor="middle" dominant-baseline="middle" class="code">AuthCheck</text>
+<path d="M100,83 L128,83" class="arrow green" marker-end="url(#s18-chain-h-green)"/>
+<rect x="145" y="160" width="80" height="36" rx="10" class="red"/>
+<text x="185.0" y="178.0" text-anchor="middle" dominant-baseline="middle" class="bold">401</text>
+<path d="M185,106 L185,158" class="arrow red" marker-end="url(#s18-chain-h-red)"/>
+<rect x="255" y="60" width="110" height="46" rx="10" class="amber"/>
+<text x="310.0" y="83.0" text-anchor="middle" dominant-baseline="middle" class="code">BlockedCheck</text>
+<path d="M240,83 L253,83" class="arrow green" marker-end="url(#s18-chain-h-green)"/>
+<rect x="270" y="160" width="80" height="36" rx="10" class="red"/>
+<text x="310.0" y="178.0" text-anchor="middle" dominant-baseline="middle" class="bold">403</text>
+<path d="M310,106 L310,158" class="arrow red" marker-end="url(#s18-chain-h-red)"/>
+<rect x="380" y="60" width="110" height="46" rx="10" class="amber"/>
+<text x="435.0" y="83.0" text-anchor="middle" dominant-baseline="middle" class="code">RateLimit</text>
+<path d="M365,83 L378,83" class="arrow green" marker-end="url(#s18-chain-h-green)"/>
+<rect x="395" y="160" width="80" height="36" rx="10" class="red"/>
+<text x="435.0" y="178.0" text-anchor="middle" dominant-baseline="middle" class="bold">429</text>
+<path d="M435,106 L435,158" class="arrow red" marker-end="url(#s18-chain-h-red)"/>
+<rect x="505" y="60" width="110" height="46" rx="10" class="amber"/>
+<text x="560.0" y="83.0" text-anchor="middle" dominant-baseline="middle" class="code">SizeCheck</text>
+<path d="M490,83 L503,83" class="arrow green" marker-end="url(#s18-chain-h-green)"/>
+<rect x="520" y="160" width="80" height="36" rx="10" class="red"/>
+<text x="560.0" y="178.0" text-anchor="middle" dominant-baseline="middle" class="bold">413</text>
+<path d="M560,106 L560,158" class="arrow red" marker-end="url(#s18-chain-h-red)"/>
+<path d="M630,83 L643,83" class="arrow green" marker-end="url(#s18-chain-h-green)"/>
+<rect x="645" y="60" width="65" height="46" rx="10" class="green"/>
+<text x="677.5" y="83.0" text-anchor="middle" dominant-baseline="middle" class="bold">200</text>
+<text x="360" y="220" text-anchor="middle" dominant-baseline="middle" class="small">red = stop here with an error · green = pass it on</text>
+</svg>
+<figcaption>Each handler either stops the request with an answer or passes it to the next one. Cheap checks go first, so expensive work only happens for good requests.</figcaption>
+</figure>

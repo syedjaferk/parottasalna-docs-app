@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s04-builder-t s04-builder-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s04-builder-t">Builder: one named step at a time</title>
+<desc id="s04-builder-d">Each method sets one thing and returns the builder, so calls chain. build() checks everything once and returns the finished object.</desc>
+<defs><marker id="s04-builder-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s04-builder-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s04-builder-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s04-builder-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="30" width="136" height="46" rx="10" class="ghost"/>
+<text x="78.0" y="53.0" text-anchor="middle" dominant-baseline="middle" class="code">PizzaBuilder()</text>
+<rect x="152" y="30" width="136" height="46" rx="10" class="blue"/>
+<text x="220.0" y="53.0" text-anchor="middle" dominant-baseline="middle" class="code">.size(&quot;large&quot;)</text>
+<path d="M146,53 L151,53" class="arrow" marker-end="url(#s04-builder-h)"/>
+<rect x="294" y="30" width="136" height="46" rx="10" class="blue"/>
+<text x="362.0" y="53.0" text-anchor="middle" dominant-baseline="middle" class="code">.crust(&quot;thin&quot;)</text>
+<path d="M288,53 L293,53" class="arrow" marker-end="url(#s04-builder-h)"/>
+<rect x="436" y="30" width="136" height="46" rx="10" class="blue"/>
+<text x="504.0" y="53.0" text-anchor="middle" dominant-baseline="middle" class="code">.topping(&quot;corn&quot;)</text>
+<path d="M430,53 L435,53" class="arrow" marker-end="url(#s04-builder-h)"/>
+<rect x="578" y="30" width="136" height="46" rx="10" class="blue"/>
+<text x="646.0" y="53.0" text-anchor="middle" dominant-baseline="middle" class="code">.extra_cheese()</text>
+<path d="M572,53 L577,53" class="arrow" marker-end="url(#s04-builder-h)"/>
+<path d="M646,76 L646,110 L430,110 L430,128" class="arrow" marker-end="url(#s04-builder-h)"/>
+<rect x="330" y="130" width="200" height="50" rx="10" class="amber"/>
+<text x="430.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">.build()</text>
+<text x="430.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="small">validate: max 5 toppings</text>
+<path d="M330,155 L262,155" class="arrow green" marker-end="url(#s04-builder-h-green)"/>
+<rect x="20" y="130" width="240" height="50" rx="10" class="green"/>
+<text x="140.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">Pizza(size=&#x27;large&#x27;, …)</text>
+<text x="140.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="small">finished and valid</text>
+</svg>
+<figcaption>Each method sets one thing and returns the builder, so calls chain. build() checks everything once and returns the finished object.</figcaption>
+</figure>

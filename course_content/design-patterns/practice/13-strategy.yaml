@@ -1,0 +1,103 @@
+chapter: sessions/13-strategy-pattern
+quizzes:
+- title: Session 13 · Strategy
+  description: Check your understanding of the Strategy pattern.
+  questions:
+  - text: What does the Strategy pattern do?
+    choices: |
+      Notifies subscribers of changes
+      *Puts each way of doing a job in its own interchangeable piece, so the caller can plug one in
+      Fixes the order of steps in a base class
+      Creates one shared instance
+    explanation: Same job, several ways, swap freely.
+  - text: Which everyday example fits Strategy?
+    choices: |
+      *Going to the airport by cab, bus or metro
+      A YouTube channel's subscribers
+      Making tea or coffee
+      A traffic light
+    explanation: The goal is the same; the method changes.
+  - text: |
+      What does this print?
+
+      ```python
+      cart = Cart(StudentDiscount())   # x 0.9
+      cart.add(500); cart.add(500)
+      cart.discount = FlatOff(100)
+      print(cart.checkout())
+      ```
+    choices: |
+      `900.0`
+      `1000`
+      `810.0`
+      *`900`
+    explanation: 'The strategy was swapped to FlatOff before checkout: 1000 − 100 = 900.'
+  - text: You add a "festival" offer. With Strategy, what changes?
+    choices: |
+      Edit `Cart.checkout()` with a new `elif`
+      Edit every existing strategy
+      *Add one new strategy class (or function); `Cart` doesn't change
+      Create a new Cart subclass
+    explanation: New behaviour = new strategy.
+  - text: When is a plain function enough as a strategy?
+    choices: |
+      Never; strategies must be classes
+      *When the strategy has no settings or state
+      Only for sorting
+      Only in Python 2
+    explanation: Use a class when it needs settings, like `FlatOff(amount)`.
+  - text: 'Python''s `sorted(people, key=lambda p: p["age"])` is an example of…'
+    choices: |
+      *Strategy: you plug in how to compare
+      Observer
+      Singleton
+      Composite
+    explanation: The `key` function is the strategy.
+  - text: Where should the choice of which strategy to use live?
+    choices: |
+      Inside each strategy
+      In a global variable read by every strategy
+      In the base class's `__init__`
+      *Outside the strategy: in the caller or a factory
+    explanation: Strategies do the work; something else picks them.
+  - text: All strategies must…
+    choices: |
+      Inherit from the caller
+      Be Singletons
+      *Have the same method signature, so they're interchangeable
+      Store the caller's data
+    explanation: Different signatures break the pattern.
+  - text: 'Strategy vs Template Method: which is right?'
+    choices: |
+      They're the same
+      *Strategy swaps a whole algorithm by composition; Template Method fixes the steps and subclasses fill gaps
+      Template Method can change at run time; Strategy can't
+      Strategy uses inheritance only
+    explanation: Prefer Strategy when you swap at run time.
+  - text: In the RAG example, `by_paragraph` gives 2 chunks and `by_sentence` gives 3 for the same text. What's
+      being swapped?
+    choices: |
+      *The chunking strategy, while `ingest()` stays the same
+      The document
+      The vector store
+      The LLM
+    explanation: Try strategies on the same pipeline and compare answer quality.
+decks:
+- title: Session 13 · Strategy flashcards
+  cards:
+  - front: Strategy
+    back: Several interchangeable ways to do one job; the caller plugs one in.
+  - front: Real-world picture
+    back: Cab, bus or metro to the airport.
+  - front: Pythonic strategy
+    back: Pass a function.
+  - front: Class strategy
+    back: Use one when it needs settings or several methods (`FlatOff(100)`).
+  - front: Who picks the strategy?
+    back: The caller or a factory, never the strategy itself.
+  - front: Strategy vs State
+    back: Caller picks the behaviour vs the object changes its own behaviour.
+  - front: Strategy vs Template Method
+    back: Composition, swap a whole algorithm vs inheritance, fill fixed steps.
+  - front: AI example
+    back: Swapping chunking, retrieval or prompt styles in a RAG pipeline.
