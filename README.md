@@ -232,3 +232,10 @@ Every task is logged to `/var/log/portal_ci.log`.
 - CSV exports neutralise cells starting with `= + - @` (formula injection from user-controlled names).
 - Nginx rate-limits POSTs per IP (5/s, burst 20) in `deploy/docker/nginx.conf` and `deploy/nginx.conf`.
 # parottasalna-docs-app
+
+### Code smell of the day
+
+The dashboard has a right-hand card with one code smell tip and a quick quiz per day (rotates through
+the active smells by IST date). Content is in `smells/data/code_smells.json`; restore or update it with
+`python manage.py load_smells [file.json]` (matched by `slug`, safe to re-run) and export the current
+database with `python manage.py dump_smells > backup.json`. Smells can also be edited in the admin.

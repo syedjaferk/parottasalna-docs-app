@@ -55,6 +55,10 @@ if [ -n "$APP_CHANGED" ]; then
     fi
     wait_for_web
     docker compose exec -T web python manage.py deploy_content --all
+    # Code smells are loaded only when their JSON changed, so edits made in the admin survive a deploy.
+    if printf '%s\n' "$CHANGED" | grep -q '^smells/data/code_smells.json$'; then
+        docker compose exec -T web python manage.py load_smells
+    fi
 elif [ -n "$COURSE_DIRS" ]; then
     echo "Course content changed: $COURSE_DIRS"
     # shellcheck disable=SC2086

@@ -15,5 +15,6 @@ urlpatterns = [
     path("", include("profiles.urls")),
     path("", include("live.urls")),
     path("", include("panel.urls")),
+    path("", include("smells.urls")),
     path("", include("courses.urls")),
 ]

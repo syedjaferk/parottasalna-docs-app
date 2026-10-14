@@ -1,0 +1,35 @@
+{% load static %}
+<section class="smell-card" aria-labelledby="smell-title" data-smell data-slug="{{ d.smell.slug }}"
+         data-answer-url="{% url 'smell_answer' %}" data-csrf="{{ csrf_token }}"
+         {% if d.previous %}data-prev-choice="{{ d.previous.choice }}" data-prev-correct="{{ d.previous.is_correct|yesno:'1,0' }}"{% endif %}>
+  <div class="smell-head">
+    <span class="smell-kicker">🧪 Code smell of the day</span>
+    <span class="smell-date">{% now "j M" %}</span>
+  </div>
+  <h2 id="smell-title">{{ d.smell.title }}</h2>
+  <div class="smell-meta">
+    <span class="smell-level lv-{{ d.smell.level }}">{{ d.smell.get_level_display }}</span>
+    {% for t in d.smell.tags %}<span class="smell-tag">{{ t }}</span>{% endfor %}
+  </div>
+  <p class="smell-summary">{{ d.smell.summary }}</p>
+
+  <details class="smell-more">
+    <summary>Read the tip</summary>
+    {% if d.smell.problem %}<p>{{ d.smell.problem }}</p>{% endif %}
+    {% if d.smell.why_bad %}<h3>Problems</h3><ul>{% for w in d.smell.why_bad %}<li>{{ w }}</li>{% endfor %}</ul>{% endif %}
+    {% if d.smell.bad_code %}<h3>Smelly</h3><pre><code>{{ d.smell.bad_code }}</code></pre>{% endif %}
+    {% if d.smell.good_code %}<h3>Better</h3><pre><code>{{ d.smell.good_code }}</code></pre>{% endif %}
+    {% if d.smell.fix %}<h3>Solutions</h3><ol>{% for f in d.smell.fix %}<li>{{ f }}</li>{% endfor %}</ol>{% endif %}
+    {% if d.smell.source_url %}<p class="smell-src"><a href="{{ d.smell.source_url }}" target="_blank" rel="noopener">Read the original article ↗</a></p>{% endif %}
+  </details>
+
+  <div class="smell-quiz">
+    <h3>Quick quiz</h3>
+    <div class="smell-q">{{ d.quiz.question|linebreaks }}</div>
+    <div class="smell-choices" role="group" aria-label="Answer choices">
+      {% for c in d.quiz.choices %}<button type="button" class="smell-choice" data-i="{{ forloop.counter0 }}">{{ c }}</button>{% endfor %}
+    </div>
+    <div class="smell-result" data-result hidden aria-live="polite"></div>
+  </div>
+  {% if d.stats.total %}<p class="smell-stats">Your record: {{ d.stats.correct }}/{{ d.stats.total }} correct</p>{% endif %}
+</section>

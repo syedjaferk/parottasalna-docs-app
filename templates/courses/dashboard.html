@@ -85,7 +85,7 @@
   .hero .stat-link { color: inherit; text-decoration: none; }
   .hero .stat-link:hover { text-decoration: underline; }
 {% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/live.css' %}">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/live.css' %}"><link rel="stylesheet" href="{% static 'css/smells.css' %}">{% endblock %}
 {% block content %}
 <section class="hero">
   <h1>Welcome back{% if user.first_name %}, {{ user.first_name }}{% endif %} 👋</h1>
@@ -98,6 +98,8 @@
 
 {% include "live/_today.html" %}
 
+<div class="dash-layout{% if daily_smell %} has-aside{% endif %}">
+<div class="dash-main">
 {% if courses %}
 {% if enrolled_courses %}
 <section class="course-section" aria-labelledby="enrolled-title">
@@ -163,4 +165,8 @@
   <p class="muted">You haven't been added to any courses yet. Ask your instructor to enrol this Google account, then refresh this page.</p>
 </div>
 {% endif %}
+</div>
+{% if daily_smell %}<aside class="dash-aside">{% include "smells/_daily.html" with d=daily_smell %}</aside>{% endif %}
+</div>
+{% if daily_smell %}<script src="{% static 'js/smells.js' %}" defer></script>{% endif %}
 {% endblock %}

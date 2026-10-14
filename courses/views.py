@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST, require_safe
 from blog.models import Post
 from jobs.models import Job
 from live.services import sessions_for
+from smells.services import daily_context
 from streaks.services import has_streak, record_action, summary as streak_summary
 
 from .models import Course, PageProgress
@@ -65,6 +66,7 @@ def home(request):
         "common_courses": [c for c in courses if c.is_common],
         "streak": streak_summary(request.user) if has_streak(request.user) else None,
         "live": sessions_for(request.user),
+        "daily_smell": daily_context(request.user),
     })
 
 

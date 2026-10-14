@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "resumes",
     "profiles",
     "panel",
+    "smells",
 ]
 
 MIDDLEWARE = [
