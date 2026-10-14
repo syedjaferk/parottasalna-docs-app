@@ -79,6 +79,9 @@
   </ul>
   <p>We do not receive or store your Google password.</p>
 
+  <p>Anyone with a Google account can create an account, for example to use resume review or the free
+    courses. Course material for enrolled students stays limited to the students enrolled in it.</p>
+
   <h3>b) Enrolment information</h3>
   <p>
     Your instructor adds the email addresses of enrolled students to a course. We keep that email
@@ -147,13 +150,13 @@
     say you're aiming for, the time you agreed to the review, and the finished report. The PDF is read
     by an AI model that runs on a computer we operate; it is not sent to outside AI services and is not
     used to train AI models. That computer only receives the PDF and a tracking ID, not your name or email.
-    The report is emailed to your sign-in address and shown to you on the site. Emails are sent through
-    our own mail server software, which does not keep your address in a mailing list, and handed to an
-    email delivery provider only to deliver them.
+    The report is shown to you on the site, and may also be emailed to your sign-in address. Emails are
+    sent through our own mail server software, which does not keep your address in a mailing list, and
+    handed to an email delivery provider only to deliver them.
   </p>
   <p>
-    We delete the PDF from Google Drive {{ resume_retention_days }} days after we email you the report
-    (or straight away if you click “Delete this review now”). The report stays in your account until you
+    We delete the PDF from Google Drive {{ resume_retention_days }} days after the review is finished
+    (counted from the report email, if we send one), or straight away if you click “Delete this review now”. The report stays in your account until you
     delete it or your account is deleted. Portal administrators can see the PDF and the report, for
     example to check a review before it is sent.
   </p>
@@ -243,7 +246,7 @@
       delete it within 30 days.</li>
     <li><strong>Live quiz results</strong> (nicknames, answers, scores): kept so the host can review the event; ask us and we will delete them.</li>
     <li><strong>Sign-in sessions:</strong> they expire after 2 weeks, or when you sign out.</li>
-    <li><strong>Resumes uploaded for review:</strong> the PDF is deleted from Google Drive {{ resume_retention_days }} days after the report is emailed to you; the report is kept until you delete it or your account.</li>
+    <li><strong>Resumes uploaded for review:</strong> the PDF is deleted from Google Drive {{ resume_retention_days }} days after the review is finished (or after the report email, if one is sent); the report is kept until you delete it or your account.</li>
     <li><strong>Server logs:</strong> rotated automatically and kept only for a short time.</li>
     <li><strong>Backups:</strong> kept for 14 days on our server and 30 days (encrypted) on Google Drive; deleted data may remain in a backup until that backup expires.</li>
   </ul>

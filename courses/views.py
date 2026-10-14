@@ -42,6 +42,7 @@ def _landing(request, next_url=""):
     )
     return render(request, "courses/login.html", {
         "next": next_url, "free_courses": free, "live": sessions_for(request.user),
+        "open_signup": settings.OPEN_SIGNUP,
     })
 
 

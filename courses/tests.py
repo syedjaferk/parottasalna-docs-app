@@ -38,13 +38,21 @@ class AdapterTests(TestCase):
     def test_enrolled_verified_email_may_sign_up(self):
         self.assertTrue(self.adapter.is_open_for_signup(self.request, fake_login("student@gmail.com")))
 
-    def test_unknown_email_is_rejected(self):
-        self.assertFalse(self.adapter.is_open_for_signup(self.request, fake_login("who@gmail.com")))
+    def test_unknown_verified_email_may_sign_up_when_open(self):
+        with self.settings(OPEN_SIGNUP=True):
+            self.assertTrue(self.adapter.is_open_for_signup(self.request, fake_login("who@gmail.com")))
+
+    def test_unknown_email_is_rejected_when_closed(self):
+        with self.settings(OPEN_SIGNUP=False):
+            self.assertFalse(self.adapter.is_open_for_signup(self.request, fake_login("who@gmail.com")))
+            self.assertTrue(self.adapter.is_open_for_signup(self.request, fake_login("student@gmail.com")))
 
     def test_unverified_email_is_rejected(self):
-        self.assertFalse(
-            self.adapter.is_open_for_signup(self.request, fake_login("student@gmail.com", False))
-        )
+        for open_signup in (True, False):
+            with self.settings(OPEN_SIGNUP=open_signup):
+                self.assertFalse(
+                    self.adapter.is_open_for_signup(self.request, fake_login("student@gmail.com", False))
+                )
 
     def test_local_signup_is_closed(self):
         self.assertFalse(PortalAccountAdapter().is_open_for_signup(self.request))
@@ -251,7 +259,9 @@ class CommonCourseTests(TestCase):
         self.assertContains(response, "My enrolled courses")
         self.assertContains(response, "Common courses")
 
+    @override_settings(OPEN_SIGNUP=False)
     def test_common_course_does_not_open_signup(self):
+        """With sign-up closed, a common course alone doesn't let strangers create an account."""
         adapter = PortalSocialAccountAdapter()
         self.assertFalse(adapter.is_open_for_signup(RequestFactory().get("/"), fake_login("stranger@gmail.com")))
 

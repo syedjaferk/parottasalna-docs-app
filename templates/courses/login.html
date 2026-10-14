@@ -92,8 +92,8 @@
     </ul>
   </section>
   <section class="auth-form" aria-labelledby="signin-title">
-    <h2 id="signin-title">Students, sign in</h2>
-    <p class="muted">Use the Google account your instructor enrolled.</p>
+    <h2 id="signin-title">Sign in</h2>
+    <p class="muted">{% if open_signup %}Any Google account works. Enrolled students: use the account your instructor added.{% else %}Use the Google account your instructor enrolled.{% endif %}</p>
     <form method="post" action="{% provider_login_url 'google' %}">
       {% csrf_token %}
       {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
@@ -103,8 +103,9 @@
       </button>
     </form>
     <p class="fine muted">{{ brand.PRODUCT }} uses Google Sign-In only to confirm your name and email,
-      so enrolled students can open their courses and keep their progress. See our
+      so you can use the portal and enrolled students can open their courses and keep their progress. See our
       <a href="{% url 'privacy' %}">Privacy Policy</a>.</p>
+    {% if open_signup %}<p class="fine muted">New: <a href="{% url 'resume_upload' %}">free resume review</a> with an ATS score, for anyone who signs in.</p>{% endif %}
     <p class="fine muted">Only enrolled accounts can access course material.<br>Not enrolled yet? {% if free_courses %}Read the <a href="#free-courses">free courses</a> or learn{% else %}Learn free{% endif %} on <a href="{{ brand.YOUTUBE }}" target="_blank" rel="noopener">YouTube</a>.</p>
   </section>
 </div>

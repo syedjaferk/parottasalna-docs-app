@@ -6,8 +6,10 @@ served only to users enrolled in that course.
 ## How it works
 
 - **Login:** Google only. No passwords, no local signup.
-- **Allow-list:** an admin adds Gmail addresses to a course (bulk textarea or inline table).
-  A brand-new Google account is rejected unless its verified email is on some course.
+- **Sign-up:** any verified Google account can create an account (`OPEN_SIGNUP=true`, the default), e.g.
+  for resume review and the free courses. **Enrollment-only courses** are still checked on every request:
+  an admin adds Gmail addresses to a course (bulk textarea or inline table). With `OPEN_SIGNUP=false`, a
+  brand-new Google account is rejected unless its verified email is on some course.
 - **Docs:** `course_content/<slug>/*.md` -> `sphinx-build` -> `docs_build/<slug>/html/`.
   Every request to `/courses/<slug>/docs/...` is authorised by Django first.
 - **Common courses** (tick *Common course* in the admin) are public: anyone can read their docs without signing in

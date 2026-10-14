@@ -155,6 +155,9 @@ ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_SIGNUP_FIELDS = ["email*"]
 ACCOUNT_EMAIL_VERIFICATION = "none"  # Google already verified the address
 SOCIALACCOUNT_AUTO_SIGNUP = True
+# Anyone with a verified Google account may sign up (resume review, free courses, job posts). Enrolled-only
+# course material stays gated per request. false = only emails an admin enrolled in a course can sign up.
+OPEN_SIGNUP = env_bool("OPEN_SIGNUP", True)
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_STORE_TOKENS = False  # we only sign people in; Google access tokens are never kept
 

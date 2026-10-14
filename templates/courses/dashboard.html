@@ -80,6 +80,10 @@
   .channel strong { display: block; }
   .channel span { font-size: .9rem; color: var(--muted); }
   .channel .btn.yt { background: #ff0033; color: #fff; box-shadow: 0 4px 14px rgba(255, 0, 51, .25); }
+  .channel.resume { margin: 0 0 1.5rem; }
+  .channel .rv-badge { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; flex: none;
+    background: var(--accent-soft); font-size: 1.5rem; }
+  .channel .btn.rv { background: var(--accent); color: var(--accent-fg); }
 {% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/live.css' %}">
 <link rel="stylesheet" href="{% static 'css/streak.css' %}">{% endblock %}
@@ -93,6 +97,15 @@
 {% include "live/_today.html" %}
 
 {% if streak %}{% include "streaks/_card.html" %}{% endif %}
+
+<div class="channel resume">
+  <span class="rv-badge" aria-hidden="true">📄</span>
+  <div>
+    <strong>New: free resume review</strong>
+    <span>Upload your resume and get an ATS score, what to fix first and the keywords you're missing. Reviewed privately by an AI model on our own computer.</span>
+  </div>
+  <a class="btn rv" href="{% url 'resume_upload' %}">Review my resume</a>
+</div>
 
 {% if courses %}
 {% if enrolled_courses %}
