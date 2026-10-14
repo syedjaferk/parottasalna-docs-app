@@ -345,3 +345,23 @@ class DriveAuthorizeTests(TestCase):
         from django.core.management.base import CommandError
         with self.assertRaises(CommandError):
             call_command("drive_authorize", client_secrets="nope.json", stdout=StringIO())
+
+
+@override_settings(**DRIVE)
+class EmailWordingTests(TestCase):
+    """The site only promises an email when the mailer is configured."""
+    def setUp(self):
+        self.client.force_login(User.objects.create_user("s", email="s@gmail.com"))
+
+    @override_settings(MAILER_URL="")
+    def test_no_email_promise_without_mailer(self):
+        resp = self.client.get(reverse("resume_upload"))
+        self.assertNotContains(resp, "We email it")
+        self.assertNotContains(resp, "emailed to me")
+        self.assertContains(resp, "My reviews")
+
+    @override_settings(**MAILER)
+    def test_email_promise_with_mailer(self):
+        resp = self.client.get(reverse("resume_upload"))
+        self.assertContains(resp, "We email it")
+        self.assertContains(resp, "emailed to me")

@@ -18,10 +18,10 @@
 {% if review.is_open %}
 <div class="rv-card rv-banner">
   {% if review.status == "queued" %}Your resume is in the queue.{% else %}Your resume is being reviewed right now.{% endif %}
-  We'll email the report to <b>{{ review.email }}</b>. Keep your tracking ID to check back here.
+  {% if emails_on %}We'll email the report to <b>{{ review.email }}</b>. {% endif %}Keep your tracking ID to check back here; reviews usually take a few minutes, sometimes longer when many people upload at once.
 </div>
 {% elif review.status == "held" %}
-<div class="rv-card rv-banner">Your review is ready and our team is giving it a quick check. You'll get it by email soon.</div>
+<div class="rv-card rv-banner">Your review is ready and our team is giving it a quick check. {% if emails_on %}You'll get it by email soon.{% else %}It will appear on this page soon.{% endif %}</div>
 {% elif review.status == "failed" %}
 <div class="rv-card rv-banner is-bad">{{ review.status_note|default:"We couldn't review this resume. Please upload it again." }}
   <a href="{% url 'resume_upload' %}">Upload again →</a></div>

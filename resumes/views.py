@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods, require_POST, req
 
 from courses.security import no_store
 
-from . import drive, services
+from . import drive, mailer, services
 from .forms import ResumeForm
 from .models import ResumeReview, normalise_tracking_id
 
@@ -45,7 +45,8 @@ def upload(request):
 @csrf_protect
 def _upload(request):
     available = drive.is_configured()
-    form = ResumeForm(request.POST or None, request.FILES or None)
+    emails_on = mailer.is_configured()
+    form = ResumeForm(request.POST or None, request.FILES or None, emails_on=emails_on)
     if request.method == "POST" and available:
         if services.over_daily_limit(request.user):
             messages.error(request, f"You can upload up to {services.DAILY_LIMIT} resumes a day. Please try again tomorrow.")
@@ -57,12 +58,13 @@ def _upload(request):
                 log.exception("Resume upload to Drive failed")
                 messages.error(request, "We couldn't upload your resume just now. Please try again in a few minutes.")
             else:
-                messages.success(request, f"Uploaded! Your tracking ID is {review.tracking_id}. "
-                                          f"We'll email the report to {review.email}.")
+                messages.success(request, f"Uploaded! Your tracking ID is {review.tracking_id}. " + (
+                    f"We'll email the report to {review.email}." if emails_on
+                    else "Your report will appear on this page; check back in a little while."))
                 return redirect(review)
     recent = ResumeReview.objects.filter(user=request.user)[:3]
     return render(request, "resumes/upload.html", {
-        "form": form, "available": available, "recent": recent,
+        "form": form, "available": available, "recent": recent, "emails_on": emails_on,
         "daily_limit": services.DAILY_LIMIT,
     })
 
@@ -91,7 +93,7 @@ def status(request, tracking_id):
         return redirect(review)
     return no_store(render(request, "resumes/status.html", {
         "review": review, "report": review.report,
-        "retention_days": settings.RESUME_RETENTION_DAYS,
+        "retention_days": settings.RESUME_RETENTION_DAYS, "emails_on": mailer.is_configured(),
     }))
 
 

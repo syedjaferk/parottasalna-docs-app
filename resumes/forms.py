@@ -10,10 +10,14 @@ class ResumeForm(forms.Form):
         label="Role you're aiming for", required=False, max_length=80,
         help_text="Optional. Helps the review check the right keywords.",
         widget=forms.TextInput(attrs={"placeholder": "e.g. Backend Developer, Data Engineer"}))
-    consent = forms.BooleanField(
-        label="I agree: my resume is stored in Parottasalna's Google Drive, reviewed by an AI model on our own "
-              "computer, and the report is emailed to me. The PDF is deleted a few days after the review.",
-        error_messages={"required": "Please confirm, so we can review your resume."})
+    consent = forms.BooleanField(error_messages={"required": "Please confirm, so we can review your resume."})
+
+    def __init__(self, *args, emails_on=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["consent"].label = (
+            "I agree: my resume is stored in Parottasalna's Google Drive and reviewed by an AI model on our own "
+            "computer" + (", and the report is emailed to me" if emails_on else "")
+            + ". The PDF is deleted a few days after the review.")
 
     def clean_resume(self):
         f = self.cleaned_data["resume"]

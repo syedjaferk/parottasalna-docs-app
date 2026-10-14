@@ -15,7 +15,7 @@
 <ol class="rv-steps">
   <li><strong>Upload</strong><span>Your PDF goes to our Google Drive and you get a tracking ID.</span></li>
   <li><strong>Review</strong><span>An AI model on our own computer reads it. This can take a few hours.</span></li>
-  <li><strong>Report</strong><span>We email it to <b>{{ user.email }}</b>. You can also read it here with your tracking ID.</span></li>
+  <li><strong>Report</strong><span>{% if emails_on %}We email it to <b>{{ user.email }}</b>. You can also read it here with your tracking ID.{% else %}Read it here under <a href="{% url 'resume_mine' %}">My reviews</a>, or look it up with your tracking ID.{% endif %}</span></li>
 </ol>
 
 {% if not available %}
