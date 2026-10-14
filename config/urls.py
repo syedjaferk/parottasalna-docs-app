@@ -13,6 +13,7 @@ urlpatterns = [
     path("", include("jobs.urls")),
     path("", include("resumes.urls")),
     path("", include("profiles.urls")),
+    path("", include("live.urls")),
     path("", include("panel.urls")),
     path("", include("courses.urls")),
 ]

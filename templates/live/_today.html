@@ -44,6 +44,9 @@
   <p class="live-next">Next: <strong>{{ live.next.starts_at|date:"D j M" }}, {{ live.next.starts_at|time:"g:i A" }}</strong>
     · {{ live.next.course.title }} · {{ live.next.title }}</p>
   {% endif %}
+  {% if user.is_authenticated %}
+  <p class="live-cal"><a class="btn ghost" href="{% url 'profile' %}#calendar">📅 Add all sessions to your calendar</a></p>
+  {% endif %}
 </section>
 <script src="{% static 'js/live-sessions.js' %}" defer></script>
 {% endif %}

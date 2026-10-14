@@ -7,6 +7,7 @@ from django.views.decorators.http import require_http_methods
 from courses.security import no_store
 from courses.services import accessible_courses, can_track
 from jobs.models import Job
+from live import calendar
 from notes.models import Note
 from resumes.models import ResumeReview
 from streaks.services import has_streak, summary as streak_summary
@@ -39,4 +40,12 @@ def profile(request):
         "job_count": Job.objects.filter(posted_by=user).count(),
         "note_courses": [(c, note_counts[c.pk]) for c in note_courses if note_counts[c.pk]],
         "contact_email": settings.CONTACT_EMAIL,
+        "cal": calendar.feed_links(request, prof.ensure_calendar_token()),
+        "reminder": {
+            "at": calendar.DEFAULT_AT.strftime("%H:%M"),
+            "minutes": calendar.DEFAULT_MINUTES,
+            "choices": calendar.REMINDER_MINUTES,
+            "google": calendar.google_daily_link(calendar.DEFAULT_AT, calendar.DEFAULT_MINUTES,
+                                                 request.build_absolute_uri("/").rstrip("/")),
+        },
     }))

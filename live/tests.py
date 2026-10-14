@@ -128,3 +128,98 @@ class ScheduleTests(LiveTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(LiveSession.objects.count(), 7)
         self.assertEqual(self.client.get("/admin/live/livesession/").status_code, 200)
+
+
+class CalendarTests(TestCase):
+    """Add to calendar: the private live-class feed and the daily learning reminder."""
+
+    def setUp(self):
+        from profiles.models import Profile
+        self.mine = Course.objects.create(slug="mine", title="Docker, Kubernetes; and more")
+        self.other = Course.objects.create(slug="other", title="Other course")
+        self.user = get_user_model().objects.create_user("s", email="s@gmail.com")
+        Enrollment.objects.create(course=self.mine, email="s@gmail.com")
+        start = timezone.now() + timedelta(days=2)
+        self.session = LiveSession.objects.create(course=self.mine, title="Session 3 · Pods", starts_at=start,
+                                                  ends_at=start + timedelta(hours=1), meet_url="https://meet.google.com/abc-defg-hij",
+                                                  description="Bring questions, please")
+        LiveSession.objects.create(course=self.mine, title="Cancelled one", starts_at=start + timedelta(days=1),
+                                   ends_at=start + timedelta(days=1, hours=1), meet_url="https://meet.google.com/xyz",
+                                   is_cancelled=True)
+        LiveSession.objects.create(course=self.other, title="Not yours", starts_at=start,
+                                   ends_at=start + timedelta(hours=1), meet_url="https://meet.google.com/secret")
+        self.profile = Profile.objects.create(user=self.user)
+        self.token = self.profile.ensure_calendar_token()
+
+    def feed(self, token=None):
+        from django.urls import reverse
+        return self.client.get(reverse("live_calendar_feed", args=[token or self.token]))
+
+    def test_feed_has_only_my_sessions_with_meet_links(self):
+        resp = self.feed()
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp["Content-Type"].startswith("text/calendar"))
+        body = resp.content.decode()
+        unfolded = body.replace("\r\n ", "")
+        self.assertTrue(body.startswith("BEGIN:VCALENDAR\r\n") and body.endswith("END:VCALENDAR\r\n"))
+        self.assertIn(f"UID:live-{self.session.pk}@parottasalna", unfolded)
+        self.assertIn("SUMMARY:Docker\\, Kubernetes\; and more: Session 3 · Pods", unfolded)   # escaped
+        self.assertIn("https://meet.google.com/abc-defg-hij", unfolded)
+        self.assertIn("STATUS:CANCELLED", unfolded)
+        self.assertNotIn("meet.google.com/secret", unfolded)       # a course I'm not enrolled in
+        self.assertNotIn("Not yours", unfolded)
+
+    def test_feed_needs_a_valid_token(self):
+        self.assertEqual(self.feed("not-a-real-token").status_code, 404)
+        old = self.token
+        self.profile.reset_calendar_token()
+        self.assertEqual(self.feed(old).status_code, 404)
+        self.assertEqual(self.feed(self.profile.calendar_token).status_code, 200)
+        self.user.is_active = False
+        self.user.save()
+        self.assertEqual(self.feed(self.profile.calendar_token).status_code, 404)
+
+    def test_reset_link_requires_post_and_sign_in(self):
+        from django.urls import reverse
+        url = reverse("live_calendar_reset")
+        self.assertEqual(self.client.post(url).status_code, 302)          # to sign in
+        self.client.force_login(self.user)
+        self.assertEqual(self.client.get(url).status_code, 405)
+        self.client.post(url)
+        self.profile.refresh_from_db()
+        self.assertNotEqual(self.profile.calendar_token, self.token)
+
+    def test_daily_reminder_ics(self):
+        from django.urls import reverse
+        resp = self.client.get(reverse("live_calendar_daily"), {"at": "06:30", "mins": "20"})
+        body = resp.content.decode().replace("\r\n ", "")
+        self.assertIn("attachment", resp["Content-Disposition"])
+        self.assertIn("RRULE:FREQ=DAILY", body)
+        self.assertIn("T063000", body)
+        self.assertIn("DURATION:PT20M", body)
+        self.assertIn("TZID:Asia/Kolkata", body)
+        bad = self.client.get(reverse("live_calendar_daily"), {"at": "25:99", "mins": "999"}).content.decode()
+        self.assertIn("T210000", bad)                 # falls back to 9 PM
+        self.assertIn("DURATION:PT15M", bad)          # and 15 minutes
+
+    def test_profile_and_live_card_link_to_calendar(self):
+        from django.urls import reverse
+        self.client.force_login(self.user)
+        page = self.client.get(reverse("profile"))
+        self.assertContains(page, 'id="calendar"')
+        self.assertContains(page, "calendar.google.com/calendar/render?cid=webcal")
+        self.assertContains(page, "recur=RRULE")
+
+
+class IcsFormatTests(TestCase):
+    def test_fold_keeps_lines_short_and_utf8_intact(self):
+        from . import ics
+        line = "SUMMARY:" + "📖 Daily learning " * 10
+        folded = ics.fold(line)
+        for part in folded.split("\r\n"):
+            self.assertLessEqual(len(part.encode()), 75)
+        self.assertEqual(folded.replace("\r\n ", ""), line)
+
+    def test_escape(self):
+        from . import ics
+        self.assertEqual(ics.escape("a,b;c\\d\ne"), "a\\,b\;c\\\\d\\ne")

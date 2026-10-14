@@ -3,7 +3,8 @@
 {% block title %}My profile · {{ brand.NAME }}{% endblock %}
 {% block robots %}noindex, nofollow{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/streak.css' %}">
-<link rel="stylesheet" href="{% static 'css/profile.css' %}">{% endblock %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script defer src="{% static 'js/calendar.js' %}"></script>{% endblock %}
 {% block content %}
 <section class="pf-card pf-head">
   <span class="pf-avatar" aria-hidden="true">{{ user.first_name|default:user.email|default:user.username|first|upper }}</span>
@@ -28,6 +29,37 @@
 </section>
 
 {% if streak %}{% include "streaks/_card.html" %}{% endif %}
+
+<section class="pf-section" id="calendar" aria-labelledby="calendar-title">
+  <h2 id="calendar-title">📅 Add to your calendar</h2>
+  <div class="pf-cal">
+    <div class="pf-card pf-cal-box">
+      <h3>Live class schedule</h3>
+      <p>Every live session of your courses, with its Google Meet link. Subscribe once: new sessions appear by
+        themselves and cancelled ones are marked, usually within a few hours.</p>
+      <div class="pf-cal-actions">
+        <a class="pf-btn" href="{{ cal.google }}" target="_blank" rel="noopener">Google Calendar</a>
+        <a class="pf-btn ghost" href="{{ cal.webcal }}">Apple / Outlook</a>
+        <button class="pf-btn ghost" type="button" data-copy="{{ cal.url }}">Copy link</button>
+      </div>
+      <p class="pf-note">🔒 This link is private to you: anyone who has it can see your class links.
+        <span class="pf-inline-form"><form method="post" action="{% url 'live_calendar_reset' %}">{% csrf_token %}<button class="pf-linkbtn" type="submit">Make a new link</button></form></span> if you shared it by mistake.</p>
+    </div>
+    <div class="pf-card pf-cal-box" data-reminder data-base="{{ request.scheme }}://{{ request.get_host }}">
+      <h3>Daily learning reminder</h3>
+      <p>A repeating event every day, so a little learning becomes a habit (and keeps your streak going).</p>
+      <div class="pf-cal-pick">
+        <label>Time <input type="time" value="{{ reminder.at }}" data-reminder-at></label>
+        <label>For <select data-reminder-mins>{% for m in reminder.choices %}<option value="{{ m }}"{% if m == reminder.minutes %} selected{% endif %}>{{ m }} min</option>{% endfor %}</select></label>
+      </div>
+      <div class="pf-cal-actions">
+        <a class="pf-btn" href="{{ reminder.google }}" target="_blank" rel="noopener" data-reminder-google>Google Calendar</a>
+        <a class="pf-btn ghost" href="{% url 'live_calendar_daily' %}?at={{ reminder.at }}&amp;mins={{ reminder.minutes }}" data-reminder-ics>Apple / Outlook (.ics)</a>
+      </div>
+      <p class="pf-note">Times are India time (IST).</p>
+    </div>
+  </div>
+</section>
 
 <section class="pf-section" aria-labelledby="activity-title">
   <h2 id="activity-title">Your activity</h2>

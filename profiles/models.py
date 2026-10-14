@@ -2,6 +2,8 @@
 
 Everything here is private: only the user and the portal admins see it. There are no public profiles.
 """
+import secrets
+
 from django.conf import settings
 from django.db import models
 
@@ -36,10 +38,22 @@ class Profile(models.Model):
     github = models.URLField(max_length=200, blank=True)
     linkedin = models.URLField(max_length=200, blank=True)
     website = models.URLField(max_length=200, blank=True)
+    # Secret part of the user's live-class calendar feed URL (it contains Meet links). Reset if it leaks.
+    calendar_token = models.CharField(max_length=64, unique=True, null=True, blank=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Profile of {self.user}"
+
+    def ensure_calendar_token(self):
+        if not self.calendar_token:
+            self.reset_calendar_token()
+        return self.calendar_token
+
+    def reset_calendar_token(self):
+        self.calendar_token = secrets.token_urlsafe(32)
+        self.save(update_fields=["calendar_token", "updated_at"])
+        return self.calendar_token
 
     def interest_labels(self):
         names = dict(INTERESTS)
