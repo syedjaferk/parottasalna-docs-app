@@ -1,8 +1,9 @@
 /* Dashboard layout with a right-hand column + the "code smell of the day" card (templates/smells/_daily.html). */
 .dash-layout.has-aside { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.75rem; align-items: start; }
+.dash-main, .dash-aside { min-width: 0; }
 .dash-aside { position: sticky; top: 1rem; }
 @media (max-width: 980px) {
-  .dash-layout.has-aside { grid-template-columns: 1fr; }
+  .dash-layout.has-aside { grid-template-columns: minmax(0, 1fr); }
   .dash-aside { position: static; order: -1; }
 }
 
@@ -37,3 +38,6 @@
 .smell-result { margin-top: .7rem; font-size: .88rem; }
 .smell-result strong { display: block; margin-bottom: .2rem; }
 .smell-stats { margin: .8rem 0 0; font-size: .8rem; color: var(--muted); }
+
+.smell-card, .smell-choice { overflow-wrap: anywhere; }
+@media (max-width: 560px) { .smell-card { padding: 1rem; } }

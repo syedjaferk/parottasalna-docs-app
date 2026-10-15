@@ -33,7 +33,7 @@
   .tag.common-tag { background: color-mix(in srgb, #0d9488 14%, transparent); color: #0d9488; }
   .course.common .course-cover { background: linear-gradient(135deg, #0f766e, #22d3ee) !important; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr)); gap: 1.25rem; }
   .course {
     display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line);
     border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); transition: transform .18s, box-shadow .18s, border-color .18s;
@@ -80,6 +80,16 @@
   .channel strong { display: block; }
   .channel span { font-size: .9rem; color: var(--muted); }
   .channel .btn.yt { background: #ff0033; color: #fff; box-shadow: 0 4px 14px rgba(255, 0, 51, .25); }
+  @media (max-width: 560px) {
+    .hero { padding: 1.4rem 1.25rem; margin-bottom: 1.25rem; border-radius: 16px; }
+    .hero p { font-size: .95rem; }
+    .hero-stats .stat { font-size: .85rem; }
+    .course-section + .course-section { margin-top: 1.75rem; }
+    .section-title h2 { font-size: 1.1rem; }
+    .channel { padding: 1rem 1.1rem; }
+    .channel .btn.yt { width: 100%; text-align: center; }
+    .tips { margin-top: 1.5rem; }
+  }
   .hero-stats { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.1rem; }
   .hero-stats .stat { margin-top: 0; }
   .hero .stat-link { color: inherit; text-decoration: none; }

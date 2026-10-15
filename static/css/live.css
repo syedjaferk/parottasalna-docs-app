@@ -38,7 +38,9 @@
 @media (prefers-reduced-motion: reduce) { .live-item.is-live .live-join { animation: none; } }
 @media (max-width: 640px) {
   .live-item { grid-template-columns: 1fr; gap: .5rem; }
-  .live-action { flex-direction: row; justify-content: space-between; align-items: center; }
+  .live-action { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem .75rem; }
+  .live-item { min-width: 0; }
+  .live-join { flex: 1 1 12rem; min-width: 0; white-space: normal; text-align: center; }  /* never wider than the card */
 }
 
 /* "Add all sessions to your calendar": links to the profile's calendar section */
