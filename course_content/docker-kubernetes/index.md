@@ -59,6 +59,7 @@ sessions/06-docker-networking
 
 sessions/07-dockerfile
 sessions/08-image-optimization-lifecycle
+sessions/09-volumes-persistence
 ```
 
 ```{toctree}
