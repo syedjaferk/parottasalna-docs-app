@@ -1,0 +1,24 @@
+<div style="max-width:760px;margin:1rem auto;font-family:system-ui,sans-serif;color:currentColor">
+<svg viewBox="0 0 720 280" width="100%" role="img" aria-label="Copy-on-write: a changed file is copied from a read-only image layer into the writable layer">
+<defs><marker id="a93" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<text x="130" y="24" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Image (read-only)</text>
+<rect x="20" y="36" width="220" height="190" rx="8" fill="#888" fill-opacity=".15" stroke="#888"/>
+<rect x="35" y="50" width="190" height="34" rx="5" fill="#888" fill-opacity=".25"/><text x="130" y="72" font-size="12" text-anchor="middle" fill="currentColor">/app/main.py</text>
+<rect x="35" y="94" width="190" height="34" rx="5" fill="#378ADD" fill-opacity=".35" stroke="#378ADD"/><text x="130" y="116" font-size="12" text-anchor="middle" fill="currentColor">/app/config.ini (v1)</text>
+<rect x="35" y="138" width="190" height="34" rx="5" fill="#888" fill-opacity=".25"/><text x="130" y="160" font-size="12" text-anchor="middle" fill="currentColor">/etc/hosts ...</text>
+<text x="130" y="206" font-size="11" text-anchor="middle" fill="currentColor" opacity=".8">never changed, shared by all containers</text>
+<text x="370" y="24" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Writable layer</text>
+<rect x="290" y="36" width="160" height="190" rx="8" fill="#EF9F27" fill-opacity=".2" stroke="#EF9F27"/>
+<rect x="305" y="94" width="130" height="34" rx="5" fill="#EF9F27" fill-opacity=".45" stroke="#EF9F27"/><text x="370" y="116" font-size="12" text-anchor="middle" fill="currentColor">config.ini (v2)</text>
+<text x="370" y="206" font-size="11" text-anchor="middle" fill="currentColor" opacity=".8">only the changes</text>
+<path d="M225 111 C255 111 262 111 303 111" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#a93)" stroke-dasharray="4 3"/>
+<text x="266" y="100" font-size="10" text-anchor="middle" fill="currentColor">copy up</text>
+<line x1="450" y1="130" x2="500" y2="130" stroke="currentColor" stroke-width="1.5" marker-end="url(#a93)"/>
+<text x="600" y="24" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">What the app sees</text>
+<rect x="505" y="36" width="190" height="190" rx="8" fill="none" stroke="currentColor"/>
+<text x="600" y="72" font-size="12" text-anchor="middle" fill="currentColor">/app/main.py</text>
+<text x="600" y="116" font-size="12" text-anchor="middle" fill="currentColor">/app/config.ini (v2)</text>
+<text x="600" y="160" font-size="12" text-anchor="middle" fill="currentColor">/etc/hosts ...</text>
+<text x="600" y="206" font-size="11" text-anchor="middle" fill="currentColor" opacity=".8">one merged view</text>
+<text x="360" y="262" font-size="11" text-anchor="middle" fill="currentColor" opacity=".75">First write to a file = copy the whole file up, then change the copy. That extra step is why heavy writes belong on a volume.</text>
+</svg></div>

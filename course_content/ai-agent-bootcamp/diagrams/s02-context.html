@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s02-context-t s02-context-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s02-context-t">The context window</title>
+<desc id="s02-context-d">The model can only &#x27;see&#x27; what fits in its context window: the system prompt, the whole chat so far, and the reply being written.</desc>
+<defs><marker id="s02-context-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s02-context-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s02-context-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s02-context-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="680" height="70" rx="10" class="box"/>
+<rect x="26" y="46" width="120" height="58" rx="10" class="amber"/>
+<text x="86.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">system</text>
+<text x="86.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="small">prompt</text>
+<rect x="152" y="46" width="360" height="58" rx="10" class="blue"/>
+<text x="332.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">conversation history</text>
+<text x="332.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="small">(you + assistant, every turn)</text>
+<rect x="518" y="46" width="100" height="58" rx="10" class="green"/>
+<text x="568.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">new reply</text>
+<rect x="624" y="46" width="70" height="58" rx="10" class="ghost"/>
+<text x="659.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">FREE</text>
+<text x="360" y="24" text-anchor="middle" dominant-baseline="middle" class="title">CONTEXT WINDOW  (e.g. 8,000 or 128,000 tokens)</text>
+<path d="M580,140 L580,112" class="arrow red" marker-end="url(#s02-context-h-red)"/>
+<text x="500" y="165" text-anchor="middle" dominant-baseline="middle" class="small">When it is full, the oldest messages must be cut off</text>
+<text x="360" y="200" text-anchor="middle" dominant-baseline="middle" class="bold">→ the model forgets whatever is outside the window</text>
+</svg>
+<figcaption>The model can only &#x27;see&#x27; what fits in its context window: the system prompt, the whole chat so far, and the reply being written.</figcaption>
+</figure>

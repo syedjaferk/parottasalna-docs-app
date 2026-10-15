@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 240" role="img" aria-labelledby="s03-errors-t s03-errors-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s03-errors-t">Handling API errors</title>
+<desc id="s03-errors-d">401 means fix your key; 429 means wait and retry; 5xx means the server had a problem so retry a few times.</desc>
+<defs><marker id="s03-errors-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s03-errors-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s03-errors-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s03-errors-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="80" height="40" rx="10" class="green"/>
+<text x="60.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">200</text>
+<rect x="110" y="20" width="180" height="40" rx="10" class="box"/>
+<text x="200.0" y="40.0" text-anchor="middle" dominant-baseline="middle">OK</text>
+<path d="M290,40 L340,40" class="arrow blue" marker-end="url(#s03-errors-h-blue)"/>
+<rect x="340" y="20" width="340" height="40" rx="10" class="ghost"/>
+<text x="510.0" y="40.0" text-anchor="middle" dominant-baseline="middle">use the answer</text>
+<rect x="20" y="72" width="80" height="40" rx="10" class="red"/>
+<text x="60.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="bold">401</text>
+<rect x="110" y="72" width="180" height="40" rx="10" class="box"/>
+<text x="200.0" y="92.0" text-anchor="middle" dominant-baseline="middle">bad key</text>
+<path d="M290,92 L340,92" class="arrow blue" marker-end="url(#s03-errors-h-blue)"/>
+<rect x="340" y="72" width="340" height="40" rx="10" class="ghost"/>
+<text x="510.0" y="92.0" text-anchor="middle" dominant-baseline="middle">fix .env, don&#x27;t retry</text>
+<rect x="20" y="124" width="80" height="40" rx="10" class="amber"/>
+<text x="60.0" y="144.0" text-anchor="middle" dominant-baseline="middle" class="bold">429</text>
+<rect x="110" y="124" width="180" height="40" rx="10" class="box"/>
+<text x="200.0" y="144.0" text-anchor="middle" dominant-baseline="middle">too many requests</text>
+<path d="M290,144 L340,144" class="arrow blue" marker-end="url(#s03-errors-h-blue)"/>
+<rect x="340" y="124" width="340" height="40" rx="10" class="ghost"/>
+<text x="510.0" y="144.0" text-anchor="middle" dominant-baseline="middle">wait, then retry (backoff)</text>
+<rect x="20" y="176" width="80" height="40" rx="10" class="amber"/>
+<text x="60.0" y="196.0" text-anchor="middle" dominant-baseline="middle" class="bold">500+</text>
+<rect x="110" y="176" width="180" height="40" rx="10" class="box"/>
+<text x="200.0" y="196.0" text-anchor="middle" dominant-baseline="middle">server problem</text>
+<path d="M290,196 L340,196" class="arrow blue" marker-end="url(#s03-errors-h-blue)"/>
+<rect x="340" y="176" width="340" height="40" rx="10" class="ghost"/>
+<text x="510.0" y="196.0" text-anchor="middle" dominant-baseline="middle">retry a few times</text>
+</svg>
+<figcaption>401 means fix your key; 429 means wait and retry; 5xx means the server had a problem so retry a few times.</figcaption>
+</figure>

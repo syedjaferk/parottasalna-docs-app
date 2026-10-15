@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="s04-tool-sequence-t s04-tool-sequence-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s04-tool-sequence-t">The messages in a tool conversation</title>
+<desc id="s04-tool-sequence-d">The history grows: user, the AI&#x27;s tool request, the tool result (role &#x27;tool&#x27;), then the final assistant answer.</desc>
+<defs><marker id="s04-tool-sequence-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s04-tool-sequence-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s04-tool-sequence-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s04-tool-sequence-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="120" height="46" rx="10" class="blue"/>
+<text x="80.0" y="43.0" text-anchor="middle" dominant-baseline="middle" class="code">user</text>
+<rect x="150" y="20" width="420" height="46" rx="10" class="box"/>
+<text x="360.0" y="43.0" text-anchor="middle" dominant-baseline="middle">What is the weather in Chennai?</text>
+<text x="640" y="43" text-anchor="middle" dominant-baseline="middle" class="small">you</text>
+<rect x="20" y="82" width="120" height="46" rx="10" class="amber"/>
+<text x="80.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">assistant</text>
+<rect x="150" y="82" width="420" height="46" rx="10" class="box"/>
+<text x="360.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">tool_calls: get_weather({city: chennai})</text>
+<text x="640" y="105" text-anchor="middle" dominant-baseline="middle" class="small">AI asks</text>
+<rect x="20" y="144" width="120" height="46" rx="10" class="box"/>
+<text x="80.0" y="167.0" text-anchor="middle" dominant-baseline="middle" class="code">tool</text>
+<rect x="150" y="144" width="420" height="46" rx="10" class="box"/>
+<text x="360.0" y="167.0" text-anchor="middle" dominant-baseline="middle" class="code">Chennai: 29.4 °C, wind 11 km/h</text>
+<text x="640" y="167" text-anchor="middle" dominant-baseline="middle" class="small">your code</text>
+<rect x="20" y="206" width="120" height="46" rx="10" class="green"/>
+<text x="80.0" y="229.0" text-anchor="middle" dominant-baseline="middle" class="code">assistant</text>
+<rect x="150" y="206" width="420" height="46" rx="10" class="box"/>
+<text x="360.0" y="229.0" text-anchor="middle" dominant-baseline="middle">It&#x27;s 29.4 °C in Chennai.</text>
+<text x="640" y="229" text-anchor="middle" dominant-baseline="middle" class="small">AI answers</text>
+<text x="360" y="275" text-anchor="middle" dominant-baseline="middle" class="small">tool_call_id links the &#x27;tool&#x27; message to the AI&#x27;s request</text>
+</svg>
+<figcaption>The history grows: user, the AI&#x27;s tool request, the tool result (role &#x27;tool&#x27;), then the final assistant answer.</figcaption>
+</figure>

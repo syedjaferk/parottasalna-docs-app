@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 190" role="img" aria-labelledby="s03-backoff-t s03-backoff-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s03-backoff-t">Exponential backoff</title>
+<desc id="s03-backoff-d">After each failure, wait twice as long before trying again: 1s, 2s, 4s. This is polite to a busy server.</desc>
+<defs><marker id="s03-backoff-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s03-backoff-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s03-backoff-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s03-backoff-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="40" y="60" width="56" height="40" rx="10" class="red"/>
+<text x="68.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">try 1</text>
+<rect x="102" y="60" width="60" height="40" rx="10" class="amber"/>
+<text x="132.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">wait 1s</text>
+<rect x="168" y="60" width="56" height="40" rx="10" class="red"/>
+<text x="196.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">try 2</text>
+<rect x="230" y="60" width="120" height="40" rx="10" class="amber"/>
+<text x="290.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">wait 2s</text>
+<rect x="356" y="60" width="56" height="40" rx="10" class="red"/>
+<text x="384.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">try 3</text>
+<rect x="418" y="60" width="200" height="40" rx="10" class="amber"/>
+<text x="518.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">wait 4s</text>
+<rect x="624" y="60" width="56" height="40" rx="10" class="green"/>
+<text x="652.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">try 4</text>
+<text x="360" y="140" text-anchor="middle" dominant-baseline="middle" class="small">✗ fail   →   wait 1s   →   ✗ fail   →   wait 2s   →   ✗ fail   →   wait 4s   →   ✓ works</text>
+</svg>
+<figcaption>After each failure, wait twice as long before trying again: 1s, 2s, 4s. This is polite to a busy server.</figcaption>
+</figure>

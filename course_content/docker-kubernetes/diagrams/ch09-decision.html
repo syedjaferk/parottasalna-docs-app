@@ -1,0 +1,30 @@
+<div style="max-width:760px;margin:1rem auto;font-family:system-ui,sans-serif;color:currentColor">
+<svg viewBox="0 0 720 400" width="100%" role="img" aria-label="Decision flowchart for choosing writable layer, volume, bind mount or tmpfs">
+<defs><marker id="a95" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#a95)">
+<line x1="360" y1="62" x2="360" y2="100"/><line x1="360" y1="162" x2="360" y2="200"/>
+<line x1="250" y1="130" x2="150" y2="130" /><line x1="470" y1="231" x2="560" y2="231"/>
+<line x1="150" y1="162" x2="150" y2="210"/><line x1="360" y1="262" x2="360" y2="310"/>
+</g>
+<rect x="230" y="20" width="260" height="42" rx="21" fill="#888" fill-opacity=".2" stroke="currentColor"/>
+<text x="360" y="46" font-size="12" text-anchor="middle" font-weight="600" fill="currentColor">My app writes files. Where?</text>
+<rect x="250" y="100" width="220" height="62" rx="8" fill="none" stroke="currentColor"/>
+<text x="360" y="126" font-size="12" text-anchor="middle" fill="currentColor">Must the data outlive</text><text x="360" y="144" font-size="12" text-anchor="middle" fill="currentColor">the container?</text>
+<text x="205" y="122" font-size="11" fill="currentColor">no</text><text x="368" y="184" font-size="11" fill="currentColor">yes</text>
+<rect x="40" y="100" width="110" height="62" rx="8" fill="none" stroke="currentColor"/>
+<text x="95" y="126" font-size="12" text-anchor="middle" fill="currentColor">Secret or</text><text x="95" y="144" font-size="12" text-anchor="middle" fill="currentColor">scratch data?</text>
+<rect x="40" y="210" width="110" height="52" rx="8" fill="#7F77DD" fill-opacity=".25" stroke="#7F77DD"/>
+<text x="95" y="232" font-size="13" text-anchor="middle" font-weight="700" fill="currentColor">tmpfs</text><text x="95" y="250" font-size="10" text-anchor="middle" fill="currentColor">RAM only</text>
+<text x="100" y="188" font-size="11" fill="currentColor">yes</text>
+<rect x="40" y="300" width="110" height="52" rx="8" fill="#EF9F27" fill-opacity=".25" stroke="#EF9F27"/>
+<text x="95" y="322" font-size="12" text-anchor="middle" font-weight="700" fill="currentColor">Writable layer</text><text x="95" y="340" font-size="10" text-anchor="middle" fill="currentColor">small, throwaway</text>
+<line x1="65" y1="162" x2="65" y2="300" stroke="currentColor" stroke-width="1.5" marker-end="url(#a95)" stroke-dasharray="4 3"/>
+<text x="20" y="240" font-size="11" fill="currentColor">no</text>
+<rect x="250" y="200" width="220" height="62" rx="8" fill="none" stroke="currentColor"/>
+<text x="360" y="226" font-size="12" text-anchor="middle" fill="currentColor">Do you need to edit the</text><text x="360" y="244" font-size="12" text-anchor="middle" fill="currentColor">files on the host yourself?</text>
+<text x="500" y="222" font-size="11" fill="currentColor">yes</text><text x="368" y="290" font-size="11" fill="currentColor">no</text>
+<rect x="560" y="205" width="140" height="52" rx="8" fill="#378ADD" fill-opacity=".25" stroke="#378ADD"/>
+<text x="630" y="227" font-size="13" text-anchor="middle" font-weight="700" fill="currentColor">Bind mount</text><text x="630" y="245" font-size="10" text-anchor="middle" fill="currentColor">dev code, config</text>
+<rect x="270" y="310" width="180" height="56" rx="8" fill="#1D9E75" fill-opacity=".25" stroke="#1D9E75"/>
+<text x="360" y="334" font-size="13" text-anchor="middle" font-weight="700" fill="currentColor">Named volume</text><text x="360" y="352" font-size="10" text-anchor="middle" fill="currentColor">databases, uploads, state</text>
+</svg></div>

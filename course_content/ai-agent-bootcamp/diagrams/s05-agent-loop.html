@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 280" role="img" aria-labelledby="s05-agent-loop-t s05-agent-loop-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s05-agent-loop-t">The agent loop</title>
+<desc id="s05-agent-loop-d">Think (ask the AI), Act (run a tool), Observe (read the result), and repeat until the AI can answer.</desc>
+<defs><marker id="s05-agent-loop-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s05-agent-loop-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s05-agent-loop-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s05-agent-loop-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="40" y="110" width="130" height="60" rx="10" class="ghost"/>
+<text x="105.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Task</text>
+<text x="105.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">from the user</text>
+<rect x="250" y="30" width="150" height="60" rx="10" class="amber"/>
+<text x="325.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">THINK</text>
+<text x="325.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">what next?</text>
+<rect x="480" y="110" width="150" height="60" rx="10" class="blue"/>
+<text x="555.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">ACT</text>
+<text x="555.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">run a tool</text>
+<rect x="250" y="190" width="150" height="60" rx="10" class="green"/>
+<text x="325.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="bold">OBSERVE</text>
+<text x="325.0" y="230.0" text-anchor="middle" dominant-baseline="middle" class="small">read the result</text>
+<path d="M170,130 L250,70" class="arrow blue" marker-end="url(#s05-agent-loop-h-blue)"/>
+<path d="M400,60 L480,125" class="arrow blue" marker-end="url(#s05-agent-loop-h-blue)"/>
+<path d="M520,170 L400,215" class="arrow blue" marker-end="url(#s05-agent-loop-h-blue)"/>
+<path d="M250,220 L200,220 L200,70 L248,62" class="arrow green dashed" marker-end="url(#s05-agent-loop-h-green)"/>
+<rect x="540" y="220" width="160" height="44" rx="10" class="green"/>
+<text x="620.0" y="242.0" text-anchor="middle" dominant-baseline="middle" class="bold">Final answer</text>
+<path d="M400,45 L540,45 L620,45 L620,218" class="arrow green" marker-end="url(#s05-agent-loop-h-green)"/>
+<text x="560" y="32" text-anchor="middle" dominant-baseline="middle" class="small">no tool needed → done</text>
+</svg>
+<figcaption>Think (ask the AI), Act (run a tool), Observe (read the result), and repeat until the AI can answer.</figcaption>
+</figure>

@@ -1,0 +1,20 @@
+<div style="max-width:760px;margin:1rem auto;font-family:system-ui,sans-serif;color:currentColor">
+<svg viewBox="0 0 720 280" width="100%" role="img" aria-label="A named volume shared by an app container and a short-lived backup container that writes a tar file to the host">
+<defs><marker id="a94" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<rect x="30" y="30" width="170" height="70" rx="8" fill="#378ADD" fill-opacity=".2" stroke="#378ADD"/>
+<text x="115" y="58" font-size="13" text-anchor="middle" font-weight="600" fill="currentColor">web container</text><text x="115" y="78" font-size="11" text-anchor="middle" fill="currentColor">/data  (read-write)</text>
+<rect x="30" y="170" width="170" height="70" rx="8" fill="#7F77DD" fill-opacity=".2" stroke="#7F77DD"/>
+<text x="115" y="198" font-size="13" text-anchor="middle" font-weight="600" fill="currentColor">backup container</text><text x="115" y="218" font-size="11" text-anchor="middle" fill="currentColor">/data  (read-only, runs once)</text>
+<ellipse cx="360" cy="105" rx="80" ry="14" fill="#1D9E75" fill-opacity=".3" stroke="#1D9E75"/>
+<rect x="280" y="105" width="160" height="70" fill="#1D9E75" fill-opacity=".2" stroke="none"/>
+<line x1="280" y1="105" x2="280" y2="175" stroke="#1D9E75"/><line x1="440" y1="105" x2="440" y2="175" stroke="#1D9E75"/>
+<ellipse cx="360" cy="175" rx="80" ry="14" fill="#1D9E75" fill-opacity=".3" stroke="#1D9E75"/>
+<text x="360" y="148" font-size="14" text-anchor="middle" font-weight="700" fill="currentColor">appdata</text><text x="360" y="166" font-size="10" text-anchor="middle" fill="currentColor">named volume</text>
+<line x1="200" y1="65" x2="285" y2="115" stroke="currentColor" stroke-width="1.5" marker-end="url(#a94)"/>
+<line x1="200" y1="205" x2="285" y2="165" stroke="currentColor" stroke-width="1.5" marker-end="url(#a94)"/>
+<line x1="200" y1="212" x2="515" y2="212" stroke="currentColor" stroke-width="1.5" marker-end="url(#a94)" stroke-dasharray="5 3"/>
+<text x="360" y="232" font-size="11" text-anchor="middle" fill="currentColor">tar czf appdata.tgz</text>
+<rect x="520" y="180" width="170" height="64" rx="8" fill="#378ADD" fill-opacity=".2" stroke="#378ADD"/>
+<text x="605" y="208" font-size="12" text-anchor="middle" font-weight="600" fill="currentColor">Host folder ./</text><text x="605" y="226" font-size="11" text-anchor="middle" fill="currentColor">appdata.tgz</text>
+<text x="360" y="22" font-size="11" text-anchor="middle" fill="currentColor" opacity=".8">The volume has its own life. Containers come and go around it.</text>
+</svg></div>

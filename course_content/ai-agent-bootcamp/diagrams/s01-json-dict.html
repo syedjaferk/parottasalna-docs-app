@@ -1,0 +1,21 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s01-json-dict-t s01-json-dict-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s01-json-dict-t">Dictionary ⇄ JSON text</title>
+<desc id="s01-json-dict-d">json.dumps turns a Python dictionary into JSON text; json.loads turns JSON text back into a dictionary.</desc>
+<defs><marker id="s01-json-dict-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s01-json-dict-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s01-json-dict-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s01-json-dict-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="40" width="230" height="130" rx="10" class="blue"/>
+<text x="145.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Python dict</text>
+<text x="145.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;city&quot;: &quot;Chennai&quot;,</text>
+<text x="145.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code"> &quot;rain&quot;: False}</text>
+<rect x="460" y="40" width="230" height="130" rx="10" class="amber"/>
+<text x="575.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">JSON text (a string)</text>
+<text x="575.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;city&quot;: &quot;Chennai&quot;,</text>
+<text x="575.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code"> &quot;rain&quot;: false}</text>
+<path d="M262,80 L458,80" class="arrow blue" marker-end="url(#s01-json-dict-h-blue)"/>
+<text x="360" y="64" text-anchor="middle" dominant-baseline="middle" class="small">json.dumps(data)</text>
+<path d="M458,130 L262,130" class="arrow green" marker-end="url(#s01-json-dict-h-green)"/>
+<text x="360" y="150" text-anchor="middle" dominant-baseline="middle" class="small">json.loads(text)</text>
+<text x="360" y="205" text-anchor="middle" dominant-baseline="middle" class="small">False ↔ false     None ↔ null     &#x27;single&#x27; quotes ↔ &quot;double&quot; quotes</text>
+</svg>
+<figcaption>json.dumps turns a Python dictionary into JSON text; json.loads turns JSON text back into a dictionary.</figcaption>
+</figure>

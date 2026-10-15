@@ -1,0 +1,20 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 190" role="img" aria-labelledby="s01-env-t s01-env-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s01-env-t">Where secrets live</title>
+<desc id="s01-env-d">The key sits in .env, outside your code. python-dotenv loads it, and os.getenv hands it to your program.</desc>
+<defs><marker id="s01-env-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s01-env-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s01-env-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s01-env-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="60" width="150" height="70" rx="10" class="amber"/>
+<text x="95.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">.env</text>
+<text x="95.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">LLM_API_KEY=gsk_...</text>
+<rect x="270" y="60" width="160" height="70" rx="10" class="blue"/>
+<text x="350.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">load_dotenv()</text>
+<text x="350.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">reads the file</text>
+<rect x="530" y="60" width="170" height="70" rx="10" class="green"/>
+<text x="615.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">os.getenv(&quot;LLM_API_KEY&quot;)</text>
+<text x="615.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">gives your code the key</text>
+<path d="M170,95 L268,95" class="arrow blue" marker-end="url(#s01-env-h-blue)"/>
+<path d="M430,95 L528,95" class="arrow blue" marker-end="url(#s01-env-h-blue)"/>
+<text x="360" y="160" text-anchor="middle" dominant-baseline="middle" class="small">Your .py files never contain the secret → safe to share and upload</text>
+</svg>
+<figcaption>The key sits in .env, outside your code. python-dotenv loads it, and os.getenv hands it to your program.</figcaption>
+</figure>

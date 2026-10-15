@@ -1,0 +1,20 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s01-request-t s01-request-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s01-request-t">A web API call</title>
+<desc id="s01-request-d">Your program sends a request (URL + parameters); the server sends back a response with a status code and JSON.</desc>
+<defs><marker id="s01-request-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s01-request-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s01-request-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s01-request-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="50" width="170" height="110" rx="10" class="blue"/>
+<text x="105.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your Python</text>
+<text x="105.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="code">requests.get(...)</text>
+<rect x="530" y="50" width="170" height="110" rx="10" class="green"/>
+<text x="615.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Server</text>
+<text x="615.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">api.open-meteo.com</text>
+<path d="M190,85 L528,85" class="arrow blue" marker-end="url(#s01-request-h-blue)"/>
+<text x="360" y="68" text-anchor="middle" dominant-baseline="middle" class="small">REQUEST: URL + params</text>
+<path d="M528,130 L190,130" class="arrow green" marker-end="url(#s01-request-h-green)"/>
+<text x="360" y="152" text-anchor="middle" dominant-baseline="middle" class="small">RESPONSE: 200 + JSON</text>
+<rect x="250" y="180" width="220" height="36" rx="10" class="ghost"/>
+<text x="360.0" y="198.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;temperature&quot;: 26.5, ...}</text>
+</svg>
+<figcaption>Your program sends a request (URL + parameters); the server sends back a response with a status code and JSON.</figcaption>
+</figure>
