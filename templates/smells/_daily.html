@@ -11,15 +11,14 @@
     <span class="smell-level lv-{{ d.smell.level }}">{{ d.smell.get_level_display }}</span>
     {% for t in d.smell.tags %}<span class="smell-tag">{{ t }}</span>{% endfor %}
   </div>
-  <p class="smell-summary">{{ d.smell.summary }}</p>
+  <p class="smell-summary">{% if d.smell.problem %}{{ d.smell.problem }}{% else %}{{ d.smell.summary }}{% endif %}</p>
 
   <details class="smell-more">
-    <summary>Read the tip</summary>
-    {% if d.smell.problem %}<p>{{ d.smell.problem }}</p>{% endif %}
-    {% if d.smell.why_bad %}<h3>Problems</h3><ul>{% for w in d.smell.why_bad %}<li>{{ w }}</li>{% endfor %}</ul>{% endif %}
-    {% if d.smell.bad_code %}<h3>Smelly</h3><pre><code>{{ d.smell.bad_code }}</code></pre>{% endif %}
+    <summary>See why it hurts, an example and the fix</summary>
+    {% if d.smell.why_bad %}<h3>Why it hurts</h3><ul>{% for w in d.smell.why_bad %}<li>{{ w }}</li>{% endfor %}</ul>{% endif %}
+    {% if d.smell.bad_code %}<h3>Smelly code</h3><pre><code>{{ d.smell.bad_code }}</code></pre>{% endif %}
     {% if d.smell.good_code %}<h3>Better</h3><pre><code>{{ d.smell.good_code }}</code></pre>{% endif %}
-    {% if d.smell.fix %}<h3>Solutions</h3><ol>{% for f in d.smell.fix %}<li>{{ f }}</li>{% endfor %}</ol>{% endif %}
+    {% if d.smell.fix %}<h3>How to fix it</h3><ol>{% for f in d.smell.fix %}<li>{{ f }}</li>{% endfor %}</ol>{% endif %}
     {% if d.smell.source_url %}<p class="smell-src"><a href="{{ d.smell.source_url }}" target="_blank" rel="noopener">Read the original article ↗</a></p>{% endif %}
   </details>
 
