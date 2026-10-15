@@ -302,6 +302,38 @@ it with `docker run --init kube-demo-opt:shellform`: a tiny init program (`tini`
 forwards the signal to your app and cleans up zombie processes.
 :::
 
+### Signals reference: what each one does to a container
+
+`docker stop` uses SIGTERM, but you will meet other signals too. Every tag starts with **SIG**, short
+for "signal"; the rest is the name, and it hints at what the signal is for. The last two columns
+repeat the PID 1 lesson above for every signal:
+
+- **Shell form:** `CMD uvicorn main:app …` runs as `/bin/sh -c "…"`, so **sh is PID 1** and your app is its child.
+- **Exec form:** `CMD ["uvicorn", "main:app", …]` makes **your app PID 1**.
+
+| No. | Tag | Meaning of the tag | Catchable | Docker command / trigger | Shell form (sh is PID 1) | Exec form (app is PID 1) |
+|---|---|---|---|---|---|---|
+| 1 | `SIGHUP` | **Hang Up**. Originally sent when a phone-line or terminal connection dropped. Now mostly used to mean "reload your config". | Yes | `docker kill -s HUP <c>` | sh doesn't forward it, so the app **never sees it** and the reload fails. | The app can **reload config**. With no handler it is ignored as PID 1. |
+| 2 | `SIGINT` | **Interrupt**. The user interrupts the program from the keyboard (Ctrl+C). | Yes | Ctrl+C with `docker run -it` | Goes to sh, which doesn't forward it, so Ctrl+C often **does nothing**. | The app can exit gracefully (exit **130**). Without a handler it is ignored. |
+| 3 | `SIGQUIT` | **Quit**. Like interrupt, but also dumps core for debugging (`Ctrl+\`). Many servers treat it as "shut down gracefully". | Yes | `docker stop` with `--stop-signal=SIGQUIT` / `STOPSIGNAL` | sh doesn't forward it, so the stop falls through to SIGKILL after the timeout (**137**). | Graceful shutdown if handled (nginx does it). Exit **131** if it dies on it. |
+| 6 | `SIGABRT` | **Abort**. The program called `abort()` on itself after detecting a fatal error. | Yes | Raised by the app itself | The child aborts and sh returns its status, so the container exits **134**. | The app aborts and the container exits **134**. |
+| 9 | `SIGKILL` | **Kill**. Unconditional, immediate death that the process cannot stop or ignore. | **No** | `docker kill`, `docker stop` after the timeout, OOM killer | The kernel kills sh and the container dies with **no cleanup**. Exit **137**. | Same: no cleanup, exit **137**. |
+| 10 | `SIGUSR1` | **User-defined signal 1**. It has no fixed meaning, so each app decides (log rotation, stats dump, etc.). | Yes | `docker kill -s USR1 <c>` | Never reaches the app, so **no log rotate or stats dump**. | The app's handler runs. Without one it is ignored as PID 1. |
+| 12 | `SIGUSR2` | **User-defined signal 2**. Same idea, a second free slot. Nginx uses it for a binary upgrade. | Yes | `docker kill -s USR2 <c>` | Never reaches the app. | The app's handler runs. |
+| 15 | `SIGTERM` | **Terminate**. A polite request to shut down, giving the app time to clean up. | Yes | **`docker stop`** (default), `docker restart` | sh ignores it, so `docker stop` **waits 10 s, then SIGKILL**. Exit **137**. | The app handles it and exits cleanly. Exit **143** (or **0** if the handler exits normally, as uvicorn's does). |
+| 18 | `SIGCONT` | **Continue**. Resumes a process that was stopped. | Yes | `docker kill -s CONT <c>` | Resumes sh only. | Resumes the app. |
+| 19 | `SIGSTOP` | **Stop**. Unconditionally freezes the process, and it cannot be caught. | **No** | `docker kill -s STOP <c>` | Freezes **only sh**, and the app child keeps running. | Freezes the app. (`docker pause` uses the cgroup freezer, not this signal.) |
+| 20 | `SIGTSTP` | **Terminal Stop**. The catchable version of stop, sent from the terminal (Ctrl+Z). | Yes | Ctrl+Z | Stops sh only. | App-defined behavior, rarely useful in a container. |
+
+Exit codes follow the pattern **128 + signal number** (9 gives 137, 15 gives 143), as in the exit-code
+table earlier in this chapter.
+
+An easy way to remember the pairs:
+
+- **SIGTERM vs SIGKILL** is "please stop" versus "you're dead". Docker always tries the polite one first.
+- **SIGSTOP vs SIGTSTP** is "forced freeze" versus "terminal pause that you can handle".
+- **SIGINT vs SIGQUIT** is "interrupt" versus "quit with a core dump". Both come from the keyboard.
+
 ### Graceful shutdown with FastAPI and Uvicorn
 
 **Graceful** means: stop taking new work, finish what is in progress, release resources, then exit.
@@ -386,6 +418,24 @@ docker rm     → Removed (writable layer deleted)
 `docker kill` skips the polite step and sends SIGKILL (or another signal with `-s`) straight away.
 `docker restart` is a stop followed by a start, so it needs a graceful shutdown too. See also the
 lifecycle diagram in [Chapter 4](04-docker-commands.md).
+
+### Docker commands and the signals they send
+
+| Command | Signal sent | Shell form | Exec form |
+|---|---|---|---|
+| `docker stop` | SIGTERM, then SIGKILL after 10 s | Always takes the full 10 s, exit 137 | Fast if the app handles SIGTERM, exit 143 (or 0 with uvicorn) |
+| `docker kill` | SIGKILL | Dies instantly, exit 137 | Dies instantly, exit 137 |
+| `docker kill -s <SIG>` | Your choice | The shell eats it | The app receives it |
+| `docker restart` | Stop, then start | Slow, with a hard kill every time | Fast and graceful |
+| `docker pause` | None (cgroup freezer) | Works the same | Works the same |
+
+Flags that change this behavior:
+
+| Flag | Effect |
+|---|---|
+| `--stop-signal=SIGQUIT` (or `STOPSIGNAL SIGQUIT` in a Dockerfile) | Changes the signal `docker stop` sends |
+| `--stop-timeout 30` (or `docker stop -t 30`) | Changes the grace period before SIGKILL |
+| `--init` (or `init: true` in Compose) | Puts `tini` at PID 1 to forward signals and reap zombies |
 
 ## Common mistakes
 
