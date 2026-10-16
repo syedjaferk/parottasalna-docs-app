@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Study material · Interview prep · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
+{% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
+{% block content %}
+{% include "prep/_nav.html" %}
+<div id="materials-app" class="prep-layout" data-base="{% url 'prep_data' 'mat_hr' %}">
+  <aside class="prep-side card" aria-label="Material types">
+    <ul id="mat-list" class="group-list"></ul>
+  </aside>
+  <section class="prep-main">
+    <div class="card prep-filters">
+      <input id="m-q" class="prep-input" type="search" placeholder="Search…" aria-label="Search">
+      <label id="m-cat-wrap">Category <select id="m-cat"><option value="">All</option></select></label>
+      <label id="m-diff-wrap">Difficulty <select id="m-diff"><option value="">All</option></select></label>
+    </div>
+    <div id="m-title" class="section-title"></div>
+    <div id="m-body" class="mat-body"></div>
+    <button type="button" id="m-more" class="btn ghost" hidden>Show more</button>
+  </section>
+</div>
+<script src="{% static 'js/prep-common.js' %}"></script>
+<script src="{% static 'js/prep-materials.js' %}" defer></script>
+{% endblock %}

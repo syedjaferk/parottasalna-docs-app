@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Pattern guides · Interview prep · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
+{% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
+{% block content %}
+{% include "prep/_nav.html" %}
+<div id="patterns-app" data-guides="{% url 'prep_data' 'pattern_guides' %}" data-catalog="{% url 'prep_data' 'catalog' %}" data-tracker="{% url 'prep_tracker' %}">
+  <div class="card prep-filters"><input id="p-search" class="prep-input" type="search" placeholder="Search patterns…" aria-label="Search patterns"></div>
+  <div id="pattern-grid" class="pattern-grid"></div>
+</div>
+<script src="{% static 'js/prep-common.js' %}"></script>
+<script src="{% static 'js/prep-patterns.js' %}" defer></script>
+{% endblock %}

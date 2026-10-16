@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Practice tracker · Interview prep · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
+{% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
+{% block content %}
+{% include "prep/_nav.html" %}
+<div id="prep-app" class="prep-layout" data-catalog="{% url 'prep_data' 'catalog' %}" data-progress="{% url 'prep_progress' %}"
+     data-set="{% url 'prep_progress_set' %}" data-import="{% url 'prep_progress_import' %}" data-clear="{% url 'prep_progress_clear' %}"
+     data-patterns="{% url 'prep_patterns' %}">
+  <aside class="prep-side card" aria-label="Choose what to practise">
+    <div class="seg" role="tablist" aria-label="Browse by">
+      <button type="button" role="tab" data-mode="sheet">Sheets</button>
+      <button type="button" role="tab" data-mode="company">Companies</button>
+      <button type="button" role="tab" data-mode="pattern">Patterns</button>
+      <button type="button" role="tab" data-mode="topic">Topics</button>
+    </div>
+    <input id="group-search" class="prep-input" type="search" placeholder="Filter this list…" aria-label="Filter the list">
+    <ul id="group-list" class="group-list"></ul>
+  </aside>
+  <section class="prep-main" aria-live="polite">
+    <div class="card prep-head">
+      <div class="prep-title"><h2 id="view-title">Loading…</h2><p id="view-sub" class="muted"></p></div>
+      <div class="prep-actions">
+        <button type="button" class="btn ghost sm" id="btn-random">🎲 Random</button>
+        <details class="acct"><summary class="btn ghost sm">Data ▾</summary>
+          <div class="acct-menu">
+            <button type="button" id="btn-export">⬇ Export progress (JSON)</button>
+            <label class="menu-file">⬆ Import progress<input type="file" id="file-import" accept="application/json" hidden></label>
+          </div></details>
+        <details class="acct"><summary class="btn ghost sm">Clear ▾</summary>
+          <div class="acct-menu">
+            <button type="button" data-clear="solved">Clear solved marks (this view)</button>
+            <button type="button" data-clear="bookmarks">Clear bookmarks (this view)</button>
+            <button type="button" data-clear="notes">Clear notes (this view)</button>
+            <span class="sep"></span>
+            <button type="button" data-clear="all" data-all="1">Reset everything</button>
+          </div></details>
+      </div>
+      <div class="prep-progress" aria-label="Progress">
+        <div class="bar"><span id="bar-fill"></span></div>
+        <div id="bar-text" class="bar-text"></div>
+      </div>
+    </div>
+    <div class="card prep-filters">
+      <input id="q" class="prep-input" type="search" placeholder="Search problems…" aria-label="Search problems">
+      <label>Difficulty <select id="f-diff"><option value="">All</option></select></label>
+      <label>Status <select id="f-status"><option value="">All</option><option value="todo">Unsolved</option><option value="done">Solved</option><option value="mark">Bookmarked</option><option value="note">Has note</option></select></label>
+      <label>Pattern <select id="f-pattern"><option value="">Any</option></select></label>
+      <label>Topic <select id="f-topic"><option value="">Any</option></select></label>
+      <label>Company <select id="f-company"><option value="">Any</option></select></label>
+      <label id="f-heat-wrap" hidden>Frequency <select id="f-heat"><option value="">Any</option><option value="4">Very Hot</option><option value="3">Hot+</option><option value="2">Warm+</option></select></label>
+      <button type="button" class="btn ghost sm" id="btn-reset">Reset filters</button>
+    </div>
+    <div id="problems" class="problems"></div>
+    <p class="muted prep-foot">Problem lists are compiled from public sheets (Striver, NeetCode, Grind 75, Love Babbar and others). Each link opens the problem on its original site.</p>
+  </section>
+</div>
+<dialog id="note-dialog" class="prep-dialog">
+  <form method="dialog">
+    <h3 id="note-title">Your notes</h3>
+    <textarea id="note-text" rows="6" maxlength="2000" placeholder="Approach, mistakes, things to revisit…"></textarea>
+    <div class="dialog-actions">
+      <button type="button" class="btn ghost sm" id="note-delete">Delete note</button>
+      <span class="grow"></span>
+      <button type="button" class="btn ghost sm" id="note-cancel">Cancel</button>
+      <button type="button" class="btn sm" id="note-save">Save</button>
+    </div>
+  </form>
+</dialog>
+<script src="{% static 'js/prep-common.js' %}"></script>
+<script src="{% static 'js/prep-tracker.js' %}" defer></script>
+{% endblock %}

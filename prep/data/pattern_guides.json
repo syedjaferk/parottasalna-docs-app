@@ -1,0 +1,514 @@
+{
+ "Two Pointers": {
+  "kid": "Imagine a long line of kids sorted from shortest to tallest. You stand at the short end and a friend stands at the tall end. To find two kids whose heights add up to a number, you both walk towards each other: if the pair is too short, you step up; if it's too tall, your friend steps down. You never need to check every pair.",
+  "when": [
+   "Sorted array or string",
+   "Find a pair / triplet with a target sum",
+   "Reverse, palindrome or in-place partition",
+   "Remove duplicates in place"
+  ],
+  "flow": [
+   "Put one pointer at each end (or both at the start, moving at different speeds).",
+   "Look at the two values and decide: is the answer too small, too big, or found?",
+   "Move only the pointer that can improve the answer.",
+   "Stop when the pointers meet or cross."
+  ],
+  "code": "l, r = 0, len(a) - 1\nwhile l < r:\n    s = a[l] + a[r]\n    if s == target: return [l, r]\n    if s < target: l += 1\n    else: r -= 1",
+  "time": "O(n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Forgetting to sort first when the problem needs sorted order",
+   "Skipping duplicates in 3Sum-style problems",
+   "Off-by-one on l < r vs l <= r"
+  ]
+ },
+ "Sliding Window": {
+  "kid": "Think of a window frame you slide along a train. You only look at what is inside the frame. When the train moves one step, one new carriage comes into view on the right and one leaves on the left, so you update your count instead of re-counting every carriage.",
+  "when": [
+   "Longest / shortest / best contiguous subarray or substring",
+   "Fixed size k window (max sum of k elements)",
+   "Condition like 'at most k distinct' or 'no repeats'"
+  ],
+  "flow": [
+   "Keep a window [left, right] and a running state (sum, counts in a map).",
+   "Grow: move right forward and add the new element to the state.",
+   "While the window breaks the rule, shrink: remove a[left] from the state and move left forward.",
+   "After every step, record the best answer (max or min length, sum)."
+  ],
+  "code": "left = 0; best = 0; seen = {}\nfor right, ch in enumerate(s):\n    seen[ch] = seen.get(ch, 0) + 1\n    while seen[ch] > 1:\n        seen[s[left]] -= 1; left += 1\n    best = max(best, right - left + 1)",
+  "time": "O(n)",
+  "space": "O(k)",
+  "pitfalls": [
+   "Updating the answer before the window is valid again",
+   "Forgetting to remove the left element from the state",
+   "Using it when values can be negative and the rule is a sum"
+  ]
+ },
+ "Fast and Slow Pointer": {
+  "kid": "Two kids run around a circular track. One runs twice as fast. If the track is a loop they will definitely meet again; if it's a straight road the fast one just reaches the end. Meeting means 'there is a loop'. And when the fast kid finishes a straight road, the slow kid is exactly in the middle.",
+  "when": [
+   "Linked list cycle",
+   "Find the middle of a list",
+   "Happy number / any repeated sequence",
+   "Find the duplicate number"
+  ],
+  "flow": [
+   "Start both pointers at the head.",
+   "Each step: slow moves 1, fast moves 2.",
+   "If fast hits null the list has no cycle (and slow is at the middle).",
+   "If slow == fast there is a cycle. To find its start, reset one pointer to the head and move both 1 step at a time until they meet."
+  ],
+  "code": "slow = fast = head\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n    if slow is fast: return True\nreturn False",
+  "time": "O(n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Not checking fast.next before fast.next.next",
+   "Wrong middle for even length lists (decide first or second middle)"
+  ]
+ },
+ "Reversal of Linked List": {
+  "kid": "A row of kids each holds the hand of the kid in front. To reverse the row, every kid lets go and grabs the hand of the kid behind instead. You do it one kid at a time, remembering who is next before letting go.",
+  "when": [
+   "Reverse a linked list or a part of it",
+   "Reverse nodes in groups of k",
+   "Palindrome linked list",
+   "Rotate / reorder a list"
+  ],
+  "flow": [
+   "Keep three names: prev (starts as null), curr (head) and nxt.",
+   "Save nxt = curr.next so you don't lose the rest.",
+   "Point curr.next to prev (this flips one link).",
+   "Move prev = curr and curr = nxt. Repeat until curr is null; prev is the new head."
+  ],
+  "code": "prev, curr = None, head\nwhile curr:\n    nxt = curr.next\n    curr.next = prev\n    prev, curr = curr, nxt\nreturn prev",
+  "time": "O(n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Losing the rest of the list by not saving next first",
+   "Not reconnecting the reversed part to the nodes around it (sub-list reversal)"
+  ]
+ },
+ "Modified Binary Search": {
+  "kid": "I'm thinking of a number from 1 to 100. You guess 50 and I say 'higher'. Now you only need to look at 51 to 100, so you guess 75. Every guess throws away half of the possibilities, so even a million numbers take only about 20 guesses.",
+  "when": [
+   "Sorted or rotated sorted array",
+   "'Find the minimum X such that ...' (search on the answer)",
+   "Peak element, first / last occurrence",
+   "Anything where a yes/no check flips from false to true once"
+  ],
+  "flow": [
+   "Set lo and hi to the range of possible answers.",
+   "Take mid = (lo + hi) // 2 and run the check for mid.",
+   "If mid works (or is too big), keep the left half: hi = mid. Otherwise keep the right half: lo = mid + 1.",
+   "When lo == hi that is the answer."
+  ],
+  "code": "lo, hi = 0, len(a)\nwhile lo < hi:\n    mid = (lo + hi) // 2\n    if ok(mid): hi = mid\n    else: lo = mid + 1\nreturn lo",
+  "time": "O(log n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Infinite loops from lo = mid instead of mid + 1",
+   "Mixing up inclusive and exclusive bounds",
+   "Checking only the array and forgetting you can binary search on the answer value"
+  ]
+ },
+ "Prefix Sum": {
+  "kid": "You have a long row of piggy banks and a friend keeps asking 'how many coins from box 3 to box 8?'. Instead of counting each time, you first write on every box 'total so far'. Now the answer is just one subtraction: total at 8 minus total at 2.",
+  "when": [
+   "Many range-sum queries",
+   "Subarray sum equals k",
+   "Count subarrays with a property (use a map of prefix sums)",
+   "2D range sums"
+  ],
+  "flow": [
+   "Build prefix[i] = a[0] + ... + a[i-1], with prefix[0] = 0.",
+   "Sum of range [l, r] = prefix[r + 1] - prefix[l].",
+   "For 'subarray sum = k', keep a map of prefix sums seen so far.",
+   "At each index look for (current prefix - k) in the map and add its count."
+  ],
+  "code": "count = {0: 1}; cur = 0; ans = 0\nfor x in a:\n    cur += x\n    ans += count.get(cur - k, 0)\n    count[cur] = count.get(cur, 0) + 1",
+  "time": "O(n)",
+  "space": "O(n)",
+  "pitfalls": [
+   "Forgetting the empty prefix (count[0] = 1)",
+   "Off-by-one between prefix[r] and prefix[r + 1]"
+  ]
+ },
+ "Hash Map": {
+  "kid": "Think of a coat check. You hand over a coat and get a numbered ticket. Later you show the ticket and the attendant finds the coat at once, without searching every hook. A hash map is that magic ticket desk for your data.",
+  "when": [
+   "Need to know 'have I seen this before?'",
+   "Count frequencies",
+   "Find a complement (Two Sum)",
+   "Group things (anagrams)"
+  ],
+  "flow": [
+   "Decide the key (what you look up) and the value (what you remember).",
+   "Walk through the input once.",
+   "Before inserting the current item, ask the map: is the thing I need already there?",
+   "Insert or update the current item and move on."
+  ],
+  "code": "seen = {}\nfor i, x in enumerate(a):\n    if target - x in seen: return [seen[target - x], i]\n    seen[x] = i",
+  "time": "O(n)",
+  "space": "O(n)",
+  "pitfalls": [
+   "Using a mutable list as a key (use a tuple)",
+   "Inserting before checking (matches the item with itself)"
+  ]
+ },
+ "Monotonic Stack": {
+  "kid": "Kids line up for a photo and each one wants to know 'who is the first taller kid behind me?'. A kid stands on a pile of shorter kids; when a taller kid arrives, all the shorter ones learn their answer and leave the pile. The pile always stays in order of height.",
+  "when": [
+   "Next greater / smaller element",
+   "Daily temperatures",
+   "Largest rectangle in histogram",
+   "Trapping rain water, stock span"
+  ],
+  "flow": [
+   "Keep a stack of indices whose values are in a sorted order (e.g. decreasing).",
+   "For each new element, while the top of the stack is smaller, pop it: the new element is its 'next greater'.",
+   "Record the answer for each popped index.",
+   "Push the new index. Whatever stays in the stack at the end has no answer."
+  ],
+  "code": "res = [-1] * len(a); st = []\nfor i, x in enumerate(a):\n    while st and a[st[-1]] < x:\n        res[st.pop()] = x\n    st.append(i)",
+  "time": "O(n)",
+  "space": "O(n)",
+  "pitfalls": [
+   "Pushing values instead of indices (you lose the distance)",
+   "Choosing the wrong order (increasing vs decreasing)"
+  ]
+ },
+ "Overlapping Intervals": {
+  "kid": "Each kid has a play-time slot, like 2pm-4pm. To see who clashes, line the kids up by start time. If the next kid starts before the current kid finishes, they overlap, so you merge their slots into one longer slot.",
+  "when": [
+   "Merge intervals",
+   "Insert interval",
+   "Meeting rooms (can one person attend all?)",
+   "Minimum rooms or arrows needed"
+  ],
+  "flow": [
+   "Sort the intervals by start time.",
+   "Put the first interval in the result.",
+   "For each next interval compare its start with the end of the last one in the result.",
+   "If start <= last end, merge: last end = max(last end, end). Otherwise just append it."
+  ],
+  "code": "iv.sort()\nout = [iv[0]]\nfor s, e in iv[1:]:\n    if s <= out[-1][1]: out[-1][1] = max(out[-1][1], e)\n    else: out.append([s, e])",
+  "time": "O(n log n)",
+  "space": "O(n)",
+  "pitfalls": [
+   "Forgetting to sort",
+   "Using end instead of max(end) when one interval swallows another",
+   "Deciding whether touching intervals (end == start) overlap"
+  ]
+ },
+ "Cyclic Sort": {
+  "kid": "You have kids with jersey numbers 1 to N standing in random spots, and each number has a matching seat. Each kid just goes to the seat that matches their number, swapping with whoever is sitting there. In the end, any seat with the wrong kid shows exactly which number is missing.",
+  "when": [
+   "Array holds numbers in range 1..n",
+   "Find the missing number",
+   "Find the duplicate(s)",
+   "First missing positive"
+  ],
+  "flow": [
+   "Start at index i = 0.",
+   "The value a[i] belongs at index a[i] - 1.",
+   "If it is not there already (and the target isn't a duplicate), swap it into place; otherwise move i forward.",
+   "Scan again: every index where a[i] != i + 1 is a missing (or duplicate) value."
+  ],
+  "code": "i = 0\nwhile i < len(a):\n    j = a[i] - 1\n    if 0 <= j < len(a) and a[i] != a[j]:\n        a[i], a[j] = a[j], a[i]\n    else:\n        i += 1",
+  "time": "O(n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Infinite loop on duplicates (compare a[i] with a[j], not i with j)",
+   "Ignoring values out of range"
+  ]
+ },
+ "Matrix Manipulation": {
+  "kid": "A chocolate bar is a grid of squares. To eat it in a spiral, you go along the top row, down the right side, back along the bottom and up the left, then repeat on the smaller bar that is left. To spin a photo, you swap the corner pieces around, layer by layer.",
+  "when": [
+   "Rotate image",
+   "Spiral order",
+   "Set matrix zeroes",
+   "Transpose / flip"
+  ],
+  "flow": [
+   "Fix the boundaries: top, bottom, left, right.",
+   "Process one layer (a row or column) and shrink the matching boundary.",
+   "Repeat while top <= bottom and left <= right.",
+   "For in-place tricks, use the first row / column as marker storage or transpose then reverse each row."
+  ],
+  "code": "# rotate 90 degrees clockwise\nfor i in range(n):\n    for j in range(i + 1, n):\n        m[i][j], m[j][i] = m[j][i], m[i][j]\nfor row in m: row.reverse()",
+  "time": "O(m*n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Processing the middle row / column twice in spiral order",
+   "Overwriting values you still need"
+  ]
+ },
+ "Breadth First Search (BFS)": {
+  "kid": "Drop a stone in a pond. The ripples spread out ring by ring: first everything one step away, then everything two steps away. BFS visits places in exactly this order, so the first time it reaches your target is the shortest way there.",
+  "when": [
+   "Shortest path in an unweighted graph or grid",
+   "Level order traversal of a tree",
+   "Minimum number of moves / steps",
+   "Spreading problems (rotting oranges)"
+  ],
+  "flow": [
+   "Put the start in a queue and mark it visited.",
+   "Pop the front; process it.",
+   "Push every unvisited neighbour and mark it visited immediately.",
+   "Process level by level (use the queue length) to count steps; stop when the target is popped."
+  ],
+  "code": "from collections import deque\nq = deque([start]); seen = {start}; steps = 0\nwhile q:\n    for _ in range(len(q)):\n        node = q.popleft()\n        if node == goal: return steps\n        for nb in graph[node]:\n            if nb not in seen: seen.add(nb); q.append(nb)\n    steps += 1",
+  "time": "O(V + E)",
+  "space": "O(V)",
+  "pitfalls": [
+   "Marking visited when popping instead of when pushing (duplicates in the queue)",
+   "Using a list as a queue (pop(0) is slow)"
+  ]
+ },
+ "Depth First Search (DFS)": {
+  "kid": "You are in a maze with a ball of string. You walk down one corridor as far as you can; at a dead end you follow the string back to the last fork and try the next corridor. You explore everything behind one door completely before trying the next door.",
+  "when": [
+   "Explore all paths / connected components",
+   "Flood fill, number of islands",
+   "Detect cycles",
+   "Anything recursive on a grid or graph"
+  ],
+  "flow": [
+   "Start at a node and mark it visited.",
+   "For each neighbour that is not visited, call DFS on it (recursion or an explicit stack).",
+   "On return, combine the results (count, path, flag).",
+   "When all neighbours are done, the call returns to its parent."
+  ],
+  "code": "def dfs(r, c):\n    if not (0 <= r < R and 0 <= c < C) or grid[r][c] != '1': return\n    grid[r][c] = '0'\n    for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):\n        dfs(r + dr, c + dc)",
+  "time": "O(V + E)",
+  "space": "O(V) call stack",
+  "pitfalls": [
+   "Forgetting to mark visited (infinite recursion)",
+   "Recursion depth limits on huge inputs"
+  ]
+ },
+ "Trees": {
+  "kid": "A family tree: one grandparent at the top, children below, grandchildren below them. Most tree questions are answered by asking each child the same question and then combining their answers: 'how tall are you?' ... 'I'm the tallest child's height plus one'.",
+  "when": [
+   "Binary tree / BST problems",
+   "Height, diameter, balanced, symmetric",
+   "Lowest common ancestor",
+   "Path sums, level order"
+  ],
+  "flow": [
+   "Write the base case: an empty node (None) returns the neutral answer (0, True, empty list).",
+   "Recursively solve the left subtree and the right subtree.",
+   "Combine: use both answers and the current node's value to build this node's answer.",
+   "Return it upward. For a BST use the ordering (left < node < right) to skip half the tree."
+  ],
+  "code": "def height(node):\n    if not node: return 0\n    return 1 + max(height(node.left), height(node.right))",
+  "time": "O(n)",
+  "space": "O(h)",
+  "pitfalls": [
+   "Forgetting the None base case",
+   "Mixing 'answer through this node' with 'answer to return to the parent' (diameter, max path sum)"
+  ]
+ },
+ "Graphs": {
+  "kid": "Friends on a playground, with some holding hands. A graph is just 'who is connected to whom'. Questions are like: can the message get from Asha to Ravi through friends? Is there a circle of friends? In what order must we put on socks, then shoes, then shoes' laces?",
+  "when": [
+   "Connected components, cycle detection",
+   "Course schedule (topological sort)",
+   "Shortest path with weights (Dijkstra)",
+   "Union-Find for merging groups"
+  ],
+  "flow": [
+   "Build an adjacency list from the input edges.",
+   "Pick the traversal: BFS for shortest steps, DFS for exploring, topological sort for ordering with dependencies, Dijkstra for weighted shortest path.",
+   "Keep a visited set (or in-degree counts) so each node is handled once.",
+   "Run from every unvisited node when the graph can be disconnected."
+  ],
+  "code": "from collections import defaultdict, deque\ng = defaultdict(list); indeg = [0] * n\nfor a, b in edges: g[a].append(b); indeg[b] += 1\nq = deque(i for i in range(n) if indeg[i] == 0); order = []\nwhile q:\n    u = q.popleft(); order.append(u)\n    for v in g[u]:\n        indeg[v] -= 1\n        if indeg[v] == 0: q.append(v)",
+  "time": "O(V + E)",
+  "space": "O(V + E)",
+  "pitfalls": [
+   "Directed vs undirected edges",
+   "Starting from only one node in a disconnected graph",
+   "Dijkstra with negative weights"
+  ]
+ },
+ "Backtracking": {
+  "kid": "You are choosing an outfit: a shirt, then trousers, then shoes. If the shoes clash, you don't throw the outfit away entirely; you take the shoes off and try other ones, and if nothing works you go back and change the trousers. Try, check, undo, try something else.",
+  "when": [
+   "Generate all subsets, permutations, combinations",
+   "N-Queens, Sudoku",
+   "Word search",
+   "Any 'find all valid ...' with choices at each step"
+  ],
+  "flow": [
+   "Define the state: the choices made so far.",
+   "If the state is complete, save a copy of it.",
+   "For every possible next choice that keeps the state valid: make the choice, recurse.",
+   "Undo the choice (pop / unmark) so the next loop iteration starts clean."
+  ],
+  "code": "res = []\ndef go(start, path):\n    res.append(path[:])\n    for i in range(start, len(a)):\n        path.append(a[i])\n        go(i + 1, path)\n        path.pop()",
+  "time": "O(2^n) or O(n!)",
+  "space": "O(n)",
+  "pitfalls": [
+   "Appending the same list object without copying it",
+   "Forgetting to undo the choice",
+   "Not pruning invalid branches early"
+  ]
+ },
+ "Greedy": {
+  "kid": "You have a bag of coins and want to pay 63 rupees with as few coins as possible. You grab the biggest coin that still fits, again and again. You never undo a choice. It works when taking the best thing right now can never hurt you later.",
+  "when": [
+   "Interval scheduling, activity selection",
+   "Jump game, gas station",
+   "Minimum coins with 'nice' denominations",
+   "Sorting by some ratio, then picking"
+  ],
+  "flow": [
+   "Find the local rule: what is the best choice at each step (earliest finish, biggest value per weight)?",
+   "Sort or use a heap so the best choice is always at hand.",
+   "Take it if it is allowed, update the state, repeat.",
+   "Convince yourself with a small counter-example search or an exchange argument that the rule is safe."
+  ],
+  "code": "iv.sort(key=lambda x: x[1])  # earliest finish first\nend = -inf; count = 0\nfor s, e in iv:\n    if s >= end:\n        count += 1; end = e",
+  "time": "O(n log n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Assuming greedy works without proof (0/1 knapsack needs DP)",
+   "Sorting by the wrong key"
+  ]
+ },
+ "Dynamic Programming": {
+  "kid": "To count the stairs to the top you ask: 'how many ways to reach the step below me and the step two below me?' and add them. Instead of re-counting the same steps again and again, you write each answer on a sticky note and look it up next time. Big problem = small problems + sticky notes.",
+  "when": [
+   "Count the ways / min cost / max profit",
+   "Choices at each step with overlapping sub-problems",
+   "Knapsack, LIS, LCS, edit distance, coin change",
+   "Grid paths"
+  ],
+  "flow": [
+   "Define the state in words: dp[i] means ... (be precise).",
+   "Write the transition: how dp[i] comes from smaller states.",
+   "Set the base cases (dp[0], first row / column).",
+   "Fill in order (bottom-up) or recurse with a cache (top-down). Return the state that holds the answer, then optionally shrink memory."
+  ],
+  "code": "dp = [0] * (n + 1); dp[0] = 1\nfor i in range(1, n + 1):\n    dp[i] = dp[i - 1] + (dp[i - 2] if i > 1 else 0)\nreturn dp[n]",
+  "time": "O(states x transitions)",
+  "space": "O(states)",
+  "pitfalls": [
+   "Vague state definition",
+   "Wrong iteration order so a needed value isn't ready",
+   "Using greedy where overlapping choices need DP"
+  ]
+ },
+ "Bitwise XOR": {
+  "kid": "XOR is a magic switch: flip a light twice and it is back to how it started. If every kid in a room has a twin who flips the same switch, all the lights cancel out and only the kid without a twin leaves the switch changed.",
+  "when": [
+   "Find the single non-duplicate number",
+   "Missing number",
+   "Swap or flip bits, count set bits",
+   "Power of two checks"
+  ],
+  "flow": [
+   "Remember: a ^ a = 0, a ^ 0 = a, and XOR is order independent.",
+   "XOR all numbers together; pairs cancel out.",
+   "The leftover is the unique value (for two uniques, split into two groups using any set bit of the total XOR).",
+   "For bit tricks use n & (n - 1) to clear the lowest set bit."
+  ],
+  "code": "res = 0\nfor x in a: res ^= x\nreturn res",
+  "time": "O(n)",
+  "space": "O(1)",
+  "pitfalls": [
+   "Operator precedence (use parentheses around bit operations)",
+   "Negative numbers and Python's infinite-width integers"
+  ]
+ },
+ "Top K Elements": {
+  "kid": "A talent show picks the 3 best singers. You keep a small podium with only 3 spots. Each new singer is compared with the weakest person on the podium; if they are better, they replace that person. At the end the podium holds the top 3 without sorting everybody.",
+  "when": [
+   "K largest / smallest / most frequent",
+   "Kth largest element",
+   "K closest points",
+   "Sort by frequency"
+  ],
+  "flow": [
+   "Pick a heap: a min-heap of size K for the K largest (the smallest of the top K sits on top).",
+   "Push each new element.",
+   "If the heap grows bigger than K, pop the top (the weakest).",
+   "When the input ends, the heap contains the answer."
+  ],
+  "code": "import heapq\nh = []\nfor x in a:\n    heapq.heappush(h, x)\n    if len(h) > k: heapq.heappop(h)\nreturn h  # k largest",
+  "time": "O(n log k)",
+  "space": "O(k)",
+  "pitfalls": [
+   "Using a max-heap when you need a min-heap of size K",
+   "Python's heapq is a min-heap only (negate values for max)"
+  ]
+ },
+ "K-way Merge": {
+  "kid": "K queues of kids, each already sorted by height. A teacher wants one sorted line. She looks only at the first kid of each queue, takes the shortest, and then looks at the new first kid of that queue. Repeat until all queues are empty.",
+  "when": [
+   "Merge k sorted lists / arrays",
+   "Kth smallest in a sorted matrix",
+   "Smallest range covering k lists",
+   "Find K pairs with smallest sums"
+  ],
+  "flow": [
+   "Push the first element of each list into a min-heap as (value, list index, element index).",
+   "Pop the smallest and append it to the output.",
+   "Push the next element from the same list, if there is one.",
+   "Repeat until the heap is empty (or you have taken K items)."
+  ],
+  "code": "import heapq\nh = [(l.val, i, l) for i, l in enumerate(lists) if l]\nheapq.heapify(h)\nwhile h:\n    v, i, node = heapq.heappop(h)\n    out.append(v)\n    if node.next: heapq.heappush(h, (node.next.val, i, node.next))",
+  "time": "O(N log k)",
+  "space": "O(k)",
+  "pitfalls": [
+   "Comparing nodes on ties (include a unique index in the tuple)",
+   "Forgetting to push the next element of the list just popped"
+  ]
+ },
+ "Two Heaps": {
+  "kid": "To always know the middle kid in a growing line, split the kids into a 'shorter half' and a 'taller half'. The tallest of the short half and the shortest of the tall half sit at the middle, so the median is always one of those two - and you can see them without sorting.",
+  "when": [
+   "Median of a data stream",
+   "Sliding window median",
+   "Maximize capital / IPO style scheduling",
+   "Balance two groups by size"
+  ],
+  "flow": [
+   "Keep a max-heap for the smaller half and a min-heap for the larger half.",
+   "Add the number to the max-heap, then move the max-heap's top to the min-heap.",
+   "If the min-heap is bigger than the max-heap, move its top back to rebalance.",
+   "Median = top of max-heap (odd count) or the average of the two tops (even count)."
+  ],
+  "code": "import heapq\nlo, hi = [], []  # lo is a max-heap (negated)\ndef add(x):\n    heapq.heappush(lo, -x)\n    heapq.heappush(hi, -heapq.heappop(lo))\n    if len(hi) > len(lo):\n        heapq.heappush(lo, -heapq.heappop(hi))\ndef median():\n    return -lo[0] if len(lo) > len(hi) else (-lo[0] + hi[0]) / 2",
+  "time": "O(log n) per add, O(1) median",
+  "space": "O(n)",
+  "pitfalls": [
+   "Forgetting to negate numbers in the max-heap",
+   "Heap sizes drifting by more than one"
+  ]
+ },
+ "Design Data Structure": {
+  "kid": "You are building your own toy box with special rules, like 'the toy I touched last is easiest to grab' (LRU cache) or 'find any toy that starts with ca...' (a trie). You pick two simple boxes that are good at different things and wire them together so every operation is fast.",
+  "when": [
+   "LRU / LFU cache",
+   "Trie (prefix tree), autocomplete",
+   "Min stack, queue using stacks",
+   "Insert / delete / get random in O(1)"
+  ],
+  "flow": [
+   "List the operations and the speed each one must have (usually O(1) or O(log n)).",
+   "Pick the building blocks: hash map for lookup, doubly linked list for order, heap for min / max, array for random access.",
+   "Make them point at each other (map stores node references).",
+   "Write each operation so it updates all the blocks consistently, and test the edge cases (empty, capacity 1)."
+  ],
+  "code": "from collections import OrderedDict\nclass LRU:\n    def __init__(self, cap): self.c = OrderedDict(); self.cap = cap\n    def get(self, k):\n        if k not in self.c: return -1\n        self.c.move_to_end(k); return self.c[k]\n    def put(self, k, v):\n        self.c[k] = v; self.c.move_to_end(k)\n        if len(self.c) > self.cap: self.c.popitem(last=False)",
+  "time": "O(1) typical",
+  "space": "O(n)",
+  "pitfalls": [
+   "Updating one structure but not the other",
+   "Not handling duplicates or missing keys"
+  ]
+ }
+}

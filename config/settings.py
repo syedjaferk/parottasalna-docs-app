@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "smells",
     "assessments",
     "books",
+    "prep",
 ]
 
 MIDDLEWARE = [

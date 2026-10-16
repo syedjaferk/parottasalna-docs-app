@@ -18,5 +18,6 @@ urlpatterns = [
     path("", include("smells.urls")),
     path("", include("assessments.urls")),
     path("", include("books.urls")),
+    path("", include("prep.urls")),
     path("", include("courses.urls")),
 ]
