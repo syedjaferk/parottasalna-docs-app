@@ -1,0 +1,61 @@
+chapter: sessions/05-build-an-agent
+quizzes:
+- title: Session 5 · Quiz
+  description: The agent loop, memory types, stopping conditions and safe tool running.
+  questions:
+  - text: The agent loop is...
+    choices: |
+      Ask, Wait, Quit
+      Read, Write, Delete
+      *Think, Act, Observe, repeat
+      Train, Test, Deploy
+    explanation: The AI decides, a tool runs, the AI reads the result and decides again.
+  - text: Why does "weather in Chennai, then convert to Fahrenheit" need a loop?
+    choices: |
+      Weather APIs are slow
+      The AI can't do maths
+      *The second step depends on a result the AI doesn't have yet
+      Python can't call two functions
+    explanation: It must observe the temperature before it can convert it.
+  - text: What is `max_steps` for?
+    choices: |
+      Setting the model's temperature
+      Limiting the file size
+      *A stopping condition so the agent can never loop forever
+      Counting tokens
+    explanation: Without limits a looping agent can run up your bill.
+  - text: What does summary memory do?
+    choices: |
+      Deletes all memory
+      Makes the AI smarter
+      *Squeezes old conversation into a short summary to save tokens
+      Stores memory in a file forever
+    explanation: It keeps names and preferences while cutting detail.
+  - text: Which memory survives after you close the program?
+    choices: |
+      *Notes written to a file (`notes.txt`)
+      The summary string
+      The `messages` list
+      The temperature
+    explanation: The list and the summary live only in the running program.
+  - text: Why does `run_tool` always return text, even for errors?
+    choices: |
+      To make it faster
+      Because Python can't return numbers
+      Because the API forbids numbers
+      *So the agent never crashes and can read the error and try again
+    explanation: Self-correction needs the error to be visible to the model.
+  - text: Why is the history cut at a `user` message in `compress_memory`?
+    choices: |
+      *A tool request must never be separated from its result
+      Users are more important
+      It is shorter code
+      The API requires it for billing
+    explanation: Splitting them makes the API reject the history.
+  - text: When should you use a plain workflow instead of an agent?
+    choices: |
+      *When you can write the steps down in advance
+      Never
+      Only for chatting
+      When the task is unknown
+    explanation: Workflows are cheaper and more predictable than agents.

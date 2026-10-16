@@ -1,0 +1,61 @@
+chapter: sessions/03-working-with-files
+quizzes:
+- title: Session 3 · Quiz
+  description: mkdir, touch, cp, mv, rm, wildcards and safe deleting.
+  questions:
+  - text: Which command **renames** `a.txt` to `b.txt`?
+    choices: |
+      `cp a.txt b.txt`
+      `touch b.txt`
+      *`mv a.txt b.txt`
+      `rename a.txt`
+    explanation: '`mv` moves and renames; `cp` keeps the original.'
+  - text: Which flag is needed to copy a **folder**?
+    choices: |
+      `-a`
+      `-v`
+      `-f`
+      *`-r`
+    explanation: '`cp -r` copies recursively.'
+  - text: What does `ls *.txt` list?
+    choices: |
+      Hidden files
+      *All files ending in `.txt`
+      Only a file literally called `*.txt`
+      All files containing `txt` anywhere
+    explanation: '`*` matches any characters.'
+  - text: What is the **safest** way to delete an empty folder?
+    choices: |
+      `rm -rf folder`
+      `mv folder /dev/null`
+      `rm folder`
+      *`rmdir folder`
+    explanation: '`rmdir` refuses to delete folders that have content.'
+  - text: After `rm file.txt`, how do you restore it?
+    choices: |
+      Ctrl + Z
+      `rm --restore file.txt`
+      *You can't: `rm` has no recycle bin
+      `undo`
+    explanation: Deleted means gone, so check before pressing Enter.
+  - text: What is the safe habit before `rm *.tmp`?
+    choices: |
+      *Run `ls *.tmp` first to see what matches
+      Use `rm -rf` instead
+      Add `sudo`
+      Nothing, it's safe
+    explanation: Look first, then delete.
+  - text: What does `touch notes.txt` do if the file doesn't exist?
+    choices: |
+      Opens an editor
+      Shows the file
+      *Creates an empty file
+      Deletes it
+    explanation: touch also updates timestamps of existing files.
+  - text: Which wildcard matches **exactly one** character?
+    choices: |
+      `..`
+      *`?`
+      `*`
+      `#`
+    explanation: '`?` = one character; `*` = any number.'

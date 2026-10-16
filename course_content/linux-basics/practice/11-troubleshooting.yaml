@@ -1,0 +1,61 @@
+chapter: sessions/11-troubleshooting
+quizzes:
+- title: Session 11 · Quiz
+  description: The troubleshooting method, df, du, free, logs and common errors.
+  questions:
+  - text: Which command shows free disk space per disk?
+    choices: |
+      `ls -l`
+      `du -h`
+      *`df -h`
+      `free -h`
+    explanation: '`du` shows what uses space; `free` shows memory.'
+  - text: A disk is 100% full. What's the best first step?
+    choices: |
+      Delete random files
+      `chmod 777 /`
+      *Find what is big with `du -h --max-depth=1 /path | sort -rh`
+      Reboot
+    explanation: Drill down one level at a time.
+  - text: Where are most system logs kept?
+    choices: |
+      *`/var/log`
+      `/usr`
+      `/tmp`
+      `/etc`
+    explanation: '`journalctl` reads the systemd journal.'
+  - text: Which command shows the logs of one service?
+    choices: |
+      `systemctl logs`
+      `ps -u NAME`
+      *`journalctl -u NAME -n 50`
+      `logrotate NAME`
+    explanation: '`-u` = unit, `-n 50` = last 50 lines.'
+  - text: What should you change when troubleshooting?
+    choices: |
+      *One thing at a time, then test
+      Everything at once
+      Nothing
+      Only the OS
+    explanation: Otherwise you won't know what fixed (or broke) it.
+  - text: What does "Address already in use" mean?
+    choices: |
+      *Another program is already using that port
+      DNS failed
+      The disk is full
+      The IP is wrong
+    explanation: Find it with `ss -tlnp` or `lsof -i :PORT`.
+  - text: A load average of 20 on a 4-core machine for an hour suggests...
+    choices: |
+      Everything is fine
+      The disk is full
+      *The machine is overloaded
+      It is idle
+    explanation: Load above the number of cores for a long time means a queue of work.
+  - text: A script runs by hand but not from cron. Most likely cause?
+    choices: |
+      *Different PATH and working folder: use full paths
+      The script needs sudo
+      The script is too short
+      Cron cannot run scripts
+    explanation: Cron has a tiny environment.

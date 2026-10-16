@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static quiz_extras %}
+{% block title %}Result · {{ assessment.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}">{% endblock %}
+{% block content %}
+<div class="as-wrap">
+  <nav class="as-crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{% url 'assessment_list' %}">Timed assessments</a> / <a href="{% url 'assessment_detail' assessment.slug %}">{{ assessment.title }}</a></nav>
+  <section class="as-card">
+    <div class="as-score">
+      <div class="as-ring" style="--p: {{ attempt.percentage }}; --ring: {% if attempt.passed %}var(--ok){% else %}#dc2626{% endif %}"><span>{{ attempt.percentage }}%</span></div>
+      <div>
+        <h1 style="margin:0 0 .3rem;font-size:1.5rem">{% if attempt.passed %}🎉 Passed{% else %}Not passed yet{% endif %}</h1>
+        <p style="margin:0 0 .5rem">{{ attempt.score }} of {{ attempt.max_score }} points · pass mark {{ assessment.pass_percentage }}%</p>
+        <div class="as-meta">
+          <span class="as-chip">⏱ {{ minutes }} min {{ seconds }} s used of {{ assessment.time_limit_minutes }} min</span>
+          {% if attempt.timed_out %}<span class="as-chip warn">Time ran out: submitted automatically</span>{% endif %}
+          {% if user.is_staff and attempt.user_id != user.pk %}<span class="as-chip">{{ attempt.user.email|default:attempt.user.username }}</span>{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="as-foot" style="margin-top:1rem">
+      {% if attempt.user_id == user.pk and left != 0 %}<a class="btn" href="{% url 'assessment_detail' assessment.slug %}">{% if left is None %}Try again{% else %}Try again ({{ left }} left){% endif %}</a>{% endif %}
+      <a class="btn ghost" href="{% url 'assessment_list' %}">All assessments</a>
+    </div>
+  </section>
+
+  {% if review %}
+  <h2 style="margin:1.5rem 0 .8rem">Review</h2>
+  {% for item in review %}
+  <div class="as-review-q {% if item.is_right %}right{% else %}wrong{% endif %}">
+    <div class="md"><strong>{{ forloop.counter }}.</strong> {{ item.question.text|markdown }}</div>
+    {% for c in item.choices %}
+    <div class="as-review-choice{% if c.correct %} correct{% elif c.picked %} picked-wrong{% endif %}">
+      {% if c.correct and c.picked %}✓ {% elif c.correct %}✓ (correct answer) {% elif c.picked %}✗ (your answer) {% endif %}<span class="md">{{ c.text|markdown_inline }}</span>
+    </div>
+    {% endfor %}
+    {% if item.skipped %}<p class="as-explain">You didn't answer this one.</p>{% endif %}
+    {% if item.question.explanation %}<p class="as-explain md">{{ item.question.explanation|markdown_inline }}</p>{% endif %}
+  </div>
+  {% endfor %}
+  {% elif not assessment.show_answers %}
+  <div class="as-card"><p class="muted" style="margin:0">The correct answers are not shown for this assessment.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

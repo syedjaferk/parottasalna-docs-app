@@ -1,0 +1,61 @@
+chapter: sessions/10-shell-scripting
+quizzes:
+- title: Session 10 · Quiz
+  description: Shebang, variables, quoting, tests, loops, exit codes and set -eu.
+  questions:
+  - text: What is the first line `#!/usr/bin/env bash` called?
+    choices: |
+      A variable
+      *The shebang
+      A comment about the author
+      A pipe
+    explanation: It tells Linux which program runs the file.
+  - text: Which assignment is correct in bash?
+    choices: |
+      `name = "Asha"`
+      `$name=Asha`
+      `set name Asha`
+      *`name="Asha"`
+    explanation: No spaces around `=`.
+  - text: What does `$?` hold?
+    choices: |
+      The script name
+      The current folder
+      The number of arguments
+      *The exit code of the last command
+    explanation: 0 means success.
+  - text: What is `$1` in a script?
+    choices: |
+      *The first argument
+      All arguments
+      The script name
+      The number of arguments
+    explanation: '`$0` is the script name; `$#` the count.'
+  - text: Why write `"$file"` with double quotes?
+    choices: |
+      Quotes are always optional
+      *So names with spaces stay in one piece
+      To make it faster
+      To hide errors
+    explanation: Unquoted variables split on spaces.
+  - text: What does `set -eu` do?
+    choices: |
+      Makes the script run as root
+      Ignores errors
+      Prints every command
+      *Stops on errors and on unset variables
+    explanation: '`bash -x` prints every command.'
+  - text: Which test checks that a file exists?
+    choices: |
+      `[ -d file ]`
+      `[ -z file ]`
+      *`[ -f file ]`
+      `[ file ]`
+    explanation: '`-d` is for directories.'
+  - text: Which compares **numbers** in `[ ]`?
+    choices: |
+      `[ $a gt 5 ]`
+      `[ "$a" = 5 > ]`
+      `[ "$a" > 5 ]`
+      *`[ "$a" -gt 5 ]`
+    explanation: '`>` inside `[ ]` is a redirection; use `-gt`.'

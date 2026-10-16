@@ -1,0 +1,150 @@
+slug: linux-basics-final-exam
+title: Linux Basics · Final Exam
+description: '20 questions across the whole course. You have 20 minutes: the countdown starts when you press Start and your answers are submitted automatically when time runs out.'
+time_limit_minutes: 20
+pass_percentage: 70
+max_attempts: 3
+shuffle_questions: true
+show_answers: true
+publish: true
+questions:
+- text: What does `echo "hi" > hello.txt` do?
+  choices: |
+    Prints hi on screen only
+    Deletes hello.txt
+    *Writes `hi` into hello.txt (replacing its content)
+    Appends hi to hello.txt
+  explanation: '`>` redirects output into a file and overwrites.'
+- text: Which command prints your current directory?
+  choices: |
+    *`pwd`
+    `ls`
+    `where`
+    `cd`
+  explanation: pwd = print working directory.
+- text: What does `cd -` do?
+  choices: |
+    Goes home
+    Lists the folder
+    *Returns to the previous directory
+    Goes up one level
+  explanation: It flips between your last two places.
+- text: What is the safe habit before `rm *.tmp`?
+  choices: |
+    Add `sudo`
+    *Run `ls *.tmp` first to see what matches
+    Nothing, it's safe
+    Use `rm -rf` instead
+  explanation: Look first, then delete.
+- text: Which flag is needed to copy a **folder**?
+  choices: |
+    *`-r`
+    `-a`
+    `-v`
+    `-f`
+  explanation: '`cp -r` copies recursively.'
+- text: '`echo "a" > f.txt` is run twice. What is in f.txt?'
+  choices: |
+    Nothing
+    Two lines: `a` and `a`
+    *Only one line: `a`
+    An error message
+  explanation: '`>` overwrites each time. Use `>>` to add lines.'
+- text: In nano, how do you save?
+  choices: |
+    `Ctrl + S`
+    `Esc` then `w`
+    `:wq`
+    *`Ctrl + O` then Enter
+  explanation: '`Ctrl + X` exits. `:wq` is vim.'
+- text: '`grep -v INFO app.log` shows...'
+  choices: |
+    Only lines with INFO
+    *Lines that do **not** contain INFO
+    Line numbers
+    The INFO count
+  explanation: '`-v` inverts the match.'
+- text: What does `|` (pipe) do?
+  choices: |
+    Runs commands at the same time on different files
+    Hides errors
+    *Sends one command's output into the next command
+    Saves output to a file
+  explanation: It is the connection of the assembly line.
+- text: What does `find . -type d` list?
+  choices: |
+    Deleted files
+    Files only
+    Disks
+    *Directories only
+  explanation: '`-type f` is files.'
+- text: Which command finds files by **name**?
+  choices: |
+    *`find . -name "*.log"`
+    `locate -c`
+    `ls -R .log`
+    `grep -r .log`
+  explanation: Always quote the pattern so the shell doesn't expand it.
+- text: Which is the worst quick "fix" for Permission denied?
+  choices: |
+    `id`
+    `ls -l`
+    *`chmod -R 777 /`
+    `chmod +x script.sh`
+  explanation: 777 opens a security hole and doesn't address the real cause.
+- text: On a **directory**, what does the `x` permission allow?
+  choices: |
+    Deleting it
+    Listing only
+    *Entering it (`cd`) and reaching what's inside
+    Running it as a program
+  explanation: '`r` lists, `w` creates/deletes, `x` enters.'
+- text: What is `chmod 600 key.pem`?
+  choices: |
+    The file becomes executable
+    Only the group can write
+    Everyone can read
+    *Only the owner can read and write
+  explanation: 6 = rw for the owner; 0 for group and others.
+- text: Why might a background job die when you close the terminal?
+  choices: |
+    *It belongs to that terminal session
+    Linux kills all background jobs
+    It was owned by root
+    It ran out of memory
+  explanation: Use `nohup`, `tmux` or a service to keep it running.
+- text: Which command lists all processes?
+  choices: |
+    `jobs`
+    *`ps aux`
+    `ls proc`
+    `top -x`
+  explanation: '`top` shows them live; `jobs` shows only this terminal''s jobs.'
+- text: '`tar -czf backup.tar.gz docs` does what?'
+  choices: |
+    Lists an archive
+    *Creates a compressed archive of docs
+    Deletes docs
+    Extracts an archive
+  explanation: c = create, z = gzip, f = file name.
+- text: Which tool is the package manager on Fedora/RHEL?
+  choices: |
+    `pacman`
+    *`dnf`
+    `apt`
+    `brew`
+  explanation: Debian/Ubuntu use apt.
+- text: Which assignment is correct in bash?
+  choices: |
+    *`name="Asha"`
+    `set name Asha`
+    `name = "Asha"`
+    `$name=Asha`
+  explanation: No spaces around `=`.
+- text: What is the first line `#!/usr/bin/env bash` called?
+  choices: |
+    A variable
+    *The shebang
+    A pipe
+    A comment about the author
+  explanation: It tells Linux which program runs the file.

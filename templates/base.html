@@ -246,6 +246,7 @@
             <div class="acct-who"><strong>{{ user.get_full_name|default:user.username }}</strong><span>{{ user.email }}</span></div>
             <div class="acct-nav">
               <a href="{% url 'home' %}">🏠 My courses</a>
+              <a href="{% url 'assessment_list' %}">⏱ Timed assessments</a>
               <a href="{% url 'blog_index' %}">📝 Blog</a>
               <a href="{% url 'job_list' %}">💼 Jobs</a>
               <a href="{% url 'resume_upload' %}">📄 Resume review</a>

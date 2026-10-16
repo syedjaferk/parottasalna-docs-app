@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 240" role="img" aria-labelledby="l08-processes-t l08-processes-d" xmlns="http://www.w3.org/2000/svg">
+<title id="l08-processes-t">Processes and PIDs</title>
+<desc id="l08-processes-d">Every running program is a process with a number (PID). A parent starts children; you can list, pause and stop them.</desc>
+<defs><marker id="l08-processes-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="l08-processes-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="l08-processes-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="l08-processes-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="280" y="15" width="160" height="44" rx="10" class="blue"/>
+<text x="360.0" y="27.0" text-anchor="middle" dominant-baseline="middle" class="code">init / systemd</text>
+<text x="360.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="small">PID 1</text>
+<rect x="60" y="100" width="140" height="44" rx="10" class="green"/>
+<text x="130.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="code">bash</text>
+<text x="130.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="small">PID 2410</text>
+<path d="M360,59 L130,98" class="arrow blue"/>
+<rect x="300" y="100" width="140" height="44" rx="10" class="green"/>
+<text x="370.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="code">sshd</text>
+<text x="370.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="small">PID 912</text>
+<path d="M360,59 L370,98" class="arrow blue"/>
+<rect x="540" y="100" width="140" height="44" rx="10" class="green"/>
+<text x="610.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="code">nginx</text>
+<text x="610.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="small">PID 1310</text>
+<path d="M360,59 L610,98" class="arrow blue"/>
+<rect x="60" y="185" width="140" height="40" rx="10" class="amber"/>
+<text x="130.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="code">ls</text>
+<text x="130.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="small">child of bash</text>
+<path d="M130,144 L130,183" class="arrow blue"/>
+<text x="480" y="190" text-anchor="middle" dominant-baseline="middle" class="code">ps aux · top · kill PID</text>
+</svg>
+<figcaption>Every running program is a process with a number (PID). A parent starts children; you can list, pause and stop them.</figcaption>
+</figure>

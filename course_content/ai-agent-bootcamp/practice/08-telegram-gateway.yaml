@@ -1,0 +1,61 @@
+chapter: sessions/08-telegram-gateway
+quizzes:
+- title: Session 8 · Quiz
+  description: BotFather, tokens, user ids, long polling, allow-lists and the Hermes gateway.
+  questions:
+  - text: What is a bot token?
+    choices: |
+      A public username
+      Your phone number
+      A Telegram sticker
+      *A password that lets a program control your bot
+    explanation: Never share it. If it leaks, `/revoke` it in BotFather.
+  - text: Why use the numeric user ID, not the @username, in an allow-list?
+    choices: |
+      *The id never changes; a username can be changed or reused
+      Telegram forbids usernames
+      Usernames are secret
+      IDs are shorter
+    explanation: Trust something stable.
+  - text: What does long polling mean?
+    choices: |
+      *Telegram holds your `getUpdates` request open until a message arrives (up to a timeout)
+      Telegram calls your server
+      The bot sleeps for 24 hours
+      You send the same message many times
+    explanation: It works from a laptop without a public address.
+  - text: What is the `offset` in `getUpdates` for?
+    choices: |
+      To choose the language
+      To sort messages by size
+      *To tell Telegram which updates you have already processed
+      To hide your token
+    explanation: You send `last update_id + 1`.
+  - text: Two programs use the SAME bot token at once. What happens?
+    choices: |
+      *A 409 Conflict error: only one may poll
+      Telegram merges them
+      Both work faster
+      Nothing
+    explanation: Use one bot per program.
+  - text: Why keep one `Agent` per chat in a bot?
+    choices: |
+      Because Telegram requires it
+      *So different people never share conversation memory
+      To save RAM
+      To avoid tokens
+    explanation: Otherwise one person could see another's history.
+  - text: 'Hermes gateway: what happens if no allowed-users list is set?'
+    choices: |
+      Only admins are allowed
+      The gateway crashes
+      *Everyone is denied (safe by default)
+      Everyone is allowed
+    explanation: You must allow-list user ids on purpose.
+  - text: Why does the bot `try/except` around each message?
+    choices: |
+      To skip the allow-list
+      *One bad message must never crash the whole bot
+      To print prettier errors
+      To make Telegram faster
+    explanation: A long-running service must survive bad input.

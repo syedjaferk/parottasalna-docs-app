@@ -1,0 +1,61 @@
+chapter: sessions/02-how-llms-work
+quizzes:
+- title: Session 2 · Quiz
+  description: Next-token prediction, tokens, the context window, temperature, hallucination and memory.
+  questions:
+  - text: What does an LLM fundamentally do?
+    choices: |
+      Looks up answers in a database of facts
+      Runs the code you give it
+      *Predicts the next small piece of text, over and over
+      Searches the internet for every question
+    explanation: A long answer is the next-token guess repeated many times.
+  - text: Roughly how long is one token in English?
+    choices: |
+      Exactly one word
+      One whole sentence
+      Exactly one letter
+      *About 4 letters (¾ of a word)
+    explanation: 100 English words is roughly 130 tokens.
+  - text: Why do you send the WHOLE conversation on every API call?
+    choices: |
+      To make the answer longer
+      *The model has no memory between calls
+      Because the API is slow
+      Because tokens are free
+    explanation: Memory is something your program builds by sending the history again.
+  - text: Which temperature is best for an agent that must pick tools and write valid JSON?
+    choices: |
+      It makes no difference
+      A high one, around 1.8
+      Exactly 2
+      *A low one, around 0 to 0.3
+    explanation: Low temperature gives steady, repeatable answers.
+  - text: What is a hallucination?
+    choices: |
+      An error message from the API
+      An answer in the wrong language
+      *A confident answer that sounds right but is false
+      A very slow answer
+    explanation: The model guesses likely text; it does not know what is true.
+  - text: What happens when a conversation grows longer than the context window?
+    choices: |
+      The model automatically gets a bigger memory
+      Nothing, the window is unlimited
+      *The oldest messages must be cut off and the model forgets them
+      The API deletes your key
+    explanation: The window is a hard limit on how much the model can see at once.
+  - text: In the API reply, where is the AI's actual answer text?
+    choices: |
+      `usage.total_tokens`
+      `model`
+      `finish_reason`
+      *`choices[0].message.content`
+    explanation: '`usage` counts tokens; `finish_reason` says why it stopped.'
+  - text: '`finish_reason` is `length`. What does that tell you?'
+    choices: |
+      *The answer was cut off because `max_tokens` was too small
+      The answer was perfect
+      The key is wrong
+      The model refused to answer
+    explanation: Raise `max_tokens` to let it finish.

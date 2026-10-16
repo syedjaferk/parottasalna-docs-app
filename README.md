@@ -239,3 +239,18 @@ The dashboard has a right-hand card with one code smell tip and a quick quiz per
 the active smells by IST date). Content is in `smells/data/code_smells.json`; restore or update it with
 `python manage.py load_smells [file.json]` (matched by `slug`, safe to re-run) and export the current
 database with `python manage.py dump_smells > backup.json`. Smells can also be edited in the admin.
+
+### Timed assessments
+
+`/assessments/` lists timed exams (like quizzes, but with a countdown and a hard limit). The deadline is stored on the
+server when the student presses **Start**, answers are autosaved every few seconds, and when time runs out the saved
+answers are graded automatically. A refresh or lost connection never restarts the clock.
+
+- **Admin → Assessments**: set the time limit, attempts, pass mark, optional open/close times, and the questions
+  (same `*correct` choice format as quizzes). A course-linked assessment is only for students enrolled in that course;
+  without a course any signed-in user can take it.
+- **From files:** `course_content/<course>/assessments/*.yaml` (see `assessments/management/commands/load_assessments.py`);
+  `deploy_content` loads them together with the practice quizzes.
+- **Results:** staff see every submission at `/assessments/<slug>/results/` (CSV download included).
+- Run `python manage.py close_expired_assessments` every few minutes from cron so abandoned attempts are graded even if
+  the student never comes back (the app also does this lazily when anyone opens an assessment page).

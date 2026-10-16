@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ assessment.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}">{% endblock %}
+{% block content %}
+<div class="as-wrap">
+  <nav class="as-crumbs"><a href="{% url 'home' %}">My courses</a> / <a href="{% url 'assessment_list' %}">Timed assessments</a>{% if assessment.course %} / <a href="{% url 'course_docs' assessment.course.slug %}">{{ assessment.course.title }}</a>{% endif %}</nav>
+  <section class="as-hero">
+    <h1>{{ assessment.title }}</h1>
+    {% if assessment.description %}<p>{{ assessment.description }}</p>{% endif %}
+    <div class="as-facts">
+      <span>⏱ {{ assessment.time_limit_minutes }} minutes</span>
+      <span>{{ questions }} question{{ questions|pluralize }}</span>
+      <span>Pass mark {{ assessment.pass_percentage }}%</span>
+      <span>{% if left is None %}Unlimited attempts{% else %}{{ left }} attempt{{ left|pluralize }} left{% endif %}</span>
+      {% if not assessment.is_published %}<span>Draft · staff preview</span>{% endif %}
+    </div>
+  </section>
+
+  <section class="as-card">
+    <h2>Before you start</h2>
+    <ul class="as-rules">
+      <li>The <strong>{{ assessment.time_limit_minutes }}-minute countdown starts the moment you press Start</strong> and cannot be paused.</li>
+      <li>When it reaches zero, your answers are <strong>submitted automatically</strong>. Unanswered questions score nothing.</li>
+      <li>Your answers are <strong>saved as you go</strong>. If your browser closes or your internet drops, reopen this page and press <em>Resume</em>. The clock keeps running.</li>
+      <li>Questions marked "select all that apply" need <strong>every</strong> correct choice and no wrong ones.</li>
+      {% if assessment.closes_at %}<li>This assessment closes on <strong>{{ assessment.closes_at|date:"j M Y, g:i A" }}</strong>. A running attempt ends then, even if you have time left.</li>{% endif %}
+      <li>Find a quiet spot and a stable connection first. Good luck! 🍀</li>
+    </ul>
+  </section>
+
+  <section class="as-card">
+    {% if running %}
+      <p style="margin-top:0"><span class="as-chip warn">In progress</span> You have an attempt running. Time left is counted from when you started.</p>
+      <a class="btn" href="{% url 'assessment_take' running.pk %}">Resume attempt</a>
+    {% elif status == "upcoming" %}
+      <p style="margin:0">This assessment opens on <strong>{{ assessment.opens_at|date:"j M Y, g:i A" }}</strong>.</p>
+    {% elif status == "closed" %}
+      <p style="margin:0">This assessment is closed.</p>
+    {% elif left == 0 %}
+      <p style="margin:0">You have used all your attempts.</p>
+    {% elif not questions %}
+      <p style="margin:0">This assessment has no questions yet.</p>
+    {% else %}
+      <form method="post" action="{% url 'assessment_start' assessment.slug %}">{% csrf_token %}
+        <button class="btn" type="submit">▶ Start the {{ assessment.time_limit_minutes }}-minute timer</button>
+      </form>
+    {% endif %}
+  </section>
+
+  {% if past %}
+  <section class="as-card">
+    <h2>Your attempts</h2>
+    <div class="as-table-wrap"><table class="as-table">
+      <thead><tr><th>When</th><th>Score</th><th>Time used</th><th></th></tr></thead>
+      <tbody>{% for a in past %}
+        <tr><td>{{ a.submitted_at|date:"j M Y, g:i A" }}</td>
+            <td><span class="as-chip {% if a.passed %}ok{% else %}bad{% endif %}">{{ a.score }}/{{ a.max_score }} · {{ a.percentage }}%</span>{% if a.timed_out %} <span class="as-chip warn">time ran out</span>{% endif %}</td>
+            <td>{{ a.seconds_used|floatformat:0 }} s</td>
+            <td><a href="{% url 'assessment_result' a.pk %}">View</a></td></tr>
+      {% endfor %}</tbody>
+    </table></div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

@@ -34,19 +34,18 @@ def s04_structured():
 
 @diagram
 def s04_tool_flow():
-    d = D("s04-tool-flow", 720, 280, "How tool calling works",
+    d = D("s04-tool-flow", 720, 300, "How tool calling works",
           "The AI only asks. Your code runs the tool and sends back the result. Then the AI writes the final answer.")
-    d.box(20, 20, 150, 60, [("You", "bold"), ("question", "small")], "blue")
-    d.box(280, 20, 160, 60, [("Your code", "bold"), ("(Python)", "small")], "amber")
-    d.box(550, 20, 150, 60, [("AI model", "bold"), ("(the brain)", "small")], "green")
-    d.arrow([(170, 50), (278, 50)], kind="blue", label="1", lx=224, ly=36)
-    d.arrow([(440, 40), (548, 40)], kind="blue", label="2 question + tool menu", lx=494, ly=24, lcls="small")
-    d.arrow([(548, 70), (442, 70)], kind="green", label="3 'call get_weather'", lx=496, ly=88)
-    d.box(280, 140, 160, 60, [("Real function", "bold"), ("get_weather()", "code")], "box")
-    d.arrow([(360, 80), (360, 138)], kind="blue", label="4 run", lx=384, ly=110)
-    d.arrow([(440, 190), (630, 190), (630, 82)], kind="blue", label="5 send result", lx=540, ly=206)
-    d.arrow([(550, 62), (500, 62), (500, 245), (95, 245), (95, 82)], kind="green", dashed=True)
-    d.text(300, 262, "6 final answer back to the user", "small")
+    d.box(20, 40, 130, 60, [("You", "bold"), ("question", "small")], "blue")
+    d.box(270, 20, 160, 100, [("Your code", "bold"), ("(Python)", "small")], "amber")
+    d.box(560, 20, 140, 100, [("AI model", "bold"), ("(the brain)", "small")], "green")
+    d.arrow([(150, 70), (268, 70)], kind="blue", label="1 ask", lx=209, ly=56)
+    d.arrow([(430, 50), (558, 50)], kind="blue", label="2 question + menu", lx=494, ly=36)
+    d.arrow([(558, 92), (432, 92)], kind="green", label="3 'call the tool'", lx=494, ly=108)
+    d.box(330, 170, 160, 56, [("Real function", "bold"), ("get_weather()", "code")], "box")
+    d.arrow([(410, 120), (410, 168)], kind="blue", label="4 run", lx=436, ly=146)
+    d.arrow([(490, 198), (630, 198), (630, 122)], kind="blue", label="5 send the result back", lx=560, ly=216)
+    d.arrow([(290, 122), (290, 262), (85, 262), (85, 102)], kind="green", dashed=True, label="6 final answer", lx=190, ly=278)
     return d.render()
 
 
@@ -80,8 +79,8 @@ def s05_agent_loop():
     d.arrow([(400, 60), (480, 125)], kind="blue")
     d.arrow([(520, 170), (400, 215)], kind="blue")
     d.arrow([(250, 220), (200, 220), (200, 70), (248, 62)], kind="green", dashed=True)
-    d.box(540, 220, 160, 44, [("Final answer", "bold")], "green")
-    d.arrow([(400, 45), (540, 45), (620, 45), (620, 218)], kind="green", label="no tool needed → done", lx=560, ly=32)
+    d.box(580, 215, 120, 44, [("Final answer", "bold")], "green")
+    d.arrow([(400, 45), (665, 45), (665, 213)], kind="green", label="no tool needed → done", lx=535, ly=32)
     return d.render()
 
 
@@ -165,11 +164,11 @@ def s06_hermes_parts():
     d.box(250, 70, 200, 130, [("HERMES CORE", "bold"), ("agent loop", "small"), ("approvals", "small")], "amber")
     for y in (50, 130, 210):
         d.arrow([(170, y), (248, 135)], kind="blue")
-    d.box(530, 20, 170, 56, [("Model", "bold"), ("Groq · OpenRouter · Ollama", "small")], "green")
-    d.box(530, 94, 170, 56, [("Tools", "bold"), ("files · terminal · web", "small")], "green")
-    d.box(530, 168, 170, 56, [("Memory + Skills", "bold"), ("~/.hermes", "code")], "green")
+    d.box(510, 20, 190, 56, [("Model", "bold"), ("Groq · OpenRouter · Ollama", "small")], "green")
+    d.box(510, 94, 190, 56, [("Tools", "bold"), ("files · terminal · web", "small")], "green")
+    d.box(510, 168, 190, 56, [("Memory + Skills", "bold"), ("~/.hermes", "code")], "green")
     for y in (48, 122, 196):
-        d.arrow([(450, 135), (528, y)], kind="green")
+        d.arrow([(450, 135), (508, y)], kind="green")
     return d.render()
 
 

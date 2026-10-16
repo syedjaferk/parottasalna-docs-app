@@ -1,0 +1,61 @@
+chapter: sessions/07-hermes-deep-dive
+quizzes:
+- title: Session 7 · Quiz
+  description: Memory files, /new, skills, SKILL.md, scheduled tasks, delivery and the gateway.
+  questions:
+  - text: Which file holds facts about YOU (name, preferences)?
+    choices: |
+      *`USER.md`
+      `MEMORY.md`
+      `config.yaml`
+      `state.db`
+    explanation: '`MEMORY.md` is the agent''s own notes; `USER.md` is your profile.'
+  - text: A new fact is saved in the middle of a chat. When does the AI see it?
+    choices: |
+      *In the next session (for example after `/new`)
+      Never
+      Immediately in the same prompt
+      Only after a reboot
+    explanation: Memory is loaded as a snapshot when a session starts.
+  - text: What is a skill?
+    choices: |
+      A Telegram bot
+      A new AI model
+      A Python function
+      *A markdown file with instructions the agent follows
+    explanation: Tools are code; skills are recipes written in plain language.
+  - text: A skill is not found. What is the most likely cause?
+    choices: |
+      The AI is offline
+      The skill is too short
+      Telegram is not set up
+      *The file isn't named exactly `SKILL.md` inside its own folder
+    explanation: Capital letters and the folder layout matter.
+  - text: Which part of SKILL.md helps Hermes decide WHEN to use it?
+    choices: |
+      The file size
+      *The `description`
+      The blank lines
+      The `version`
+    explanation: Like a tool description in Session 4.
+  - text: Which schedule means "once, after a delay"?
+    choices: |
+      `0 9 * * *`
+      `weekdays at 9am`
+      `every 30m`
+      *`in 30m`
+    explanation: '`every ...` repeats; `in ...` runs once.'
+  - text: Why didn't your scheduled job run?
+    choices: |
+      Cron jobs need Windows
+      The skill has no name
+      Memory was full
+      *The gateway was not running (jobs run inside it)
+    explanation: The gateway checks for due jobs every 60 seconds.
+  - text: 'What does `deliver: local` do for a job''s result?'
+    choices: |
+      Prints it on every terminal
+      Deletes it
+      Sends it to Telegram
+      *Saves it to a file in the Hermes cron output folder
+    explanation: Use a Telegram delivery target to get it on your phone.

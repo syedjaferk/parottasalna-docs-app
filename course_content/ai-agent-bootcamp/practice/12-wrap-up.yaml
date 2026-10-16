@@ -1,0 +1,61 @@
+chapter: sessions/12-wrap-up
+quizzes:
+- title: Session 12 · Quiz
+  description: Key safety, least privilege, budgets, caching, Git/GitHub and the roadmap.
+  questions:
+  - text: You pushed `.env` to GitHub by mistake. What is the FIRST thing to do?
+    choices: |
+      *Delete (rotate) the leaked key at the provider and make a new one
+      Wait a week
+      Rename the repository
+      Delete the file from GitHub and relax
+    explanation: Bots copy leaked keys within minutes; the old version stays in git history.
+  - text: Before `git commit`, what do you check with `git status`?
+    choices: |
+      That the files are small
+      The temperature
+      *That `.env` and private data files are NOT listed
+      That Python is installed
+    explanation: Anything listed will be uploaded.
+  - text: What does the least-privilege rule say?
+    choices: |
+      Give it every permission to be safe
+      Never use tools
+      Use the strongest model always
+      *Give the agent the smallest powers that do the job
+    explanation: Smaller powers mean smaller damage if it is tricked.
+  - text: What does our `budget.py` protect against?
+    choices: |
+      Wrong API keys
+      *A bug or message flood spending too many tokens in a day
+      Slow internet
+      Prompt injection
+    explanation: It stops calls when today's tokens are used up.
+  - text: Why must you NOT cache answers that contain personal data?
+    choices: |
+      Python can't store text
+      It breaks the guard
+      *Another customer might receive someone else's answer
+      Caches are slow
+    explanation: Cache only short, generic questions.
+  - text: What does RAG let an AI do?
+    choices: |
+      Block prompt injections
+      *Search your own documents and answer from them
+      Schedule tasks
+      Run faster on a CPU
+    explanation: It reduces hallucination by supplying real source text.
+  - text: Which habit best proves a change made your bot better?
+    choices: |
+      *Measure with your own test examples before and after
+      Use a bigger model
+      Trust your feeling
+      Read a blog post
+    explanation: Evals turn opinions into numbers.
+  - text: In a demo, a bot misses one attack. What should you do?
+    choices: |
+      Blame the audience
+      Restart without saying anything
+      *Explain it honestly and say how you would fix it
+      Hide it
+    explanation: Honest limits show engineering maturity.

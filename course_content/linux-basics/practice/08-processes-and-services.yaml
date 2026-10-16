@@ -1,0 +1,61 @@
+chapter: sessions/08-processes-and-services
+quizzes:
+- title: Session 8 · Quiz
+  description: Processes, PIDs, job control, signals, systemctl and cron.
+  questions:
+  - text: What is a PID?
+    choices: |
+      A package name
+      A file permission
+      A port number
+      *The number that identifies a running process
+    explanation: You use it with kill, ps and top.
+  - text: Which command lists all processes?
+    choices: |
+      `top -x`
+      *`ps aux`
+      `ls proc`
+      `jobs`
+    explanation: '`top` shows them live; `jobs` shows only this terminal''s jobs.'
+  - text: What does the `&` at the end of a command do?
+    choices: |
+      Runs it twice
+      Hides errors
+      Runs it as root
+      *Runs it in the background
+    explanation: You get your prompt back immediately.
+  - text: Which signal does plain `kill PID` send?
+    choices: |
+      HUP: reload
+      *TERM: a polite request to stop
+      KILL: stop immediately
+      STOP: pause
+    explanation: '`kill -9` sends KILL.'
+  - text: When should you use `kill -9`?
+    choices: |
+      Never
+      Before every restart
+      Always, it's faster
+      *Only if a normal `kill` is ignored
+    explanation: KILL gives the process no chance to clean up.
+  - text: '`systemctl enable nginx` does what?'
+    choices: |
+      Stops it
+      *Makes it start automatically at boot
+      Starts it right now only
+      Shows its logs
+    explanation: '`start` is for now; `enable` is for every boot.'
+  - text: What does the cron line `30 2 * * *` mean?
+    choices: |
+      At 2 pm on the 30th
+      Every 30 seconds
+      On 30 February
+      *Every day at 02:30
+    explanation: 'Fields: minute hour day-of-month month day-of-week.'
+  - text: Why might a background job die when you close the terminal?
+    choices: |
+      *It belongs to that terminal session
+      Linux kills all background jobs
+      It was owned by root
+      It ran out of memory
+    explanation: Use `nohup`, `tmux` or a service to keep it running.

@@ -1,0 +1,61 @@
+chapter: sessions/06-finding-things
+quizzes:
+- title: Session 6 · Quiz
+  description: find, grep -r, which, du and safe searching.
+  questions:
+  - text: Which command finds files by **name**?
+    choices: |
+      `ls -R .log`
+      `grep -r .log`
+      `locate -c`
+      *`find . -name "*.log"`
+    explanation: Always quote the pattern so the shell doesn't expand it.
+  - text: Which command finds files that **contain** a word?
+    choices: |
+      *`grep -rl word .`
+      `find . -name word`
+      `ls word`
+      `which word`
+    explanation: '`grep -r` searches inside files.'
+  - text: What does `find . -type d` list?
+    choices: |
+      *Directories only
+      Deleted files
+      Files only
+      Disks
+    explanation: '`-type f` is files.'
+  - text: '`find . -mtime +30` finds files...'
+    choices: |
+      Bigger than 30 MB
+      *Modified more than 30 days ago
+      Owned by 30 users
+      Modified in the last 30 days
+    explanation: '`-mtime -30` means less than 30 days.'
+  - text: What does `which python3` show?
+    choices: |
+      Which version is newest
+      *Where the program file is
+      Who runs it
+      How to install it
+    explanation: It prints the path of the program found on PATH.
+  - text: Which command shows folder sizes in human-readable form?
+    choices: |
+      `wc -c`
+      *`du -sh *`
+      `df`
+      `ls -l`
+    explanation: '`du` = disk usage; `df` = free space per disk.'
+  - text: Why quote `"*.log"` in `find`?
+    choices: |
+      To hide errors
+      *So `find` (not the shell) matches the names
+      Quotes are required in Linux
+      To make it faster
+    explanation: Unquoted, the shell may expand it first.
+  - text: What should you do before `find ... -delete`?
+    choices: |
+      Run it twice
+      *Run the `find` without `-delete` and look at the list
+      Add `sudo`
+      Nothing
+    explanation: Look first, then delete.

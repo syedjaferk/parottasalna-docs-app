@@ -6,12 +6,12 @@ from _dg import D, diagram
 def course_ladder():
     d = D("course-ladder", 720, 300, "From beginner to intermediate",
           "Each session adds one step. By Session 5 you build an agent by hand; by Session 11 you ship a guarded bot.")
-    steps = [("Python\nbasics", "S1", "ghost"), ("How LLMs\nwork", "S2", "ghost"), ("Chat\nbot", "S3", "blue"),
+    steps = [("Python\nbasics", "S1", "ghost"), ("LLM\nbasics", "S2", "ghost"), ("Chat\nbot", "S3", "blue"),
              ("Tools &\nJSON", "S4", "blue"), ("Your own\nagent", "S5", "green"), ("Hermes\nagent", "S6-8", "green"),
              ("Guard &\nroute", "S9-10", "amber"), ("Capstone\nbot", "S11", "amber")]
     x = 16
     for i, (t, s, k) in enumerate(steps):
-        h = 70 + i * 24
+        h = 60 + i * 20
         y = 270 - h
         d.box(x, y, 80, h, [(ln, "bold") for ln in t.split("\n")], k)
         d.text(x + 40, y - 12, s, "small")
@@ -25,7 +25,8 @@ def course_ladder():
 def setup_overview():
     d = D("setup-overview", 720, 230, "What setup gives you",
           "Python and a virtual environment run your code; the .env file holds the secret key; the key lets your code reach an AI model on the internet.")
-    d.box(20, 20, 200, 190, [("Your laptop", "bold")], "box")
+    d.box(20, 20, 200, 190, [], "box")
+    d.text(120, 38, "Your laptop", "bold")
     d.box(36, 55, 168, 36, ("Python 3.10+", "code"), "blue")
     d.box(36, 100, 168, 36, (".venv  (private box)", "code"), "blue")
     d.box(36, 145, 168, 36, (".env  (secret key)", "code"), "amber")
@@ -57,7 +58,7 @@ def s01_run():
 
 @diagram
 def s01_list_dict():
-    d = D("s01-list-dict", 720, 250, "A list and a dictionary",
+    d = D("s01-list-dict", 720, 300, "A list and a dictionary",
           "A list is ordered by position (starting at 0). A dictionary is looked up by a label (key).")
     d.text(130, 18, "LIST  (by position)", "title")
     for i, v in enumerate(["apple", "banana", "mango"]):
@@ -71,8 +72,8 @@ def s01_list_dict():
         d.box(400, y, 100, 40, (k, "code"), "amber")
         d.box(510, y, 160, 40, (v, "code"), "box")
         d.arrow([(500, y + 20), (508, y + 20)], head=False)
-    d.text(540, 200, 'person["name"]  →  "Asha"', "code")
-    d.box(120, 150, 480, 70, [("Together: a chat is a LIST of DICTIONARIES", "bold"), ('[{"role": "user", "content": "Hi"}, ...]', "code")], "green")
+    d.text(540, 195, 'person["name"]  →  "Asha"', "code")
+    d.box(100, 220, 520, 66, [("Together: a chat is a LIST of DICTIONARIES", "bold"), ('[{"role": "user", "content": "Hi"}, ...]', "code")], "green")
     d.els = [e for e in d.els]  # keep order
     return d.render()
 
@@ -97,7 +98,7 @@ def s01_request():
     d.box(530, 50, 170, 110, [("Server", "bold"), ("api.open-meteo.com", "small")], "green")
     d.arrow([(190, 85), (528, 85)], kind="blue", label="REQUEST: URL + params", lx=360, ly=68)
     d.arrow([(528, 130), (190, 130)], kind="green", label="RESPONSE: 200 + JSON", lx=360, ly=152)
-    d.box(250, 180, 220, 36, ('{"temperature": 26.5, ...}', "code"), "ghost")
+    d.box(230, 180, 260, 36, ('{"temperature": 26.5, ...}', "code"), "ghost")
     return d.render()
 
 
@@ -107,7 +108,7 @@ def s01_env():
           "The key sits in .env, outside your code. python-dotenv loads it, and os.getenv hands it to your program.")
     d.box(20, 60, 150, 70, [(".env", "code"), ("LLM_API_KEY=gsk_...", "small")], "amber")
     d.box(270, 60, 160, 70, [("load_dotenv()", "code"), ("reads the file", "small")], "blue")
-    d.box(530, 60, 170, 70, [('os.getenv("LLM_API_KEY")', "code"), ("gives your code the key", "small")], "green")
+    d.box(530, 60, 170, 70, [("os.getenv(...)", "code"), ("gives your code the key", "small")], "green")
     d.arrow([(170, 95), (268, 95)], kind="blue"); d.arrow([(430, 95), (528, 95)], kind="blue")
     d.text(360, 160, "Your .py files never contain the secret → safe to share and upload", "small")
     return d.render()
@@ -120,9 +121,10 @@ def s01_venv():
     d.box(20, 20, 250, 180, [("Whole computer", "bold")], "box")
     d.box(40, 60, 210, 120, [], "ghost")
     d.text(145, 75, "other projects", "small")
-    d.box(330, 20, 370, 180, [("ai-agent-bootcamp/.venv", "bold")], "blue")
+    d.box(330, 20, 370, 180, [], "blue")
+    d.text(515, 42, "ai-agent-bootcamp/.venv", "bold")
     for i, p in enumerate(["requests", "python-dotenv", "(later) laya"]):
-        d.box(350 + i * 115, 90, 105, 44, (p, "code"), "green" if i < 2 else "ghost")
+        d.box(336 + i * 122, 80, 118, 44, (p, "code"), "green" if i < 2 else "ghost")
     d.text(515, 170, "pip install → goes inside the box only", "small")
     d.arrow([(272, 110), (328, 110)], kind="blue", label="activate", lx=300, ly=96)
     return d.render()

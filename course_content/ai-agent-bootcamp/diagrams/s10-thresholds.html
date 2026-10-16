@@ -1,0 +1,20 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="s10-thresholds-t s10-thresholds-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s10-thresholds-t">Guard decision rule</title>
+<desc id="s10-thresholds-d">Both detectors at 0.80 or more: block. Only one at 0.60 or more: a human reviews. Otherwise allow.</desc>
+<defs><marker id="s10-thresholds-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s10-thresholds-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s10-thresholds-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s10-thresholds-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="680" height="50" rx="10" class="ghost"/>
+<text x="360.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">jailbreak score   +   prompt_injection score   (each 0.0 - 1.0)</text>
+<rect x="20" y="100" width="210" height="90" rx="10" class="red"/>
+<text x="125.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="bold">BOTH ≥ 0.80</text>
+<text x="125.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">→ BLOCK</text>
+<rect x="255" y="100" width="210" height="90" rx="10" class="amber"/>
+<text x="360.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="bold">ONE ≥ 0.60</text>
+<text x="360.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">→ HUMAN REVIEW</text>
+<rect x="490" y="100" width="210" height="90" rx="10" class="green"/>
+<text x="595.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="bold">otherwise</text>
+<text x="595.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">→ ALLOW</text>
+<text x="360" y="210" text-anchor="middle" dominant-baseline="middle" class="small">Upset customers usually trip only ONE detector, so they are not blocked</text>
+</svg>
+<figcaption>Both detectors at 0.80 or more: block. Only one at 0.60 or more: a human reviews. Otherwise allow.</figcaption>
+</figure>

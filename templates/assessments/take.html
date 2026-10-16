@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static quiz_extras %}
+{% block title %}{{ assessment.title }} · Timed · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}">{% endblock %}
+{% block content %}
+<div class="as-wrap" id="exam" data-deadline="{{ deadline_ms }}" data-server-now="{{ server_now_ms }}" data-total="{{ total_seconds }}"
+     data-save-url="{% url 'assessment_save' attempt.pk %}">
+  <div class="as-bar" role="region" aria-label="Timer">
+    <div class="as-bar-row">
+      <span class="as-title">{{ assessment.title }}</span>
+      <span id="answered" class="as-status"></span>
+      <span class="as-timer" id="timer" role="timer" aria-label="Time left">--:--</span>
+    </div>
+    <div class="as-track" aria-hidden="true"><span id="track"></span></div>
+    <div class="as-palette" aria-label="Jump to a question">
+      {% for item in items %}<button type="button" class="as-dot{% if item.answered %} done{% endif %}" aria-label="Question {{ forloop.counter }}">{{ forloop.counter }}</button>{% endfor %}
+    </div>
+    <div class="as-status" id="save-status" style="margin-top:.4rem"></div>
+    <div class="sr-only" id="announce" aria-live="polite" style="position:absolute;left:-9999px"></div>
+  </div>
+
+  <form method="post" id="exam-form" action="{% url 'assessment_take' attempt.pk %}">
+    {% csrf_token %}
+    {% for item in items %}{% with q=item.question %}
+    <div class="as-q" data-qid="{{ q.pk }}" role="group" aria-labelledby="qt{{ q.pk }}">
+      <div class="as-q-head">
+        <span class="as-num" aria-hidden="true">{{ forloop.counter }}</span>
+        <div class="as-q-text md" id="qt{{ q.pk }}">{{ q.text|markdown }}</div>
+      </div>
+      {% if q.is_multiple %}<p class="as-hint">Select all that apply.</p>{% endif %}
+      <div class="as-choices">
+        {% for index, text, picked in item.choices %}
+        <label class="as-choice">
+          <input type="{% if q.is_multiple %}checkbox{% else %}radio{% endif %}" name="q{{ q.pk }}" value="{{ index }}"{% if picked %} checked{% endif %}>
+          <span class="md">{{ text|markdown_inline }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+    {% endwith %}{% endfor %}
+    <div class="as-submit">
+      <span class="as-status">You can still change answers until you submit or time runs out.</span>
+      <button class="btn" type="submit">Submit answers</button>
+    </div>
+  </form>
+  <div class="as-overlay" id="overlay" hidden><div>⏰ Time is up. Submitting your answers…</div></div>
+</div>
+<script src="{% static 'js/assessment-timer.js' %}" defer></script>
+{% endblock %}

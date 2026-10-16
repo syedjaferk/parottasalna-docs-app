@@ -1,32 +1,32 @@
 <figure class="diagram">
-<svg class="dg" viewBox="0 0 720 280" role="img" aria-labelledby="s04-tool-flow-t s04-tool-flow-d" xmlns="http://www.w3.org/2000/svg">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="s04-tool-flow-t s04-tool-flow-d" xmlns="http://www.w3.org/2000/svg">
 <title id="s04-tool-flow-t">How tool calling works</title>
 <desc id="s04-tool-flow-d">The AI only asks. Your code runs the tool and sends back the result. Then the AI writes the final answer.</desc>
 <defs><marker id="s04-tool-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s04-tool-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s04-tool-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s04-tool-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
-<rect x="20" y="20" width="150" height="60" rx="10" class="blue"/>
-<text x="95.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">You</text>
-<text x="95.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">question</text>
-<rect x="280" y="20" width="160" height="60" rx="10" class="amber"/>
-<text x="360.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your code</text>
-<text x="360.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">(Python)</text>
-<rect x="550" y="20" width="150" height="60" rx="10" class="green"/>
-<text x="625.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">AI model</text>
-<text x="625.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">(the brain)</text>
-<path d="M170,50 L278,50" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
-<text x="224" y="36" text-anchor="middle" dominant-baseline="middle" class="small">1</text>
-<path d="M440,40 L548,40" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
-<text x="494" y="24" text-anchor="middle" dominant-baseline="middle" class="small">2 question + tool menu</text>
-<path d="M548,70 L442,70" class="arrow green" marker-end="url(#s04-tool-flow-h-green)"/>
-<text x="496" y="88" text-anchor="middle" dominant-baseline="middle" class="small">3 &#x27;call get_weather&#x27;</text>
-<rect x="280" y="140" width="160" height="60" rx="10" class="box"/>
-<text x="360.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="bold">Real function</text>
-<text x="360.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="code">get_weather()</text>
-<path d="M360,80 L360,138" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
-<text x="384" y="110" text-anchor="middle" dominant-baseline="middle" class="small">4 run</text>
-<path d="M440,190 L630,190 L630,82" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
-<text x="540" y="206" text-anchor="middle" dominant-baseline="middle" class="small">5 send result</text>
-<path d="M550,62 L500,62 L500,245 L95,245 L95,82" class="arrow green dashed" marker-end="url(#s04-tool-flow-h-green)"/>
-<text x="300" y="262" text-anchor="middle" dominant-baseline="middle" class="small">6 final answer back to the user</text>
+<rect x="20" y="40" width="130" height="60" rx="10" class="blue"/>
+<text x="85.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">You</text>
+<text x="85.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">question</text>
+<rect x="270" y="20" width="160" height="100" rx="10" class="amber"/>
+<text x="350.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your code</text>
+<text x="350.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">(Python)</text>
+<rect x="560" y="20" width="140" height="100" rx="10" class="green"/>
+<text x="630.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">AI model</text>
+<text x="630.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">(the brain)</text>
+<path d="M150,70 L268,70" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
+<text x="209" y="56" text-anchor="middle" dominant-baseline="middle" class="small">1 ask</text>
+<path d="M430,50 L558,50" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
+<text x="494" y="36" text-anchor="middle" dominant-baseline="middle" class="small">2 question + menu</text>
+<path d="M558,92 L432,92" class="arrow green" marker-end="url(#s04-tool-flow-h-green)"/>
+<text x="494" y="108" text-anchor="middle" dominant-baseline="middle" class="small">3 &#x27;call the tool&#x27;</text>
+<rect x="330" y="170" width="160" height="56" rx="10" class="box"/>
+<text x="410.0" y="188.0" text-anchor="middle" dominant-baseline="middle" class="bold">Real function</text>
+<text x="410.0" y="208.0" text-anchor="middle" dominant-baseline="middle" class="code">get_weather()</text>
+<path d="M410,120 L410,168" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
+<text x="436" y="146" text-anchor="middle" dominant-baseline="middle" class="small">4 run</text>
+<path d="M490,198 L630,198 L630,122" class="arrow blue" marker-end="url(#s04-tool-flow-h-blue)"/>
+<text x="560" y="216" text-anchor="middle" dominant-baseline="middle" class="small">5 send the result back</text>
+<path d="M290,122 L290,262 L85,262 L85,102" class="arrow green dashed" marker-end="url(#s04-tool-flow-h-green)"/>
+<text x="190" y="278" text-anchor="middle" dominant-baseline="middle" class="small">6 final answer</text>
 </svg>
 <figcaption>The AI only asks. Your code runs the tool and sends back the result. Then the AI writes the final answer.</figcaption>
 </figure>

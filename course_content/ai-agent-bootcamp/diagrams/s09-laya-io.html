@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s09-laya-io-t s09-laya-io-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s09-laya-io-t">What goes into Laya and what comes out</title>
+<desc id="s09-laya-io-d">You give a state (the text) and typed questions; one quick pass returns an answer plus a probability for each question.</desc>
+<defs><marker id="s09-laya-io-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s09-laya-io-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s09-laya-io-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s09-laya-io-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="200" height="80" rx="10" class="blue"/>
+<text x="120.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">state</text>
+<text x="120.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;message&quot;: &quot;I was</text>
+<text x="120.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="code">charged twice!&quot;}</text>
+<rect x="20" y="120" width="200" height="110" rx="10" class="amber"/>
+<text x="120.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="bold">questions</text>
+<text x="120.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="small">choice  → one label</text>
+<text x="120.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="small">noul    → yes/no (0-1)</text>
+<text x="120.0" y="205.0" text-anchor="middle" dominant-baseline="middle" class="small">score   → a number</text>
+<rect x="280" y="70" width="150" height="90" rx="10" class="green"/>
+<text x="355.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="bold">Laya</text>
+<text x="355.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">one forward pass</text>
+<path d="M220,60 L278,100" class="arrow blue" marker-end="url(#s09-laya-io-h-blue)"/>
+<path d="M220,175 L278,130" class="arrow blue" marker-end="url(#s09-laya-io-h-blue)"/>
+<rect x="490" y="20" width="210" height="210" rx="10" class="box"/>
+<text x="595.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">answers</text>
+<text x="595.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">category: billing  0.99</text>
+<text x="595.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">is_urgent: 0.95</text>
+<text x="595.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">anger: 2.65 / 3</text>
+<text x="595.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="small">output_tokens: 0</text>
+<path d="M430,115 L488,115" class="arrow green" marker-end="url(#s09-laya-io-h-green)"/>
+</svg>
+<figcaption>You give a state (the text) and typed questions; one quick pass returns an answer plus a probability for each question.</figcaption>
+</figure>

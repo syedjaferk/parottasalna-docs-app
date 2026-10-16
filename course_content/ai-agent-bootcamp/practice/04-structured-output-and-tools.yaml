@@ -1,0 +1,61 @@
+chapter: sessions/04-structured-output-and-tools
+quizzes:
+- title: Session 4 · Quiz
+  description: Prompt engineering, JSON mode, validation, tool calling, the tool role and safety.
+  questions:
+  - text: In tool calling, who actually RUNS the function?
+    choices: |
+      The API provider
+      *Your Python code
+      The AI model
+      The user
+    explanation: The AI only asks. Your code does the work and sends the result back.
+  - text: Which field of a tool spec matters most for the AI to decide WHEN to use the tool?
+    choices: |
+      The temperature
+      The function's Python file name
+      The `required` list
+      *The `description`
+    explanation: The model reads the description to decide whether the tool fits the question.
+  - text: After the AI asks for a tool, what role does the result message have?
+    choices: |
+      *`tool`
+      `user`
+      `assistant`
+      `system`
+    explanation: It also needs the matching `tool_call_id`.
+  - text: Why must the AI's own tool request be appended to `messages` before the results?
+    choices: |
+      *The next call needs to see the request that the results answer
+      It makes the call cheaper
+      The API ignores it anyway
+      To change the temperature
+    explanation: Without it the history makes no sense and the API may reject it.
+  - text: JSON mode guarantees...
+    choices: |
+      That the right keys exist
+      That every value is true
+      That the AI never refuses
+      *Valid JSON format, but not that the content is correct
+    explanation: You must still validate the keys and values yourself.
+  - text: Why is `eval()` a dangerous calculator tool?
+    choices: |
+      It is slow
+      *It can run any code the AI (or an attacker) writes
+      It only works with integers
+      It needs an API key
+    explanation: Our `_eval` only allows numbers and maths operators.
+  - text: Which prompt technique shows the AI 2-3 solved examples?
+    choices: |
+      Backoff
+      Constraints
+      Temperature
+      *Few-shot examples
+    explanation: Examples show the exact format you want.
+  - text: A tool should return errors as...
+    choices: |
+      *Text, so the AI can read the problem and try again
+      Nothing at all
+      Python exceptions that crash the agent
+      Random numbers
+    explanation: Text errors let the agent self-correct.

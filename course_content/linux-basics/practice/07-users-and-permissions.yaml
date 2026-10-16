@@ -1,0 +1,61 @@
+chapter: sessions/07-users-and-permissions
+quizzes:
+- title: Session 7 · Quiz
+  description: Owners, groups, rwx, chmod numbers, sudo and directory permissions.
+  questions:
+  - text: What does `-rw-r--r--` mean for a file?
+    choices: |
+      Everyone can read and write
+      Only root can read
+      *Owner can read and write; everyone else can only read
+      It can be run by anyone
+    explanation: '644.'
+  - text: What is `chmod 600 key.pem`?
+    choices: |
+      Only the group can write
+      Everyone can read
+      The file becomes executable
+      *Only the owner can read and write
+    explanation: 6 = rw for the owner; 0 for group and others.
+  - text: What numeric value does `rwx` have?
+    choices: |
+      *7
+      4
+      6
+      5
+    explanation: r=4, w=2, x=1; 4+2+1 = 7.
+  - text: Why does `./script.sh` say *Permission denied*?
+    choices: |
+      *The file has no execute (`x`) permission
+      bash is not installed
+      The script has a typo
+      You are not online
+    explanation: '`chmod +x script.sh` fixes it.'
+  - text: On a **directory**, what does the `x` permission allow?
+    choices: |
+      Running it as a program
+      *Entering it (`cd`) and reaching what's inside
+      Listing only
+      Deleting it
+    explanation: '`r` lists, `w` creates/deletes, `x` enters.'
+  - text: What does `sudo` do?
+    choices: |
+      Makes you root permanently
+      Shuts the computer down
+      Hides your password
+      *Runs one command with administrator (root) power
+    explanation: Use it only when needed.
+  - text: Which is the worst quick "fix" for Permission denied?
+    choices: |
+      `chmod +x script.sh`
+      *`chmod -R 777 /`
+      `ls -l`
+      `id`
+    explanation: 777 opens a security hole and doesn't address the real cause.
+  - text: '`chown asha file` changes...'
+    choices: |
+      The permissions
+      The size
+      *The owner of the file
+      The name
+    explanation: It usually needs `sudo`.

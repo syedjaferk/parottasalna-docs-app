@@ -1,0 +1,61 @@
+chapter: sessions/10-laya-guardrails
+quizzes:
+- title: Session 10 · Quiz
+  description: Prompt injection, guard thresholds, triage, routing, logging and defence in depth.
+  questions:
+  - text: What is prompt injection?
+    choices: |
+      Typing too fast
+      *Hiding instructions inside text so the AI obeys the attacker
+      Using the wrong API key
+      Sending a very long prompt
+    explanation: The model can't reliably tell your instructions from instructions in the data.
+  - text: Why is it MORE dangerous for an agent with tools than for a chatbot?
+    choices: |
+      Tools are always free
+      Chatbots are immune
+      Agents are slower
+      *A tricked agent can DO things (send, delete, spend), not just say them
+    explanation: Least privilege limits the damage.
+  - text: Our guard blocks only when...
+    choices: |
+      The message contains a capital letter
+      EITHER detector is at 0.10
+      *BOTH the jailbreak and injection detectors are at 0.80 or more
+      The message is longer than 100 characters
+    explanation: Upset customers usually trip only one detector.
+  - text: What did testing with UPSET customers reveal?
+    choices: |
+      *A naive guard may flag shouting and orders ("Fix it NOW!!!") as attacks
+      Customers never shout
+      The guard is perfect
+      Laya cannot read exclamation marks
+    explanation: Always test with angry, rushed text too.
+  - text: 'Our test result: 8 of 10 attacks blocked. What is the right conclusion?'
+    choices: |
+      Guards are useless
+      Attacks are impossible
+      *No guard is perfect, so use several layers
+      We can remove the system prompt
+    explanation: Defence in depth.
+  - text: What does model routing do?
+    choices: |
+      Encrypts messages
+      Chooses the Wi-Fi network
+      Translates languages
+      *Sends easy messages to a cheap model and hard ones to a strong model
+    explanation: It's the easiest big saving in an AI product.
+  - text: Why log every decision?
+    choices: |
+      Telegram requires logs
+      *To review mistakes, tune thresholds and grow your test set
+      To store customers' passwords
+      Logs make the bot faster
+    explanation: Without logs you can't answer why a customer was blocked.
+  - text: Which is the strongest, cheapest defence overall?
+    choices: |
+      A longer system prompt
+      *Least privilege: give the agent no dangerous tools
+      A higher temperature
+      A bigger context window
+    explanation: An agent that can't do harmful things can't be tricked into doing them.

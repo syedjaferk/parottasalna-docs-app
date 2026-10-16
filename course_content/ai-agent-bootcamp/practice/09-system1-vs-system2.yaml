@@ -1,0 +1,61 @@
+chapter: sessions/09-system1-vs-system2
+quizzes:
+- title: Session 9 · Quiz
+  description: System 1 vs System 2 AI, typed questions, probabilities, confidence and limits.
+  questions:
+  - text: Which describes System 1 AI (like Laya)?
+    choices: |
+      Writes long essays
+      Slow and creative
+      Needs a giant GPU cluster
+      *Fast, typed answers (label + probability), never writes text
+    explanation: It sorts, scores and decides; it doesn't generate text.
+  - text: Which is NOT a good reason to put a fast gatekeeper before the LLM?
+    choices: |
+      Faster answers for easy messages
+      *The LLM can't read English
+      Blocking attacks early
+      Lower cost
+    explanation: The gatekeeper saves money, time and risk.
+  - text: Laya question type that returns a probability of YES (0-1)?
+    choices: |
+      `choice`
+      *`noul`
+      `essay`
+      `score`
+    explanation: '`choice` picks one label; `score` rates on a scale.'
+  - text: In a `choice` question, what are `criteria`?
+    choices: |
+      *Each label with a plain-language description
+      The model's training data
+      A list of numbers
+      The API key
+    explanation: Clear descriptions give better accuracy.
+  - text: Laya answers with `confidence 0.43` for its pick. What should you do?
+    choices: |
+      Delete the message
+      *Don't trust it. Ask the LLM or a human
+      Raise the temperature
+      Act on it immediately
+    explanation: Low confidence means abstain.
+  - text: On a normal laptop CPU, how did Laya compare in speed with a fast hosted LLM in our lab?
+    choices: |
+      It was 100 times faster
+      *It was NOT faster (about 1-2 s vs well under 1 s)
+      It could not run
+      It was the same
+    explanation: The ~33 ms figure is on a GPU. Always measure on your machine.
+  - text: Which is a genuine advantage of a local classifier?
+    choices: |
+      It needs no download
+      It never makes mistakes
+      *Free, private and repeatable
+      It writes better replies
+    explanation: No tokens, no data leaving your machine, same input gives same answer.
+  - text: For Tamil or Hindi text, which Laya option is sensible?
+    choices: |
+      No checkpoint
+      Temperature 2
+      *The multilingual checkpoint
+      The English checkpoint
+    explanation: '`router.predict(..., model="multilingual")`.'

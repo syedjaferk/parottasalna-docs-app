@@ -1,0 +1,31 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="s11-brain-steps-t s11-brain-steps-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s11-brain-steps-t">What handle_text does</title>
+<desc id="s11-brain-steps-d">Cheap checks first (empty, long, too fast), then guard, triage and routing, then answer with history, then store.</desc>
+<defs><marker id="s11-brain-steps-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s11-brain-steps-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s11-brain-steps-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s11-brain-steps-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="10" width="320" height="42" rx="10" class="ghost"/>
+<text x="180.0" y="21.0" text-anchor="middle" dominant-baseline="middle" class="bold">0  Quick checks</text>
+<text x="180.0" y="41.0" text-anchor="middle" dominant-baseline="middle" class="small">empty · too long · too fast</text>
+<rect x="20" y="61" width="320" height="42" rx="10" class="red"/>
+<text x="180.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">1  Guard</text>
+<text x="180.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">block / review / allow</text>
+<rect x="20" y="112" width="320" height="42" rx="10" class="amber"/>
+<text x="180.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="bold">2  Analyse + route</text>
+<text x="180.0" y="143.0" text-anchor="middle" dominant-baseline="middle" class="small">cheap or strong model</text>
+<rect x="20" y="163" width="320" height="42" rx="10" class="green"/>
+<text x="180.0" y="174.0" text-anchor="middle" dominant-baseline="middle" class="bold">3  Answer</text>
+<text x="180.0" y="194.0" text-anchor="middle" dominant-baseline="middle" class="small">LLM + the last 6 safe messages</text>
+<rect x="20" y="214" width="320" height="42" rx="10" class="blue"/>
+<text x="180.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="bold">4  Store</text>
+<text x="180.0" y="245.0" text-anchor="middle" dominant-baseline="middle" class="small">support.db (SQLite)</text>
+<rect x="430" y="10" width="270" height="42" rx="10" class="ghost"/>
+<text x="565.0" y="21.0" text-anchor="middle" dominant-baseline="middle" class="bold">polite refusal</text>
+<text x="565.0" y="41.0" text-anchor="middle" dominant-baseline="middle" class="small">no Laya, no LLM</text>
+<path d="M340,31 L428,31" class="arrow red" marker-end="url(#s11-brain-steps-h-red)"/>
+<rect x="430" y="61" width="270" height="42" rx="10" class="ghost"/>
+<text x="565.0" y="72.0" text-anchor="middle" dominant-baseline="middle" class="bold">canned reply / human review</text>
+<text x="565.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="small">no LLM call</text>
+<path d="M340,82 L428,82" class="arrow red" marker-end="url(#s11-brain-steps-h-red)"/>
+</svg>
+<figcaption>Cheap checks first (empty, long, too fast), then guard, triage and routing, then answer with history, then store.</figcaption>
+</figure>

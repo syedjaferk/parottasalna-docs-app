@@ -1,0 +1,61 @@
+chapter: sessions/09-packages-and-network
+quizzes:
+- title: Session 9 · Quiz
+  description: apt/dnf, curl, tar, PATH and basic network tools.
+  questions:
+  - text: What does `sudo apt update` do?
+    choices: |
+      Installs all newer versions
+      Removes old packages
+      Reboots
+      *Refreshes the list of available packages
+    explanation: '`apt upgrade` installs the newer versions.'
+  - text: Which tool is the package manager on Fedora/RHEL?
+    choices: |
+      `pacman`
+      `apt`
+      *`dnf`
+      `brew`
+    explanation: Debian/Ubuntu use apt.
+  - text: '`tar -czf backup.tar.gz docs` does what?'
+    choices: |
+      Extracts an archive
+      Deletes docs
+      *Creates a compressed archive of docs
+      Lists an archive
+    explanation: c = create, z = gzip, f = file name.
+  - text: Which command lists the contents of an archive **without** extracting?
+    choices: |
+      `cat backup.tar.gz`
+      `tar -czf backup.tar.gz`
+      `tar -xzf backup.tar.gz`
+      *`tar -tzf backup.tar.gz`
+    explanation: t = test/list.
+  - text: What is `PATH`?
+    choices: |
+      The current folder
+      A file name
+      Your home folder
+      *The list of folders searched for commands
+    explanation: If a program isn't on PATH you get `command not found`.
+  - text: Why does `export X=1` disappear in a new terminal?
+    choices: |
+      Linux resets all variables daily
+      *It only lasts for that terminal session
+      export is a bug
+      X is reserved
+    explanation: Put it in `~/.bashrc` to make it permanent.
+  - text: What does `ping -c 3 example.com` do?
+    choices: |
+      Opens a website
+      Downloads the page
+      *Sends 3 test packets and reports the replies
+      Blocks the site
+    explanation: 0% packet loss means a healthy connection.
+  - text: Which command shows which ports your machine is listening on?
+    choices: |
+      `dig`
+      `curl -I`
+      `ping`
+      *`ss -tln`
+    explanation: t = tcp, l = listening, n = numeric.

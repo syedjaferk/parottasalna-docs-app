@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="s10-pipeline-t s10-pipeline-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s10-pipeline-t">The guarded pipeline</title>
+<desc id="s10-pipeline-d">Guard, then triage, then route, then answer, then log. Blocked messages never reach the LLM.</desc>
+<defs><marker id="s10-pipeline-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s10-pipeline-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s10-pipeline-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s10-pipeline-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="12" y="70" width="120" height="76" rx="10" class="red"/>
+<text x="72.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="bold">1 Guard</text>
+<text x="72.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="small">block / review</text>
+<path d="M132,108 L154,108" class="arrow blue" marker-end="url(#s10-pipeline-h-blue)"/>
+<rect x="154" y="70" width="120" height="76" rx="10" class="amber"/>
+<text x="214.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="bold">2 Analyse</text>
+<text x="214.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="small">topic · urgency</text>
+<path d="M274,108 L296,108" class="arrow blue" marker-end="url(#s10-pipeline-h-blue)"/>
+<rect x="296" y="70" width="120" height="76" rx="10" class="blue"/>
+<text x="356.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="bold">3 Route</text>
+<text x="356.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="small">cheap or strong</text>
+<path d="M416,108 L438,108" class="arrow blue" marker-end="url(#s10-pipeline-h-blue)"/>
+<rect x="438" y="70" width="120" height="76" rx="10" class="green"/>
+<text x="498.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="bold">4 Answer</text>
+<text x="498.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="small">LLM replies</text>
+<path d="M558,108 L580,108" class="arrow blue" marker-end="url(#s10-pipeline-h-blue)"/>
+<rect x="580" y="70" width="120" height="76" rx="10" class="ghost"/>
+<text x="640.0" y="98.0" text-anchor="middle" dominant-baseline="middle" class="bold">5 Log</text>
+<text x="640.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="small">every decision</text>
+<path d="M72,70 L72,28 L150,28" class="arrow red" marker-end="url(#s10-pipeline-h-red)"/>
+<text x="170" y="14" text-anchor="middle" dominant-baseline="middle" class="small">blocked: stop here</text>
+<text x="360" y="200" text-anchor="middle" dominant-baseline="middle" class="small">System 1 (Laya) does steps 1-3 in about 2 seconds, free. Only step 4 costs tokens.</text>
+</svg>
+<figcaption>Guard, then triage, then route, then answer, then log. Blocked messages never reach the LLM.</figcaption>
+</figure>

@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="s07-cron-flow-t s07-cron-flow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s07-cron-flow-t">How a scheduled task runs</title>
+<desc id="s07-cron-flow-d">The gateway checks the clock every minute; when a job is due it runs the prompt through the agent and delivers the result.</desc>
+<defs><marker id="s07-cron-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s07-cron-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s07-cron-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s07-cron-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="70" width="130" height="70" rx="10" class="ghost"/>
+<text x="85.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Job</text>
+<text x="85.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">every day 9am</text>
+<rect x="200" y="70" width="150" height="70" rx="10" class="amber"/>
+<text x="275.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Gateway</text>
+<text x="275.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">checks every 60 s</text>
+<rect x="400" y="70" width="130" height="70" rx="10" class="blue"/>
+<text x="465.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Agent</text>
+<text x="465.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">runs the prompt</text>
+<rect x="580" y="20" width="120" height="50" rx="10" class="green"/>
+<text x="640.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">Telegram</text>
+<rect x="580" y="90" width="120" height="50" rx="10" class="green"/>
+<text x="640.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">local file</text>
+<path d="M150,105 L198,105" class="arrow blue" marker-end="url(#s07-cron-flow-h-blue)"/>
+<path d="M350,105 L398,105" class="arrow blue" marker-end="url(#s07-cron-flow-h-blue)"/>
+<path d="M530,95 L578,50" class="arrow green" marker-end="url(#s07-cron-flow-h-green)"/>
+<path d="M530,115 L578,115" class="arrow green" marker-end="url(#s07-cron-flow-h-green)"/>
+<text x="360" y="185" text-anchor="middle" dominant-baseline="middle" class="small">If the gateway is not running, nothing fires. Start it: hermes gateway</text>
+</svg>
+<figcaption>The gateway checks the clock every minute; when a job is due it runs the prompt through the agent and delivers the result.</figcaption>
+</figure>

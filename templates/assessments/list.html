@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Timed assessments · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}">{% endblock %}
+{% block content %}
+<div class="as-wrap">
+  <nav class="as-crumbs"><a href="{% url 'home' %}">My courses</a> / Timed assessments</nav>
+  <section class="as-hero">
+    <h1>⏱ Timed assessments</h1>
+    <p>Test yourself against the clock. The timer starts when you press <strong>Start</strong>, and your answers are submitted automatically when it reaches zero.</p>
+  </section>
+
+  {% if rows %}
+  <div class="as-grid">
+    {% for row in rows %}{% with a=row.assessment %}
+    <article class="as-card as-item">
+      <h3>{{ a.title }}</h3>
+      <div class="as-meta">
+        {% if a.course %}<span class="as-chip">{{ a.course.title }}</span>{% endif %}
+        <span class="as-chip">⏱ {{ a.time_limit_minutes }} min</span>
+        <span class="as-chip">{{ row.questions }} question{{ row.questions|pluralize }}</span>
+        <span class="as-chip">Pass {{ a.pass_percentage }}%</span>
+        {% if row.status == "upcoming" %}<span class="as-chip warn">Opens {{ a.opens_at|date:"j M, g:i A" }}</span>{% endif %}
+        {% if row.status == "closed" %}<span class="as-chip bad">Closed</span>{% endif %}
+        {% if row.running %}<span class="as-chip warn">In progress</span>{% endif %}
+        {% if row.best %}<span class="as-chip {% if row.best.passed %}ok{% else %}bad{% endif %}">Best {{ row.best.percentage }}%</span>{% endif %}
+      </div>
+      {% if a.description %}<p class="muted" style="margin:0;font-size:.92rem">{{ a.description|truncatewords:28 }}</p>{% endif %}
+      <div class="as-foot">
+        <a class="btn" href="{% url 'assessment_detail' a.slug %}">{% if row.running %}Resume{% elif row.best %}Details{% else %}Open{% endif %}</a>
+        {% if user.is_staff %}<a class="btn ghost" href="{% url 'assessment_results' a.slug %}">Results</a>{% endif %}
+      </div>
+    </article>
+    {% endwith %}{% endfor %}
+  </div>
+  {% else %}
+  <div class="as-card"><p class="muted" style="margin:0">No assessments are available for you yet.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

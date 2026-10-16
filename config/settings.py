@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "profiles",
     "panel",
     "smells",
+    "assessments",
 ]
 
 MIDDLEWARE = [

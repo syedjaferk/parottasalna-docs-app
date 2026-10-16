@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 220" role="img" aria-labelledby="l09-package-manager-t l09-package-manager-d" xmlns="http://www.w3.org/2000/svg">
+<title id="l09-package-manager-t">How a package manager works</title>
+<desc id="l09-package-manager-d">You ask for a package; the manager fetches it from a trusted repository, checks it and installs it with its dependencies.</desc>
+<defs><marker id="l09-package-manager-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="l09-package-manager-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="l09-package-manager-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="l09-package-manager-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="70" width="130" height="60" rx="10" class="blue"/>
+<text x="85.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="bold">You</text>
+<text x="85.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">apt install tree</text>
+<rect x="270" y="70" width="150" height="60" rx="10" class="amber"/>
+<text x="345.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="bold">Package manager</text>
+<text x="345.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">apt / dnf</text>
+<rect x="540" y="70" width="160" height="60" rx="10" class="green"/>
+<text x="620.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="bold">Repository</text>
+<text x="620.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">trusted, signed</text>
+<path d="M150,95 L268,95" class="arrow blue" marker-end="url(#l09-package-manager-h-blue)"/>
+<path d="M420,85 L538,85" class="arrow blue" marker-end="url(#l09-package-manager-h-blue)"/>
+<text x="479" y="70" text-anchor="middle" dominant-baseline="middle" class="small">download</text>
+<path d="M538,115 L422,115" class="arrow green" marker-end="url(#l09-package-manager-h-green)"/>
+<text x="360" y="175" text-anchor="middle" dominant-baseline="middle" class="small">installs the package and everything it depends on · updates and removes cleanly</text>
+</svg>
+<figcaption>You ask for a package; the manager fetches it from a trusted repository, checks it and installs it with its dependencies.</figcaption>
+</figure>

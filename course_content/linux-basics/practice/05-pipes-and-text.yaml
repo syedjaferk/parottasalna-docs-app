@@ -1,0 +1,61 @@
+chapter: sessions/05-pipes-and-text
+quizzes:
+- title: Session 5 · Quiz
+  description: Streams, pipes, grep, sort, uniq, cut, awk and sed.
+  questions:
+  - text: What does `|` (pipe) do?
+    choices: |
+      Runs commands at the same time on different files
+      Hides errors
+      *Sends one command's output into the next command
+      Saves output to a file
+    explanation: It is the connection of the assembly line.
+  - text: Why do you `sort` before `uniq`?
+    choices: |
+      `uniq` is slow on unsorted data
+      It is required by the shell
+      *`uniq` only removes **neighbouring** duplicates
+      `sort` makes the file smaller
+    explanation: Without sorting, equal lines may not be next to each other.
+  - text: Which option makes `grep` count matching lines?
+    choices: |
+      `-v`
+      *`-c`
+      `-r`
+      `-n`
+    explanation: '`-n` numbers lines, `-v` inverts, `-r` is recursive.'
+  - text: Which line ranks values from most to least common?
+    choices: |
+      `uniq -c f | sort`
+      `sort -u f`
+      `wc -l f`
+      *`sort f | uniq -c | sort -nr`
+    explanation: Count and rank pattern.
+  - text: '`ls missing 2> /dev/null` does what?'
+    choices: |
+      Creates a file called /dev/null
+      *Hides the error message
+      Hides the normal output
+      Runs `ls` twice
+    explanation: '`2>` redirects stderr; /dev/null discards it.'
+  - text: '`grep -v INFO app.log` shows...'
+    choices: |
+      *Lines that do **not** contain INFO
+      The INFO count
+      Only lines with INFO
+      Line numbers
+    explanation: '`-v` inverts the match.'
+  - text: In `cut -d, -f2 people.csv`, what is `-d,`?
+    choices: |
+      Delete commas
+      Display two columns
+      Debug mode
+      *The delimiter is a comma
+    explanation: '`-f2` picks field 2.'
+  - text: What does `cmd1 && cmd2` mean?
+    choices: |
+      Pipe the output
+      *Run `cmd2` only if `cmd1` succeeded
+      Run `cmd2` only if `cmd1` failed
+      Run both at once
+    explanation: '`||` is the opposite: run on failure.'

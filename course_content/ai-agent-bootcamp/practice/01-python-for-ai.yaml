@@ -1,0 +1,61 @@
+chapter: sessions/01-python-for-ai
+quizzes:
+- title: Session 1 · Quiz
+  description: Functions, lists, dictionaries, JSON, requests, status codes, .env and virtual environments.
+  questions:
+  - text: What does `return` do inside a function?
+    choices: |
+      Creates a new variable file
+      Prints the answer on screen
+      *Hands the answer back to the code that called the function
+      Stops Python completely
+    explanation: '`return` gives a value back to the caller. `print` only shows text.'
+  - text: How do you get the LAST item of the list `fruits`?
+    choices: |
+      `fruits[last]`
+      `fruits[len(fruits)]`
+      `fruits.end()`
+      *`fruits[-1]`
+    explanation: Negative indexes count from the end. `fruits[len(fruits)]` would be one past the end and raises an error.
+  - text: A chat with an AI is stored in Python as...
+    choices: |
+      One long string
+      *A list of dictionaries, each with a `role` and `content`
+      A set of words
+      A tuple of numbers
+    explanation: Each message is a dictionary, and the conversation is a list of them.
+  - text: Which function turns JSON **text** into a Python dictionary?
+    choices: |
+      `json.text(text)`
+      `json.dump(text)`
+      *`json.loads(text)`
+      `json.dumps(text)`
+    explanation: '`loads` = load from string. `dumps` goes the other way (dictionary to text).'
+  - text: What does a status code of **401** mean?
+    choices: |
+      The server crashed
+      *Your key or login was rejected
+      The page was not found
+      Everything is fine
+    explanation: '401 means unauthorized: fix the key. 404 is not found, 500 is a server problem, 200 is OK.'
+  - text: Why do we write `requests.get(url, timeout=15)`?
+    choices: |
+      To keep the key secret
+      To convert JSON to a dictionary
+      *So the program doesn't wait forever if the server never answers
+      To make the answer arrive faster
+    explanation: A timeout makes your program give up and handle the problem instead of hanging.
+  - text: Where should an API key be kept?
+    choices: |
+      At the top of your Python file
+      In the README so friends can find it
+      In a comment next to the code
+      *In the `.env` file, which is NOT shared or uploaded
+    explanation: Code is shared and copied; a `.env` file stays private (and is listed in `.gitignore`).
+  - text: What is a virtual environment (venv) for?
+    choices: |
+      A backup of your files
+      *A private box of packages for one project
+      A way to run Python without installing it
+      A faster version of Python
+    explanation: It keeps this project's packages separate from the rest of the computer.

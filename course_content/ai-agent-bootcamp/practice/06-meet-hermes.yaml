@@ -1,0 +1,61 @@
+chapter: sessions/06-meet-hermes
+quizzes:
+- title: Session 6 · Quiz
+  description: Hermes basics, installation, providers, the 64K context requirement, approvals and the Laya homework.
+  questions:
+  - text: What is Hermes Agent?
+    choices: |
+      *An open-source production-grade agent with tools, memory, skills, scheduling and messaging
+      A kind of database
+      A chat website
+      A Python library for maths
+    explanation: It is what an agent looks like after months of engineering.
+  - text: What is the first command to check problems after installing Hermes?
+    choices: |
+      `hermes delete`
+      `pip check`
+      *`hermes doctor`
+      `hermes fix-all`
+    explanation: '`hermes doctor` explains exactly what''s missing and how to fix it.'
+  - text: What is the minimum context window Hermes needs for agent use?
+    choices: |
+      No minimum
+      4,096 tokens
+      *64,000 tokens
+      1,000 tokens
+    explanation: Hermes sends a big prompt with many tools, so a small window is rejected.
+  - text: Where do Hermes's secrets (API keys) go?
+    choices: |
+      In the README
+      In your project's Python files
+      *Hermes's own `.env` file (set with `hermes config set`)
+      Inside `config.yaml` as plain code
+    explanation: Secrets belong in `.env`; `config.yaml` holds settings.
+  - text: After installing on Windows, why open a NEW PowerShell window?
+    choices: |
+      *The PATH change only appears in new windows
+      Hermes needs a restart of Windows
+      PowerShell caches passwords
+      The old window is broken
+    explanation: Existing terminals don't see the updated PATH.
+  - text: How do you resume your most recent Hermes conversation?
+    choices: |
+      `/forget`
+      `hermes --old`
+      `hermes resume --all`
+      *`hermes --continue`
+    explanation: '`-c` is the short form.'
+  - text: Which Hermes habit is SAFEST while learning?
+    choices: |
+      *Keep approvals on and never use YOLO mode
+      Turn approvals off
+      Run it from your home folder as administrator
+      Always choose 'always allow'
+    explanation: Approvals are human-in-the-loop safety.
+  - text: Why did we install Laya as Day 1 homework?
+    choices: |
+      It makes Groq faster
+      *The download is large and Day 2 needs it
+      Laya replaces Python
+      Hermes requires Laya
+    explanation: Better to download it before class.

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Results · {{ assessment.title }} · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}">{% endblock %}
+{% block content %}
+<div class="as-wrap" style="max-width:1000px">
+  <nav class="as-crumbs"><a href="{% url 'assessment_list' %}">Timed assessments</a> / {{ assessment.title }}</nav>
+  <section class="as-card">
+    <h1 style="margin:0 0 .4rem;font-size:1.5rem">Results: {{ assessment.title }}</h1>
+    <p class="muted" style="margin:0 0 .8rem">{{ rows|length }} submitted{% if in_progress %} · {{ in_progress }} in progress{% endif %} · {{ assessment.time_limit_minutes }} min limit</p>
+    <a class="btn ghost" href="{% url 'assessment_results_csv' assessment.slug %}">Download CSV</a>
+  </section>
+  <section class="as-card"><div class="as-table-wrap"><table class="as-table">
+    <thead><tr><th>Student</th><th>Score</th><th>%</th><th>Time used</th><th>Submitted</th><th></th></tr></thead>
+    <tbody>{% for a in rows %}
+      <tr><td>{{ a.user.email|default:a.user.username }}</td>
+          <td>{{ a.score }}/{{ a.max_score }}</td>
+          <td><span class="as-chip {% if a.passed %}ok{% else %}bad{% endif %}">{{ a.percentage }}%</span></td>
+          <td>{{ a.seconds_used|floatformat:0 }} s{% if a.timed_out %} <span class="as-chip warn">timed out</span>{% endif %}</td>
+          <td>{{ a.submitted_at|date:"j M, g:i A" }}</td>
+          <td><a href="{% url 'assessment_result' a.pk %}">Review</a></td></tr>
+    {% empty %}<tr><td colspan="6" class="muted">Nobody has submitted yet.</td></tr>{% endfor %}</tbody>
+  </table></div></section>
+</div>
+{% endblock %}

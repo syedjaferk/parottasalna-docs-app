@@ -1,0 +1,75 @@
+/* Timed assessments: list, start page, the exam page with its countdown, and results. */
+.as-wrap { max-width: 820px; margin: 0 auto; }
+.as-crumbs { font-size: .88rem; color: var(--muted); margin-bottom: .75rem; }
+.as-crumbs a { color: var(--muted); text-decoration: none; }
+.as-crumbs a:hover { color: var(--accent); }
+.as-hero { padding: 1.6rem; border-radius: 18px; margin-bottom: 1.5rem; color: #fff;
+  background: linear-gradient(120deg, var(--hero-1), var(--hero-2) 60%, var(--hero-3)); }
+.as-hero h1 { margin: 0 0 .4rem; font-size: clamp(1.45rem, 3vw, 2rem); font-weight: 800; }
+.as-hero p { margin: 0 0 .9rem; opacity: .92; }
+.as-facts { display: flex; gap: .5rem; flex-wrap: wrap; }
+.as-facts span { font-size: .82rem; font-weight: 600; padding: .25rem .7rem; border-radius: 999px; background: rgba(255,255,255,.16); }
+.as-card { padding: 1.25rem 1.4rem; border-radius: 16px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); margin-bottom: 1rem; }
+.as-card h2 { margin: 0 0 .6rem; font-size: 1.1rem; }
+.as-rules { margin: 0; padding-left: 1.2rem; display: grid; gap: .4rem; }
+.as-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1rem; }
+.as-item { display: flex; flex-direction: column; gap: .6rem; }
+.as-item h3 { margin: 0; font-size: 1.1rem; }
+.as-meta { display: flex; flex-wrap: wrap; gap: .4rem; font-size: .8rem; }
+.as-chip { display: inline-flex; align-items: center; gap: .3rem; padding: .2rem .6rem; border-radius: 999px; font-weight: 600; background: var(--accent-soft); color: var(--accent); }
+.as-chip.ok { background: var(--ok-soft); color: var(--ok); }
+.as-chip.warn { background: var(--warn-soft); color: var(--warn); }
+.as-chip.bad { background: color-mix(in srgb, #dc2626 14%, transparent); color: #dc2626; }
+.as-foot { margin-top: auto; display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.as-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.as-table th, .as-table td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--line); }
+.as-table-wrap { overflow-x: auto; }
+
+/* ---- the exam page ---- */
+.as-bar { position: sticky; top: 0; z-index: 20; margin: 0 0 1.25rem; padding: .7rem 1rem; border-radius: 14px;
+  background: color-mix(in srgb, var(--card) 94%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--line); box-shadow: var(--shadow-hover); }
+.as-bar-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+.as-title { font-weight: 700; font-size: .95rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.as-timer { display: inline-flex; align-items: center; gap: .45rem; font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.35rem;
+  padding: .2rem .8rem; border-radius: 12px; background: var(--accent-soft); color: var(--accent); }
+.as-timer.low { background: var(--warn-soft); color: var(--warn); }
+.as-timer.critical { background: color-mix(in srgb, #dc2626 16%, transparent); color: #dc2626; animation: as-pulse 1s infinite; }
+.as-track { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; margin-top: .6rem; }
+.as-track span { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--accent), #10b981); transition: width .5s linear; }
+.as-track span.low { background: var(--warn); }
+.as-track span.critical { background: #dc2626; }
+.as-palette { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem; }
+.as-dot { width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--bg); color: var(--fg); font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; padding: 0; }
+.as-dot.done { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+.as-status { font-size: .8rem; color: var(--muted); }
+.as-q { padding: 1.3rem; border-radius: 16px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); margin-bottom: 1rem; scroll-margin-top: 9rem; }
+.as-q-head { display: flex; gap: .8rem; align-items: flex-start; margin-bottom: .8rem; }
+.as-num { flex: none; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; font-size: .9rem; background: var(--accent-soft); color: var(--accent); }
+.as-q-text { flex: 1; min-width: 0; font-weight: 500; }
+.as-q-text > :first-child { margin-top: .2rem; }
+.as-hint { font-size: .8rem; color: var(--muted); margin: -.3rem 0 .6rem 2.8rem; }
+.as-choices { display: grid; gap: .5rem; margin-left: 2.8rem; }
+.as-choice { display: flex; gap: .7rem; align-items: center; padding: .7rem .9rem; border-radius: 12px; border: 1.5px solid var(--line); cursor: pointer; transition: border-color .12s, background .12s; }
+.as-choice:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+.as-choice input { accent-color: var(--accent); width: 18px; height: 18px; flex: none; margin: 0; }
+.as-choice:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.as-submit { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 1rem 1.25rem; border-radius: 16px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.as-overlay { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(4px); }
+.as-overlay[hidden] { display: none; }
+.as-overlay div { padding: 1.6rem 2rem; border-radius: 16px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-hover); text-align: center; font-weight: 700; }
+
+/* ---- result ---- */
+.as-score { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+.as-ring { --p: 0; width: 110px; height: 110px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: conic-gradient(var(--ring, var(--ok)) calc(var(--p) * 1%), var(--line) 0); }
+.as-ring span { width: 82px; height: 82px; border-radius: 50%; display: grid; place-items: center; background: var(--card); font-weight: 800; font-size: 1.4rem; }
+.as-review-q { padding: 1.2rem; border-radius: 14px; border: 1px solid var(--line); background: var(--card); margin-bottom: .9rem; }
+.as-review-q.right { border-left: 5px solid var(--ok); }
+.as-review-q.wrong { border-left: 5px solid #dc2626; }
+.as-review-choice { padding: .45rem .7rem; border-radius: 9px; margin: .3rem 0; border: 1px solid var(--line); font-size: .93rem; }
+.as-review-choice.correct { background: var(--ok-soft); border-color: var(--ok); }
+.as-review-choice.picked-wrong { background: color-mix(in srgb, #dc2626 10%, transparent); border-color: #dc2626; }
+.as-explain { margin-top: .6rem; font-size: .9rem; color: var(--muted); }
+@keyframes as-pulse { 50% { opacity: .55; } }
+@media (prefers-reduced-motion: reduce) { .as-timer.critical { animation: none; } .as-track span { transition: none; } }
+@media (max-width: 560px) { .as-choices, .as-hint { margin-left: 0; } .as-title { display: none; } .as-timer { font-size: 1.2rem; } .as-bar { top: 0; border-radius: 0 0 14px 14px; } }

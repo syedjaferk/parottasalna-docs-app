@@ -66,7 +66,9 @@ def quiz_list(request, slug):
     decks = list(published_decks(course))
     known = known_counts(request.user, decks)
     deck_rows = [{"deck": deck, "known": known.get(deck.pk, 0)} for deck in decks]
-    return render(request, "quizzes/quiz_list.html", {"course": course, "rows": rows, "deck_rows": deck_rows})
+    timed = list(course.assessments.filter(is_published=True).annotate(question_count=Count("questions"))
+                 .filter(question_count__gt=0).order_by("order", "id"))
+    return render(request, "quizzes/quiz_list.html", {"course": course, "rows": rows, "deck_rows": deck_rows, "timed": timed})
 
 
 @login_required

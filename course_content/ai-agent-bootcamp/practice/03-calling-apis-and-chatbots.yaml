@@ -1,0 +1,61 @@
+chapter: sessions/03-calling-apis-and-chatbots
+quizzes:
+- title: Session 3 · Quiz
+  description: Message roles, history, system prompts, trimming, status codes, backoff and switching providers.
+  questions:
+  - text: Which role holds the rules and personality you set as the developer?
+    choices: |
+      *`system`
+      `tool`
+      `user`
+      `assistant`
+    explanation: The system message is set once at the start and the user never sees it.
+  - text: In the chatbot loop, which line gives the bot its memory?
+    choices: |
+      `while True:`
+      *`history.append(...)` for both the question and the reply
+      `input()`
+      `print()`
+    explanation: Memory is just appending to the list that you resend every time.
+  - text: Why do we `trim()` the history?
+    choices: |
+      To change the temperature
+      *To avoid overflowing the context window and to save tokens
+      To hide the system prompt
+      To make the bot polite
+    explanation: Every turn resends the history, so it would grow forever without trimming.
+  - text: The API returns **429**. What is the best reaction?
+    choices: |
+      Delete the history
+      Retry instantly 100 times
+      Change the API key
+      *Wait, then retry (with backoff)
+    explanation: 429 means too many requests. Hammering makes it worse.
+  - text: The API returns **401**. What should you do?
+    choices: |
+      *Stop and fix the API key
+      Increase `max_tokens`
+      Retry with backoff
+      Switch to a bigger model
+    explanation: Retrying can't fix a wrong key.
+  - text: Exponential backoff waits...
+    choices: |
+      The same time after every failure
+      *Twice as long after each failure (1 s, 2 s, 4 s ...)
+      Random times
+      Zero seconds
+    explanation: It gives a busy server time to recover.
+  - text: To switch from Groq to Ollama, what do you change?
+    choices: |
+      Rewrite `llm.py`
+      Rewrite `chatbot.py`
+      Install a new library
+      *Only the three lines in `.env`
+    explanation: All three speak the same OpenAI-compatible API.
+  - text: Which system prompt is stronger?
+    choices: |
+      Answer well.
+      *You are a patient Python tutor for beginners. Use simple words, give one small example and end with a question.
+      Be smart.
+      You are helpful.
+    explanation: Good prompts state role, audience, style and rules.

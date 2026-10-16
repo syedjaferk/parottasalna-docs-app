@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="s08-polling-t s08-polling-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s08-polling-t">Long polling</title>
+<desc id="s08-polling-d">Your program asks &#x27;any new messages?&#x27;. Telegram waits up to 25 seconds and answers as soon as one arrives.</desc>
+<defs><marker id="s08-polling-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s08-polling-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s08-polling-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s08-polling-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="20" width="180" height="230" rx="10" class="box"/>
+<text x="120" y="38" text-anchor="middle" dominant-baseline="middle" class="title">YOUR PROGRAM</text>
+<rect x="510" y="20" width="180" height="230" rx="10" class="box"/>
+<text x="600" y="38" text-anchor="middle" dominant-baseline="middle" class="title">TELEGRAM</text>
+<path d="M210,70 L508,70" class="arrow blue" marker-end="url(#s08-polling-h-blue)"/>
+<text x="360" y="54" text-anchor="middle" dominant-baseline="middle" class="small">getUpdates(offset=11)</text>
+<text x="360" y="100" text-anchor="middle" dominant-baseline="middle" class="small">…waiting (up to 25 s)…</text>
+<path d="M508,135 L210,135" class="arrow green" marker-end="url(#s08-polling-h-green)"/>
+<text x="360" y="119" text-anchor="middle" dominant-baseline="middle" class="small">[ message 11: hello ]</text>
+<path d="M210,175 L508,175" class="arrow blue" marker-end="url(#s08-polling-h-blue)"/>
+<text x="360" y="159" text-anchor="middle" dominant-baseline="middle" class="small">sendMessage(&quot;You said hello&quot;)</text>
+<path d="M210,220 L508,220" class="arrow blue" marker-end="url(#s08-polling-h-blue)"/>
+<text x="360" y="204" text-anchor="middle" dominant-baseline="middle" class="small">getUpdates(offset=12)</text>
+<text x="120" y="238" text-anchor="middle" dominant-baseline="middle" class="small">offset = last update_id + 1</text>
+</svg>
+<figcaption>Your program asks &#x27;any new messages?&#x27;. Telegram waits up to 25 seconds and answers as soon as one arrives.</figcaption>
+</figure>

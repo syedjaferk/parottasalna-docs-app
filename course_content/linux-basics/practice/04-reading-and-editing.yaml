@@ -1,0 +1,61 @@
+chapter: sessions/04-reading-and-editing
+quizzes:
+- title: Session 4 · Quiz
+  description: cat, less, head, tail, wc, redirection and editors.
+  questions:
+  - text: Which command shows the **last 5 lines** of a file?
+    choices: |
+      `last file`
+      *`tail -n 5 file`
+      `head -n 5 file`
+      `cat -5 file`
+    explanation: '`head` shows the start, `tail` the end.'
+  - text: What does `tail -f app.log` do?
+    choices: |
+      Deletes the last line
+      Shows the first lines
+      *Follows the file and prints new lines as they appear
+      Formats the file
+    explanation: Stop it with Ctrl + C.
+  - text: Which operator **appends** to a file?
+    choices: |
+      `|`
+      *`>>`
+      `<`
+      `>`
+    explanation: '`>` overwrites; `>>` adds to the end.'
+  - text: How do you quit `less`?
+    choices: |
+      Type `exit`
+      Press `Ctrl + C` twice only
+      Press `Esc`
+      *Press `q`
+    explanation: '`q` quits less.'
+  - text: What are the 3 numbers printed by `wc file`?
+    choices: |
+      Bytes, lines, words
+      Words, lines, characters
+      *Lines, words, bytes
+      Files, folders, links
+    explanation: '`wc -l` shows only lines.'
+  - text: In nano, how do you save?
+    choices: |
+      `Ctrl + S`
+      *`Ctrl + O` then Enter
+      `:wq`
+      `Esc` then `w`
+    explanation: '`Ctrl + X` exits. `:wq` is vim.'
+  - text: In vim, how do you start typing text?
+    choices: |
+      *Press `i` (insert mode)
+      Type `:w`
+      Press `Ctrl + I` only
+      Press `Esc`
+    explanation: Press `Esc` to leave insert mode; `:wq` saves and quits.
+  - text: '`echo "a" > f.txt` is run twice. What is in f.txt?'
+    choices: |
+      An error message
+      Nothing
+      Two lines: `a` and `a`
+      *Only one line: `a`
+    explanation: '`>` overwrites each time. Use `>>` to add lines.'

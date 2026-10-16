@@ -1,0 +1,61 @@
+chapter: sessions/02-files-and-directories
+quizzes:
+- title: Session 2 · Quiz
+  description: pwd, ls, cd, absolute and relative paths, hidden files and the file tree.
+  questions:
+  - text: Which command prints your current directory?
+    choices: |
+      `ls`
+      `cd`
+      `where`
+      *`pwd`
+    explanation: pwd = print working directory.
+  - text: Which path is **absolute**?
+    choices: |
+      `~data`
+      *`/home/asha/data`
+      `../data`
+      `data/fruits.txt`
+    explanation: Absolute paths start with `/`.
+  - text: What does `cd ..` do?
+    choices: |
+      *Goes up to the parent directory
+      Goes to the root
+      Goes to the home folder
+      Stays where you are
+    explanation: '`..` means the parent folder.'
+  - text: How do you see hidden files?
+    choices: |
+      `ls --hidden`
+      *`ls -a`
+      `ls -x`
+      `ls -h`
+    explanation: Names starting with a dot are hidden; `-a` shows all.
+  - text: Where do your personal files normally live?
+    choices: |
+      Under `/dev`
+      *Under `/home`
+      Under `/etc`
+      Under `/usr/bin`
+    explanation: '`/etc` holds settings, `/usr/bin` programs, `/dev` devices.'
+  - text: What does `cd -` do?
+    choices: |
+      Lists the folder
+      Goes up one level
+      Goes home
+      *Returns to the previous directory
+    explanation: It flips between your last two places.
+  - text: Which command creates `a/b/c` even if `a` and `b` don't exist?
+    choices: |
+      `mkdir a/b/c`
+      *`mkdir -p a/b/c`
+      `touch a/b/c`
+      `mkdir -r a/b/c`
+    explanation: '`-p` creates the parents as needed.'
+  - text: Linux has drive letters like `C:`.
+    choices: |
+      False: there are no folders
+      *False: there is one tree starting at `/`
+      True, like Windows
+      True, but only for USB sticks
+    explanation: Other disks are mounted inside the single tree.

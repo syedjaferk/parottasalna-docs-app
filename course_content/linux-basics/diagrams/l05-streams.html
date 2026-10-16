@@ -1,0 +1,17 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="l05-streams-t l05-streams-d" xmlns="http://www.w3.org/2000/svg">
+<title id="l05-streams-t">stdin, stdout and stderr</title>
+<desc id="l05-streams-d">Every command has an input stream (0), a normal output stream (1) and an error stream (2).</desc>
+<defs><marker id="l05-streams-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="l05-streams-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="l05-streams-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="l05-streams-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="280" y="60" width="160" height="90" rx="10" class="amber"/>
+<text x="360.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">command</text>
+<path d="M60,95 L278,95" class="arrow blue" marker-end="url(#l05-streams-h-blue)"/>
+<text x="170" y="80" text-anchor="middle" dominant-baseline="middle" class="small">0  stdin  (keyboard)</text>
+<path d="M442,80 L660,80" class="arrow green" marker-end="url(#l05-streams-h-green)"/>
+<text x="550" y="64" text-anchor="middle" dominant-baseline="middle" class="small">1  stdout  (screen)</text>
+<path d="M442,125 L660,125" class="arrow red" marker-end="url(#l05-streams-h-red)"/>
+<text x="550" y="145" text-anchor="middle" dominant-baseline="middle" class="small">2  stderr  (screen)</text>
+<text x="550" y="185" text-anchor="middle" dominant-baseline="middle" class="small">&gt; file  captures 1   ·   2&gt; file  captures 2   ·   &amp;&gt; both</text>
+</svg>
+<figcaption>Every command has an input stream (0), a normal output stream (1) and an error stream (2).</figcaption>
+</figure>

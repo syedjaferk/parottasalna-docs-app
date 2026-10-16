@@ -1,0 +1,61 @@
+chapter: sessions/11-capstone
+quizzes:
+- title: Session 11 · Quiz
+  description: Brain/body architecture, SQLite, safe SQL, scheduling, privacy and acceptance testing.
+  questions:
+  - text: Why split the bot into a brain (`support.py`) and a body (`bot.py`)?
+    choices: |
+      *The brain can be tested and reused without Telegram
+      Python requires two files
+      It makes replies faster
+      Telegram forbids long files
+    explanation: Separation by responsibility keeps projects maintainable.
+  - text: What is SQLite?
+    choices: |
+      A cloud service you must pay for
+      A web browser
+      A type of AI model
+      *A database stored in one file, built into Python
+    explanation: No server to install.
+  - text: Why use `?` placeholders in SQL?
+    choices: |
+      They make queries shorter
+      *They fill in values safely and prevent SQL injection
+      SQLite requires comments
+      They sort the rows
+    explanation: Never build SQL with f-strings.
+  - text: Why does `recent()` return only `allow` rows as history?
+    choices: |
+      It saves disk space
+      Blocked messages are deleted
+      *Blocked text must not be fed back to the LLM and poison its memory
+      Telegram hides them
+    explanation: They are still stored for review.
+  - text: A scheduled script works by hand but not on schedule. Most likely cause?
+    choices: |
+      Cron can't read text files
+      The script is too long
+      *It used plain `python` instead of the full path to the venv's Python
+      The clock is wrong
+    explanation: Scheduled jobs don't have your activated environment.
+  - text: What should the daily-summary prompt send to the LLM?
+    choices: |
+      Customers' phone numbers
+      *Counts and short snippets, not full conversations
+      Every message ever
+      The API key
+    explanation: Send the least data that does the job.
+  - text: What is an acceptance checklist?
+    choices: |
+      A cost table
+      A privacy policy
+      *A list of test messages and what should happen for each, run before launch
+      A list of customers
+    explanation: It's how professionals check a bot before users do.
+  - text: Why add `/forgetme` (delete my data)?
+    choices: |
+      It increases the budget
+      It makes the bot faster
+      It removes the guard
+      *It respects privacy and many laws expect it
+    explanation: People should be able to see and delete their data.

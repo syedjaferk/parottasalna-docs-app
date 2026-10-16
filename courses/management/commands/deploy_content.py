@@ -51,5 +51,11 @@ class Command(BaseCommand):
                 except CommandError as exc:
                     failures += 1
                     self.stderr.write(self.style.ERROR(f"{course.slug}: practice not loaded: {exc}"))
+            if not options["no_practice"] and (course.src_dir / "assessments").is_dir():
+                try:
+                    call_command("load_assessments", course.slug, stdout=self.stdout, stderr=self.stderr)
+                except CommandError as exc:
+                    failures += 1
+                    self.stderr.write(self.style.ERROR(f"{course.slug}: assessments not loaded: {exc}"))
         if failures:
             raise CommandError(f"{failures} step(s) failed.")

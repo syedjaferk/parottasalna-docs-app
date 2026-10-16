@@ -1,0 +1,24 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 190" role="img" aria-labelledby="s12-key-lifecycle-t s12-key-lifecycle-d" xmlns="http://www.w3.org/2000/svg">
+<title id="s12-key-lifecycle-t">Key lifecycle</title>
+<desc id="s12-key-lifecycle-d">Create a key, keep it in .env, never commit it. If it leaks, delete it and make a new one.</desc>
+<defs><marker id="s12-key-lifecycle-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="s12-key-lifecycle-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="s12-key-lifecycle-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="s12-key-lifecycle-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="15" y="50" width="150" height="70" rx="10" class="blue"/>
+<text x="90.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">Create key</text>
+<text x="90.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">provider site</text>
+<path d="M165,85 L191,85" class="arrow blue" marker-end="url(#s12-key-lifecycle-h-blue)"/>
+<rect x="193" y="50" width="150" height="70" rx="10" class="green"/>
+<text x="268.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">Store in .env</text>
+<text x="268.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">+ .gitignore</text>
+<path d="M343,85 L369,85" class="arrow blue" marker-end="url(#s12-key-lifecycle-h-blue)"/>
+<rect x="371" y="50" width="150" height="70" rx="10" class="green"/>
+<text x="446.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">Use in code</text>
+<text x="446.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">os.getenv()</text>
+<path d="M521,85 L547,85" class="arrow blue" marker-end="url(#s12-key-lifecycle-h-blue)"/>
+<rect x="549" y="50" width="150" height="70" rx="10" class="red"/>
+<text x="624.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">Leaked?</text>
+<text x="624.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">delete + new key</text>
+<text x="360" y="160" text-anchor="middle" dominant-baseline="middle" class="small">rotate regularly · one key per project</text>
+</svg>
+<figcaption>Create a key, keep it in .env, never commit it. If it leaks, delete it and make a new one.</figcaption>
+</figure>

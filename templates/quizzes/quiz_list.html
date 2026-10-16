@@ -26,11 +26,27 @@
   {% if user.is_staff %}<a class="btn ghost sm" href="{% url 'quiz_scoreboard' course.slug %}">📊 Student scores</a>{% endif %}
 </div>
 
-{% if not rows and not deck_rows %}
+{% if not rows and not deck_rows and not timed %}
 <div class="card empty">
   <h2>Nothing to practise yet</h2>
   <p class="muted">Quizzes and flashcards will appear here after each session.</p>
   <a class="btn" href="{% url 'course_docs' course.slug %}">Back to the notes</a>
+</div>
+{% endif %}
+
+{% if timed %}
+<h2 class="section-label">⏱ Timed assessments</h2>
+<div class="quiz-list">
+  {% for a in timed %}
+  <article class="quiz-row">
+    <span class="num" aria-hidden="true">⏱</span>
+    <div class="info">
+      <h2>{{ a.title }}</h2>
+      <div class="meta"><span>{{ a.time_limit_minutes }} minutes</span><span>·</span><span>{{ a.question_count }} question{{ a.question_count|pluralize }}</span><span>·</span><span>Pass {{ a.pass_percentage }}%</span></div>
+    </div>
+    <a class="btn sm" href="{% url 'assessment_detail' a.slug %}">Open</a>
+  </article>
+  {% endfor %}
 </div>
 {% endif %}
 

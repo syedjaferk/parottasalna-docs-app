@@ -771,7 +771,7 @@ html_show_copyright = False
 html_copy_source = False
 copybutton_prompt_text = r">>> |\\.\\.\\. |\\$ "
 copybutton_prompt_is_regexp = True
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*", "code/**/*.md"]  # code/ holds downloads, not pages
 """
     if settings.SPHINX_THEME == "shibuya":
         nav_links = [{"title": "All courses", "url": "/"}]

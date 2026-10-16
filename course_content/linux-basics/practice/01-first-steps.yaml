@@ -1,0 +1,61 @@
+chapter: sessions/01-first-steps
+quizzes:
+- title: Session 1 · Quiz
+  description: Terminal vs shell, command anatomy, help, shortcuts and redirection basics.
+  questions:
+  - text: What is the **shell**?
+    choices: |
+      *The program that reads and runs the commands you type
+      The window you type in
+      The Linux kernel
+      A text editor
+    explanation: The terminal is the window; the shell (bash) understands the commands.
+  - text: In `ls -l /home`, what is `-l`?
+    choices: |
+      The command
+      *An option that changes how `ls` works
+      An argument naming a folder
+      A file name
+    explanation: Command = ls, option = -l, argument = /home.
+  - text: Which is correct?
+    choices: |
+      *`date` (lowercase)
+      `date()`
+      `DATE`
+      `Date`
+    explanation: Linux commands are case-sensitive.
+  - text: How do you leave the `man` page reader?
+    choices: |
+      Type `exit`
+      Press `Ctrl + S`
+      *Press `q`
+      Press `Esc` then `x`
+    explanation: '`q` quits man, less and top.'
+  - text: What does **Ctrl + C** do in the terminal?
+    choices: |
+      Copies the selected text
+      Closes the terminal
+      *Stops the running command
+      Clears the screen
+    explanation: 'It sends an interrupt: your escape hatch.'
+  - text: What does `echo "hi" > hello.txt` do?
+    choices: |
+      Deletes hello.txt
+      Prints hi on screen only
+      Appends hi to hello.txt
+      *Writes `hi` into hello.txt (replacing its content)
+    explanation: '`>` redirects output into a file and overwrites.'
+  - text: Which key finishes a partly typed file name?
+    choices: |
+      Space
+      *Tab
+      Enter
+      Shift
+    explanation: Tab completion saves typing and prevents typos.
+  - text: What does the `~` in the prompt `asha@laptop:~$` mean?
+    choices: |
+      You are root
+      The command failed
+      You are in `/`
+      *You are in your home folder
+    explanation: '`~` is shorthand for your home directory.'
