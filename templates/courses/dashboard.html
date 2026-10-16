@@ -90,6 +90,9 @@
     .channel .btn.yt { width: 100%; text-align: center; }
     .tips { margin-top: 1.5rem; }
   }
+  /* Use the wide screen: roomier page, and the course cards in three columns. */
+  main, .topbar-inner { max-width: 1400px; }
+  @media (min-width: 1000px) { .course-section .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .hero-stats { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.1rem; }
   .hero-stats .stat { margin-top: 0; }
   .hero .stat-link { color: inherit; text-decoration: none; }
