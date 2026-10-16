@@ -1,0 +1,51 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 345" role="img" aria-labelledby="g07-fetchpull-t g07-fetchpull-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g07-fetchpull-t">Fetch versus pull</title>
+<desc id="g07-fetchpull-d">git fetch downloads new commits but leaves your branch alone; git pull also moves your branch forward.</desc>
+<defs><marker id="g07-fetchpull-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g07-fetchpull-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g07-fetchpull-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g07-fetchpull-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="10" y="14" text-anchor="start" dominant-baseline="middle" class="title">AFTER  git fetch   (downloaded, your main has not moved)</text>
+<circle cx="60" cy="95" r="16" class="blue"/>
+<text x="60" y="95" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="95" r="16" class="blue"/>
+<text x="150" y="95" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,95.0 L79.0,95.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<circle cx="240" cy="95" r="16" class="blue"/>
+<text x="240" y="95" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,95.0 L169.0,95.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<circle cx="330" cy="95" r="16" class="ghost"/>
+<text x="330" y="95" text-anchor="middle" dominant-baseline="middle" class="small">C4</text>
+<path d="M313.0,95.0 L259.0,95.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<circle cx="420" cy="95" r="16" class="ghost"/>
+<text x="420" y="95" text-anchor="middle" dominant-baseline="middle" class="small">C5</text>
+<path d="M403.0,95.0 L349.0,95.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<rect x="216.2" y="129" width="47.6" height="24" rx="6" class="blue"/>
+<text x="240.0" y="141.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M240,129 L240,114" class="arrow blue" marker-end="url(#g07-fetchpull-h-blue)"/>
+<rect x="366.8" y="37" width="106.4" height="24" rx="6" class="green"/>
+<text x="420.0" y="49.0" text-anchor="middle" dominant-baseline="middle" class="code">origin/main</text>
+<path d="M420,61 L420,76" class="arrow green" marker-end="url(#g07-fetchpull-h-green)"/>
+<text x="500" y="95" text-anchor="start" dominant-baseline="middle" class="small">C4, C5 are on GitHub only</text>
+<text x="10" y="185" text-anchor="start" dominant-baseline="middle" class="title">AFTER  git pull   (fetch + merge: main caught up)</text>
+<circle cx="60" cy="275" r="16" class="blue"/>
+<text x="60" y="275" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="275" r="16" class="blue"/>
+<text x="150" y="275" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,275.0 L79.0,275.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<circle cx="240" cy="275" r="16" class="blue"/>
+<text x="240" y="275" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,275.0 L169.0,275.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<circle cx="330" cy="275" r="16" class="blue"/>
+<text x="330" y="275" text-anchor="middle" dominant-baseline="middle" class="small">C4</text>
+<path d="M313.0,275.0 L259.0,275.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<circle cx="420" cy="275" r="16" class="blue"/>
+<text x="420" y="275" text-anchor="middle" dominant-baseline="middle" class="small">C5</text>
+<path d="M403.0,275.0 L349.0,275.0" class="arrow" marker-end="url(#g07-fetchpull-h)"/>
+<rect x="396.2" y="217" width="47.6" height="24" rx="6" class="blue"/>
+<text x="420.0" y="229.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M420,241 L420,256" class="arrow blue" marker-end="url(#g07-fetchpull-h-blue)"/>
+<rect x="366.8" y="309" width="106.4" height="24" rx="6" class="green"/>
+<text x="420.0" y="321.0" text-anchor="middle" dominant-baseline="middle" class="code">origin/main</text>
+<path d="M420,309 L420,294" class="arrow green" marker-end="url(#g07-fetchpull-h-green)"/>
+</svg>
+<figcaption>git fetch downloads new commits but leaves your branch alone; git pull also moves your branch forward.</figcaption>
+</figure>

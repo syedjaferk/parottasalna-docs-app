@@ -1,0 +1,39 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="g04-reset-t g04-reset-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g04-reset-t">soft, mixed and hard reset</title>
+<desc id="g04-reset-d">All three move the branch back; mixed also empties the staging area; hard also overwrites your files.</desc>
+<defs><marker id="g04-reset-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g04-reset-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g04-reset-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g04-reset-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="165" y="12" width="160" height="32" rx="10" class="box"/>
+<text x="245.0" y="28.0" text-anchor="middle" dominant-baseline="middle" class="small">Branch moves back</text>
+<rect x="340" y="12" width="160" height="32" rx="10" class="box"/>
+<text x="420.0" y="28.0" text-anchor="middle" dominant-baseline="middle" class="small">Staging area reset</text>
+<rect x="515" y="12" width="160" height="32" rx="10" class="box"/>
+<text x="595.0" y="28.0" text-anchor="middle" dominant-baseline="middle" class="small">Your files changed</text>
+<rect x="15" y="58" width="140" height="42" rx="10" class="green"/>
+<text x="85.0" y="79.0" text-anchor="middle" dominant-baseline="middle" class="code">--soft</text>
+<rect x="165" y="58" width="160" height="42" rx="10" class="green"/>
+<text x="245.0" y="79.0" text-anchor="middle" dominant-baseline="middle" class="bold">yes</text>
+<rect x="340" y="58" width="160" height="42" rx="10" class="ghost"/>
+<text x="420.0" y="79.0" text-anchor="middle" dominant-baseline="middle">no</text>
+<rect x="515" y="58" width="160" height="42" rx="10" class="ghost"/>
+<text x="595.0" y="79.0" text-anchor="middle" dominant-baseline="middle">no</text>
+<rect x="15" y="110" width="140" height="42" rx="10" class="amber"/>
+<text x="85.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="code">--mixed (default)</text>
+<rect x="165" y="110" width="160" height="42" rx="10" class="amber"/>
+<text x="245.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="bold">yes</text>
+<rect x="340" y="110" width="160" height="42" rx="10" class="amber"/>
+<text x="420.0" y="131.0" text-anchor="middle" dominant-baseline="middle" class="bold">yes</text>
+<rect x="515" y="110" width="160" height="42" rx="10" class="ghost"/>
+<text x="595.0" y="131.0" text-anchor="middle" dominant-baseline="middle">no</text>
+<rect x="15" y="162" width="140" height="42" rx="10" class="red"/>
+<text x="85.0" y="183.0" text-anchor="middle" dominant-baseline="middle" class="code">--hard</text>
+<rect x="165" y="162" width="160" height="42" rx="10" class="red"/>
+<text x="245.0" y="183.0" text-anchor="middle" dominant-baseline="middle" class="bold">yes</text>
+<rect x="340" y="162" width="160" height="42" rx="10" class="red"/>
+<text x="420.0" y="183.0" text-anchor="middle" dominant-baseline="middle" class="bold">yes</text>
+<rect x="515" y="162" width="160" height="42" rx="10" class="red"/>
+<text x="595.0" y="183.0" text-anchor="middle" dominant-baseline="middle" class="bold">YES - careful</text>
+<text x="360" y="228" text-anchor="middle" dominant-baseline="middle" class="small">--hard is the only one that can throw away work you have not committed</text>
+</svg>
+<figcaption>All three move the branch back; mixed also empties the staging area; hard also overwrites your files.</figcaption>
+</figure>

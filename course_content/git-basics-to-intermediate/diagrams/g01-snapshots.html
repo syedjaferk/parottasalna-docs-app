@@ -1,0 +1,25 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 230" role="img" aria-labelledby="g01-snapshots-t g01-snapshots-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g01-snapshots-t">A commit is a snapshot</title>
+<desc id="g01-snapshots-d">Each commit stores a snapshot of the project plus who made it, when and why, and points to the commit before it.</desc>
+<defs><marker id="g01-snapshots-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g01-snapshots-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g01-snapshots-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g01-snapshots-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="210" height="90" rx="10" class="blue"/>
+<text x="125.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">commit a1b2c3d</text>
+<text x="125.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">&quot;Add homepage&quot;</text>
+<text x="125.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">snapshot · author · date</text>
+<rect x="265" y="40" width="210" height="90" rx="10" class="green"/>
+<text x="370.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">commit e4f5a6b</text>
+<text x="370.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">&quot;Add contact page&quot;</text>
+<text x="370.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">snapshot · author · date</text>
+<path d="M265,85 L232,85" class="arrow blue" marker-end="url(#g01-snapshots-h-blue)"/>
+<text x="249" y="68" text-anchor="middle" dominant-baseline="middle" class="small">parent</text>
+<rect x="510" y="40" width="210" height="90" rx="10" class="amber"/>
+<text x="615.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">commit c7d8e9f</text>
+<text x="615.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">&quot;Fix typo in title&quot;</text>
+<text x="615.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">snapshot · author · date</text>
+<path d="M510,85 L477,85" class="arrow blue" marker-end="url(#g01-snapshots-h-blue)"/>
+<text x="494" y="68" text-anchor="middle" dominant-baseline="middle" class="small">parent</text>
+<text x="360" y="175" text-anchor="middle" dominant-baseline="middle" class="small">each commit points to the one before it: that chain is your history</text>
+</svg>
+<figcaption>Each commit stores a snapshot of the project plus who made it, when and why, and points to the commit before it.</figcaption>
+</figure>

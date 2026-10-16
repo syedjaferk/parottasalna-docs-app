@@ -1,0 +1,42 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="g06-ff-t g06-ff-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g06-ff-t">Fast-forward merge</title>
+<desc id="g06-ff-d">When main has not moved, merging feature just slides the main label forward; no new commit is needed.</desc>
+<defs><marker id="g06-ff-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g06-ff-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g06-ff-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g06-ff-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="10" y="14" text-anchor="start" dominant-baseline="middle" class="title">BEFORE</text>
+<circle cx="60" cy="100" r="16" class="blue"/>
+<text x="60" y="100" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="100" r="16" class="blue"/>
+<text x="150" y="100" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,100.0 L79.0,100.0" class="arrow" marker-end="url(#g06-ff-h)"/>
+<circle cx="240" cy="100" r="16" class="blue"/>
+<text x="240" y="100" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,100.0 L169.0,100.0" class="arrow" marker-end="url(#g06-ff-h)"/>
+<circle cx="330" cy="100" r="16" class="blue"/>
+<text x="330" y="100" text-anchor="middle" dominant-baseline="middle" class="small">C4</text>
+<path d="M313.0,100.0 L259.0,100.0" class="arrow" marker-end="url(#g06-ff-h)"/>
+<rect x="126.2" y="42" width="47.6" height="24" rx="6" class="blue"/>
+<text x="150.0" y="54.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M150,66 L150,81" class="arrow blue" marker-end="url(#g06-ff-h-blue)"/>
+<rect x="293.6" y="42" width="72.80000000000001" height="24" rx="6" class="green"/>
+<text x="330.0" y="54.0" text-anchor="middle" dominant-baseline="middle" class="code">feature</text>
+<path d="M330,66 L330,81" class="arrow green" marker-end="url(#g06-ff-h-green)"/>
+<text x="10" y="154" text-anchor="start" dominant-baseline="middle" class="title">AFTER   git switch main  →  git merge feature</text>
+<circle cx="60" cy="225" r="16" class="blue"/>
+<text x="60" y="225" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="225" r="16" class="blue"/>
+<text x="150" y="225" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,225.0 L79.0,225.0" class="arrow" marker-end="url(#g06-ff-h)"/>
+<circle cx="240" cy="225" r="16" class="blue"/>
+<text x="240" y="225" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,225.0 L169.0,225.0" class="arrow" marker-end="url(#g06-ff-h)"/>
+<circle cx="330" cy="225" r="16" class="blue"/>
+<text x="330" y="225" text-anchor="middle" dominant-baseline="middle" class="small">C4</text>
+<path d="M313.0,225.0 L259.0,225.0" class="arrow" marker-end="url(#g06-ff-h)"/>
+<rect x="306.2" y="167" width="47.6" height="24" rx="6" class="blue"/>
+<text x="330.0" y="179.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M330,191 L330,206" class="arrow blue" marker-end="url(#g06-ff-h-blue)"/>
+<text x="420" y="225" text-anchor="start" dominant-baseline="middle" class="small">the label slid forward. No merge commit.</text>
+</svg>
+<figcaption>When main has not moved, merging feature just slides the main label forward; no new commit is needed.</figcaption>
+</figure>

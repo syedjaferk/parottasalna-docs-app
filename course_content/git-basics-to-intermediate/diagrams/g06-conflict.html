@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="g06-conflict-t g06-conflict-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g06-conflict-t">How a merge conflict happens</title>
+<desc id="g06-conflict-d">Both branches changed the same line differently, so Git cannot choose and asks you to decide.</desc>
+<defs><marker id="g06-conflict-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g06-conflict-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g06-conflict-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g06-conflict-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="240" y="10" width="240" height="44" rx="10" class="box"/>
+<text x="360.0" y="22.0" text-anchor="middle" dominant-baseline="middle" class="small">original line 3</text>
+<text x="360.0" y="42.0" text-anchor="middle" dominant-baseline="middle" class="code">color = blue</text>
+<rect x="40" y="100" width="250" height="44" rx="10" class="blue"/>
+<text x="165.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="small">main changed it</text>
+<text x="165.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="code">color = red</text>
+<rect x="430" y="100" width="250" height="44" rx="10" class="green"/>
+<text x="555.0" y="112.0" text-anchor="middle" dominant-baseline="middle" class="small">feature changed it</text>
+<text x="555.0" y="132.0" text-anchor="middle" dominant-baseline="middle" class="code">color = green</text>
+<path d="M300,54 L190,98" class="arrow blue" marker-end="url(#g06-conflict-h-blue)"/>
+<path d="M420,54 L530,98" class="arrow green" marker-end="url(#g06-conflict-h-green)"/>
+<rect x="220" y="190" width="280" height="46" rx="10" class="red"/>
+<text x="360.0" y="213.0" text-anchor="middle" dominant-baseline="middle" class="bold">CONFLICT: Git stops and asks you</text>
+<path d="M190,144 L290,188" class="arrow red" marker-end="url(#g06-conflict-h-red)"/>
+<path d="M530,144 L430,188" class="arrow red" marker-end="url(#g06-conflict-h-red)"/>
+</svg>
+<figcaption>Both branches changed the same line differently, so Git cannot choose and asks you to decide.</figcaption>
+</figure>

@@ -1,0 +1,53 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 410" role="img" aria-labelledby="g06-3way-t g06-3way-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g06-3way-t">Three-way merge</title>
+<desc id="g06-3way-d">When both branches have new commits, Git creates a merge commit with two parents that joins them.</desc>
+<defs><marker id="g06-3way-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g06-3way-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g06-3way-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g06-3way-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="10" y="14" text-anchor="start" dominant-baseline="middle" class="title">BEFORE</text>
+<circle cx="60" cy="120" r="16" class="blue"/>
+<text x="60" y="120" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="120" r="16" class="blue"/>
+<text x="150" y="120" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,120.0 L79.0,120.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<circle cx="240" cy="120" r="16" class="blue"/>
+<text x="240" y="120" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,120.0 L169.0,120.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<circle cx="240" cy="62" r="16" class="green"/>
+<text x="240" y="62" text-anchor="middle" dominant-baseline="middle" class="small">F1</text>
+<circle cx="330" cy="62" r="16" class="green"/>
+<text x="330" y="62" text-anchor="middle" dominant-baseline="middle" class="small">F2</text>
+<path d="M225.71029240340823,71.20892267335913 L165.97084966677903,109.70767465918685" class="arrow" marker-end="url(#g06-3way-h)"/>
+<path d="M313.0,62.0 L259.0,62.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<rect x="216.2" y="154" width="47.6" height="24" rx="6" class="blue"/>
+<text x="240.0" y="166.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M240,154 L240,139" class="arrow blue" marker-end="url(#g06-3way-h-blue)"/>
+<rect x="293.6" y="4" width="72.80000000000001" height="24" rx="6" class="green"/>
+<text x="330.0" y="16.0" text-anchor="middle" dominant-baseline="middle" class="code">feature</text>
+<path d="M330,28 L330,43" class="arrow green" marker-end="url(#g06-3way-h-green)"/>
+<text x="10" y="214" text-anchor="start" dominant-baseline="middle" class="title">AFTER   git switch main  →  git merge feature</text>
+<circle cx="60" cy="335" r="16" class="blue"/>
+<text x="60" y="335" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="335" r="16" class="blue"/>
+<text x="150" y="335" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,335.0 L79.0,335.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<circle cx="240" cy="335" r="16" class="blue"/>
+<text x="240" y="335" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,335.0 L169.0,335.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<circle cx="240" cy="277" r="16" class="green"/>
+<text x="240" y="277" text-anchor="middle" dominant-baseline="middle" class="small">F1</text>
+<circle cx="330" cy="277" r="16" class="green"/>
+<text x="330" y="277" text-anchor="middle" dominant-baseline="middle" class="small">F2</text>
+<path d="M225.71029240340823,286.20892267335915 L165.97084966677903,324.70767465918686" class="arrow" marker-end="url(#g06-3way-h)"/>
+<path d="M313.0,277.0 L259.0,277.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<circle cx="420" cy="335" r="16" class="amber"/>
+<text x="420" y="335" text-anchor="middle" dominant-baseline="middle" class="small">M</text>
+<path d="M403.0,335.0 L259.0,335.0" class="arrow" marker-end="url(#g06-3way-h)"/>
+<path d="M405.71029240340823,325.79107732664085 L345.97084966677903,287.29232534081314" class="arrow" marker-end="url(#g06-3way-h)"/>
+<rect x="396.2" y="369" width="47.6" height="24" rx="6" class="blue"/>
+<text x="420.0" y="381.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M420,369 L420,354" class="arrow blue" marker-end="url(#g06-3way-h-blue)"/>
+<text x="480" y="277" text-anchor="start" dominant-baseline="middle" class="small">M = merge commit,</text>
+<text x="480" y="297" text-anchor="start" dominant-baseline="middle" class="small">it has two parents</text>
+</svg>
+<figcaption>When both branches have new commits, Git creates a merge commit with two parents that joins them.</figcaption>
+</figure>

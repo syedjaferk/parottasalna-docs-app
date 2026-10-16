@@ -1,0 +1,45 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="g04-revert-t g04-revert-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g04-revert-t">Reset versus revert</title>
+<desc id="g04-revert-d">Reset moves the branch back and the later commit disappears from history; revert keeps history and adds a new commit that undoes the change.</desc>
+<defs><marker id="g04-revert-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g04-revert-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g04-revert-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g04-revert-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="10" y="14" text-anchor="start" dominant-baseline="middle" class="title">git reset --hard HEAD~1  (rewinds, rewrites history)</text>
+<circle cx="60" cy="90" r="16" class="blue"/>
+<text x="60" y="90" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="90" r="16" class="blue"/>
+<text x="150" y="90" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,90.0 L79.0,90.0" class="arrow" marker-end="url(#g04-revert-h)"/>
+<circle cx="240" cy="90" r="16" class="blue"/>
+<text x="240" y="90" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,90.0 L169.0,90.0" class="arrow" marker-end="url(#g04-revert-h)"/>
+<circle cx="330" cy="90" r="16" class="ghost"/>
+<text x="330" y="90" text-anchor="middle" dominant-baseline="middle" class="small">C4</text>
+<path d="M313.0,90.0 L259.0,90.0" class="arrow dashed" marker-end="url(#g04-revert-h)"/>
+<rect x="216.2" y="32" width="47.6" height="24" rx="6" class="green"/>
+<text x="240.0" y="44.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M240,56 L240,71" class="arrow green" marker-end="url(#g04-revert-h-green)"/>
+<text x="330" y="136" text-anchor="middle" dominant-baseline="middle" class="small">C4 is gone</text>
+<text x="480" y="90" text-anchor="start" dominant-baseline="middle" class="small">history rewritten: risky if shared</text>
+<text x="10" y="175" text-anchor="start" dominant-baseline="middle" class="title">git revert HEAD  (adds an undo commit, history stays)</text>
+<circle cx="60" cy="250" r="16" class="blue"/>
+<text x="60" y="250" text-anchor="middle" dominant-baseline="middle" class="small">C1</text>
+<circle cx="150" cy="250" r="16" class="blue"/>
+<text x="150" y="250" text-anchor="middle" dominant-baseline="middle" class="small">C2</text>
+<path d="M133.0,250.0 L79.0,250.0" class="arrow" marker-end="url(#g04-revert-h)"/>
+<circle cx="240" cy="250" r="16" class="blue"/>
+<text x="240" y="250" text-anchor="middle" dominant-baseline="middle" class="small">C3</text>
+<path d="M223.0,250.0 L169.0,250.0" class="arrow" marker-end="url(#g04-revert-h)"/>
+<circle cx="330" cy="250" r="16" class="blue"/>
+<text x="330" y="250" text-anchor="middle" dominant-baseline="middle" class="small">C4</text>
+<path d="M313.0,250.0 L259.0,250.0" class="arrow" marker-end="url(#g04-revert-h)"/>
+<circle cx="420" cy="250" r="16" class="red"/>
+<text x="420" y="250" text-anchor="middle" dominant-baseline="middle" class="small">R</text>
+<path d="M403.0,250.0 L349.0,250.0" class="arrow" marker-end="url(#g04-revert-h)"/>
+<rect x="396.2" y="192" width="47.6" height="24" rx="6" class="green"/>
+<text x="420.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">main</text>
+<path d="M420,216 L420,231" class="arrow green" marker-end="url(#g04-revert-h-green)"/>
+<text x="470" y="250" text-anchor="start" dominant-baseline="middle" class="small">R = &quot;undo C4&quot;</text>
+<text x="470" y="275" text-anchor="start" dominant-baseline="middle" class="small">safe on shared branches</text>
+</svg>
+<figcaption>Reset moves the branch back and the later commit disappears from history; revert keeps history and adds a new commit that undoes the change.</figcaption>
+</figure>

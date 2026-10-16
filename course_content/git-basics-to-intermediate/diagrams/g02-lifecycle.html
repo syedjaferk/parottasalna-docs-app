@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 250" role="img" aria-labelledby="g02-lifecycle-t g02-lifecycle-d" xmlns="http://www.w3.org/2000/svg">
+<title id="g02-lifecycle-t">Life of a file in Git</title>
+<desc id="g02-lifecycle-d">A new file is untracked, git add stages it, git commit saves it, editing makes it modified, and git add stages it again.</desc>
+<defs><marker id="g02-lifecycle-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="g02-lifecycle-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="g02-lifecycle-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="g02-lifecycle-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="140" height="50" rx="10" class="red"/>
+<text x="90.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Untracked</text>
+<text x="90.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">new, Git ignores it</text>
+<rect x="290" y="40" width="140" height="50" rx="10" class="amber"/>
+<text x="360.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Staged</text>
+<text x="360.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">ready to save</text>
+<rect x="560" y="40" width="140" height="50" rx="10" class="green"/>
+<text x="630.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Committed</text>
+<text x="630.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">safe in history</text>
+<rect x="290" y="160" width="140" height="50" rx="10" class="blue"/>
+<text x="360.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="bold">Modified</text>
+<text x="360.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">changed again</text>
+<path d="M160,65 L288,65" class="arrow blue" marker-end="url(#g02-lifecycle-h-blue)"/>
+<text x="224" y="48" text-anchor="middle" dominant-baseline="middle" class="small">git add</text>
+<path d="M430,65 L558,65" class="arrow green" marker-end="url(#g02-lifecycle-h-green)"/>
+<text x="494" y="48" text-anchor="middle" dominant-baseline="middle" class="small">git commit</text>
+<path d="M630,90 L630,185 L432,185" class="arrow blue" marker-end="url(#g02-lifecycle-h-blue)"/>
+<text x="545" y="202" text-anchor="middle" dominant-baseline="middle" class="small">edit the file</text>
+<path d="M360,160 L360,92" class="arrow blue" marker-end="url(#g02-lifecycle-h-blue)"/>
+<text x="402" y="126" text-anchor="middle" dominant-baseline="middle" class="small">git add</text>
+</svg>
+<figcaption>A new file is untracked, git add stages it, git commit saves it, editing makes it modified, and git add stages it again.</figcaption>
+</figure>
