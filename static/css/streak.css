@@ -38,9 +38,11 @@
 .streak-badges li.earned { color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; }
 
 @media (prefers-color-scheme: dark) {
-  .streak-flame { background: linear-gradient(135deg, #431407, #7c2d12); box-shadow: inset 0 0 0 1px #9a3412; }
-  .streak-badges li.earned { color: #fdba74; background: rgba(249, 115, 22, .12); border-color: rgba(249, 115, 22, .4); }
+  :root:not([data-theme="light"]) .streak-flame { background: linear-gradient(135deg, #431407, #7c2d12); box-shadow: inset 0 0 0 1px #9a3412; }
+  :root:not([data-theme="light"]) .streak-badges li.earned { color: #fdba74; background: rgba(249, 115, 22, .12); border-color: rgba(249, 115, 22, .4); }
 }
+:root[data-theme="dark"] .streak-flame { background: linear-gradient(135deg, #431407, #7c2d12); box-shadow: inset 0 0 0 1px #9a3412; }
+:root[data-theme="dark"] .streak-badges li.earned { color: #fdba74; background: rgba(249, 115, 22, .12); border-color: rgba(249, 115, 22, .4); }
 @media (max-width: 640px) {
   .streak-card { grid-template-columns: 1fr; }
   .streak-stats { justify-content: space-around; }

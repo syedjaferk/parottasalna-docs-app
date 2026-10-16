@@ -19,6 +19,7 @@ class Command(BaseCommand):
         parser.add_argument("--no-practice", action="store_true", help="Skip load_practice.")
 
     def handle(self, *args, **options):
+        call_command("sync_courses", stdout=self.stdout, stderr=self.stderr)   # new folders become courses
         courses = list(Course.objects.filter(is_active=True).order_by("slug"))
         if not options["all"]:
             targets = set(options["targets"])

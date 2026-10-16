@@ -515,8 +515,9 @@ class DeployContentTests(TestCase):
         from django.core.management import call_command
 
         out = StringIO()
-        with mock.patch("courses.management.commands.deploy_content.build_course", return_value=True) as build:
-            call_command("deploy_content", *args, stdout=out, stderr=StringIO())
+        with tempfile.TemporaryDirectory() as empty, override_settings(COURSES_SRC_ROOT=Path(empty)):   # nothing to sync
+            with mock.patch("courses.management.commands.deploy_content.build_course", return_value=True) as build:
+                call_command("deploy_content", *args, stdout=out, stderr=StringIO())
         return [c.args[0] for c in build.call_args_list], out.getvalue()
 
     def test_targets_match_slug_or_folder_and_unknown_folders_warn(self):
@@ -602,3 +603,27 @@ class HelpLinksTests(TestCase):
             bottom = (Path(tmp) / "_templates" / "partials" / "page-bottom.html").read_text()
             self.assertIn("{{ discussions_url|e }}", bottom)
             self.assertIn("{{ book_call_url|e }}", bottom)
+
+
+class SyncCoursesTests(TestCase):
+    def test_creates_only_missing_courses_and_keeps_admin_edits(self):
+        import tempfile
+        from io import StringIO
+        from pathlib import Path
+
+        from django.core.management import call_command
+        from django.test import override_settings
+
+        with tempfile.TemporaryDirectory() as root:
+            for name in ("new-course", "old-course", "no-meta"):
+                (Path(root) / name).mkdir()
+            (Path(root) / "new-course" / "course.yaml").write_text("title: New Course\ndescription: Hi\ncommon: true\n")
+            (Path(root) / "old-course" / "course.yaml").write_text("title: From File\n")
+            Course.objects.create(slug="old-course", title="Edited in admin")
+            with override_settings(COURSES_SRC_ROOT=Path(root)):
+                call_command("sync_courses", stdout=StringIO())
+                call_command("sync_courses", stdout=StringIO())      # second run changes nothing
+        new = Course.objects.get(slug="new-course")
+        self.assertEqual((new.title, new.is_common, new.source_dir), ("New Course", True, "new-course"))
+        self.assertEqual(Course.objects.get(slug="old-course").title, "Edited in admin")
+        self.assertFalse(Course.objects.filter(slug="no-meta").exists())

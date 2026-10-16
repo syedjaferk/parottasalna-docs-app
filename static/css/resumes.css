@@ -92,9 +92,11 @@
 .rv-foot p { margin: 0; }
 
 @media (prefers-color-scheme: dark) {
-  .rv-status-done { background: #10301c; color: #86efac; }
-  .rv-status-failed, .rv-banner.is-bad { background: #3a1212; color: #fca5a5; border-color: #7f1d1d; }
+  :root:not([data-theme="light"]) .rv-status-done { background: #10301c; color: #86efac; }
+  :root:not([data-theme="light"]) .rv-status-failed, :root:not([data-theme="light"]) .rv-banner.is-bad { background: #3a1212; color: #fca5a5; border-color: #7f1d1d; }
 }
+:root[data-theme="dark"] .rv-status-done { background: #10301c; color: #86efac; }
+:root[data-theme="dark"] .rv-status-failed, :root[data-theme="dark"] .rv-banner.is-bad { background: #3a1212; color: #fca5a5; border-color: #7f1d1d; }
 @media (max-width: 720px) {
   .rv-steps, .rv-scores, .rv-cols { grid-template-columns: 1fr; }
   .rv-table thead { display: none; }
