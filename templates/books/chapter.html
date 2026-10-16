@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ chapter.title }}{% if chapter.topic %} — {{ chapter.topic }}{% endif %} · {{ book.title }}{% endblock %}
+{% block meta_description %}{{ chapter.epigraph|default:chapter.summary }}{% endblock %}
+{% block robots %}index, follow, max-image-preview:large{% endblock %}
+{% block og_title %}{{ chapter.title }} · {{ book.title }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/book.css' %}"><script src="{% static 'js/book.js' %}" defer></script>{% endblock %}
+{% block content %}
+<div class="read-progress" id="read-progress" aria-hidden="true"></div>
+<div class="chapter-layout">
+  <aside class="chapter-toc" aria-label="In this story">
+    <a class="toc-back" href="{% url 'book_index' %}">← {{ book.title }}</a>
+    <ol>
+      {% for id, text in chapter.sections %}<li><a href="#{{ id }}">{{ text }}</a></li>{% endfor %}
+    </ol>
+  </aside>
+  <article class="chapter">
+    <header class="chapter-head">
+      <p class="book-kicker">Story {{ chapter.number }}{% if chapter.topic %} · {{ chapter.topic }}{% endif %}</p>
+      <h1>{{ chapter.title }}</h1>
+      {% if chapter.epigraph %}<p class="epigraph">“{{ chapter.epigraph }}”</p>{% endif %}
+      <p class="muted">{{ chapter.minutes }} min read · by {{ brand.AUTHOR }}</p>
+    </header>
+    <div class="prose story" id="story-body">{{ chapter.body_html|safe }}</div>
+    <nav class="chapter-pager" aria-label="Stories">
+      {% if prev %}<a class="btn ghost" href="{{ prev.get_absolute_url }}">← {{ prev.title }}</a>{% else %}<span></span>{% endif %}
+      {% if next %}<a class="btn" href="{{ next.get_absolute_url }}">{{ next.title }} →</a>
+      {% else %}<span class="muted">More stories soon…</span>{% endif %}
+    </nav>
+  </article>
+</div>
+{% endblock %}

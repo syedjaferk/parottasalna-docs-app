@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "panel",
     "smells",
     "assessments",
+    "books",
 ]
 
 MIDDLEWARE = [
@@ -215,6 +216,8 @@ SPHINX_BUILD_TIMEOUT = int(os.environ.get("SPHINX_BUILD_TIMEOUT", "300"))
 
 # --- Blog -----------------------------------------------------------------------
 # Obsidian vault with the posts (import with: python manage.py import_blog).
+# Self-hosting story book (books app): NN-slug.md chapters + images/ folder.
+BOOK_ROOT = Path(os.environ.get("BOOK_ROOT", BASE_DIR / "book_content"))
 BLOG_SRC_ROOT = Path(os.environ.get("BLOG_SRC_ROOT", BASE_DIR / "blog_content"))
 # Live WordPress blog: used once per import to repair code blocks and record each post's original URL.
 BLOG_WORDPRESS_URL = os.environ.get("BLOG_WORDPRESS_URL", "https://parottasalna.com")

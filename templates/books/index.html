@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ book.title }} · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}{{ book.tagline }}{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/book.css' %}">{% endblock %}
+{% block content %}
+<section class="book-cover">
+  <p class="book-kicker">சிறுகதைகள் தொகுப்பு · A short-story collection</p>
+  <h1>{{ book.title }}</h1>
+  {% if book.tamil_title %}<p class="book-tamil">{{ book.tamil_title }}</p>{% endif %}
+  <p class="book-tagline">{{ book.tagline }}</p>
+  {% if book.chapters %}<a class="btn" href="{{ book.chapters.0.get_absolute_url }}">Start reading →</a>{% endif %}
+</section>
+
+<h2 class="book-contents-h">Contents</h2>
+<ol class="book-contents">
+  {% for c in book.chapters %}
+  <li>
+    <a class="story-card" href="{{ c.get_absolute_url }}">
+      <span class="story-no">{{ c.number|stringformat:"02d" }}</span>
+      <span class="story-body">
+        {% if c.topic %}<span class="story-topic">{{ c.topic }}</span>{% endif %}
+        <strong class="story-title">{{ c.title }}</strong>
+        {% if c.epigraph %}<em class="story-epigraph">“{{ c.epigraph }}”</em>{% endif %}
+        <span class="story-meta">{{ c.minutes }} min read</span>
+      </span>
+    </a>
+  </li>
+  {% empty %}
+  <li class="muted">The first story is on its way.</li>
+  {% endfor %}
+</ol>
+<p class="muted book-more">New stories are added as they are written.</p>
+{% endblock %}
