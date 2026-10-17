@@ -1,5 +1,13 @@
 # Session 13 · Human in the Loop: Approve Before the Agent Acts
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/zdvVPnamM8o"
+  title="Episode 17: Human-in-the-Loop Integrations " allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+
 ## The big idea
 
 An agent that can *do* things ([Session 11](11-tools-and-mcp.md)) can also do the **wrong** things:

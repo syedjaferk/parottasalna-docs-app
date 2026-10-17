@@ -1,5 +1,21 @@
 # Session 5 · Lists, tuples, dictionaries and sets
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube.com/embed/sHWDumBI03M"
+  title="Session 1: Introduction to Python Variables, List" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+<br>
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube.com/embed/GDZsOr7H_fk"
+  title="Session 3: Dictionary, Set, Tuple" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 Choosing the right container makes code both **simpler** and **faster**:

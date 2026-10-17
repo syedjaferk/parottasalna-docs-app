@@ -1,5 +1,14 @@
 # Session 15 · Agent memory
 
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/lfSnz-7VinM"
+  title="Langchain Memory Systems" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+
 ## The big idea
 
 An LLM remembers **nothing** between calls. Every call starts from zero; "memory" is just the

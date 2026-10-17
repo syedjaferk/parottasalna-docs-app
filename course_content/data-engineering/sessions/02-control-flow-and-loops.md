@@ -1,5 +1,13 @@
 # Session 2 · Control flow and loops
 
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube.com/embed/rwBUyRNdg-I"
+  title="Session 2: Control Flows: IF/For/While/Match" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 A pipeline is a loop with decisions inside: **for every record**, decide whether to keep it, fix

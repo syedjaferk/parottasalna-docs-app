@@ -1,6 +1,6 @@
 # Chapter 8 · Image Optimization, Multi-Stage Builds & Container Lifecycle
 
-% Add the class video here once it is uploaded (same iframe block as the other chapters).
+
 
 ## The big idea
 
@@ -23,6 +23,13 @@ and the vulnerability database change daily. The **pattern** stays the same.
 :::
 
 ## Part 1 · Image optimization
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/rQ5iarQWrqs"
+  title="Episode 8: Image Optimization" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
 
 ### Why image size matters
 
@@ -230,6 +237,13 @@ user, and a stage you can test.
 8. **Scan with Trivy**, fail CI on CRITICAL, and **rebuild regularly** to pick up base-image fixes.
 
 ## Part 2 · Container lifecycle and graceful shutdown
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/180HK8wKuno"
+  title="Episode 8: Image Optimization" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
 
 ### What happens when a container stops
 

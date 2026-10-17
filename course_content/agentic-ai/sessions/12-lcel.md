@@ -1,5 +1,12 @@
 # Session 12 · LCEL: Chains, Parallel Steps and Passthrough
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/KxQ14btMwIE"
+  title="Episode 16: Sequential and Parallel Workflows (LCEL)?" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 So far we called the model one step at a time: build a prompt, call the model, pull the text out.

@@ -1,5 +1,12 @@
 # Session 4 · Exception handling and logging
 
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube.com/embed/GDZsOr7H_fk"
+  title="Session 3: Dictionary, Set, Tuple" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 Data is never perfect: a field is empty, a line is broken, an API times out. A good pipeline
