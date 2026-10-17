@@ -703,3 +703,21 @@ class DeployContentBootstrapTests(TestCase):
         Problem.objects.update(title="Edited in the admin")
         call_command("deploy_content", "nothing-here", "--no-build", "--no-practice")
         self.assertEqual(Problem.objects.first().title, "Edited in the admin")
+
+
+class DocsHeaderTests(TestCase):
+    """The docs pages carry the portal's own navigation, so readers never lose the site header."""
+
+    def test_docs_header_links_to_the_portal(self):
+        from .builder import _conf_py
+
+        conf = _conf_py(Course.objects.create(slug="hdr", title="Hdr", is_common=True))
+        for url in ("/courses/", "/prep/", "/system-design/", "/blog/", "/pricing/", "/paths/", "/resume-review/"):
+            self.assertIn(repr(url)[1:-1], conf, url)
+        self.assertIn("children", conf)
+
+    def test_enrolled_only_courses_also_show_practice_and_notes(self):
+        from .builder import _conf_py
+
+        conf = _conf_py(Course.objects.create(slug="priv", title="Priv", is_common=False))
+        self.assertIn("/courses/priv/quizzes/", conf)

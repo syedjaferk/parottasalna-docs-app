@@ -42,6 +42,18 @@ html.dark[data-accent-color] { --accent-9: #3b82f6; --accent-10: #60a5fa; --acce
 .announcement a { color: #fff; font-weight: 600; text-decoration: none; }
 .announcement a:hover { text-decoration: underline; }
 
+/* Header "More" menu (portal links that don't fit across the top) */
+.portal-more { position: relative; }
+.portal-more summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: .25rem; padding: 0 .5rem; font-weight: 500; }
+.portal-more summary::-webkit-details-marker { display: none; }
+.portal-more summary::after { content: "\\25BE"; font-size: .8em; }
+.portal-more-menu { list-style: none; margin: .25rem 0 0; padding: .4rem; min-width: 12.5rem; border-radius: 12px; z-index: 40;
+  background: var(--sy-c-background); border: 1px solid var(--sy-c-border); box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
+@media (min-width: 768px) { .portal-more-menu { position: absolute; top: 100%; right: 0; } }
+.portal-more-menu li { display: block; margin: 0; }
+.portal-more-menu a { display: block; padding: .45rem .7rem; border-radius: 8px; text-decoration: none; white-space: nowrap; }
+.portal-more-menu a:hover { background: var(--accent-a3, rgba(37, 99, 235, .1)); }
+
 /* Header brand */
 .sy-head-brand img { border-radius: 50%; }
 .sy-head-brand strong { font-weight: 800; letter-spacing: -0.01em; }
@@ -693,7 +705,16 @@ BASE_TEMPLATE = """{% extends "!base.html" %}
 # Shibuya runs relative nav URLs through pathto() (docs-relative); ours are site-relative ("/").
 NAV_LINKS_TEMPLATE = """<ul>
   {%- for link in theme_nav_links %}
+  {%- if link.children %}
+  <li class="link portal-more"><details><summary><span>{{ link.title|e }}</span></summary>
+    <ul class="portal-more-menu">
+      {%- for child in link.children %}
+      <li><a href="{{ child.url|e }}"{% if child.external %} target="_blank" rel="noopener"{% endif %}>{{ child.title|e }}{% if child.external %} \u2197{% endif %}</a></li>
+      {%- endfor %}
+    </ul></details></li>
+  {%- else %}
   <li class="link"><a href="{{ link.url|e }}"{% if link.external %} target="_blank" rel="noopener"{% endif %}><span>{{ link.title|e }}</span></a></li>
+  {%- endif %}
   {%- endfor %}
 </ul>
 """
@@ -774,11 +795,26 @@ copybutton_prompt_is_regexp = True
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/.git", "**/.*", "code/**/*.md"]  # code/ holds downloads, not pages
 """
     if settings.SPHINX_THEME == "shibuya":
-        nav_links = [{"title": "All courses", "url": "/"}]
+        # The portal's own header, so a reader never loses the site navigation inside a course.
+        nav_links = [
+            {"title": "Home", "url": "/"},
+            {"title": "Courses", "url": reverse("course_catalog")},
+            {"title": "Interview prep", "url": reverse("prep_home")},
+            {"title": "System design", "url": reverse("sysdesign_index")},
+            {"title": "Blog", "url": reverse("blog_index")},
+        ]
         if not course.is_common:  # common-course readers mostly aren't enrolled, so no quizzes
             nav_links.append({"title": "Practice", "url": reverse("quiz_list", args=[course.slug])})
             nav_links.append({"title": "My notes", "url": reverse("course_notes", args=[course.slug])})
-        nav_links.append({"title": "YouTube", "url": branding.YOUTUBE, "external": True})
+        nav_links.append({"title": "More", "url": "#", "children": [
+            {"title": "Learning paths", "url": reverse("paths")},
+            {"title": "Pro and live batches", "url": reverse("pricing")},
+            {"title": "Jobs", "url": reverse("job_list")},
+            {"title": "Resume review", "url": reverse("resume_upload")},
+            {"title": "Stories", "url": reverse("book_index")},
+            {"title": "Q&A forum", "url": branding.DISCUSSIONS_URL, "external": True},
+            {"title": "YouTube", "url": branding.YOUTUBE, "external": True},
+        ]})
         options = {
             "accent_color": "blue",
             "announcement": (
