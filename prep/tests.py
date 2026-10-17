@@ -4,11 +4,26 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from . import catalog as catalog_module
 from .catalog import problem_ids
-from .models import Attempt, PrepProfile, ProblemProgress
+from .models import Attempt, CatalogProblem, PatternGuide, PlacementQuestion, PrepProfile, ProblemProgress
+from .seed import DATA_DIR, seed_prep
 
 
-class PrepTests(TestCase):
+class SeededTestCase(TestCase):
+    """The prep content lives in the database, so load the JSON seed files before each test class."""
+
+    @classmethod
+    def setUpTestData(cls):
+        seed_prep()
+        super().setUpTestData()
+
+    def setUp(self):
+        catalog_module.invalidate()     # rolled-back rows from an earlier test must not linger in the cache
+        super().setUp()
+
+
+class PrepTests(SeededTestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user("s", "s@example.com", "x")
         self.pid = sorted(problem_ids())[0]
@@ -61,7 +76,7 @@ class PrepTests(TestCase):
         self.assertEqual(self.client.get(reverse("prep_progress")).json()["progress"], {})
 
 
-class SchedulingTests(TestCase):
+class SchedulingTests(SeededTestCase):
     def test_cold_solves_climb_the_stages(self):
         from datetime import date
         from .scheduling import apply_attempt
@@ -83,7 +98,7 @@ class SchedulingTests(TestCase):
         self.assertEqual(apply_attempt(3, "cold", 2, today), (1, date(2026, 10, 18)))   # barely solved = not solid
 
 
-class LogAttemptTests(TestCase):
+class LogAttemptTests(SeededTestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user("s", "s@example.com", "x")
         self.client.force_login(self.user)
@@ -119,7 +134,7 @@ class LogAttemptTests(TestCase):
         self.assertTrue(row is None or (not row.solved and row.next_review is None))
 
 
-class PlanTests(TestCase):
+class PlanTests(SeededTestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user("s", "s@example.com", "x")
         self.client.force_login(self.user)
@@ -161,7 +176,7 @@ class PlanTests(TestCase):
         self.assertNotIn(first, [n["id"] for n in self.plan()["next"]])
 
 
-class PlacementTests(TestCase):
+class PlacementTests(SeededTestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user("s", "s@example.com", "x")
         self.client.force_login(self.user)
@@ -189,3 +204,46 @@ class PlacementTests(TestCase):
         row = next(r for r in plan["patterns"] if r["name"] == "Hash Map")
         self.assertTrue(row["familiar"])
         self.assertNotEqual(plan["next"][0]["pattern"], "Hash Map")        # explore the unfamiliar ones first
+
+
+def _json(name):
+    return json.loads((DATA_DIR / f"{name}.json").read_text(encoding="utf-8"))
+
+
+class SeedTests(SeededTestCase):
+    def test_database_content_matches_the_seed_files(self):
+        self.assertEqual(json.loads(catalog_module.catalog_json()), _json("catalog"))
+        self.assertEqual(catalog_module.pattern_guides(), _json("pattern_guides"))
+        self.assertEqual(catalog_module.placement_questions(), _json("placement"))
+
+    def test_seeding_twice_changes_nothing(self):
+        counts = (CatalogProblem.objects.count(), PatternGuide.objects.count(), PlacementQuestion.objects.count())
+        report = seed_prep()
+        self.assertTrue(all(c == u == d == 0 for c, u, d in report.values()), report)
+        self.assertEqual(counts, (CatalogProblem.objects.count(), PatternGuide.objects.count(), PlacementQuestion.objects.count()))
+
+    def test_seed_repairs_edits_and_removes_stale_rows(self):
+        CatalogProblem.objects.filter(pid=self.pid()).update(title="edited")
+        CatalogProblem.objects.create(position=99999, pid="x:gone", title="gone", platform="x")
+        report = seed_prep()
+        self.assertEqual((report["problems"][1], report["problems"][2]), (1, 1))
+        self.assertNotEqual(CatalogProblem.objects.get(pid=self.pid()).title, "edited")
+
+    def pid(self):
+        return sorted(problem_ids())[0]
+
+    def test_admin_edit_shows_up_in_the_catalog(self):
+        row = CatalogProblem.objects.get(pid=self.pid())
+        catalog_module.catalog()                       # warm the cache
+        row.title = "Renamed in admin"
+        row.save()
+        cat = catalog_module.catalog()
+        self.assertEqual(cat["problems"][cat["by_id"][row.pid]]["t"], "Renamed in admin")
+
+    def test_data_endpoint_serves_the_database_content(self):
+        user = get_user_model().objects.create_user("d", "d@example.com", "x")
+        self.client.force_login(user)
+        res = self.client.get(reverse("prep_data", args=["catalog"]))
+        self.assertEqual(res["Content-Type"], "application/json; charset=utf-8")
+        self.assertEqual(json.loads(res.content), _json("catalog"))
+        self.assertEqual(self.client.get(reverse("prep_data", args=["pattern_guides"])).json(), _json("pattern_guides"))

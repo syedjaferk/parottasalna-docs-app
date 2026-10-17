@@ -1,0 +1,15 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 220" role="img" aria-labelledby="ir-t ir-d" xmlns="http://www.w3.org/2000/svg">
+<title id="ir-t">Counter ranges for unique short codes</title>
+<desc id="ir-d">Each app server takes a block of numbers from a coordinator, hands them out locally and converts each number to base62.</desc>
+<defs><marker id="ir-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
+<rect x="290" y="15" width="180" height="50" rx="10" class="amber"/><text x="380" y="40" text-anchor="middle" class="code">Coordinator</text>
+<text x="380" y="82" text-anchor="middle" class="small">next free block starts at 3,000,000</text>
+<rect x="30" y="130" width="190" height="60" rx="10" class="green"/><text x="125" y="152" text-anchor="middle" class="code">Server A</text><text x="125" y="174" text-anchor="middle" class="small">owns 1,000,000 - 1,999,999</text>
+<rect x="285" y="130" width="190" height="60" rx="10" class="green"/><text x="380" y="152" text-anchor="middle" class="code">Server B</text><text x="380" y="174" text-anchor="middle" class="small">owns 2,000,000 - 2,999,999</text>
+<rect x="540" y="130" width="190" height="60" rx="10" class="blue"/><text x="635" y="152" text-anchor="middle" class="code">number 125 -&gt; "21"</text><text x="635" y="174" text-anchor="middle" class="small">scramble, then base62</text>
+<path d="M300,65 L150,130" class="arrow" marker-end="url(#ir-h)"/><path d="M380,65 L380,130" class="arrow" marker-end="url(#ir-h)"/>
+<path d="M475,160 L540,160" class="arrow" marker-end="url(#ir-h)"/>
+</svg>
+<figcaption>Servers talk to the coordinator once per block, not once per link.</figcaption>
+</figure>

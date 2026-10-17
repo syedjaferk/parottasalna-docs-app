@@ -1,16 +1,15 @@
 import json
 from datetime import date, timedelta
-from pathlib import Path
 
 from django.contrib.auth.decorators import login_required
-from django.http import FileResponse, Http404, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.decorators.http import require_POST, require_safe
 
 from courses.security import api_login_required, no_store
 
-from .catalog import DATA_DIR, problem_ids
+from .catalog import catalog_json, pattern_guides_json, problem_ids
 from . import services
 from .models import ProblemProgress
 
@@ -95,14 +94,12 @@ def patterns(request):
 @require_safe
 @login_required
 def data_file(request, name):
-    """Serves catalog.json and pattern_guides.json to signed-in students only."""
+    """Serves catalog.json and pattern_guides.json (built from the database) to signed-in students only."""
     if name not in ("catalog", "pattern_guides"):
         raise Http404
-    path = Path(DATA_DIR / f"{name}.json")
-    if not path.is_file():
-        raise Http404
-    response = FileResponse(open(path, "rb"), content_type="application/json; charset=utf-8")
-    response["Cache-Control"] = "private, max-age=3600"
+    body = catalog_json() if name == "catalog" else pattern_guides_json()
+    response = HttpResponse(body, content_type="application/json; charset=utf-8")
+    response["Cache-Control"] = "private, max-age=300"
     return response
 
 

@@ -1,11 +1,10 @@
 """Database glue for the interview-prep app: progress JSON, attempt logging, the plan and the placement quiz."""
-import json
 from datetime import timedelta
 
 from django.db import transaction
 from django.utils import timezone
 
-from .catalog import DATA_DIR, catalog
+from .catalog import catalog, placement_questions
 from .models import Attempt, PrepProfile, ProblemProgress
 from .scheduling import apply_attempt, MASTERED
 from .suggest import build_plan
@@ -72,10 +71,6 @@ def plan_for_user(user, now=None):
 
 
 # ---- placement quiz -------------------------------------------------------------------------------
-def placement_questions():
-    return json.loads((DATA_DIR / "placement.json").read_text(encoding="utf-8"))
-
-
 def public_questions():
     """The quiz without the answers, for the browser."""
     return [{"id": q["id"], "q": q["q"], "options": q["options"]} for q in placement_questions()]

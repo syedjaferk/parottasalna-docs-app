@@ -1,0 +1,348 @@
+{
+  "slug": "tinyurl",
+  "title": "Design a URL Shortener (TinyURL)",
+  "tagline": "Turn long links into short ones and redirect billions of clicks, reliably.",
+  "difficulty": "Beginner",
+  "minutes": 45,
+  "course_slug": "system-design",
+  "statement": {
+    "prompt": "Design a service like TinyURL or bit.ly. A user pastes a long link and gets back a short one. Anyone who opens the short link is sent to the original page.",
+    "context": [
+      "You are in a 45-minute system design interview. The interviewer gave you only the sentence above, on purpose. Part of the job is finding out what they actually want.",
+      "The service is public: anyone on the internet can create and open links.",
+      "Think of a product that already exists. A link like `https://tiny.example/aZ3k9Qp` should open `https://www.example.com/blog/2024/a-very-long-article-title?utm_source=newsletter&ref=42`."
+    ],
+    "given": [
+      "About **100 million** new short links are created every month.",
+      "Reading is far more common than writing: roughly **100 redirects for every link created**.",
+      "Links are kept for **5 years** unless the owner sets an earlier expiry.",
+      "An average stored record (short code, long URL, dates, owner) is about **500 bytes**."
+    ],
+    "expectations": [
+      {"title": "Drive the conversation", "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."},
+      {"title": "Use numbers", "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of these numbers."},
+      {"title": "Start simple, then evolve", "body": "Get a working client, server and database on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."},
+      {"title": "Go deep on the hard parts", "body": "For this problem the hard parts are generating unique short codes, serving very fast reads and scaling the data store."},
+      {"title": "Name the trade-offs", "body": "Say what you chose, what you gave up, and what would make you change your mind."},
+      {"title": "Think about failure", "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."}
+    ],
+    "scope_in": [
+      "Creating a short link from a long URL",
+      "Redirecting a short link to the original URL",
+      "Choosing and storing short codes",
+      "Scaling reads and storage, keeping the service available"
+    ],
+    "scope_out": [
+      "Building the web front end",
+      "Detailed analytics dashboards (a click count is fine)",
+      "Billing, abuse review tooling and spam detection internals"
+    ],
+    "timeline": [
+      {"phase": "Clarify requirements", "minutes": 4},
+      {"phase": "Estimate scale", "minutes": 4},
+      {"phase": "API and data model", "minutes": 6},
+      {"phase": "High-level design", "minutes": 6},
+      {"phase": "Deep dive", "minutes": 15},
+      {"phase": "Reliability", "minutes": 5},
+      {"phase": "Trade-offs and wrap-up", "minutes": 5}
+    ],
+    "great": [
+      "Explains why a **302** redirect can be better than a **301**.",
+      "Compares at least three ways to make short codes and says why one wins.",
+      "Chooses a shard key from the access pattern, not from habit.",
+      "Handles a cache that goes down without taking the database down with it."
+    ]
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What should the system do?",
+      "type": "multi",
+      "prompt": "Before drawing anything, you ask the interviewer what the system must do. Which of these belong in the **core** scope for a 45-minute design? Select all that apply.",
+      "hint": "Ask: what is the smallest product that is still a URL shortener? Then ask what would be nice to have.",
+      "options": [
+        {"text": "Create a short URL from a long URL", "correct": true, "why": "This is the whole point of the product."},
+        {"text": "Redirect a short URL to the original long URL", "correct": true, "why": "The other half of the product, and the one used most."},
+        {"text": "Optional custom alias, such as tiny.example/my-sale", "correct": true, "why": "Common in real products. It changes how you store and check codes, so confirm it early."},
+        {"text": "Links can expire after a date set by the creator", "correct": true, "why": "Expiry affects storage cleanup and the redirect status code, so it belongs in scope."},
+        {"text": "Full user accounts with teams, billing and roles", "correct": false, "why": "A product on its own. Park it unless the interviewer asks."},
+        {"text": "A real-time analytics dashboard with charts by country and device", "correct": false, "why": "Out of scope here. A simple click count is enough. Name it as a future extension."}
+      ],
+      "explain": "A strong opening is: **create**, **redirect**, **optional custom alias**, **optional expiry**. Say what you leave out (accounts, rich analytics) so the interviewer can correct you in the first five minutes instead of the last five.",
+      "adds": {"notes": ["Core: create a short link, redirect, optional custom alias, optional expiry", "Out of scope: user accounts, rich analytics"], "components": ["client"]},
+      "chapter": {"title": "The interview framework", "href": "sessions/01-interview-framework.html"}
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "How well must it work?",
+      "type": "multi",
+      "prompt": "Now the non-functional requirements. Which qualities does a URL shortener really need? Select all that apply.",
+      "hint": "Think about what a user feels. A slow or broken redirect is noticed by everyone who clicks the link.",
+      "options": [
+        {"text": "Very high availability for redirects", "correct": true, "why": "If redirects fail, every link ever shared is broken, including links printed on paper."},
+        {"text": "Low redirect latency (tens of milliseconds on the server)", "correct": true, "why": "A redirect sits in front of the page the user wants, so any delay is added to every click."},
+        {"text": "Durability: a created link must never be lost", "correct": true, "why": "Losing a mapping breaks a link permanently."},
+        {"text": "Short codes should be hard to guess", "correct": true, "why": "Sequential codes let anyone enumerate other people's links."},
+        {"text": "Strong consistency for every read, everywhere, at all times", "correct": false, "why": "Costly and not needed. A link that appears a second or two late in another region is acceptable, and availability matters more."},
+        {"text": "Transactions across several tables on every request", "correct": false, "why": "The data is one key mapped to one value. There is nothing to join."}
+      ],
+      "explain": "Redirects must be **fast and always up**. Creation can be a little slower. Because a lookup is by key, we can choose **availability over strict consistency** for reads. Say this explicitly.",
+      "adds": {"notes": ["Redirects: highly available and fast", "Mappings must be durable", "Codes are not guessable", "Eventual consistency is acceptable for reads"]},
+      "chapter": {"title": "The interview framework", "href": "sessions/01-interview-framework.html"}
+    },
+    {
+      "id": "estimate-writes",
+      "phase": "Estimate scale",
+      "title": "How many links are created per second?",
+      "type": "estimate",
+      "prompt": "Given **100 million** new links per month, what is the average number of **writes per second**? A rough number is enough.",
+      "unit": "writes / second",
+      "answer": 40,
+      "factor": 2,
+      "hint": "A month has about 2.5 million seconds (30 days x 86,400).",
+      "work": [
+        "100,000,000 links / month",
+        "1 month = 30 x 86,400 = about 2,600,000 seconds",
+        "100,000,000 / 2,600,000 = about **40 writes per second**"
+      ],
+      "explain": "**40 writes per second** is tiny. One ordinary database could handle it. So writes will not force a complicated design. The difficulty is elsewhere.",
+      "adds": {"notes": ["Writes: about 40 per second on average"]},
+      "chapter": {"title": "Back-of-envelope estimation", "href": "sessions/02-back-of-envelope.html"}
+    },
+    {
+      "id": "estimate-reads",
+      "phase": "Estimate scale",
+      "title": "And how many redirects per second?",
+      "type": "estimate",
+      "prompt": "Reads are about **100 times** more common than writes. What is the average number of **redirects per second**?",
+      "unit": "reads / second",
+      "answer": 4000,
+      "factor": 2,
+      "hint": "Multiply your write rate by 100.",
+      "work": [
+        "Writes: about 40 per second",
+        "Read : write = 100 : 1, so 40 x 100 = **4,000 reads per second**",
+        "Peak is usually 2 to 3 times the average, so plan for about **10,000 per second**"
+      ],
+      "explain": "**4,000 average, around 10,000 at peak** is the number that shapes the design. A single database can struggle with this, and the same popular links are read again and again. That points to **caching** and a **read-optimised** design.",
+      "adds": {"notes": ["Reads: about 4,000/s average, about 10,000/s peak (100:1 read-heavy)"]},
+      "chapter": {"title": "Back-of-envelope estimation", "href": "sessions/02-back-of-envelope.html"}
+    },
+    {
+      "id": "estimate-storage",
+      "phase": "Estimate scale",
+      "title": "How much data over five years?",
+      "type": "estimate",
+      "prompt": "Each record is about **500 bytes** and we keep links for **5 years**. How much storage do we need in total, in **terabytes**?",
+      "unit": "TB",
+      "answer": 3,
+      "factor": 2.5,
+      "hint": "First count the records: links per month x 12 months x 5 years.",
+      "work": [
+        "100,000,000 x 12 x 5 = **6 billion records**",
+        "6,000,000,000 x 500 bytes = 3,000,000,000,000 bytes",
+        "= about **3 TB**"
+      ],
+      "explain": "**About 3 TB** (plus replicas and indexes) is more than we would like on a single small machine, but it is not huge. It tells us we will **partition** the data eventually and that we should pick a store that scales horizontally.",
+      "adds": {"notes": ["Storage: about 6 billion records, about 3 TB over 5 years"]},
+      "chapter": {"title": "Back-of-envelope estimation", "href": "sessions/02-back-of-envelope.html"}
+    },
+    {
+      "id": "code-length",
+      "phase": "Estimate scale",
+      "title": "How long must a short code be?",
+      "type": "choice",
+      "prompt": "Short codes use letters and digits: `a-z`, `A-Z`, `0-9` (**62** symbols, called base62). We need unique codes for **6 billion** links. What is the **minimum** length that works?",
+      "hint": "Compute 62 to the power 5, then 62 to the power 6, and compare with 6 billion.",
+      "options": [
+        {"text": "5 characters", "correct": false, "why": "62^5 is about 916 million. That is less than 6 billion."},
+        {"text": "6 characters", "correct": true, "why": "62^6 is about 56.8 billion, enough for 6 billion links."},
+        {"text": "7 characters", "correct": false, "why": "62^7 is about 3.5 trillion. It works, but it is more than the minimum."},
+        {"text": "10 characters", "correct": false, "why": "Plenty, but it makes the short link longer than it needs to be."}
+      ],
+      "explain": "**6 characters** is the minimum (56.8 billion combinations). Many designs use **7** (3.5 trillion) for headroom, which also makes the codes harder to guess and leaves room for custom aliases. Either answer is fine if you explain it.",
+      "adds": {"notes": ["Short code: base62, 7 characters (3.5 trillion combinations, about 6 billion needed)"]},
+      "chapter": {"title": "Generating unique short IDs", "href": "sessions/04-unique-ids.html"}
+    },
+    {
+      "id": "api",
+      "phase": "API and data model",
+      "title": "Which API fits?",
+      "type": "choice",
+      "prompt": "You define the public API. Which design is the best fit?",
+      "hint": "Creating something is a POST that returns a new resource. Opening a short link is a plain GET that answers with a redirect.",
+      "options": [
+        {"text": "`POST /api/v1/urls` with `{long_url, alias?, expires_at?}` returns `201 {short_url}`, and `GET /{code}` returns a redirect", "correct": true, "why": "Clear separation. Creation is an API call. Redirect uses the short path itself so the link stays short."},
+        {"text": "`GET /create?url=...` to create and `GET /get?code=...` to redirect", "correct": false, "why": "Creating data with a GET is unsafe: browsers and crawlers can repeat it. The redirect path would also be long."},
+        {"text": "`POST /{code}` to redirect, with the code in the body", "correct": false, "why": "Browsers follow links with GET. A POST cannot be opened by clicking a link."},
+        {"text": "`PUT /api/v1/urls/{long_url}` to create, and `GET /api/v1/urls/{code}` to redirect", "correct": false, "why": "A long URL inside a URL path is awkward to encode, and the redirect path is longer than it should be."}
+      ],
+      "explain": "Two endpoints are enough. `POST /api/v1/urls` takes the long URL (and optional alias and expiry) and returns the short URL. `GET /{code}` looks up the code and answers with a redirect. Mention an **API key and rate limit** on creation so the service cannot be flooded.",
+      "adds": {"notes": ["API: POST /api/v1/urls -> 201 {short_url}; GET /{code} -> redirect"]},
+      "chapter": {"title": "APIs, data model and choosing a database", "href": "sessions/03-api-and-data-model.html"}
+    },
+    {
+      "id": "status-code",
+      "phase": "API and data model",
+      "title": "301 or 302?",
+      "type": "choice",
+      "prompt": "The redirect can answer with **301 (permanent)** or **302 (temporary)**. Browsers cache a 301 and may never ask us again. Which should we use if we want click counts and expiring links to keep working?",
+      "hint": "Which one makes the browser come back to our server next time?",
+      "options": [
+        {"text": "301, because it is faster for the user", "correct": false, "why": "It is faster, but after the first visit the browser skips our server, so we cannot count clicks or enforce expiry."},
+        {"text": "302, because every click still reaches our server", "correct": true, "why": "We can count the click, check expiry and even change the target later."},
+        {"text": "Either one, there is no difference", "correct": false, "why": "There is a big difference in caching behaviour."}
+      ],
+      "explain": "Use **302** when you need analytics, expiry or the ability to edit a link. Use **301** when links never change and you want to save server load. This is a trade-off worth saying out loud.",
+      "adds": {"notes": ["Redirect with 302 so clicks, expiry and edits keep working (cost: more traffic reaches us)"]},
+      "chapter": {"title": "Caching and serving reads", "href": "sessions/05-caching.html"}
+    },
+    {
+      "id": "storage",
+      "phase": "API and data model",
+      "title": "Which kind of database?",
+      "type": "choice",
+      "prompt": "The data is `short_code -> long_url (+ created_at, expires_at, owner)`. The main query is: *give me the row for this code*. There are no joins. We expect billions of rows. What is the best fit?",
+      "hint": "Match the access pattern: single-key lookup, huge volume, no relationships.",
+      "options": [
+        {"text": "A key-value or wide-column store keyed by short code", "correct": true, "why": "Single-key lookups, horizontal scaling and simple replication are exactly what these stores do best."},
+        {"text": "A single relational database with several normalised tables", "correct": false, "why": "It works at small scale, but one machine becomes the limit, and we would not use joins or multi-table transactions anyway."},
+        {"text": "A graph database", "correct": false, "why": "There are no relationships between links to traverse."},
+        {"text": "A search engine such as Elasticsearch", "correct": false, "why": "Great for text search, but we only need exact key lookup."}
+      ],
+      "explain": "Choose a **key-value / wide-column store** (DynamoDB, Cassandra or similar), partitioned by `short_code`. A sharded relational database is also defensible if you explain how you would shard it. The point is to **tie the choice to the access pattern**.",
+      "adds": {"notes": ["Store: key-value / wide-column, key = short_code", "Record: short_code, long_url, created_at, expires_at, owner_id"], "components": ["db"]},
+      "chapter": {"title": "APIs, data model and choosing a database", "href": "sessions/03-api-and-data-model.html"}
+    },
+    {
+      "id": "high-level",
+      "phase": "High-level design",
+      "title": "Build the first version",
+      "type": "multi",
+      "prompt": "Time to put a first working design on the board. Which components belong on the path of a redirect request in version 1? Select all that apply.",
+      "hint": "Start simple: client, then whatever spreads traffic, then the servers, then the data. Add one thing that helps the read-heavy load.",
+      "options": [
+        {"text": "Load balancer", "correct": true, "why": "Spreads requests across servers and removes a single server as a point of failure."},
+        {"text": "Stateless application servers", "correct": true, "why": "Any server can answer any request, so we can add more when traffic grows."},
+        {"text": "A cache in front of the database", "correct": true, "why": "10,000 reads per second, mostly for the same popular links. A cache absorbs most of them."},
+        {"text": "The key-value database", "correct": true, "why": "The source of truth for every mapping."},
+        {"text": "A message queue between the user and the app server", "correct": false, "why": "A redirect must answer immediately. A queue adds delay and is not needed on this path."},
+        {"text": "A separate microservice for every endpoint", "correct": false, "why": "Do not open with microservices. Two endpoints do not need that complexity."}
+      ],
+      "explain": "Version 1: **Client -> Load balancer -> App servers -> Cache -> Database**. Walk one request through: the app checks the cache; on a miss it reads the database, fills the cache and answers with a 302. Walk through a create request too.",
+      "adds": {"notes": ["Redirect path: client -> load balancer -> app server -> cache -> database"], "components": ["client", "lb", "app", "cache", "db"]},
+      "chapter": {"title": "Caching and serving reads", "href": "sessions/05-caching.html"}
+    },
+    {
+      "id": "id-generation",
+      "phase": "Deep dive",
+      "title": "How do we create unique short codes?",
+      "type": "choice",
+      "prompt": "This is the heart of the problem. Many app servers create links at the same time, and **no two links may get the same code**. Which approach is the strongest?",
+      "hint": "Think about collisions, coordination between servers, and how each option behaves with many servers writing at once.",
+      "options": [
+        {"text": "Hash the long URL (for example MD5) and keep the first 7 characters", "correct": false, "why": "Cutting a hash makes collisions likely, so you must check and retry on every write. The same URL always produces the same code, which is bad for per-user links."},
+        {"text": "Generate a random 7-character code and retry if it already exists", "correct": false, "why": "Simple, but every write needs a database check, and as the table fills, retries grow."},
+        {"text": "A counter converted to base62, where each server takes a block of numbers (for example 1 million at a time) from a coordinator", "correct": true, "why": "No collisions by construction, no per-write database check, and servers only talk to the coordinator once per block."},
+        {"text": "Use the database auto-increment ID of one primary database for everything", "correct": false, "why": "Correct but it makes one database the bottleneck and a single point of failure for all writes."}
+      ],
+      "explain": "**Counter ranges + base62** wins: each server asks a small coordinator (ZooKeeper, etcd or a tiny database table) for a range, then hands out numbers locally and converts them with base62. Collisions cannot happen. Cost: if a server crashes you lose the unused part of its block, which is harmless with 3.5 trillion codes.",
+      "adds": {"notes": ["IDs: counter ranges from a coordinator, converted to base62; no collisions, no per-write lookup"], "components": ["idgen"]},
+      "chapter": {"title": "Generating unique short IDs", "href": "sessions/04-unique-ids.html"}
+    },
+    {
+      "id": "guessable",
+      "phase": "Deep dive",
+      "title": "Counters are guessable. Fix it.",
+      "type": "reflect",
+      "prompt": "A counter gives codes like `aaaaab`, `aaaaac`, `aaaaad`. Someone can walk through them and read other people's links. **Write down** how you would keep the benefits of the counter but make the codes hard to guess.",
+      "hint": "You do not have to change the counter. Change what the user sees.",
+      "points": [
+        "Scramble the counter number with a reversible mixing step (for example XOR with a secret, bit shuffling or a Feistel network) before base62 encoding",
+        "Still unique, because a reversible mix never maps two numbers to the same output",
+        "Alternative: a key generation service that pre-creates random unused codes and hands them out",
+        "Optional: make private links use a longer code"
+      ],
+      "model": "Keep the counter, but pass the number through a **reversible scramble** (a Feistel network, or multiply by a large number coprime with the range, modulo the size of the code space) before encoding as base62. Because the scramble is a one-to-one mapping, uniqueness is preserved, yet consecutive numbers produce codes that look random. Another option is a **key generation service** that pre-fills a table with random unused codes. It is easy to reason about but needs a place to store and mark codes as used.",
+      "explain": "Uniqueness and unpredictability are two different problems. Solve uniqueness with the counter, then solve unpredictability with a reversible scramble.",
+      "adds": {"notes": ["Scramble the counter value (reversible, so still unique) before base62 so codes are not guessable"]},
+      "chapter": {"title": "Generating unique short IDs", "href": "sessions/04-unique-ids.html"}
+    },
+    {
+      "id": "cache-size",
+      "phase": "Deep dive",
+      "title": "How big does the cache need to be?",
+      "type": "estimate",
+      "prompt": "Reads are about 4,000 per second. A small share of links (about **20%**) gets most of the traffic. If we cache the **hot 20% of one day's reads** at 500 bytes each, how much memory do we need, in **GB**?",
+      "unit": "GB",
+      "answer": 35,
+      "factor": 3,
+      "hint": "Reads per day = 4,000 x 86,400. Then take 20% and multiply by 500 bytes.",
+      "work": [
+        "4,000 x 86,400 = about 345 million reads / day",
+        "20% of that = about 69 million cache entries",
+        "69,000,000 x 500 bytes = about **35 GB**"
+      ],
+      "explain": "**About 35 GB** fits in the memory of a single large cache machine, and certainly in a small cluster. That means caching the hot links is cheap and absorbs most of the 10,000 reads per second. Use **cache-aside** with **LRU** eviction, and a **TTL** that never outlives the link's expiry.",
+      "adds": {"notes": ["Cache: cache-aside, LRU eviction, about 35 GB for the hot 20%"]},
+      "chapter": {"title": "Caching and serving reads", "href": "sessions/05-caching.html"}
+    },
+    {
+      "id": "sharding",
+      "phase": "Deep dive",
+      "title": "Choose the shard key",
+      "type": "choice",
+      "prompt": "3 TB will not live happily on one machine, so we **shard** (split) the data. What should the shard key be?",
+      "hint": "Which key do we always have when we serve a read? And which choice spreads traffic evenly?",
+      "options": [
+        {"text": "A hash of the short code", "correct": true, "why": "Every redirect knows the code, so it goes to exactly one shard. Hashing spreads data and traffic evenly."},
+        {"text": "The user who created the link", "correct": false, "why": "A redirect request does not know the owner. One heavy user would also create a hot shard."},
+        {"text": "The creation date", "correct": false, "why": "All new writes hit the newest shard, and recent links get the most reads. That creates a hot spot."},
+        {"text": "The first letter of the code", "correct": false, "why": "Uneven distribution and only 62 shards at most. Hash instead."}
+      ],
+      "explain": "Shard by **hash(short_code)**, ideally with **consistent hashing** so that adding a shard moves only a small share of the data. Keep **replicas** of each shard for durability and for spreading reads.",
+      "adds": {"notes": ["Shard by hash(short_code) with consistent hashing; replicate each shard"], "components": ["replica"], "labels": {"db": "Sharded KV store"}},
+      "chapter": {"title": "Scaling the data layer", "href": "sessions/06-scaling-data.html"}
+    },
+    {
+      "id": "reliability",
+      "phase": "Reliability",
+      "title": "What can fail, and what do we do?",
+      "type": "multi",
+      "prompt": "Walk the design looking for weak points. Which of these are **good** measures? Select all that apply.",
+      "hint": "For each box on the diagram ask: if this dies, what happens to a redirect?",
+      "options": [
+        {"text": "Run several load balancers and app servers across availability zones", "correct": true, "why": "Removes single points of failure in the stateless layers."},
+        {"text": "Replicate each shard across zones with automatic failover", "correct": true, "why": "A lost machine or zone must not lose data or stop reads."},
+        {"text": "If the cache fails, fall back to the database but limit the load with request coalescing and rate limits", "correct": true, "why": "All traffic suddenly hitting the database is a classic cascade. Protect it."},
+        {"text": "Rate limit link creation per user or IP, and put timeouts and retries with backoff on every call", "correct": true, "why": "Stops abuse and keeps a slow dependency from tying up every thread."},
+        {"text": "Run the counter coordinator as a single instance to keep it simple", "correct": false, "why": "A single coordinator is a single point of failure for writes. Run it as a small replicated cluster."},
+        {"text": "Back up the data once a year", "correct": false, "why": "Far too rare. Use continuous replication plus regular snapshots and test the restore."}
+      ],
+      "explain": "Remove every single point of failure, plan what happens when each box dies, and **protect the database from a cache outage**. Add **monitoring and alerts** on redirect latency, error rate, cache hit rate and replication lag.",
+      "adds": {"notes": ["Redundancy in every layer across zones", "Cache outage: fall back to DB with request coalescing and rate limits", "Monitor latency, errors, cache hit rate and replication lag"]},
+      "chapter": {"title": "Scaling the data layer", "href": "sessions/06-scaling-data.html"}
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "The interviewer asks: *\"What did you give up with this design, and what would make you change it?\"* **Write** two or three trade-offs in your own words before you look at the model answer.",
+      "hint": "Use the pattern: I chose X, which costs Y. If Z changed, I would revisit it.",
+      "points": [
+        "302 redirects keep analytics and expiry working but send more traffic to our servers",
+        "Eventual consistency and caching mean a new or changed link may be briefly stale",
+        "Counter ranges waste a few numbers when a server crashes, which is harmless",
+        "A key-value store gives up joins and flexible queries, so rich analytics would need a separate pipeline",
+        "If the product needed accounts, editing and reports, I would revisit the storage choice"
+      ],
+      "model": "I chose a **302** so clicks, expiry and edits keep working. The cost is more traffic hitting our servers than a 301 would cause. I chose **eventual consistency and caching** for reads to keep redirects fast and available. The cost is that an updated or deleted link may be served stale for a short time (bounded by the cache TTL). **Counter ranges** guarantee unique codes without a lookup per write; the cost is that numbers are wasted when a server dies, which does not matter with trillions available. A **key-value store** scales easily for our single access pattern, but I give up joins, so rich analytics would go to a separate event pipeline (a queue feeding a columnar store). If requirements grew to accounts and reporting, I would revisit this.",
+      "explain": "Strong answers do not claim a choice is obviously correct. They name the cost and the trigger that would change the decision.",
+      "adds": {"notes": ["Trade-offs named: 302 vs traffic, eventual consistency vs latency, KV store vs flexible queries"]},
+      "chapter": {"title": "The interview framework", "href": "sessions/01-interview-framework.html"}
+    }
+  ]
+}

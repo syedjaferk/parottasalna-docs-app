@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static sd_text %}
+{% block title %}{{ problem.title }} · System design playground · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}{{ problem.tagline }}{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/sysdesign.css' %}">{% endblock %}
+{% block content %}
+{% with s=problem.statement %}
+<div class="sd-bar">
+  <a href="{% url 'sysdesign_index' %}">&larr; All problems</a>
+  <h1>{{ problem.title }}</h1>
+  <span class="sd-badge">{{ problem.difficulty }}</span>
+</div>
+<div class="sd-split" id="sd-app" data-slug="{{ problem.slug }}" data-course="{% url 'course_docs' problem.course_slug %}"{% if user.is_authenticated %} data-progress-url="{% url 'sysdesign_progress' problem.slug %}" data-save-url="{% url 'sysdesign_progress_save' problem.slug %}"{% endif %}>
+  <aside class="sd-left card" aria-label="Problem statement">
+    <h2 class="sd-h">The problem</h2>
+    <blockquote class="sd-prompt">{{ s.prompt|mini }}</blockquote>
+    {% for c in s.context %}<p>{{ c|mini }}</p>{% endfor %}
+
+    <h3>You are given</h3>
+    <ul>{% for g in s.given %}<li>{{ g|mini }}</li>{% endfor %}</ul>
+
+    <h3>What we expect from you</h3>
+    <ul class="sd-expect">
+      {% for e in s.expectations %}<li><strong>{{ e.title }}.</strong> {{ e.body }}</li>{% endfor %}
+    </ul>
+
+    <h3>Scope</h3>
+    <div class="sd-scope">
+      <div><h4>In scope</h4><ul>{% for x in s.scope_in %}<li>{{ x }}</li>{% endfor %}</ul></div>
+      <div><h4>Not required</h4><ul>{% for x in s.scope_out %}<li>{{ x }}</li>{% endfor %}</ul></div>
+    </div>
+
+    <h3>Suggested time</h3>
+    <table class="sd-time">
+      {% for t in s.timeline %}<tr><td>{{ t.phase }}</td><td>{{ t.minutes }} min</td></tr>{% endfor %}
+    </table>
+
+    <h3>What makes an answer great</h3>
+    <ul>{% for g in s.great %}<li>{{ g|mini }}</li>{% endfor %}</ul>
+
+    <h3>Locked in so far</h3>
+    <p class="muted small" id="sd-notes-empty">Decisions you confirm will collect here as you go.</p>
+    <ul class="sd-notes" id="sd-notes"></ul>
+  </aside>
+
+  <section class="sd-right card" aria-label="Guided solution">
+    <header class="sd-right-head">
+      <div id="sd-phase" class="sd-phase"></div>
+      <div class="sd-progress" aria-hidden="true"><span id="sd-progress-fill"></span></div>
+      <div id="sd-count" class="muted small"></div>
+    </header>
+    <ol class="sd-dots" id="sd-dots" aria-label="Steps"></ol>
+    <div id="sd-step" class="sd-step" aria-live="polite"></div>
+    <details class="sd-diagram" open>
+      <summary>Your design so far</summary>
+      <div id="sd-diagram"></div>
+    </details>
+    <div class="sd-foot"><button type="button" class="btn ghost sm" id="sd-reset">Start over</button></div>
+  </section>
+</div>
+{% endwith %}
+{{ problem|json_script:"sd-data" }}
+<script src="{% static 'js/sysdesign.js' %}" defer></script>
+{% endblock %}

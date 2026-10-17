@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}System design playground · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}Practise system design interviews step by step: read the problem, answer each question, see the correct reasoning and build the design as you go.{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/sysdesign.css' %}">{% endblock %}
+{% block content %}
+<section class="hero sd-hero">
+  <h1>System design playground</h1>
+  <p>Read the problem on the left, then think your way to the solution on the right. Every step asks you to decide first, then shows the correct reasoning before moving on.</p>
+</section>
+<div class="sd-grid">
+  {% for p in problems %}
+  <a class="card sd-problem" href="{% url 'sysdesign_problem' p.slug %}">
+    <span class="sd-badge">{{ p.difficulty }}</span>
+    <h2>{{ p.title }}</h2>
+    <p class="muted">{{ p.tagline }}</p>
+    <p class="muted small">{{ p.steps|length }} steps · about {{ p.minutes }} min</p>
+  </a>
+  {% endfor %}
+</div>
+<section class="card sd-learn">
+  <h2>New to system design?</h2>
+  <p>Start with the course. It covers the interview framework, estimation, IDs, caching and scaling with diagrams and quizzes. Come back here once a few chapters are done and build a real design.</p>
+  <a class="btn" href="{% url 'course_docs' 'system-design' %}">Open the System Design course</a>
+</section>
+{% endblock %}
