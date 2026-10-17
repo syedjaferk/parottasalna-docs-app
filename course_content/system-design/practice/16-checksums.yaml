@@ -1,0 +1,33 @@
+chapter: sessions/16-checksums
+quizzes:
+- title: Chapter 16 · Quiz
+  description: 'Check yourself on: checksums.'
+  questions:
+  - text: What does a checksum detect?
+    choices: |
+      Slow networks
+      *Accidental corruption
+      Deliberate tampering by an attacker
+      Unused data
+    explanation: An attacker can recompute a plain checksum.
+  - text: 'To protect against tampering you need:'
+    choices: |
+      A longer CRC
+      A parity bit
+      More replicas
+      *An HMAC or digital signature
+    explanation: Only the key holder can produce a valid one.
+  - text: 'Two replicas of 1 TB want to check cheaply if they match. Use:'
+    choices: |
+      Ask users
+      Compare file names
+      *A Merkle tree and compare the root hash
+      Copy everything
+    explanation: Descend only into differing branches.
+  - text: 'A storage system reads a block whose checksum is wrong. It should:'
+    choices: |
+      Return it anyway
+      Ignore the error
+      *Read another replica and repair the bad block
+      Delete the file
+    explanation: Self-healing storage.

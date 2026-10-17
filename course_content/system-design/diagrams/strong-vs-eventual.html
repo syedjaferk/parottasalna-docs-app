@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 320" role="img" aria-labelledby="strong-vs-eventual-t strong-vs-eventual-d" xmlns="http://www.w3.org/2000/svg">
+<title id="strong-vs-eventual-t">What a reader sees after a write</title>
+<desc id="strong-vs-eventual-d">Strong consistency waits for all copies. Eventual consistency answers fast and lets copies catch up.</desc>
+<defs><marker id="strong-vs-eventual-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="strong-vs-eventual-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="strong-vs-eventual-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="strong-vs-eventual-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Strong</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Eventual</text>
+<rect x="40" y="120" width="90" height="50" rx="10" class="blue"/>
+<text x="85.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Write x=2</text>
+<rect x="250" y="50" width="120" height="40" rx="10" class="green"/>
+<text x="310.0" y="70.0" text-anchor="middle" dominant-baseline="middle">copy: x=2</text>
+<path d="M130,145 L250,70" class="arrow" marker-end="url(#strong-vs-eventual-h)"/>
+<rect x="250" y="130" width="120" height="40" rx="10" class="green"/>
+<text x="310.0" y="150.0" text-anchor="middle" dominant-baseline="middle">copy: x=2</text>
+<path d="M130,145 L250,150" class="arrow" marker-end="url(#strong-vs-eventual-h)"/>
+<rect x="250" y="210" width="120" height="40" rx="10" class="green"/>
+<text x="310.0" y="230.0" text-anchor="middle" dominant-baseline="middle">copy: x=2</text>
+<path d="M130,145 L250,230" class="arrow" marker-end="url(#strong-vs-eventual-h)"/>
+<text x="210" y="270" text-anchor="middle" dominant-baseline="middle" class="small">ack only after all copies update: slower, never stale</text>
+<rect x="440" y="120" width="90" height="50" rx="10" class="blue"/>
+<text x="485.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Write x=2</text>
+<rect x="660" y="50" width="120" height="40" rx="10" class="green"/>
+<text x="720.0" y="70.0" text-anchor="middle" dominant-baseline="middle">copy: x=2</text>
+<rect x="660" y="130" width="120" height="40" rx="10" class="amber"/>
+<text x="720.0" y="150.0" text-anchor="middle" dominant-baseline="middle">copy: x=1</text>
+<rect x="660" y="210" width="120" height="40" rx="10" class="amber"/>
+<text x="720.0" y="230.0" text-anchor="middle" dominant-baseline="middle">copy: x=1</text>
+<path d="M530,145 L660,70" class="arrow" marker-end="url(#strong-vs-eventual-h)"/>
+<path d="M530,145 L660,150" class="arrow dashed" marker-end="url(#strong-vs-eventual-h)"/>
+<path d="M530,145 L660,230" class="arrow dashed" marker-end="url(#strong-vs-eventual-h)"/>
+<text x="610" y="270" text-anchor="middle" dominant-baseline="middle" class="small">ack at once: fast, may read stale for a moment</text>
+</svg>
+<figcaption>Strong consistency waits for all copies. Eventual consistency answers fast and lets copies catch up.</figcaption>
+</figure>

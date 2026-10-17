@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 270" role="img" aria-labelledby="failover-t failover-d" xmlns="http://www.w3.org/2000/svg">
+<title id="failover-t">Failover: detect, decide, redirect</title>
+<desc id="failover-d">The standby takes over the floating IP when the primary stops sending heartbeats.</desc>
+<defs><marker id="failover-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="failover-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="failover-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="failover-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="100" width="90" height="50" rx="10" class="blue"/>
+<text x="65.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Clients</text>
+<rect x="180" y="100" width="130" height="50" rx="10" class="purple"/>
+<text x="245.0" y="115.0" text-anchor="middle" dominant-baseline="middle">Floating IP</text>
+<text x="245.0" y="135.0" text-anchor="middle" dominant-baseline="middle">10.0.0.100</text>
+<rect x="430" y="40" width="160" height="50" rx="10" class="red"/>
+<text x="510.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Primary</text>
+<text x="510.0" y="75.0" text-anchor="middle" dominant-baseline="middle">(serving)</text>
+<rect x="430" y="170" width="160" height="50" rx="10" class="amber"/>
+<text x="510.0" y="185.0" text-anchor="middle" dominant-baseline="middle">Standby</text>
+<text x="510.0" y="205.0" text-anchor="middle" dominant-baseline="middle">(replicating)</text>
+<path d="M110,125 L180,125" class="arrow" marker-end="url(#failover-h)"/>
+<path d="M310,115 L430,65" class="arrow" marker-end="url(#failover-h)"/>
+<text x="345" y="78" text-anchor="middle" dominant-baseline="middle" class="small">normal</text>
+<path d="M310,140 L430,195" class="arrow dashed" marker-end="url(#failover-h)"/>
+<text x="345" y="190" text-anchor="middle" dominant-baseline="middle" class="small">after failover</text>
+<path d="M510,90 L510,170" class="arrow dashed" marker-end="url(#failover-h)"/>
+<text x="630" y="130" text-anchor="middle" dominant-baseline="middle" class="small">replicate + heartbeat</text>
+<text x="390" y="255" text-anchor="middle" dominant-baseline="middle" class="small">Detect (3 missed heartbeats), decide (promote the standby), redirect (move the IP).</text>
+</svg>
+<figcaption>The standby takes over the floating IP when the primary stops sending heartbeats.</figcaption>
+</figure>

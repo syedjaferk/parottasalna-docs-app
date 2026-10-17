@@ -1,0 +1,33 @@
+chapter: sessions/36-bloom-filters
+quizzes:
+- title: Chapter 36 · Quiz
+  description: 'Check yourself on: bloom filters.'
+  questions:
+  - text: A Bloom filter says 'no'. What does that mean?
+    choices: |
+      Probably not present
+      Present
+      *Definitely not present
+      Unknown
+    explanation: No false negatives.
+  - text: A Bloom filter says 'yes'. What does that mean?
+    choices: |
+      Deleted
+      Definitely absent
+      *Probably present
+      Definitely present
+    explanation: Possible false positive.
+  - text: Roughly how many bits per item give 1% false positives?
+    choices: |
+      About 100,000
+      *About 10
+      About 1
+      About 1,000
+    explanation: 9.6 bits.
+  - text: Why does Cassandra use Bloom filters per SSTable?
+    choices: |
+      To encrypt files
+      *To skip files that cannot contain the key
+      To compress them
+      To replicate them
+    explanation: Saves disk reads.

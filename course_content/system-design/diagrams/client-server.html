@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 280" role="img" aria-labelledby="client-server-t client-server-d" xmlns="http://www.w3.org/2000/svg">
+<title id="client-server-t">Three-tier client-server</title>
+<desc id="client-server-d">Presentation, application logic and data are separate tiers. Clients are untrusted; the server enforces the rules.</desc>
+<defs><marker id="client-server-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="client-server-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="client-server-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="client-server-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="100" width="130" height="70" rx="10" class="blue"/>
+<text x="75.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">Clients</text>
+<text x="75.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">browser, app</text>
+<rect x="230" y="100" width="150" height="70" rx="10" class="green"/>
+<text x="305.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">Web / app tier</text>
+<text x="305.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">business rules</text>
+<rect x="470" y="100" width="130" height="70" rx="10" class="red"/>
+<text x="535.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">Data tier</text>
+<text x="535.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">database</text>
+<rect x="660" y="100" width="120" height="70" rx="10" class="amber"/>
+<text x="720.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">Cache,</text>
+<text x="720.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">queue,</text>
+<text x="720.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="small">search</text>
+<path d="M140,125 L230,125" class="arrow blue" marker-end="url(#client-server-h-blue)"/>
+<text x="185" y="108" text-anchor="middle" dominant-baseline="middle" class="small">request</text>
+<path d="M230,150 L140,150" class="arrow green" marker-end="url(#client-server-h-green)"/>
+<text x="185" y="172" text-anchor="middle" dominant-baseline="middle" class="small">response</text>
+<path d="M380,135 L470,135" class="arrow" marker-end="url(#client-server-h)"/>
+<path d="M600,135 L660,135" class="arrow dashed" marker-end="url(#client-server-h)"/>
+<text x="400" y="235" text-anchor="middle" dominant-baseline="middle" class="small">The client starts the conversation. Never trust the client: validate on the server.</text>
+</svg>
+<figcaption>Presentation, application logic and data are separate tiers. Clients are untrusted; the server enforces the rules.</figcaption>
+</figure>

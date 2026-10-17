@@ -279,8 +279,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "options": [
         {
@@ -334,8 +334,8 @@
         ]
       },
       "chapter": {
-        "title": "Databases, CAP and consistency",
-        "href": "sessions/08-databases-cap-and-consistency.html"
+        "title": "CAP theorem",
+        "href": "sessions/12-cap-theorem.html"
       },
       "options": [
         {
@@ -408,8 +408,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "pitfall": "Using hash modulo N.",
       "followup": "Why use hundreds of virtual nodes per machine rather than one?",
@@ -456,8 +456,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "options": [
         {
@@ -496,8 +496,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "followup": "What happens to availability if you set W=3?",
       "unit": "replicas read (R)",
@@ -523,8 +523,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "options": [
         {
@@ -566,8 +566,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "items": [
         {
@@ -609,8 +609,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "options": [
         {
@@ -654,8 +654,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a key-value store",
-        "href": "sessions/16-design-key-value-store.html"
+        "title": "Design a distributed key-value store",
+        "href": "sessions/77-design-key-value-store.html"
       },
       "options": [
         {
@@ -699,8 +699,8 @@
         ]
       },
       "chapter": {
-        "title": "Databases, CAP and consistency",
-        "href": "sessions/08-databases-cap-and-consistency.html"
+        "title": "Strong vs eventual consistency",
+        "href": "sessions/66-strong-vs-eventual-consistency.html"
       },
       "model": "I chose **availability and partition tolerance (AP)**: the store keeps accepting reads and writes during a partition and repairs differences later. The cost is **eventual consistency**: a read might briefly return old data, and concurrent writes need conflict handling. Quorums let callers dial toward stronger consistency (R + W > N) at the cost of latency and availability. For use cases like bank balances I would pick a CP system instead.",
       "points": [

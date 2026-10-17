@@ -1,0 +1,33 @@
+chapter: sessions/05-availability
+quizzes:
+- title: Chapter 5 · Quiz
+  description: 'Check yourself on: availability.'
+  questions:
+  - text: 99.9% availability allows about how much downtime a year?
+    choices: |
+      *8.8 hours
+      3.65 days
+      53 minutes
+      5 minutes
+    explanation: 0.1% of 8,760 hours.
+  - text: 'Three components in series, each 99.9% available. The whole is about:'
+    choices: |
+      99.9%
+      100%
+      99.99%
+      *99.7%
+    explanation: 'Multiply: 0.999 cubed.'
+  - text: 'Two redundant 99% servers in parallel give about:'
+    choices: |
+      *99.99%
+      98%
+      100%
+      99%
+    explanation: 'Both must fail: 1 - 0.01 x 0.01.'
+  - text: What is an error budget?
+    choices: |
+      The money for monitoring
+      A refund policy
+      *100% minus the SLO: the failures you may spend
+      The number of engineers on call
+    explanation: When it is spent, fix reliability before features.

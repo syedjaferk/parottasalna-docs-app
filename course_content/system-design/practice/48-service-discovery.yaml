@@ -1,0 +1,33 @@
+chapter: sessions/48-service-discovery
+quizzes:
+- title: Chapter 48 · Quiz
+  description: 'Check yourself on: service discovery.'
+  questions:
+  - text: 'Service discovery answers:'
+    choices: |
+      Who wrote it?
+      How big is it?
+      *Where is the service running right now?
+      Which language?
+    explanation: Instances start, stop and move.
+  - text: How does a registry notice a crashed instance?
+    choices: |
+      By DNS
+      *Its heartbeats stop and its entry expires
+      Never
+      It phones the owner
+    explanation: TTL-based expiry.
+  - text: 'Client-side discovery means:'
+    choices: |
+      DNS only
+      A router picks
+      *The client picks an instance from the registry list
+      No registry
+    explanation: Server-side uses a load balancer.
+  - text: Why prefer availability for a discovery registry?
+    choices: |
+      *A slightly stale list is better than none
+      CP is banned
+      Stale is always correct
+      Availability is free
+    explanation: Clients retry failures.

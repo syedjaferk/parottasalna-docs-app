@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="sharding-t sharding-d" xmlns="http://www.w3.org/2000/svg">
+<title id="sharding-t">Sharding by user id</title>
+<desc id="sharding-d">A router hashes the shard key and sends each request to the one shard that owns that user.</desc>
+<defs><marker id="sharding-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="sharding-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="sharding-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="sharding-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="110" width="100" height="50" rx="10" class="blue"/>
+<text x="60.0" y="135.0" text-anchor="middle" dominant-baseline="middle">App</text>
+<rect x="170" y="90" width="160" height="90" rx="10" class="purple"/>
+<text x="250.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">Router</text>
+<text x="250.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">shard = hash(user_id)</text>
+<text x="250.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="small">% 4</text>
+<rect x="480" y="20" width="200" height="50" rx="10" class="green"/>
+<text x="580.0" y="45.0" text-anchor="middle" dominant-baseline="middle">Shard 0: users A</text>
+<path d="M330,135 L480,45" class="arrow" marker-end="url(#sharding-h)"/>
+<rect x="480" y="90" width="200" height="50" rx="10" class="green"/>
+<text x="580.0" y="115.0" text-anchor="middle" dominant-baseline="middle">Shard 1: users B</text>
+<path d="M330,135 L480,115" class="arrow" marker-end="url(#sharding-h)"/>
+<rect x="480" y="160" width="200" height="50" rx="10" class="green"/>
+<text x="580.0" y="185.0" text-anchor="middle" dominant-baseline="middle">Shard 2: users C</text>
+<path d="M330,135 L480,185" class="arrow" marker-end="url(#sharding-h)"/>
+<rect x="480" y="230" width="200" height="50" rx="10" class="green"/>
+<text x="580.0" y="255.0" text-anchor="middle" dominant-baseline="middle">Shard 3: users D</text>
+<path d="M330,135 L480,255" class="arrow" marker-end="url(#sharding-h)"/>
+<path d="M110,135 L170,135" class="arrow" marker-end="url(#sharding-h)"/>
+<rect x="700" y="100" width="90" height="70" rx="10" class="box"/>
+<text x="745.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">each shard</text>
+<text x="745.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">has replicas</text>
+</svg>
+<figcaption>A router hashes the shard key and sends each request to the one shard that owns that user.</figcaption>
+</figure>

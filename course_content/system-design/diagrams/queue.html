@@ -1,25 +1,29 @@
 <figure class="diagram">
-<svg class="dg" viewBox="0 0 780 220" role="img" aria-labelledby="q-t q-d" xmlns="http://www.w3.org/2000/svg">
-<title id="q-t">A message queue between services</title>
-<desc id="q-d">A producer puts messages on a queue. Several consumers take messages from it at their own speed.</desc>
-<defs><marker id="q-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
-<rect x="20" y="85" width="120" height="50" rx="10" class="green"/>
-<text x="80.0" y="106.0" text-anchor="middle" class="code">Producer</text>
-<text x="80.0" y="122.0" text-anchor="middle" class="code">(API server)</text>
-<rect x="260" y="85" width="240" height="50" rx="10" class="amber"/>
-<text x="380.0" y="114.0" text-anchor="middle" class="code">Queue  [ m1 | m2 | m3 | m4 ]</text>
-<rect x="620" y="20" width="130" height="44" rx="10" class="blue"/>
-<text x="685.0" y="46.0" text-anchor="middle" class="code">Consumer 1</text>
-<rect x="620" y="88" width="130" height="44" rx="10" class="blue"/>
-<text x="685.0" y="114.0" text-anchor="middle" class="code">Consumer 2</text>
-<rect x="620" y="156" width="130" height="44" rx="10" class="blue"/>
-<text x="685.0" y="182.0" text-anchor="middle" class="code">Consumer 3</text>
-<path d="M140,110 L260,110" class="arrow" marker-end="url(#q-h)"/>
-<text x="200.0" y="104.0" text-anchor="middle" class="small">publish</text>
-<path d="M500,100 L620,42" class="arrow" marker-end="url(#q-h)"/>
-<path d="M500,110 L620,110" class="arrow" marker-end="url(#q-h)"/>
-<path d="M500,120 L620,178" class="arrow" marker-end="url(#q-h)"/>
-<text x="390" y="205" text-anchor="middle" class="small">If the queue grows faster than it drains, add consumers or slow the producer (back pressure).</text>
+<svg class="dg" viewBox="0 0 800 270" role="img" aria-labelledby="queue-t queue-d" xmlns="http://www.w3.org/2000/svg">
+<title id="queue-t">A message queue between services</title>
+<desc id="queue-d">The producer returns at once. Workers drain the queue at their own pace and can be added when it grows.</desc>
+<defs><marker id="queue-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="queue-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="queue-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="queue-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="100" width="130" height="60" rx="10" class="blue"/>
+<text x="75.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">Producer</text>
+<text x="75.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">API server</text>
+<rect x="250" y="110" width="270" height="50" rx="10" class="amber"/>
+<text x="385.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">Queue   [ m1 | m2 | m3 | m4 ]</text>
+<path d="M140,130 L250,130" class="arrow" marker-end="url(#queue-h)"/>
+<text x="195" y="112" text-anchor="middle" dominant-baseline="middle" class="small">publish</text>
+<rect x="620" y="30" width="150" height="44" rx="10" class="green"/>
+<text x="695.0" y="52.0" text-anchor="middle" dominant-baseline="middle">Worker 1</text>
+<path d="M520,135 L620,52" class="arrow" marker-end="url(#queue-h)"/>
+<rect x="620" y="105" width="150" height="44" rx="10" class="green"/>
+<text x="695.0" y="127.0" text-anchor="middle" dominant-baseline="middle">Worker 2</text>
+<path d="M520,135 L620,127" class="arrow" marker-end="url(#queue-h)"/>
+<rect x="620" y="180" width="150" height="44" rx="10" class="green"/>
+<text x="695.0" y="202.0" text-anchor="middle" dominant-baseline="middle">Worker 3</text>
+<path d="M520,135 L620,202" class="arrow" marker-end="url(#queue-h)"/>
+<rect x="250" y="195" width="270" height="44" rx="10" class="red"/>
+<text x="385.0" y="207.0" text-anchor="middle" dominant-baseline="middle" class="small">Dead-letter queue</text>
+<text x="385.0" y="227.0" text-anchor="middle" dominant-baseline="middle" class="small">messages that keep failing</text>
+<path d="M385,160 L385,195" class="arrow dashed" marker-end="url(#queue-h)"/>
+<text x="400" y="255" text-anchor="middle" dominant-baseline="middle" class="small">Watch queue depth and age of the oldest message.</text>
 </svg>
-<figcaption>The queue absorbs bursts: the producer finishes fast and the consumers catch up when they can.</figcaption>
+<figcaption>The producer returns at once. Workers drain the queue at their own pace and can be added when it grows.</figcaption>
 </figure>

@@ -1,0 +1,33 @@
+chapter: sessions/58-event-driven-architecture
+quizzes:
+- title: Chapter 58 · Quiz
+  description: 'Check yourself on: event driven architecture.'
+  questions:
+  - text: 'An event is:'
+    choices: |
+      A query
+      A schedule
+      A request to do something
+      *A fact that already happened
+    explanation: 'Name it in the past tense: OrderPlaced.'
+  - text: 'Event sourcing stores:'
+    choices: |
+      Only the latest row
+      *The sequence of events, not just current state
+      Only the logs of errors
+      Only the cache
+    explanation: State is rebuilt by replay.
+  - text: 'The outbox pattern solves:'
+    choices: |
+      Large payloads
+      Slow reads
+      *Publishing events reliably with the data change
+      DNS
+    explanation: Same transaction, then relay.
+  - text: 'A hard part of event-driven systems is:'
+    choices: |
+      Choosing colours
+      Opening sockets
+      Typing events
+      *Following the flow without tracing
+    explanation: Use correlation ids and tracing.

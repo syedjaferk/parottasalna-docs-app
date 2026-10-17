@@ -1,0 +1,33 @@
+chapter: sessions/31-database-indexes
+quizzes:
+- title: Chapter 31 · Quiz
+  description: 'Check yourself on: database indexes.'
+  questions:
+  - text: 'An index mostly speeds up:'
+    choices: |
+      Writes
+      Connections
+      *Reads
+      Backups
+    explanation: It slows writes and uses storage.
+  - text: 'A composite index on (city, created_at) helps a query that filters only by:'
+    choices: |
+      *city
+      both columns individually in any order
+      created_at
+      neither
+    explanation: The leftmost-prefix rule.
+  - text: Which prevents an index from being used?
+    choices: |
+      An equality filter
+      *Wrapping the column in a function like LOWER(email)
+      A range filter
+      A primary key
+    explanation: Use an expression index instead.
+  - text: About how many page reads does a B-tree need for 100 million rows (200 keys per page)?
+    choices: |
+      *About 4
+      100 million
+      About 100,000
+      About 1,000
+    explanation: log base 200 of 100M.

@@ -1,0 +1,33 @@
+chapter: sessions/02-back-of-envelope
+quizzes:
+- title: Chapter 2 · Quiz
+  description: 'Check yourself on: back of envelope.'
+  questions:
+  - text: About how many seconds are in a day?
+    choices: |
+      864,000
+      *86,400
+      3,600
+      8,640
+    explanation: 24 x 60 x 60 = 86,400.
+  - text: 100 million requests a day is roughly how many per second on average?
+    choices: |
+      About 100,000
+      *About 1,200
+      About 120
+      About 12,000
+    explanation: 100,000,000 / 86,400 is about 1,157.
+  - text: Peak traffic is usually how many times the average?
+    choices: |
+      *2 to 3 times
+      Exactly the same
+      100 times
+      Half
+    explanation: Plan capacity for the peak.
+  - text: What do you do after calculating a number?
+    choices: |
+      Ignore it
+      Round it to ten digits
+      Ask the interviewer to check it
+      *Say what it means for the design
+    explanation: '''So this means...'' is where the marks are.'

@@ -1,0 +1,33 @@
+chapter: sessions/74-design-cdn
+quizzes:
+- title: Chapter 74 · Quiz
+  description: 'Check yourself on: design cdn.'
+  questions:
+  - text: 'Two URLs differing only by utm_source should:'
+    choices: |
+      Be rejected
+      *Map to the same cache entry
+      Be purged
+      Be separate entries
+    explanation: Normalise the cache key.
+  - text: What does a shield cache do?
+    choices: |
+      Encrypts content
+      *Collapses many edge misses into one origin request
+      Replaces DNS
+      Stores user passwords
+    explanation: Protects the origin.
+  - text: How does an edge validate a signed URL?
+    choices: |
+      It trusts the URL
+      It asks DNS
+      *It recomputes the HMAC and checks the expiry locally
+      It calls the origin
+    explanation: No network call.
+  - text: 'When the origin is down the CDN can:'
+    choices: |
+      Redirect to a competitor
+      *Serve stale content
+      Show nothing always
+      Delete the cache
+    explanation: stale-if-error.

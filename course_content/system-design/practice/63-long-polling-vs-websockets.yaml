@@ -1,0 +1,33 @@
+chapter: sessions/63-long-polling-vs-websockets
+quizzes:
+- title: Chapter 63 · Quiz
+  description: 'Check yourself on: long polling vs websockets.'
+  questions:
+  - text: 'Long polling:'
+    choices: |
+      Polls every millisecond
+      Opens a UDP socket
+      *Holds a request open until news arrives
+      Uses no HTTP
+    explanation: Then the client asks again.
+  - text: 'For a one-way live ticker, a simple choice is:'
+    choices: |
+      *Server-Sent Events
+      FTP
+      SMTP
+      A custom TCP protocol
+    explanation: Plain HTTP with auto-reconnect.
+  - text: 'Long polling needs event ids because:'
+    choices: |
+      TLS needs it
+      Servers forget
+      *Events can occur between one response and the next request
+      DNS needs it
+    explanation: Replay what was missed.
+  - text: 'WebSocket servers are:'
+    choices: |
+      Free of connections
+      *Stateful, so deploys and balancing need care
+      Stateless
+      Serverless by default
+    explanation: Connections live on one server.

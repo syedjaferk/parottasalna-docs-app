@@ -1,0 +1,33 @@
+chapter: sessions/41-eviction-policies
+quizzes:
+- title: Chapter 41 · Quiz
+  description: 'Check yourself on: eviction policies.'
+  questions:
+  - text: 'LRU evicts:'
+    choices: |
+      The newest item
+      *The item unused for the longest time
+      The largest item
+      A random item always
+    explanation: Recent use predicts reuse.
+  - text: Which two structures give O(1) LRU?
+    choices: |
+      *Hash map and doubly linked list
+      Array and stack
+      Tree and queue
+      Set and heap
+    explanation: Lookup plus reorder.
+  - text: 'A big one-off scan pollutes a plain LRU cache. A fix is:'
+    choices: |
+      No cache
+      FIFO
+      *A scan-resistant policy such as TinyLFU or 2Q
+      A bigger scan
+    explanation: Admission control keeps hot data.
+  - text: 'Plain LFU is risky for trending content because:'
+    choices: |
+      It needs GPUs
+      It is too fast
+      *Old popular items keep high counts and squat in the cache
+      It forgets everything
+    explanation: Use ageing.

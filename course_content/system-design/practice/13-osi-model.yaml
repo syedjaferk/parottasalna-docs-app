@@ -1,0 +1,33 @@
+chapter: sessions/13-osi-model
+quizzes:
+- title: Chapter 13 · Quiz
+  description: 'Check yourself on: osi model.'
+  questions:
+  - text: Which layer do TCP and UDP belong to?
+    choices: |
+      Network (layer 3)
+      *Transport (layer 4)
+      Physical (layer 1)
+      Application (layer 7)
+    explanation: They move data between programs using ports.
+  - text: 'A Layer 7 load balancer can:'
+    choices: |
+      Only see IP addresses
+      Only forward bits
+      Replace DNS
+      *Route by URL path or header
+    explanation: It reads the HTTP request.
+  - text: Which layer is the IP address at?
+    choices: |
+      Session (layer 5)
+      *Network (layer 3)
+      Data link (layer 2)
+      Transport (layer 4)
+    explanation: Routers forward packets by IP.
+  - text: The server's port 443 answers but returns HTTP 502. Which layers are healthy?
+    choices: |
+      None
+      *The lower ones; the problem is at layer 7
+      Only the physical layer
+      All including the application
+    explanation: The connection worked; the application or upstream failed.

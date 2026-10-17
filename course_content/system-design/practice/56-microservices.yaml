@@ -1,0 +1,33 @@
+chapter: sessions/56-microservices
+quizzes:
+- title: Chapter 56 · Quiz
+  description: 'Check yourself on: microservices.'
+  questions:
+  - text: 'Microservices should each own:'
+    choices: |
+      The same tables
+      Nothing
+      *Their own data
+      A shared database
+    explanation: A shared database is hidden coupling.
+  - text: 'A saga is:'
+    choices: |
+      A DNS record
+      A type of cache
+      A load balancer
+      *Local transactions with compensating steps
+    explanation: Undo steps replace distributed transactions.
+  - text: 'Four sync services at 99.9% each give about:'
+    choices: |
+      *99.6%
+      100%
+      99.9%
+      99.99%
+    explanation: Availability multiplies down.
+  - text: 'A distributed monolith is:'
+    choices: |
+      A queue
+      A big server
+      *Services that must change and deploy together
+      A cluster of replicas
+    explanation: Worst of both worlds.

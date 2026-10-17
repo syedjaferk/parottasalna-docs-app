@@ -1,0 +1,33 @@
+chapter: sessions/69-rest-vs-rpc
+quizzes:
+- title: Chapter 69 · Quiz
+  description: 'Check yourself on: rest vs rpc.'
+  questions:
+  - text: Which is best for a public browser-facing API?
+    choices: |
+      Raw TCP
+      gRPC only
+      *REST
+      SOAP only
+    explanation: Cacheable and universal.
+  - text: 'gRPC payloads are smaller because:'
+    choices: |
+      TCP is faster
+      DNS helps
+      *Binary Protobuf sends values without field names
+      JSON is compressed
+    explanation: Both sides know the schema.
+  - text: 'Treating an RPC like a local call forgets:'
+    choices: |
+      *Timeouts, retries and partial failure
+      Comments
+      Compilation
+      Variable names
+    explanation: The network is not reliable.
+  - text: 'A common modern setup is:'
+    choices: |
+      gRPC in browsers only
+      No APIs
+      REST between all services only
+      *REST or GraphQL at the edge, gRPC inside
+    explanation: The gateway translates.

@@ -1,0 +1,38 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 360" role="img" aria-labelledby="hash-ring-t hash-ring-d" xmlns="http://www.w3.org/2000/svg">
+<title id="hash-ring-t">The consistent hashing ring</title>
+<desc id="hash-ring-d">Servers and keys sit on a ring. A key belongs to the first server clockwise from it.</desc>
+<defs><marker id="hash-ring-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="hash-ring-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="hash-ring-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="hash-ring-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<circle cx="280" cy="175" r="120" class="ghost"/>
+<rect x="299.04241719908026" y="46.236885505691006" width="44" height="32" rx="10" class="blue"/>
+<text x="321.04241719908026" y="62.236885505691006" text-anchor="middle" dominant-baseline="middle" class="bold">SA</text>
+<rect x="370.763114494309" y="200.04241719908026" width="44" height="32" rx="10" class="blue"/>
+<text x="392.763114494309" y="216.04241719908026" text-anchor="middle" dominant-baseline="middle" class="bold">SB</text>
+<rect x="216.95758280091974" y="271.763114494309" width="44" height="32" rx="10" class="blue"/>
+<text x="238.95758280091974" y="287.763114494309" text-anchor="middle" dominant-baseline="middle" class="bold">SC</text>
+<rect x="145.236885505691" y="117.95758280091977" width="44" height="32" rx="10" class="blue"/>
+<text x="167.236885505691" y="133.95758280091977" text-anchor="middle" dominant-baseline="middle" class="bold">SD</text>
+<rect x="357.92533317427734" y="86.8654868376153" width="28" height="22" rx="11" class="amber"/>
+<text x="371.92533317427734" y="97.8654868376153" text-anchor="middle" dominant-baseline="middle" class="small">k1</text>
+<rect x="307.04241719908026" y="276.763114494309" width="28" height="22" rx="11" class="amber"/>
+<text x="321.04241719908026" y="287.763114494309" text-anchor="middle" dominant-baseline="middle" class="small">k2</text>
+<rect x="153.23688550569102" y="205.04241719908026" width="28" height="22" rx="11" class="amber"/>
+<text x="167.23688550569102" y="216.04241719908026" text-anchor="middle" dominant-baseline="middle" class="small">k3</text>
+<rect x="205.99999999999994" y="60.07695154586739" width="28" height="22" rx="11" class="amber"/>
+<text x="219.99999999999994" y="71.07695154586739" text-anchor="middle" dominant-baseline="middle" class="small">k4</text>
+<text x="280" y="175" text-anchor="middle" dominant-baseline="middle" class="small">ring 0 .. 2^32</text>
+<rect x="480" y="50" width="270" height="60" rx="10" class="box"/>
+<text x="615.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">Lookup</text>
+<text x="615.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">hash(key), then go clockwise</text>
+<text x="615.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">to the next server</text>
+<rect x="480" y="130" width="270" height="70" rx="10" class="green"/>
+<text x="615.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="bold">Add server E</text>
+<text x="615.0" y="165.0" text-anchor="middle" dominant-baseline="middle" class="small">takes keys only from its</text>
+<text x="615.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="small">neighbour; others unmoved</text>
+<rect x="480" y="220" width="270" height="70" rx="10" class="purple"/>
+<text x="615.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="bold">Virtual nodes</text>
+<text x="615.0" y="255.0" text-anchor="middle" dominant-baseline="middle" class="small">each server owns many</text>
+<text x="615.0" y="275.0" text-anchor="middle" dominant-baseline="middle" class="small">small slices: even load</text>
+</svg>
+<figcaption>Servers and keys sit on a ring. A key belongs to the first server clockwise from it.</figcaption>
+</figure>

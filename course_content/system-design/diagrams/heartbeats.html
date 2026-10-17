@@ -1,0 +1,25 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 280" role="img" aria-labelledby="heartbeats-t heartbeats-d" xmlns="http://www.w3.org/2000/svg">
+<title id="heartbeats-t">Heartbeats and failure detection</title>
+<desc id="heartbeats-d">Beats arrive every second. After three missed beats the monitor suspects the node and reacts.</desc>
+<defs><marker id="heartbeats-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="heartbeats-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="heartbeats-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="heartbeats-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="90" width="110" height="50" rx="10" class="green"/>
+<text x="65.0" y="115.0" text-anchor="middle" dominant-baseline="middle">Node</text>
+<rect x="600" y="90" width="170" height="50" rx="10" class="purple"/>
+<text x="685.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">Monitor / peers</text>
+<line x1="150" y1="115" x2="580" y2="115" class="line"/>
+<circle cx="170" cy="115" r="9" class="circle-b"/>
+<circle cx="240" cy="115" r="9" class="circle-b"/>
+<circle cx="310" cy="115" r="9" class="circle-b"/>
+<circle cx="380" cy="115" r="9" class="circle-b"/>
+<circle cx="450" cy="115" r="9" class="ghost"/>
+<circle cx="520" cy="115" r="9" class="ghost"/>
+<circle cx="570" cy="115" r="9" class="ghost"/>
+<text x="275" y="150" text-anchor="middle" dominant-baseline="middle" class="small">beats arrive</text>
+<text x="520" y="150" text-anchor="middle" dominant-baseline="middle" class="small">3 missed beats</text>
+<rect x="250" y="175" width="520" height="44" rx="10" class="red"/>
+<text x="510.0" y="197.0" text-anchor="middle" dominant-baseline="middle" class="bold">Suspect the node is dead: remove it from the LB, elect a new leader</text>
+<text x="400" y="255" text-anchor="middle" dominant-baseline="middle" class="small">Too short a timeout means false alarms; too long means slow detection.</text>
+</svg>
+<figcaption>Beats arrive every second. After three missed beats the monitor suspects the node and reacts.</figcaption>
+</figure>

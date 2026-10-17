@@ -1,0 +1,33 @@
+chapter: sessions/28-rate-limiting
+quizzes:
+- title: Chapter 28 · Quiz
+  description: 'Check yourself on: rate limiting.'
+  questions:
+  - text: Which algorithm allows short bursts while enforcing an average rate?
+    choices: |
+      Fixed window
+      *Token bucket
+      Random
+      Round robin
+    explanation: Capacity allows bursts; refill sets the rate.
+  - text: 'The fixed-window weakness is:'
+    choices: |
+      It uses too much memory
+      It needs GPUs
+      It cannot count
+      *A burst across the window boundary
+    explanation: 100 at 12:00:59 plus 100 at 12:01:00.
+  - text: What status code do you return when over the limit?
+    choices: |
+      500
+      301
+      *429 with Retry-After
+      200
+    explanation: Tell well-behaved clients to wait.
+  - text: '8 servers each with a local 100/min counter give a real limit of about:'
+    choices: |
+      *800 per minute
+      Unlimited
+      100 per minute
+      12 per minute
+    explanation: Use a shared counter such as Redis.

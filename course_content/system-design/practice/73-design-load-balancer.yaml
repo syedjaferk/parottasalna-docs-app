@@ -1,0 +1,33 @@
+chapter: sessions/73-design-load-balancer
+quizzes:
+- title: Chapter 73 · Quiz
+  description: 'Check yourself on: design load balancer.'
+  questions:
+  - text: 'A health tracker with fall=3, rise=2 marks a server down after:'
+    choices: |
+      1 failed check
+      A timeout of a day
+      10 failed checks
+      *3 consecutive failed checks
+    explanation: Thresholds avoid flapping.
+  - text: 'Power of two choices means:'
+    choices: |
+      *Pick two servers at random and use the less busy
+      Use exactly two servers
+      Check all servers
+      Double the weights
+    explanation: Cheap and avoids herding.
+  - text: 'When removing a server you should:'
+    choices: |
+      *Drain: stop new requests but let in-flight ones finish
+      Change DNS only
+      Ignore connections
+      Kill it at once
+    explanation: Connection draining.
+  - text: 'To avoid a single point of failure the balancer needs:'
+    choices: |
+      *A redundant pair in different zones
+      Sticky sessions
+      More algorithms
+      A bigger CPU
+    explanation: Floating IP or anycast.

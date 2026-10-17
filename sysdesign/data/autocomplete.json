@@ -253,8 +253,8 @@
         ]
       },
       "chapter": {
-        "title": "Design autocomplete",
-        "href": "sessions/11-design-autocomplete.html"
+        "title": "Design autocomplete for a search engine",
+        "href": "sessions/72-design-autocomplete.html"
       },
       "options": [
         {
@@ -401,8 +401,8 @@
         ]
       },
       "chapter": {
-        "title": "Design autocomplete",
-        "href": "sessions/11-design-autocomplete.html"
+        "title": "Design autocomplete for a search engine",
+        "href": "sessions/72-design-autocomplete.html"
       },
       "pitfall": "Querying the database with LIKE on every keystroke.",
       "followup": "How much memory does storing top-5 at every node cost, and how can you reduce it?",
@@ -443,8 +443,8 @@
         ]
       },
       "chapter": {
-        "title": "APIs and data models",
-        "href": "sessions/03-api-and-data-model.html"
+        "title": "API design",
+        "href": "sessions/24-api-design.html"
       },
       "options": [
         {
@@ -494,8 +494,8 @@
         ]
       },
       "chapter": {
-        "title": "Caching and serving reads",
-        "href": "sessions/05-caching.html"
+        "title": "Caching 101",
+        "href": "sessions/39-caching-101.html"
       },
       "items": [
         {
@@ -539,8 +539,8 @@
         ]
       },
       "chapter": {
-        "title": "Design autocomplete",
-        "href": "sessions/11-design-autocomplete.html"
+        "title": "Design autocomplete for a search engine",
+        "href": "sessions/72-design-autocomplete.html"
       },
       "followup": "How would you surface a sudden trending topic within minutes?",
       "options": [
@@ -588,8 +588,8 @@
         }
       },
       "chapter": {
-        "title": "Scaling data",
-        "href": "sessions/06-scaling-data.html"
+        "title": "Data replication",
+        "href": "sessions/33-replication.html"
       },
       "pitfall": "Sharding the trie when it fits in memory on one machine.",
       "followup": "You do shard by first letter. Which shard gets overloaded and what do you do?",
@@ -630,8 +630,8 @@
         ]
       },
       "chapter": {
-        "title": "Queues, rate limiting and resilience",
-        "href": "sessions/09-async-and-resilience.html"
+        "title": "Fault tolerance",
+        "href": "sessions/09-fault-tolerance.html"
       },
       "options": [
         {

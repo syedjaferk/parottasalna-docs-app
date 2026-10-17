@@ -1,0 +1,33 @@
+chapter: sessions/80-design-upi-payments
+quizzes:
+- title: Chapter 80 · Quiz
+  description: 'Check yourself on: design upi payments.'
+  questions:
+  - text: 'A timeout on the credit call means:'
+    choices: |
+      *Unknown: reconcile before deciding
+      Retry with a new id
+      Success
+      Failure: reverse the debit
+    explanation: Reversing could create money.
+  - text: Who generates the transaction id?
+    choices: |
+      The bank after success
+      The CDN
+      *The client, before the first attempt
+      The server per retry
+    explanation: So retries are recognisable.
+  - text: 'Debit then credit, with a reversal if credit fails, is a:'
+    choices: |
+      Rate limiter
+      *Saga
+      Cache pattern
+      Two-phase commit across banks
+    explanation: No single database spans two banks.
+  - text: 'A double-entry ledger records:'
+    choices: |
+      Edits to history
+      Only balances
+      Only credits
+      *Equal debit and credit entries that sum to zero
+    explanation: Append-only; fix with reversing entries.

@@ -1,0 +1,33 @@
+chapter: sessions/49-consensus
+quizzes:
+- title: Chapter 49 · Quiz
+  description: 'Check yourself on: consensus.'
+  questions:
+  - text: A 5-node Raft cluster tolerates how many failures?
+    choices: |
+      5
+      3
+      *2
+      1
+    explanation: Majority is 3.
+  - text: Why use an odd number of nodes?
+    choices: |
+      Required by Linux
+      Odd is faster
+      For DNS
+      *Even numbers add cost without more fault tolerance
+    explanation: 4 nodes tolerate no more than 3.
+  - text: Split 3 and 2 by a partition. Who can elect a leader?
+    choices: |
+      The group of 2
+      Neither
+      Both
+      *The group of 3
+    explanation: It holds a majority.
+  - text: 'Consensus is best used for:'
+    choices: |
+      *Small coordination data like leaders and locks
+      Large user data
+      Images
+      Logs of every request
+    explanation: Use etcd or ZooKeeper.

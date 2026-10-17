@@ -1,0 +1,33 @@
+chapter: sessions/24-api-design
+quizzes:
+- title: Chapter 24 · Quiz
+  description: 'Check yourself on: api design.'
+  questions:
+  - text: Which URL follows REST conventions?
+    choices: |
+      PUT /doEverything
+      POST /createOrder
+      GET /deleteOrder?id=4
+      *POST /v1/orders
+    explanation: Nouns in URLs, verbs in methods.
+  - text: 'A client sends price=1 for a 500 item. The API should:'
+    choices: |
+      Cache it
+      *Ignore it and use the server's price
+      Accept it
+      Return 200
+    explanation: Never trust prices from clients.
+  - text: Which is a breaking change?
+    choices: |
+      Adding an optional field
+      *Renaming a response field
+      Adding a new status value clients tolerate
+      Adding an endpoint
+    explanation: Existing clients would fail.
+  - text: What should a list endpoint always have?
+    choices: |
+      *Pagination
+      A GraphQL schema
+      A cookie
+      A WebSocket
+    explanation: Unbounded lists cripple servers and clients.

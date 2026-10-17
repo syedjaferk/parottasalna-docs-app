@@ -1,0 +1,35 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="concurrency-parallelism-t concurrency-parallelism-d" xmlns="http://www.w3.org/2000/svg">
+<title id="concurrency-parallelism-t">Concurrency vs parallelism</title>
+<desc id="concurrency-parallelism-d">Concurrency: one worker interleaves tasks. Parallelism: several workers run tasks at the same instant.</desc>
+<defs><marker id="concurrency-parallelism-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="concurrency-parallelism-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="concurrency-parallelism-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="concurrency-parallelism-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Concurrency: 1 core, 3 tasks taking turns</text>
+<text x="600" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Parallelism: 3 cores, 3 tasks at once</text>
+<rect x="20" y="60" width="56" height="40" rx="10" class="blue"/>
+<text x="48.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">A</text>
+<rect x="82" y="60" width="56" height="40" rx="10" class="green"/>
+<text x="110.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">B</text>
+<rect x="144" y="60" width="56" height="40" rx="10" class="amber"/>
+<text x="172.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">C</text>
+<rect x="206" y="60" width="56" height="40" rx="10" class="blue"/>
+<text x="234.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">A</text>
+<rect x="268" y="60" width="56" height="40" rx="10" class="green"/>
+<text x="296.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">B</text>
+<rect x="330" y="60" width="56" height="40" rx="10" class="amber"/>
+<text x="358.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">C</text>
+<text x="200" y="125" text-anchor="middle" dominant-baseline="middle" class="small">one at a time, switching during waits</text>
+<rect x="430" y="50" width="330" height="40" rx="10" class="blue"/>
+<text x="595.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="bold">core 1: task A</text>
+<rect x="430" y="105" width="330" height="40" rx="10" class="green"/>
+<text x="595.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">core 2: task B</text>
+<rect x="430" y="160" width="330" height="40" rx="10" class="amber"/>
+<text x="595.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="bold">core 3: task C</text>
+<rect x="40" y="180" width="340" height="80" rx="10" class="box"/>
+<text x="210.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="bold">Good for I/O-bound work</text>
+<text x="210.0" y="230.0" text-anchor="middle" dominant-baseline="middle" class="small">web servers, async, waiting on the network</text>
+<rect x="430" y="220" width="330" height="60" rx="10" class="box"/>
+<text x="595.0" y="240.0" text-anchor="middle" dominant-baseline="middle" class="bold">Good for CPU-bound work</text>
+<text x="595.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="small">maths, encoding, compression</text>
+</svg>
+<figcaption>Concurrency: one worker interleaves tasks. Parallelism: several workers run tasks at the same instant.</figcaption>
+</figure>

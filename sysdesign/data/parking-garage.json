@@ -264,8 +264,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "options": [
         {
@@ -320,8 +320,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "options": [
         {
@@ -375,8 +375,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "pitfall": "Checking vehicle type with long if/else blocks.",
       "followup": "A van takes two car spots. How would you model that?",
@@ -421,8 +421,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "items": [
         {
@@ -465,8 +465,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "followup": "How would you add a 'first 30 minutes free' rule?",
       "options": [
@@ -506,8 +506,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "unit": "currency units",
       "answer": 130,
@@ -533,8 +533,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "pitfall": "Check-then-act without a lock (a race condition).",
       "options": [
@@ -579,8 +579,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a parking garage",
-        "href": "sessions/14-design-parking-garage.html"
+        "title": "Design a parking garage (object-oriented design)",
+        "href": "sessions/75-design-parking-garage.html"
       },
       "options": [
         {
@@ -624,8 +624,8 @@
         ]
       },
       "chapter": {
-        "title": "Scaling data",
-        "href": "sessions/06-scaling-data.html"
+        "title": "Database scaling",
+        "href": "sessions/34-database-scaling.html"
       },
       "options": [
         {

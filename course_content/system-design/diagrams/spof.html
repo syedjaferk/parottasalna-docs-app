@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 270" role="img" aria-labelledby="spof-t spof-d" xmlns="http://www.w3.org/2000/svg">
+<title id="spof-t">Hunting single points of failure</title>
+<desc id="spof-d">Red boxes are single points of failure: if any one dies, users lose the service. Green layers are duplicated.</desc>
+<defs><marker id="spof-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="spof-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="spof-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="spof-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="110" width="90" height="50" rx="10" class="blue"/>
+<text x="55.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Users</text>
+<rect x="150" y="110" width="120" height="50" rx="10" class="red"/>
+<text x="210.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Load</text>
+<text x="210.0" y="145.0" text-anchor="middle" dominant-baseline="middle">balancer</text>
+<rect x="330" y="40" width="110" height="44" rx="10" class="green"/>
+<text x="385.0" y="62.0" text-anchor="middle" dominant-baseline="middle">App 1</text>
+<rect x="330" y="110" width="110" height="44" rx="10" class="green"/>
+<text x="385.0" y="132.0" text-anchor="middle" dominant-baseline="middle">App 2</text>
+<rect x="330" y="180" width="110" height="44" rx="10" class="green"/>
+<text x="385.0" y="202.0" text-anchor="middle" dominant-baseline="middle">App 3</text>
+<rect x="520" y="110" width="120" height="50" rx="10" class="red"/>
+<text x="580.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Database</text>
+<rect x="670" y="110" width="100" height="50" rx="10" class="red"/>
+<text x="720.0" y="135.0" text-anchor="middle" dominant-baseline="middle">DNS</text>
+<path d="M100,135 L150,135" class="arrow" marker-end="url(#spof-h)"/>
+<path d="M270,135 L330,62" class="arrow" marker-end="url(#spof-h)"/>
+<path d="M440,62 L520,135" class="arrow" marker-end="url(#spof-h)"/>
+<path d="M270,135 L330,132" class="arrow" marker-end="url(#spof-h)"/>
+<path d="M440,132 L520,135" class="arrow" marker-end="url(#spof-h)"/>
+<path d="M270,135 L330,202" class="arrow" marker-end="url(#spof-h)"/>
+<path d="M440,202 L520,135" class="arrow" marker-end="url(#spof-h)"/>
+<text x="210" y="190" text-anchor="middle" dominant-baseline="middle" class="bold">SPOF</text>
+<text x="580" y="190" text-anchor="middle" dominant-baseline="middle" class="bold">SPOF</text>
+<text x="720" y="190" text-anchor="middle" dominant-baseline="middle" class="bold">SPOF</text>
+<text x="390" y="250" text-anchor="middle" dominant-baseline="middle" class="small">Fix: pair the balancer, add replicas to the database, use two DNS providers.</text>
+</svg>
+<figcaption>Red boxes are single points of failure: if any one dies, users lose the service. Green layers are duplicated.</figcaption>
+</figure>

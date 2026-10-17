@@ -1,30 +1,38 @@
 <figure class="diagram">
-<svg class="dg" viewBox="0 0 800 260" role="img" aria-labelledby="au-t au-d" xmlns="http://www.w3.org/2000/svg">
-<title id="au-t">Authentication flow</title>
-<desc id="au-d">The user sends a password to the auth service which verifies a salted hash, then returns a short-lived access token and a refresh token. The API gateway verifies the access token on each request.</desc>
-<defs><marker id="au-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
-<rect x="10" y="100" width="90" height="50" rx="10" class="blue"/>
-<text x="55.0" y="129.0" text-anchor="middle" class="code">User</text>
-<rect x="170" y="100" width="130" height="50" rx="10" class="green"/>
-<text x="235.0" y="129.0" text-anchor="middle" class="code">Auth service</text>
-<rect x="380" y="20" width="140" height="44" rx="10" class="red"/>
-<text x="450.0" y="38.0" text-anchor="middle" class="code">User DB</text>
-<text x="450.0" y="54.0" text-anchor="middle" class="code">(salted hashes)</text>
-<rect x="380" y="190" width="140" height="44" rx="10" class="amber"/>
-<text x="450.0" y="208.0" text-anchor="middle" class="code">Session / revoke</text>
-<text x="450.0" y="224.0" text-anchor="middle" class="code">list (Redis)</text>
-<rect x="380" y="105" width="140" height="44" rx="10" class="amber"/>
-<text x="450.0" y="131.0" text-anchor="middle" class="code">API gateway</text>
-<rect x="600" y="105" width="150" height="44" rx="10" class="green"/>
-<text x="675.0" y="131.0" text-anchor="middle" class="code">Resource services</text>
-<path d="M100,118 L170,118" class="arrow" marker-end="url(#au-h)"/>
-<text x="135" y="108" text-anchor="middle" class="small">1 login</text>
-<path d="M300,108 L380,50" class="arrow" marker-end="url(#au-h)"/>
-<path d="M300,138 L380,205" class="arrow" marker-end="url(#au-h)"/>
-<path d="M100,135 L380,130" class="arrow" marker-end="url(#au-h)"/>
-<text x="240" y="160" text-anchor="middle" class="small">2 request + access token</text>
-<path d="M520,127 L600,127" class="arrow" marker-end="url(#au-h)"/>
-<text x="560.0" y="121.0" text-anchor="middle" class="small">3 verified</text>
+<svg class="dg" viewBox="0 0 800 330" role="img" aria-labelledby="authentication-t authentication-d" xmlns="http://www.w3.org/2000/svg">
+<title id="authentication-t">Authentication: login once, verify everywhere</title>
+<desc id="authentication-d">The auth service verifies the password and issues short-lived tokens. The gateway verifies tokens locally on every request.</desc>
+<defs><marker id="authentication-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="authentication-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="authentication-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="authentication-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="130" width="100" height="60" rx="10" class="blue"/>
+<text x="60.0" y="150.0" text-anchor="middle" dominant-baseline="middle">User</text>
+<text x="60.0" y="170.0" text-anchor="middle" dominant-baseline="middle">browser / app</text>
+<rect x="180" y="20" width="150" height="50" rx="10" class="amber"/>
+<text x="255.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">Rate limiter</text>
+<rect x="180" y="130" width="150" height="60" rx="10" class="green"/>
+<text x="255.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Auth service</text>
+<text x="255.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">verify hash + MFA</text>
+<path d="M110,150 L180,150" class="arrow" marker-end="url(#authentication-h)"/>
+<text x="145" y="132" text-anchor="middle" dominant-baseline="middle" class="small">1 login</text>
+<path d="M255,70 L255,130" class="arrow dashed" marker-end="url(#authentication-h)"/>
+<rect x="400" y="40" width="170" height="60" rx="10" class="red"/>
+<text x="485.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">User DB</text>
+<text x="485.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">salted slow hashes</text>
+<rect x="400" y="130" width="170" height="60" rx="10" class="red"/>
+<text x="485.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Token store</text>
+<text x="485.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">refresh tokens, sessions</text>
+<rect x="400" y="220" width="170" height="50" rx="10" class="box"/>
+<text x="485.0" y="245.0" text-anchor="middle" dominant-baseline="middle" class="bold">Audit log</text>
+<path d="M330,140 L400,75" class="arrow" marker-end="url(#authentication-h)"/>
+<path d="M330,160 L400,160" class="arrow" marker-end="url(#authentication-h)"/>
+<path d="M330,175 L400,245" class="arrow dashed" marker-end="url(#authentication-h)"/>
+<rect x="620" y="130" width="170" height="60" rx="10" class="purple"/>
+<text x="705.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">API gateway</text>
+<text x="705.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">verifies token locally</text>
+<rect x="620" y="230" width="170" height="50" rx="10" class="green"/>
+<text x="705.0" y="255.0" text-anchor="middle" dominant-baseline="middle" class="bold">Services</text>
+<path d="M110,175 L180,300 L620,300 L700,280" class="arrow blue dashed" marker-end="url(#authentication-h-blue)"/>
+<text x="400" y="312" text-anchor="middle" dominant-baseline="middle" class="small">2 every API call carries the access token</text>
+<path d="M705,190 L705,230" class="arrow" marker-end="url(#authentication-h)"/>
 </svg>
-<figcaption>Short-lived access tokens limit damage if stolen. The refresh token can be revoked.</figcaption>
+<figcaption>The auth service verifies the password and issues short-lived tokens. The gateway verifies tokens locally on every request.</figcaption>
 </figure>

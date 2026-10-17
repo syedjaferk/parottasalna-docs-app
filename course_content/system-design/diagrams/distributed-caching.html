@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="distributed-caching-t distributed-caching-d" xmlns="http://www.w3.org/2000/svg">
+<title id="distributed-caching-t">A sharded, replicated cache cluster</title>
+<desc id="distributed-caching-d">The client library hashes the key to a node. Each shard has a replica for failover.</desc>
+<defs><marker id="distributed-caching-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="distributed-caching-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="distributed-caching-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="distributed-caching-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="110" width="130" height="60" rx="10" class="blue"/>
+<text x="75.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">App servers</text>
+<text x="75.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">+ cache client</text>
+<rect x="210" y="20" width="130" height="44" rx="10" class="purple"/>
+<text x="275.0" y="42.0" text-anchor="middle" dominant-baseline="middle">Hash ring</text>
+<path d="M140,125 L210,45" class="arrow dashed" marker-end="url(#distributed-caching-h)"/>
+<rect x="290" y="100" width="120" height="44" rx="10" class="amber"/>
+<text x="350.0" y="122.0" text-anchor="middle" dominant-baseline="middle">Cache node 1</text>
+<path d="M140,140 L290,122" class="arrow" marker-end="url(#distributed-caching-h)"/>
+<rect x="470" y="100" width="120" height="44" rx="10" class="box"/>
+<text x="530.0" y="122.0" text-anchor="middle" dominant-baseline="middle">Replica</text>
+<path d="M410,122 L470,122" class="arrow dashed" marker-end="url(#distributed-caching-h)"/>
+<rect x="290" y="160" width="120" height="44" rx="10" class="amber"/>
+<text x="350.0" y="182.0" text-anchor="middle" dominant-baseline="middle">Cache node 2</text>
+<path d="M140,140 L290,182" class="arrow" marker-end="url(#distributed-caching-h)"/>
+<rect x="470" y="160" width="120" height="44" rx="10" class="box"/>
+<text x="530.0" y="182.0" text-anchor="middle" dominant-baseline="middle">Replica</text>
+<path d="M410,182 L470,182" class="arrow dashed" marker-end="url(#distributed-caching-h)"/>
+<rect x="290" y="220" width="120" height="44" rx="10" class="amber"/>
+<text x="350.0" y="242.0" text-anchor="middle" dominant-baseline="middle">Cache node 3</text>
+<path d="M140,140 L290,242" class="arrow" marker-end="url(#distributed-caching-h)"/>
+<rect x="470" y="220" width="120" height="44" rx="10" class="box"/>
+<text x="530.0" y="242.0" text-anchor="middle" dominant-baseline="middle">Replica</text>
+<path d="M410,242 L470,242" class="arrow dashed" marker-end="url(#distributed-caching-h)"/>
+<rect x="650" y="140" width="130" height="60" rx="10" class="red"/>
+<text x="715.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="bold">Database</text>
+<text x="715.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="small">on a miss</text>
+<path d="M590,182 L650,175" class="arrow dashed" marker-end="url(#distributed-caching-h)"/>
+</svg>
+<figcaption>The client library hashes the key to a node. Each shard has a replica for failover.</figcaption>
+</figure>

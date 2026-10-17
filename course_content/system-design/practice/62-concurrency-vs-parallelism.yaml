@@ -1,0 +1,33 @@
+chapter: sessions/62-concurrency-vs-parallelism
+quizzes:
+- title: Chapter 62 · Quiz
+  description: 'Check yourself on: concurrency vs parallelism.'
+  questions:
+  - text: 'Concurrency means:'
+    choices: |
+      Running tasks on many cores only
+      Running slowly
+      Using GPUs
+      *Dealing with many tasks by interleaving them
+    explanation: Parallelism runs at the same instant.
+  - text: 'I/O-bound work benefits most from:'
+    choices: |
+      More CPU cores only
+      Bigger disks
+      *Concurrency (async or threads)
+      Compression
+    explanation: Overlap the waiting.
+  - text: 'Amdahl''s law says a job that is 10% sequential can speed up at most:'
+    choices: |
+      100x
+      2x
+      *10x
+      Infinitely
+    explanation: 1 / 0.10.
+  - text: 'A race condition is:'
+    choices: |
+      A network error
+      A fast algorithm
+      *A result that depends on timing
+      A database index
+    explanation: Protect shared state with locks or messages.

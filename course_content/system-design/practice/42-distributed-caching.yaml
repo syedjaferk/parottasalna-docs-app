@@ -1,0 +1,33 @@
+chapter: sessions/42-distributed-caching
+quizzes:
+- title: Chapter 42 · Quiz
+  description: 'Check yourself on: distributed caching.'
+  questions:
+  - text: 'hash(key) % N placement when a cache node is added:'
+    choices: |
+      Moves 1/N keys
+      *Wipes most of the cache
+      Changes nothing
+      Speeds everything
+    explanation: Use consistent hashing.
+  - text: 'A viral product overloads one cache node. This is a:'
+    choices: |
+      *Hot key
+      Avalanche
+      Cold start
+      Penetration
+    explanation: Add a local cache or replicate the key.
+  - text: 'Requests for keys that do not exist always hit the database. This is:'
+    choices: |
+      Stampede
+      Eviction
+      *Cache penetration
+      Avalanche
+    explanation: Cache 'not found' briefly or use a Bloom filter.
+  - text: 'TTL jitter prevents:'
+    choices: |
+      Encryption
+      Typos
+      Replication
+      *Many keys expiring at the same moment
+    explanation: Avalanche.

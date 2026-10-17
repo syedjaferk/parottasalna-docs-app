@@ -1,0 +1,33 @@
+chapter: sessions/04-scalability
+quizzes:
+- title: Chapter 4 · Quiz
+  description: 'Check yourself on: scalability.'
+  questions:
+  - text: A page is fast for one user but slow for a million. What is this?
+    choices: |
+      A DNS problem
+      A performance problem
+      *A scalability problem
+      A security problem
+    explanation: Fast alone, slow under load is scalability.
+  - text: What does scaling out mean?
+    choices: |
+      Using a faster language
+      Removing features
+      Buying a bigger machine
+      *Adding more machines
+    explanation: Horizontal scaling adds nodes.
+  - text: Which property makes horizontal scaling of web servers easy?
+    choices: |
+      Each user has a favourite server
+      Servers hold sessions in memory
+      There is only one database connection
+      *Servers are stateless
+    explanation: Any server can answer any request.
+  - text: Your shop cart lives in server memory behind a load balancer. What is the smallest fix?
+    choices: |
+      *Store carts in a shared store such as Redis
+      Shard the database
+      Add more RAM
+      Disable the load balancer
+    explanation: State must move out of the web server.

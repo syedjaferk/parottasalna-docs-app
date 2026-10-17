@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 250" role="img" aria-labelledby="fault-tolerance-t fault-tolerance-d" xmlns="http://www.w3.org/2000/svg">
+<title id="fault-tolerance-t">Fault tolerance keeps users unaware</title>
+<desc id="fault-tolerance-d">A fault in one copy is masked by the others, so the user sees a normal answer.</desc>
+<defs><marker id="fault-tolerance-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="fault-tolerance-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="fault-tolerance-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="fault-tolerance-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="95" width="90" height="50" rx="10" class="blue"/>
+<text x="65.0" y="120.0" text-anchor="middle" dominant-baseline="middle">Request</text>
+<rect x="180" y="95" width="120" height="50" rx="10" class="purple"/>
+<text x="240.0" y="110.0" text-anchor="middle" dominant-baseline="middle">Voter /</text>
+<text x="240.0" y="130.0" text-anchor="middle" dominant-baseline="middle">balancer</text>
+<rect x="380" y="30" width="120" height="44" rx="10" class="green"/>
+<text x="440.0" y="52.0" text-anchor="middle" dominant-baseline="middle">Replica A</text>
+<rect x="380" y="100" width="120" height="44" rx="10" class="red"/>
+<text x="440.0" y="122.0" text-anchor="middle" dominant-baseline="middle">Replica B</text>
+<rect x="380" y="170" width="120" height="44" rx="10" class="green"/>
+<text x="440.0" y="192.0" text-anchor="middle" dominant-baseline="middle">Replica C</text>
+<rect x="580" y="95" width="170" height="50" rx="10" class="green"/>
+<text x="665.0" y="110.0" text-anchor="middle" dominant-baseline="middle">Correct answer</text>
+<text x="665.0" y="130.0" text-anchor="middle" dominant-baseline="middle">(2 of 3 agree)</text>
+<path d="M110,120 L180,120" class="arrow" marker-end="url(#fault-tolerance-h)"/>
+<path d="M300,120 L380,52" class="arrow" marker-end="url(#fault-tolerance-h)"/>
+<path d="M300,120 L380,122" class="arrow" marker-end="url(#fault-tolerance-h)"/>
+<path d="M300,120 L380,192" class="arrow" marker-end="url(#fault-tolerance-h)"/>
+<path d="M500,52 L580,110" class="arrow" marker-end="url(#fault-tolerance-h)"/>
+<path d="M500,192 L580,130" class="arrow" marker-end="url(#fault-tolerance-h)"/>
+<path d="M500,122 L580,120" class="arrow dashed" marker-end="url(#fault-tolerance-h)"/>
+<text x="440" y="236" text-anchor="middle" dominant-baseline="middle" class="small">Replica B is faulty; the user never notices.</text>
+</svg>
+<figcaption>A fault in one copy is masked by the others, so the user sees a normal answer.</figcaption>
+</figure>

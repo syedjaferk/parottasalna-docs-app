@@ -1,0 +1,33 @@
+chapter: sessions/60-top-system-design-tradeoffs
+quizzes:
+- title: Chapter 60 · Quiz
+  description: 'Check yourself on: top system design tradeoffs.'
+  questions:
+  - text: 'A good trade-off statement includes:'
+    choices: |
+      Only the choice
+      *The choice, the reason and what would change it
+      A joke
+      A brand name
+    explanation: Tie it to requirements and numbers.
+  - text: 'Money and inventory lean towards:'
+    choices: |
+      *Consistency
+      Eventual consistency
+      Availability over all
+      No transactions
+    explanation: Wrong is worse than slow.
+  - text: 'Likes and view counts lean towards:'
+    choices: |
+      Two-phase commit
+      Strong consistency
+      *Availability and eventual consistency
+      Distributed locks
+    explanation: Approximate is fine.
+  - text: 'For a small early product, lean towards:'
+    choices: |
+      Multi-region
+      Sharding
+      Many microservices
+      *A simple monolith and one database
+    explanation: Complexity must be earned.

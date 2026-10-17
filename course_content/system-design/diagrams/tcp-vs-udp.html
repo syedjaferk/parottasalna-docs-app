@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 330" role="img" aria-labelledby="tcp-vs-udp-t tcp-vs-udp-d" xmlns="http://www.w3.org/2000/svg">
+<title id="tcp-vs-udp-t">TCP handshake and acknowledgements vs UDP datagrams</title>
+<desc id="tcp-vs-udp-d">TCP sets up a connection and retransmits lost data. UDP sends datagrams and forgets them.</desc>
+<defs><marker id="tcp-vs-udp-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="tcp-vs-udp-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="tcp-vs-udp-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="tcp-vs-udp-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="22" text-anchor="middle" dominant-baseline="middle" class="title">TCP</text>
+<text x="590" y="22" text-anchor="middle" dominant-baseline="middle" class="title">UDP</text>
+<line x1="100" y1="40" x2="100" y2="310" class="line"/>
+<line x1="300" y1="40" x2="300" y2="310" class="line"/>
+<text x="100" y="34" text-anchor="middle" dominant-baseline="middle" class="small">Client</text>
+<text x="300" y="34" text-anchor="middle" dominant-baseline="middle" class="small">Server</text>
+<path d="M100,70 L300,90" class="arrow blue" marker-end="url(#tcp-vs-udp-h-blue)"/>
+<text x="200" y="68" text-anchor="middle" dominant-baseline="middle" class="small">SYN</text>
+<path d="M300,110 L100,130" class="arrow green" marker-end="url(#tcp-vs-udp-h-green)"/>
+<text x="200" y="108" text-anchor="middle" dominant-baseline="middle" class="small">SYN-ACK</text>
+<path d="M100,150 L300,170" class="arrow blue" marker-end="url(#tcp-vs-udp-h-blue)"/>
+<text x="200" y="148" text-anchor="middle" dominant-baseline="middle" class="small">ACK</text>
+<path d="M100,195 L300,215" class="arrow" marker-end="url(#tcp-vs-udp-h)"/>
+<text x="200" y="193" text-anchor="middle" dominant-baseline="middle" class="small">data #1</text>
+<path d="M300,235 L100,255" class="arrow green" marker-end="url(#tcp-vs-udp-h-green)"/>
+<text x="200" y="233" text-anchor="middle" dominant-baseline="middle" class="small">ack #1</text>
+<path d="M100,275 L200,285" class="arrow red" marker-end="url(#tcp-vs-udp-h-red)"/>
+<text x="150" y="300" text-anchor="middle" dominant-baseline="middle" class="small">data #2 lost: resend</text>
+<line x1="490" y1="40" x2="490" y2="310" class="line"/>
+<line x1="690" y1="40" x2="690" y2="310" class="line"/>
+<text x="490" y="34" text-anchor="middle" dominant-baseline="middle" class="small">Sender</text>
+<text x="690" y="34" text-anchor="middle" dominant-baseline="middle" class="small">Receiver</text>
+<path d="M490,90 L690,110" class="arrow" marker-end="url(#tcp-vs-udp-h)"/>
+<text x="590" y="88" text-anchor="middle" dominant-baseline="middle" class="small">datagram 1</text>
+<path d="M490,150 L690,170" class="arrow" marker-end="url(#tcp-vs-udp-h)"/>
+<text x="590" y="148" text-anchor="middle" dominant-baseline="middle" class="small">datagram 2</text>
+<path d="M490,210 L600,222" class="arrow red" marker-end="url(#tcp-vs-udp-h-red)"/>
+<text x="590" y="240" text-anchor="middle" dominant-baseline="middle" class="small">datagram 3 lost: nobody resends</text>
+<text x="590" y="290" text-anchor="middle" dominant-baseline="middle" class="small">No handshake. No acks. No order.</text>
+</svg>
+<figcaption>TCP sets up a connection and retransmits lost data. UDP sends datagrams and forgets them.</figcaption>
+</figure>

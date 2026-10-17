@@ -1,0 +1,33 @@
+chapter: sessions/51-gossip-protocol
+quizzes:
+- title: Chapter 51 · Quiz
+  description: 'Check yourself on: gossip protocol.'
+  questions:
+  - text: 'Gossip spreads information in about:'
+    choices: |
+      1 round
+      *log(N) rounds
+      N squared rounds
+      N rounds
+    explanation: Informed nodes roughly double each round.
+  - text: 'Gossip is good for:'
+    choices: |
+      *Membership and failure detection
+      Leader election
+      Locks
+      Money transfers
+    explanation: It is eventual, not agreed.
+  - text: 'A node''s heartbeat counter stops rising in gossip. Others:'
+    choices: |
+      Ignore it
+      *Suspect it, then declare it dead after more time
+      Restart it
+      Delete it instantly
+    explanation: Avoid hasty false positives.
+  - text: 'A new node joins gossip through:'
+    choices: |
+      The CDN
+      *A seed node
+      DNS only
+      A random IP
+    explanation: It needs someone to talk to first.

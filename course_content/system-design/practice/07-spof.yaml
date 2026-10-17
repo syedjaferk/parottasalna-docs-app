@@ -1,0 +1,33 @@
+chapter: sessions/07-spof
+quizzes:
+- title: Chapter 7 · Quiz
+  description: 'Check yourself on: spof.'
+  questions:
+  - text: What is a single point of failure?
+    choices: |
+      The slowest query
+      *One component whose failure takes the whole system down
+      The oldest code
+      The biggest server
+    explanation: Remove it by duplicating it.
+  - text: 'Two servers on the same rack and power strip are:'
+    choices: |
+      Two zones
+      Fault tolerant
+      *One failure domain
+      Fully redundant
+    explanation: Independent failure domains are what count.
+  - text: Which is a hidden single point of failure?
+    choices: |
+      A replicated database
+      *An expiring TLS certificate
+      Two DNS providers
+      Three app servers
+    explanation: When it expires every client fails.
+  - text: How do you prove failover works?
+    choices: |
+      Add a comment in the code
+      Assume it works
+      Read the documentation
+      *Test it by failing the component on purpose
+    explanation: Untested failover usually fails.

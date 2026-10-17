@@ -1,0 +1,33 @@
+chapter: sessions/77-design-key-value-store
+quizzes:
+- title: Chapter 77 · Quiz
+  description: 'Check yourself on: design key value store.'
+  questions:
+  - text: 'N=3, W=2, R=2: why do reads see the latest write?'
+    choices: |
+      *R + W > N so the sets overlap
+      Writes are slow
+      Reads are random
+      Replicas are identical always
+    explanation: At least one replica has the newest value.
+  - text: Hinted handoff does what?
+    choices: |
+      Deletes old data
+      *A live node holds a write for a down replica and replays it later
+      Elects a leader
+      Encrypts writes
+    explanation: Short outages cost nothing.
+  - text: 'Read repair:'
+    choices: |
+      Compresses data
+      *Writes the newest value back to a stale replica found during a read
+      Reads from disk
+      Repairs hardware
+    explanation: Self-healing on read.
+  - text: 'In an LSM tree a write goes first to:'
+    choices: |
+      The network
+      *A commit log and an in-memory memtable
+      A random file
+      A B-tree on disk
+    explanation: Sequential and durable.

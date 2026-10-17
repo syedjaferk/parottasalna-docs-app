@@ -1,0 +1,42 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 330" role="img" aria-labelledby="proxy-types-t proxy-types-d" xmlns="http://www.w3.org/2000/svg">
+<title id="proxy-types-t">Forward proxy vs reverse proxy</title>
+<desc id="proxy-types-d">A forward proxy acts for the clients. A reverse proxy acts for the servers. Clients never see the servers behind it.</desc>
+<defs><marker id="proxy-types-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="proxy-types-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="proxy-types-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="proxy-types-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="190" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Forward proxy (for clients)</text>
+<text x="600" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Reverse proxy (for servers)</text>
+<rect x="10" y="50" width="70" height="40" rx="10" class="blue"/>
+<text x="45.0" y="70.0" text-anchor="middle" dominant-baseline="middle">Client 1</text>
+<path d="M80,70 L150,125" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="10" y="110" width="70" height="40" rx="10" class="blue"/>
+<text x="45.0" y="130.0" text-anchor="middle" dominant-baseline="middle">Client 2</text>
+<path d="M80,130 L150,125" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="10" y="170" width="70" height="40" rx="10" class="blue"/>
+<text x="45.0" y="190.0" text-anchor="middle" dominant-baseline="middle">Client 3</text>
+<path d="M80,190 L150,125" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="150" y="100" width="110" height="50" rx="10" class="purple"/>
+<text x="205.0" y="115.0" text-anchor="middle" dominant-baseline="middle">Forward</text>
+<text x="205.0" y="135.0" text-anchor="middle" dominant-baseline="middle">proxy</text>
+<path d="M260,125 L320,125" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="320" y="100" width="100" height="50" rx="10" class="box"/>
+<text x="370.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Internet</text>
+<rect x="480" y="110" width="70" height="50" rx="10" class="blue"/>
+<text x="515.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Clients</text>
+<path d="M550,135 L600,135" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="600" y="110" width="100" height="50" rx="10" class="purple"/>
+<text x="650.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Reverse</text>
+<text x="650.0" y="145.0" text-anchor="middle" dominant-baseline="middle">proxy</text>
+<rect x="730" y="40" width="60" height="40" rx="10" class="green"/>
+<text x="760.0" y="60.0" text-anchor="middle" dominant-baseline="middle">App 1</text>
+<path d="M700,135 L730,60" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="730" y="110" width="60" height="40" rx="10" class="green"/>
+<text x="760.0" y="130.0" text-anchor="middle" dominant-baseline="middle">App 2</text>
+<path d="M700,135 L730,130" class="arrow" marker-end="url(#proxy-types-h)"/>
+<rect x="730" y="180" width="60" height="40" rx="10" class="green"/>
+<text x="760.0" y="200.0" text-anchor="middle" dominant-baseline="middle">App 3</text>
+<path d="M700,135 L730,200" class="arrow" marker-end="url(#proxy-types-h)"/>
+<text x="190" y="205" text-anchor="middle" dominant-baseline="middle" class="small">hides the clients; filters and caches</text>
+<text x="620" y="245" text-anchor="middle" dominant-baseline="middle" class="small">hides the servers; TLS, balancing, caching</text>
+</svg>
+<figcaption>A forward proxy acts for the clients. A reverse proxy acts for the servers. Clients never see the servers behind it.</figcaption>
+</figure>

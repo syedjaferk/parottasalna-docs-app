@@ -293,8 +293,8 @@
         ]
       },
       "chapter": {
-        "title": "Design UPI payments",
-        "href": "sessions/19-design-upi-payments.html"
+        "title": "Design Unified Payments Interface (UPI)",
+        "href": "sessions/80-design-upi-payments.html"
       },
       "options": [
         {
@@ -343,8 +343,8 @@
         ]
       },
       "chapter": {
-        "title": "Design UPI payments",
-        "href": "sessions/19-design-upi-payments.html"
+        "title": "Design Unified Payments Interface (UPI)",
+        "href": "sessions/80-design-upi-payments.html"
       },
       "options": [
         {
@@ -449,8 +449,8 @@
         ]
       },
       "chapter": {
-        "title": "Queues, rate limiting and resilience",
-        "href": "sessions/09-async-and-resilience.html"
+        "title": "Idempotency",
+        "href": "sessions/27-idempotency.html"
       },
       "pitfall": "Retrying a debit with a new id.",
       "followup": "Where is the id stored, and for how long?",
@@ -494,8 +494,8 @@
         ]
       },
       "chapter": {
-        "title": "Databases, CAP and consistency",
-        "href": "sessions/08-databases-cap-and-consistency.html"
+        "title": "ACID transactions",
+        "href": "sessions/29-acid.html"
       },
       "options": [
         {
@@ -540,8 +540,8 @@
         ]
       },
       "chapter": {
-        "title": "Design UPI payments",
-        "href": "sessions/19-design-upi-payments.html"
+        "title": "Design Unified Payments Interface (UPI)",
+        "href": "sessions/80-design-upi-payments.html"
       },
       "items": [
         {
@@ -580,8 +580,8 @@
         ]
       },
       "chapter": {
-        "title": "Design UPI payments",
-        "href": "sessions/19-design-upi-payments.html"
+        "title": "Design Unified Payments Interface (UPI)",
+        "href": "sessions/80-design-upi-payments.html"
       },
       "followup": "What if the reversal itself fails?",
       "options": [
@@ -624,8 +624,8 @@
         ]
       },
       "chapter": {
-        "title": "Queues, rate limiting and resilience",
-        "href": "sessions/09-async-and-resilience.html"
+        "title": "Reliability",
+        "href": "sessions/06-reliability.html"
       },
       "pitfall": "Treating a timeout as a failure.",
       "options": [
@@ -666,7 +666,7 @@
       },
       "chapter": {
         "title": "Design an authentication system",
-        "href": "sessions/18-design-authentication-system.html"
+        "href": "sessions/79-design-authentication-system.html"
       },
       "options": [
         {
@@ -710,8 +710,8 @@
         ]
       },
       "chapter": {
-        "title": "Scaling data",
-        "href": "sessions/06-scaling-data.html"
+        "title": "Database sharding",
+        "href": "sessions/32-sharding.html"
       },
       "options": [
         {

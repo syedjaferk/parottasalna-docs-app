@@ -1,0 +1,33 @@
+chapter: sessions/19-http-and-https
+quizzes:
+- title: Chapter 19 · Quiz
+  description: 'Check yourself on: http and https.'
+  questions:
+  - text: Which status code means 'created'?
+    choices: |
+      404
+      *201
+      200
+      301
+    explanation: 200 is OK; 201 is created.
+  - text: Which HTTP method is idempotent?
+    choices: |
+      *PUT
+      POST
+      Only GET
+      No method is
+    explanation: Putting the same value twice leaves the same state.
+  - text: What does TLS use public-key cryptography for?
+    choices: |
+      *Agreeing on a secret key in the handshake
+      Encrypting every byte of data
+      Compressing pages
+      Choosing the server
+    explanation: The data itself uses fast symmetric encryption.
+  - text: 'A 304 response means:'
+    choices: |
+      *Not modified: keep using your cached copy
+      Not found
+      Server error
+      Forbidden
+    explanation: Used with ETag and If-None-Match.

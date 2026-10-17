@@ -1,0 +1,33 @@
+chapter: sessions/33-replication
+quizzes:
+- title: Chapter 33 · Quiz
+  description: 'Check yourself on: replication.'
+  questions:
+  - text: 'With asynchronous replication, a leader crash right after acknowledging a write can:'
+    choices: |
+      Slow DNS
+      Corrupt the index
+      Duplicate it
+      *Lose that write
+    explanation: Followers may not have it yet.
+  - text: 'A user edits their profile, refreshes and sees the old one. This is:'
+    choices: |
+      A TLS error
+      *Replication lag (missing read-your-writes)
+      A CDN bug
+      A sharding error
+    explanation: Read from the leader briefly after a write.
+  - text: Is a replica a backup?
+    choices: |
+      *No: a bad delete replicates to every copy
+      Only with sharding
+      Only in the same rack
+      Yes, always
+    explanation: Backups keep point-in-time states.
+  - text: 'Leaderless replication such as Cassandra uses:'
+    choices: |
+      Only one copy
+      *Quorum reads and writes
+      A single leader
+      No replicas
+    explanation: R + W > N.

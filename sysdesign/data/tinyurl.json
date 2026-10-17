@@ -376,7 +376,7 @@
       },
       "chapter": {
         "title": "Generating unique short IDs",
-        "href": "sessions/04-unique-ids.html"
+        "href": "sessions/38-unique-ids.html"
       }
     },
     {
@@ -415,8 +415,8 @@
         ]
       },
       "chapter": {
-        "title": "APIs, data model and choosing a database",
-        "href": "sessions/03-api-and-data-model.html"
+        "title": "API design",
+        "href": "sessions/24-api-design.html"
       }
     },
     {
@@ -450,8 +450,8 @@
         ]
       },
       "chapter": {
-        "title": "Caching and serving reads",
-        "href": "sessions/05-caching.html"
+        "title": "HTTP and HTTPS",
+        "href": "sessions/19-http-and-https.html"
       }
     },
     {
@@ -494,8 +494,8 @@
         ]
       },
       "chapter": {
-        "title": "APIs, data model and choosing a database",
-        "href": "sessions/03-api-and-data-model.html"
+        "title": "SQL vs NoSQL",
+        "href": "sessions/30-sql-vs-nosql.html"
       }
     },
     {
@@ -551,8 +551,8 @@
         ]
       },
       "chapter": {
-        "title": "Caching and serving reads",
-        "href": "sessions/05-caching.html"
+        "title": "Caching 101",
+        "href": "sessions/39-caching-101.html"
       }
     },
     {
@@ -595,7 +595,7 @@
       },
       "chapter": {
         "title": "Generating unique short IDs",
-        "href": "sessions/04-unique-ids.html"
+        "href": "sessions/38-unique-ids.html"
       }
     },
     {
@@ -620,7 +620,7 @@
       },
       "chapter": {
         "title": "Generating unique short IDs",
-        "href": "sessions/04-unique-ids.html"
+        "href": "sessions/38-unique-ids.html"
       }
     },
     {
@@ -645,8 +645,8 @@
         ]
       },
       "chapter": {
-        "title": "Caching and serving reads",
-        "href": "sessions/05-caching.html"
+        "title": "Caching 101",
+        "href": "sessions/39-caching-101.html"
       }
     },
     {
@@ -691,8 +691,8 @@
         }
       },
       "chapter": {
-        "title": "Scaling the data layer",
-        "href": "sessions/06-scaling-data.html"
+        "title": "Database sharding",
+        "href": "sessions/32-sharding.html"
       }
     },
     {
@@ -743,8 +743,8 @@
         ]
       },
       "chapter": {
-        "title": "Scaling the data layer",
-        "href": "sessions/06-scaling-data.html"
+        "title": "Fault tolerance",
+        "href": "sessions/09-fault-tolerance.html"
       }
     },
     {

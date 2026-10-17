@@ -1,0 +1,33 @@
+chapter: sessions/10-latency-throughput-and-bandwidth
+quizzes:
+- title: Chapter 10 · Quiz
+  description: 'Check yourself on: latency throughput and bandwidth.'
+  questions:
+  - text: 'Little''s law says requests in flight equal:'
+    choices: |
+      Bandwidth x latency
+      *Throughput x latency
+      Latency squared
+      Throughput / latency
+    explanation: 500 rps at 200 ms means 100 in flight.
+  - text: Why quote p99 instead of the average latency?
+    choices: |
+      p99 is cheaper to measure
+      p99 is always smaller
+      Averages cannot be calculated
+      *The average hides the slow tail users actually hit
+    explanation: A few very slow requests barely move the mean.
+  - text: A page waits for 20 parallel calls, each slow 1% of the time. About how often is the page slow?
+    choices: |
+      1%
+      *18%
+      50%
+      0.05%
+    explanation: 1 - 0.99^20.
+  - text: '2 MB sent over a 20 Mbit/s link takes about:'
+    choices: |
+      8 seconds
+      0.1 seconds
+      *0.8 seconds
+      80 ms
+    explanation: 2 x 8 / 20.

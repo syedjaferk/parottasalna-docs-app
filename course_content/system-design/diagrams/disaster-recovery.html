@@ -1,0 +1,31 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 290" role="img" aria-labelledby="disaster-recovery-t disaster-recovery-d" xmlns="http://www.w3.org/2000/svg">
+<title id="disaster-recovery-t">RPO and RTO</title>
+<desc id="disaster-recovery-d">RPO is how much data you may lose. RTO is how long you may be down.</desc>
+<defs><marker id="disaster-recovery-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="disaster-recovery-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="disaster-recovery-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="disaster-recovery-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<line x1="40" y1="120" x2="760" y2="120" class="line"/>
+<circle cx="220" cy="120" r="10" class="circle-b"/>
+<text x="220" y="150" text-anchor="middle" dominant-baseline="middle" class="small">last good backup</text>
+<circle cx="420" cy="120" r="10" class="circle-a"/>
+<text x="420" y="150" text-anchor="middle" dominant-baseline="middle" class="bold">disaster</text>
+<circle cx="640" cy="120" r="10" class="circle-b"/>
+<text x="640" y="150" text-anchor="middle" dominant-baseline="middle" class="small">service restored</text>
+<path d="M220,95 L420,95" class="arrow red" marker-end="url(#disaster-recovery-h-red)"/>
+<text x="320" y="75" text-anchor="middle" dominant-baseline="middle" class="small">data lost (RPO)</text>
+<path d="M420,95 L640,95" class="arrow blue" marker-end="url(#disaster-recovery-h-blue)"/>
+<text x="530" y="75" text-anchor="middle" dominant-baseline="middle" class="small">downtime (RTO)</text>
+<rect x="40" y="190" width="170" height="70" rx="10" class="red"/>
+<text x="125.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="bold">Backup + restore</text>
+<text x="125.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">hours</text>
+<rect x="230" y="190" width="170" height="70" rx="10" class="amber"/>
+<text x="315.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="bold">Pilot light</text>
+<text x="315.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">tens of minutes</text>
+<rect x="420" y="190" width="170" height="70" rx="10" class="blue"/>
+<text x="505.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="bold">Warm standby</text>
+<text x="505.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">minutes</text>
+<rect x="610" y="190" width="150" height="70" rx="10" class="green"/>
+<text x="685.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="bold">Active-active</text>
+<text x="685.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">about zero</text>
+</svg>
+<figcaption>RPO is how much data you may lose. RTO is how long you may be down.</figcaption>
+</figure>

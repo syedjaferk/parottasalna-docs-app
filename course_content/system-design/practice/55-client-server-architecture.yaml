@@ -1,0 +1,33 @@
+chapter: sessions/55-client-server-architecture
+quizzes:
+- title: Chapter 55 · Quiz
+  description: 'Check yourself on: client server architecture.'
+  questions:
+  - text: Who starts the conversation in client-server?
+    choices: |
+      The CDN
+      The database
+      *The client
+      The server
+    explanation: Servers wait and respond.
+  - text: 'Never trust the client means:'
+    choices: |
+      Block all clients
+      Encrypt the UI
+      Hide the UI
+      *Validate and authorise on the server
+    explanation: Anyone can craft requests.
+  - text: 'In a three-tier design the tiers are:'
+    choices: |
+      *Presentation, application logic, data
+      DNS, proxy, firewall
+      Dev, test, prod
+      Cache, queue, CDN
+    explanation: Separation of concerns.
+  - text: 'A two-tier design with clients talking directly to the database is risky because:'
+    choices: |
+      It is too slow
+      DBs reject it
+      SQL is old
+      *Credentials and queries are exposed on every client
+    explanation: Put an application tier in between.

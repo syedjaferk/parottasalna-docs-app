@@ -1,0 +1,33 @@
+chapter: sessions/67-read-through-vs-write-through-cache
+quizzes:
+- title: Chapter 67 · Quiz
+  description: 'Check yourself on: read through vs write through cache.'
+  questions:
+  - text: 'Read-through is triggered by:'
+    choices: |
+      A write
+      A deploy
+      A timer
+      *A read miss
+    explanation: The cache loads from the database.
+  - text: 'Write-through writes:'
+    choices: |
+      Cache only
+      Database only
+      Later in batches
+      *Cache and database together, synchronously
+    explanation: Write-behind is the asynchronous one.
+  - text: In write-through, why write the database first?
+    choices: |
+      No reason
+      Caches reject writes
+      Databases are faster
+      *It is the source of truth if the cache write fails
+    explanation: Retry or invalidate the cache.
+  - text: 'A product page read 1,000 times per update benefits most from:'
+    choices: |
+      *Read-through or cache-aside
+      No cache
+      Write-around
+      Write-behind
+    explanation: Read-heavy workload.

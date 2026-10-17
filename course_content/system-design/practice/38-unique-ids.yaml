@@ -1,0 +1,33 @@
+chapter: sessions/38-unique-ids
+quizzes:
+- title: Chapter 38 · Quiz
+  description: 'Check yourself on: unique ids.'
+  questions:
+  - text: Why are plain counters bad as public short codes?
+    choices: |
+      They are too long
+      They need Unicode
+      They collide
+      *They are guessable and enumerable
+    explanation: Scramble reversibly before encoding.
+  - text: 'A reversible scramble keeps codes:'
+    choices: |
+      Cache-free
+      Short forever
+      Sorted
+      *Unique and unguessable
+    explanation: A bijection cannot create duplicates.
+  - text: What are the three parts of a Snowflake ID?
+    choices: |
+      User id, name, age
+      Hash, salt, pepper
+      Region, zone, rack
+      *Timestamp, machine id, sequence
+    explanation: No coordinator per ID.
+  - text: 'A Snowflake generator sees the clock go backwards. It must:'
+    choices: |
+      Keep going
+      Reset the machine id
+      Use random bits
+      *Refuse to issue ids
+    explanation: Otherwise it may duplicate an id.

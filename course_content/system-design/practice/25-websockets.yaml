@@ -1,0 +1,33 @@
+chapter: sessions/25-websockets
+quizzes:
+- title: Chapter 25 · Quiz
+  description: 'Check yourself on: websockets.'
+  questions:
+  - text: 'A WebSocket connection starts as:'
+    choices: |
+      *An HTTP request asking to upgrade
+      An SMTP message
+      A DNS query
+      A UDP packet
+    explanation: Status 101 Switching Protocols.
+  - text: Asha is on server 1, Ravi on server 4. How does Ravi get her message?
+    choices: |
+      *Via pub/sub between the servers
+      It cannot
+      Asha reconnects to server 4
+      Ravi polls
+    explanation: Servers share messages through a broker.
+  - text: What should a client do after a dropped connection?
+    choices: |
+      Give up
+      Reconnect instantly forever
+      Reload the page
+      *Reconnect with backoff and ask for messages after its last id
+    explanation: Replay prevents lost messages.
+  - text: 'WebSockets are a poor fit for:'
+    choices: |
+      Live trading prices
+      Chat
+      *Data that changes once a minute
+      Multiplayer games
+    explanation: Simple polling is easier and cacheable.

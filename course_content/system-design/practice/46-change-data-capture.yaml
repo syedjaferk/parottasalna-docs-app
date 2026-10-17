@@ -1,0 +1,33 @@
+chapter: sessions/46-change-data-capture
+quizzes:
+- title: Chapter 46 · Quiz
+  description: 'Check yourself on: change data capture.'
+  questions:
+  - text: 'CDC reads:'
+    choices: |
+      The DNS zone
+      *The database's transaction log
+      The CDN
+      The application logs
+    explanation: Every committed change, in order.
+  - text: Why is 'write to DB then publish to Kafka' unsafe?
+    choices: |
+      Kafka is slow
+      *A crash between them loses the event
+      DBs forbid it
+      It uses too much memory
+    explanation: Use the outbox pattern.
+  - text: 'Polling updated_at misses:'
+    choices: |
+      *Hard deletes
+      Nothing
+      Inserts
+      Updates
+    explanation: The row is gone, so no timestamp exists.
+  - text: 'A CDC consumer restarts. It resumes from:'
+    choices: |
+      The newest event only
+      The beginning of time
+      *Its stored offset
+      A random place
+    explanation: Make processing idempotent.

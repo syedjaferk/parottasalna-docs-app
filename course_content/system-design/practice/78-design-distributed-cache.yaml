@@ -1,0 +1,33 @@
+chapter: sessions/78-design-distributed-cache
+quizzes:
+- title: Chapter 78 · Quiz
+  description: 'Check yourself on: design distributed cache.'
+  questions:
+  - text: 'After a node dies, replicas mainly protect:'
+    choices: |
+      *The database from a flood of misses
+      DNS
+      The CDN
+      TLS
+    explanation: The cache protects the database.
+  - text: '100 simultaneous misses for one key should cause:'
+    choices: |
+      A crash
+      100 reads
+      No reads
+      *One database read (request coalescing)
+    explanation: A per-key lock.
+  - text: 'Adding a node with consistent hashing moves about:'
+    choices: |
+      No keys
+      *15% of keys with 5 nodes growing to 6
+      83% of keys
+      All keys
+    explanation: Modulo placement moves most keys.
+  - text: 'The cache is:'
+    choices: |
+      The only copy
+      *Never the source of truth
+      Durable storage
+      A queue
+    explanation: The database is.

@@ -1,0 +1,33 @@
+chapter: sessions/76-design-vending-machine
+quizzes:
+- title: Chapter 76 · Quiz
+  description: 'Check yourself on: design vending machine.'
+  questions:
+  - text: 'The State pattern gives each state:'
+    choices: |
+      *Its own class with the same methods
+      A thread
+      A global variable
+      A database table
+    explanation: Behaviour changes with state.
+  - text: 'Before dispensing the machine must check:'
+    choices: |
+      The time
+      *That exact change can be made
+      The network
+      The weather
+    explanation: Validate before the irreversible step.
+  - text: 'A power loss mid-vend should:'
+    choices: |
+      Lose the money
+      *Persist state so the balance is refunded on reboot
+      Dispense twice
+      Ignore it
+    explanation: Do not trap customer money.
+  - text: 'A fleet of machines should be:'
+    choices: |
+      *Offline-first, syncing events later
+      Dependent on a central approval per sale
+      Cloud-only
+      Stateless without storage
+    explanation: A network blip must not stop sales.

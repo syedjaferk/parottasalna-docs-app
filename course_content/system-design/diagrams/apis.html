@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 250" role="img" aria-labelledby="apis-t apis-d" xmlns="http://www.w3.org/2000/svg">
+<title id="apis-t">An API is a contract</title>
+<desc id="apis-d">The client depends only on requests, responses and status codes, not on how the server is built.</desc>
+<defs><marker id="apis-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="apis-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="apis-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="apis-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="80" width="130" height="70" rx="10" class="blue"/>
+<text x="85.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="bold">Client</text>
+<text x="85.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">mobile / web</text>
+<rect x="250" y="70" width="190" height="90" rx="10" class="purple"/>
+<text x="345.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">API (the contract)</text>
+<text x="345.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="code">GET /orders/42</text>
+<text x="345.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">POST /orders</text>
+<rect x="540" y="20" width="200" height="60" rx="10" class="green"/>
+<text x="640.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Server code</text>
+<text x="640.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">can change freely</text>
+<rect x="540" y="100" width="200" height="60" rx="10" class="green"/>
+<text x="640.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">Database</text>
+<text x="640.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">can change freely</text>
+<path d="M150,105 L250,105" class="arrow blue" marker-end="url(#apis-h-blue)"/>
+<text x="200" y="88" text-anchor="middle" dominant-baseline="middle" class="small">request</text>
+<path d="M250,130 L150,130" class="arrow green" marker-end="url(#apis-h-green)"/>
+<text x="200" y="150" text-anchor="middle" dominant-baseline="middle" class="small">200 + JSON</text>
+<path d="M440,100 L540,50" class="arrow" marker-end="url(#apis-h)"/>
+<path d="M440,130 L540,130" class="arrow" marker-end="url(#apis-h)"/>
+<text x="390" y="215" text-anchor="middle" dominant-baseline="middle" class="small">Change the inside as much as you like. Keep the contract stable.</text>
+</svg>
+<figcaption>The client depends only on requests, responses and status codes, not on how the server is built.</figcaption>
+</figure>

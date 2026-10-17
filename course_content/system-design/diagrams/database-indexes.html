@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="database-indexes-t database-indexes-d" xmlns="http://www.w3.org/2000/svg">
+<title id="database-indexes-t">A B-tree index</title>
+<desc id="database-indexes-d">Each level narrows the search. Three or four page reads find one row among hundreds of millions.</desc>
+<defs><marker id="database-indexes-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="database-indexes-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="database-indexes-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="database-indexes-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="330" y="20" width="140" height="40" rx="10" class="purple"/>
+<text x="400.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="code">root: 400 | 800</text>
+<rect x="120" y="100" width="140" height="40" rx="10" class="blue"/>
+<text x="190.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">100 | 200 | 300</text>
+<path d="M400,60 L190,100" class="arrow" marker-end="url(#database-indexes-h)"/>
+<rect x="330" y="100" width="140" height="40" rx="10" class="blue"/>
+<text x="400.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">500 | 600 | 700</text>
+<path d="M400,60 L400,100" class="arrow" marker-end="url(#database-indexes-h)"/>
+<rect x="540" y="100" width="140" height="40" rx="10" class="blue"/>
+<text x="610.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">900 | 1000</text>
+<path d="M400,60 L610,100" class="arrow" marker-end="url(#database-indexes-h)"/>
+<rect x="60" y="190" width="100" height="40" rx="10" class="green"/>
+<text x="110.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">rows ...</text>
+<rect x="180" y="190" width="100" height="40" rx="10" class="green"/>
+<text x="230.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">rows ...</text>
+<rect x="300" y="190" width="100" height="40" rx="10" class="green"/>
+<text x="350.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">rows ...</text>
+<rect x="420" y="190" width="100" height="40" rx="10" class="green"/>
+<text x="470.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">rows ...</text>
+<path d="M190,140 L110,190" class="arrow" marker-end="url(#database-indexes-h)"/>
+<path d="M190,140 L230,190" class="arrow" marker-end="url(#database-indexes-h)"/>
+<path d="M400,140 L350,190" class="arrow" marker-end="url(#database-indexes-h)"/>
+<path d="M400,140 L470,190" class="arrow" marker-end="url(#database-indexes-h)"/>
+<rect x="600" y="180" width="190" height="90" rx="10" class="red"/>
+<text x="695.0" y="205.0" text-anchor="middle" dominant-baseline="middle" class="bold">Without an index</text>
+<text x="695.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">scan all rows</text>
+<text x="695.0" y="245.0" text-anchor="middle" dominant-baseline="middle" class="small">10M rows read</text>
+<text x="300" y="265" text-anchor="middle" dominant-baseline="middle" class="small">With the index: about 4 page reads</text>
+</svg>
+<figcaption>Each level narrows the search. Three or four page reads find one row among hundreds of millions.</figcaption>
+</figure>

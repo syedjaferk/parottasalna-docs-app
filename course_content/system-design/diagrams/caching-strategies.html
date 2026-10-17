@@ -1,0 +1,46 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 330" role="img" aria-labelledby="caching-strategies-t caching-strategies-d" xmlns="http://www.w3.org/2000/svg">
+<title id="caching-strategies-t">Where the cache sits for reads and writes</title>
+<desc id="caching-strategies-d">Cache-aside: the app manages it. Read/write-through: the cache talks to the database. Write-behind: the database is updated later.</desc>
+<defs><marker id="caching-strategies-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="caching-strategies-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="caching-strategies-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="caching-strategies-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="180" height="60" rx="10" class="blue"/>
+<text x="110.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Cache-aside</text>
+<text x="110.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">app loads on miss</text>
+<rect x="60" y="120" width="100" height="44" rx="10" class="amber"/>
+<text x="110.0" y="142.0" text-anchor="middle" dominant-baseline="middle">Cache</text>
+<rect x="60" y="210" width="100" height="44" rx="10" class="red"/>
+<text x="110.0" y="232.0" text-anchor="middle" dominant-baseline="middle">Database</text>
+<path d="M110,80 L110,120" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<path d="M110,164 L110,210" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<rect x="215" y="20" width="180" height="60" rx="10" class="green"/>
+<text x="305.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Read-through</text>
+<text x="305.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">cache loads on miss</text>
+<rect x="255" y="120" width="100" height="44" rx="10" class="amber"/>
+<text x="305.0" y="142.0" text-anchor="middle" dominant-baseline="middle">Cache</text>
+<rect x="255" y="210" width="100" height="44" rx="10" class="red"/>
+<text x="305.0" y="232.0" text-anchor="middle" dominant-baseline="middle">Database</text>
+<path d="M305,80 L305,120" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<path d="M305,164 L305,210" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<rect x="410" y="20" width="180" height="60" rx="10" class="amber"/>
+<text x="500.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Write-through</text>
+<text x="500.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">cache + DB together</text>
+<rect x="450" y="120" width="100" height="44" rx="10" class="amber"/>
+<text x="500.0" y="142.0" text-anchor="middle" dominant-baseline="middle">Cache</text>
+<rect x="450" y="210" width="100" height="44" rx="10" class="red"/>
+<text x="500.0" y="232.0" text-anchor="middle" dominant-baseline="middle">Database</text>
+<path d="M500,80 L500,120" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<path d="M500,164 L500,210" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<rect x="605" y="20" width="180" height="60" rx="10" class="red"/>
+<text x="695.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Write-behind</text>
+<text x="695.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">DB updated later</text>
+<rect x="645" y="120" width="100" height="44" rx="10" class="amber"/>
+<text x="695.0" y="142.0" text-anchor="middle" dominant-baseline="middle">Cache</text>
+<rect x="645" y="210" width="100" height="44" rx="10" class="red"/>
+<text x="695.0" y="232.0" text-anchor="middle" dominant-baseline="middle">Database</text>
+<path d="M695,80 L695,120" class="arrow" marker-end="url(#caching-strategies-h)"/>
+<path d="M695,164 L695,210" class="arrow dashed" marker-end="url(#caching-strategies-h)"/>
+<text x="730" y="190" text-anchor="middle" dominant-baseline="middle" class="small">async</text>
+<text x="400" y="295" text-anchor="middle" dominant-baseline="middle" class="small">In cache-aside the app also talks to the database itself. In the others it talks only to the cache.</text>
+</svg>
+<figcaption>Cache-aside: the app manages it. Read/write-through: the cache talks to the database. Write-behind: the database is updated later.</figcaption>
+</figure>

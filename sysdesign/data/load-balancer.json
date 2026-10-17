@@ -261,7 +261,7 @@
       },
       "chapter": {
         "title": "Design a load balancer",
-        "href": "sessions/12-design-load-balancer.html"
+        "href": "sessions/73-design-load-balancer.html"
       },
       "options": [
         {
@@ -310,8 +310,8 @@
         ]
       },
       "chapter": {
-        "title": "DNS, CDNs, load balancers and proxies",
-        "href": "sessions/07-networking-and-traffic.html"
+        "title": "Latency, throughput and bandwidth",
+        "href": "sessions/10-latency-throughput-and-bandwidth.html"
       },
       "options": [
         {
@@ -381,8 +381,8 @@
         ]
       },
       "chapter": {
-        "title": "DNS, CDNs, load balancers and proxies",
-        "href": "sessions/07-networking-and-traffic.html"
+        "title": "The OSI model",
+        "href": "sessions/13-osi-model.html"
       },
       "followup": "When would you pick Layer 4 instead?",
       "options": [
@@ -431,7 +431,7 @@
       },
       "chapter": {
         "title": "Design a load balancer",
-        "href": "sessions/12-design-load-balancer.html"
+        "href": "sessions/73-design-load-balancer.html"
       },
       "options": [
         {
@@ -476,7 +476,7 @@
       },
       "chapter": {
         "title": "Design a load balancer",
-        "href": "sessions/12-design-load-balancer.html"
+        "href": "sessions/73-design-load-balancer.html"
       },
       "pitfall": "Saying round robin for everything.",
       "followup": "Why does picking two random servers and taking the less busy work nearly as well as checking all of them?",
@@ -518,7 +518,7 @@
       },
       "chapter": {
         "title": "Design a load balancer",
-        "href": "sessions/12-design-load-balancer.html"
+        "href": "sessions/73-design-load-balancer.html"
       },
       "items": [
         {
@@ -557,8 +557,8 @@
         ]
       },
       "chapter": {
-        "title": "DNS, CDNs, load balancers and proxies",
-        "href": "sessions/07-networking-and-traffic.html"
+        "title": "Stateful vs stateless architecture",
+        "href": "sessions/65-stateful-vs-stateless-architecture.html"
       },
       "options": [
         {
@@ -601,8 +601,8 @@
         ]
       },
       "chapter": {
-        "title": "DNS, CDNs, load balancers and proxies",
-        "href": "sessions/07-networking-and-traffic.html"
+        "title": "Failover",
+        "href": "sessions/08-failover.html"
       },
       "options": [
         {
@@ -646,8 +646,8 @@
         ]
       },
       "chapter": {
-        "title": "Scaling data",
-        "href": "sessions/06-scaling-data.html"
+        "title": "Load balancing",
+        "href": "sessions/20-load-balancing.html"
       },
       "options": [
         {

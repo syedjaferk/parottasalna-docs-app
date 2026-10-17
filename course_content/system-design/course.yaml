@@ -1,3 +1,12 @@
 title: System Design
-description: Learn how to design systems the way interviewers and real teams expect, one idea at a time. Nineteen chapters with diagrams and worked numbers cover the interview framework, estimation, APIs and data, IDs, caching, scaling, networking, databases, queues and ten full case studies (URL shortener, autocomplete, load balancer, CDN, parking garage, vending machine, key-value store, distributed cache, authentication and UPI). Then build each design, step by step, in the System Design playground.
+description: Learn system design one concept at a time, with a diagram, a worked example and runnable code for each. Eighty short chapters cover scalability, availability, networking, APIs, databases, caching, queues, distributed systems, architecture patterns, trade-offs and ten full case studies. Then build each design step by step in the System Design playground.
+level: intermediate
+hours: 60
+audience: Developers and students preparing for system design interviews, and engineers who want to understand how large systems are built.
+outcomes:
+  - Explain scalability, availability, consistency and latency with numbers, not slogans
+  - Choose between SQL and NoSQL, caches, queues and API styles and defend the trade-off
+  - Estimate load and storage with back-of-envelope maths
+  - Design a URL shortener, CDN, load balancer, key-value store, cache, auth system and a payments flow
+  - Spot single points of failure and plan failover and disaster recovery
 common: true

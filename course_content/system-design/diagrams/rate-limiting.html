@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 280" role="img" aria-labelledby="rate-limiting-t rate-limiting-d" xmlns="http://www.w3.org/2000/svg">
+<title id="rate-limiting-t">Rate limiting at the edge</title>
+<desc id="rate-limiting-d">Requests over the limit are rejected with 429 and a Retry-After header instead of overloading the service.</desc>
+<defs><marker id="rate-limiting-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="rate-limiting-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="rate-limiting-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="rate-limiting-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="90" width="100" height="50" rx="10" class="blue"/>
+<text x="60.0" y="115.0" text-anchor="middle" dominant-baseline="middle">Clients</text>
+<rect x="180" y="70" width="190" height="90" rx="10" class="purple"/>
+<text x="275.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Rate limiter</text>
+<text x="275.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">key: user + IP + route</text>
+<text x="275.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">counters in Redis</text>
+<rect x="480" y="40" width="150" height="50" rx="10" class="green"/>
+<text x="555.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Within limit</text>
+<text x="555.0" y="75.0" text-anchor="middle" dominant-baseline="middle">forward to service</text>
+<rect x="480" y="130" width="150" height="50" rx="10" class="red"/>
+<text x="555.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Over limit</text>
+<text x="555.0" y="165.0" text-anchor="middle" dominant-baseline="middle">429 Retry-After</text>
+<rect x="670" y="40" width="110" height="50" rx="10" class="green"/>
+<text x="725.0" y="65.0" text-anchor="middle" dominant-baseline="middle">Service</text>
+<path d="M110,115 L180,115" class="arrow" marker-end="url(#rate-limiting-h)"/>
+<path d="M370,100 L480,65" class="arrow" marker-end="url(#rate-limiting-h)"/>
+<path d="M370,135 L480,155" class="arrow" marker-end="url(#rate-limiting-h)"/>
+<path d="M630,65 L670,65" class="arrow" marker-end="url(#rate-limiting-h)"/>
+<text x="400" y="235" text-anchor="middle" dominant-baseline="middle" class="small">Fail open for general traffic, fail closed for login endpoints, if the limiter store is down.</text>
+</svg>
+<figcaption>Requests over the limit are rejected with 429 and a Retry-After header instead of overloading the service.</figcaption>
+</figure>

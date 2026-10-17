@@ -1,0 +1,33 @@
+chapter: sessions/70-sync-vs-async-communication
+quizzes:
+- title: Chapter 70 · Quiz
+  description: 'Check yourself on: sync vs async communication.'
+  questions:
+  - text: 'In synchronous communication the caller:'
+    choices: |
+      Never waits
+      Uses a queue always
+      Is stateless
+      *Waits for the response
+    explanation: And so shares the callee's fate.
+  - text: Which belongs on the asynchronous path?
+    choices: |
+      Checking a password
+      Checking stock for a purchase
+      *Sending a welcome email
+      Charging the card
+    explanation: The user does not need to wait.
+  - text: 'A 3-minute export should return:'
+    choices: |
+      500
+      *202 Accepted with a job id
+      200 after 3 minutes
+      301
+    explanation: Poll or call back.
+  - text: 'Four synchronous services each 99.9% give about:'
+    choices: |
+      *99.6%
+      98%
+      100%
+      99.9%
+    explanation: Moving non-critical calls to queues helps.

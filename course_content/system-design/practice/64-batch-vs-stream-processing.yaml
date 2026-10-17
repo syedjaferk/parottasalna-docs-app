@@ -1,0 +1,33 @@
+chapter: sessions/64-batch-vs-stream-processing
+quizzes:
+- title: Chapter 64 · Quiz
+  description: 'Check yourself on: batch vs stream processing.'
+  questions:
+  - text: 'Batch processing:'
+    choices: |
+      Never finishes
+      *Processes a bounded set on a schedule
+      Needs no storage
+      Processes each event instantly
+    explanation: Nightly reports.
+  - text: 'Fraud detection on each card swipe is:'
+    choices: |
+      *Stream processing
+      Batch
+      Cron only
+      Neither
+    explanation: Seconds matter.
+  - text: 'Streams use windows because:'
+    choices: |
+      *The data never ends
+      Batch needs them
+      Windows look nice
+      Disks are small
+    explanation: Tumbling, sliding, session.
+  - text: 'Use event time (not processing time) because:'
+    choices: |
+      Clocks are perfect
+      It is simpler
+      It is cheaper
+      *Events can arrive late and out of order
+    explanation: Watermarks handle lateness.

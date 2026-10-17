@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 260" role="img" aria-labelledby="api-design-t api-design-d" xmlns="http://www.w3.org/2000/svg">
+<title id="api-design-t">Anatomy of a well-designed endpoint</title>
+<desc id="api-design-d">Noun URL, correct method, versioned path, paging, consistent errors and an idempotency key for unsafe writes.</desc>
+<defs><marker id="api-design-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="api-design-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="api-design-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="api-design-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="740" height="50" rx="10" class="blue"/>
+<text x="390.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">POST /v1/orders</text>
+<rect x="20" y="110" width="175" height="60" rx="10" class="green"/>
+<text x="107.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Noun, plural</text>
+<text x="107.5" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">not /createOrder</text>
+<path d="M107,80 L107,110" class="arrow" marker-end="url(#api-design-h)"/>
+<rect x="210" y="110" width="175" height="60" rx="10" class="amber"/>
+<text x="297.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Versioned</text>
+<text x="297.5" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">/v1 never breaks</text>
+<path d="M297,80 L297,110" class="arrow" marker-end="url(#api-design-h)"/>
+<rect x="400" y="110" width="175" height="60" rx="10" class="purple"/>
+<text x="487.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Idempotency-Key</text>
+<text x="487.5" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">safe retries</text>
+<path d="M487,80 L487,110" class="arrow" marker-end="url(#api-design-h)"/>
+<rect x="590" y="110" width="175" height="60" rx="10" class="green"/>
+<text x="677.5" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">201 + Location</text>
+<text x="677.5" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">correct status</text>
+<path d="M677,80 L677,110" class="arrow" marker-end="url(#api-design-h)"/>
+<rect x="20" y="195" width="740" height="45" rx="10" class="box"/>
+<text x="390.0" y="217.5" text-anchor="middle" dominant-baseline="middle">Errors: {error: {code, message, request_id}}   Lists: ?limit=20&amp;cursor=abc   Auth: Bearer token</text>
+</svg>
+<figcaption>Noun URL, correct method, versioned path, paging, consistent errors and an idempotency key for unsafe writes.</figcaption>
+</figure>

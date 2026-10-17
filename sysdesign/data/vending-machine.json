@@ -261,8 +261,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "options": [
         {
@@ -315,8 +315,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "options": [
         {
@@ -370,8 +370,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "pitfall": "Boolean flags instead of explicit states.",
       "followup": "How would you draw this as a state-transition table?",
@@ -416,8 +416,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "items": [
         {
@@ -456,8 +456,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "unit": "coins",
       "answer": 4,
@@ -482,8 +482,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "options": [
         {
@@ -535,8 +535,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "options": [
         {
@@ -575,8 +575,8 @@
         ]
       },
       "chapter": {
-        "title": "Design a vending machine",
-        "href": "sessions/15-design-vending-machine.html"
+        "title": "Design a vending machine (state machine)",
+        "href": "sessions/76-design-vending-machine.html"
       },
       "options": [
         {
@@ -615,8 +615,8 @@
         ]
       },
       "chapter": {
-        "title": "Queues, rate limiting and resilience",
-        "href": "sessions/09-async-and-resilience.html"
+        "title": "Message queues",
+        "href": "sessions/44-message-queues.html"
       },
       "options": [
         {

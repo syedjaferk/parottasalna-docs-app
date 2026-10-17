@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 340" role="img" aria-labelledby="sync-vs-async-t sync-vs-async-d" xmlns="http://www.w3.org/2000/svg">
+<title id="sync-vs-async-t">Synchronous vs asynchronous</title>
+<desc id="sync-vs-async-d">In sync the caller waits through every call. In async the caller returns early and slow work finishes later via a queue.</desc>
+<defs><marker id="sync-vs-async-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="sync-vs-async-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="sync-vs-async-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="sync-vs-async-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="14" text-anchor="middle" dominant-baseline="middle" class="title">Synchronous</text>
+<text x="610" y="14" text-anchor="middle" dominant-baseline="middle" class="title">Asynchronous</text>
+<line x1="80" y1="60" x2="80" y2="320" class="line"/>
+<line x1="200" y1="60" x2="200" y2="320" class="line"/>
+<line x1="320" y1="60" x2="320" y2="320" class="line"/>
+<line x1="480" y1="60" x2="480" y2="320" class="line"/>
+<line x1="600" y1="60" x2="600" y2="320" class="line"/>
+<line x1="720" y1="60" x2="720" y2="320" class="line"/>
+<text x="80" y="46" text-anchor="middle" dominant-baseline="middle" class="small">User</text>
+<text x="200" y="46" text-anchor="middle" dominant-baseline="middle" class="small">API</text>
+<text x="320" y="46" text-anchor="middle" dominant-baseline="middle" class="small">Email svc</text>
+<path d="M80,90 L200,98" class="arrow" marker-end="url(#sync-vs-async-h)"/>
+<path d="M200,120 L320,128" class="arrow" marker-end="url(#sync-vs-async-h)"/>
+<text x="262" y="112" text-anchor="middle" dominant-baseline="middle" class="small">send email</text>
+<rect x="210" y="145" width="180" height="30" rx="10" class="amber"/>
+<text x="300.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">user waits 800 ms...</text>
+<path d="M320,195 L200,203" class="arrow green" marker-end="url(#sync-vs-async-h-green)"/>
+<path d="M200,220 L80,228" class="arrow green" marker-end="url(#sync-vs-async-h-green)"/>
+<text x="140" y="247" text-anchor="middle" dominant-baseline="middle" class="small">reply</text>
+<text x="480" y="46" text-anchor="middle" dominant-baseline="middle" class="small">User</text>
+<text x="600" y="46" text-anchor="middle" dominant-baseline="middle" class="small">API + queue</text>
+<text x="720" y="46" text-anchor="middle" dominant-baseline="middle" class="small">Worker</text>
+<path d="M480,90 L600,98" class="arrow" marker-end="url(#sync-vs-async-h)"/>
+<path d="M600,120 L480,128" class="arrow green" marker-end="url(#sync-vs-async-h-green)"/>
+<text x="540" y="146" text-anchor="middle" dominant-baseline="middle" class="small">reply at once</text>
+<path d="M600,175 L720,183" class="arrow dashed" marker-end="url(#sync-vs-async-h)"/>
+<text x="660" y="167" text-anchor="middle" dominant-baseline="middle" class="small">later</text>
+<rect x="630" y="200" width="150" height="30" rx="10" class="green"/>
+<text x="705.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="small">worker sends email</text>
+</svg>
+<figcaption>In sync the caller waits through every call. In async the caller returns early and slow work finishes later via a queue.</figcaption>
+</figure>

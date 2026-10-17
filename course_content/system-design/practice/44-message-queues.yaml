@@ -1,0 +1,33 @@
+chapter: sessions/44-message-queues
+quizzes:
+- title: Chapter 44 · Quiz
+  description: 'Check yourself on: message queues.'
+  questions:
+  - text: Why move email sending to a queue?
+    choices: |
+      It guarantees delivery order
+      Emails become encrypted
+      *The request returns fast and retries survive provider outages
+      It removes the need for a database
+    explanation: Decoupling in time.
+  - text: 'Most queues deliver:'
+    choices: |
+      At most once always
+      Exactly once always
+      *At least once
+      Never
+    explanation: So consumers must be idempotent.
+  - text: 'A message that always fails should go to:'
+    choices: |
+      The trash silently
+      The front of the queue forever
+      The cache
+      *A dead-letter queue
+    explanation: Inspect it later.
+  - text: 'The queue depth keeps growing. Options include:'
+    choices: |
+      Disable acks
+      Delete the queue
+      Larger messages
+      *More consumers or back pressure on producers
+    explanation: Drain faster or slow the inflow.

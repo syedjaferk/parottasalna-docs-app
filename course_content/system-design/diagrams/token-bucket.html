@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 280" role="img" aria-labelledby="token-bucket-t token-bucket-d" xmlns="http://www.w3.org/2000/svg">
+<title id="token-bucket-t">Token bucket</title>
+<desc id="token-bucket-d">Tokens refill at a steady rate up to the bucket size. Each request spends one. No tokens means rejected.</desc>
+<defs><marker id="token-bucket-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="token-bucket-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="token-bucket-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="token-bucket-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="40" y="60" width="150" height="70" rx="10" class="green"/>
+<text x="115.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Refill</text>
+<text x="115.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">R tokens / second</text>
+<path d="M190,95 L260,95" class="arrow green" marker-end="url(#token-bucket-h-green)"/>
+<rect x="260" y="40" width="150" height="160" rx="12" class="ghost"/>
+<circle cx="310" cy="170" r="16" class="circle-b"/>
+<circle cx="360" cy="170" r="16" class="circle-b"/>
+<circle cx="310" cy="130" r="16" class="circle-b"/>
+<circle cx="360" cy="130" r="16" class="circle-b"/>
+<circle cx="310" cy="90" r="16" class="circle-b"/>
+<text x="335" y="22" text-anchor="middle" dominant-baseline="middle" class="bold">Bucket: capacity B</text>
+<rect x="520" y="40" width="230" height="60" rx="10" class="blue"/>
+<text x="635.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">Request arrives</text>
+<text x="635.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">take a token: allow</text>
+<rect x="520" y="130" width="230" height="60" rx="10" class="red"/>
+<text x="635.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Bucket empty</text>
+<text x="635.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">reject with 429</text>
+<path d="M410,90 L520,70" class="arrow" marker-end="url(#token-bucket-h)"/>
+<path d="M410,150 L520,160" class="arrow" marker-end="url(#token-bucket-h)"/>
+<text x="390" y="250" text-anchor="middle" dominant-baseline="middle" class="small">Allows short bursts up to B, while enforcing an average rate of R.</text>
+</svg>
+<figcaption>Tokens refill at a steady rate up to the bucket size. Each request spends one. No tokens means rejected.</figcaption>
+</figure>

@@ -1,0 +1,33 @@
+chapter: sessions/39-caching-101
+quizzes:
+- title: Chapter 39 · Quiz
+  description: 'Check yourself on: caching 101.'
+  questions:
+  - text: 'Average latency with a 95% hit rate, 1 ms cache and 30 ms database is about:'
+    choices: |
+      30 ms
+      1 ms
+      15 ms
+      *2.45 ms
+    explanation: 0.95 x 1 + 0.05 x 30.
+  - text: Which is a poor cache candidate?
+    choices: |
+      A profile
+      A product page
+      A static image
+      *A live bank balance
+    explanation: It must be exact.
+  - text: What is the hardest part of caching?
+    choices: |
+      Choosing a colour
+      Opening ports
+      *Invalidation
+      Typing the code
+    explanation: Stale data after the source changes.
+  - text: 'A cache stampede happens when:'
+    choices: |
+      TTLs are too long
+      The cache restarts a server
+      *A hot key expires and many requests hit the database together
+      The cache is full
+    explanation: Use request coalescing.

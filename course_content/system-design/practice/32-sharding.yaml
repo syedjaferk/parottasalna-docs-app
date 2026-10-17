@@ -1,0 +1,33 @@
+chapter: sessions/32-sharding
+quizzes:
+- title: Chapter 32 · Quiz
+  description: 'Check yourself on: sharding.'
+  questions:
+  - text: 'Sharding splits:'
+    choices: |
+      Backups
+      A table's columns
+      *Different rows across different servers
+      The same data across servers
+    explanation: Replication copies; sharding splits.
+  - text: 'Range sharding with auto-increment ids creates:'
+    choices: |
+      Free replicas
+      *A hot shard for new writes
+      Even load
+      Faster joins
+    explanation: All fresh sign-ups hit the last shard.
+  - text: 'A good shard key has:'
+    choices: |
+      A constantly changing value
+      Few distinct values
+      *High cardinality and matches the main query
+      Random per query
+    explanation: Most queries should touch one shard.
+  - text: What gets harder after sharding?
+    choices: |
+      DNS
+      Reading by key
+      Backups of nothing
+      *Cross-shard joins and transactions
+    explanation: Scatter-gather queries are slow.

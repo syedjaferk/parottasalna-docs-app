@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="rest-vs-rpc-t rest-vs-rpc-d" xmlns="http://www.w3.org/2000/svg">
+<title id="rest-vs-rpc-t">REST resources vs RPC functions</title>
+<desc id="rest-vs-rpc-d">REST names things and uses the same few verbs. RPC names actions as functions on a service.</desc>
+<defs><marker id="rest-vs-rpc-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="rest-vs-rpc-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="rest-vs-rpc-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="rest-vs-rpc-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">REST: nouns</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">RPC: verbs</text>
+<rect x="20" y="45" width="360" height="40" rx="10" class="green"/>
+<text x="200.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">GET    /orders/42</text>
+<rect x="20" y="97" width="360" height="40" rx="10" class="green"/>
+<text x="200.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">PATCH  /orders/42</text>
+<rect x="20" y="149" width="360" height="40" rx="10" class="green"/>
+<text x="200.0" y="169.0" text-anchor="middle" dominant-baseline="middle" class="code">DELETE /orders/42</text>
+<rect x="20" y="201" width="360" height="40" rx="10" class="green"/>
+<text x="200.0" y="221.0" text-anchor="middle" dominant-baseline="middle" class="code">POST   /orders/42/cancel</text>
+<rect x="430" y="45" width="350" height="40" rx="10" class="blue"/>
+<text x="605.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">OrderService.GetOrder(42)</text>
+<rect x="430" y="97" width="350" height="40" rx="10" class="blue"/>
+<text x="605.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">OrderService.CancelOrder(42)</text>
+<rect x="430" y="149" width="350" height="40" rx="10" class="blue"/>
+<text x="605.0" y="169.0" text-anchor="middle" dominant-baseline="middle" class="code">OrderService.WatchOrders()</text>
+<rect x="430" y="201" width="350" height="40" rx="10" class="purple"/>
+<text x="605.0" y="221.0" text-anchor="middle" dominant-baseline="middle" class="code">binary Protobuf over HTTP/2</text>
+<text x="200" y="275" text-anchor="middle" dominant-baseline="middle" class="small">cacheable, universal, browser-friendly</text>
+<text x="610" y="275" text-anchor="middle" dominant-baseline="middle" class="small">fast, typed, streaming, internal</text>
+</svg>
+<figcaption>REST names things and uses the same few verbs. RPC names actions as functions on a service.</figcaption>
+</figure>

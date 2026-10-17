@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="event-driven-t event-driven-d" xmlns="http://www.w3.org/2000/svg">
+<title id="event-driven-t">Event-driven choreography</title>
+<desc id="event-driven-d">Services react to events and emit new ones. No service calls another directly.</desc>
+<defs><marker id="event-driven-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="event-driven-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="event-driven-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="event-driven-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="120" width="120" height="55" rx="10" class="blue"/>
+<text x="70.0" y="147.5" text-anchor="middle" dominant-baseline="middle" class="bold">Order service</text>
+<rect x="200" y="115" width="130" height="60" rx="10" class="purple"/>
+<text x="265.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="bold">Event bus</text>
+<text x="265.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="code">OrderPlaced</text>
+<path d="M130,147 L200,147" class="arrow blue" marker-end="url(#event-driven-h-blue)"/>
+<rect x="430" y="30" width="150" height="50" rx="10" class="green"/>
+<text x="505.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Inventory</text>
+<rect x="430" y="110" width="150" height="50" rx="10" class="green"/>
+<text x="505.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Billing</text>
+<rect x="430" y="190" width="150" height="50" rx="10" class="green"/>
+<text x="505.0" y="215.0" text-anchor="middle" dominant-baseline="middle">Email</text>
+<rect x="430" y="260" width="150" height="36" rx="10" class="green"/>
+<text x="505.0" y="278.0" text-anchor="middle" dominant-baseline="middle">Analytics</text>
+<path d="M330,147 L430,55" class="arrow" marker-end="url(#event-driven-h)"/>
+<path d="M330,147 L430,135" class="arrow" marker-end="url(#event-driven-h)"/>
+<path d="M330,147 L430,215" class="arrow" marker-end="url(#event-driven-h)"/>
+<path d="M330,147 L430,278" class="arrow" marker-end="url(#event-driven-h)"/>
+<rect x="640" y="30" width="140" height="50" rx="10" class="amber"/>
+<text x="710.0" y="55.0" text-anchor="middle" dominant-baseline="middle">StockReserved</text>
+<path d="M580,55 L640,55" class="arrow dashed" marker-end="url(#event-driven-h)"/>
+<rect x="640" y="110" width="140" height="50" rx="10" class="amber"/>
+<text x="710.0" y="135.0" text-anchor="middle" dominant-baseline="middle">PaymentTaken</text>
+<path d="M580,135 L640,135" class="arrow dashed" marker-end="url(#event-driven-h)"/>
+</svg>
+<figcaption>Services react to events and emit new ones. No service calls another directly.</figcaption>
+</figure>

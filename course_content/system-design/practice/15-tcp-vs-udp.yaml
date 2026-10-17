@@ -1,0 +1,33 @@
+chapter: sessions/15-tcp-vs-udp
+quizzes:
+- title: Chapter 15 · Quiz
+  description: 'Check yourself on: tcp vs udp.'
+  questions:
+  - text: Which protocol retransmits lost data?
+    choices: |
+      Both
+      UDP
+      *TCP
+      Neither
+    explanation: TCP acknowledges and resends.
+  - text: 'Online games and video calls prefer UDP because:'
+    choices: |
+      UDP is encrypted
+      TCP is deprecated
+      *A late packet is worthless, so resending wastes time
+      UDP guarantees order
+    explanation: Fresh beats perfect.
+  - text: What does the TCP three-way handshake cost?
+    choices: |
+      *One round trip before data flows
+      A DNS lookup
+      Nothing
+      Ten round trips
+    explanation: SYN, SYN-ACK, ACK.
+  - text: What is head-of-line blocking?
+    choices: |
+      A DNS failure
+      A full queue of requests
+      *One lost packet stalls everything behind it in a TCP stream
+      A blocked firewall port
+    explanation: HTTP/3 over QUIC avoids it per stream.

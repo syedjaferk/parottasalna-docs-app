@@ -1,0 +1,33 @@
+chapter: sessions/68-push-vs-pull-architecture
+quizzes:
+- title: Chapter 68 · Quiz
+  description: 'Check yourself on: push vs pull architecture.'
+  questions:
+  - text: In push, who initiates the transfer?
+    choices: |
+      The consumer
+      The user
+      The CDN
+      *The producer
+    explanation: Pull is consumer-initiated.
+  - text: 'Distributing jobs to workers of different speeds suits:'
+    choices: |
+      Push to every worker
+      *Pull from a queue
+      Broadcast
+      Random
+    explanation: Natural load balancing and back pressure.
+  - text: 'Fan-out on write for a celebrity with 20 million followers is:'
+    choices: |
+      Impossible to measure
+      Always best
+      Free
+      *Very expensive
+    explanation: Use pull or a hybrid.
+  - text: 'Kafka consumers:'
+    choices: |
+      *Pull messages at their own pace
+      Use no offsets
+      Are pushed all data
+      Cannot replay
+    explanation: Pulling gives control.

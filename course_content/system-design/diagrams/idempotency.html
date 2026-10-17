@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 340" role="img" aria-labelledby="idempotency-t idempotency-d" xmlns="http://www.w3.org/2000/svg">
+<title id="idempotency-t">Idempotency key: retries are safe</title>
+<desc id="idempotency-d">The server stores the result under the key and replays it instead of charging twice.</desc>
+<defs><marker id="idempotency-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="idempotency-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="idempotency-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="idempotency-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="130" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Client</text>
+<text x="400" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Server</text>
+<text x="670" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Key store</text>
+<line x1="130" y1="34" x2="130" y2="320" class="line"/>
+<line x1="400" y1="34" x2="400" y2="320" class="line"/>
+<line x1="670" y1="34" x2="670" y2="320" class="line"/>
+<path d="M130,70 L400,80" class="arrow blue" marker-end="url(#idempotency-h-blue)"/>
+<text x="265" y="58" text-anchor="middle" dominant-baseline="middle" class="small">charge 500, key K1</text>
+<path d="M400,95 L670,105" class="arrow" marker-end="url(#idempotency-h)"/>
+<text x="535" y="83" text-anchor="middle" dominant-baseline="middle" class="small">K1 new? yes: process</text>
+<path d="M400,130 L130,140" class="arrow red dashed" marker-end="url(#idempotency-h-red)"/>
+<text x="265" y="152" text-anchor="middle" dominant-baseline="middle" class="small">response lost on the way</text>
+<path d="M130,200 L400,210" class="arrow blue" marker-end="url(#idempotency-h-blue)"/>
+<text x="265" y="188" text-anchor="middle" dominant-baseline="middle" class="small">retry: charge 500, key K1</text>
+<path d="M400,225 L670,235" class="arrow" marker-end="url(#idempotency-h)"/>
+<text x="535" y="213" text-anchor="middle" dominant-baseline="middle" class="small">K1 seen: return stored result</text>
+<path d="M400,275 L130,285" class="arrow green" marker-end="url(#idempotency-h-green)"/>
+<text x="265" y="300" text-anchor="middle" dominant-baseline="middle" class="small">same result, no second charge</text>
+</svg>
+<figcaption>The server stores the result under the key and replays it instead of charging twice.</figcaption>
+</figure>

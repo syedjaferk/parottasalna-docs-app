@@ -1,0 +1,33 @@
+chapter: sessions/52-circuit-breaker
+quizzes:
+- title: Chapter 52 · Quiz
+  description: 'Check yourself on: circuit breaker.'
+  questions:
+  - text: 'An open circuit breaker:'
+    choices: |
+      *Fails fast without calling the dependency
+      Deletes data
+      Calls faster
+      Retries forever
+    explanation: It gives the dependency time to recover.
+  - text: What does half-open do?
+    choices: |
+      Blocks everything permanently
+      Opens all circuits
+      Resets passwords
+      *Lets a few trial calls through
+    explanation: Success closes it; failure re-opens it.
+  - text: 'A bulkhead limits:'
+    choices: |
+      DNS TTL
+      Latency
+      *Resources per dependency
+      Code size
+    explanation: A slow dependency cannot use every thread.
+  - text: 'Retrying hard with no breaker leads to:'
+    choices: |
+      Cheaper bills
+      A faster service
+      *A retry storm
+      Higher availability
+    explanation: It turns a brownout into an outage.

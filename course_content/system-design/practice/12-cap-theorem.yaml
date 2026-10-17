@@ -1,0 +1,33 @@
+chapter: sessions/12-cap-theorem
+quizzes:
+- title: Chapter 12 · Quiz
+  description: 'Check yourself on: cap theorem.'
+  questions:
+  - text: 'During a network partition, a system must choose between:'
+    choices: |
+      *Consistency and availability
+      Latency and bandwidth
+      Speed and cost
+      Reads and writes
+    explanation: Partitions happen, so P is not optional.
+  - text: 'A seat-booking system should usually be:'
+    choices: |
+      AP: always answer
+      Neither
+      *CP: refuse rather than double-book
+      Stateless only
+    explanation: Wrong is worse than no answer.
+  - text: N=3 replicas, W=2, R=2. Do reads see the latest write?
+    choices: |
+      No
+      Only for reads on Sunday
+      Only with W=3
+      *Yes, because R + W > N
+    explanation: Read and write sets must overlap.
+  - text: What does PACELC add to CAP?
+    choices: |
+      A fourth letter for cost
+      *The latency versus consistency trade-off when there is no partition
+      Rules for DNS
+      Encryption
+    explanation: 'Else: choose latency or consistency.'

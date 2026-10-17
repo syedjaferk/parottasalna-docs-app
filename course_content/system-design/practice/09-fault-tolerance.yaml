@@ -1,0 +1,33 @@
+chapter: sessions/09-fault-tolerance
+quizzes:
+- title: Chapter 9 · Quiz
+  description: 'Check yourself on: fault tolerance.'
+  questions:
+  - text: What is graceful degradation?
+    choices: |
+      Shutting down on any error
+      Hiding all errors
+      Restarting servers nightly
+      *Dropping a non-essential feature while the core keeps working
+    explanation: Recommendations may fail; checkout must not.
+  - text: Five replicas vote on writes. How many can fail while it still works?
+    choices: |
+      5
+      3
+      *2
+      1
+    explanation: A majority of 3 must remain.
+  - text: What does Chaos Monkey do?
+    choices: |
+      Scans for bugs
+      *Kills random servers to prove the system survives
+      Generates test data
+      Balances load
+    explanation: You are not fault tolerant until you have tried to break it.
+  - text: What is a bulkhead?
+    choices: |
+      A type of cache
+      *Separate resource pools so one failure cannot starve everything
+      A firewall rule
+      A database index
+    explanation: Like watertight ship compartments.

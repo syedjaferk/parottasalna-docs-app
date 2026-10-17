@@ -1,0 +1,33 @@
+chapter: sessions/75-design-parking-garage
+quizzes:
+- title: Chapter 75 · Quiz
+  description: 'Check yourself on: design parking garage.'
+  questions:
+  - text: Which pattern keeps pricing rules replaceable?
+    choices: |
+      *Strategy
+      Builder
+      Observer
+      Singleton only
+    explanation: A PricingPolicy interface.
+  - text: 'Two cars see the last spot free. The fix is:'
+    choices: |
+      Use a CDN
+      *Make 'check and assign' one atomic step
+      Add floors
+      Make cars slower
+    explanation: A lock or conditional update.
+  - text: Why choose the smallest spot that fits?
+    choices: |
+      *Large spots stay free for trucks
+      It is faster
+      It is cheaper to build
+      It is a legal rule
+    explanation: First-fit could waste a large spot.
+  - text: 'Vehicle types differ by:'
+    choices: |
+      Plate length
+      *The size of spot they require (polymorphism)
+      Brand
+      Colour
+    explanation: No if/else chains.

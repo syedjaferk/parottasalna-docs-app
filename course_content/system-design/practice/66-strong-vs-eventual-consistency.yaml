@@ -1,0 +1,33 @@
+chapter: sessions/66-strong-vs-eventual-consistency
+quizzes:
+- title: Chapter 66 · Quiz
+  description: 'Check yourself on: strong vs eventual consistency.'
+  questions:
+  - text: 'Eventual consistency means:'
+    choices: |
+      No replication
+      Reads always see the latest write
+      *Copies converge if writes stop
+      Copies never converge
+    explanation: Readers may see old data briefly.
+  - text: 'A like counter merged across regions safely uses:'
+    choices: |
+      *A counter CRDT
+      A global lock
+      Random choice
+      Last write wins
+    explanation: Per-replica counts merged by max.
+  - text: 'Read-your-writes means:'
+    choices: |
+      Only admins read
+      No replicas
+      *You always see your own updates
+      Everyone sees everything instantly
+    explanation: Route reads to the leader after a write.
+  - text: 'Last-write-wins can:'
+    choices: |
+      Order events
+      *Silently lose a concurrent write
+      Never lose data
+      Prevent conflicts
+    explanation: And it depends on clocks.

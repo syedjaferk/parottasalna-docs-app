@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="cdc-t cdc-d" xmlns="http://www.w3.org/2000/svg">
+<title id="cdc-t">Change data capture</title>
+<desc id="cdc-d">The connector reads the database transaction log and publishes every change, in order, to a stream.</desc>
+<defs><marker id="cdc-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="cdc-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="cdc-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="cdc-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="70" width="100" height="60" rx="10" class="blue"/>
+<text x="60.0" y="100.0" text-anchor="middle" dominant-baseline="middle">App</text>
+<rect x="170" y="60" width="150" height="80" rx="10" class="red"/>
+<text x="245.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">Database</text>
+<text x="245.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">tables +</text>
+<text x="245.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">transaction log</text>
+<rect x="400" y="70" width="140" height="60" rx="10" class="purple"/>
+<text x="470.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="bold">CDC connector</text>
+<text x="470.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">(Debezium)</text>
+<rect x="620" y="70" width="160" height="60" rx="10" class="amber"/>
+<text x="700.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="bold">Stream</text>
+<text x="700.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">Kafka topic</text>
+<path d="M110,100 L170,100" class="arrow" marker-end="url(#cdc-h)"/>
+<path d="M320,100 L400,100" class="arrow dashed" marker-end="url(#cdc-h)"/>
+<text x="360" y="82" text-anchor="middle" dominant-baseline="middle" class="small">reads log</text>
+<path d="M540,100 L620,100" class="arrow" marker-end="url(#cdc-h)"/>
+<rect x="170" y="200" width="190" height="56" rx="10" class="green"/>
+<text x="265.0" y="228.0" text-anchor="middle" dominant-baseline="middle">Warehouse / other services</text>
+<rect x="420" y="200" width="160" height="56" rx="10" class="green"/>
+<text x="500.0" y="228.0" text-anchor="middle" dominant-baseline="middle">Search index</text>
+<rect x="620" y="200" width="160" height="56" rx="10" class="green"/>
+<text x="700.0" y="228.0" text-anchor="middle" dominant-baseline="middle">Cache invalidation</text>
+<path d="M700,130 L700,200" class="arrow" marker-end="url(#cdc-h)"/>
+<path d="M660,130 L520,200" class="arrow" marker-end="url(#cdc-h)"/>
+<path d="M640,130 L300,200" class="arrow dashed" marker-end="url(#cdc-h)"/>
+<text x="400" y="285" text-anchor="middle" dominant-baseline="middle" class="small">One change event feeds every downstream system, in commit order, including deletes.</text>
+</svg>
+<figcaption>The connector reads the database transaction log and publishes every change, in order, to a stream.</figcaption>
+</figure>

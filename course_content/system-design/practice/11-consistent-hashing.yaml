@@ -1,0 +1,33 @@
+chapter: sessions/11-consistent-hashing
+quizzes:
+- title: Chapter 11 · Quiz
+  description: 'Check yourself on: consistent hashing.'
+  questions:
+  - text: What is wrong with hash(key) % N when N changes?
+    choices: |
+      It needs more memory
+      *Almost every key moves to a different server
+      It becomes slower to compute
+      Nothing
+    explanation: Going from 4 to 5 servers moves about 80% of keys.
+  - text: Roughly what share of keys moves when a server joins an N-server consistent-hash ring?
+    choices: |
+      All of them
+      None
+      About half
+      *About 1/N
+    explanation: The new server takes its fair share only.
+  - text: Why use virtual nodes?
+    choices: |
+      To encrypt keys
+      *To spread load evenly and rebalance smoothly
+      To reduce memory
+      To avoid hashing
+    explanation: Each server owns many small slices.
+  - text: Does consistent hashing fix a hot key?
+    choices: |
+      *No, it balances keys, not load
+      Yes, always
+      Only with replicas
+      Only with TLS
+    explanation: One very popular key still lands on one server.

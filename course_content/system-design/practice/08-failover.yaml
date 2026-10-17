@@ -1,0 +1,33 @@
+chapter: sessions/08-failover
+quizzes:
+- title: Chapter 8 · Quiz
+  description: 'Check yourself on: failover.'
+  questions:
+  - text: Which failover pattern keeps an idle standby?
+    choices: |
+      *Active-passive
+      Active-active
+      Sharding
+      Round robin
+    explanation: The standby waits until needed.
+  - text: What is split brain?
+    choices: |
+      *Two nodes both believe they are the primary
+      A database with two tables
+      A load balancer with two IPs
+      A slow query
+    explanation: Use quorum, fencing or leases.
+  - text: Why use an odd number such as 3 or 5 for automatic failover clusters?
+    choices: |
+      *A majority can always be formed
+      Odd numbers are faster
+      It avoids DNS
+      It saves licences
+    explanation: Two nodes cannot break a tie.
+  - text: What does RPO measure?
+    choices: |
+      The cost of the standby
+      How long you may be down
+      *How much recent data you may lose
+      How many servers you have
+    explanation: RTO is the downtime; RPO is the data loss.

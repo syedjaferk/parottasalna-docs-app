@@ -1,0 +1,40 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="scaling-journey-t scaling-journey-d" xmlns="http://www.w3.org/2000/svg">
+<title id="scaling-journey-t">The scaling journey</title>
+<desc id="scaling-journey-d">Add one idea at a time, in order, only when the numbers demand it.</desc>
+<defs><marker id="scaling-journey-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="scaling-journey-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="scaling-journey-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="scaling-journey-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="170" height="80" rx="10" class="box"/>
+<text x="105.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">1. One server</text>
+<text x="105.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">app + DB</text>
+<rect x="210" y="30" width="170" height="80" rx="10" class="blue"/>
+<text x="295.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">2. Split DB</text>
+<text x="295.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">own machine</text>
+<path d="M190,70 L210,70" class="arrow" marker-end="url(#scaling-journey-h)"/>
+<rect x="400" y="30" width="170" height="80" rx="10" class="blue"/>
+<text x="485.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">3. Load balancer</text>
+<text x="485.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">stateless apps</text>
+<path d="M380,70 L400,70" class="arrow" marker-end="url(#scaling-journey-h)"/>
+<rect x="590" y="30" width="170" height="80" rx="10" class="amber"/>
+<text x="675.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="bold">4. Cache</text>
+<text x="675.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="small">Redis</text>
+<path d="M570,70 L590,70" class="arrow" marker-end="url(#scaling-journey-h)"/>
+<rect x="20" y="160" width="170" height="80" rx="10" class="amber"/>
+<text x="105.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="bold">5. Read replicas</text>
+<text x="105.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">copies</text>
+<rect x="210" y="160" width="170" height="80" rx="10" class="green"/>
+<text x="295.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="bold">6. CDN</text>
+<text x="295.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">static files</text>
+<path d="M190,200 L210,200" class="arrow" marker-end="url(#scaling-journey-h)"/>
+<rect x="400" y="160" width="170" height="80" rx="10" class="green"/>
+<text x="485.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="bold">7. Queue</text>
+<text x="485.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">slow work</text>
+<path d="M380,200 L400,200" class="arrow" marker-end="url(#scaling-journey-h)"/>
+<rect x="590" y="160" width="170" height="80" rx="10" class="red"/>
+<text x="675.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="bold">8. Shard</text>
+<text x="675.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">split data</text>
+<path d="M570,200 L590,200" class="arrow" marker-end="url(#scaling-journey-h)"/>
+<path d="M675,110 L675,135 L105,135 L105,160" class="arrow dashed" marker-end="url(#scaling-journey-h)"/>
+<text x="400" y="270" text-anchor="middle" dominant-baseline="middle" class="small">Never jump to step 8: shard only when one primary cannot take the writes or hold the data.</text>
+</svg>
+<figcaption>Add one idea at a time, in order, only when the numbers demand it.</figcaption>
+</figure>

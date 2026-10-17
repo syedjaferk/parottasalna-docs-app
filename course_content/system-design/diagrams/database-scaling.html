@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="database-scaling-t database-scaling-d" xmlns="http://www.w3.org/2000/svg">
+<title id="database-scaling-t">The database scaling ladder</title>
+<desc id="database-scaling-d">Try the cheapest rung first. Move up only when the numbers say the current rung is not enough.</desc>
+<defs><marker id="database-scaling-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="database-scaling-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="database-scaling-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="database-scaling-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="170" height="70" rx="10" class="green"/>
+<text x="105.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">1. Indexes + queries</text>
+<rect x="210" y="40" width="170" height="70" rx="10" class="green"/>
+<text x="295.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">2. Connection pool</text>
+<path d="M190,75 L210,75" class="arrow" marker-end="url(#database-scaling-h)"/>
+<rect x="400" y="40" width="170" height="70" rx="10" class="green"/>
+<text x="485.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">3. Cache</text>
+<path d="M380,75 L400,75" class="arrow" marker-end="url(#database-scaling-h)"/>
+<rect x="590" y="40" width="170" height="70" rx="10" class="amber"/>
+<text x="675.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">4. Bigger machine</text>
+<path d="M570,75 L590,75" class="arrow" marker-end="url(#database-scaling-h)"/>
+<rect x="20" y="150" width="170" height="70" rx="10" class="amber"/>
+<text x="105.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="bold">5. Read replicas</text>
+<rect x="210" y="150" width="170" height="70" rx="10" class="amber"/>
+<text x="295.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="bold">6. Partition + archive</text>
+<path d="M190,185 L210,185" class="arrow" marker-end="url(#database-scaling-h)"/>
+<rect x="400" y="150" width="170" height="70" rx="10" class="red"/>
+<text x="485.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="bold">7. Split by feature</text>
+<path d="M380,185 L400,185" class="arrow" marker-end="url(#database-scaling-h)"/>
+<rect x="590" y="150" width="170" height="70" rx="10" class="red"/>
+<text x="675.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="bold">8. Shard</text>
+<path d="M570,185 L590,185" class="arrow" marker-end="url(#database-scaling-h)"/>
+<path d="M765,75 L765,100 L105,100 L105,150" class="arrow dashed" marker-end="url(#database-scaling-h)"/>
+<text x="400" y="24" text-anchor="middle" dominant-baseline="middle" class="small">cheap and simple  -&gt;  powerful and complex</text>
+<text x="400" y="270" text-anchor="middle" dominant-baseline="middle" class="small">Rungs 1 to 3 are free or cheap. Sharding (8) is the most powerful and the most expensive.</text>
+</svg>
+<figcaption>Try the cheapest rung first. Move up only when the numbers say the current rung is not enough.</figcaption>
+</figure>

@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="api-gateway-t api-gateway-d" xmlns="http://www.w3.org/2000/svg">
+<title id="api-gateway-t">The API gateway</title>
+<desc id="api-gateway-d">One front door: authentication, rate limits and routing happen once, before the request reaches a service.</desc>
+<defs><marker id="api-gateway-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="api-gateway-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="api-gateway-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="api-gateway-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="70" width="90" height="40" rx="10" class="blue"/>
+<text x="55.0" y="90.0" text-anchor="middle" dominant-baseline="middle">Web</text>
+<rect x="10" y="130" width="90" height="40" rx="10" class="blue"/>
+<text x="55.0" y="150.0" text-anchor="middle" dominant-baseline="middle">Mobile</text>
+<rect x="10" y="190" width="90" height="40" rx="10" class="blue"/>
+<text x="55.0" y="210.0" text-anchor="middle" dominant-baseline="middle">Partners</text>
+<rect x="170" y="60" width="210" height="180" rx="10" class="purple"/>
+<text x="275.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">API gateway</text>
+<text x="275.0" y="120.0" text-anchor="middle" dominant-baseline="middle">1 TLS termination</text>
+<text x="275.0" y="140.0" text-anchor="middle" dominant-baseline="middle">2 authenticate token</text>
+<text x="275.0" y="160.0" text-anchor="middle" dominant-baseline="middle">3 rate limit / quota</text>
+<text x="275.0" y="180.0" text-anchor="middle" dominant-baseline="middle">4 route + transform</text>
+<text x="275.0" y="200.0" text-anchor="middle" dominant-baseline="middle">5 log + trace id</text>
+<path d="M100,90 L170,150" class="arrow" marker-end="url(#api-gateway-h)"/>
+<path d="M100,150 L170,150" class="arrow" marker-end="url(#api-gateway-h)"/>
+<path d="M100,210 L170,150" class="arrow" marker-end="url(#api-gateway-h)"/>
+<rect x="520" y="40" width="180" height="50" rx="10" class="green"/>
+<text x="610.0" y="65.0" text-anchor="middle" dominant-baseline="middle">Order service</text>
+<path d="M380,150 L520,65" class="arrow" marker-end="url(#api-gateway-h)"/>
+<rect x="520" y="120" width="180" height="50" rx="10" class="green"/>
+<text x="610.0" y="145.0" text-anchor="middle" dominant-baseline="middle">User service</text>
+<path d="M380,150 L520,145" class="arrow" marker-end="url(#api-gateway-h)"/>
+<rect x="520" y="200" width="180" height="50" rx="10" class="green"/>
+<text x="610.0" y="225.0" text-anchor="middle" dominant-baseline="middle">Payment service</text>
+<path d="M380,150 L520,225" class="arrow" marker-end="url(#api-gateway-h)"/>
+<text x="610" y="275" text-anchor="middle" dominant-baseline="middle" class="small">services trust the gateway&#x27;s verdict</text>
+</svg>
+<figcaption>One front door: authentication, rate limits and routing happen once, before the request reaches a service.</figcaption>
+</figure>

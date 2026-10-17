@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 230" role="img" aria-labelledby="snowflake-t snowflake-d" xmlns="http://www.w3.org/2000/svg">
+<title id="snowflake-t">A Snowflake-style 64-bit ID</title>
+<desc id="snowflake-d">Time in the high bits makes IDs roughly sortable. Machine id and a per-millisecond sequence make them unique with no coordination.</desc>
+<defs><marker id="snowflake-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="snowflake-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="snowflake-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="snowflake-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="60" width="60" height="50" rx="10" class="box"/>
+<text x="50.0" y="75.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<text x="50.0" y="95.0" text-anchor="middle" dominant-baseline="middle">sign</text>
+<rect x="90" y="60" width="440" height="50" rx="10" class="blue"/>
+<text x="310.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">41 bits: milliseconds since a custom epoch</text>
+<text x="310.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">about 69 years</text>
+<rect x="540" y="60" width="110" height="50" rx="10" class="green"/>
+<text x="595.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">10 bits</text>
+<text x="595.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">machine id</text>
+<rect x="660" y="60" width="120" height="50" rx="10" class="amber"/>
+<text x="720.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">12 bits</text>
+<text x="720.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">sequence</text>
+<text x="400" y="150" text-anchor="middle" dominant-baseline="middle" class="small">4,096 ids per millisecond per machine, 1,024 machines, sortable by creation time</text>
+<text x="400" y="185" text-anchor="middle" dominant-baseline="middle" class="small">Needs: unique machine ids, and a clock that never goes backwards.</text>
+</svg>
+<figcaption>Time in the high bits makes IDs roughly sortable. Machine id and a per-millisecond sequence make them unique with no coordination.</figcaption>
+</figure>

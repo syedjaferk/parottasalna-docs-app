@@ -1,0 +1,33 @@
+chapter: sessions/61-vertical-vs-horizontal-scaling
+quizzes:
+- title: Chapter 61 · Quiz
+  description: 'Check yourself on: vertical vs horizontal scaling.'
+  questions:
+  - text: 'Vertical scaling has a:'
+    choices: |
+      *Hard ceiling and is a single point of failure
+      No ceiling
+      Built-in redundancy
+      Free price
+    explanation: One machine, however big.
+  - text: 'Horizontal scaling requires:'
+    choices: |
+      A single database connection
+      *Stateless services and a load balancer
+      A bigger CPU
+      Sticky sessions
+    explanation: State must live elsewhere.
+  - text: Which tier is usually scaled vertically first?
+    choices: |
+      The web tier
+      The CDN
+      *The database primary
+      The queue
+    explanation: Data is hard to split.
+  - text: 'Autoscaling should always keep:'
+    choices: |
+      One server
+      *A minimum number of servers
+      A random number
+      Zero servers
+    explanation: A failure should not leave you with one.

@@ -1,0 +1,33 @@
+chapter: sessions/45-pub-sub
+quizzes:
+- title: Chapter 45 · Quiz
+  description: 'Check yourself on: pub sub.'
+  questions:
+  - text: 'In pub/sub each message goes to:'
+    choices: |
+      One consumer only
+      The publisher
+      No one
+      *Every subscriber
+    explanation: A queue gives each message to one worker.
+  - text: 'Adding a new consumer of order events requires:'
+    choices: |
+      *No change to the publisher
+      Restarting clients
+      A new database
+      Editing the order service
+    explanation: That is the decoupling benefit.
+  - text: Which broker lets a new consumer replay old events?
+    choices: |
+      SMTP
+      *Kafka (a retained log)
+      A plain socket
+      Redis pub/sub
+    explanation: Redis pub/sub does not retain.
+  - text: Why give each subscriber its own queue?
+    choices: |
+      *A slow subscriber does not hold back the others
+      It is required by TCP
+      To save memory
+      To avoid ids
+    explanation: Independent pace and retries.

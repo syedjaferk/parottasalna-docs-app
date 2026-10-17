@@ -1,31 +1,45 @@
 <figure class="diagram">
-<svg class="dg" viewBox="0 0 820 270" role="img" aria-labelledby="upi-t upi-d" xmlns="http://www.w3.org/2000/svg">
+<svg class="dg" viewBox="0 0 820 320" role="img" aria-labelledby="upi-t upi-d" xmlns="http://www.w3.org/2000/svg">
 <title id="upi-t">UPI payment flow</title>
-<desc id="upi-d">The payer&#x27;s app sends a request through the payment switch, which asks the payer&#x27;s bank to debit and the payee&#x27;s bank to credit, then reports the result to both apps.</desc>
-<defs><marker id="upi-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
-<rect x="10" y="100" width="100" height="50" rx="10" class="blue"/>
-<text x="60.0" y="129.0" text-anchor="middle" class="code">Payer app</text>
-<rect x="170" y="100" width="120" height="50" rx="10" class="green"/>
-<text x="230.0" y="129.0" text-anchor="middle" class="code">PSP bank</text>
-<rect x="350" y="100" width="120" height="50" rx="10" class="amber"/>
-<text x="410.0" y="129.0" text-anchor="middle" class="code">UPI switch</text>
-<rect x="540" y="20" width="130" height="44" rx="10" class="red"/>
-<text x="605.0" y="38.0" text-anchor="middle" class="code">Payer bank</text>
-<text x="605.0" y="54.0" text-anchor="middle" class="code">(debit)</text>
-<rect x="540" y="190" width="130" height="44" rx="10" class="red"/>
-<text x="605.0" y="208.0" text-anchor="middle" class="code">Payee bank</text>
-<text x="605.0" y="224.0" text-anchor="middle" class="code">(credit)</text>
-<rect x="710" y="100" width="100" height="50" rx="10" class="blue"/>
-<text x="760.0" y="129.0" text-anchor="middle" class="code">Payee app</text>
-<path d="M110,125 L170,125" class="arrow" marker-end="url(#upi-h)"/>
-<text x="140.0" y="119.0" text-anchor="middle" class="small">1 pay</text>
-<path d="M290,125 L350,125" class="arrow" marker-end="url(#upi-h)"/>
-<path d="M470,110 L540,50" class="arrow" marker-end="url(#upi-h)"/>
-<text x="520" y="70" text-anchor="middle" class="small">2 debit</text>
-<path d="M470,140 L540,205" class="arrow" marker-end="url(#upi-h)"/>
-<text x="510" y="185" text-anchor="middle" class="small">3 credit</text>
-<path d="M670,212 L740,150" class="arrow" marker-end="url(#upi-h)"/>
-<text x="725" y="190" text-anchor="middle" class="small">4 notify</text>
+<desc id="upi-d">The switch coordinates a debit at the payer bank and a credit at the payee bank, records everything and notifies both apps.</desc>
+<defs><marker id="upi-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="upi-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="upi-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="upi-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="120" width="100" height="60" rx="10" class="blue"/>
+<text x="60.0" y="150.0" text-anchor="middle" dominant-baseline="middle">Payer app</text>
+<rect x="160" y="120" width="120" height="60" rx="10" class="green"/>
+<text x="220.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="bold">PSP bank</text>
+<text x="220.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">app backend</text>
+<rect x="340" y="110" width="130" height="80" rx="10" class="purple"/>
+<text x="405.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="bold">UPI switch</text>
+<text x="405.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">route + record</text>
+<rect x="340" y="20" width="130" height="50" rx="10" class="box"/>
+<text x="405.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">VPA directory</text>
+<rect x="340" y="240" width="130" height="60" rx="10" class="amber"/>
+<text x="405.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="bold">Ledger</text>
+<text x="405.0" y="280.0" text-anchor="middle" dominant-baseline="middle" class="small">append-only</text>
+<rect x="570" y="20" width="150" height="60" rx="10" class="red"/>
+<text x="645.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Payer bank</text>
+<text x="645.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="small">debit</text>
+<rect x="570" y="220" width="150" height="60" rx="10" class="red"/>
+<text x="645.0" y="240.0" text-anchor="middle" dominant-baseline="middle" class="bold">Payee bank</text>
+<text x="645.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="small">credit</text>
+<rect x="730" y="120" width="80" height="60" rx="10" class="blue"/>
+<text x="770.0" y="140.0" text-anchor="middle" dominant-baseline="middle">Payee</text>
+<text x="770.0" y="160.0" text-anchor="middle" dominant-baseline="middle">app</text>
+<path d="M110,150 L160,150" class="arrow" marker-end="url(#upi-h)"/>
+<text x="135" y="132" text-anchor="middle" dominant-baseline="middle" class="small">1 pay</text>
+<path d="M280,150 L340,150" class="arrow" marker-end="url(#upi-h)"/>
+<text x="310" y="132" text-anchor="middle" dominant-baseline="middle" class="small">txn id</text>
+<path d="M405,110 L405,70" class="arrow dashed" marker-end="url(#upi-h)"/>
+<text x="465" y="92" text-anchor="middle" dominant-baseline="middle" class="small">resolve VPA</text>
+<path d="M470,125 L570,55" class="arrow" marker-end="url(#upi-h)"/>
+<text x="505" y="80" text-anchor="middle" dominant-baseline="middle" class="small">2 debit</text>
+<path d="M470,175 L570,245" class="arrow" marker-end="url(#upi-h)"/>
+<text x="510" y="222" text-anchor="middle" dominant-baseline="middle" class="small">3 credit</text>
+<path d="M405,190 L405,240" class="arrow" marker-end="url(#upi-h)"/>
+<path d="M720,250 L770,180" class="arrow dashed" marker-end="url(#upi-h)"/>
+<text x="775" y="222" text-anchor="middle" dominant-baseline="middle" class="small">4 notify</text>
+<text x="130" y="250" text-anchor="middle" dominant-baseline="middle" class="small">timeout = unknown: reconcile</text>
+<text x="130" y="272" text-anchor="middle" dominant-baseline="middle" class="small">with the same transaction id</text>
 </svg>
-<figcaption>The switch routes and records. The money moves between banks. Every step has a unique transaction id so retries are safe.</figcaption>
+<figcaption>The switch coordinates a debit at the payer bank and a credit at the payee bank, records everything and notifies both apps.</figcaption>
 </figure>

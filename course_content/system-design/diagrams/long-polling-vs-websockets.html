@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 320" role="img" aria-labelledby="long-polling-vs-websockets-t long-polling-vs-websockets-d" xmlns="http://www.w3.org/2000/svg">
+<title id="long-polling-vs-websockets-t">Long polling vs WebSocket</title>
+<desc id="long-polling-vs-websockets-d">Long polling holds each request until news arrives, then re-asks. A WebSocket stays open and either side sends at any time.</desc>
+<defs><marker id="long-polling-vs-websockets-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="long-polling-vs-websockets-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="long-polling-vs-websockets-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="long-polling-vs-websockets-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Long polling</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">WebSocket</text>
+<line x1="100" y1="36" x2="100" y2="290" class="line"/>
+<line x1="300" y1="36" x2="300" y2="290" class="line"/>
+<path d="M100,60 L300,70" class="arrow blue" marker-end="url(#long-polling-vs-websockets-h-blue)"/>
+<text x="200" y="48" text-anchor="middle" dominant-baseline="middle" class="small">GET /events?after=41</text>
+<rect x="130" y="90" width="140" height="36" rx="10" class="amber"/>
+<text x="200.0" y="108.0" text-anchor="middle" dominant-baseline="middle" class="small">server holds ... 12 s</text>
+<path d="M300,150 L100,160" class="arrow green" marker-end="url(#long-polling-vs-websockets-h-green)"/>
+<text x="200" y="140" text-anchor="middle" dominant-baseline="middle" class="small">event 42</text>
+<path d="M100,190 L300,200" class="arrow blue" marker-end="url(#long-polling-vs-websockets-h-blue)"/>
+<text x="200" y="178" text-anchor="middle" dominant-baseline="middle" class="small">GET /events?after=42</text>
+<rect x="130" y="220" width="140" height="36" rx="10" class="amber"/>
+<text x="200.0" y="238.0" text-anchor="middle" dominant-baseline="middle" class="small">held again ...</text>
+<line x1="510" y1="36" x2="510" y2="290" class="line"/>
+<line x1="710" y1="36" x2="710" y2="290" class="line"/>
+<path d="M510,60 L710,70" class="arrow blue" marker-end="url(#long-polling-vs-websockets-h-blue)"/>
+<text x="610" y="48" text-anchor="middle" dominant-baseline="middle" class="small">upgrade (once)</text>
+<path d="M710,110 L510,120" class="arrow green" marker-end="url(#long-polling-vs-websockets-h-green)"/>
+<text x="610" y="100" text-anchor="middle" dominant-baseline="middle" class="small">event 42</text>
+<path d="M710,160 L510,170" class="arrow green" marker-end="url(#long-polling-vs-websockets-h-green)"/>
+<text x="610" y="150" text-anchor="middle" dominant-baseline="middle" class="small">event 43</text>
+<path d="M510,210 L710,220" class="arrow blue" marker-end="url(#long-polling-vs-websockets-h-blue)"/>
+<text x="610" y="200" text-anchor="middle" dominant-baseline="middle" class="small">client message</text>
+</svg>
+<figcaption>Long polling holds each request until news arrives, then re-asks. A WebSocket stays open and either side sends at any time.</figcaption>
+</figure>

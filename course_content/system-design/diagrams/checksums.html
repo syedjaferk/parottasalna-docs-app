@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 250" role="img" aria-labelledby="checksums-t checksums-d" xmlns="http://www.w3.org/2000/svg">
+<title id="checksums-t">A checksum detects corruption</title>
+<desc id="checksums-d">The receiver recomputes the checksum. If it differs from the one sent, the data was damaged in transit.</desc>
+<defs><marker id="checksums-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="checksums-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="checksums-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="checksums-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="90" width="140" height="60" rx="10" class="blue"/>
+<text x="90.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="bold">Data</text>
+<text x="90.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">transfer 5000</text>
+<rect x="190" y="90" width="110" height="60" rx="10" class="purple"/>
+<text x="245.0" y="110.0" text-anchor="middle" dominant-baseline="middle">checksum</text>
+<text x="245.0" y="130.0" text-anchor="middle" dominant-baseline="middle">= 0x9A3F</text>
+<path d="M160,120 L190,120" class="arrow" marker-end="url(#checksums-h)"/>
+<path d="M300,120 L470,120" class="arrow" marker-end="url(#checksums-h)"/>
+<text x="385" y="100" text-anchor="middle" dominant-baseline="middle" class="small">send data + checksum</text>
+<rect x="470" y="90" width="140" height="60" rx="10" class="red"/>
+<text x="540.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="bold">Data</text>
+<text x="540.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="small">transfer 9000</text>
+<rect x="660" y="90" width="120" height="60" rx="10" class="purple"/>
+<text x="720.0" y="110.0" text-anchor="middle" dominant-baseline="middle">recomputed</text>
+<text x="720.0" y="130.0" text-anchor="middle" dominant-baseline="middle">= 0x41C2</text>
+<path d="M610,120 L660,120" class="arrow" marker-end="url(#checksums-h)"/>
+<text x="540" y="70" text-anchor="middle" dominant-baseline="middle" class="small">one digit flipped on the wire</text>
+<rect x="330" y="180" width="450" height="44" rx="10" class="red"/>
+<text x="555.0" y="202.0" text-anchor="middle" dominant-baseline="middle" class="bold">0x41C2 != 0x9A3F: corrupted, discard or repair</text>
+</svg>
+<figcaption>The receiver recomputes the checksum. If it differs from the one sent, the data was damaged in transit.</figcaption>
+</figure>

@@ -1,0 +1,33 @@
+chapter: sessions/47-heartbeats
+quizzes:
+- title: Chapter 47 · Quiz
+  description: 'Check yourself on: heartbeats.'
+  questions:
+  - text: 'A heartbeat means:'
+    choices: |
+      *I am alive
+      Please restart me
+      I have new data
+      I am overloaded
+    explanation: Silence makes others suspect failure.
+  - text: 'A timeout that is too short causes:'
+    choices: |
+      Slower detection
+      *False alarms
+      Better security
+      Higher bandwidth only
+    explanation: Healthy nodes declared dead.
+  - text: 'Liveness vs readiness: a warming-up process is:'
+    choices: |
+      Both
+      *Alive but not ready
+      Dead
+      Ready but not alive
+    explanation: Do not route traffic yet.
+  - text: 'A 20-second GC pause makes a leader look dead. The risk on wake-up is:'
+    choices: |
+      A faster node
+      *Split brain
+      Higher TTL
+      A cache hit
+    explanation: Use leases and epochs.

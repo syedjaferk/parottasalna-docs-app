@@ -1,0 +1,33 @@
+chapter: sessions/17-dns
+quizzes:
+- title: Chapter 17 · Quiz
+  description: 'Check yourself on: dns.'
+  questions:
+  - text: 'A record in DNS maps:'
+    choices: |
+      A domain to its mail server
+      An IP to a port
+      A name to another name
+      *A name to an IPv4 address
+    explanation: CNAME is name to name; MX is mail.
+  - text: 'Before a planned server move you should:'
+    choices: |
+      Restart the resolver
+      Delete the record
+      *Lower the DNS TTL in advance
+      Raise the TTL
+    explanation: So caches expire quickly after the switch.
+  - text: Why is DNS failover slower than load-balancer failover?
+    choices: |
+      DNS has no health checks at all
+      DNS is encrypted
+      *Resolvers cache the old answer until the TTL expires
+      DNS uses UDP
+    explanation: You cannot force caches to forget.
+  - text: A cold DNS lookup walks which servers?
+    choices: |
+      *Root, TLD, then authoritative
+      Only the authoritative
+      Only the ISP
+      A random server
+    explanation: Then the answer is cached for its TTL.

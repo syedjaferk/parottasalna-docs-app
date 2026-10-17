@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="websocket-scaling-t websocket-scaling-d" xmlns="http://www.w3.org/2000/svg">
+<title id="websocket-scaling-t">Scaling WebSockets across servers</title>
+<desc id="websocket-scaling-d">Each connection lives on one server, so servers share messages through pub/sub.</desc>
+<defs><marker id="websocket-scaling-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="websocket-scaling-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="websocket-scaling-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="websocket-scaling-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="40" width="90" height="40" rx="10" class="blue"/>
+<text x="55.0" y="60.0" text-anchor="middle" dominant-baseline="middle">Asha</text>
+<rect x="10" y="210" width="90" height="40" rx="10" class="blue"/>
+<text x="55.0" y="230.0" text-anchor="middle" dominant-baseline="middle">Ravi</text>
+<rect x="170" y="30" width="150" height="60" rx="10" class="green"/>
+<text x="245.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">WS server 1</text>
+<text x="245.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">holds Asha&#x27;s socket</text>
+<rect x="170" y="200" width="150" height="60" rx="10" class="green"/>
+<text x="245.0" y="220.0" text-anchor="middle" dominant-baseline="middle" class="bold">WS server 4</text>
+<text x="245.0" y="240.0" text-anchor="middle" dominant-baseline="middle" class="small">holds Ravi&#x27;s socket</text>
+<rect x="430" y="115" width="150" height="60" rx="10" class="purple"/>
+<text x="505.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="bold">Pub/sub</text>
+<text x="505.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="small">Redis / Kafka</text>
+<path d="M100,60 L170,60" class="arrow" marker-end="url(#websocket-scaling-h)"/>
+<path d="M170,230 L100,230" class="arrow green" marker-end="url(#websocket-scaling-h-green)"/>
+<path d="M320,60 L430,135" class="arrow blue" marker-end="url(#websocket-scaling-h-blue)"/>
+<text x="400" y="78" text-anchor="middle" dominant-baseline="middle" class="small">1 publish</text>
+<path d="M430,160 L320,230" class="arrow green" marker-end="url(#websocket-scaling-h-green)"/>
+<text x="400" y="215" text-anchor="middle" dominant-baseline="middle" class="small">2 deliver</text>
+<rect x="630" y="40" width="150" height="90" rx="10" class="box"/>
+<text x="705.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">Load balancer</text>
+<text x="705.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="small">least connections</text>
+<text x="705.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">sticky per socket</text>
+<text x="400" y="285" text-anchor="middle" dominant-baseline="middle" class="small">On reconnect the client sends the last message id it saw; the server replays what it missed.</text>
+</svg>
+<figcaption>Each connection lives on one server, so servers share messages through pub/sub.</figcaption>
+</figure>

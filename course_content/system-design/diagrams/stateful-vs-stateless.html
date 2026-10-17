@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 320" role="img" aria-labelledby="stateful-vs-stateless-t stateful-vs-stateless-d" xmlns="http://www.w3.org/2000/svg">
+<title id="stateful-vs-stateless-t">Where the state lives</title>
+<desc id="stateful-vs-stateless-d">Stateful servers hold the cart in memory so the user must return to the same one. Stateless servers share one store, so any server works.</desc>
+<defs><marker id="stateful-vs-stateless-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="stateful-vs-stateless-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="stateful-vs-stateless-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="stateful-vs-stateless-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Stateful</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Stateless</text>
+<rect x="10" y="130" width="70" height="40" rx="10" class="blue"/>
+<text x="45.0" y="150.0" text-anchor="middle" dominant-baseline="middle">User</text>
+<rect x="140" y="60" width="170" height="50" rx="10" class="amber"/>
+<text x="225.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">Server A</text>
+<text x="225.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">cart in memory</text>
+<rect x="140" y="190" width="170" height="50" rx="10" class="red"/>
+<text x="225.0" y="205.0" text-anchor="middle" dominant-baseline="middle" class="bold">Server B</text>
+<text x="225.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">empty!</text>
+<path d="M80,145 L140,85" class="arrow" marker-end="url(#stateful-vs-stateless-h)"/>
+<path d="M80,155 L140,215" class="arrow red dashed" marker-end="url(#stateful-vs-stateless-h-red)"/>
+<rect x="430" y="130" width="70" height="40" rx="10" class="blue"/>
+<text x="465.0" y="150.0" text-anchor="middle" dominant-baseline="middle">User</text>
+<rect x="550" y="40" width="130" height="44" rx="10" class="green"/>
+<text x="615.0" y="62.0" text-anchor="middle" dominant-baseline="middle">Server A</text>
+<rect x="550" y="130" width="130" height="44" rx="10" class="green"/>
+<text x="615.0" y="152.0" text-anchor="middle" dominant-baseline="middle">Server B</text>
+<rect x="550" y="220" width="130" height="44" rx="10" class="green"/>
+<text x="615.0" y="242.0" text-anchor="middle" dominant-baseline="middle">Server C</text>
+<path d="M500,150 L550,62" class="arrow" marker-end="url(#stateful-vs-stateless-h)"/>
+<path d="M500,150 L550,152" class="arrow" marker-end="url(#stateful-vs-stateless-h)"/>
+<path d="M500,150 L550,242" class="arrow" marker-end="url(#stateful-vs-stateless-h)"/>
+<rect x="710" y="110" width="80" height="80" rx="10" class="purple"/>
+<text x="750.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="bold">Redis</text>
+<text x="750.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">DB</text>
+<path d="M680,62 L710,150" class="arrow dashed" marker-end="url(#stateful-vs-stateless-h)"/>
+<path d="M680,152 L710,150" class="arrow dashed" marker-end="url(#stateful-vs-stateless-h)"/>
+<path d="M680,242 L710,150" class="arrow dashed" marker-end="url(#stateful-vs-stateless-h)"/>
+</svg>
+<figcaption>Stateful servers hold the cart in memory so the user must return to the same one. Stateless servers share one store, so any server works.</figcaption>
+</figure>

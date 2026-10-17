@@ -1,0 +1,33 @@
+chapter: sessions/03-api-and-data-model
+quizzes:
+- title: Chapter 3 · Quiz
+  description: 'Check yourself on: api and data model.'
+  questions:
+  - text: Which style of pagination stays correct while new rows arrive?
+    choices: |
+      offset=100000
+      *Cursor (before=id)
+      Random page
+      No pagination
+    explanation: Cursors do not skip or repeat rows when data changes.
+  - text: How should you pick a database for a design?
+    choices: |
+      By the newest product
+      From what you used last time
+      *From the access pattern of the main queries
+      Always NoSQL
+    explanation: List the queries first.
+  - text: Which HTTP method should create data?
+    choices: |
+      GET
+      HEAD
+      OPTIONS
+      *POST
+    explanation: GET must not change data.
+  - text: Why design the key from the query in a chat messages table?
+    choices: |
+      To avoid indexes
+      To save disk space only
+      *So one conversation's messages are stored together and read in one range
+      Because keys are always random
+    explanation: Key (conversation_id, id) makes 'latest 50' a single range scan.

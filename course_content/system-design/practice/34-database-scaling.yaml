@@ -1,0 +1,33 @@
+chapter: sessions/34-database-scaling
+quizzes:
+- title: Chapter 34 · Quiz
+  description: 'Check yourself on: database scaling.'
+  questions:
+  - text: What should you try first when queries are slow?
+    choices: |
+      *Indexes and query tuning
+      Sharding
+      A bigger data centre
+      Rewrite in another language
+    explanation: Free and often 10x to 1000x.
+  - text: 'Heavy nightly reports slow the primary. The cheapest fix:'
+    choices: |
+      Shard the database
+      Disable indexes
+      Add RAM to clients
+      *Run them on a read replica
+    explanation: Isolate the workload.
+  - text: 'A 90% cache hit rate cuts database reads by:'
+    choices: |
+      Nothing
+      Half
+      About 10%
+      *About 90%
+    explanation: Only misses reach the database.
+  - text: 'Replicas fix:'
+    choices: |
+      Everything
+      Write load
+      Storage limits
+      *Read load and availability, not write load
+    explanation: Writes still go to the primary.

@@ -1,0 +1,33 @@
+chapter: sessions/50-distributed-locking
+quizzes:
+- title: Chapter 50 · Quiz
+  description: 'Check yourself on: distributed locking.'
+  questions:
+  - text: Why does a lock need a lease (TTL)?
+    choices: |
+      *A crashed holder must not block everyone forever
+      To encrypt it
+      To make it faster
+      To avoid tokens
+    explanation: Expiry prevents deadlock.
+  - text: What does a fencing token protect against?
+    choices: |
+      DNS failures
+      *A paused client writing after its lease expired
+      Cache misses
+      Slow disks
+    explanation: Storage rejects stale tokens.
+  - text: 'Releasing a lock should check:'
+    choices: |
+      *That the token is yours
+      The queue
+      The CPU
+      The time of day
+    explanation: Otherwise you may delete someone else's lock.
+  - text: 'Often better than a distributed lock:'
+    choices: |
+      Sleeping
+      No checks
+      *A unique constraint or conditional update
+      A bigger lock
+    explanation: The database enforces it atomically.

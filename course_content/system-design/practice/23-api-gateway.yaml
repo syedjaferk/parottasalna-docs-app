@@ -1,0 +1,33 @@
+chapter: sessions/23-api-gateway
+quizzes:
+- title: Chapter 23 · Quiz
+  description: 'Check yourself on: api gateway.'
+  questions:
+  - text: 'An API gateway typically does all of these EXCEPT:'
+    choices: |
+      *Run your business logic
+      Authenticate requests
+      Rate limit
+      Route to services
+    explanation: Business logic in the gateway makes it a monolith.
+  - text: 'Mobile and web need different response shapes. Use:'
+    choices: |
+      A queue
+      A bigger database
+      One gateway for all
+      *Backend for Frontend (BFF)
+    explanation: One gateway layer per client type.
+  - text: Why verify JWTs at the gateway locally?
+    choices: |
+      It avoids HTTPS
+      *No call to the auth service per request
+      It removes the need for tokens
+      JWTs are unreadable
+    explanation: Signature checks need only a key.
+  - text: 'The gateway itself should be:'
+    choices: |
+      Without monitoring
+      Hosted on the client
+      A single instance
+      *Run as several instances
+    explanation: Otherwise it is a single point of failure.

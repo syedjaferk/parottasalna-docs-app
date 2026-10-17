@@ -1,0 +1,33 @@
+chapter: sessions/54-distributed-tracing
+quizzes:
+- title: Chapter 54 · Quiz
+  description: 'Check yourself on: distributed tracing.'
+  questions:
+  - text: 'A trace is:'
+    choices: |
+      A database index
+      *The journey of one request across services
+      A single log line
+      A CPU graph
+    explanation: Made of spans under one trace id.
+  - text: How do spans from different services join into one trace?
+    choices: |
+      By timestamps alone
+      They cannot
+      By IP
+      *The trace id travels in request headers
+    explanation: Context propagation, e.g. traceparent.
+  - text: Why sample traces?
+    choices: |
+      It is faster to write
+      Traces are secret
+      *Recording everything is costly in storage and bandwidth
+      Sampling is a law
+    explanation: Always keep errors and slow ones.
+  - text: 'Put the trace id in logs to:'
+    choices: |
+      Shorten logs
+      Delete logs
+      *Jump between a trace and its logs
+      Encrypt logs
+    explanation: Metrics, traces and logs work together.

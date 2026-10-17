@@ -1,0 +1,33 @@
+chapter: sessions/20-load-balancing
+quizzes:
+- title: Chapter 20 · Quiz
+  description: 'Check yourself on: load balancing.'
+  questions:
+  - text: Requests vary from 5 ms to 5 s. Which algorithm balances best?
+    choices: |
+      *Least connections
+      Plain round robin
+      Always the first server
+      Random with no limit
+    explanation: Round robin ignores how busy each server is.
+  - text: Why require several failed health checks before removing a server?
+    choices: |
+      It is a standard bug
+      Health checks are slow
+      To save bandwidth
+      *To avoid flapping on a single blip
+    explanation: N failures to remove, M successes to add back.
+  - text: 'Sessions should preferably live in:'
+    choices: |
+      Server memory with sticky sessions
+      *A shared store so servers stay stateless
+      The load balancer
+      The client password
+    explanation: Sticky sessions make scaling and failure harder.
+  - text: How do you stop the load balancer being a single point of failure?
+    choices: |
+      Buy a bigger one
+      Use only round robin
+      *Run a redundant pair across zones
+      Remove health checks
+    explanation: Failover with a floating IP or anycast.

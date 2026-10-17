@@ -1,0 +1,25 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 290" role="img" aria-labelledby="cap-theorem-t cap-theorem-d" xmlns="http://www.w3.org/2000/svg">
+<title id="cap-theorem-t">CAP during a network partition</title>
+<desc id="cap-theorem-d">When the link between nodes is cut you must choose: refuse requests (consistent) or answer with possibly old data (available).</desc>
+<defs><marker id="cap-theorem-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="cap-theorem-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="cap-theorem-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="cap-theorem-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="390" y="24" text-anchor="middle" dominant-baseline="middle" class="title">Withdraw 500 at A. Then read the balance at B.</text>
+<rect x="60" y="70" width="200" height="70" rx="10" class="blue"/>
+<text x="160.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Node A</text>
+<text x="160.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">balance = 500</text>
+<rect x="520" y="70" width="200" height="70" rx="10" class="blue"/>
+<text x="620.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Node B</text>
+<text x="620.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">balance = 1000 (stale)</text>
+<line x1="260" y1="105" x2="520" y2="105" class="line cut"/>
+<text x="390" y="88" text-anchor="middle" dominant-baseline="middle" class="bold">partition</text>
+<rect x="60" y="190" width="290" height="70" rx="10" class="red"/>
+<text x="205.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="bold">CP choice</text>
+<text x="205.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">B refuses: consistent, not available</text>
+<rect x="430" y="190" width="290" height="70" rx="10" class="amber"/>
+<text x="575.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="bold">AP choice</text>
+<text x="575.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="small">B answers 1000: available, inconsistent</text>
+<path d="M160,140 L160,190" class="arrow dashed" marker-end="url(#cap-theorem-h)"/>
+<path d="M620,140 L620,190" class="arrow dashed" marker-end="url(#cap-theorem-h)"/>
+</svg>
+<figcaption>When the link between nodes is cut you must choose: refuse requests (consistent) or answer with possibly old data (available).</figcaption>
+</figure>

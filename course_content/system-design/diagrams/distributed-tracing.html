@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 320" role="img" aria-labelledby="distributed-tracing-t distributed-tracing-d" xmlns="http://www.w3.org/2000/svg">
+<title id="distributed-tracing-t">A trace is a tree of spans</title>
+<desc id="distributed-tracing-d">Every service records a span with the same trace id. The waterfall shows where the time went.</desc>
+<defs><marker id="distributed-tracing-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="distributed-tracing-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="distributed-tracing-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="distributed-tracing-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="30" y="48" text-anchor="start" dominant-baseline="middle" class="small">gateway</text>
+<rect x="300.0" y="34" width="459.99999999999994" height="26" rx="4" class="bar"/>
+<text x="50" y="88" text-anchor="start" dominant-baseline="middle" class="small">cart-service</text>
+<rect x="313.8" y="74" width="69.0" height="26" rx="4" class="bar green"/>
+<text x="50" y="128" text-anchor="start" dominant-baseline="middle" class="small">pricing-service</text>
+<rect x="382.8" y="114" width="331.2" height="26" rx="4" class="bar amber"/>
+<text x="70" y="168" text-anchor="start" dominant-baseline="middle" class="small">pricing-db query</text>
+<rect x="392.0" y="154" width="299.0" height="26" rx="4" class="bar"/>
+<text x="50" y="208" text-anchor="start" dominant-baseline="middle" class="small">payment-service</text>
+<rect x="714.0" y="194" width="36.8" height="26" rx="4" class="bar green"/>
+<text x="70" y="248" text-anchor="start" dominant-baseline="middle" class="small">bank API</text>
+<rect x="723.2" y="234" width="27.599999999999998" height="26" rx="4" class="bar"/>
+<text x="540" y="18" text-anchor="middle" dominant-baseline="middle" class="small">time  -&gt;</text>
+<text x="400" y="295" text-anchor="middle" dominant-baseline="middle" class="small">One slow database query is most of the request: obvious in the waterfall, invisible in separate logs.</text>
+</svg>
+<figcaption>Every service records a span with the same trace id. The waterfall shows where the time went.</figcaption>
+</figure>

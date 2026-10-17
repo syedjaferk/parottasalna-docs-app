@@ -1,0 +1,33 @@
+chapter: sessions/06-reliability
+quizzes:
+- title: Chapter 6 · Quiz
+  description: 'Check yourself on: reliability.'
+  questions:
+  - text: 'A service is always up but sometimes returns wrong data. It is:'
+    choices: |
+      Both reliable and available
+      Neither
+      *Available but unreliable
+      Reliable but unavailable
+    explanation: Up is not the same as correct.
+  - text: Why add jitter to retry delays?
+    choices: |
+      To hide errors
+      *So clients do not all retry at the same moment
+      To make retries slower forever
+      To avoid timeouts
+    explanation: Random delays spread the load.
+  - text: What makes a retried payment safe?
+    choices: |
+      A longer timeout
+      *An idempotency key
+      A bigger cache
+      More servers
+    explanation: The same key returns the stored result.
+  - text: What is the most common cause of outages?
+    choices: |
+      DNS TTLs
+      *Changes such as deployments and config
+      Disk manufacturers
+      Cosmic rays
+    explanation: So deploy gradually and be able to roll back.

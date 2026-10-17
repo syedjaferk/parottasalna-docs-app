@@ -1,0 +1,33 @@
+chapter: sessions/22-rest-vs-graphql
+quizzes:
+- title: Chapter 22 · Quiz
+  description: 'Check yourself on: rest vs graphql.'
+  questions:
+  - text: Who decides the response shape in GraphQL?
+    choices: |
+      *The client
+      The database
+      The CDN
+      The server only
+    explanation: The client lists exactly the fields it needs.
+  - text: Why is caching GraphQL at a CDN harder than REST?
+    choices: |
+      GraphQL has no schema
+      *Queries are POSTs to one URL, so there is nothing stable to cache
+      CDNs reject JSON
+      GraphQL is encrypted
+    explanation: REST GET URLs cache naturally.
+  - text: What is the N+1 problem?
+    choices: |
+      N plus one servers
+      A naming convention
+      *A list query triggers one extra query per item
+      A security attack
+    explanation: Fix with batching such as DataLoader.
+  - text: 'A public API for third parties is usually best as:'
+    choices: |
+      SOAP only
+      GraphQL only
+      *REST
+      Raw SQL
+    explanation: Simple, cacheable, universally understood.

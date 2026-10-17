@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 330" role="img" aria-labelledby="websockets-t websockets-d" xmlns="http://www.w3.org/2000/svg">
+<title id="websockets-t">HTTP polling vs a WebSocket</title>
+<desc id="websockets-d">A WebSocket upgrades one HTTP connection into a two-way channel that stays open.</desc>
+<defs><marker id="websockets-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="websockets-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="websockets-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="websockets-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">HTTP polling</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">WebSocket</text>
+<line x1="100" y1="36" x2="100" y2="310" class="line"/>
+<line x1="300" y1="36" x2="300" y2="310" class="line"/>
+<path d="M100,60 L300,72" class="arrow" marker-end="url(#websockets-h)"/>
+<text x="200" y="52" text-anchor="middle" dominant-baseline="middle" class="small">any news?</text>
+<path d="M300,92 L100,104" class="arrow red" marker-end="url(#websockets-h-red)"/>
+<text x="200" y="120" text-anchor="middle" dominant-baseline="middle" class="small">no</text>
+<path d="M100,140 L300,152" class="arrow" marker-end="url(#websockets-h)"/>
+<text x="200" y="132" text-anchor="middle" dominant-baseline="middle" class="small">any news?</text>
+<path d="M300,172 L100,184" class="arrow red" marker-end="url(#websockets-h-red)"/>
+<text x="200" y="200" text-anchor="middle" dominant-baseline="middle" class="small">no</text>
+<path d="M100,220 L300,232" class="arrow" marker-end="url(#websockets-h)"/>
+<text x="200" y="212" text-anchor="middle" dominant-baseline="middle" class="small">any news?</text>
+<path d="M300,252 L100,264" class="arrow red" marker-end="url(#websockets-h-red)"/>
+<text x="200" y="280" text-anchor="middle" dominant-baseline="middle" class="small">no</text>
+<line x1="510" y1="36" x2="510" y2="310" class="line"/>
+<line x1="710" y1="36" x2="710" y2="310" class="line"/>
+<path d="M510,60 L710,72" class="arrow blue" marker-end="url(#websockets-h-blue)"/>
+<text x="610" y="50" text-anchor="middle" dominant-baseline="middle" class="small">GET /chat  Upgrade: websocket</text>
+<path d="M710,92 L510,104" class="arrow green" marker-end="url(#websockets-h-green)"/>
+<text x="610" y="118" text-anchor="middle" dominant-baseline="middle" class="small">101 Switching Protocols</text>
+<path d="M710,150 L510,162" class="arrow green" marker-end="url(#websockets-h-green)"/>
+<text x="610" y="145" text-anchor="middle" dominant-baseline="middle" class="small">server pushes message</text>
+<path d="M510,190 L710,202" class="arrow blue" marker-end="url(#websockets-h-blue)"/>
+<text x="610" y="180" text-anchor="middle" dominant-baseline="middle" class="small">client sends message</text>
+<path d="M710,235 L510,247" class="arrow green" marker-end="url(#websockets-h-green)"/>
+<text x="610" y="228" text-anchor="middle" dominant-baseline="middle" class="small">server pushes message</text>
+</svg>
+<figcaption>A WebSocket upgrades one HTTP connection into a two-way channel that stays open.</figcaption>
+</figure>

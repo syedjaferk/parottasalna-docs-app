@@ -1,0 +1,33 @@
+chapter: sessions/43-cdn
+quizzes:
+- title: Chapter 43 · Quiz
+  description: 'Check yourself on: cdn.'
+  questions:
+  - text: 'A CDN mainly reduces:'
+    choices: |
+      *Distance and origin load
+      Code size
+      DNS records
+      Database writes
+    explanation: Content is served from a nearby edge.
+  - text: 'The best way to update a long-cached file is:'
+    choices: |
+      Purge every edge
+      *Version the file name with a hash
+      Restart the CDN
+      Wait a year
+    explanation: A new URL needs no invalidation.
+  - text: 'Origin can do 1 Gbit/s, peak is 28 Gbit/s. Needed hit rate is about:'
+    choices: |
+      50%
+      *96.4% or more
+      10%
+      80%
+    explanation: 1 - 1/28.
+  - text: 'Private videos on a CDN use:'
+    choices: |
+      *Signed URLs with an expiry
+      Obscure URLs
+      Public links
+      No caching ever
+    explanation: The edge verifies the signature locally.

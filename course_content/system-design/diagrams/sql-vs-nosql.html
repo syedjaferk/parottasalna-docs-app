@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 320" role="img" aria-labelledby="sql-vs-nosql-t sql-vs-nosql-d" xmlns="http://www.w3.org/2000/svg">
+<title id="sql-vs-nosql-t">The same order in SQL and in a document store</title>
+<desc id="sql-vs-nosql-d">SQL stores each fact once and joins on read. A document stores the whole order together.</desc>
+<defs><marker id="sql-vs-nosql-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="sql-vs-nosql-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="sql-vs-nosql-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="sql-vs-nosql-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">SQL: three tables, joined</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Document: one record</text>
+<rect x="20" y="40" width="120" height="70" rx="10" class="blue"/>
+<text x="80.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">customers</text>
+<text x="80.0" y="75.0" text-anchor="middle" dominant-baseline="middle">id | name</text>
+<text x="80.0" y="95.0" text-anchor="middle" dominant-baseline="middle">1 | Asha</text>
+<rect x="20" y="140" width="120" height="70" rx="10" class="blue"/>
+<text x="80.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">orders</text>
+<text x="80.0" y="175.0" text-anchor="middle" dominant-baseline="middle">id | cust</text>
+<text x="80.0" y="195.0" text-anchor="middle" dominant-baseline="middle">100 | 1</text>
+<rect x="210" y="140" width="170" height="70" rx="10" class="blue"/>
+<text x="295.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">items</text>
+<text x="295.0" y="175.0" text-anchor="middle" dominant-baseline="middle">order | sku | qty</text>
+<text x="295.0" y="195.0" text-anchor="middle" dominant-baseline="middle">100 | TEA | 2</text>
+<path d="M80,110 L80,140" class="arrow dashed" marker-end="url(#sql-vs-nosql-h)"/>
+<path d="M140,175 L210,175" class="arrow dashed" marker-end="url(#sql-vs-nosql-h)"/>
+<text x="200" y="245" text-anchor="middle" dominant-baseline="middle" class="small">JOIN to rebuild the order</text>
+<rect x="450" y="40" width="320" height="180" rx="10" class="green"/>
+<text x="610.0" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">order 100</text>
+<text x="610.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="code">customer: { id: 1, name: &#x27;Asha&#x27; }</text>
+<text x="610.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">items: [</text>
+<text x="610.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">  { sku: &#x27;TEA&#x27;, qty: 2 },</text>
+<text x="610.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">  { sku: &#x27;CUP&#x27;, qty: 1 } ]</text>
+<text x="610.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="small">one read gets everything</text>
+<text x="400" y="295" text-anchor="middle" dominant-baseline="middle" class="small">SQL: no duplication, flexible queries.  Document: fast single reads, copies of shared data.</text>
+</svg>
+<figcaption>SQL stores each fact once and joins on read. A document stores the whole order together.</figcaption>
+</figure>

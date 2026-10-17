@@ -1,0 +1,33 @@
+chapter: sessions/53-disaster-recovery
+quizzes:
+- title: Chapter 53 · Quiz
+  description: 'Check yourself on: disaster recovery.'
+  questions:
+  - text: 'RPO is:'
+    choices: |
+      *How much data you may lose
+      The number of regions
+      How long you may be down
+      The backup size
+    explanation: RTO is downtime.
+  - text: Is multi-AZ a disaster recovery plan?
+    choices: |
+      Only for databases
+      Yes always
+      *No, it is high availability; a regional outage still takes it down
+      Only with CDN
+    explanation: DR needs another region or backups.
+  - text: 'The 3-2-1 rule means:'
+    choices: |
+      1 backup, 2 tests, 3 copies
+      3 backups a day
+      *3 copies, 2 media, 1 off-site
+      3 regions, 2 zones, 1 rack
+    explanation: Plus test your restores.
+  - text: Which strategy has the fastest recovery and the highest cost?
+    choices: |
+      Backup and restore
+      *Active-active
+      Cold standby
+      Pilot light
+    explanation: Full capacity in several regions.

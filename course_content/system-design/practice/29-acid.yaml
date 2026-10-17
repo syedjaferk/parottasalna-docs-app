@@ -1,0 +1,33 @@
+chapter: sessions/29-acid
+quizzes:
+- title: Chapter 29 · Quiz
+  description: 'Check yourself on: acid.'
+  questions:
+  - text: 'The A in ACID stands for:'
+    choices: |
+      *Atomicity: all or nothing
+      Availability
+      Authorisation
+      Aggregation
+    explanation: A transfer happens fully or not at all.
+  - text: 'Two clients read 100, add 10 and 20, and write. The result is 120 instead of 130. This is a:'
+    choices: |
+      Dirty read
+      Phantom read
+      Deadlock
+      *Lost update
+    explanation: One write overwrote the other.
+  - text: How does a database make committed data survive a crash?
+    choices: |
+      More indexes
+      *Write-ahead log
+      A cache
+      Bigger RAM
+    explanation: Replay the log on restart.
+  - text: 'Across two microservices'' databases you usually use:'
+    choices: |
+      *Sagas with compensating steps
+      A shared cache
+      One big ACID transaction
+      No consistency
+    explanation: Local transactions plus undo steps.

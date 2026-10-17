@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="read-write-through-t read-write-through-d" xmlns="http://www.w3.org/2000/svg">
+<title id="read-write-through-t">Read-through and write-through</title>
+<desc id="read-write-through-d">The app talks only to the cache. On a read miss the cache loads from the database. On a write it updates both together.</desc>
+<defs><marker id="read-write-through-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="read-write-through-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="read-write-through-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="read-write-through-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="110" width="100" height="60" rx="10" class="blue"/>
+<text x="60.0" y="140.0" text-anchor="middle" dominant-baseline="middle">App</text>
+<rect x="260" y="100" width="160" height="80" rx="10" class="amber"/>
+<text x="340.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Cache layer</text>
+<text x="340.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">loader + writer</text>
+<rect x="580" y="110" width="160" height="60" rx="10" class="red"/>
+<text x="660.0" y="140.0" text-anchor="middle" dominant-baseline="middle">Database</text>
+<path d="M110,130 L260,130" class="arrow" marker-end="url(#read-write-through-h)"/>
+<text x="185" y="112" text-anchor="middle" dominant-baseline="middle" class="small">get / put</text>
+<path d="M420,125 L580,125" class="arrow blue dashed" marker-end="url(#read-write-through-h-blue)"/>
+<text x="500" y="107" text-anchor="middle" dominant-baseline="middle" class="small">read miss: load</text>
+<path d="M420,160 L580,160" class="arrow red" marker-end="url(#read-write-through-h-red)"/>
+<text x="500" y="182" text-anchor="middle" dominant-baseline="middle" class="small">write: sync both</text>
+<text x="400" y="250" text-anchor="middle" dominant-baseline="middle" class="small">Read-through helps reads. Write-through keeps the cache fresh at the cost of slower writes.</text>
+</svg>
+<figcaption>The app talks only to the cache. On a read miss the cache loads from the database. On a write it updates both together.</figcaption>
+</figure>

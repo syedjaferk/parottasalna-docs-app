@@ -1,0 +1,33 @@
+chapter: sessions/79-design-authentication-system
+quizzes:
+- title: Chapter 79 · Quiz
+  description: 'Check yourself on: design authentication system.'
+  questions:
+  - text: 'Passwords must be stored as:'
+    choices: |
+      *Slow salted hashes (Argon2, bcrypt)
+      MD5
+      Encrypted so support can read them
+      Plain text
+    explanation: Slow and salted resist cracking.
+  - text: 'Short access tokens plus refresh tokens give:'
+    choices: |
+      Longer passwords
+      A database lookup per request
+      No revocation ever
+      *Local verification and a way to revoke
+    explanation: Rotate refresh tokens.
+  - text: 'A reused old refresh token signals:'
+    choices: |
+      *Theft: revoke the whole token family
+      A cache hit
+      A new device
+      A network retry
+    explanation: Rotation with reuse detection.
+  - text: 'If the auth service is briefly down:'
+    choices: |
+      All API calls fail
+      Tokens turn invalid at once
+      *Existing access tokens keep working until they expire
+      Users lose data
+    explanation: Verification is local.

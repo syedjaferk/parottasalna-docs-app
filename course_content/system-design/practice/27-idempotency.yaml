@@ -1,0 +1,33 @@
+chapter: sessions/27-idempotency
+quizzes:
+- title: Chapter 27 · Quiz
+  description: 'Check yourself on: idempotency.'
+  questions:
+  - text: Which operation is idempotent?
+    choices: |
+      *Setting stock = 10
+      Sending an email
+      stock = stock - 1
+      POST /orders
+    explanation: Absolute updates are safe to repeat.
+  - text: Who should generate the idempotency key?
+    choices: |
+      The database
+      *The client, once per logical operation
+      The load balancer
+      The server per attempt
+    explanation: The client must be able to reuse it on retries.
+  - text: Two retries hit two servers at once. What guarantees one charge?
+    choices: |
+      *A unique constraint on the key in one transaction
+      More replicas
+      Hope
+      A longer timeout
+    explanation: The second insert fails.
+  - text: A client creates a new key on every retry. What happens?
+    choices: |
+      *Retries are not recognised and may duplicate
+      The request is faster
+      Nothing; it is correct
+      The server merges them
+    explanation: The key identifies the operation, not the attempt.

@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 270" role="img" aria-labelledby="eviction-policies-t eviction-policies-d" xmlns="http://www.w3.org/2000/svg">
+<title id="eviction-policies-t">LRU eviction</title>
+<desc id="eviction-policies-d">The cache holds three items. Using A moves it to the front; adding D evicts the least recently used item, B.</desc>
+<defs><marker id="eviction-policies-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="eviction-policies-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="eviction-policies-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="eviction-policies-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="150" y="20" text-anchor="middle" dominant-baseline="middle" class="small">Order of use (front = most recent)</text>
+<rect x="60" y="40" width="70" height="44" rx="10" class="green"/>
+<text x="95.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">C</text>
+<rect x="150" y="40" width="70" height="44" rx="10" class="green"/>
+<text x="185.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">A</text>
+<rect x="240" y="40" width="70" height="44" rx="10" class="red"/>
+<text x="275.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">B</text>
+<text x="165" y="105" text-anchor="middle" dominant-baseline="middle" class="small">A was just used, B is oldest</text>
+<path d="M340,62 L430,62" class="arrow" marker-end="url(#eviction-policies-h)"/>
+<text x="385" y="45" text-anchor="middle" dominant-baseline="middle" class="small">put D</text>
+<rect x="450" y="40" width="70" height="44" rx="10" class="blue"/>
+<text x="485.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">D</text>
+<rect x="540" y="40" width="70" height="44" rx="10" class="green"/>
+<text x="575.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">C</text>
+<rect x="630" y="40" width="70" height="44" rx="10" class="green"/>
+<text x="665.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="bold">A</text>
+<text x="580" y="105" text-anchor="middle" dominant-baseline="middle" class="small">B evicted</text>
+<rect x="60" y="150" width="200" height="80" rx="10" class="blue"/>
+<text x="160.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="bold">LRU</text>
+<text x="160.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">recent use predicts reuse</text>
+<rect x="300" y="150" width="200" height="80" rx="10" class="green"/>
+<text x="400.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="bold">LFU</text>
+<text x="400.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">keep the most popular</text>
+<rect x="540" y="150" width="200" height="80" rx="10" class="amber"/>
+<text x="640.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="bold">FIFO / Random</text>
+<text x="640.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="small">cheap, ignores use</text>
+</svg>
+<figcaption>The cache holds three items. Using A moves it to the front; adding D evicts the least recently used item, B.</figcaption>
+</figure>

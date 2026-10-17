@@ -1,0 +1,33 @@
+chapter: sessions/21-apis
+quizzes:
+- title: Chapter 21 · Quiz
+  description: 'Check yourself on: apis.'
+  questions:
+  - text: 'An API is best described as:'
+    choices: |
+      *A contract between two programs
+      A database table
+      A type of server
+      A programming language
+    explanation: The client depends on the contract, not the internals.
+  - text: Which change is safe for existing clients?
+    choices: |
+      Renaming a field
+      Changing a field's type
+      *Adding an optional response field
+      Removing a field
+    explanation: Additive changes are backwards compatible.
+  - text: A client sends a negative quantity. What should the API return?
+    choices: |
+      *400 or 422 with a clear message
+      500
+      301
+      200 OK
+    explanation: Client mistakes are 4xx.
+  - text: Why not expose database column names directly as API fields?
+    choices: |
+      It is slower
+      *A schema change would break every client
+      Databases forbid it
+      JSON cannot hold them
+    explanation: The API should be a stable contract.

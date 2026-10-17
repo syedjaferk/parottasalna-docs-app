@@ -1,0 +1,33 @@
+chapter: sessions/35-database-types
+quizzes:
+- title: Chapter 35 · Quiz
+  description: 'Check yourself on: database types.'
+  questions:
+  - text: Which database family suits a leaderboard?
+    choices: |
+      Column warehouse
+      *Key-value / in-memory (Redis)
+      Document
+      Graph
+    explanation: Sorted sets give fast ranking.
+  - text: 'A column-oriented store is good for:'
+    choices: |
+      Transactions
+      Session storage
+      *Aggregating huge tables on a few columns
+      Single-row updates
+    explanation: It reads only the needed columns.
+  - text: '''Friends of friends'' queries suit:'
+    choices: |
+      A key-value store
+      *A graph database
+      A time-series DB
+      Object storage
+    explanation: Relationships are first-class.
+  - text: 'Full-text search with relevance ranking suits:'
+    choices: |
+      *A search engine (inverted index)
+      A relational index only
+      A CDN
+      A queue
+    explanation: Elasticsearch or OpenSearch.

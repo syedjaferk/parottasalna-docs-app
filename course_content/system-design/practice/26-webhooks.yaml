@@ -1,0 +1,33 @@
+chapter: sessions/26-webhooks
+quizzes:
+- title: Chapter 26 · Quiz
+  description: 'Check yourself on: webhooks.'
+  questions:
+  - text: Why verify a webhook's HMAC signature?
+    choices: |
+      To cache it
+      To compress it
+      *Anyone can POST to a public URL
+      To route it
+    explanation: Only the provider knows the secret.
+  - text: Your endpoint is slow. What should it do?
+    choices: |
+      Return 500
+      Ignore the event
+      *Store the event, return 200 fast, process later
+      Process before replying
+    explanation: Providers time out and retry.
+  - text: 'The same event arrives three times. You should:'
+    choices: |
+      *Dedupe by event id
+      Restart the server
+      Block the provider
+      Process all three
+    explanation: Delivery is at-least-once.
+  - text: 'Compared with polling, webhooks are:'
+    choices: |
+      Free of duplicates
+      Not needing a public URL
+      Always more reliable
+      *Near real time with no empty calls
+    explanation: But you must expose and secure an endpoint.

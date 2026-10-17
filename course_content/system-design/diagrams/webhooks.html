@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="webhooks-t webhooks-d" xmlns="http://www.w3.org/2000/svg">
+<title id="webhooks-t">Webhook flow</title>
+<desc id="webhooks-d">The provider calls your endpoint when an event happens. You verify, store, reply fast and process later.</desc>
+<defs><marker id="webhooks-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="webhooks-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="webhooks-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="webhooks-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="130" width="130" height="60" rx="10" class="blue"/>
+<text x="75.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Payment</text>
+<text x="75.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">provider</text>
+<rect x="260" y="130" width="150" height="60" rx="10" class="purple"/>
+<text x="335.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your endpoint</text>
+<text x="335.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="code">POST /hooks/pay</text>
+<rect x="500" y="40" width="130" height="50" rx="10" class="amber"/>
+<text x="565.0" y="55.0" text-anchor="middle" dominant-baseline="middle">Verify HMAC</text>
+<text x="565.0" y="75.0" text-anchor="middle" dominant-baseline="middle">signature</text>
+<rect x="500" y="130" width="130" height="50" rx="10" class="green"/>
+<text x="565.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Store event</text>
+<text x="565.0" y="165.0" text-anchor="middle" dominant-baseline="middle">(unique id)</text>
+<rect x="660" y="130" width="120" height="50" rx="10" class="green"/>
+<text x="720.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Queue + worker</text>
+<text x="720.0" y="165.0" text-anchor="middle" dominant-baseline="middle">process later</text>
+<path d="M140,150 L260,150" class="arrow blue" marker-end="url(#webhooks-h-blue)"/>
+<text x="200" y="132" text-anchor="middle" dominant-baseline="middle" class="small">event + signature</text>
+<path d="M410,140 L500,70" class="arrow" marker-end="url(#webhooks-h)"/>
+<path d="M410,155 L500,155" class="arrow" marker-end="url(#webhooks-h)"/>
+<path d="M630,155 L660,155" class="arrow" marker-end="url(#webhooks-h)"/>
+<path d="M260,175 L140,175" class="arrow green" marker-end="url(#webhooks-h-green)"/>
+<text x="200" y="196" text-anchor="middle" dominant-baseline="middle" class="small">200 OK (fast)</text>
+<path d="M75,130 L75,70 L335,70 L335,130" class="arrow red dashed" marker-end="url(#webhooks-h-red)"/>
+<text x="205" y="56" text-anchor="middle" dominant-baseline="middle" class="small">no 2xx: provider retries with backoff</text>
+<text x="400" y="260" text-anchor="middle" dominant-baseline="middle" class="small">Duplicates will arrive: dedupe by event id.</text>
+</svg>
+<figcaption>The provider calls your endpoint when an event happens. You verify, store, reply fast and process later.</figcaption>
+</figure>

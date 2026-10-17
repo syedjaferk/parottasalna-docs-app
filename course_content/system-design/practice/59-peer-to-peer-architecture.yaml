@@ -1,0 +1,33 @@
+chapter: sessions/59-peer-to-peer-architecture
+quizzes:
+- title: Chapter 59 · Quiz
+  description: 'Check yourself on: peer to peer architecture.'
+  questions:
+  - text: 'In P2P every node is:'
+    choices: |
+      Only a client
+      Only a server
+      A database
+      *Both client and server
+    explanation: Capacity grows with users.
+  - text: 'BitTorrent gets faster for popular files because:'
+    choices: |
+      DNS caches
+      The server upgrades
+      *Every downloader also uploads
+      TLS
+    explanation: More peers means more supply.
+  - text: Why verify every piece's hash in P2P?
+    choices: |
+      Peers are always honest
+      To save space
+      It is faster
+      *Peers are untrusted
+    explanation: Content addressing.
+  - text: 'A DHT lookup among a million peers takes about:'
+    choices: |
+      A million hops
+      1 hop
+      1,000 hops
+      *20 hops
+    explanation: log2 of the size.

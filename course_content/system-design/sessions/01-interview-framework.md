@@ -80,8 +80,27 @@ Every choice costs something. Say what you chose, what you gave up and what woul
 - Describing components without walking a request through them.
 - Calling a choice "best" without naming its cost.
 
+## Try it yourself
+
+1. You are asked to "design a parking garage". Write five clarifying questions you would ask before drawing anything.
+2. Name the seven steps of the framework in order, and say which one produces the numbers.
+3. An interviewer says "just add a cache". What do you reply?
+
+<details class="solution"><summary>Answers</summary>
+
+1. Examples: which vehicle types? how many floors and entrances? how is the fee calculated? must the design handle many garages? what is out of scope (reservations, hardware)?
+2. Clarify requirements, estimate scale (this step produces the numbers), API and data model, high-level design, deep dive, reliability, trade-offs and wrap-up.
+3. "A cache helps if the numbers show a read-heavy load. Here is the read rate, the hit rate I expect, and what it costs in staleness and invalidation. If reads were low I would skip it."
+
+</details>
+
 :::{admonition} Try it in the playground
 :class: important
 The [TinyURL problem](/system-design/tinyurl/) follows exactly these seven steps. Start with step 1 and
 see whether your own list of requirements matches the one an interviewer would hope for.
+:::
+
+:::{admonition} Next
+:class: important
+The framework starts with numbers. Next: [back-of-envelope estimation](02-back-of-envelope.md).
 :::

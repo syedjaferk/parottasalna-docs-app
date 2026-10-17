@@ -1,0 +1,24 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 780 260" role="img" aria-labelledby="latency-throughput-bandwidth-t latency-throughput-bandwidth-d" xmlns="http://www.w3.org/2000/svg">
+<title id="latency-throughput-bandwidth-t">A pipe: width, length and flow</title>
+<desc id="latency-throughput-bandwidth-d">Bandwidth is the width, latency is the time one drop takes, throughput is what actually arrives per second.</desc>
+<defs><marker id="latency-throughput-bandwidth-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="latency-throughput-bandwidth-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="latency-throughput-bandwidth-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="latency-throughput-bandwidth-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="60" y="80" width="520" height="70" rx="35" class="ghost"/>
+<text x="320" y="52" text-anchor="middle" dominant-baseline="middle" class="bold">Bandwidth = pipe width (max capacity)</text>
+<circle cx="100" cy="115" r="12" class="circle-a"/>
+<circle cx="170" cy="115" r="12" class="circle-a"/>
+<circle cx="240" cy="115" r="12" class="circle-a"/>
+<circle cx="310" cy="115" r="12" class="circle-a"/>
+<circle cx="380" cy="115" r="12" class="circle-a"/>
+<circle cx="450" cy="115" r="12" class="circle-a"/>
+<circle cx="520" cy="115" r="12" class="circle-a"/>
+<path d="M60,175 L580,175" class="arrow blue" marker-end="url(#latency-throughput-bandwidth-h-blue)"/>
+<text x="320" y="195" text-anchor="middle" dominant-baseline="middle" class="small">Latency = time for one drop to travel the length</text>
+<rect x="610" y="70" width="150" height="90" rx="10" class="green"/>
+<text x="685.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">Throughput</text>
+<text x="685.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="small">drops arriving</text>
+<text x="685.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">per second</text>
+<text x="390" y="238" text-anchor="middle" dominant-baseline="middle" class="small">Little&#x27;s law: in flight = throughput x latency</text>
+</svg>
+<figcaption>Bandwidth is the width, latency is the time one drop takes, throughput is what actually arrives per second.</figcaption>
+</figure>

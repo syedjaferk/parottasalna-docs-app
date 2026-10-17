@@ -1,0 +1,25 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 270" role="img" aria-labelledby="caching-101-t caching-101-d" xmlns="http://www.w3.org/2000/svg">
+<title id="caching-101-t">A cache in front of a database</title>
+<desc id="caching-101-d">A hit is answered in about a millisecond. A miss pays the slow database trip and fills the cache.</desc>
+<defs><marker id="caching-101-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="caching-101-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="caching-101-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="caching-101-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="100" width="100" height="50" rx="10" class="blue"/>
+<text x="60.0" y="125.0" text-anchor="middle" dominant-baseline="middle">App</text>
+<rect x="250" y="100" width="160" height="60" rx="10" class="amber"/>
+<text x="330.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">Cache</text>
+<text x="330.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">Redis, ~1 ms</text>
+<rect x="560" y="100" width="200" height="60" rx="10" class="red"/>
+<text x="660.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">Database</text>
+<text x="660.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">5-50 ms</text>
+<path d="M110,125 L250,125" class="arrow" marker-end="url(#caching-101-h)"/>
+<text x="180" y="108" text-anchor="middle" dominant-baseline="middle" class="small">1 get(key)</text>
+<path d="M250,145 L110,145" class="arrow green" marker-end="url(#caching-101-h-green)"/>
+<text x="180" y="165" text-anchor="middle" dominant-baseline="middle" class="small">2a hit</text>
+<path d="M410,125 L560,125" class="arrow dashed" marker-end="url(#caching-101-h)"/>
+<text x="485" y="108" text-anchor="middle" dominant-baseline="middle" class="small">2b miss</text>
+<path d="M560,150 L410,150" class="arrow dashed" marker-end="url(#caching-101-h)"/>
+<text x="485" y="172" text-anchor="middle" dominant-baseline="middle" class="small">3 store copy</text>
+<text x="400" y="235" text-anchor="middle" dominant-baseline="middle" class="small">average = hit rate x 1 ms + (1 - hit rate) x 20 ms</text>
+</svg>
+<figcaption>A hit is answered in about a millisecond. A miss pays the slow database trip and fills the cache.</figcaption>
+</figure>

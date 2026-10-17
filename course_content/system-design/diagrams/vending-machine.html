@@ -1,29 +1,35 @@
 <figure class="diagram">
-<svg class="dg" viewBox="0 0 800 230" role="img" aria-labelledby="vm-t vm-d" xmlns="http://www.w3.org/2000/svg">
-<title id="vm-t">Vending machine states</title>
-<desc id="vm-d">The machine moves between Idle, HasMoney, Dispensing and OutOfStock states as coins are inserted, a product is selected and the item is dispensed.</desc>
-<defs><marker id="vm-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
-<rect x="10" y="90" width="120" height="50" rx="10" class="blue"/>
-<text x="70.0" y="119.0" text-anchor="middle" class="code">Idle</text>
-<rect x="210" y="90" width="140" height="50" rx="10" class="amber"/>
-<text x="280.0" y="119.0" text-anchor="middle" class="code">HasMoney</text>
-<rect x="430" y="90" width="140" height="50" rx="10" class="green"/>
-<text x="500.0" y="119.0" text-anchor="middle" class="code">Dispensing</text>
-<rect x="650" y="90" width="130" height="50" rx="10" class="red"/>
-<text x="715.0" y="111.0" text-anchor="middle" class="code">Returning</text>
-<text x="715.0" y="127.0" text-anchor="middle" class="code">change</text>
-<path d="M130,108 L210,108" class="arrow" marker-end="url(#vm-h)"/>
-<text x="170.0" y="102.0" text-anchor="middle" class="small">insert coin</text>
-<path d="M350,108 L430,108" class="arrow" marker-end="url(#vm-h)"/>
-<text x="390.0" y="102.0" text-anchor="middle" class="small">select item</text>
-<path d="M570,115 L650,115" class="arrow" marker-end="url(#vm-h)"/>
-<text x="610.0" y="109.0" text-anchor="middle" class="small">item out</text>
-<path d="M280,140 L280,190" class="arrow" marker-end="url(#vm-h)"/>
-<text x="280" y="205" text-anchor="middle" class="small">cancel: refund</text>
-<path d="M715,90 L715,40" class="arrow" marker-end="url(#vm-h)"/>
-<path d="M715,40 L70,40" class="arrow" marker-end="url(#vm-h)"/>
-<path d="M70,40 L70,90" class="arrow" marker-end="url(#vm-h)"/>
-<text x="400" y="32" text-anchor="middle" class="small">back to Idle</text>
+<svg class="dg" viewBox="0 0 800 290" role="img" aria-labelledby="vending-machine-t vending-machine-d" xmlns="http://www.w3.org/2000/svg">
+<title id="vending-machine-t">Vending machine state machine</title>
+<desc id="vending-machine-d">Each arrow is an event. Anything not drawn, such as selecting with no money, is rejected in that state.</desc>
+<defs><marker id="vending-machine-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="vending-machine-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="vending-machine-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="vending-machine-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="110" width="130" height="60" rx="10" class="blue"/>
+<text x="85.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Idle</text>
+<text x="85.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">no money</text>
+<rect x="230" y="110" width="150" height="60" rx="10" class="amber"/>
+<text x="305.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">HasMoney</text>
+<text x="305.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">balance &gt; 0</text>
+<rect x="460" y="110" width="150" height="60" rx="10" class="green"/>
+<text x="535.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Dispensing</text>
+<text x="535.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">motor running</text>
+<rect x="660" y="110" width="120" height="60" rx="10" class="blue"/>
+<text x="720.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Idle</text>
+<text x="720.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">change returned</text>
+<path d="M150,140 L230,140" class="arrow" marker-end="url(#vending-machine-h)"/>
+<text x="190" y="122" text-anchor="middle" dominant-baseline="middle" class="small">insert coin</text>
+<path d="M380,140 L460,140" class="arrow" marker-end="url(#vending-machine-h)"/>
+<text x="420" y="122" text-anchor="middle" dominant-baseline="middle" class="small">select (valid)</text>
+<path d="M610,140 L660,140" class="arrow" marker-end="url(#vending-machine-h)"/>
+<text x="635" y="122" text-anchor="middle" dominant-baseline="middle" class="small">done</text>
+<path d="M305,110 L305,60 L85,60 L85,110" class="arrow" marker-end="url(#vending-machine-h)"/>
+<text x="195" y="45" text-anchor="middle" dominant-baseline="middle" class="small">cancel: refund</text>
+<path d="M305,170 L305,230" class="arrow red dashed" marker-end="url(#vending-machine-h-red)"/>
+<rect x="180" y="230" width="250" height="40" rx="10" class="red"/>
+<text x="305.0" y="250.0" text-anchor="middle" dominant-baseline="middle" class="small">sold out / no change: reject, stay in HasMoney</text>
+<rect x="470" y="220" width="300" height="55" rx="10" class="red"/>
+<text x="620.0" y="237.5" text-anchor="middle" dominant-baseline="middle" class="bold">OutOfService</text>
+<text x="620.0" y="257.5" text-anchor="middle" dominant-baseline="middle" class="small">jam, power loss: refund and flag</text>
+<path d="M535,170 L535,220" class="arrow red dashed" marker-end="url(#vending-machine-h-red)"/>
 </svg>
-<figcaption>Each arrow is an event. Anything not drawn (like selecting with no money) is rejected in that state.</figcaption>
+<figcaption>Each arrow is an event. Anything not drawn, such as selecting with no money, is rejected in that state.</figcaption>
 </figure>

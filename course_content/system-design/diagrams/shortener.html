@@ -1,29 +1,36 @@
 <figure class="diagram">
-<svg class="dg" viewBox="0 0 800 250" role="img" aria-labelledby="sh-t sh-d" xmlns="http://www.w3.org/2000/svg">
-<title id="sh-t">URL shortener at a glance</title>
-<desc id="sh-d">Clients go through a load balancer to app servers. Reads check a cache first and fall back to a sharded key-value store. An ID service hands out code ranges.</desc>
-<defs><marker id="sh-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
-<rect x="10" y="100" width="90" height="50" rx="10" class="blue"/>
-<text x="55.0" y="129.0" text-anchor="middle" class="code">Client</text>
-<rect x="140" y="100" width="110" height="50" rx="10" class="amber"/>
-<text x="195.0" y="121.0" text-anchor="middle" class="code">Load</text>
-<text x="195.0" y="137.0" text-anchor="middle" class="code">balancer</text>
-<rect x="290" y="100" width="120" height="50" rx="10" class="green"/>
-<text x="350.0" y="129.0" text-anchor="middle" class="code">App servers</text>
-<rect x="290" y="185" width="120" height="46" rx="10" class="green"/>
-<text x="350.0" y="212.0" text-anchor="middle" class="code">ID ranges</text>
-<rect x="470" y="30" width="130" height="46" rx="10" class="amber"/>
-<text x="535.0" y="57.0" text-anchor="middle" class="code">Cache (LRU)</text>
-<rect x="470" y="110" width="130" height="46" rx="10" class="red"/>
-<text x="535.0" y="137.0" text-anchor="middle" class="code">Sharded KV</text>
-<rect x="470" y="190" width="130" height="46" rx="10" class="red"/>
-<text x="535.0" y="217.0" text-anchor="middle" class="code">Replicas</text>
-<path d="M100,125 L140,125" class="arrow" marker-end="url(#sh-h)"/>
-<path d="M250,125 L290,125" class="arrow" marker-end="url(#sh-h)"/>
-<path d="M410,112 L470,56" class="arrow" marker-end="url(#sh-h)"/>
-<path d="M410,128 L470,133" class="arrow" marker-end="url(#sh-h)"/>
-<path d="M350,150 L350,185" class="arrow" marker-end="url(#sh-h)"/>
-<path d="M535,156 L535,190" class="arrow" marker-end="url(#sh-h)"/>
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="shortener-t shortener-d" xmlns="http://www.w3.org/2000/svg">
+<title id="shortener-t">URL shortener at a glance</title>
+<desc id="shortener-d">Clients reach stateless app servers through a load balancer. Reads check a cache, then a sharded store. An ID service hands out code ranges.</desc>
+<defs><marker id="shortener-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="shortener-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="shortener-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="shortener-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="10" y="110" width="90" height="50" rx="10" class="blue"/>
+<text x="55.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Client</text>
+<rect x="150" y="110" width="120" height="50" rx="10" class="purple"/>
+<text x="210.0" y="125.0" text-anchor="middle" dominant-baseline="middle">Load</text>
+<text x="210.0" y="145.0" text-anchor="middle" dominant-baseline="middle">balancer</text>
+<rect x="320" y="100" width="130" height="70" rx="10" class="green"/>
+<text x="385.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">App servers</text>
+<text x="385.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">stateless</text>
+<rect x="320" y="220" width="130" height="50" rx="10" class="amber"/>
+<text x="385.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="bold">ID service</text>
+<text x="385.0" y="255.0" text-anchor="middle" dominant-baseline="middle" class="small">code ranges</text>
+<rect x="540" y="20" width="150" height="50" rx="10" class="amber"/>
+<text x="615.0" y="35.0" text-anchor="middle" dominant-baseline="middle" class="bold">Cache</text>
+<text x="615.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="small">Redis, LRU</text>
+<rect x="540" y="110" width="150" height="60" rx="10" class="red"/>
+<text x="615.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">Sharded store</text>
+<text x="615.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">hash(code)</text>
+<rect x="540" y="220" width="150" height="50" rx="10" class="red"/>
+<text x="615.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="bold">Replicas</text>
+<text x="615.0" y="255.0" text-anchor="middle" dominant-baseline="middle" class="small">3 zones</text>
+<path d="M100,135 L150,135" class="arrow" marker-end="url(#shortener-h)"/>
+<path d="M270,135 L320,135" class="arrow" marker-end="url(#shortener-h)"/>
+<path d="M450,115 L540,50" class="arrow" marker-end="url(#shortener-h)"/>
+<text x="470" y="70" text-anchor="middle" dominant-baseline="middle" class="small">1 hit?</text>
+<path d="M450,140 L540,140" class="arrow dashed" marker-end="url(#shortener-h)"/>
+<text x="495" y="124" text-anchor="middle" dominant-baseline="middle" class="small">2 miss</text>
+<path d="M385,170 L385,220" class="arrow" marker-end="url(#shortener-h)"/>
+<path d="M615,170 L615,220" class="arrow dashed" marker-end="url(#shortener-h)"/>
 </svg>
-<figcaption>The whole design in one picture. The playground builds it box by box.</figcaption>
+<figcaption>Clients reach stateless app servers through a load balancer. Reads check a cache, then a sharded store. An ID service hands out code ranges.</figcaption>
 </figure>

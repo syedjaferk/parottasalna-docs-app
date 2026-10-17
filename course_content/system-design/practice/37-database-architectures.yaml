@@ -1,0 +1,33 @@
+chapter: sessions/37-database-architectures
+quizzes:
+- title: Chapter 37 · Quiz
+  description: 'Check yourself on: database architectures.'
+  questions:
+  - text: 'A multi-AZ synchronous standby protects against:'
+    choices: |
+      A region outage
+      Slow queries
+      *A zone failure with no data loss
+      A bad DELETE
+    explanation: Another zone holds a synchronous copy.
+  - text: How do you avoid conflicts in active-active multi-region?
+    choices: |
+      Allow all writes anywhere
+      Use last write wins always
+      *Give each record a home region that alone writes it
+      Disable replication
+    explanation: Conflicts vanish when one region owns a record.
+  - text: Which DR strategy has the lowest cost and slowest recovery?
+    choices: |
+      Pilot light
+      *Backup and restore
+      Active-active
+      Warm standby
+    explanation: Hours of recovery.
+  - text: 'RTO is:'
+    choices: |
+      How many replicas
+      How much data you can lose
+      A cache size
+      *How long you can be down
+    explanation: RPO is the data-loss window.

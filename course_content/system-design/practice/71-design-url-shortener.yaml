@@ -1,0 +1,33 @@
+chapter: sessions/71-design-url-shortener
+quizzes:
+- title: Chapter 71 · Quiz
+  description: 'Check yourself on: design url shortener.'
+  questions:
+  - text: Why choose a 302 redirect for a URL shortener?
+    choices: |
+      It is faster for browsers to cache
+      *Click counts, expiry and edits keep working
+      It hides the URL
+      It is required by HTTP
+    explanation: 301 is cached by browsers, so later clicks never reach you.
+  - text: '7 base62 characters give about:'
+    choices: |
+      218 trillion
+      916 million
+      *3.5 trillion codes
+      57 billion
+    explanation: 62^7.
+  - text: How do counter ranges plus a scramble avoid collisions?
+    choices: |
+      *Each server uses its own block and the scramble is one-to-one
+      A longer code
+      A lookup per write
+      Random retries
+    explanation: A bijection cannot create duplicates.
+  - text: The redirect path is read-heavy. What serves most reads?
+    choices: |
+      A queue
+      A cron job
+      *A cache in front of the sharded store
+      The ID service
+    explanation: Cache-aside with LRU.

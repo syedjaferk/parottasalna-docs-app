@@ -1,0 +1,33 @@
+chapter: sessions/01-interview-framework
+quizzes:
+- title: Chapter 1 · Quiz
+  description: 'Check yourself on: interview framework.'
+  questions:
+  - text: What should you do first when given a vague design question?
+    choices: |
+      *Ask clarifying questions and state assumptions
+      Start with sharding
+      Choose a programming language
+      Draw the database schema
+    explanation: Requirements come first; everything later points back to them.
+  - text: Which step comes right after clarifying requirements?
+    choices: |
+      Write code
+      *Estimate the scale
+      Pick a cloud provider
+      Deep dive into one component
+    explanation: Numbers shape every later choice.
+  - text: When should you add caches and sharding to the design?
+    choices: |
+      *When a number or requirement asks for them
+      Only if the interviewer insists
+      Never, they are too complex
+      Always, at the start
+    explanation: Start simple, then evolve.
+  - text: What does a strong answer say about each choice?
+    choices: |
+      Nothing; just draw boxes
+      Which company uses it
+      *What it gains, what it costs and what would change your mind
+      That it is the best possible choice
+    explanation: Naming trade-offs shows judgement.

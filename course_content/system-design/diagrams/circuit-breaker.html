@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 280" role="img" aria-labelledby="circuit-breaker-t circuit-breaker-d" xmlns="http://www.w3.org/2000/svg">
+<title id="circuit-breaker-t">Circuit breaker states</title>
+<desc id="circuit-breaker-d">Closed passes calls through. After too many failures it opens and fails fast. After a cool-down it lets a trial call through.</desc>
+<defs><marker id="circuit-breaker-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="circuit-breaker-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="circuit-breaker-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="circuit-breaker-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="100" width="150" height="70" rx="10" class="green"/>
+<text x="105.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">CLOSED</text>
+<text x="105.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">calls pass through</text>
+<rect x="330" y="20" width="150" height="70" rx="10" class="red"/>
+<text x="405.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">OPEN</text>
+<text x="405.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">fail fast / fallback</text>
+<rect x="620" y="100" width="150" height="70" rx="10" class="amber"/>
+<text x="695.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="bold">HALF-OPEN</text>
+<text x="695.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="small">a few trial calls</text>
+<path d="M180,115 L330,55" class="arrow" marker-end="url(#circuit-breaker-h)"/>
+<text x="205" y="72" text-anchor="middle" dominant-baseline="middle" class="small">failures &gt; threshold</text>
+<path d="M480,55 L620,115" class="arrow" marker-end="url(#circuit-breaker-h)"/>
+<text x="590" y="72" text-anchor="middle" dominant-baseline="middle" class="small">cool-down over</text>
+<path d="M620,150 L180,150" class="arrow green" marker-end="url(#circuit-breaker-h-green)"/>
+<text x="400" y="172" text-anchor="middle" dominant-baseline="middle" class="small">trial succeeds: close</text>
+<path d="M695,100 L480,40" class="arrow red dashed" marker-end="url(#circuit-breaker-h-red)"/>
+<text x="620" y="22" text-anchor="middle" dominant-baseline="middle" class="small">trial fails: open again</text>
+<text x="400" y="240" text-anchor="middle" dominant-baseline="middle" class="small">Pair with timeouts, retries with backoff, bulkheads and fallbacks.</text>
+</svg>
+<figcaption>Closed passes calls through. After too many failures it opens and fails fast. After a cool-down it lets a trial call through.</figcaption>
+</figure>

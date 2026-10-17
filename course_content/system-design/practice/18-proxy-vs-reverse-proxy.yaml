@@ -1,0 +1,33 @@
+chapter: sessions/18-proxy-vs-reverse-proxy
+quizzes:
+- title: Chapter 18 · Quiz
+  description: 'Check yourself on: proxy vs reverse proxy.'
+  questions:
+  - text: 'A reverse proxy sits in front of:'
+    choices: |
+      DNS
+      The internet
+      *Servers
+      Clients
+    explanation: A forward proxy sits in front of clients.
+  - text: 'A school blocks gaming sites for students using:'
+    choices: |
+      *A forward proxy
+      A reverse proxy
+      A CDN
+      A load balancer
+    explanation: It applies policy for the clients.
+  - text: Where is TLS usually terminated in a typical design?
+    choices: |
+      In each client
+      Nowhere
+      In the database
+      *At the load balancer or CDN edge
+    explanation: Certificates are managed in one place.
+  - text: Why forward X-Forwarded-For?
+    choices: |
+      To pick a server
+      *Otherwise every request appears to come from the proxy
+      To cache the page
+      To encrypt the request
+    explanation: Logging and rate limits need the real client IP.

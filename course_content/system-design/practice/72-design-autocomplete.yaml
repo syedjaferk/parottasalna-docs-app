@@ -1,0 +1,33 @@
+chapter: sessions/72-design-autocomplete
+quizzes:
+- title: Chapter 72 · Quiz
+  description: 'Check yourself on: design autocomplete.'
+  questions:
+  - text: Why store the top 5 in every trie node?
+    choices: |
+      To save memory
+      *A lookup then needs no ranking at query time
+      To make inserts faster
+      Tries cannot store counts
+    explanation: Cost is proportional to the prefix length.
+  - text: Why is the trie rebuilt offline and swapped in?
+    choices: |
+      To save disk
+      *Reads stay lock-free and a bad build can be rejected
+      Tries cannot be updated
+      It is a legal rule
+    explanation: Never update the live trie in place.
+  - text: What does debouncing do?
+    choices: |
+      Caches the trie
+      *Sends a request only after the user pauses typing
+      Encrypts keystrokes
+      Sorts suggestions
+    explanation: Cuts requests several-fold.
+  - text: 'If suggestions fail, the search box should:'
+    choices: |
+      Block searching
+      Reload
+      Show an error page
+      *Still work without suggestions
+    explanation: Autocomplete is optional.

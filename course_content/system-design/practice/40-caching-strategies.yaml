@@ -1,0 +1,33 @@
+chapter: sessions/40-caching-strategies
+quizzes:
+- title: Chapter 40 · Quiz
+  description: 'Check yourself on: caching strategies.'
+  questions:
+  - text: In cache-aside, who loads data on a miss?
+    choices: |
+      The client
+      The cache
+      The CDN
+      *The application
+    explanation: Read-through lets the cache do it.
+  - text: Which strategy risks losing data if the cache dies?
+    choices: |
+      Read-through
+      Cache-aside
+      *Write-behind
+      Write-through
+    explanation: It acknowledges before the database has the data.
+  - text: Why delete the cache key on write instead of updating it?
+    choices: |
+      It saves memory only
+      Deleting is faster
+      Caches cannot update
+      *Concurrent writers could leave the older value last
+    explanation: The next read loads the current database value.
+  - text: 'A short TTL even with explicit invalidation is:'
+    choices: |
+      A security feature
+      Useless
+      Required by HTTP
+      *A safety net for missed invalidations
+    explanation: It bounds staleness.

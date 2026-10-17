@@ -1,0 +1,33 @@
+chapter: sessions/65-stateful-vs-stateless-architecture
+quizzes:
+- title: Chapter 65 · Quiz
+  description: 'Check yourself on: stateful vs stateless architecture.'
+  questions:
+  - text: 'A stateless server:'
+    choices: |
+      Remembers the user
+      *Remembers nothing between requests
+      Cannot scale
+      Has no CPU
+    explanation: Any server can answer.
+  - text: Where does state go in a stateless design?
+    choices: |
+      The load balancer
+      Nowhere
+      Server memory
+      *A shared store: database, Redis or the client token
+    explanation: State moves, it does not vanish.
+  - text: 'A downside of JWT sessions is:'
+    choices: |
+      They need a database lookup
+      *They are hard to revoke before they expire
+      They are too small
+      They are unsigned
+    explanation: Keep them short-lived.
+  - text: 'A game server holding room state in memory should:'
+    choices: |
+      Use sticky DNS
+      Never restart
+      *Persist snapshots so a crash does not lose games
+      Disable saving
+    explanation: Make state recoverable.

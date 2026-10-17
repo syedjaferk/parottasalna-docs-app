@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="push-vs-pull-t push-vs-pull-d" xmlns="http://www.w3.org/2000/svg">
+<title id="push-vs-pull-t">Push vs pull</title>
+<desc id="push-vs-pull-d">Push: the producer sends as soon as data exists. Pull: the consumer asks when it is ready.</desc>
+<defs><marker id="push-vs-pull-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="push-vs-pull-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="push-vs-pull-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="push-vs-pull-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Push</text>
+<text x="610" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Pull</text>
+<rect x="20" y="110" width="100" height="50" rx="10" class="blue"/>
+<text x="70.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Producer</text>
+<rect x="280" y="110" width="100" height="50" rx="10" class="green"/>
+<text x="330.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Consumer</text>
+<path d="M120,135 L280,135" class="arrow blue" marker-end="url(#push-vs-pull-h-blue)"/>
+<text x="200" y="118" text-anchor="middle" dominant-baseline="middle" class="small">data, immediately</text>
+<text x="200" y="200" text-anchor="middle" dominant-baseline="middle" class="small">can overwhelm a slow consumer</text>
+<rect x="430" y="110" width="100" height="50" rx="10" class="blue"/>
+<text x="480.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Producer</text>
+<rect x="690" y="110" width="100" height="50" rx="10" class="green"/>
+<text x="740.0" y="135.0" text-anchor="middle" dominant-baseline="middle">Consumer</text>
+<path d="M690,125 L530,125" class="arrow green" marker-end="url(#push-vs-pull-h-green)"/>
+<text x="610" y="108" text-anchor="middle" dominant-baseline="middle" class="small">any new data?</text>
+<path d="M530,150 L690,150" class="arrow blue" marker-end="url(#push-vs-pull-h-blue)"/>
+<text x="610" y="172" text-anchor="middle" dominant-baseline="middle" class="small">here is a batch</text>
+<text x="610" y="200" text-anchor="middle" dominant-baseline="middle" class="small">consumer controls the pace</text>
+<text x="400" y="260" text-anchor="middle" dominant-baseline="middle" class="small">Feeds: push for normal users, pull for celebrity accounts (a hybrid).</text>
+</svg>
+<figcaption>Push: the producer sends as soon as data exists. Pull: the consumer asks when it is ready.</figcaption>
+</figure>

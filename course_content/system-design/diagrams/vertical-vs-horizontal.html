@@ -1,0 +1,35 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 300" role="img" aria-labelledby="vertical-vs-horizontal-t vertical-vs-horizontal-d" xmlns="http://www.w3.org/2000/svg">
+<title id="vertical-vs-horizontal-t">Scale up vs scale out</title>
+<desc id="vertical-vs-horizontal-d">Vertical: one bigger machine, with a ceiling and a single point of failure. Horizontal: many machines behind a balancer.</desc>
+<defs><marker id="vertical-vs-horizontal-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="vertical-vs-horizontal-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="vertical-vs-horizontal-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="vertical-vs-horizontal-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="200" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Vertical (scale up)</text>
+<text x="600" y="20" text-anchor="middle" dominant-baseline="middle" class="title">Horizontal (scale out)</text>
+<rect x="40" y="150" width="70" height="90" rx="10" class="blue"/>
+<text x="75.0" y="185.0" text-anchor="middle" dominant-baseline="middle">4 CPU</text>
+<text x="75.0" y="205.0" text-anchor="middle" dominant-baseline="middle">8 GB</text>
+<path d="M110,195 L160,160" class="arrow" marker-end="url(#vertical-vs-horizontal-h)"/>
+<rect x="150" y="100" width="100" height="140" rx="10" class="blue"/>
+<text x="200.0" y="160.0" text-anchor="middle" dominant-baseline="middle">16 CPU</text>
+<text x="200.0" y="180.0" text-anchor="middle" dominant-baseline="middle">64 GB</text>
+<path d="M250,170 L300,130" class="arrow" marker-end="url(#vertical-vs-horizontal-h)"/>
+<rect x="290" y="60" width="120" height="180" rx="10" class="red"/>
+<text x="350.0" y="130.0" text-anchor="middle" dominant-baseline="middle">64 CPU</text>
+<text x="350.0" y="150.0" text-anchor="middle" dominant-baseline="middle">512 GB</text>
+<text x="350.0" y="170.0" text-anchor="middle" dominant-baseline="middle">(the ceiling)</text>
+<rect x="450" y="120" width="100" height="50" rx="10" class="purple"/>
+<text x="500.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Balancer</text>
+<rect x="640" y="50" width="120" height="50" rx="10" class="green"/>
+<text x="700.0" y="75.0" text-anchor="middle" dominant-baseline="middle">Server 1</text>
+<path d="M550,145 L640,75" class="arrow" marker-end="url(#vertical-vs-horizontal-h)"/>
+<rect x="640" y="120" width="120" height="50" rx="10" class="green"/>
+<text x="700.0" y="145.0" text-anchor="middle" dominant-baseline="middle">Server 2</text>
+<path d="M550,145 L640,145" class="arrow" marker-end="url(#vertical-vs-horizontal-h)"/>
+<rect x="640" y="190" width="120" height="50" rx="10" class="green"/>
+<text x="700.0" y="215.0" text-anchor="middle" dominant-baseline="middle">Server 3</text>
+<path d="M550,145 L640,215" class="arrow" marker-end="url(#vertical-vs-horizontal-h)"/>
+<rect x="450" y="210" width="100" height="40" rx="10" class="ghost"/>
+<text x="500.0" y="230.0" text-anchor="middle" dominant-baseline="middle" class="small">add more...</text>
+</svg>
+<figcaption>Vertical: one bigger machine, with a ceiling and a single point of failure. Horizontal: many machines behind a balancer.</figcaption>
+</figure>

@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 270" role="img" aria-labelledby="estimation-t estimation-d" xmlns="http://www.w3.org/2000/svg">
+<title id="estimation-t">The estimation recipe</title>
+<desc id="estimation-d">Turn events per day into requests per second, then into storage, memory and bandwidth. Finish every step with: so this means...</desc>
+<defs><marker id="estimation-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="estimation-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="estimation-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="estimation-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="15" y="25" width="240" height="70" rx="10" class="blue"/>
+<text x="135.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">Users or events / day</text>
+<text x="135.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">100M links / month</text>
+<rect x="275" y="25" width="240" height="70" rx="10" class="blue"/>
+<text x="395.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">Divide by 86,400</text>
+<text x="395.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">= per second</text>
+<path d="M255,60 L275,60" class="arrow" marker-end="url(#estimation-h)"/>
+<rect x="535" y="25" width="240" height="70" rx="10" class="amber"/>
+<text x="655.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">Peak x 2-3</text>
+<text x="655.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">plan for the spike</text>
+<path d="M515,60 L535,60" class="arrow" marker-end="url(#estimation-h)"/>
+<rect x="15" y="125" width="240" height="70" rx="10" class="amber"/>
+<text x="135.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Split read : write</text>
+<text x="135.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">100 : 1</text>
+<rect x="275" y="125" width="240" height="70" rx="10" class="green"/>
+<text x="395.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">x bytes per record</text>
+<text x="395.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">storage per year</text>
+<path d="M255,160 L275,160" class="arrow" marker-end="url(#estimation-h)"/>
+<rect x="535" y="125" width="240" height="70" rx="10" class="green"/>
+<text x="655.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="bold">Hot share of a day</text>
+<text x="655.0" y="170.0" text-anchor="middle" dominant-baseline="middle" class="small">cache size</text>
+<path d="M515,160 L535,160" class="arrow" marker-end="url(#estimation-h)"/>
+<path d="M255,75 L255,95 L135,95 L135,125" class="arrow"/>
+<text x="400" y="235" text-anchor="middle" dominant-baseline="middle" class="small">Round aggressively: 86,400 is about 100,000. Being within 2 to 3 times is good enough.</text>
+</svg>
+<figcaption>Turn events per day into requests per second, then into storage, memory and bandwidth. Finish every step with: so this means...</figcaption>
+</figure>

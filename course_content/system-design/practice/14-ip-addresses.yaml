@@ -1,0 +1,33 @@
+chapter: sessions/14-ip-addresses
+quizzes:
+- title: Chapter 14 · Quiz
+  description: 'Check yourself on: ip addresses.'
+  questions:
+  - text: How many addresses are in a /24?
+    choices: |
+      1,024
+      24
+      65,536
+      *256
+    explanation: 2^(32-24).
+  - text: Which is a private IPv4 range?
+    choices: |
+      8.8.8.0/24
+      203.0.113.0/24
+      1.1.1.0/24
+      *192.168.0.0/16
+    explanation: Private ranges are not routable on the internet.
+  - text: A router has routes for 10.0.0.0/16 and 10.0.1.0/24. Where does 10.0.1.9 go?
+    choices: |
+      A random one
+      *The /24 route (longest prefix match)
+      Both
+      The /16 route
+    explanation: The most specific route wins.
+  - text: Why can one office look like one IP address on the internet?
+    choices: |
+      IPv6 forbids it
+      *NAT shares a public address among private ones
+      TLS hides them
+      DNS merges them
+    explanation: So per-IP rate limits can hit a whole office.

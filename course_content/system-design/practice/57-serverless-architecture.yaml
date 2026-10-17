@@ -1,0 +1,33 @@
+chapter: sessions/57-serverless-architecture
+quizzes:
+- title: Chapter 57 · Quiz
+  description: 'Check yourself on: serverless architecture.'
+  questions:
+  - text: 'Serverless is billed by:'
+    choices: |
+      Users
+      Reserved servers
+      *Execution time and requests
+      Disk size
+    explanation: Idle costs nothing.
+  - text: 'A cold start is:'
+    choices: |
+      A server reboot
+      *Extra latency when no warm environment exists
+      A DNS failure
+      A cache miss
+    explanation: Keep packages small.
+  - text: 'Thousands of parallel functions can exhaust:'
+    choices: |
+      Colours
+      *Database connections
+      Disk space on laptops
+      DNS names
+    explanation: Use a pooler or queue.
+  - text: 'A poor fit for serverless:'
+    choices: |
+      *A long-lived WebSocket game server
+      Webhooks
+      Scheduled clean-up
+      Image resizing on upload
+    explanation: It is stateful and connection-heavy.

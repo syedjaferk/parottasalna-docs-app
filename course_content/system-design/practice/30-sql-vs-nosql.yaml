@@ -1,0 +1,33 @@
+chapter: sessions/30-sql-vs-nosql
+quizzes:
+- title: Chapter 30 · Quiz
+  description: 'Check yourself on: sql vs nosql.'
+  questions:
+  - text: Which fits money and orders best?
+    choices: |
+      A key-value cache
+      *A relational database
+      A CDN
+      A graph database
+    explanation: ACID transactions and relationships.
+  - text: 'NoSQL data modelling starts from:'
+    choices: |
+      *The queries you will run
+      The ER diagram only
+      Normal forms
+      The brand
+    explanation: Shape data to answer each query quickly.
+  - text: Why do document stores duplicate data?
+    choices: |
+      To avoid indexes
+      They cannot do joins ever
+      *One read returns the whole record
+      To waste space
+    explanation: At the cost of keeping copies up to date.
+  - text: 'Polyglot persistence means:'
+    choices: |
+      Speaking many languages
+      Using only SQL
+      Replicating one database
+      *Using several database types, each for what it does best
+    explanation: Redis for sessions, PostgreSQL for orders, search for text.
