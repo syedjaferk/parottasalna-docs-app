@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 250" role="img" aria-labelledby="rp-t rp-d" xmlns="http://www.w3.org/2000/svg">
+<title id="rp-t">The path of a request</title>
+<desc id="rp-d">A user&#x27;s browser asks DNS for an address, then the request travels through a CDN, a load balancer and app servers to a cache and database.</desc>
+<defs><marker id="rp-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
+<rect x="10" y="100" width="90" height="50" rx="10" class="blue"/>
+<text x="55.0" y="129.0" text-anchor="middle" class="code">Browser</text>
+<rect x="140" y="20" width="100" height="44" rx="10" class="amber"/>
+<text x="190.0" y="46.0" text-anchor="middle" class="code">DNS</text>
+<rect x="140" y="105" width="100" height="44" rx="10" class="amber"/>
+<text x="190.0" y="131.0" text-anchor="middle" class="code">CDN</text>
+<rect x="280" y="105" width="110" height="44" rx="10" class="green"/>
+<text x="335.0" y="123.0" text-anchor="middle" class="code">Load</text>
+<text x="335.0" y="139.0" text-anchor="middle" class="code">balancer</text>
+<rect x="430" y="105" width="110" height="44" rx="10" class="green"/>
+<text x="485.0" y="131.0" text-anchor="middle" class="code">App servers</text>
+<rect x="590" y="40" width="100" height="44" rx="10" class="amber"/>
+<text x="640.0" y="66.0" text-anchor="middle" class="code">Cache</text>
+<rect x="590" y="170" width="100" height="44" rx="10" class="red"/>
+<text x="640.0" y="196.0" text-anchor="middle" class="code">Database</text>
+<path d="M70,100 L160,64" class="arrow" marker-end="url(#rp-h)"/>
+<text x="95" y="70" text-anchor="middle" class="small">1 where is it?</text>
+<path d="M100,125 L140,127" class="arrow" marker-end="url(#rp-h)"/>
+<text x="120.0" y="120.0" text-anchor="middle" class="small">2</text>
+<path d="M240,127 L280,127" class="arrow" marker-end="url(#rp-h)"/>
+<path d="M390,127 L430,127" class="arrow" marker-end="url(#rp-h)"/>
+<path d="M540,115 L590,70" class="arrow" marker-end="url(#rp-h)"/>
+<path d="M540,140 L590,190" class="arrow" marker-end="url(#rp-h)"/>
+<text x="400" y="235" text-anchor="middle" class="small">DNS finds the address. The CDN answers what it already has. The load balancer spreads the rest.</text>
+</svg>
+<figcaption>Each hop can answer early (DNS cache, CDN, app cache) or pass the request on.</figcaption>
+</figure>

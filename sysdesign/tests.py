@@ -9,7 +9,8 @@ from .catalog import list_problems
 from .models import Problem, ProblemProgress
 from .seed import DATA_DIR, load_problems
 
-STEP_TYPES = {"choice", "multi", "estimate", "reflect"}
+N_FILES = len(list(DATA_DIR.glob("*.json")))
+STEP_TYPES = {"choice", "multi", "estimate", "reflect", "order"}
 
 
 class SeededTestCase(TestCase):
@@ -39,11 +40,34 @@ class ProblemDataTests(SeededTestCase):
                     self.assertGreater(step["factor"], 1)
                 if step["type"] == "reflect":
                     self.assertTrue(step["points"] and step["model"], step["id"])
+                if step["type"] == "order":
+                    self.assertGreaterEqual(len(step["items"]), 3, step["id"])
+                    for item in step["items"]:
+                        self.assertTrue(item["text"] and item["why"], step["id"])
+
+    def test_statements_are_complete_and_diagrams_consistent(self):
+        for problem in list_problems():
+            st = problem["statement"]
+            slug = problem["slug"]
+            for key in ("prompt", "context", "given", "expectations", "scope_in", "scope_out", "timeline", "great"):
+                self.assertTrue(st.get(key), f"{slug} missing {key}")
+            self.assertTrue(st.get("category"), slug)
+            for r in st.get("resources", []):
+                self.assertTrue(r["url"].startswith("https://"), r)
+            diagram = st.get("diagram")
+            if diagram:
+                nodes = diagram["nodes"]
+                for edge in diagram["edges"]:
+                    self.assertIn(edge[0], nodes, slug)
+                    self.assertIn(edge[1], nodes, slug)
+                used = {c for s in problem["steps"] for c in s.get("adds", {}).get("components", [])}
+                self.assertTrue(used <= set(nodes), f"{slug}: unknown components {used - set(nodes)}")
+                self.assertTrue(set(nodes) <= used, f"{slug}: nodes never revealed {set(nodes) - used}")
 
 
 class LoaderTests(TestCase):
     def test_loader_is_idempotent_and_keeps_admin_choices(self):
-        self.assertEqual(load_problems(), (1, 0))
+        self.assertEqual(load_problems(), (N_FILES, 0))
         self.assertEqual(load_problems(), (0, 0))
         Problem.objects.filter(slug="tinyurl").update(is_published=False, is_pro=True, position=7)
         self.assertEqual(load_problems(), (0, 0))
@@ -58,7 +82,7 @@ class LoaderTests(TestCase):
 
     def test_management_command(self):
         call_command("load_sysdesign", verbosity=0)
-        self.assertEqual(Problem.objects.count(), 1)
+        self.assertEqual(Problem.objects.count(), N_FILES)
 
 
 class PlaygroundViewTests(SeededTestCase):
@@ -120,14 +144,14 @@ class ProgressApiTests(SeededTestCase):
 
     def test_unknown_steps_and_bad_values_are_dropped(self):
         self.save({"answers": {"nope": {"x": 1}, self.step: "str"}, "current": 9999})
-        row = ProblemProgress.objects.get()
+        row = ProblemProgress.objects.get(problem__slug="tinyurl")
         self.assertEqual(row.answers, {})
-        self.assertLessEqual(row.current_step, len(Problem.objects.get().steps))
+        self.assertLessEqual(row.current_step, len(Problem.objects.get(slug="tinyurl").steps))
         self.assertEqual(self.save([1, 2]).status_code, 400)
         self.assertEqual(self.client.post(self.save_url, "{", content_type="application/json").status_code, 400)
 
     def test_merge_keeps_account_answers_and_adds_local_ones(self):
-        steps = [s["id"] for s in Problem.objects.get().steps]
+        steps = [s["id"] for s in Problem.objects.get(slug="tinyurl").steps]
         self.save({"answers": {steps[0]: {"verdict": "good"}}, "current": 1})
         res = self.save({"answers": {steps[0]: {"verdict": "local"}, steps[1]: {"verdict": "local"}}, "current": 2, "merge": True}).json()
         self.assertEqual(res["answers"], {steps[0]: {"verdict": "good"}, steps[1]: {"verdict": "local"}})

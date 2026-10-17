@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 230" role="img" aria-labelledby="vm-t vm-d" xmlns="http://www.w3.org/2000/svg">
+<title id="vm-t">Vending machine states</title>
+<desc id="vm-d">The machine moves between Idle, HasMoney, Dispensing and OutOfStock states as coins are inserted, a product is selected and the item is dispensed.</desc>
+<defs><marker id="vm-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
+<rect x="10" y="90" width="120" height="50" rx="10" class="blue"/>
+<text x="70.0" y="119.0" text-anchor="middle" class="code">Idle</text>
+<rect x="210" y="90" width="140" height="50" rx="10" class="amber"/>
+<text x="280.0" y="119.0" text-anchor="middle" class="code">HasMoney</text>
+<rect x="430" y="90" width="140" height="50" rx="10" class="green"/>
+<text x="500.0" y="119.0" text-anchor="middle" class="code">Dispensing</text>
+<rect x="650" y="90" width="130" height="50" rx="10" class="red"/>
+<text x="715.0" y="111.0" text-anchor="middle" class="code">Returning</text>
+<text x="715.0" y="127.0" text-anchor="middle" class="code">change</text>
+<path d="M130,108 L210,108" class="arrow" marker-end="url(#vm-h)"/>
+<text x="170.0" y="102.0" text-anchor="middle" class="small">insert coin</text>
+<path d="M350,108 L430,108" class="arrow" marker-end="url(#vm-h)"/>
+<text x="390.0" y="102.0" text-anchor="middle" class="small">select item</text>
+<path d="M570,115 L650,115" class="arrow" marker-end="url(#vm-h)"/>
+<text x="610.0" y="109.0" text-anchor="middle" class="small">item out</text>
+<path d="M280,140 L280,190" class="arrow" marker-end="url(#vm-h)"/>
+<text x="280" y="205" text-anchor="middle" class="small">cancel: refund</text>
+<path d="M715,90 L715,40" class="arrow" marker-end="url(#vm-h)"/>
+<path d="M715,40 L70,40" class="arrow" marker-end="url(#vm-h)"/>
+<path d="M70,40 L70,90" class="arrow" marker-end="url(#vm-h)"/>
+<text x="400" y="32" text-anchor="middle" class="small">back to Idle</text>
+</svg>
+<figcaption>Each arrow is an event. Anything not drawn (like selecting with no money) is rejected in that state.</figcaption>
+</figure>

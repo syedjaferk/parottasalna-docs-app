@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 250" role="img" aria-labelledby="sh-t sh-d" xmlns="http://www.w3.org/2000/svg">
+<title id="sh-t">URL shortener at a glance</title>
+<desc id="sh-d">Clients go through a load balancer to app servers. Reads check a cache first and fall back to a sharded key-value store. An ID service hands out code ranges.</desc>
+<defs><marker id="sh-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
+<rect x="10" y="100" width="90" height="50" rx="10" class="blue"/>
+<text x="55.0" y="129.0" text-anchor="middle" class="code">Client</text>
+<rect x="140" y="100" width="110" height="50" rx="10" class="amber"/>
+<text x="195.0" y="121.0" text-anchor="middle" class="code">Load</text>
+<text x="195.0" y="137.0" text-anchor="middle" class="code">balancer</text>
+<rect x="290" y="100" width="120" height="50" rx="10" class="green"/>
+<text x="350.0" y="129.0" text-anchor="middle" class="code">App servers</text>
+<rect x="290" y="185" width="120" height="46" rx="10" class="green"/>
+<text x="350.0" y="212.0" text-anchor="middle" class="code">ID ranges</text>
+<rect x="470" y="30" width="130" height="46" rx="10" class="amber"/>
+<text x="535.0" y="57.0" text-anchor="middle" class="code">Cache (LRU)</text>
+<rect x="470" y="110" width="130" height="46" rx="10" class="red"/>
+<text x="535.0" y="137.0" text-anchor="middle" class="code">Sharded KV</text>
+<rect x="470" y="190" width="130" height="46" rx="10" class="red"/>
+<text x="535.0" y="217.0" text-anchor="middle" class="code">Replicas</text>
+<path d="M100,125 L140,125" class="arrow" marker-end="url(#sh-h)"/>
+<path d="M250,125 L290,125" class="arrow" marker-end="url(#sh-h)"/>
+<path d="M410,112 L470,56" class="arrow" marker-end="url(#sh-h)"/>
+<path d="M410,128 L470,133" class="arrow" marker-end="url(#sh-h)"/>
+<path d="M350,150 L350,185" class="arrow" marker-end="url(#sh-h)"/>
+<path d="M535,156 L535,190" class="arrow" marker-end="url(#sh-h)"/>
+</svg>
+<figcaption>The whole design in one picture. The playground builds it box by box.</figcaption>
+</figure>

@@ -1,0 +1,671 @@
+{
+  "slug": "vending-machine",
+  "title": "Design a Vending Machine",
+  "tagline": "Model a machine whose buttons mean different things in different states, and handle jams, missing change and power loss.",
+  "difficulty": "Beginner",
+  "minutes": 40,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Object-oriented design",
+    "prompt": "Design the software for a **vending machine** that sells snacks and drinks. Customers insert money, choose a product and receive the item and change.",
+    "context": [
+      "This is an **object-oriented design** interview. The focus is classes, state, patterns and edge cases.",
+      "You can assume the hardware (coin slot, motor, display) exposes simple methods.",
+      "Think about what happens when something goes wrong halfway."
+    ],
+    "given": [
+      "The machine has up to **40 slots**, each holding one product with a price and quantity.",
+      "It accepts **coins and notes** and returns change.",
+      "It must keep working with **no network**.",
+      "An admin restocks and collects cash."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are modelling behaviour by state, making change correctly, and failure cases like jams and power loss."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Selecting and buying a product",
+      "State handling and class design",
+      "Making change",
+      "Failure cases and extensibility"
+    ],
+    "scope_out": [
+      "Hardware drivers",
+      "Fleet management UI",
+      "Card network integrations"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 5
+      },
+      {
+        "phase": "Find the classes",
+        "minutes": 8
+      },
+      {
+        "phase": "Behaviour",
+        "minutes": 15
+      },
+      {
+        "phase": "Edge cases",
+        "minutes": 7
+      },
+      {
+        "phase": "Scale it up",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Uses the **State pattern** and can list the states and events.",
+      "Validates stock and change **before** dispensing.",
+      "Handles jams, sold-out items and power loss.",
+      "Keeps the machine usable offline."
+    ],
+    "concepts": [
+      {
+        "term": "State pattern",
+        "def": "An object changes its behaviour when its internal state changes; each state is a class."
+      },
+      {
+        "term": "State transition",
+        "def": "A move from one state to another caused by an event, such as Idle to HasMoney when a coin is inserted."
+      },
+      {
+        "term": "Greedy change",
+        "def": "Return the largest coin that fits, repeatedly. Works for common currencies."
+      },
+      {
+        "term": "Lost update",
+        "def": "Two writers read the same value and one overwrites the other's change."
+      },
+      {
+        "term": "Offline-first",
+        "def": "The device works fully without a connection and syncs later."
+      }
+    ],
+    "numbers": [
+      "Change = money paid - price. Use the **largest coin first**",
+      "Persist **balance and state** so a power cut cannot lose the customer's money"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Model behaviour with the **State pattern**: Idle, HasMoney, Dispensing, OutOfService.",
+        "**Validate first, act last**: stock and change are checked before the motor runs.",
+        "Plan for jams, no change, power loss and concurrent admin/user access.",
+        "Use **Strategy** for payment methods so UPI or cards can be added later."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "State pattern",
+          "gain": "Clear behaviour per state",
+          "cost": "More classes"
+        },
+        {
+          "choice": "Check change before dispense",
+          "gain": "Never trap the customer's money",
+          "cost": "Some sales refused"
+        },
+        {
+          "choice": "Offline-first",
+          "gain": "Machine always works",
+          "cost": "Backend data arrives late"
+        }
+      ],
+      "extensions": [
+        "Remote pricing updates",
+        "Card and UPI payments",
+        "Predictive restocking from sales data"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 680 270",
+      "nodes": {
+        "machine": {
+          "x": 10,
+          "y": 20,
+          "w": 150,
+          "label": "VendingMachine\nbalance, state",
+          "kind": "service",
+          "h": 48
+        },
+        "idle": {
+          "x": 230,
+          "y": 20,
+          "w": 100,
+          "label": "Idle",
+          "kind": "client"
+        },
+        "hasmoney": {
+          "x": 360,
+          "y": 20,
+          "w": 130,
+          "label": "HasMoney",
+          "kind": "cache"
+        },
+        "dispense": {
+          "x": 520,
+          "y": 20,
+          "w": 130,
+          "label": "Dispensing",
+          "kind": "service"
+        },
+        "inventory": {
+          "x": 10,
+          "y": 140,
+          "w": 150,
+          "label": "Inventory\nslot, product, qty",
+          "kind": "data",
+          "h": 48
+        },
+        "change": {
+          "x": 230,
+          "y": 140,
+          "w": 170,
+          "label": "ChangeCalculator",
+          "kind": "edge"
+        },
+        "hardware": {
+          "x": 450,
+          "y": 140,
+          "w": 200,
+          "label": "Hardware: coin slot,\nmotor, display",
+          "kind": "external",
+          "h": 48
+        },
+        "admin": {
+          "x": 230,
+          "y": 215,
+          "w": 170,
+          "label": "Admin: restock,\ncollect cash",
+          "kind": "queue",
+          "h": 48
+        }
+      },
+      "edges": [
+        [
+          "machine",
+          "idle",
+          "state"
+        ],
+        [
+          "idle",
+          "hasmoney",
+          "insert coin"
+        ],
+        [
+          "hasmoney",
+          "dispense",
+          "select"
+        ],
+        [
+          "machine",
+          "inventory"
+        ],
+        [
+          "machine",
+          "change"
+        ],
+        [
+          "dispense",
+          "hardware"
+        ],
+        [
+          "admin",
+          "inventory",
+          "restock",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What should it do?",
+      "type": "multi",
+      "prompt": "Which features are in the **core** scope for a snack vending machine?",
+      "hint": "Walk a customer through from walking up to walking away.",
+      "explain": "Core: **insert money, select, dispense, change, cancel/refund, restock.** Ask which coins and notes are accepted.",
+      "adds": {
+        "notes": [
+          "Core: insert money, select product, dispense, return change, cancel/refund, admin restock"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "options": [
+        {
+          "text": "Cancel and refund the inserted money",
+          "correct": true,
+          "why": "Every real machine has this."
+        },
+        {
+          "text": "Dispense the product and return the correct change",
+          "correct": true,
+          "why": "Money out."
+        },
+        {
+          "text": "Accept coins and notes and track the balance",
+          "correct": true,
+          "why": "Money in."
+        },
+        {
+          "text": "Admin can restock and collect cash",
+          "correct": true,
+          "why": "Keeps the machine useful."
+        },
+        {
+          "text": "Cloud analytics and dynamic pricing",
+          "correct": false,
+          "why": "A backend add-on. Mention it as an extension."
+        },
+        {
+          "text": "Let the user select a product by code",
+          "correct": true,
+          "why": "Choice."
+        }
+      ]
+    },
+    {
+      "id": "nouns",
+      "phase": "Find the classes",
+      "title": "Find the classes",
+      "type": "multi",
+      "prompt": "Which of these deserve to be classes?",
+      "hint": "What changes how a button behaves?",
+      "explain": "Look for **things that have behaviour or rules**. The surprise is that **states are classes** too.",
+      "adds": {
+        "notes": [
+          "Classes: VendingMachine, Inventory/Slot/Product, Coin/Note, ChangeCalculator, State classes"
+        ],
+        "components": [
+          "machine",
+          "inventory"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "options": [
+        {
+          "text": "State classes (Idle, HasMoney, Dispensing, ...)",
+          "correct": true,
+          "why": "Behaviour depends on state: model each state explicitly."
+        },
+        {
+          "text": "VendingMachine",
+          "correct": true,
+          "why": "The coordinator that holds the current state and balance."
+        },
+        {
+          "text": "A `Customer` class with a name and age",
+          "correct": false,
+          "why": "The machine does not know customers."
+        },
+        {
+          "text": "Coin / Note (money)",
+          "correct": true,
+          "why": "Denominations and value."
+        },
+        {
+          "text": "ChangeCalculator",
+          "correct": true,
+          "why": "Separates the maths of making change."
+        },
+        {
+          "text": "Inventory and Slot/Product",
+          "correct": true,
+          "why": "Which product is in which slot, with price and quantity."
+        }
+      ]
+    },
+    {
+      "id": "states",
+      "phase": "Find the classes",
+      "title": "Model the behaviour",
+      "type": "choice",
+      "prompt": "Pressing **Select** does different things when there is no money, enough money, or not enough money. Best way to model this?",
+      "hint": "Think of a traffic light or a turnstile.",
+      "explain": "**State pattern.** The machine holds a `state` object and delegates actions to it. A new state (say `Maintenance`) is a new class.",
+      "adds": {
+        "notes": [
+          "Behaviour: State pattern with Idle, HasMoney, Dispensing, OutOfService"
+        ],
+        "components": [
+          "idle",
+          "hasmoney",
+          "dispense"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "pitfall": "Boolean flags instead of explicit states.",
+      "followup": "How would you draw this as a state-transition table?",
+      "options": [
+        {
+          "text": "Let the hardware decide",
+          "correct": false,
+          "why": "The logic must live in software you can test."
+        },
+        {
+          "text": "Booleans like `hasMoney`, `isDispensing`, `isOutOfStock` checked in every method",
+          "correct": false,
+          "why": "Boolean combinations explode and invalid combinations are possible."
+        },
+        {
+          "text": "The **State pattern**: each state is a class with the same methods (`insert_coin`, `select`, `cancel`)",
+          "correct": true,
+          "why": "No giant if/else. Each state decides what each action means."
+        },
+        {
+          "text": "One huge `handle(event)` method with nested conditions",
+          "correct": false,
+          "why": "Impossible to extend or test."
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "phase": "Behaviour",
+      "title": "A purchase, in order",
+      "type": "order",
+      "prompt": "A user buys a 40-rupee snack with a 50-rupee note. Order the events.",
+      "hint": "Checks before motors.",
+      "explain": "**Validate first, act last.** The irreversible hardware actions come after every check has passed.",
+      "adds": {
+        "notes": [
+          "Purchase: insert -> select -> validate stock and balance -> dispense -> return change -> Idle"
+        ],
+        "components": [
+          "hardware",
+          "change"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "items": [
+        {
+          "text": "The user inserts the note; the machine moves from Idle to HasMoney with balance 50",
+          "why": "State changes on the first coin."
+        },
+        {
+          "text": "The user selects code `B3`",
+          "why": "Only meaningful in HasMoney."
+        },
+        {
+          "text": "The machine checks stock and that balance >= price",
+          "why": "Validate before any action."
+        },
+        {
+          "text": "The motor dispenses the item; stock decreases by one",
+          "why": "The irreversible step comes after all checks."
+        },
+        {
+          "text": "Change of 10 is returned, balance resets, state returns to Idle",
+          "why": "Machine is ready for the next customer."
+        }
+      ]
+    },
+    {
+      "id": "change",
+      "phase": "Behaviour",
+      "title": "Making change",
+      "type": "estimate",
+      "prompt": "A user paid **100** for an item costing **63**. Coins available: 20, 10, 5, 2, 1. Using the **fewest coins**, how many coins are returned?",
+      "hint": "Subtract, then take the largest coin that fits each time.",
+      "explain": "Greedy (largest first) is optimal for normal currency systems. Mention the catch: **the machine may not have those coins**, so check you can make change **before** dispensing.",
+      "adds": {
+        "notes": [
+          "Change: greedy largest-coin-first; verify change is possible before dispensing"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "unit": "coins",
+      "answer": 4,
+      "factor": 1.3,
+      "work": [
+        "Change = 100 - 63 = **37**",
+        "20 -> 17 left; 10 -> 7 left; 5 -> 2 left; 2 -> 0 left",
+        "Coins returned: 20 + 10 + 5 + 2 = 37, so **4 coins** (the greedy method: largest coin first)"
+      ]
+    },
+    {
+      "id": "edge",
+      "phase": "Edge cases",
+      "title": "What can go wrong?",
+      "type": "multi",
+      "prompt": "Which failure and edge cases should the design handle?",
+      "hint": "Money, stock, hardware, power.",
+      "explain": "A **state/event table** shows you have covered every combination. Each unexpected cell should map to a safe response.",
+      "adds": {
+        "notes": [
+          "Edge cases: sold out, no change, jam, power loss, invalid action per state"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "options": [
+        {
+          "text": "Invalid actions in a state (select with no money): ignore with a message",
+          "correct": true,
+          "why": "Define behaviour for every state/action pair."
+        },
+        {
+          "text": "Cannot make exact change: tell the user and offer a refund",
+          "correct": true,
+          "why": "Check before dispensing."
+        },
+        {
+          "text": "Item jams in the slot: refund and flag the slot",
+          "correct": true,
+          "why": "The motor can fail; plan for it."
+        },
+        {
+          "text": "Product sold out: reject the selection and keep the money available",
+          "correct": true,
+          "why": "Do not take money for nothing."
+        },
+        {
+          "text": "Power loss mid-vend: save state and balance to durable memory, refund on reboot",
+          "correct": true,
+          "why": "Persist what matters."
+        },
+        {
+          "text": "Nothing, a vending machine is simple",
+          "correct": false,
+          "why": "That is the trap in this question."
+        }
+      ]
+    },
+    {
+      "id": "inventory",
+      "phase": "Edge cases",
+      "title": "Keeping stock accurate",
+      "type": "choice",
+      "prompt": "Two events: the user buys the last Cola, and an admin restocks Cola at the same time. How do you keep quantity correct?",
+      "hint": "Lost update problem.",
+      "explain": "Even a small machine has two actors. **Serialise access** to inventory.",
+      "adds": {
+        "notes": [
+          "Inventory: atomic quantity updates (admin and user can overlap)"
+        ],
+        "components": [
+          "admin"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "options": [
+        {
+          "text": "Let admin and user share one global flag",
+          "correct": false,
+          "why": "Does not protect the count."
+        },
+        {
+          "text": "Make updates to a slot's quantity atomic (a lock, or a single-threaded controller loop)",
+          "correct": true,
+          "why": "Never lose an update."
+        },
+        {
+          "text": "Read the quantity, subtract 1 in the UI, write it back",
+          "correct": false,
+          "why": "A classic lost-update race."
+        },
+        {
+          "text": "Ignore it: the machine only has one user",
+          "correct": false,
+          "why": "Admin and user can overlap, and software bugs also create overlaps."
+        }
+      ]
+    },
+    {
+      "id": "pattern",
+      "phase": "Edge cases",
+      "title": "Which other patterns fit?",
+      "type": "choice",
+      "prompt": "Adding new payment methods (card, UPI QR) later should not rewrite the machine. What helps?",
+      "hint": "What varies independently?",
+      "explain": "**State** for behaviour, **Strategy** for payment, **Singleton** only if there is exactly one machine object in the process. Name patterns *and* the problem they solve.",
+      "adds": {
+        "notes": [
+          "Extensibility: PaymentMethod strategy for coins, cards, UPI"
+        ]
+      },
+      "chapter": {
+        "title": "Design a vending machine",
+        "href": "sessions/15-design-vending-machine.html"
+      },
+      "options": [
+        {
+          "text": "Replace the state machine with one big switch",
+          "correct": false,
+          "why": "Loses the clean structure."
+        },
+        {
+          "text": "An if/else on payment type inside `select()`",
+          "correct": false,
+          "why": "Every new method edits core logic."
+        },
+        {
+          "text": "Copy the machine class for each payment method",
+          "correct": false,
+          "why": "Duplicate code."
+        },
+        {
+          "text": "A `PaymentMethod` interface (Strategy) with Coin, Card and UPI implementations",
+          "correct": true,
+          "why": "Open/closed: add a new class."
+        }
+      ]
+    },
+    {
+      "id": "fleet",
+      "phase": "Scale it up",
+      "title": "A fleet of machines",
+      "type": "choice",
+      "prompt": "The company now runs 10,000 machines. What do you add?",
+      "hint": "What if the network is down?",
+      "explain": "**Edge-first design**: the machine is authoritative locally and syncs asynchronously. The backend is for visibility and planning.",
+      "adds": {
+        "notes": [
+          "Fleet: machines work offline; async events to a backend for stock alerts and reports"
+        ]
+      },
+      "chapter": {
+        "title": "Queues, rate limiting and resilience",
+        "href": "sessions/09-async-and-resilience.html"
+      },
+      "options": [
+        {
+          "text": "Remove local state so machines depend on the server",
+          "correct": false,
+          "why": "Machines must keep working offline."
+        },
+        {
+          "text": "Nothing: machines are independent",
+          "correct": false,
+          "why": "The business needs restock routes and reports."
+        },
+        {
+          "text": "A central server that must approve every single sale in real time",
+          "correct": false,
+          "why": "A network blip would stop all sales."
+        },
+        {
+          "text": "A backend that receives sales, stock and fault events from each machine over a queue, and shows low-stock alerts",
+          "correct": true,
+          "why": "Machines work offline; events flow when connected."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: why use the State pattern here and what does it cost?",
+      "hint": "Clarity vs amount of code.",
+      "explain": "Say **when you would not** use the pattern too. It shows judgement.",
+      "adds": {
+        "notes": [
+          "Trade-offs: State pattern clarity vs more classes; offline-first vs central control"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "The **State pattern** makes behaviour explicit: each state decides what each action means, which removes boolean flags and makes new states easy. The cost is **more classes** and small amounts of boilerplate. For a machine with only two states a simple switch would be fine; with four or more states and growth expected, the pattern pays off. I also validate everything before the irreversible dispense and persist state against power loss.",
+      "points": [
+        "Explicit states instead of boolean flags",
+        "Extensible: new state = new class",
+        "Cost: more classes",
+        "Validate before irreversible actions"
+      ]
+    }
+  ],
+  "position": 5
+}

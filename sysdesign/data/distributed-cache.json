@@ -1,0 +1,714 @@
+{
+  "slug": "distributed-cache",
+  "title": "Design a Distributed Cache",
+  "tagline": "Build a Redis-style cache cluster that is fast, grows by adding nodes and never takes the database down with it.",
+  "difficulty": "Intermediate",
+  "minutes": 45,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Storage & databases",
+    "prompt": "Design a **distributed in-memory cache** (like a Redis or Memcached cluster) that many application servers share to avoid slow database reads.",
+    "context": [
+      "You are in a 45-minute interview. The interviewer wants more than 'use Redis'.",
+      "Your applications already have a relational database that is the source of truth.",
+      "The cache must keep working as machines are added, removed or crash."
+    ],
+    "given": [
+      "About **200 million** items matter; roughly **20% are hot**.",
+      "A cached item averages **1 KB**.",
+      "Hundreds of thousands of operations per second.",
+      "Latency target is about **1 millisecond**."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are choosing the placement scheme, keeping the cache and database consistent, and surviving node loss without flooding the database."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "get, set with TTL, delete",
+      "Placement and replication",
+      "Eviction and invalidation",
+      "Failure modes like stampede and hot keys"
+    ],
+    "scope_out": [
+      "Persistence of cached data",
+      "Cache-as-a-primary-database features",
+      "Multi-region replication"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Explains **LRU in O(1)** with a hash map and linked list.",
+      "Uses **consistent hashing**, not modulo placement.",
+      "Names **stampede, penetration, avalanche and hot key** with a fix for each.",
+      "Deletes on write and keeps the **database the source of truth**."
+    ],
+    "concepts": [
+      {
+        "term": "LRU",
+        "def": "Least Recently Used: evict the entry that has not been touched for the longest time."
+      },
+      {
+        "term": "TTL",
+        "def": "Time to live: after this long the entry expires."
+      },
+      {
+        "term": "Cache-aside",
+        "def": "The application checks the cache, and on a miss reads the database and fills the cache."
+      },
+      {
+        "term": "Cache stampede",
+        "def": "Many requests miss on the same key and all hit the database at once."
+      },
+      {
+        "term": "Hot key",
+        "def": "One key getting so much traffic that a single node cannot cope."
+      }
+    ],
+    "numbers": [
+      "200M x 20% x 1 KB = about **40 GB** hot data",
+      "Memory access is roughly **100 ns**; a network hop to a cache is about **0.5 ms**; a database query is **5 to 50 ms**",
+      "Add **30-50% overhead** for metadata"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Single node: **hash map + doubly linked list** gives O(1) LRU.",
+        "Shard with **consistent hashing**; replicate shards for availability.",
+        "Use **cache-aside**, **delete on write**, and **jittered TTLs**.",
+        "Defend against **stampede, penetration, avalanche and hot keys** so the database is safe."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Cache-aside",
+          "gain": "Simple, robust",
+          "cost": "App code owns the logic; first read is slow"
+        },
+        {
+          "choice": "Async replication",
+          "gain": "Fast writes",
+          "cost": "Failover may lose recent entries"
+        },
+        {
+          "choice": "Short TTL",
+          "gain": "Fresher data",
+          "cost": "Lower hit rate, more DB load"
+        }
+      ],
+      "extensions": [
+        "Persistence snapshots for quicker warm-up",
+        "Multi-region cache with invalidation messages",
+        "Near-cache in each app for the hottest keys"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 680 290",
+      "nodes": {
+        "app": {
+          "x": 10,
+          "y": 110,
+          "w": 130,
+          "label": "App servers\n+ cache client",
+          "kind": "service",
+          "h": 48
+        },
+        "ring": {
+          "x": 190,
+          "y": 10,
+          "w": 150,
+          "label": "Hash ring\nkey -> node",
+          "kind": "edge",
+          "h": 48
+        },
+        "c1": {
+          "x": 220,
+          "y": 80,
+          "w": 120,
+          "label": "Cache node 1",
+          "kind": "cache"
+        },
+        "c2": {
+          "x": 220,
+          "y": 140,
+          "w": 120,
+          "label": "Cache node 2",
+          "kind": "cache"
+        },
+        "c3": {
+          "x": 220,
+          "y": 200,
+          "w": 120,
+          "label": "Cache node 3",
+          "kind": "cache"
+        },
+        "replica": {
+          "x": 400,
+          "y": 140,
+          "w": 120,
+          "label": "Replica of 2",
+          "kind": "cache"
+        },
+        "db": {
+          "x": 550,
+          "y": 80,
+          "w": 120,
+          "label": "Database",
+          "kind": "data"
+        },
+        "local": {
+          "x": 10,
+          "y": 210,
+          "w": 140,
+          "label": "Local in-process\ncache (hot keys)",
+          "kind": "client",
+          "h": 48
+        }
+      },
+      "edges": [
+        [
+          "app",
+          "ring",
+          "hash(key)",
+          "dashed"
+        ],
+        [
+          "app",
+          "c1"
+        ],
+        [
+          "app",
+          "c2"
+        ],
+        [
+          "app",
+          "c3"
+        ],
+        [
+          "c2",
+          "replica",
+          "async copy",
+          "dashed"
+        ],
+        [
+          "c1",
+          "db",
+          "miss: app reads DB",
+          "dashed"
+        ],
+        [
+          "app",
+          "local"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What does the cache do?",
+      "type": "multi",
+      "prompt": "Which operations belong in the scope of a distributed cache?",
+      "hint": "Is it the source of truth?",
+      "explain": "A distributed cache is **fast, shared, and disposable**: losing a key costs a database read, not data.",
+      "adds": {
+        "notes": [
+          "API: get, set with TTL, delete; eviction; add/remove nodes online"
+        ],
+        "components": [
+          "app"
+        ]
+      },
+      "chapter": {
+        "title": "Design a distributed cache",
+        "href": "sessions/17-design-distributed-cache.html"
+      },
+      "options": [
+        {
+          "text": "Evict entries when memory is full",
+          "correct": true,
+          "why": "Memory is finite."
+        },
+        {
+          "text": "`delete(key)`",
+          "correct": true,
+          "why": "Invalidate on change."
+        },
+        {
+          "text": "`get(key)`",
+          "correct": true,
+          "why": "Read."
+        },
+        {
+          "text": "Add and remove cache nodes while running",
+          "correct": true,
+          "why": "Scale and failures without an outage."
+        },
+        {
+          "text": "Guaranteed durable storage of every key",
+          "correct": false,
+          "why": "A cache can lose data. The database is the source of truth."
+        },
+        {
+          "text": "`set(key, value, ttl)`",
+          "correct": true,
+          "why": "Write with an expiry."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "What qualities matter?",
+      "type": "multi",
+      "prompt": "Pick the requirements that shape the design.",
+      "hint": "What does the app team expect from it?",
+      "explain": "**Speed, throughput, availability, scalability.** Consistency with the database is *eventual*, managed with TTLs and deletes.",
+      "adds": {
+        "notes": [
+          "Qualities: ~1 ms, very high throughput, highly available, scalable; eventually consistent with the DB"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "options": [
+        {
+          "text": "High throughput (hundreds of thousands of ops/s)",
+          "correct": true,
+          "why": "Thousands of app servers share it."
+        },
+        {
+          "text": "High availability: a node loss must not melt the database",
+          "correct": true,
+          "why": "The key reliability concern."
+        },
+        {
+          "text": "Strong consistency with the database at all times",
+          "correct": false,
+          "why": "Costly. Accept small staleness with TTL and invalidation."
+        },
+        {
+          "text": "Latency around 1 ms",
+          "correct": true,
+          "why": "The reason caches exist."
+        },
+        {
+          "text": "Scalability: grow memory by adding nodes",
+          "correct": true,
+          "why": "Horizontal growth."
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "phase": "Estimate scale",
+      "title": "How much memory?",
+      "type": "estimate",
+      "prompt": "Your service has **200 million** items that matter. About **20%** are hot enough to cache. Each cached item is **1 KB**. How many **GB** of cache memory?",
+      "hint": "Items times the hot share times item size.",
+      "explain": "About **40 GB of data, ~100 GB provisioned**. That is a handful of ordinary cache nodes (32 to 64 GB each). It shows why memory, not disk, is the resource you size.",
+      "adds": {
+        "notes": [
+          "Capacity: ~40 GB hot data, ~100 GB provisioned with overhead and replicas"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "GB",
+      "answer": 40,
+      "factor": 2,
+      "work": [
+        "200,000,000 x 20% = 40,000,000 items",
+        "40,000,000 x 1 KB = 40,000,000 KB = **40 GB**",
+        "Add overhead (about 30-50% for keys and bookkeeping) and replication: plan for **100 GB or more** across the cluster"
+      ]
+    },
+    {
+      "id": "local",
+      "phase": "API and data model",
+      "title": "One machine first",
+      "type": "choice",
+      "prompt": "Inside one node you need `get` and `set` in O(1) with LRU eviction. Which structure?",
+      "hint": "You need fast lookup AND fast reordering.",
+      "explain": "**Hash map + doubly linked list = LRU in O(1).** In Python an `OrderedDict` gives you this directly.",
+      "adds": {
+        "notes": [
+          "Single node: hash map + doubly linked list (LRU, O(1))"
+        ]
+      },
+      "chapter": {
+        "title": "Design a distributed cache",
+        "href": "sessions/17-design-distributed-cache.html"
+      },
+      "followup": "When would LFU beat LRU?",
+      "options": [
+        {
+          "text": "An array scanned for the key",
+          "correct": false,
+          "why": "O(n) lookups."
+        },
+        {
+          "text": "A queue only",
+          "correct": false,
+          "why": "You cannot find a key in the middle quickly."
+        },
+        {
+          "text": "A hash map plus a doubly linked list (the map points to list nodes; touch moves a node to the front, evict from the tail)",
+          "correct": true,
+          "why": "Both lookup and reorder are O(1)."
+        },
+        {
+          "text": "A sorted tree keyed by last-used time",
+          "correct": false,
+          "why": "O(log n) and heavier than needed."
+        }
+      ]
+    },
+    {
+      "id": "sharding",
+      "phase": "High-level design",
+      "title": "Spreading keys across nodes",
+      "type": "choice",
+      "prompt": "How should keys be assigned to cache nodes?",
+      "hint": "What happens to the keys when N changes?",
+      "explain": "**Consistent hashing** is what makes online scaling cheap. With modulo placement, adding one node effectively empties the cache.",
+      "adds": {
+        "notes": [
+          "Placement: consistent hashing with virtual nodes in the client library"
+        ],
+        "components": [
+          "ring",
+          "c1",
+          "c2",
+          "c3"
+        ]
+      },
+      "chapter": {
+        "title": "Design a distributed cache",
+        "href": "sessions/17-design-distributed-cache.html"
+      },
+      "pitfall": "hash(key) % N placement.",
+      "options": [
+        {
+          "text": "Each app server keeps its own private cache",
+          "correct": false,
+          "why": "Duplicates data, low hit rate, inconsistent."
+        },
+        {
+          "text": "Send every request to every node",
+          "correct": false,
+          "why": "Wasteful."
+        },
+        {
+          "text": "`hash(key) % N`",
+          "correct": false,
+          "why": "Change N and almost every key remaps: a mass cache miss that floods the database."
+        },
+        {
+          "text": "Consistent hashing in the client library (or a proxy), with virtual nodes",
+          "correct": true,
+          "why": "Adding or removing a node remaps only a small fraction of keys."
+        }
+      ]
+    },
+    {
+      "id": "read-path",
+      "phase": "High-level design",
+      "title": "The read path",
+      "type": "order",
+      "prompt": "Order a read that **misses** the cache under cache-aside.",
+      "hint": "Look, miss, load, store, answer.",
+      "explain": "**Cache-aside**: the app owns the logic and the cache is dumb storage. Simple and robust, and the pattern you can defend in any interview.",
+      "adds": {
+        "notes": [
+          "Pattern: cache-aside with TTL"
+        ],
+        "components": [
+          "db"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "items": [
+        {
+          "text": "The app hashes the key and picks the cache node",
+          "why": "Client library or proxy decides."
+        },
+        {
+          "text": "The cache node reports a miss",
+          "why": "Key absent or expired."
+        },
+        {
+          "text": "The app reads the database",
+          "why": "The source of truth."
+        },
+        {
+          "text": "The app writes the value to the cache with a TTL",
+          "why": "Next read is a hit."
+        },
+        {
+          "text": "The app returns the value to the caller",
+          "why": "Cache fill is not on the critical path for correctness."
+        }
+      ]
+    },
+    {
+      "id": "write",
+      "phase": "High-level design",
+      "title": "Writes and invalidation",
+      "type": "choice",
+      "prompt": "A user updates their profile in the database. What should happen to the cached copy?",
+      "hint": "Which copy is the truth?",
+      "explain": "**Write the database, then delete the cache key.** Short TTLs are the safety net for anything that goes wrong.",
+      "adds": {
+        "notes": [
+          "Writes: update the database, then delete the cache key; TTL as safety net"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "followup": "What race can still leave stale data after delete-on-write?",
+      "options": [
+        {
+          "text": "Delete the cache entry after the database write (the next read repopulates it)",
+          "correct": true,
+          "why": "Simple and avoids races of writing two places."
+        },
+        {
+          "text": "Write to both with no ordering care",
+          "correct": false,
+          "why": "Concurrent writers can leave the cache holding the older value."
+        },
+        {
+          "text": "Do nothing and wait for the TTL",
+          "correct": false,
+          "why": "Users see their old profile for minutes."
+        },
+        {
+          "text": "Update the cache first, then the database",
+          "correct": false,
+          "why": "If the database write fails, the cache holds data that never existed."
+        }
+      ]
+    },
+    {
+      "id": "failure-modes",
+      "phase": "Deep dive",
+      "title": "Cache disasters",
+      "type": "multi",
+      "prompt": "Match the problem to its defence. Select the **correct** defences.",
+      "hint": "Same data hit again and again, or all at once.",
+      "explain": "Name the four: **stampede, penetration, avalanche, hot key.** Each has a cheap defence.",
+      "adds": {
+        "notes": [
+          "Defences: request coalescing, cache negatives, TTL jitter, local cache for hot keys"
+        ],
+        "components": [
+          "local"
+        ]
+      },
+      "chapter": {
+        "title": "Design a distributed cache",
+        "href": "sessions/17-design-distributed-cache.html"
+      },
+      "options": [
+        {
+          "text": "All of these are rare, ignore them",
+          "correct": false,
+          "why": "They cause real outages."
+        },
+        {
+          "text": "Penetration by non-existent keys: cache the 'not found' for a short time or use a Bloom filter",
+          "correct": true,
+          "why": "Stops repeated useless database hits."
+        },
+        {
+          "text": "Hot key overload: a small local in-process cache or replicas of that key",
+          "correct": true,
+          "why": "One key can overload one node."
+        },
+        {
+          "text": "Stampede on a hot expired key: request coalescing (one rebuilds, others wait) or refresh-ahead",
+          "correct": true,
+          "why": "Avoids thousands of identical database reads."
+        },
+        {
+          "text": "Avalanche from simultaneous expiry: add random jitter to TTLs",
+          "correct": true,
+          "why": "Spreads expiry over time."
+        }
+      ]
+    },
+    {
+      "id": "ha",
+      "phase": "Reliability",
+      "title": "A cache node dies",
+      "type": "multi",
+      "prompt": "What keeps the database alive when a node disappears?",
+      "hint": "Cache failure is a database problem in disguise.",
+      "explain": "Plan the **blast radius**: replicas, small remap, protected database, warm replacements.",
+      "adds": {
+        "notes": [
+          "HA: replicas per shard, small remap, DB protection, warm replacements"
+        ],
+        "components": [
+          "replica"
+        ]
+      },
+      "chapter": {
+        "title": "Queues, rate limiting and resilience",
+        "href": "sessions/09-async-and-resilience.html"
+      },
+      "options": [
+        {
+          "text": "Rate limiting and coalescing on the database path",
+          "correct": true,
+          "why": "Protects the database from the miss wave."
+        },
+        {
+          "text": "Let every request retry immediately until it works",
+          "correct": false,
+          "why": "Retry storms melt the database."
+        },
+        {
+          "text": "Replicas of each shard, promoted on failure",
+          "correct": true,
+          "why": "Most keys survive."
+        },
+        {
+          "text": "Pre-warming a replacement node before it takes traffic",
+          "correct": true,
+          "why": "A cold node means a miss storm."
+        },
+        {
+          "text": "Consistent hashing so only that node's share of keys is remapped",
+          "correct": true,
+          "why": "A small, not total, miss wave."
+        }
+      ]
+    },
+    {
+      "id": "eviction",
+      "phase": "Deep dive",
+      "title": "Which eviction policy?",
+      "type": "choice",
+      "prompt": "Memory is full. Which policy is the sensible default, and when would you change it?",
+      "hint": "What predicts future use?",
+      "explain": "**LRU by default**; mention that real systems approximate it (sample a few keys, evict the oldest) because tracking exact order is costly.",
+      "adds": {
+        "notes": [
+          "Eviction: LRU default (approximate in practice), LFU for stable popularity"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "options": [
+        {
+          "text": "FIFO always",
+          "correct": false,
+          "why": "Evicts the oldest even if it is hot."
+        },
+        {
+          "text": "LRU by default; LFU for stable popularity; TTL-based for time-bound data",
+          "correct": true,
+          "why": "Pick by access pattern."
+        },
+        {
+          "text": "Random always",
+          "correct": false,
+          "why": "Fine as a cheap approximation (Redis samples randomly), but not a design principle."
+        },
+        {
+          "text": "Never evict, reject writes",
+          "correct": false,
+          "why": "The cache becomes useless when full."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what does a distributed cache trade away?",
+      "hint": "Freshness, new failure modes, durability.",
+      "explain": "Close by repeating **\"the database stays the source of truth\"**.",
+      "adds": {
+        "notes": [
+          "Trade-offs: staleness vs speed; cache outage risk; async replication may lose recent writes"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "A cache trades **consistency and simplicity** for **speed and database relief**. Data can be briefly stale (TTL and delete-on-write narrow the gap), there is a whole new failure mode (cache outage hitting the database), and extra operational work (sizing, eviction, hot keys). Asynchronous replication means a failover can lose a few recent entries, which is acceptable because the cache is never the source of truth.",
+      "points": [
+        "Staleness vs speed",
+        "New failure mode: stampede onto the database",
+        "Async replication may lose recent entries",
+        "Cache is never the source of truth"
+      ]
+    }
+  ],
+  "position": 7
+}

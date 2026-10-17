@@ -1,0 +1,715 @@
+{
+  "slug": "key-value-store",
+  "title": "Design a Distributed Key-Value Store",
+  "tagline": "Build a Dynamo-style store that stays up when machines die and grows by adding nodes.",
+  "difficulty": "Advanced",
+  "minutes": 50,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Storage & databases",
+    "prompt": "Design a **distributed key-value store** like DynamoDB or Cassandra. Clients `put` and `get` values by key. The data is too big and too busy for one machine.",
+    "context": [
+      "You are in a 45-minute interview. This is a classic deep-dive question about partitioning, replication and consistency.",
+      "The store is used by many teams for sessions, carts and profiles.",
+      "Latency should be a few milliseconds even at huge scale."
+    ],
+    "given": [
+      "About **100 TB** of data before replication.",
+      "Millions of operations per second across the cluster.",
+      "Machines fail every day. The service must not.",
+      "Values are small (a few KB), keys are strings."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are partitioning with consistent hashing, replication with quorums, and handling failures and conflicts."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "put, get and delete by key",
+      "Partitioning and replication",
+      "Failure handling and consistency options",
+      "The storage engine on each node"
+    ],
+    "scope_out": [
+      "Secondary indexes and SQL",
+      "Multi-key transactions",
+      "Billing and multi-tenant quotas"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Uses **consistent hashing with virtual nodes**, not hash mod N.",
+      "Explains **N, W, R** and why R + W > N matters.",
+      "Describes **hinted handoff, read repair and anti-entropy** for repair.",
+      "Handles **conflicting writes** and names the CAP choice."
+    ],
+    "concepts": [
+      {
+        "term": "Consistent hashing",
+        "def": "Place nodes and keys on a ring; a key belongs to the next node clockwise. Adding a node moves only a small share of keys."
+      },
+      {
+        "term": "Virtual node",
+        "def": "One machine appears at many points on the ring so load is even."
+      },
+      {
+        "term": "Quorum",
+        "def": "The number of replicas that must respond. Write quorum W and read quorum R with R + W > N give fresh reads."
+      },
+      {
+        "term": "Vector clock",
+        "def": "A version counter per replica used to tell whether two writes are ordered or concurrent."
+      },
+      {
+        "term": "Gossip",
+        "def": "Nodes exchange state with random peers so information spreads without a master."
+      },
+      {
+        "term": "LSM tree",
+        "def": "Write to a log and memtable, flush sorted files, merge in the background. Very fast writes."
+      },
+      {
+        "term": "Bloom filter",
+        "def": "A compact structure that says 'definitely not here' or 'maybe here'."
+      }
+    ],
+    "numbers": [
+      "N=3, W=2, R=2 is the usual balanced setting",
+      "Replication multiplies storage: **100 TB x 3 = 300 TB**",
+      "Consistent hashing moves only about **1/N** of keys when a node joins"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Partition with **consistent hashing and virtual nodes**; replicate each key to **N=3** nodes in different failure domains.",
+        "Use **quorums**: R + W > N for fresh reads, lower values for speed.",
+        "Repair with **hinted handoff, read repair and Merkle-tree anti-entropy**; detect failure with **gossip**.",
+        "State the choice: **AP with tunable consistency**, and **LSM storage** on each node."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "AP (availability first)",
+          "gain": "Always answers, even in a partition",
+          "cost": "Stale reads, conflicts to resolve"
+        },
+        {
+          "choice": "N=3 replicas",
+          "gain": "Survives node and rack loss",
+          "cost": "3x storage cost"
+        },
+        {
+          "choice": "W=2, R=2",
+          "gain": "Reads see latest writes",
+          "cost": "Higher latency than W=1, R=1"
+        }
+      ],
+      "extensions": [
+        "Tombstones and TTL for deletes",
+        "Multi-datacentre replication",
+        "Secondary indexes"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 680 290",
+      "nodes": {
+        "client": {
+          "x": 10,
+          "y": 120,
+          "w": 90,
+          "label": "Client",
+          "kind": "client"
+        },
+        "coord": {
+          "x": 140,
+          "y": 120,
+          "w": 130,
+          "label": "Coordinator\n(any node)",
+          "kind": "service",
+          "h": 48
+        },
+        "ring": {
+          "x": 330,
+          "y": 10,
+          "w": 160,
+          "label": "Hash ring\n+ virtual nodes",
+          "kind": "edge",
+          "h": 48
+        },
+        "n1": {
+          "x": 330,
+          "y": 90,
+          "w": 130,
+          "label": "Node A: copy 1",
+          "kind": "data"
+        },
+        "n2": {
+          "x": 330,
+          "y": 150,
+          "w": 130,
+          "label": "Node B: copy 2",
+          "kind": "data"
+        },
+        "n3": {
+          "x": 330,
+          "y": 210,
+          "w": 130,
+          "label": "Node C: copy 3",
+          "kind": "data"
+        },
+        "gossip": {
+          "x": 520,
+          "y": 90,
+          "w": 140,
+          "label": "Gossip:\nwho is alive",
+          "kind": "queue",
+          "h": 48
+        },
+        "repair": {
+          "x": 520,
+          "y": 190,
+          "w": 140,
+          "label": "Hinted handoff\nread repair\nMerkle trees",
+          "kind": "cache",
+          "h": 62
+        }
+      },
+      "edges": [
+        [
+          "client",
+          "coord",
+          "put/get"
+        ],
+        [
+          "coord",
+          "ring",
+          "which nodes?",
+          "dashed"
+        ],
+        [
+          "coord",
+          "n1"
+        ],
+        [
+          "coord",
+          "n2"
+        ],
+        [
+          "coord",
+          "n3"
+        ],
+        [
+          "n1",
+          "gossip",
+          "heartbeats",
+          "dashed"
+        ],
+        [
+          "n3",
+          "repair",
+          "if a node is down",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What is the API?",
+      "type": "multi",
+      "prompt": "A key-value store. Which operations belong in scope?",
+      "hint": "What is the smallest useful contract?",
+      "explain": "A KV store promises **simple, fast access by key** at any scale. Anything that needs scanning or joining belongs elsewhere.",
+      "adds": {
+        "notes": [
+          "API: put, get, delete; scale by adding nodes; tunable consistency"
+        ],
+        "components": [
+          "client"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "options": [
+        {
+          "text": "Tunable consistency per request",
+          "correct": true,
+          "why": "Lets callers pick speed or freshness."
+        },
+        {
+          "text": "Scale by adding nodes, without downtime",
+          "correct": true,
+          "why": "Why we build it distributed."
+        },
+        {
+          "text": "`delete(key)`",
+          "correct": true,
+          "why": "Remove (usually a tombstone marker)."
+        },
+        {
+          "text": "`put(key, value)`",
+          "correct": true,
+          "why": "Write."
+        },
+        {
+          "text": "Joins and SQL queries across keys",
+          "correct": false,
+          "why": "That is a relational database, not a key-value store."
+        },
+        {
+          "text": "Full-text search over values",
+          "correct": false,
+          "why": "A different system."
+        },
+        {
+          "text": "`get(key)`",
+          "correct": true,
+          "why": "Read."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "What qualities drive the design?",
+      "type": "multi",
+      "prompt": "Pick the non-functional requirements.",
+      "hint": "Which two of CAP will you favour?",
+      "explain": "We are building an **AP, horizontally scalable** store. Say it: *\"I choose availability over strict consistency during partitions.\"*",
+      "adds": {
+        "notes": [
+          "Qualities: highly available, horizontally scalable, low latency, eventually consistent by default"
+        ]
+      },
+      "chapter": {
+        "title": "Databases, CAP and consistency",
+        "href": "sessions/08-databases-cap-and-consistency.html"
+      },
+      "options": [
+        {
+          "text": "Horizontal scalability to many TB and millions of ops/s",
+          "correct": true,
+          "why": "Add machines, not a bigger machine."
+        },
+        {
+          "text": "Low latency (single-digit milliseconds)",
+          "correct": true,
+          "why": "Direct key access, no scans."
+        },
+        {
+          "text": "Serializable multi-key transactions",
+          "correct": false,
+          "why": "Would need heavy coordination. Out of scope."
+        },
+        {
+          "text": "High availability: reads and writes keep working when nodes fail",
+          "correct": true,
+          "why": "A core selling point of Dynamo-style stores."
+        },
+        {
+          "text": "Eventual consistency by default, stronger on request",
+          "correct": true,
+          "why": "AP in CAP terms with a dial."
+        }
+      ]
+    },
+    {
+      "id": "nodes",
+      "phase": "Estimate scale",
+      "title": "How many nodes?",
+      "type": "estimate",
+      "prompt": "You must store **100 TB** (before replication) and keep **3 copies** of each item. Each node holds **10 TB**. How many **nodes** are needed (ignore spare capacity)?",
+      "hint": "Replication multiplies the data first.",
+      "explain": "**About 30 nodes minimum, 40+ in practice.** Notice how replication multiplies storage by 3, so replication factor is a real cost decision.",
+      "adds": {
+        "notes": [
+          "Capacity: 100 TB x 3 replicas = 300 TB, about 30-40 nodes of 10 TB"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "nodes",
+      "answer": 30,
+      "factor": 1.5,
+      "work": [
+        "100 TB x 3 copies = **300 TB** on disk",
+        "300 TB / 10 TB per node = **30 nodes**",
+        "Add headroom (compaction needs free space, nodes fail) so plan for **40 or more**"
+      ]
+    },
+    {
+      "id": "partition",
+      "phase": "API and data model",
+      "title": "How do we place keys?",
+      "type": "choice",
+      "prompt": "Which scheme decides which node holds a key, so that adding a node moves little data?",
+      "hint": "What happens to `% N` when N changes?",
+      "explain": "**Consistent hashing + virtual nodes** gives even spread and smooth growth. This idea appears in Dynamo, Cassandra and many caches.",
+      "adds": {
+        "notes": [
+          "Partitioning: consistent hashing ring with virtual nodes"
+        ],
+        "components": [
+          "ring"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "pitfall": "Using hash modulo N.",
+      "followup": "Why use hundreds of virtual nodes per machine rather than one?",
+      "options": [
+        {
+          "text": "Consistent hashing on a ring, with many virtual nodes per machine",
+          "correct": true,
+          "why": "Adding a node takes a slice from many neighbours; only about 1/N of keys move."
+        },
+        {
+          "text": "`hash(key) % number_of_nodes`",
+          "correct": false,
+          "why": "Change N and almost every key maps to a different node: a mass reshuffle."
+        },
+        {
+          "text": "A central table mapping every key to a node",
+          "correct": false,
+          "why": "A bottleneck and single point of failure for 10 billion keys."
+        },
+        {
+          "text": "Range partitioning by first letter of the key",
+          "correct": false,
+          "why": "Hot ranges (many keys start with `a`) and uneven load."
+        }
+      ]
+    },
+    {
+      "id": "replication",
+      "phase": "High-level design",
+      "title": "How many copies and where?",
+      "type": "choice",
+      "prompt": "A node can die at any time and so can a whole rack or zone. How do you replicate?",
+      "hint": "What can fail together?",
+      "explain": "**N=3, in different failure domains.** Spread copies so that no single event can take out every replica.",
+      "adds": {
+        "notes": [
+          "Replication: N=3 on distinct nodes in different racks/zones"
+        ],
+        "components": [
+          "coord",
+          "n1",
+          "n2",
+          "n3"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "options": [
+        {
+          "text": "Store each key on the next N=3 distinct nodes clockwise, placed in different racks or zones",
+          "correct": true,
+          "why": "Survives a node, a rack or a zone loss."
+        },
+        {
+          "text": "Three copies, but all on the same rack",
+          "correct": false,
+          "why": "One power failure loses all three."
+        },
+        {
+          "text": "Copy everything to every node",
+          "correct": false,
+          "why": "Storage and write cost explode."
+        },
+        {
+          "text": "Keep one copy and rely on backups",
+          "correct": false,
+          "why": "Restoring takes hours and loses recent writes."
+        }
+      ]
+    },
+    {
+      "id": "quorum",
+      "phase": "Deep dive",
+      "title": "Quorum maths",
+      "type": "estimate",
+      "prompt": "With **N = 3** replicas and a write quorum **W = 2**, what is the smallest read quorum **R** that guarantees a read sees the latest write (R + W > N)?",
+      "hint": "Two sets overlap if their sizes add to more than the total.",
+      "explain": "**N=3, W=2, R=2** is the common balanced setting. **W=1, R=1** is the fastest and weakest. **W=3** survives no failures on writes. Quorums give you the *dial* between speed and freshness.",
+      "adds": {
+        "notes": [
+          "Quorum: N=3, W=2, R=2 (R + W > N) for strongly fresh reads; W=1/R=1 for speed"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "followup": "What happens to availability if you set W=3?",
+      "unit": "replicas read (R)",
+      "answer": 2,
+      "factor": 1.05,
+      "work": [
+        "Need R + W > N",
+        "R + 2 > 3, so R > 1, so **R = 2**",
+        "With W=2, R=2: any 2 replicas read must overlap with the 2 that acknowledged the write"
+      ]
+    },
+    {
+      "id": "conflict",
+      "phase": "Deep dive",
+      "title": "Two writers, same key",
+      "type": "choice",
+      "prompt": "Two clients write the same key at the same moment via different coordinators, so replicas disagree. What do you do?",
+      "hint": "Newer versus concurrent.",
+      "explain": "**Last-write-wins** (timestamps) is simple but can lose a write if clocks differ. **Vector clocks** detect concurrency so the application can merge, like merging shopping carts.",
+      "adds": {
+        "notes": [
+          "Conflicts: vector clocks to detect, app-level merge or last-write-wins"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "options": [
+        {
+          "text": "Lock the key across the whole cluster for every write",
+          "correct": false,
+          "why": "Kills availability and latency."
+        },
+        {
+          "text": "Always keep the larger value",
+          "correct": false,
+          "why": "Arbitrary and loses information."
+        },
+        {
+          "text": "Pretend it cannot happen",
+          "correct": false,
+          "why": "It will, in a partition."
+        },
+        {
+          "text": "Detect with version vectors / vector clocks, and either merge in the app or fall back to last-write-wins for simple data",
+          "correct": true,
+          "why": "You know the versions are concurrent, not just 'newer'."
+        }
+      ]
+    },
+    {
+      "id": "failure",
+      "phase": "Reliability",
+      "title": "A node is down during a write",
+      "type": "order",
+      "prompt": "N=3, W=2. One replica is unreachable. Order what happens.",
+      "hint": "Accept, remember, replay, verify.",
+      "explain": "Three layers of repair: **hinted handoff** (short outages), **read repair** (when a read sees a stale copy), **anti-entropy with Merkle trees** (long outages). No single repair is enough.",
+      "adds": {
+        "notes": [
+          "Repair: hinted handoff, read repair, Merkle-tree anti-entropy"
+        ],
+        "components": [
+          "repair"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "items": [
+        {
+          "text": "The coordinator sends the write to all three replicas",
+          "why": "Always send to all N."
+        },
+        {
+          "text": "Two replicas acknowledge; the third times out",
+          "why": "W=2 is satisfied."
+        },
+        {
+          "text": "The coordinator tells the client success and stores a hint for the down node on another node (hinted handoff)",
+          "why": "Availability preserved; nothing is dropped."
+        },
+        {
+          "text": "When the down node returns, the hint is replayed to it",
+          "why": "Brings it back up to date."
+        },
+        {
+          "text": "Merkle-tree comparison (anti-entropy) repairs any remaining differences in the background",
+          "why": "A safety net for longer outages."
+        }
+      ]
+    },
+    {
+      "id": "detect",
+      "phase": "Reliability",
+      "title": "Detecting failure",
+      "type": "multi",
+      "prompt": "No master node. How do nodes know who is alive?",
+      "hint": "How can many nodes agree without a boss?",
+      "explain": "Decentralised **gossip + heartbeats** keeps the cluster master-less. Mention the **phi accrual** detector if you know it.",
+      "adds": {
+        "notes": [
+          "Membership: gossip protocol and heartbeat failure detection, seed nodes to join"
+        ],
+        "components": [
+          "gossip"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "options": [
+        {
+          "text": "One master node that pings everyone",
+          "correct": false,
+          "why": "The master becomes a single point of failure."
+        },
+        {
+          "text": "Failure suspicion based on missed heartbeats, with a timeout threshold",
+          "correct": true,
+          "why": "Avoids marking a slow node dead too early."
+        },
+        {
+          "text": "Clients decide by guessing",
+          "correct": false,
+          "why": "No shared truth."
+        },
+        {
+          "text": "Seed nodes to bootstrap new members",
+          "correct": true,
+          "why": "A new node needs someone to contact first."
+        },
+        {
+          "text": "**Gossip**: every second each node swaps its view of the cluster with a few random peers",
+          "correct": true,
+          "why": "Information spreads like a rumour, no single point of failure."
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "phase": "Deep dive",
+      "title": "On one node",
+      "type": "multi",
+      "prompt": "How does a single node store and find data quickly?",
+      "hint": "Write fast to a log, organise later.",
+      "explain": "This is an **LSM tree**. Writes are sequential and fast; reads check memory first, then files, with Bloom filters keeping that cheap.",
+      "adds": {
+        "notes": [
+          "Node storage: commit log + memtable + SSTables + Bloom filters + compaction (LSM tree)"
+        ]
+      },
+      "chapter": {
+        "title": "Design a key-value store",
+        "href": "sessions/16-design-key-value-store.html"
+      },
+      "options": [
+        {
+          "text": "Keep recent writes in an in-memory **memtable**",
+          "correct": true,
+          "why": "Fast reads and batching."
+        },
+        {
+          "text": "Append every write to a **commit log** for durability",
+          "correct": true,
+          "why": "Sequential writes are fast and survive a crash."
+        },
+        {
+          "text": "Rewrite the whole data file for every put",
+          "correct": false,
+          "why": "Painfully slow."
+        },
+        {
+          "text": "Flush the memtable as immutable sorted files (**SSTables**) and compact them in the background",
+          "correct": true,
+          "why": "The LSM-tree design: fast writes, organised reads."
+        },
+        {
+          "text": "Use **Bloom filters** to skip files that cannot contain the key",
+          "correct": true,
+          "why": "Avoids reading many files for a missing key."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: which side of CAP did you pick, and what does it cost?",
+      "hint": "What can a reader see that is not the latest?",
+      "explain": "The best answers say **both** what the system is good for and what it is wrong for.",
+      "adds": {
+        "notes": [
+          "Trade-offs: AP with tunable quorums; costs stale reads and conflict handling"
+        ]
+      },
+      "chapter": {
+        "title": "Databases, CAP and consistency",
+        "href": "sessions/08-databases-cap-and-consistency.html"
+      },
+      "model": "I chose **availability and partition tolerance (AP)**: the store keeps accepting reads and writes during a partition and repairs differences later. The cost is **eventual consistency**: a read might briefly return old data, and concurrent writes need conflict handling. Quorums let callers dial toward stronger consistency (R + W > N) at the cost of latency and availability. For use cases like bank balances I would pick a CP system instead.",
+      "points": [
+        "Chose AP and said what that means",
+        "Cost: stale reads, conflict resolution",
+        "Quorums as the consistency dial",
+        "Said when a CP store is the better choice"
+      ]
+    }
+  ],
+  "position": 6
+}

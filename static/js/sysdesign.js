@@ -196,7 +196,7 @@
 
   // Each builder returns { el, show(result, restoring) } and wires its own Check button into `actions`.
   function buildInput(step, answered, actions, feedback) {
-    var builders = { choice: choiceInput, multi: multiInput, estimate: estimateInput, reflect: reflectInput };
+    var builders = { choice: choiceInput, multi: multiInput, estimate: estimateInput, reflect: reflectInput, order: orderInput };
     var b = builders[step.type](step, answered);
     var checkLabel = step.type === 'reflect' ? 'Reveal model answer' : 'Check my answer';
     var check = h('button', { type: 'button', class: 'btn sm', disabled: true, onclick: function () {
@@ -246,6 +246,12 @@
     }
     box.appendChild(h('div', { class: 'sd-label', text: 'The takeaway' }));
     box.appendChild(rich('div', 'sd-explain', step.explain));
+    if (step.pitfall) {
+      box.appendChild(h('div', { class: 'sd-extra sd-pitfall' }, [h('strong', { text: 'Common mistake. ' }), h('span', { html: mini(step.pitfall).replace(/^<p>|<\/p>$/g, '') })]));
+    }
+    if (step.followup) {
+      box.appendChild(h('div', { class: 'sd-extra sd-followup' }, [h('strong', { text: 'The interviewer may ask next. ' }), h('span', { html: mini(step.followup).replace(/^<p>|<\/p>$/g, '') })]));
+    }
     if (step.chapter) {
       box.appendChild(h('p', { class: 'sd-learn-link' }, [
         'Learn more: ',
@@ -388,21 +394,131 @@
     };
   }
 
+  function orderInput(step, answered) {
+    var readyCb = function () {};
+    var n = step.items.length;
+    // Start from a fixed scramble (so a reload shows the same list): item i goes to position (i * k) mod n.
+    var k = [3, 5, 7, 2].filter(function (c) { return gcd(c, n) === 1; })[0] || 1;
+    var seq = [];
+    for (var i = 0; i < n; i++) seq.push((i * k + 1) % n);
+    if (seq.every(function (v, i) { return v === i; })) seq.reverse();
+    var list = h('ol', { class: 'sd-order' });
+    var locked = !!answered;
+    function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+    function draw(marks) {
+      list.innerHTML = '';
+      seq.forEach(function (idx, pos) {
+        var it = step.items[idx];
+        var li = h('li', { class: 'sd-order-item' + (marks ? (idx === pos ? ' is-correct' : ' is-wrong') : '') });
+        li.appendChild(h('span', { class: 'sd-order-text', html: mini(it.text).replace(/^<p>|<\/p>$/g, '') }));
+        if (!locked) {
+          li.appendChild(h('span', { class: 'sd-order-btns' }, [
+            h('button', { type: 'button', class: 'btn ghost sm', 'aria-label': 'Move up', disabled: pos === 0, onclick: function () { move(pos, -1); } }, ['↑']),
+            h('button', { type: 'button', class: 'btn ghost sm', 'aria-label': 'Move down', disabled: pos === n - 1, onclick: function () { move(pos, 1); } }, ['↓']),
+          ]));
+        } else if (marks) {
+          li.appendChild(h('small', { class: 'sd-why', text: (idx === pos ? '✓ ' : '✗ Belongs at step ' + (idx + 1) + '. ') + it.why }));
+        }
+        list.appendChild(li);
+      });
+    }
+    function move(pos, d) {
+      var t = seq[pos]; seq[pos] = seq[pos + d]; seq[pos + d] = t;
+      draw(false);
+      var b = list.children[pos + d] && list.children[pos + d].querySelector(d < 0 ? '[aria-label="Move up"]' : '[aria-label="Move down"]');
+      if (b && !b.disabled) b.focus();
+    }
+    draw(false);
+    return {
+      el: h('div', {}, [h('p', { class: 'muted small', text: 'Use the arrows to put these in the right order, first at the top.' }), list]),
+      onReady: function (cb) { readyCb = cb; cb(true); },
+      read: function () {
+        var right = seq.filter(function (idx, pos) { return idx === pos; }).length;
+        var v = right === n ? 'good' : (right >= Math.ceil(n / 2) ? 'partial' : 'bad');
+        return { order: seq.slice(), verdict: v, note: right === n ? '' : 'You placed ' + right + ' of ' + n + ' in the right position.' };
+      },
+      show: function (res) { seq = res.order.slice(); locked = true; draw(true); },
+    };
+  }
+
   function finishCard() {
+    var stmt = problem.statement || {};
+    var sum = stmt.summary || {};
     var done = steps.filter(function (s) { return state.answers[s.id]; });
-    var good = done.filter(function (s) { return state.answers[s.id].verdict === 'good'; }).length;
-    var scored = steps.filter(function (s) { return s.type !== 'reflect'; }).length;
+    var scoredSteps = steps.filter(function (s) { return s.type !== 'reflect'; });
+    var good = scoredSteps.filter(function (s) { return state.answers[s.id] && state.answers[s.id].verdict === 'good'; }).length;
     var card = h('div', { class: 'sd-card sd-finish' });
     card.appendChild(h('h2', { class: 'sd-title', text: 'Design complete 🎉' }));
-    card.appendChild(h('p', { text: 'You built the whole design step by step. You got ' + good + ' of ' + scored + ' scored questions right first time. The diagram below is the system you designed.' }));
+    card.appendChild(h('p', { text: 'You built the whole design step by step. You got ' + good + ' of ' + scoredSteps.length + ' scored questions right first time (' + done.length + ' of ' + steps.length + ' steps finished). The diagram below is the system you designed.' }));
+
+    // Score per phase, so the learner can see which part of the interview to practise next.
+    var phases = [], byPhase = {};
+    scoredSteps.forEach(function (s) {
+      if (!byPhase[s.phase]) { byPhase[s.phase] = { total: 0, good: 0 }; phases.push(s.phase); }
+      byPhase[s.phase].total++;
+      if (state.answers[s.id] && state.answers[s.id].verdict === 'good') byPhase[s.phase].good++;
+    });
+    if (phases.length) {
+      card.appendChild(h('h3', { text: 'Scorecard by phase' }));
+      var sc = h('ul', { class: 'sd-score' });
+      phases.forEach(function (ph) {
+        var r = byPhase[ph], pct = Math.round(100 * r.good / r.total);
+        sc.appendChild(h('li', {}, [
+          h('span', { class: 'sd-score-name', text: ph }),
+          h('span', { class: 'sd-score-bar', 'aria-hidden': 'true' }, [h('span', { style: 'width:' + pct + '%' })]),
+          h('span', { class: 'sd-score-num', text: r.good + '/' + r.total }),
+        ]));
+      });
+      card.appendChild(sc);
+    }
+
+    if (sum.takeaways && sum.takeaways.length) {
+      card.appendChild(h('h3', { text: 'Say this in the interview' }));
+      card.appendChild(h('ul', { class: 'sd-takeaways' }, sum.takeaways.map(function (t) { return h('li', { html: mini(t).replace(/^<p>|<\/p>$/g, '') }); })));
+    }
+    if (sum.tradeoffs && sum.tradeoffs.length) {
+      card.appendChild(h('h3', { text: 'Trade-offs you made' }));
+      var tb = h('table', { class: 'sd-tradeoffs' }, [h('thead', {}, [h('tr', {}, [h('th', { text: 'Choice' }), h('th', { text: 'What you gain' }), h('th', { text: 'What it costs' })])])]);
+      var body = h('tbody');
+      sum.tradeoffs.forEach(function (t) {
+        body.appendChild(h('tr', {}, [h('td', { html: mini(t.choice).replace(/^<p>|<\/p>$/g, '') }), h('td', { text: t.gain }), h('td', { text: t.cost })]));
+      });
+      tb.appendChild(body);
+      card.appendChild(h('div', { class: 'sd-table-wrap' }, [tb]));
+    }
+    if (sum.extensions && sum.extensions.length) {
+      card.appendChild(h('h3', { text: 'If you have time left' }));
+      card.appendChild(h('ul', {}, sum.extensions.map(function (t) { return h('li', { html: mini(t).replace(/^<p>|<\/p>$/g, '') }); })));
+    }
+
     card.appendChild(h('h3', { text: 'Next' }));
     card.appendChild(h('ul', {}, [
       h('li', {}, ['Redraw the diagram from memory and explain each box out loud in 5 minutes.']),
       h('li', {}, [h('a', { href: courseBase, text: 'Revisit the System Design course chapters you found hard' }), '.']),
       h('li', {}, [h('a', { href: '/system-design/', text: 'Try another problem' }), '.']),
     ]));
-    card.appendChild(h('button', { type: 'button', class: 'btn ghost', onclick: function () { go(0); } }, ['Review from step 1']));
+    var row = h('div', { class: 'sd-actions' });
+    var copyBtn = h('button', { type: 'button', class: 'btn', onclick: function () { copyNotes(copyBtn); } }, ['Copy my design notes']);
+    row.appendChild(copyBtn);
+    row.appendChild(h('button', { type: 'button', class: 'btn ghost', onclick: function () { go(0); } }, ['Review from step 1']));
+    card.appendChild(row);
     return card;
+  }
+
+  // The "locked in" decisions as plain text, ready to paste into a notebook.
+  function notesText() {
+    var lines = [problem.title, ''];
+    steps.forEach(function (s) {
+      if (!state.answers[s.id] || !s.adds || !s.adds.notes) return;
+      s.adds.notes.forEach(function (t) { lines.push('- ' + t); });
+    });
+    return lines.join('\n');
+  }
+  function copyNotes(btn) {
+    var text = notesText();
+    function ok() { btn.textContent = 'Copied ✓'; setTimeout(function () { btn.textContent = 'Copy my design notes'; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, function () { window.prompt('Copy your notes:', text); });
+    else window.prompt('Copy your notes:', text);
   }
 
   // ---- "locked in so far" notes (left) ----------------------------------
@@ -417,23 +533,32 @@
   }
 
   // ---- architecture diagram (right) ---------------------------------------
-  var NODES = {
-    client:  { x: 10,  y: 100, w: 90,  label: 'Client' },
-    lb:      { x: 135, y: 100, w: 110, label: 'Load balancer' },
-    app:     { x: 280, y: 100, w: 120, label: 'App servers' },
-    idgen:   { x: 280, y: 190, w: 120, label: 'ID ranges (coordinator)' },
-    cache:   { x: 450, y: 40,  w: 150, label: 'Cache' },
-    db:      { x: 450, y: 125, w: 150, label: 'Key-value DB' },
-    replica: { x: 450, y: 195, w: 150, label: 'Replicas (multi-zone)' },
+  // A problem can ship its own diagram in statement.diagram = { viewBox, nodes: {id: {x, y, w, h?, label, kind?}},
+  // edges: [[from, to, label?, 'dashed'?]] }. Without one, the TinyURL layout below is used.
+  var DEFAULT_DIAGRAM = {
+    viewBox: '0 0 620 250',
+    nodes: {
+      client:  { x: 10,  y: 100, w: 90,  label: 'Client', kind: 'client' },
+      lb:      { x: 135, y: 100, w: 110, label: 'Load balancer', kind: 'edge' },
+      app:     { x: 280, y: 100, w: 120, label: 'App servers', kind: 'service' },
+      idgen:   { x: 280, y: 190, w: 120, label: 'ID ranges (coordinator)', kind: 'service' },
+      cache:   { x: 450, y: 40,  w: 150, label: 'Cache', kind: 'cache' },
+      db:      { x: 450, y: 125, w: 150, label: 'Key-value DB', kind: 'data' },
+      replica: { x: 450, y: 195, w: 150, label: 'Replicas (multi-zone)', kind: 'data' },
+    },
+    edges: [['client', 'lb'], ['lb', 'app'], ['app', 'idgen'], ['app', 'cache'], ['app', 'db'], ['db', 'replica'], ['cache', 'db', 'miss', 'dashed']],
   };
-  var EDGES = [['client', 'lb'], ['lb', 'app'], ['app', 'idgen'], ['app', 'cache'], ['app', 'db'], ['db', 'replica']];
+  var KIND_NAMES = { client: 'Client', edge: 'Entry point', service: 'Service', cache: 'Cache', data: 'Data store', queue: 'Queue or stream', external: 'External system' };
+  var DIAGRAM = (problem.statement && problem.statement.diagram) || DEFAULT_DIAGRAM;
+  var NODES = DIAGRAM.nodes, EDGES = DIAGRAM.edges || [];
   var NH = 44;
+  function nh(n) { return n.h || NH; }
 
   function renderDiagram() {
     var shown = {}, labels = {}, order = [];
     steps.forEach(function (s) {
       if (!state.answers[s.id] || !s.adds) return;
-      (s.adds.components || []).forEach(function (c) { if (!shown[c]) { shown[c] = true; order.push(c); } });
+      (s.adds.components || []).forEach(function (c) { if (NODES[c] && !shown[c]) { shown[c] = true; order.push(c); } });
       Object.keys(s.adds.labels || {}).forEach(function (k) { labels[k] = s.adds.labels[k]; });
     });
     els.diagram.innerHTML = '';
@@ -443,7 +568,7 @@
     }
     var NS = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 620 250');
+    svg.setAttribute('viewBox', DIAGRAM.viewBox || '0 0 620 250');
     svg.setAttribute('class', 'sd-svg');
     svg.setAttribute('role', 'img');
     svg.setAttribute('aria-label', 'Architecture so far: ' + order.map(function (c) { return labels[c] || NODES[c].label; }).join(', '));
@@ -459,30 +584,44 @@
 
     function anchor(a, b) {
       var A = NODES[a], B = NODES[b];
-      if (A.x + A.w <= B.x) return [A.x + A.w, A.y + NH / 2, B.x, B.y + NH / 2];
+      if (A.x + A.w <= B.x) return [A.x + A.w, A.y + nh(A) / 2, B.x, B.y + nh(B) / 2];
+      if (B.x + B.w <= A.x) return [A.x, A.y + nh(A) / 2, B.x + B.w, B.y + nh(B) / 2];
       var down = B.y > A.y;
-      return [A.x + A.w / 2, down ? A.y + NH : A.y, B.x + B.w / 2, down ? B.y : B.y + NH];
+      return [A.x + A.w / 2, down ? A.y + nh(A) : A.y, B.x + B.w / 2, down ? B.y : B.y + nh(B)];
     }
     EDGES.forEach(function (e) {
       if (!shown[e[0]] || !shown[e[1]]) return;
       var p = anchor(e[0], e[1]);
-      svg.appendChild(mk('line', { x1: p[0], y1: p[1], x2: p[2], y2: p[3], class: 'sd-edge', 'marker-end': 'url(#sd-arrow)' }));
+      svg.appendChild(mk('line', { x1: p[0], y1: p[1], x2: p[2], y2: p[3], class: 'sd-edge' + (e[3] === 'dashed' ? ' sd-dash' : ''), 'marker-end': 'url(#sd-arrow)' }));
+      if (e[2]) {
+        var t = mk('text', { x: (p[0] + p[2]) / 2, y: (p[1] + p[3]) / 2 - 5, 'text-anchor': 'middle', class: 'sd-edge-label' });
+        t.textContent = e[2];
+        svg.appendChild(t);
+      }
     });
-    if (shown.cache && shown.db) {
-      svg.appendChild(mk('path', { d: 'M' + (NODES.cache.x + NODES.cache.w - 20) + ',' + (NODES.cache.y + NH) + ' L' + (NODES.db.x + NODES.db.w - 20) + ',' + NODES.db.y, class: 'sd-edge sd-dash', 'marker-end': 'url(#sd-arrow)' }));
-      var t = mk('text', { x: NODES.db.x + NODES.db.w - 14, y: 112, class: 'sd-edge-label' }); t.textContent = 'miss';
-      svg.appendChild(t);
-    }
     var latest = steps.filter(function (s) { return state.answers[s.id] && s.adds && (s.adds.components || []).length; }).pop();
     var fresh = latest ? latest.adds.components : [];
+    var kinds = {};
     order.forEach(function (c) {
-      var n = NODES[c], g = mk('g', { class: 'sd-node' + (fresh.indexOf(c) !== -1 ? ' new' : '') });
-      g.appendChild(mk('rect', { x: n.x, y: n.y, width: n.w, height: NH, rx: 10 }));
-      var tx = mk('text', { x: n.x + n.w / 2, y: n.y + NH / 2, 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
-      tx.textContent = labels[c] || n.label;
+      var n = NODES[c], kind = n.kind || 'service';
+      kinds[kind] = true;
+      var g = mk('g', { class: 'sd-node k-' + kind + (fresh.indexOf(c) !== -1 ? ' new' : '') });
+      g.appendChild(mk('rect', { x: n.x, y: n.y, width: n.w, height: nh(n), rx: 10 }));
+      var label = labels[c] || n.label, lines = String(label).split('\n');
+      var tx = mk('text', { x: n.x + n.w / 2, y: n.y + nh(n) / 2 - (lines.length - 1) * 8, 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
+      lines.forEach(function (ln, i) {
+        var ts = mk('tspan', { x: n.x + n.w / 2, dy: i ? 16 : 0 });
+        ts.textContent = ln;
+        tx.appendChild(ts);
+      });
       g.appendChild(tx); svg.appendChild(g);
     });
     els.diagram.appendChild(svg);
+    var legend = h('ul', { class: 'sd-legend', 'aria-label': 'Colour key' });
+    Object.keys(KIND_NAMES).forEach(function (k) {
+      if (kinds[k]) legend.appendChild(h('li', {}, [h('i', { class: 'sw k-' + k }), KIND_NAMES[k]]));
+    });
+    els.diagram.appendChild(legend);
   }
 
   els.reset.addEventListener('click', function () {

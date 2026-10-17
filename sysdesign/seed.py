@@ -16,7 +16,7 @@ def load_problems(data_dir=DATA_DIR):
         data = json.loads(path.read_text(encoding="utf-8"))
         slug = data.get("slug") or path.stem
         content = {k: data[k] for k in CONTENT_FIELDS if k in data}
-        obj, was_created = Problem.objects.get_or_create(slug=slug, defaults={**content, "position": position, "is_pro": bool(data.get("is_pro", False))})
+        obj, was_created = Problem.objects.get_or_create(slug=slug, defaults={**content, "position": data.get("position", position), "is_pro": bool(data.get("is_pro", False))})
         if was_created:
             created += 1
         elif any(getattr(obj, k) != v for k, v in content.items()):

@@ -10,6 +10,7 @@
   <a href="{% url 'sysdesign_index' %}">&larr; All problems</a>
   <h1>{{ problem.title }}</h1>
   <span class="sd-badge">{{ problem.difficulty }}</span>
+  {% if s.category %}<span class="sd-cat">{{ s.category }}</span>{% endif %}
 </div>
 <div class="sd-split" id="sd-app" data-slug="{{ problem.slug }}" data-course="{% url 'course_docs' problem.course_slug %}"{% if user.is_authenticated %} data-progress-url="{% url 'sysdesign_progress' problem.slug %}" data-save-url="{% url 'sysdesign_progress_save' problem.slug %}"{% endif %}>
   <aside class="sd-left card" aria-label="Problem statement">
@@ -38,6 +39,25 @@
 
     <h3>What makes an answer great</h3>
     <ul>{% for g in s.great %}<li>{{ g|mini }}</li>{% endfor %}</ul>
+
+    {% if s.concepts %}
+    <h3>Key concepts</h3>
+    <div class="sd-concepts">
+      {% for c in s.concepts %}<details><summary>{{ c.term }}</summary><p>{{ c.def|mini }}</p></details>{% endfor %}
+    </div>
+    {% endif %}
+
+    {% if s.numbers %}
+    <h3>Numbers worth remembering</h3>
+    <ul>{% for n in s.numbers %}<li>{{ n|mini }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    {% if s.resources %}
+    <h3>Go deeper</h3>
+    <ul class="sd-res">
+      {% for r in s.resources %}<li><span class="sd-kind">{{ r.kind }}</span><a href="{{ r.url }}" target="_blank" rel="noopener noreferrer">{{ r.title }}</a></li>{% endfor %}
+    </ul>
+    {% endif %}
 
     <h3>Locked in so far</h3>
     <p class="muted small" id="sd-notes-empty">Decisions you confirm will collect here as you go.</p>

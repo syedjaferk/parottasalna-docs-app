@@ -1,0 +1,741 @@
+{
+  "slug": "authentication",
+  "title": "Design an Authentication System",
+  "tagline": "Sign people in safely, keep them signed in, and let every service trust who they are.",
+  "difficulty": "Intermediate",
+  "minutes": 45,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Security",
+    "prompt": "Design an **authentication system** for a large web and mobile product: sign up, log in, stay logged in, reset a password and let other services verify the caller.",
+    "context": [
+      "You are in a 45-minute interview. Security details matter as much as boxes and arrows.",
+      "The system serves a consumer product with tens of millions of users.",
+      "Other internal services must trust identities without calling you every time."
+    ],
+    "given": [
+      "About **10 million** users, logging in about **twice a day**.",
+      "80% of logins happen in a **2-hour** morning window.",
+      "Password verification takes about **100 ms** of CPU by design.",
+      "Mobile and web clients both use it."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are safe password storage, session and token design, and defending against common attacks without hurting availability."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Signup, login, logout, password reset",
+      "Passwords, tokens and sessions",
+      "MFA and social login at a high level",
+      "Attack defences and scaling"
+    ],
+    "scope_out": [
+      "Fine-grained authorization rules",
+      "Building a UI",
+      "Enterprise single sign-on (SAML) details"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Stores passwords with a **slow salted hash** and says why.",
+      "Uses **short access tokens plus revocable refresh tokens**.",
+      "Verifies tokens **locally at the gateway**.",
+      "Names attacks **and** their defences."
+    ],
+    "concepts": [
+      {
+        "term": "Salt",
+        "def": "Random data added to a password before hashing, so equal passwords hash differently."
+      },
+      {
+        "term": "JWT",
+        "def": "A signed token that carries claims such as user id and expiry; anyone with the public key can verify it."
+      },
+      {
+        "term": "Refresh token",
+        "def": "A long-lived credential used only to get new access tokens; stored server-side so it can be revoked."
+      },
+      {
+        "term": "MFA",
+        "def": "Requiring a second proof, such as a code from an app, in addition to a password."
+      },
+      {
+        "term": "PKCE",
+        "def": "An extension to the OAuth code flow that stops a stolen authorization code from being used."
+      },
+      {
+        "term": "Credential stuffing",
+        "def": "Trying username/password pairs leaked elsewhere, hoping people reused them."
+      }
+    ],
+    "numbers": [
+      "10M users x 2 logins = 20M/day; peak window gives about **2,200 logins/s**",
+      "Password hash target about **100 ms**, so peak needs hundreds of cores",
+      "Access tokens: **about 15 minutes**; refresh tokens: days to weeks, rotated"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Store only **Argon2/bcrypt salted hashes**; never log or email passwords.",
+        "Use a **15-minute access token + rotating, revocable refresh token**.",
+        "Verify tokens **at the gateway without calling auth**; an auth outage then only affects new logins.",
+        "Defend with **rate limits, MFA, HttpOnly cookies and identical error messages**."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Short access tokens",
+          "gain": "Limits damage when stolen",
+          "cost": "More refresh traffic"
+        },
+        {
+          "choice": "Stateless verification",
+          "gain": "Scales trivially",
+          "cost": "Revocation is delayed"
+        },
+        {
+          "choice": "MFA",
+          "gain": "Blocks stolen passwords",
+          "cost": "More friction"
+        }
+      ],
+      "extensions": [
+        "Passkeys (WebAuthn)",
+        "Risk-based step-up authentication",
+        "Device and session management screen"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 680 290",
+      "nodes": {
+        "user": {
+          "x": 10,
+          "y": 110,
+          "w": 90,
+          "label": "User\nbrowser/app",
+          "kind": "client",
+          "h": 48
+        },
+        "gateway": {
+          "x": 150,
+          "y": 110,
+          "w": 130,
+          "label": "API gateway\nverifies token",
+          "kind": "edge",
+          "h": 48
+        },
+        "auth": {
+          "x": 150,
+          "y": 10,
+          "w": 130,
+          "label": "Auth service",
+          "kind": "service"
+        },
+        "users": {
+          "x": 340,
+          "y": 10,
+          "w": 150,
+          "label": "User DB\nsalted hashes",
+          "kind": "data",
+          "h": 48
+        },
+        "sessions": {
+          "x": 340,
+          "y": 110,
+          "w": 150,
+          "label": "Session / refresh\ntoken store",
+          "kind": "cache",
+          "h": 48
+        },
+        "mfa": {
+          "x": 10,
+          "y": 10,
+          "w": 130,
+          "label": "MFA / email\nprovider",
+          "kind": "external",
+          "h": 48
+        },
+        "limiter": {
+          "x": 10,
+          "y": 210,
+          "w": 130,
+          "label": "Rate limiter",
+          "kind": "queue"
+        },
+        "services": {
+          "x": 340,
+          "y": 210,
+          "w": 150,
+          "label": "Resource services",
+          "kind": "service"
+        },
+        "audit": {
+          "x": 530,
+          "y": 110,
+          "w": 130,
+          "label": "Audit log",
+          "kind": "queue"
+        }
+      },
+      "edges": [
+        [
+          "user",
+          "auth",
+          "1 login"
+        ],
+        [
+          "auth",
+          "users"
+        ],
+        [
+          "auth",
+          "sessions",
+          "issue tokens"
+        ],
+        [
+          "auth",
+          "mfa",
+          "2nd factor",
+          "dashed"
+        ],
+        [
+          "user",
+          "gateway",
+          "2 token"
+        ],
+        [
+          "gateway",
+          "services",
+          "verified"
+        ],
+        [
+          "limiter",
+          "auth",
+          "protects",
+          "dashed"
+        ],
+        [
+          "sessions",
+          "audit",
+          "events",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What must the system do?",
+      "type": "multi",
+      "prompt": "Pick the **core** features of an authentication system.",
+      "hint": "Which part says who you are, not what you can do?",
+      "explain": "Authentication answers **who are you?** Authorization answers **what may you do?** Keep them apart in the interview.",
+      "adds": {
+        "notes": [
+          "Core: sign up, log in/out, reset password, MFA, token verification for other services"
+        ],
+        "components": [
+          "user"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "options": [
+        {
+          "text": "Multi-factor authentication (MFA)",
+          "correct": true,
+          "why": "Passwords alone are not enough for serious products."
+        },
+        {
+          "text": "Password reset by email",
+          "correct": true,
+          "why": "People forget passwords constantly."
+        },
+        {
+          "text": "Sign up and log in with email and password",
+          "correct": true,
+          "why": "The basic flow."
+        },
+        {
+          "text": "Let other services verify who the caller is",
+          "correct": true,
+          "why": "Authentication is useless if nothing trusts it."
+        },
+        {
+          "text": "Define what each user is allowed to do on every resource (full authorization)",
+          "correct": false,
+          "why": "Related but separate. Mention it, then park it."
+        },
+        {
+          "text": "Keep the user logged in and log out",
+          "correct": true,
+          "why": "Sessions or tokens."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "Qualities",
+      "type": "multi",
+      "prompt": "Which non-functional requirements dominate?",
+      "hint": "What is the cost of a mistake?",
+      "explain": "**Security > availability > latency.** Note the asymmetry: login is *rare and heavy*, token verification is *constant and light*.",
+      "adds": {
+        "notes": [
+          "Qualities: security first, highly available, fast token verification, handles login spikes"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "options": [
+        {
+          "text": "High availability: if login is down, the whole product is down",
+          "correct": true,
+          "why": "Every user action depends on it."
+        },
+        {
+          "text": "Low latency on token checks (the hot path)",
+          "correct": true,
+          "why": "Every API call pays for it."
+        },
+        {
+          "text": "Eventual consistency of passwords across regions after a change",
+          "correct": false,
+          "why": "A changed or stolen password must take effect immediately."
+        },
+        {
+          "text": "Security first: protect credentials and sessions",
+          "correct": true,
+          "why": "One breach is catastrophic."
+        },
+        {
+          "text": "Scales for login spikes (9 am)",
+          "correct": true,
+          "why": "Bursty traffic."
+        }
+      ]
+    },
+    {
+      "id": "rps",
+      "phase": "Estimate scale",
+      "title": "Login load",
+      "type": "estimate",
+      "prompt": "**10 million** users log in on average **twice a day**, mostly in a **2-hour** morning window (80% of logins). What is the peak **logins per second**?",
+      "hint": "Concentrate 80% of the day's logins into the busy window.",
+      "explain": "About **2,200 logins per second at peak**. At 100 ms of CPU each that is **220 CPU cores busy** just hashing. This is why login capacity is planned separately from token checks, which are tens of thousands per second but nearly free.",
+      "adds": {
+        "notes": [
+          "Load: ~2,200 logins/s at peak; ~100 ms CPU per password check"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "logins / second",
+      "answer": 2200,
+      "factor": 2,
+      "work": [
+        "10,000,000 x 2 = 20,000,000 logins a day",
+        "80% in 2 hours = 16,000,000 / 7,200 s = about **2,200 per second**",
+        "Password hashing is deliberately slow (about 100 ms CPU each)"
+      ]
+    },
+    {
+      "id": "password",
+      "phase": "API and data model",
+      "title": "Storing passwords",
+      "type": "choice",
+      "prompt": "How should passwords be stored?",
+      "hint": "Make an attacker's job slow even with your database.",
+      "explain": "**Never store or log passwords.** Store `argon2(salt, password)` and the parameters. Re-hash when you raise the cost.",
+      "adds": {
+        "notes": [
+          "Passwords: Argon2/bcrypt with unique salt per user; never log or store plain text"
+        ],
+        "components": [
+          "auth",
+          "users"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "pitfall": "Fast hashes like MD5 or SHA-256 for passwords.",
+      "followup": "Why does a unique salt matter if the hash is already slow?",
+      "options": [
+        {
+          "text": "A fast hash such as SHA-256 without a salt",
+          "correct": false,
+          "why": "Fast to brute-force, identical passwords look identical."
+        },
+        {
+          "text": "Only a **slow, salted hash** (Argon2, bcrypt or scrypt) with a unique salt per user",
+          "correct": true,
+          "why": "Slow makes guessing expensive; salts defeat precomputed tables."
+        },
+        {
+          "text": "Plain text in an encrypted disk",
+          "correct": false,
+          "why": "Disk encryption does not protect against an application-level breach."
+        },
+        {
+          "text": "Encrypted with a key so support can read them back",
+          "correct": false,
+          "why": "Anyone with the key (or a breach) gets every password."
+        }
+      ]
+    },
+    {
+      "id": "tokens",
+      "phase": "API and data model",
+      "title": "Sessions or tokens?",
+      "type": "choice",
+      "prompt": "Pick a way to stay logged in that scales across many services and still allows logging out.",
+      "hint": "What is cheap to check and what is easy to revoke?",
+      "explain": "**Access token = fast but short; refresh token = slow path but revocable.** Rotate refresh tokens and treat reuse as a theft signal.",
+      "adds": {
+        "notes": [
+          "Tokens: 15-min signed access token + revocable rotating refresh token"
+        ],
+        "components": [
+          "sessions"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "followup": "A refresh token is stolen. How do you notice and respond?",
+      "options": [
+        {
+          "text": "Store the password in a cookie and re-check each time",
+          "correct": false,
+          "why": "Terrible."
+        },
+        {
+          "text": "A single JWT valid for 30 days",
+          "correct": false,
+          "why": "Cannot be revoked if stolen."
+        },
+        {
+          "text": "A session id checked in the database on every request",
+          "correct": false,
+          "why": "Works, but makes the database a bottleneck for every API call."
+        },
+        {
+          "text": "A short-lived signed access token (about 15 min) plus a long-lived refresh token stored (hashed) server-side and revocable",
+          "correct": true,
+          "why": "Fast stateless checks plus a way to revoke."
+        }
+      ]
+    },
+    {
+      "id": "login",
+      "phase": "High-level design",
+      "title": "The login flow",
+      "type": "order",
+      "prompt": "Order the steps of a secure login with MFA.",
+      "hint": "Stop abuse early, spend CPU later.",
+      "explain": "Order matters: **limit, verify, challenge, issue, record.** Also give the same error for unknown users and wrong passwords.",
+      "adds": {
+        "notes": [
+          "Login: HTTPS -> rate limit -> verify hash -> MFA -> issue tokens + audit log"
+        ],
+        "components": [
+          "limiter",
+          "mfa",
+          "audit"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "items": [
+        {
+          "text": "The client sends credentials over HTTPS to the auth service",
+          "why": "Never over plain HTTP."
+        },
+        {
+          "text": "The rate limiter checks attempts for this account and IP",
+          "why": "Cheapest check first; stops brute force."
+        },
+        {
+          "text": "The service looks up the user and verifies the salted hash",
+          "why": "The expensive step."
+        },
+        {
+          "text": "MFA: the user enters a one-time code",
+          "why": "Second factor after the password passes."
+        },
+        {
+          "text": "Tokens are issued, the session is recorded, an audit event is written",
+          "why": "Everything needed to review or revoke later."
+        }
+      ]
+    },
+    {
+      "id": "gateway",
+      "phase": "High-level design",
+      "title": "Checking tokens on every request",
+      "type": "choice",
+      "prompt": "Thousands of API calls arrive per second. Where and how are tokens verified?",
+      "hint": "Can verification avoid a network round trip?",
+      "explain": "**Stateless verification** is why JWT-style tokens scale. Keep a small, cached **revocation list** for emergency cases.",
+      "adds": {
+        "notes": [
+          "Verification: gateway checks token signature/expiry locally; small cached revocation list"
+        ],
+        "components": [
+          "gateway",
+          "services"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "options": [
+        {
+          "text": "Each request calls the auth service to validate",
+          "correct": false,
+          "why": "Auth becomes the bottleneck and a single point of failure."
+        },
+        {
+          "text": "Verify only on login",
+          "correct": false,
+          "why": "Stolen or expired tokens would work forever."
+        },
+        {
+          "text": "At the API gateway, verifying the signature and expiry locally with a public key",
+          "correct": true,
+          "why": "No network call; services can trust the gateway's verdict."
+        },
+        {
+          "text": "Do not verify, trust the user id sent by the client",
+          "correct": false,
+          "why": "Anyone could claim to be anyone."
+        }
+      ]
+    },
+    {
+      "id": "threats",
+      "phase": "Deep dive",
+      "title": "Attacks to defend against",
+      "type": "multi",
+      "prompt": "Which attacks and defences match?",
+      "hint": "Guessing, stealing, tricking, probing.",
+      "explain": "Name threats **with their defence**. A list of attacks with no fixes sounds like you only read the headlines.",
+      "adds": {
+        "notes": [
+          "Threats handled: credential stuffing, XSS (HttpOnly cookies), enumeration, phishing (MFA/passkeys)"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "options": [
+        {
+          "text": "Credential stuffing (leaked passwords reused): rate limits, breached-password checks, MFA",
+          "correct": true,
+          "why": "Most common real-world attack."
+        },
+        {
+          "text": "Phishing: MFA, preferably WebAuthn passkeys",
+          "correct": true,
+          "why": "A phished password alone is useless."
+        },
+        {
+          "text": "Unlimited login attempts are fine because passwords are hashed",
+          "correct": false,
+          "why": "Hashing does not stop online guessing."
+        },
+        {
+          "text": "XSS stealing tokens: HttpOnly, Secure, SameSite cookies and a strict content security policy",
+          "correct": true,
+          "why": "Keep tokens away from JavaScript."
+        },
+        {
+          "text": "Account enumeration: return the same message for unknown user and wrong password",
+          "correct": true,
+          "why": "Do not reveal which emails exist."
+        }
+      ]
+    },
+    {
+      "id": "oauth",
+      "phase": "Deep dive",
+      "title": "Log in with Google",
+      "type": "choice",
+      "prompt": "The product adds a 'Log in with Google' button. Which flow?",
+      "hint": "Who should see the password?",
+      "explain": "**OIDC authorization code + PKCE.** Verify the ID token's signature, issuer, audience and expiry; map the Google subject id to your user.",
+      "adds": {
+        "notes": [
+          "Social login: OIDC authorization code flow with PKCE; link provider subject id to the user"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "options": [
+        {
+          "text": "The implicit flow with tokens in the URL",
+          "correct": false,
+          "why": "Deprecated: tokens leak through browser history and referrers."
+        },
+        {
+          "text": "Trust any email the client sends",
+          "correct": false,
+          "why": "No proof of identity."
+        },
+        {
+          "text": "OAuth 2.0 / OpenID Connect **authorization code flow with PKCE**; your server exchanges the code for tokens",
+          "correct": true,
+          "why": "You never see the Google password, and PKCE protects the code."
+        },
+        {
+          "text": "Ask the user for their Google password and log in on their behalf",
+          "correct": false,
+          "why": "Exactly what OAuth exists to avoid."
+        }
+      ]
+    },
+    {
+      "id": "scale",
+      "phase": "Reliability",
+      "title": "Scale and resilience",
+      "type": "multi",
+      "prompt": "Which choices keep authentication available and fast?",
+      "hint": "What can keep working without the auth service?",
+      "explain": "The key insight: **token verification needs no auth service**, so an auth outage hurts only new logins, not every API call.",
+      "adds": {
+        "notes": [
+          "Scale: stateless auth servers, replicated session store and user DB, autoscale hashing, valid tokens survive an auth outage"
+        ]
+      },
+      "chapter": {
+        "title": "Scaling data",
+        "href": "sessions/06-scaling-data.html"
+      },
+      "options": [
+        {
+          "text": "Stateless auth servers behind a load balancer across zones",
+          "correct": true,
+          "why": "Add servers for login spikes."
+        },
+        {
+          "text": "Separate hashing capacity (autoscale on CPU) from token verification",
+          "correct": true,
+          "why": "They have very different load profiles."
+        },
+        {
+          "text": "Graceful degradation: existing valid tokens keep working if the auth service is briefly down",
+          "correct": true,
+          "why": "Verification is local, so only new logins fail."
+        },
+        {
+          "text": "User database replicated, sharded by user id if needed, with backups",
+          "correct": true,
+          "why": "Durable and scalable."
+        },
+        {
+          "text": "Sessions and rate-limit counters in a replicated Redis",
+          "correct": true,
+          "why": "Shared fast state."
+        },
+        {
+          "text": "Everything on one server for simplicity",
+          "correct": false,
+          "why": "A single point of failure for the whole product."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what trade-off does the access-plus-refresh token design make?",
+      "hint": "Fast vs revocable, safe vs convenient.",
+      "explain": "Always tie the answer back to the **threat you are defending against**.",
+      "adds": {
+        "notes": [
+          "Trade-offs: stateless speed vs delayed revocation; token lifetime; MFA friction"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "Short-lived **access tokens** give fast, stateless verification at the cost of **delayed revocation** (up to the token lifetime). The **refresh token** brings back control: it is stored server-side so I can revoke it, at the cost of a stateful store on the login and refresh path. Shorter lifetimes are safer but cause more refreshes. MFA improves security but adds friction, so I would apply it based on risk.",
+      "points": [
+        "Stateless speed vs delayed revocation",
+        "Refresh token store restores control",
+        "Lifetime trade-off: security vs more refreshes",
+        "Security vs friction (MFA)"
+      ]
+    }
+  ],
+  "position": 8
+}

@@ -1,0 +1,691 @@
+{
+  "slug": "autocomplete",
+  "title": "Design Autocomplete for Search",
+  "tagline": "Show the best five suggestions after every keystroke, in under 100 milliseconds.",
+  "difficulty": "Beginner",
+  "minutes": 40,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Search & data structures",
+    "prompt": "Design the **autocomplete** (type-ahead) feature of a search engine. As a user types, show the most useful completions for what they have typed so far.",
+    "context": [
+      "You are in a 45-minute interview. The interviewer gave you only the sentence above.",
+      "The product is already running a search engine. You are adding the suggestion box.",
+      "Think of typing `how t` and seeing `how to tie a tie`, `how to train your dragon`, `how to lose weight`."
+    ],
+    "given": [
+      "About **10 million** users, each running about **10 searches a day**.",
+      "Each search triggers about **5 suggestion requests** while the user types.",
+      "There are about **100 million distinct queries** worth suggesting, around **30 bytes** each.",
+      "Suggestions must feel instant."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are choosing the data structure, keeping lookups in memory and refreshing popular queries without slowing reads."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Returning ranked suggestions for a prefix",
+      "The data structure and how it is stored",
+      "Refreshing suggestions from search logs",
+      "Caching and scaling the read path"
+    ],
+    "scope_out": [
+      "Spell correction and semantic search",
+      "Personalised suggestions per user",
+      "Building the search results page"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Chooses a **trie with top-k per node** and says why a SQL LIKE query fails.",
+      "Separates a **read-only serving path** from an **offline build path**.",
+      "Uses debounce and caching to cut load before it reaches the servers.",
+      "Says what staleness is acceptable."
+    ],
+    "concepts": [
+      {
+        "term": "Trie",
+        "def": "A tree where each step down adds one character. Every node represents a prefix, so all words under a node share it."
+      },
+      {
+        "term": "Top-k",
+        "def": "The k most popular results, pre-computed and stored at each node so a lookup does no ranking."
+      },
+      {
+        "term": "Debounce",
+        "def": "Wait for a short pause in typing before sending a request, so fast typists send one request instead of five."
+      },
+      {
+        "term": "Eventual consistency",
+        "def": "New data shows up after a delay. Fine for suggestions, wrong for a bank balance."
+      }
+    ],
+    "numbers": [
+      "10M users x 10 searches x 5 keystrokes = **500M requests a day** = about **6,000/s**",
+      "Peak is usually **2 to 3 times** the average",
+      "Round a day to **86,400 seconds** (or about 100,000 for quick maths)"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Serve from an **in-memory trie with top-5 stored per node**, so a lookup costs the length of the prefix.",
+        "Keep the read path read-only; **rebuild the trie offline** from search logs and swap it in.",
+        "Cut load with **debounce, client caches and a prefix cache**; hot short prefixes are cheap to cache.",
+        "Suggestions are optional: **fail quietly** so search always works."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Offline rebuild",
+          "gain": "Simple, fast, safe reads",
+          "cost": "Suggestions lag by minutes or hours"
+        },
+        {
+          "choice": "Top-k in each node",
+          "gain": "Constant-time lookup",
+          "cost": "More memory"
+        },
+        {
+          "choice": "Replicas before shards",
+          "gain": "Easy scaling, no cross-node hops",
+          "cost": "Every replica holds the whole trie"
+        }
+      ],
+      "extensions": [
+        "Add a small real-time layer for trending queries",
+        "Personalise by mixing in the user's own recent searches",
+        "Filter offensive or banned suggestions before publishing"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 640 260",
+      "nodes": {
+        "client": {
+          "x": 10,
+          "y": 40,
+          "w": 90,
+          "label": "Browser",
+          "kind": "client"
+        },
+        "svc": {
+          "x": 150,
+          "y": 40,
+          "w": 120,
+          "label": "Suggestion\nservice",
+          "kind": "service",
+          "h": 48
+        },
+        "pcache": {
+          "x": 320,
+          "y": 40,
+          "w": 130,
+          "label": "Prefix cache",
+          "kind": "cache"
+        },
+        "trie": {
+          "x": 490,
+          "y": 40,
+          "w": 130,
+          "label": "Trie (top-k\nper node)",
+          "kind": "data",
+          "h": 48
+        },
+        "logs": {
+          "x": 10,
+          "y": 170,
+          "w": 100,
+          "label": "Search logs",
+          "kind": "queue"
+        },
+        "agg": {
+          "x": 150,
+          "y": 170,
+          "w": 130,
+          "label": "Aggregator",
+          "kind": "service"
+        },
+        "builder": {
+          "x": 330,
+          "y": 170,
+          "w": 130,
+          "label": "Trie builder",
+          "kind": "service"
+        }
+      },
+      "edges": [
+        [
+          "client",
+          "svc",
+          "prefix"
+        ],
+        [
+          "svc",
+          "pcache"
+        ],
+        [
+          "pcache",
+          "trie",
+          "miss",
+          "dashed"
+        ],
+        [
+          "logs",
+          "agg"
+        ],
+        [
+          "agg",
+          "builder"
+        ],
+        [
+          "builder",
+          "trie",
+          "publish",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What should autocomplete do?",
+      "type": "multi",
+      "prompt": "A user types into a search box. Which behaviours belong in the **core** scope? Select all that apply.",
+      "hint": "What is the smallest feature that still feels like autocomplete?",
+      "explain": "Core: **prefix match**, **top 5**, **ranked by popularity**, **reasonably fresh**. Spell correction and personalisation are extensions you name but do not build.",
+      "adds": {
+        "notes": [
+          "Core: top 5 suggestions for a typed prefix, ranked by popularity",
+          "Out of scope: typo correction, personalisation"
+        ],
+        "components": [
+          "client"
+        ]
+      },
+      "chapter": {
+        "title": "Design autocomplete",
+        "href": "sessions/11-design-autocomplete.html"
+      },
+      "options": [
+        {
+          "text": "Match the prefix only, from the start of the query",
+          "correct": true,
+          "why": "Prefix matching keeps the problem tractable. Mid-word matching is an extension."
+        },
+        {
+          "text": "Suggestions update as search trends change",
+          "correct": true,
+          "why": "A stale list feels broken, so freshness matters, though not instantly."
+        },
+        {
+          "text": "Return the top 5 completions for the typed prefix",
+          "correct": true,
+          "why": "The heart of the feature."
+        },
+        {
+          "text": "Fix typos and understand meaning (spell correction, semantic search)",
+          "correct": false,
+          "why": "A separate, large problem. Mention it as a future extension."
+        },
+        {
+          "text": "A personal history for every user",
+          "correct": false,
+          "why": "Personalisation multiplies storage and is rarely core. Park it."
+        },
+        {
+          "text": "Rank suggestions by how often people search for them",
+          "correct": true,
+          "why": "Popularity is the simplest useful ranking."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "What qualities matter most?",
+      "type": "multi",
+      "prompt": "Pick the **non-functional** requirements that drive this design.",
+      "hint": "What does the user feel while typing?",
+      "explain": "**Speed** and **availability** over freshness. Say it out loud: *\"stale by hours is fine, slow by 100 ms is not.\"*",
+      "adds": {
+        "notes": [
+          "Latency under 100 ms; highly available; eventually consistent (hours old is fine)"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "options": [
+        {
+          "text": "High availability: search must work even if suggestions fail",
+          "correct": true,
+          "why": "Autocomplete is a helper. Failing quietly is better than breaking search."
+        },
+        {
+          "text": "Suggestions may be a few hours old (eventual consistency)",
+          "correct": true,
+          "why": "Nobody needs the last minute's searches in the list. This relaxation makes the design far easier."
+        },
+        {
+          "text": "Perfect accuracy of every suggestion",
+          "correct": false,
+          "why": "Approximate popularity is fine."
+        },
+        {
+          "text": "Very low latency: suggestions in under 100 ms",
+          "correct": true,
+          "why": "Suggestions that arrive after the user finishes typing are useless."
+        },
+        {
+          "text": "Strong consistency: every new search appears in suggestions instantly",
+          "correct": false,
+          "why": "Costly and pointless here."
+        }
+      ]
+    },
+    {
+      "id": "qps",
+      "phase": "Estimate scale",
+      "title": "How many suggestion requests per second?",
+      "type": "estimate",
+      "prompt": "There are **10 million** users. Each does about **10 searches a day** and every search fires about **5 suggestion requests** (one per keystroke after a short pause). What is the average **requests per second**?",
+      "hint": "Requests per day divided by about 86,000.",
+      "explain": "About **6,000 per second, 15,000 at peak**. Far too much to run a database query per keystroke, so lookups must come from **memory**, and most from a **cache**.",
+      "adds": {
+        "notes": [
+          "Load: about 6,000 requests/s average, about 15,000/s peak"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "requests / second",
+      "answer": 5800,
+      "factor": 2,
+      "work": [
+        "10,000,000 users x 10 searches = 100,000,000 searches a day",
+        "100,000,000 x 5 = 500,000,000 requests a day",
+        "500,000,000 / 86,400 seconds = about **5,800 per second**",
+        "Peak is 2 to 3 times: plan for about **15,000 per second**"
+      ]
+    },
+    {
+      "id": "size",
+      "phase": "Estimate scale",
+      "title": "How much data is the dictionary?",
+      "type": "estimate",
+      "prompt": "You keep **100 million distinct queries**, about **30 bytes** each. How many **GB** is the raw text?",
+      "hint": "Millions times bytes: 100M x 30 B.",
+      "explain": "Raw text is only **3 GB**; the trie with its top-k lists is a few tens of GB. That fits in the memory of **one large machine**, so the problem is serving *speed*, not data size. We replicate for traffic, not for capacity.",
+      "adds": {
+        "notes": [
+          "Data: about 3 GB of query text, 15-30 GB as an in-memory trie"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "GB",
+      "answer": 3,
+      "factor": 2,
+      "work": [
+        "100,000,000 x 30 bytes = 3,000,000,000 bytes",
+        "That is **3 GB**",
+        "A trie shares common prefixes and stores top-5 lists per node, so budget about 5 to 10 times more: **15 to 30 GB**"
+      ]
+    },
+    {
+      "id": "structure",
+      "phase": "API and data model",
+      "title": "How do we store the suggestions?",
+      "type": "choice",
+      "prompt": "A user types `ho`. Which structure returns the best 5 completions quickest?",
+      "hint": "Move the work from query time to build time.",
+      "explain": "Store **top-k inside each node**. Lookup time depends only on the prefix length, which is tiny. You trade extra memory for constant-time answers.",
+      "adds": {
+        "notes": [
+          "Structure: trie, each node stores its top 5 suggestions"
+        ]
+      },
+      "chapter": {
+        "title": "Design autocomplete",
+        "href": "sessions/11-design-autocomplete.html"
+      },
+      "pitfall": "Querying the database with LIKE on every keystroke.",
+      "followup": "How much memory does storing top-5 at every node cost, and how can you reduce it?",
+      "options": [
+        {
+          "text": "A trie where every node stores the pre-computed top 5 for its prefix",
+          "correct": true,
+          "why": "Walking `h` then `o` takes 2 steps and the answer is already sitting in the node."
+        },
+        {
+          "text": "A SQL table queried with `WHERE query LIKE 'ho%' ORDER BY count DESC LIMIT 5`",
+          "correct": false,
+          "why": "Scans and sorts many rows per keystroke. At 15,000 requests per second it collapses."
+        },
+        {
+          "text": "A trie without top-k, collecting and sorting the whole subtree at query time",
+          "correct": false,
+          "why": "Short prefixes like `a` have millions of descendants. Far too slow."
+        },
+        {
+          "text": "A sorted list of all queries and a binary search",
+          "correct": false,
+          "why": "Finds the start of the range but still has to rank everything in it."
+        }
+      ]
+    },
+    {
+      "id": "client",
+      "phase": "API and data model",
+      "title": "What should the browser do?",
+      "type": "multi",
+      "prompt": "The API is `GET /suggest?q=ho`. Which client behaviours keep the load down and the UI snappy?",
+      "hint": "Make the user's browser do some of the work.",
+      "explain": "Client-side tricks are free scaling: **debounce, cancel stale requests, cache locally**. Mention them early, interviewers like it.",
+      "adds": {
+        "notes": [
+          "API: GET /suggest?q=prefix -> 5 strings. Client debounces, cancels stale calls, caches"
+        ]
+      },
+      "chapter": {
+        "title": "APIs and data models",
+        "href": "sessions/03-api-and-data-model.html"
+      },
+      "options": [
+        {
+          "text": "**Debounce**: wait about 100-200 ms after the last keystroke before sending",
+          "correct": true,
+          "why": "Cuts requests a lot, because people type several characters quickly."
+        },
+        {
+          "text": "Download the whole dictionary to the browser",
+          "correct": false,
+          "why": "Gigabytes. Not an option."
+        },
+        {
+          "text": "Cache answers for prefixes already seen in this session",
+          "correct": true,
+          "why": "Backspacing re-uses answers for free."
+        },
+        {
+          "text": "Cancel the previous request when a new character arrives",
+          "correct": true,
+          "why": "A slow old answer must not overwrite a fresh one."
+        },
+        {
+          "text": "Send a request on every single keystroke with no delay",
+          "correct": false,
+          "why": "Triples the load for no gain."
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "phase": "High-level design",
+      "title": "Trace one request",
+      "type": "order",
+      "prompt": "The user has typed `ho`. Put the steps of the **read path** in order, first at the top.",
+      "hint": "Cheapest check first, most expensive last.",
+      "explain": "A **cache in front of an in-memory trie**. Both answer in microseconds, so the network is the slowest part.",
+      "adds": {
+        "notes": [
+          "Read path: browser -> suggestion service -> prefix cache -> trie"
+        ],
+        "components": [
+          "client",
+          "svc",
+          "pcache",
+          "trie"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "items": [
+        {
+          "text": "Browser waits for a short pause, then sends `GET /suggest?q=ho`",
+          "why": "Debounce first so you only send useful requests."
+        },
+        {
+          "text": "Suggestion service looks in the prefix cache",
+          "why": "Short prefixes are extremely hot, so most requests end here."
+        },
+        {
+          "text": "On a miss, the service reads the node for `ho` in the in-memory trie",
+          "why": "A few pointer hops. No disk, no database."
+        },
+        {
+          "text": "The service stores the answer in the prefix cache",
+          "why": "The next person typing `ho` gets a cache hit."
+        },
+        {
+          "text": "The top 5 suggestions are returned to the browser",
+          "why": "Total time: a few milliseconds plus network."
+        }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "phase": "High-level design",
+      "title": "How does the trie stay fresh?",
+      "type": "multi",
+      "prompt": "Searches happen all day. Which pieces form the **write path** (the data pipeline)?",
+      "hint": "Reads must never wait for writes.",
+      "explain": "Keep the **read path read-only** and rebuild **offline**. Servers load the new trie and swap a pointer. If a build fails, the old trie keeps serving.",
+      "adds": {
+        "notes": [
+          "Write path: search logs -> aggregator -> trie builder -> publish new trie (hourly or daily)"
+        ],
+        "components": [
+          "logs",
+          "agg",
+          "builder"
+        ]
+      },
+      "chapter": {
+        "title": "Design autocomplete",
+        "href": "sessions/11-design-autocomplete.html"
+      },
+      "followup": "How would you surface a sudden trending topic within minutes?",
+      "options": [
+        {
+          "text": "Ask the user to refresh the dictionary manually",
+          "correct": false,
+          "why": "Not a system."
+        },
+        {
+          "text": "Update the live trie in place on every search",
+          "correct": false,
+          "why": "A write on every search fights with 15,000 reads per second and needs locking."
+        },
+        {
+          "text": "An aggregator that counts queries per day or week",
+          "correct": true,
+          "why": "Batch counting is cheap and reliable."
+        },
+        {
+          "text": "A builder that creates a new trie from the counts and publishes it",
+          "correct": true,
+          "why": "Build offline, then swap, so reads never see a half-built trie."
+        },
+        {
+          "text": "Log every completed search query",
+          "correct": true,
+          "why": "The raw material for popularity counts."
+        }
+      ]
+    },
+    {
+      "id": "scale",
+      "phase": "Deep dive",
+      "title": "How do we scale beyond one machine?",
+      "type": "choice",
+      "prompt": "Traffic is 15,000 requests per second and the trie is 30 GB. What is the best way to scale?",
+      "hint": "Is it a size problem or a request-rate problem?",
+      "explain": "Scale in the order the numbers say: **replicas first** (traffic), **prefix-range shards** later (memory). If you shard, split by observed traffic because `s` is far busier than `x`.",
+      "adds": {
+        "notes": [
+          "Scale: replicate the trie across servers; shard by prefix range only when memory needs it"
+        ],
+        "labels": {
+          "trie": "Trie replicas"
+        }
+      },
+      "chapter": {
+        "title": "Scaling data",
+        "href": "sessions/06-scaling-data.html"
+      },
+      "pitfall": "Sharding the trie when it fits in memory on one machine.",
+      "followup": "You do shard by first letter. Which shard gets overloaded and what do you do?",
+      "options": [
+        {
+          "text": "Replicate the whole trie on many servers behind a load balancer; add range shards by prefix only if memory becomes a limit",
+          "correct": true,
+          "why": "The trie fits in memory, so the bottleneck is request rate. Replicas fix that simply."
+        },
+        {
+          "text": "Run one huge server and scale it vertically",
+          "correct": false,
+          "why": "A single point of failure and a ceiling."
+        },
+        {
+          "text": "Move the trie into a relational database with an index",
+          "correct": false,
+          "why": "Slower than memory, harder to keep top-k."
+        },
+        {
+          "text": "Shard by hash of the prefix so every prefix lands somewhere random",
+          "correct": false,
+          "why": "Works, but the benefit is memory, which is not our problem, and a suggestion service now needs many hops."
+        }
+      ]
+    },
+    {
+      "id": "reliability",
+      "phase": "Reliability",
+      "title": "What if something fails?",
+      "type": "multi",
+      "prompt": "Which measures keep suggestions working through failures?",
+      "hint": "Which part is allowed to fail without anyone noticing?",
+      "explain": "Autocomplete is **optional for the user**, so degrade quietly. Protect the swap of data with a **validate then switch** step.",
+      "adds": {
+        "notes": [
+          "Failure: multi-zone replicas, fail open (search works without suggestions), validated trie swaps, CDN for hot prefixes"
+        ]
+      },
+      "chapter": {
+        "title": "Queues, rate limiting and resilience",
+        "href": "sessions/09-async-and-resilience.html"
+      },
+      "options": [
+        {
+          "text": "Rate limit the endpoint and add a CDN for the hottest prefixes",
+          "correct": true,
+          "why": "Protects the service and shaves most traffic."
+        },
+        {
+          "text": "Several suggestion servers across zones behind a load balancer",
+          "correct": true,
+          "why": "No single point of failure."
+        },
+        {
+          "text": "Keep the previous trie version and roll back if a new build looks wrong",
+          "correct": true,
+          "why": "Validate size and a sample of queries before swapping."
+        },
+        {
+          "text": "If suggestions fail or time out, the search box still works without them",
+          "correct": true,
+          "why": "Graceful degradation: the helper may fail, the product may not."
+        },
+        {
+          "text": "Block the search page until suggestions load",
+          "correct": false,
+          "why": "Turns a nice-to-have into an outage."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what did you trade away, and what would make you change the design?",
+      "hint": "Think freshness, memory and complexity.",
+      "explain": "Say the trade-off as **\"I chose X over Y because of Z\"**. It shows judgement, which is what the interview scores.",
+      "adds": {
+        "notes": [
+          "Trade-offs: freshness vs latency, memory vs query-time work"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "I traded **freshness** for **speed**: the trie is rebuilt offline, so new trends appear after minutes or hours, but reads are served from memory in milliseconds. I spent **memory** (top-5 stored in each node) to avoid doing any ranking at query time. I would move to a real-time layer if product needed trending topics within minutes, and shard by prefix range if the dictionary outgrew one machine.",
+      "points": [
+        "Named the trade-off: freshness vs latency",
+        "Memory (top-k per node) bought constant-time lookups",
+        "Offline build keeps the read path simple and safe",
+        "Said what would change the design (trending topics, dictionary growth)"
+      ]
+    }
+  ],
+  "position": 1
+}

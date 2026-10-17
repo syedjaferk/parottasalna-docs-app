@@ -9,19 +9,36 @@
   <h1>System design playground</h1>
   <p>Read the problem on the left, then think your way to the solution on the right. Every step asks you to decide first, then shows the correct reasoning before moving on.</p>
 </section>
-<div class="sd-grid">
+{% if categories %}
+<div class="sd-filters" role="group" aria-label="Filter problems by topic" id="sd-filters">
+  <button type="button" class="sd-chip" data-cat="" aria-pressed="true">All ({{ problems|length }})</button>
+  {% for c in categories %}<button type="button" class="sd-chip" data-cat="{{ c }}" aria-pressed="false">{{ c }}</button>{% endfor %}
+</div>
+{% endif %}
+<div class="sd-grid" id="sd-grid" data-signed-in="{{ signed_in|yesno:'1,0' }}">
   {% for p in problems %}
-  <a class="card sd-problem" href="{% url 'sysdesign_problem' p.slug %}">
-    <span class="sd-badge">{{ p.difficulty }}</span>
+  <a class="card sd-problem" href="{% url 'sysdesign_problem' p.slug %}" data-slug="{{ p.slug }}" data-cat="{{ p.category }}" data-steps="{{ p.steps|length }}"{% if p.done is not None %} data-done="{{ p.done }}"{% endif %}>
+    <div class="sd-meta"><span class="sd-badge">{{ p.difficulty }}</span>{% if p.category %}<span class="sd-cat">{{ p.category }}</span>{% endif %}</div>
     <h2>{{ p.title }}</h2>
     <p class="muted">{{ p.tagline }}</p>
-    <p class="muted small">{{ p.steps|length }} steps · about {{ p.minutes }} min</p>
+    <p class="muted small">{{ p.steps|length }} steps · about {{ p.minutes }} min<span class="sd-status"></span></p>
+    <div class="sd-prog" aria-hidden="true"><span></span></div>
   </a>
   {% endfor %}
 </div>
+<section class="card sd-roadmap">
+  <h2>How to use the playground</h2>
+  <ol>
+    <li><strong>Start with the URL shortener.</strong> It teaches the whole routine: requirements, numbers, API, design, deep dive, failures, trade-offs.</li>
+    <li><strong>Learn a building block, then design with it.</strong> Read the chapter on caching, load balancing or queues, then open the problem that uses it.</li>
+    <li><strong>Decide before you read.</strong> Every step asks for your answer first. Use the hint only after you tried.</li>
+    <li><strong>Finish with the scorecard.</strong> It shows which interview phase is weakest, and gives you a few lines to say out loud.</li>
+  </ol>
+</section>
 <section class="card sd-learn">
   <h2>New to system design?</h2>
   <p>Start with the course. It covers the interview framework, estimation, IDs, caching and scaling with diagrams and quizzes. Come back here once a few chapters are done and build a real design.</p>
   <a class="btn" href="{% url 'course_docs' 'system-design' %}">Open the System Design course</a>
 </section>
+<script src="{% static 'js/sysdesign-index.js' %}" defer></script>
 {% endblock %}

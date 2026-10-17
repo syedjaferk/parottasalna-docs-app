@@ -1,0 +1,680 @@
+{
+  "slug": "parking-garage",
+  "title": "Design a Parking Garage",
+  "tagline": "Model vehicles, spots, tickets and fees with clean classes, then handle two cars choosing one spot.",
+  "difficulty": "Beginner",
+  "minutes": 40,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Object-oriented design",
+    "prompt": "Design the software for a **multi-storey parking garage**: drivers park, get a ticket, pay when they leave, and the garage knows what is free.",
+    "context": [
+      "This is an **object-oriented (low-level) design** interview. The focus is classes, responsibilities and patterns, with a little concurrency.",
+      "You will sketch classes and method signatures. Real code is a bonus.",
+      "The garage has several floors and entrances."
+    ],
+    "given": [
+      "Three vehicle types: **motorcycle, car, truck**.",
+      "Spots come in **small, medium and large** sizes, spread over floors.",
+      "Fees depend on how long the vehicle stayed.",
+      "Two entrances can be used at the same time."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are the class design, keeping pricing flexible, and avoiding two cars taking the same spot."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Parking and unparking",
+      "Class design and responsibilities",
+      "Pricing rules",
+      "Concurrency and edge cases"
+    ],
+    "scope_out": [
+      "User interface",
+      "Hardware sensors and barriers",
+      "Payments integration details"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 5
+      },
+      {
+        "phase": "Find the classes",
+        "minutes": 8
+      },
+      {
+        "phase": "Behaviour",
+        "minutes": 15
+      },
+      {
+        "phase": "Edge cases",
+        "minutes": 7
+      },
+      {
+        "phase": "Scale it up",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Derives classes from the **nouns** in the requirements.",
+      "Uses **polymorphism and Strategy** instead of if/else chains.",
+      "Keeps each class's responsibility small.",
+      "Spots the **race condition** on spot assignment."
+    ],
+    "concepts": [
+      {
+        "term": "Single responsibility",
+        "def": "A class should have one reason to change."
+      },
+      {
+        "term": "Strategy pattern",
+        "def": "Put interchangeable algorithms (fee rules) behind one interface and pick one at runtime."
+      },
+      {
+        "term": "Open/closed",
+        "def": "Open for extension, closed for modification: add a new class instead of editing old code."
+      },
+      {
+        "term": "Race condition",
+        "def": "Two actions interleave badly, such as two cars both seeing a spot as free."
+      },
+      {
+        "term": "Atomic operation",
+        "def": "Happens fully or not at all, with nothing else able to slip in between."
+      }
+    ],
+    "numbers": [
+      "Fees: always **round up started hours** unless told otherwise",
+      "Pick the **smallest free spot that fits** to keep big spots available"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Start from the **nouns**: ParkingLot, Floor, Spot, Vehicle, Ticket, PricingPolicy.",
+        "Use **polymorphism** for vehicle types and the **Strategy pattern** for fees.",
+        "Make spot assignment **atomic** to prevent two cars taking one spot.",
+        "Name edge cases: lost ticket, garage full, payment failure."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Strategy pattern",
+          "gain": "Fee rules change freely",
+          "cost": "More classes"
+        },
+        {
+          "choice": "Smallest-fit spot search",
+          "gain": "Big spots stay free",
+          "cost": "Slightly slower search"
+        },
+        {
+          "choice": "Narrow locks",
+          "gain": "Entrances do not block each other",
+          "cost": "Retry on conflict"
+        }
+      ],
+      "extensions": [
+        "Reservations and EV charging spots",
+        "Dynamic pricing at busy hours",
+        "Multi-garage backend with a mobile app"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 680 270",
+      "nodes": {
+        "lot": {
+          "x": 10,
+          "y": 20,
+          "w": 150,
+          "label": "ParkingLot\npark / unpark",
+          "kind": "service",
+          "h": 48
+        },
+        "floor": {
+          "x": 220,
+          "y": 20,
+          "w": 130,
+          "label": "Floor",
+          "kind": "service"
+        },
+        "spot": {
+          "x": 410,
+          "y": 20,
+          "w": 130,
+          "label": "Spot\nsize, free?",
+          "kind": "cache",
+          "h": 48
+        },
+        "vehicle": {
+          "x": 570,
+          "y": 20,
+          "w": 100,
+          "label": "Vehicle",
+          "kind": "client"
+        },
+        "ticket": {
+          "x": 10,
+          "y": 130,
+          "w": 150,
+          "label": "Ticket\nvehicle, spot, in",
+          "kind": "data",
+          "h": 48
+        },
+        "pricing": {
+          "x": 220,
+          "y": 130,
+          "w": 170,
+          "label": "PricingPolicy\nHourly / Flat",
+          "kind": "edge",
+          "h": 48
+        },
+        "payment": {
+          "x": 450,
+          "y": 130,
+          "w": 130,
+          "label": "Payment",
+          "kind": "external"
+        },
+        "display": {
+          "x": 10,
+          "y": 215,
+          "w": 170,
+          "label": "Display board\nfree spots / floor",
+          "kind": "queue",
+          "h": 44
+        }
+      },
+      "edges": [
+        [
+          "lot",
+          "floor",
+          "has"
+        ],
+        [
+          "floor",
+          "spot",
+          "many"
+        ],
+        [
+          "vehicle",
+          "spot",
+          "fits"
+        ],
+        [
+          "lot",
+          "ticket",
+          "issues"
+        ],
+        [
+          "ticket",
+          "pricing",
+          "fee"
+        ],
+        [
+          "pricing",
+          "payment"
+        ],
+        [
+          "floor",
+          "display",
+          "counts",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What should the garage do?",
+      "type": "multi",
+      "prompt": "Clarify scope. Which features are in the **core** design?",
+      "hint": "What does a driver do from arriving to leaving?",
+      "explain": "Core: **park, unpark, vehicle types, pricing, availability display**. Say you will leave reservations for later.",
+      "adds": {
+        "notes": [
+          "Core: park, unpark, vehicle types and spot sizes, pricing, free-spot display"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "options": [
+        {
+          "text": "Show whether the garage is full, with free-spot counts",
+          "correct": true,
+          "why": "Visible requirement from real garages."
+        },
+        {
+          "text": "Different vehicle types and spot sizes",
+          "correct": true,
+          "why": "A motorcycle should not take a truck's spot, and a truck cannot fit a small one."
+        },
+        {
+          "text": "Park a vehicle: find a free spot that fits and issue a ticket",
+          "correct": true,
+          "why": "The central use case."
+        },
+        {
+          "text": "A mobile app with online reservations and loyalty points",
+          "correct": false,
+          "why": "A separate product. Mention as a future extension."
+        },
+        {
+          "text": "Licence plate recognition with computer vision",
+          "correct": false,
+          "why": "Out of scope for an object model question."
+        },
+        {
+          "text": "Unpark: take the ticket, compute the fee, take payment, free the spot",
+          "correct": true,
+          "why": "The second half of the lifecycle."
+        }
+      ]
+    },
+    {
+      "id": "nouns",
+      "phase": "Find the classes",
+      "title": "Find the classes",
+      "type": "multi",
+      "prompt": "Read the requirements like a detective and underline the **nouns**. Which should become classes?",
+      "hint": "Nouns are candidates, verbs are methods.",
+      "explain": "Good object design starts by **mapping nouns to classes and verbs to methods**. Merge synonyms.",
+      "adds": {
+        "notes": [
+          "Classes: ParkingLot, Floor, Spot, Vehicle (+ subtypes), Ticket, PricingPolicy, Payment"
+        ],
+        "components": [
+          "lot",
+          "floor",
+          "spot",
+          "vehicle"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "options": [
+        {
+          "text": "PricingPolicy",
+          "correct": true,
+          "why": "The fee rules change, so isolate them."
+        },
+        {
+          "text": "ParkingLot",
+          "correct": true,
+          "why": "The entry point that coordinates everything."
+        },
+        {
+          "text": "The driver's mood",
+          "correct": false,
+          "why": "Not part of the domain."
+        },
+        {
+          "text": "Vehicle (Motorcycle, Car, Truck)",
+          "correct": true,
+          "why": "Types differ in the size of spot they need."
+        },
+        {
+          "text": "Ticket",
+          "correct": true,
+          "why": "Links a vehicle, a spot and an entry time."
+        },
+        {
+          "text": "The word \"garage\" as a second ParkingLot-like class",
+          "correct": false,
+          "why": "A synonym. Do not model the same thing twice."
+        },
+        {
+          "text": "Floor and Spot",
+          "correct": true,
+          "why": "A lot has floors; floors have spots."
+        }
+      ]
+    },
+    {
+      "id": "vehicle",
+      "phase": "Find the classes",
+      "title": "Model the vehicles",
+      "type": "choice",
+      "prompt": "Motorcycle, Car and Truck all need a size of spot. How do you model them?",
+      "hint": "Who knows what size it needs?",
+      "explain": "**Polymorphism over if/else.** Adding an `ElectricCar` becomes one new class.",
+      "adds": {
+        "notes": [
+          "Vehicle base class with required size; subtypes Motorcycle, Car, Truck"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "pitfall": "Checking vehicle type with long if/else blocks.",
+      "followup": "A van takes two car spots. How would you model that?",
+      "options": [
+        {
+          "text": "Put the spot size inside the ParkingLot",
+          "correct": false,
+          "why": "Wrong owner of the information."
+        },
+        {
+          "text": "One class `Vehicle` and a string field `type` checked with if/else in every method",
+          "correct": false,
+          "why": "Every new vehicle type edits every method."
+        },
+        {
+          "text": "Separate unrelated classes with no shared interface",
+          "correct": false,
+          "why": "Duplicated code, and ParkingLot cannot treat them uniformly."
+        },
+        {
+          "text": "A base `Vehicle` with a `required_size`; `Motorcycle`, `Car`, `Truck` subclasses (or an enum) set it",
+          "correct": true,
+          "why": "The spot asks the vehicle what it needs, so no `if type == 'car'` chains."
+        }
+      ]
+    },
+    {
+      "id": "park-flow",
+      "phase": "Behaviour",
+      "title": "Trace `park()`",
+      "type": "order",
+      "prompt": "A car arrives. Put the steps of `park(vehicle)` in order.",
+      "hint": "Find, reserve, record, return.",
+      "explain": "Keep each class's job small: **Lot orchestrates, Floor searches, Spot decides fit and state, Ticket records**.",
+      "adds": {
+        "notes": [
+          "park(): lot -> floors find smallest fitting free spot -> atomic assign -> issue ticket -> update display"
+        ],
+        "components": [
+          "ticket",
+          "display"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "items": [
+        {
+          "text": "ParkingLot asks each Floor for a spot that can fit the vehicle",
+          "why": "The lot coordinates but does not know floor internals."
+        },
+        {
+          "text": "Floor returns the smallest free Spot whose size fits",
+          "why": "Smallest-fit keeps big spots free for trucks."
+        },
+        {
+          "text": "The Spot is marked occupied, atomically",
+          "why": "Must not be handed to two cars."
+        },
+        {
+          "text": "A Ticket is created with vehicle, spot and entry time",
+          "why": "The record of the stay."
+        },
+        {
+          "text": "The ticket is returned and the free-count display updates",
+          "why": "The driver gets a ticket; the board stays accurate."
+        }
+      ]
+    },
+    {
+      "id": "pricing",
+      "phase": "Behaviour",
+      "title": "Where do the fee rules live?",
+      "type": "choice",
+      "prompt": "Pricing may be hourly, flat per day, cheaper at night, or different per vehicle. Where do you put the logic?",
+      "hint": "What changes most often?",
+      "explain": "**Strategy pattern**: `fee(ticket, exit_time)`. The same idea works for payment methods and spot-finding strategies.",
+      "adds": {
+        "notes": [
+          "Pricing: PricingPolicy strategy (Hourly, Flat, ...) so rules change without touching other classes"
+        ],
+        "components": [
+          "pricing",
+          "payment"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "followup": "How would you add a 'first 30 minutes free' rule?",
+      "options": [
+        {
+          "text": "Hard-coded constants in the UI",
+          "correct": false,
+          "why": "Rules must be testable and changeable."
+        },
+        {
+          "text": "In the Spot, because spots have prices",
+          "correct": false,
+          "why": "Spots do not know durations or vehicle types."
+        },
+        {
+          "text": "Inside `Ticket.calculate_fee()` with if/else for every rule",
+          "correct": false,
+          "why": "Every rule change edits a core class."
+        },
+        {
+          "text": "A `PricingPolicy` interface with implementations (Strategy pattern), chosen by the lot",
+          "correct": true,
+          "why": "Swap or add rules without touching ParkingLot or Ticket."
+        }
+      ]
+    },
+    {
+      "id": "fee",
+      "phase": "Behaviour",
+      "title": "Check the maths",
+      "type": "estimate",
+      "prompt": "Hourly rate: first hour 40, then 30 for each extra started hour. A car stays **3 hours 10 minutes**. What is the fee?",
+      "hint": "Round the time up first.",
+      "explain": "Clarify rounding rules out loud (**started hours round up**). Unstated rules are where real systems have bugs. Put them in the `PricingPolicy`, with a unit test.",
+      "adds": {
+        "notes": [
+          "Fee rule: first hour 40, then 30 per started hour (rounding up)"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "unit": "currency units",
+      "answer": 130,
+      "factor": 1.05,
+      "work": [
+        "3h 10m rounds up to **4 started hours**",
+        "First hour: 40",
+        "Three extra hours: 3 x 30 = 90",
+        "Total = **130**"
+      ]
+    },
+    {
+      "id": "concurrency",
+      "phase": "Edge cases",
+      "title": "Two cars, one spot",
+      "type": "multi",
+      "prompt": "Two entrances, two cars at the same time. What protects the data?",
+      "hint": "Make 'check free then assign' one indivisible step.",
+      "explain": "Hold the lock only for the **assignment**, not for the whole stay. Use a **conditional update** for simplicity.",
+      "adds": {
+        "notes": [
+          "Concurrency: atomic assign (lock per floor or conditional DB update); retry on loss"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "pitfall": "Check-then-act without a lock (a race condition).",
+      "options": [
+        {
+          "text": "Retry with the next spot if the assignment failed",
+          "correct": true,
+          "why": "The loser simply picks another spot."
+        },
+        {
+          "text": "Use one global lock for the whole lot, held while the driver is parking",
+          "correct": false,
+          "why": "Serialises everyone for minutes."
+        },
+        {
+          "text": "Make spot assignment atomic: a lock per floor, or `UPDATE ... WHERE spot_id = ? AND free = true`",
+          "correct": true,
+          "why": "Only one caller can win."
+        },
+        {
+          "text": "Hope collisions are rare",
+          "correct": false,
+          "why": "Rare is not never, and a collision means two cars in one spot."
+        },
+        {
+          "text": "Keep the state in one place (database or single service) rather than in each entrance's memory",
+          "correct": true,
+          "why": "Two entrances with separate copies disagree."
+        }
+      ]
+    },
+    {
+      "id": "edge",
+      "phase": "Edge cases",
+      "title": "Edge cases",
+      "type": "multi",
+      "prompt": "Which edge cases would you mention?",
+      "hint": "Think lost, full, failed, impossible.",
+      "explain": "Naming 3 to 4 edge cases shows **engineering maturity**.",
+      "adds": {
+        "notes": [
+          "Edge cases: lost ticket, garage full, payment failure, oversize vehicle"
+        ]
+      },
+      "chapter": {
+        "title": "Design a parking garage",
+        "href": "sessions/14-design-parking-garage.html"
+      },
+      "options": [
+        {
+          "text": "Assume nothing ever goes wrong",
+          "correct": false,
+          "why": "Interviewers specifically look for this thinking."
+        },
+        {
+          "text": "Garage full: reject at the entrance and show the board",
+          "correct": true,
+          "why": "Fail fast, do not queue cars in the street."
+        },
+        {
+          "text": "Payment fails: keep the vehicle's spot and allow a retry",
+          "correct": true,
+          "why": "Never free the spot before payment succeeds."
+        },
+        {
+          "text": "Lost ticket: charge a flat maximum fee, verify by plate",
+          "correct": true,
+          "why": "A real-world rule every garage has."
+        },
+        {
+          "text": "Vehicle too big for any spot: reject with a clear message",
+          "correct": true,
+          "why": "Handle the impossible case explicitly."
+        }
+      ]
+    },
+    {
+      "id": "scale",
+      "phase": "Scale it up",
+      "title": "A chain of 500 garages",
+      "type": "choice",
+      "prompt": "Now it is a company with 500 garages and a mobile app showing free spots. What changes?",
+      "hint": "What stays the same, what moves out?",
+      "explain": "Good object design survives scale: **persist the same entities** (`Spot`, `Ticket`) in a database, expose `POST /park` and `POST /unpark`, and read counts from a cache or a counter table.",
+      "adds": {
+        "notes": [
+          "Scaling out: persist Spot and Ticket in a database, expose park/unpark APIs, cache free counts"
+        ]
+      },
+      "chapter": {
+        "title": "Scaling data",
+        "href": "sessions/06-scaling-data.html"
+      },
+      "options": [
+        {
+          "text": "Turn `ParkingLot` into a service with a database for spot and ticket state, and cache the free count per floor",
+          "correct": true,
+          "why": "State leaves the process; the object model stays the same."
+        },
+        {
+          "text": "Remove floors from the model",
+          "correct": false,
+          "why": "Floors are still a real concept."
+        },
+        {
+          "text": "Rewrite all classes",
+          "correct": false,
+          "why": "A good model survives a change of scale. Only storage and APIs change."
+        },
+        {
+          "text": "Keep everything in memory on each garage's PC and sync by email",
+          "correct": false,
+          "why": "No shared view, no durability."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what design principles guided you, and where might they cost you?",
+      "hint": "Flexibility vs simplicity.",
+      "explain": "In OOD interviews, **name the pattern and the reason**, not just the pattern.",
+      "adds": {
+        "notes": [
+          "Trade-offs: flexibility (patterns) vs simplicity; narrow locks"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "I used **single responsibility** (each class does one job), **polymorphism** for vehicles, and the **Strategy pattern** for pricing so rules change without editing core classes. The cost is **more classes and indirection** than a quick script. I kept locking narrow, only around spot assignment, to avoid slowing down entrances. If requirements stayed this small I would simplify, but the extension points (new vehicle types, new fee rules) are where real garages change.",
+      "points": [
+        "Named principles: single responsibility, open/closed",
+        "Strategy pattern for pricing",
+        "Cost: more classes and indirection",
+        "Narrow locking for concurrency"
+      ]
+    }
+  ],
+  "position": 4
+}

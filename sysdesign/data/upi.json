@@ -1,0 +1,771 @@
+{
+  "slug": "upi",
+  "title": "Design UPI (Unified Payments Interface)",
+  "tagline": "Move money between any two banks in seconds, without ever losing, duplicating or inventing a rupee.",
+  "difficulty": "Advanced",
+  "minutes": 50,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Payments & fintech",
+    "prompt": "Design a **real-time payment system** like UPI. A person pays another person or a shop from their bank account to the other's, using only a virtual address or a QR code.",
+    "context": [
+      "You are in a 45-minute interview. The interviewer cares about **correctness and failure handling** more than boxes.",
+      "Many apps (PSPs) and many banks connect through a central **switch**.",
+      "Think about paying for tea by scanning a QR code."
+    ],
+    "given": [
+      "About **15 billion** transactions a month.",
+      "Peak traffic is about **3 times** the average.",
+      "Each transaction writes about **2 ledger entries of 200 bytes**.",
+      "A payment should complete within a **few seconds**."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are idempotency, consistency across two banks, handling timeouts, and an auditable ledger."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Pay, collect, status and reversal",
+      "Routing between banks via a switch",
+      "Idempotency, ledger and failure handling",
+      "Fraud controls and scale"
+    ],
+    "scope_out": [
+      "Building the mobile app UI",
+      "Regulatory process details",
+      "Merchant onboarding"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Makes the **transaction id an idempotency key** at every hop.",
+      "Uses a **saga with reversals**, not a cross-bank transaction.",
+      "Treats a **timeout as unknown**, not as failure.",
+      "Keeps an **append-only double-entry ledger** and reconciliation."
+    ],
+    "concepts": [
+      {
+        "term": "VPA",
+        "def": "Virtual payment address such as name@bank, so you do not share account numbers."
+      },
+      {
+        "term": "PSP",
+        "def": "Payment service provider: the app and bank behind the app that connects users to the switch."
+      },
+      {
+        "term": "Switch",
+        "def": "The central system that routes requests between banks and records results."
+      },
+      {
+        "term": "Saga",
+        "def": "A series of local steps with compensating actions to undo them, used instead of a distributed transaction."
+      },
+      {
+        "term": "Idempotency key",
+        "def": "A unique id that makes repeating a request safe."
+      },
+      {
+        "term": "Reconciliation",
+        "def": "Comparing two systems' records to find and fix differences."
+      },
+      {
+        "term": "Double-entry ledger",
+        "def": "Every transfer records equal debit and credit entries, so the books always balance."
+      }
+    ],
+    "numbers": [
+      "15B per month = about **500M a day** = **5,800/s** average, **17,000/s** peak",
+      "Ledger: 500M x 2 x 200 B = **200 GB a day**, about **73 TB a year**",
+      "Availability target: **99.99%** is under **53 minutes** of downtime a year"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "The **transaction id is the idempotency key** at every hop, so retries never double-charge.",
+        "Use a **saga: debit first, then credit, with compensating reversal**.",
+        "A **timeout is unknown**: show pending and reconcile with the same id.",
+        "Record money in an **append-only double-entry ledger**; fix errors with new entries."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Saga with reversals",
+          "gain": "Works across independent banks",
+          "cost": "Temporary pending states"
+        },
+        {
+          "choice": "Append-only ledger",
+          "gain": "Full audit trail",
+          "cost": "More storage, derived balances"
+        },
+        {
+          "choice": "Queues for non-critical work",
+          "gain": "Short critical path",
+          "cost": "Notifications are slightly delayed"
+        }
+      ],
+      "extensions": [
+        "Offline UPI for poor connectivity",
+        "Recurring payments (mandates)",
+        "Cross-border payments"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 700 300",
+      "nodes": {
+        "payer": {
+          "x": 10,
+          "y": 100,
+          "w": 100,
+          "label": "Payer app",
+          "kind": "client"
+        },
+        "psp": {
+          "x": 150,
+          "y": 100,
+          "w": 110,
+          "label": "PSP bank /\napp backend",
+          "kind": "service",
+          "h": 48
+        },
+        "switch": {
+          "x": 300,
+          "y": 100,
+          "w": 120,
+          "label": "UPI switch\n(NPCI)",
+          "kind": "edge",
+          "h": 48
+        },
+        "vpa": {
+          "x": 300,
+          "y": 10,
+          "w": 120,
+          "label": "VPA directory",
+          "kind": "data"
+        },
+        "issuer": {
+          "x": 470,
+          "y": 30,
+          "w": 130,
+          "label": "Payer bank\n(debit)",
+          "kind": "data",
+          "h": 48
+        },
+        "payee_bank": {
+          "x": 470,
+          "y": 170,
+          "w": 130,
+          "label": "Payee bank\n(credit)",
+          "kind": "data",
+          "h": 48
+        },
+        "ledger": {
+          "x": 300,
+          "y": 210,
+          "w": 120,
+          "label": "Switch ledger\n(append-only)",
+          "kind": "queue",
+          "h": 48
+        },
+        "notify": {
+          "x": 620,
+          "y": 100,
+          "w": 70,
+          "label": "Notify",
+          "kind": "external"
+        },
+        "recon": {
+          "x": 150,
+          "y": 210,
+          "w": 110,
+          "label": "Reconciliation",
+          "kind": "cache"
+        }
+      },
+      "edges": [
+        [
+          "payer",
+          "psp",
+          "1 pay"
+        ],
+        [
+          "psp",
+          "switch"
+        ],
+        [
+          "switch",
+          "vpa",
+          "resolve",
+          "dashed"
+        ],
+        [
+          "switch",
+          "issuer",
+          "2 debit"
+        ],
+        [
+          "switch",
+          "payee_bank",
+          "3 credit"
+        ],
+        [
+          "switch",
+          "ledger"
+        ],
+        [
+          "issuer",
+          "notify",
+          "",
+          "dashed"
+        ],
+        [
+          "recon",
+          "ledger",
+          "match",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What must UPI do?",
+      "type": "multi",
+      "prompt": "Pick the **core** capabilities.",
+      "hint": "Money in, money out, and when it goes wrong.",
+      "explain": "Core: **pay, collect, status, balance, reversal.** Always add 'reversal': it signals you understand failure.",
+      "adds": {
+        "notes": [
+          "Core: pay by VPA/QR, collect request, status check, balance, reversal"
+        ],
+        "components": [
+          "payer"
+        ]
+      },
+      "chapter": {
+        "title": "Design UPI payments",
+        "href": "sessions/19-design-upi-payments.html"
+      },
+      "options": [
+        {
+          "text": "Check account balance",
+          "correct": true,
+          "why": "Common companion feature."
+        },
+        {
+          "text": "Check the status of a payment",
+          "correct": true,
+          "why": "People retry when unsure. Status must be reliable."
+        },
+        {
+          "text": "Pay another person or merchant using a virtual address (VPA), QR code or phone number",
+          "correct": true,
+          "why": "The headline feature."
+        },
+        {
+          "text": "Refunds and reversals when something fails",
+          "correct": true,
+          "why": "Money must never vanish."
+        },
+        {
+          "text": "Loan origination and credit scoring",
+          "correct": false,
+          "why": "A different product."
+        },
+        {
+          "text": "Request money (collect) and approve it",
+          "correct": true,
+          "why": "The other direction of the same flow."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "Qualities",
+      "type": "multi",
+      "prompt": "Rank what matters most for a payment rail.",
+      "hint": "What is worse: a slow payment or a duplicate one?",
+      "explain": "**Correctness before speed.** A slow payment annoys; a wrong one causes real loss.",
+      "adds": {
+        "notes": [
+          "Qualities: correct (exactly-once effect), highly available, a few seconds latency, secure, auditable"
+        ]
+      },
+      "chapter": {
+        "title": "Design UPI payments",
+        "href": "sessions/19-design-upi-payments.html"
+      },
+      "options": [
+        {
+          "text": "High availability: people pay for groceries, not in a maintenance window",
+          "correct": true,
+          "why": "Downtime is visible to millions."
+        },
+        {
+          "text": "Low latency: finish within a few seconds",
+          "correct": true,
+          "why": "A person is standing at a counter."
+        },
+        {
+          "text": "Eventual consistency of balances is fine",
+          "correct": false,
+          "why": "A balance that is wrong for hours is not acceptable."
+        },
+        {
+          "text": "Auditability and reconciliation with banks",
+          "correct": true,
+          "why": "Regulators and banks both demand it."
+        },
+        {
+          "text": "Correctness: no double debit, no lost money, every rupee traceable",
+          "correct": true,
+          "why": "The number one requirement."
+        },
+        {
+          "text": "Security: encrypted PIN, device binding, fraud checks",
+          "correct": true,
+          "why": "Money attracts attackers."
+        }
+      ]
+    },
+    {
+      "id": "tps",
+      "phase": "Estimate scale",
+      "title": "How many transactions per second?",
+      "type": "estimate",
+      "prompt": "UPI handles about **15 billion** transactions a month. Peak is **3 times** the average. What is the **peak transactions per second**?",
+      "hint": "Month to day to second, then multiply for peak.",
+      "explain": "Roughly **6,000 average, 17,000 at peak**. Each payment touches several systems, so the switch and banks do many times that in internal calls. Design every shared component to scale horizontally.",
+      "adds": {
+        "notes": [
+          "Load: ~6,000 txn/s average, ~17,000 txn/s peak"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "transactions / second",
+      "answer": 17000,
+      "factor": 2,
+      "work": [
+        "15,000,000,000 / 30 days = 500,000,000 a day",
+        "500,000,000 / 86,400 = about **5,800 per second** average",
+        "Peak = 5,800 x 3 = about **17,000 per second**"
+      ]
+    },
+    {
+      "id": "ledger",
+      "phase": "Estimate scale",
+      "title": "Ledger storage",
+      "type": "estimate",
+      "prompt": "Each transaction creates about **2 ledger entries** of **200 bytes** each. How many **TB** of ledger is written per year at **500 million** transactions a day?",
+      "hint": "Per day first, then times 365.",
+      "explain": "About **73 TB of ledger a year**, append-only. That is very manageable with partitioning by time and account, and cheap archive tiers for old data. Reads of recent data dominate.",
+      "adds": {
+        "notes": [
+          "Storage: ~73 TB of ledger per year, append-only"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "TB / year",
+      "answer": 73,
+      "factor": 2,
+      "work": [
+        "500,000,000 x 2 entries x 200 B = 200,000,000,000 B = **200 GB a day**",
+        "200 GB x 365 = 73,000 GB = about **73 TB a year**",
+        "Plus indexes and replicas: several times more"
+      ]
+    },
+    {
+      "id": "idempotency",
+      "phase": "API and data model",
+      "title": "Never charge twice",
+      "type": "choice",
+      "prompt": "The payer's phone loses signal after tapping Pay and the app retries. How do you guarantee only one debit?",
+      "hint": "How can the server recognise 'this is the same request'?",
+      "explain": "The **transaction id is the idempotency key**, generated by the client before the first attempt and kept for the retries.",
+      "adds": {
+        "notes": [
+          "Idempotency: client-generated unique transaction id stored with its result at every hop"
+        ],
+        "components": [
+          "psp",
+          "switch"
+        ]
+      },
+      "chapter": {
+        "title": "Queues, rate limiting and resilience",
+        "href": "sessions/09-async-and-resilience.html"
+      },
+      "pitfall": "Retrying a debit with a new id.",
+      "followup": "Where is the id stored, and for how long?",
+      "options": [
+        {
+          "text": "Retry until the server answers",
+          "correct": false,
+          "why": "Without an id, each retry could debit again."
+        },
+        {
+          "text": "Let the bank detect duplicates by amount and time",
+          "correct": false,
+          "why": "Two genuine identical payments (tea twice) would be blocked."
+        },
+        {
+          "text": "Every payment has a unique transaction id; the switch and banks store it with the result and return the stored result on a repeat",
+          "correct": true,
+          "why": "Idempotency key: same id means same outcome."
+        },
+        {
+          "text": "Disable retries entirely",
+          "correct": false,
+          "why": "Networks fail; users would be stuck in doubt."
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "phase": "API and data model",
+      "title": "Recording money",
+      "type": "choice",
+      "prompt": "How do you record the movement of money inside a ledger?",
+      "hint": "What would an accountant do?",
+      "explain": "**Never edit history, add to it.** Mistakes are fixed with reversing entries. Balance = sum of entries (cached in a balance table for speed).",
+      "adds": {
+        "notes": [
+          "Ledger: double-entry, append-only; mistakes fixed by reversal entries"
+        ],
+        "components": [
+          "ledger"
+        ]
+      },
+      "chapter": {
+        "title": "Databases, CAP and consistency",
+        "href": "sessions/08-databases-cap-and-consistency.html"
+      },
+      "options": [
+        {
+          "text": "Update a `balance` column in place and keep no history",
+          "correct": false,
+          "why": "No audit trail and lost-update bugs."
+        },
+        {
+          "text": "Store only the final balances at day end",
+          "correct": false,
+          "why": "Cannot explain what happened in between."
+        },
+        {
+          "text": "A **double-entry, append-only ledger**: each transfer adds a debit and a credit that sum to zero; balances are derived",
+          "correct": true,
+          "why": "Auditable, immutable, easy to reconcile."
+        },
+        {
+          "text": "Edit past entries when mistakes are found",
+          "correct": false,
+          "why": "Correct with a new reversing entry instead."
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "phase": "High-level design",
+      "title": "A successful payment",
+      "type": "order",
+      "prompt": "Order the main steps of a UPI payment.",
+      "hint": "Authorise, route, debit, credit, tell everyone.",
+      "explain": "**Debit then credit**, with the switch coordinating and recording. Fast path: no human steps, no batch jobs.",
+      "adds": {
+        "notes": [
+          "Flow: PIN on device -> PSP -> switch resolves VPA -> debit payer bank -> credit payee bank -> record -> notify"
+        ],
+        "components": [
+          "vpa",
+          "issuer",
+          "payee_bank",
+          "notify"
+        ]
+      },
+      "chapter": {
+        "title": "Design UPI payments",
+        "href": "sessions/19-design-upi-payments.html"
+      },
+      "items": [
+        {
+          "text": "The payer enters the amount and PIN; the PIN is encrypted on the device",
+          "why": "Only the payer's bank can read it."
+        },
+        {
+          "text": "The app sends the request with a new transaction id to its PSP, which forwards it to the switch",
+          "why": "Entry into the shared rail."
+        },
+        {
+          "text": "The switch resolves the payee's VPA to a bank",
+          "why": "Needs the VPA directory."
+        },
+        {
+          "text": "The switch asks the payer bank to debit; then asks the payee bank to credit",
+          "why": "Debit first: never credit money that has not left."
+        },
+        {
+          "text": "The switch records the result and both apps are notified",
+          "why": "Final state and receipt."
+        }
+      ]
+    },
+    {
+      "id": "atomic",
+      "phase": "Deep dive",
+      "title": "Two banks, one payment",
+      "type": "choice",
+      "prompt": "Debit happens at Bank A, credit at Bank B. There is no single database spanning both. How do you keep the money consistent?",
+      "hint": "You cannot lock two companies' databases together.",
+      "explain": "**Saga + compensation.** Money is never created: debit before credit, and always have a reversal path.",
+      "adds": {
+        "notes": [
+          "Consistency: saga (debit then credit) with compensating reversals; no distributed transaction across banks"
+        ]
+      },
+      "chapter": {
+        "title": "Design UPI payments",
+        "href": "sessions/19-design-upi-payments.html"
+      },
+      "followup": "What if the reversal itself fails?",
+      "options": [
+        {
+          "text": "Credit first, debit later",
+          "correct": false,
+          "why": "If the debit fails, money has been created."
+        },
+        {
+          "text": "Ignore failures and fix by hand",
+          "correct": false,
+          "why": "Millions of payments a day."
+        },
+        {
+          "text": "A **saga**: debit, then credit; if the credit fails, run a compensating **reversal** of the debit",
+          "correct": true,
+          "why": "Each step is local and atomic; failures are undone by a new step."
+        },
+        {
+          "text": "A distributed two-phase commit between all banks",
+          "correct": false,
+          "why": "Different organisations and systems, and it blocks when a participant is slow."
+        }
+      ]
+    },
+    {
+      "id": "timeout",
+      "phase": "Deep dive",
+      "title": "The credit call timed out",
+      "type": "choice",
+      "prompt": "The switch asked the payee bank to credit and got no answer. What is the right action?",
+      "hint": "Do you know what happened on the other side?",
+      "explain": "**Timeout means unknown.** Resolve it with the same transaction id (idempotent enquiry or retry) and show the user 'pending' honestly.",
+      "adds": {
+        "notes": [
+          "Timeouts mean unknown: status enquiry/reconciliation with the same id; show 'pending'"
+        ],
+        "components": [
+          "recon"
+        ]
+      },
+      "chapter": {
+        "title": "Queues, rate limiting and resilience",
+        "href": "sessions/09-async-and-resilience.html"
+      },
+      "pitfall": "Treating a timeout as a failure.",
+      "options": [
+        {
+          "text": "Treat it as failed and reverse the debit immediately",
+          "correct": false,
+          "why": "The credit may have succeeded. The payee gets paid and the payer is refunded: money was created."
+        },
+        {
+          "text": "Mark the payment **pending**, and run status enquiry / reconciliation until the bank gives a definite answer, then complete or reverse",
+          "correct": true,
+          "why": "A timeout is not a failure; it is 'unknown'."
+        },
+        {
+          "text": "Retry the credit with a new id",
+          "correct": false,
+          "why": "May credit twice."
+        },
+        {
+          "text": "Tell the user it succeeded",
+          "correct": false,
+          "why": "A lie that may need correcting."
+        }
+      ]
+    },
+    {
+      "id": "fraud",
+      "phase": "Deep dive",
+      "title": "Fraud and limits",
+      "type": "multi",
+      "prompt": "Which controls protect users and the network?",
+      "hint": "Who, how much, how unusual, what secret.",
+      "explain": "Layer controls: **identity (device), amount (limits), behaviour (risk score), secret (PIN)**.",
+      "adds": {
+        "notes": [
+          "Fraud: device binding, limits, real-time risk scoring, PIN only readable by the bank"
+        ]
+      },
+      "chapter": {
+        "title": "Design an authentication system",
+        "href": "sessions/18-design-authentication-system.html"
+      },
+      "options": [
+        {
+          "text": "A PIN that only the bank can decrypt",
+          "correct": true,
+          "why": "Apps and the switch never see it."
+        },
+        {
+          "text": "Real-time risk scoring (velocity, new payee, odd hours)",
+          "correct": true,
+          "why": "Stops suspicious payments before debit."
+        },
+        {
+          "text": "Device binding and SIM verification at registration",
+          "correct": true,
+          "why": "Ties the account to a device."
+        },
+        {
+          "text": "Disable all limits for convenience",
+          "correct": false,
+          "why": "Invites fraud."
+        },
+        {
+          "text": "Per-transaction and daily limits",
+          "correct": true,
+          "why": "Caps losses from compromised accounts."
+        }
+      ]
+    },
+    {
+      "id": "scale",
+      "phase": "Reliability",
+      "title": "Scale and availability",
+      "type": "multi",
+      "prompt": "Which choices help the rail stay up and fast?",
+      "hint": "Parallel across accounts, serial within one.",
+      "explain": "Keep the **critical path small** (verify, debit, credit, record) and put everything else on queues. Isolate slow banks.",
+      "adds": {
+        "notes": [
+          "Scale/HA: shard by account, active-active sites, queues for non-critical work, per-bank circuit breakers"
+        ]
+      },
+      "chapter": {
+        "title": "Scaling data",
+        "href": "sessions/06-scaling-data.html"
+      },
+      "options": [
+        {
+          "text": "Partition ledgers and state by account id so work spreads across nodes",
+          "correct": true,
+          "why": "Single-account updates stay serialised, different accounts run in parallel."
+        },
+        {
+          "text": "Circuit breakers and a 'bank slow' mode that shows pending instead of timing out hard",
+          "correct": true,
+          "why": "One slow bank must not stop the rest."
+        },
+        {
+          "text": "A single database for the entire country",
+          "correct": false,
+          "why": "One machine, one failure."
+        },
+        {
+          "text": "Queues for notifications and non-critical work",
+          "correct": true,
+          "why": "Keep the critical path short."
+        },
+        {
+          "text": "Active-active data centres with replicated state",
+          "correct": true,
+          "why": "Survives a site loss."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what consistency model did you choose, and why?",
+      "hint": "Where is strong consistency a must, where is it unrealistic?",
+      "explain": "In payments, finish with: **\"We never guess; we reconcile.\"**",
+      "adds": {
+        "notes": [
+          "Trade-offs: ACID inside banks; saga + reconciliation across; pending states; operational cost"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "Inside each bank's ledger I need **strong consistency** (ACID) because balances must be exact. Across banks I use a **saga with reversals and reconciliation**, so the end-to-end flow is **eventually consistent**, and a payment may show **pending** briefly. I accept this because a global distributed transaction across organisations would hurt availability and is not practical. The cost is operational: reconciliation jobs, reversal flows, and clear user messaging about pending states.",
+      "points": [
+        "Strong consistency within a ledger",
+        "Saga and reconciliation across banks",
+        "Pending state is an honest answer",
+        "Operational cost: reconciliation and reversals"
+      ]
+    }
+  ],
+  "position": 9
+}

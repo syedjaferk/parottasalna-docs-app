@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 800 260" role="img" aria-labelledby="au-t au-d" xmlns="http://www.w3.org/2000/svg">
+<title id="au-t">Authentication flow</title>
+<desc id="au-d">The user sends a password to the auth service which verifies a salted hash, then returns a short-lived access token and a refresh token. The API gateway verifies the access token on each request.</desc>
+<defs><marker id="au-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker></defs>
+<rect x="10" y="100" width="90" height="50" rx="10" class="blue"/>
+<text x="55.0" y="129.0" text-anchor="middle" class="code">User</text>
+<rect x="170" y="100" width="130" height="50" rx="10" class="green"/>
+<text x="235.0" y="129.0" text-anchor="middle" class="code">Auth service</text>
+<rect x="380" y="20" width="140" height="44" rx="10" class="red"/>
+<text x="450.0" y="38.0" text-anchor="middle" class="code">User DB</text>
+<text x="450.0" y="54.0" text-anchor="middle" class="code">(salted hashes)</text>
+<rect x="380" y="190" width="140" height="44" rx="10" class="amber"/>
+<text x="450.0" y="208.0" text-anchor="middle" class="code">Session / revoke</text>
+<text x="450.0" y="224.0" text-anchor="middle" class="code">list (Redis)</text>
+<rect x="380" y="105" width="140" height="44" rx="10" class="amber"/>
+<text x="450.0" y="131.0" text-anchor="middle" class="code">API gateway</text>
+<rect x="600" y="105" width="150" height="44" rx="10" class="green"/>
+<text x="675.0" y="131.0" text-anchor="middle" class="code">Resource services</text>
+<path d="M100,118 L170,118" class="arrow" marker-end="url(#au-h)"/>
+<text x="135" y="108" text-anchor="middle" class="small">1 login</text>
+<path d="M300,108 L380,50" class="arrow" marker-end="url(#au-h)"/>
+<path d="M300,138 L380,205" class="arrow" marker-end="url(#au-h)"/>
+<path d="M100,135 L380,130" class="arrow" marker-end="url(#au-h)"/>
+<text x="240" y="160" text-anchor="middle" class="small">2 request + access token</text>
+<path d="M520,127 L600,127" class="arrow" marker-end="url(#au-h)"/>
+<text x="560.0" y="121.0" text-anchor="middle" class="small">3 verified</text>
+</svg>
+<figcaption>Short-lived access tokens limit damage if stolen. The refresh token can be revoked.</figcaption>
+</figure>

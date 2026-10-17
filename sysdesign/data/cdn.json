@@ -1,0 +1,738 @@
+{
+  "slug": "cdn",
+  "title": "Design a Content Delivery Network (CDN)",
+  "tagline": "Serve files from a city near the user, and keep the origin calm.",
+  "difficulty": "Intermediate",
+  "minutes": 45,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Infrastructure",
+    "prompt": "Design a **content delivery network** that serves images, scripts and video to users around the world with low latency, so most requests never reach the customer's own servers.",
+    "context": [
+      "You are in a 45-minute interview. The interviewer gave you only the sentence above.",
+      "The customers are websites and streaming apps; their servers are the **origin**.",
+      "Think of Cloudflare, Akamai or CloudFront."
+    ],
+    "given": [
+      "About **50 million** daily users, each downloading roughly **2 MB** through the CDN.",
+      "Peak traffic is several times the average.",
+      "Each customer's origin can serve about **1 Gbit/s**.",
+      "Content is mostly static: images, scripts and video segments."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are routing users to the nearest edge, getting a very high hit rate, and keeping content fresh without hammering the origin."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Routing users to an edge",
+      "Caching, fill and eviction",
+      "Expiry and purge",
+      "Failure handling and security basics"
+    ],
+    "scope_out": [
+      "Video transcoding",
+      "Dynamic page personalisation at the edge",
+      "Billing and analytics dashboards"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Explains **DNS or anycast** routing to the nearest healthy edge.",
+      "Calculates the **hit rate** needed to protect the origin.",
+      "Uses a **shield cache** and **request coalescing** for cold starts.",
+      "Prefers **versioned file names** to purging."
+    ],
+    "concepts": [
+      {
+        "term": "Edge server",
+        "def": "A cache server in a city or network close to users."
+      },
+      {
+        "term": "Origin",
+        "def": "The customer's own server that holds the real content."
+      },
+      {
+        "term": "Anycast",
+        "def": "The same IP is announced from many places; routing sends each user to the nearest."
+      },
+      {
+        "term": "TTL",
+        "def": "How long a cached copy may be used before it is checked or replaced."
+      },
+      {
+        "term": "Cache hit rate",
+        "def": "The share of requests answered from cache without contacting the origin."
+      },
+      {
+        "term": "Signed URL",
+        "def": "A link with an expiry and signature the edge can verify without asking anyone."
+      }
+    ],
+    "numbers": [
+      "50M users x 2 MB = **100 TB a day** = about **9 Gbit/s** average",
+      "Origin share = origin capacity / peak traffic, so you need roughly **97%+ hit rate**",
+      "Light travels about **1 ms per 100 km** in fibre, which is why distance matters"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "A CDN is a **distributed cache** with a control plane; users are sent to the nearest healthy edge by **DNS or anycast**.",
+        "Compute the hit rate you need: **origin capacity / peak traffic**; then use **edge + shield** caches.",
+        "Prefer **versioned file names**; keep **purge** for emergencies.",
+        "Protect private content with **signed URLs** and survive origin failure with **stale-if-error**."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Long TTLs",
+          "gain": "High hit rate, low origin load",
+          "cost": "Stale content until purged or versioned"
+        },
+        {
+          "choice": "Shield cache",
+          "gain": "One origin fetch per file",
+          "cost": "Extra hop on a miss"
+        },
+        {
+          "choice": "More edges",
+          "gain": "Lower latency",
+          "cost": "Lower hit rate per edge, more cost"
+        }
+      ],
+      "extensions": [
+        "Edge compute for personalisation",
+        "Image resizing at the edge",
+        "Real-time logs and analytics"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 680 270",
+      "nodes": {
+        "user": {
+          "x": 10,
+          "y": 110,
+          "w": 90,
+          "label": "Users",
+          "kind": "client"
+        },
+        "dns": {
+          "x": 130,
+          "y": 20,
+          "w": 140,
+          "label": "DNS / anycast\nrouting",
+          "kind": "edge",
+          "h": 48
+        },
+        "edge": {
+          "x": 150,
+          "y": 110,
+          "w": 130,
+          "label": "Edge cache\n(nearest city)",
+          "kind": "cache",
+          "h": 48
+        },
+        "shield": {
+          "x": 340,
+          "y": 110,
+          "w": 130,
+          "label": "Regional\nshield cache",
+          "kind": "cache",
+          "h": 48
+        },
+        "origin": {
+          "x": 530,
+          "y": 110,
+          "w": 130,
+          "label": "Origin servers",
+          "kind": "service"
+        },
+        "store": {
+          "x": 530,
+          "y": 200,
+          "w": 130,
+          "label": "Object storage",
+          "kind": "data"
+        },
+        "purge": {
+          "x": 340,
+          "y": 20,
+          "w": 130,
+          "label": "Purge / control\nplane",
+          "kind": "queue",
+          "h": 48
+        }
+      },
+      "edges": [
+        [
+          "user",
+          "dns",
+          "1 which edge?"
+        ],
+        [
+          "user",
+          "edge",
+          "2 GET"
+        ],
+        [
+          "edge",
+          "shield",
+          "miss"
+        ],
+        [
+          "shield",
+          "origin",
+          "miss"
+        ],
+        [
+          "origin",
+          "store"
+        ],
+        [
+          "purge",
+          "edge",
+          "invalidate",
+          "dashed"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What does a CDN do?",
+      "type": "multi",
+      "prompt": "Which belong in the **core** scope of a CDN?",
+      "hint": "Is it a cache or the source of truth?",
+      "explain": "A CDN is a **geographically distributed cache** with a control plane (expiry, purge, security).",
+      "adds": {
+        "notes": [
+          "Core: serve from the nearest edge, fill from origin on miss, expiry and purge controls"
+        ],
+        "components": [
+          "user"
+        ]
+      },
+      "chapter": {
+        "title": "Design a CDN",
+        "href": "sessions/13-design-cdn.html"
+      },
+      "options": [
+        {
+          "text": "Support static files and video segments",
+          "correct": true,
+          "why": "The main CDN workloads."
+        },
+        {
+          "text": "Let owners set expiry and purge stale content",
+          "correct": true,
+          "why": "Without control, mistakes stay live."
+        },
+        {
+          "text": "Serve cached content from a server near the user",
+          "correct": true,
+          "why": "The whole point."
+        },
+        {
+          "text": "Run the customer's database",
+          "correct": false,
+          "why": "A CDN fronts content; it is not a database."
+        },
+        {
+          "text": "Store the only copy of files forever",
+          "correct": false,
+          "why": "The origin remains the source of truth. A CDN is a cache."
+        },
+        {
+          "text": "Fetch from the origin on a cache miss and keep a copy",
+          "correct": true,
+          "why": "That is how a pull CDN fills itself."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "What qualities matter?",
+      "type": "multi",
+      "prompt": "Pick the qualities that shape a CDN.",
+      "hint": "What does the user feel? What does the origin owner pay for?",
+      "explain": "**Latency, availability, bandwidth, hit rate.** Content freshness is *eventual*, controlled by TTL and purge.",
+      "adds": {
+        "notes": [
+          "Qualities: low latency, high availability, huge bandwidth, high hit rate, eventually consistent content"
+        ]
+      },
+      "chapter": {
+        "title": "Design a CDN",
+        "href": "sessions/13-design-cdn.html"
+      },
+      "options": [
+        {
+          "text": "High availability: an edge failure should be invisible",
+          "correct": true,
+          "why": "Users are routed to the next nearest edge."
+        },
+        {
+          "text": "Very high throughput and bandwidth",
+          "correct": true,
+          "why": "Video makes this a bandwidth business."
+        },
+        {
+          "text": "Strong consistency: all edges show new content at the same instant",
+          "correct": false,
+          "why": "Impossible to guarantee cheaply. Use TTLs and purges."
+        },
+        {
+          "text": "Low latency to users worldwide (tens of milliseconds)",
+          "correct": true,
+          "why": "Distance is the enemy; edges shorten it."
+        },
+        {
+          "text": "High cache hit rate, so the origin stays calm",
+          "correct": true,
+          "why": "The origin is small compared to total traffic."
+        }
+      ]
+    },
+    {
+      "id": "bandwidth",
+      "phase": "Estimate scale",
+      "title": "How much bandwidth?",
+      "type": "estimate",
+      "prompt": "**50 million** daily users each download **2 MB** through the CDN. What is the average **bandwidth in Gbit/s**? (1 byte = 8 bits.)",
+      "hint": "Total bytes a day, times 8, divided by seconds in a day.",
+      "explain": "About **10 Gbit/s on average and 30 or more at peak**. A single origin data centre cannot serve that. Spread over hundreds of edges it is easy. This number is the **business case** for a CDN.",
+      "adds": {
+        "notes": [
+          "Load: about 100 TB/day, about 10 Gbit/s average, 30+ Gbit/s peak"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "Gbit/s",
+      "answer": 9.3,
+      "factor": 2,
+      "work": [
+        "50,000,000 x 2 MB = 100,000,000 MB = **100 TB a day**",
+        "100 TB x 8 = 800 Tbit / 86,400 s = about **9.3 Gbit/s** average",
+        "Peak is several times higher: **30+ Gbit/s**"
+      ]
+    },
+    {
+      "id": "hitrate",
+      "phase": "Estimate scale",
+      "title": "What cache hit rate do you aim for?",
+      "type": "estimate",
+      "prompt": "The origin can serve at most **1 Gbit/s**. Peak traffic is **30 Gbit/s**. What is the **minimum hit rate (%)** the CDN needs so the origin is not overloaded?",
+      "hint": "What fraction of traffic may reach the origin?",
+      "explain": "You need a hit rate of about **97%+**. This drives design choices: long TTLs, versioned file names, a **shield cache** and pre-warming for launches.",
+      "adds": {
+        "notes": [
+          "Target: 97%+ edge hit rate; origin sees under 3% of traffic"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "unit": "% hit rate",
+      "answer": 97,
+      "factor": 1.05,
+      "work": [
+        "Origin may serve 1 of 30 Gbit/s = **3.3%** of traffic",
+        "So at least **96.7%** must be answered by the edges",
+        "Aim for **97% or better**"
+      ]
+    },
+    {
+      "id": "routing",
+      "phase": "API and data model",
+      "title": "How does a user find the nearest edge?",
+      "type": "choice",
+      "prompt": "A user in Chennai requests `cdn.example.com/logo.png`. How do we send them to a nearby, healthy edge?",
+      "hint": "Who knows where the user is?",
+      "explain": "**DNS-based geo/latency routing** or **anycast**. DNS TTLs must be short enough to move users away from a failing edge.",
+      "adds": {
+        "notes": [
+          "Routing: DNS geo/latency routing or anycast to the nearest healthy edge"
+        ],
+        "components": [
+          "dns"
+        ]
+      },
+      "chapter": {
+        "title": "DNS, CDNs, load balancers and proxies",
+        "href": "sessions/07-networking-and-traffic.html"
+      },
+      "followup": "DNS answers are cached. What does that do to failover speed?",
+      "options": [
+        {
+          "text": "DNS returns the nearest healthy edge (latency or geo based), or anycast routes the IP to the nearest site",
+          "correct": true,
+          "why": "The standard answer. Health information keeps dead edges out."
+        },
+        {
+          "text": "Hard-code one edge IP in the app",
+          "correct": false,
+          "why": "No failover, no locality."
+        },
+        {
+          "text": "Pick a random edge",
+          "correct": false,
+          "why": "Random edges may be on another continent."
+        },
+        {
+          "text": "The origin server redirects every user manually",
+          "correct": false,
+          "why": "Defeats the point and overloads the origin."
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "phase": "High-level design",
+      "title": "Trace a request",
+      "type": "order",
+      "prompt": "Put the steps of a request for a file that is **not yet cached** in order.",
+      "hint": "Nearest layer first, origin last.",
+      "explain": "Two cache layers, **edge** then **shield**, mean a viral file is fetched from the origin **once**, not once per city.",
+      "adds": {
+        "notes": [
+          "Flow: edge -> regional shield -> origin; each layer stores the file with a TTL"
+        ],
+        "components": [
+          "edge",
+          "shield",
+          "origin"
+        ]
+      },
+      "chapter": {
+        "title": "Design a CDN",
+        "href": "sessions/13-design-cdn.html"
+      },
+      "items": [
+        {
+          "text": "DNS sends the user to the nearest edge",
+          "why": "Locality first."
+        },
+        {
+          "text": "The edge looks in its cache and finds nothing (miss)",
+          "why": "A cold edge or an expired file."
+        },
+        {
+          "text": "The edge asks the regional shield cache",
+          "why": "Collapses many edge misses into one request."
+        },
+        {
+          "text": "The shield asks the origin, which returns the file",
+          "why": "Only now does the origin do any work."
+        },
+        {
+          "text": "Shield and edge store the file with a TTL, and answer the user",
+          "why": "Next user in the city gets a hit."
+        }
+      ]
+    },
+    {
+      "id": "pushpull",
+      "phase": "High-level design",
+      "title": "Push or pull?",
+      "type": "choice",
+      "prompt": "A big show launches at 8 pm and millions will request the same new video within a minute. What do you do?",
+      "hint": "What is predictable, what is not?",
+      "explain": "**Pull for the long tail, push for the predictable hits.** Add **request coalescing** so simultaneous misses for the same file become one origin request.",
+      "adds": {
+        "notes": [
+          "Fill: pull by default, pre-warm known hits, coalesce simultaneous misses"
+        ]
+      },
+      "chapter": {
+        "title": "Design a CDN",
+        "href": "sessions/13-design-cdn.html"
+      },
+      "pitfall": "Not mentioning the first-request spike after a launch.",
+      "followup": "What does request coalescing do exactly?",
+      "options": [
+        {
+          "text": "Push every file in the catalogue to every edge",
+          "correct": false,
+          "why": "Wastes enormous storage on files nobody watches."
+        },
+        {
+          "text": "Use pull by default and **pre-warm** (push) the popular files to edges before the launch",
+          "correct": true,
+          "why": "Pull handles the long tail; pre-warming avoids a thundering herd of first misses."
+        },
+        {
+          "text": "Pull only and hope for the best",
+          "correct": false,
+          "why": "Thousands of simultaneous first misses can crush the origin."
+        },
+        {
+          "text": "Disable caching for new files",
+          "correct": false,
+          "why": "Makes it worse."
+        }
+      ]
+    },
+    {
+      "id": "freshness",
+      "phase": "Deep dive",
+      "title": "Keeping content fresh",
+      "type": "multi",
+      "prompt": "A designer uploads a new logo with the same file name. Which mechanisms get users the new one without chaos?",
+      "hint": "Make it so you rarely need to delete anything.",
+      "explain": "**Versioned names first, purge for emergencies.** Purging works best through a control plane that fans out the command to all edges.",
+      "adds": {
+        "notes": [
+          "Freshness: versioned file names, Cache-Control + ETag, purge API for emergencies"
+        ],
+        "components": [
+          "purge"
+        ]
+      },
+      "chapter": {
+        "title": "Design a CDN",
+        "href": "sessions/13-design-cdn.html"
+      },
+      "options": [
+        {
+          "text": "Restart all edge servers",
+          "correct": false,
+          "why": "Drops the cache for everything and floods the origin."
+        },
+        {
+          "text": "Provide a purge API that reaches every edge within seconds",
+          "correct": true,
+          "why": "For emergencies and unversioned content."
+        },
+        {
+          "text": "Wait for every cache TTL to run out naturally, whatever it is",
+          "correct": false,
+          "why": "A one-year TTL means a year of the old logo."
+        },
+        {
+          "text": "Set sensible `Cache-Control: max-age` and use `ETag` revalidation",
+          "correct": true,
+          "why": "Edges ask \"changed?\" and get a tiny 304 if not."
+        },
+        {
+          "text": "Version the file name or add a hash (`logo.9fd2.png`)",
+          "correct": true,
+          "why": "A new name is a new cache entry. Nothing to purge."
+        }
+      ]
+    },
+    {
+      "id": "eviction",
+      "phase": "Deep dive",
+      "title": "What to evict when an edge is full?",
+      "type": "choice",
+      "prompt": "An edge has limited disk. Which policy suits it best?",
+      "hint": "Recent use predicts future use.",
+      "explain": "**LRU plus admission control** (only cache a file after its second request) is a common practical design.",
+      "adds": {
+        "notes": [
+          "Eviction: LRU with admission control for one-hit wonders"
+        ]
+      },
+      "chapter": {
+        "title": "Caching and serving reads",
+        "href": "sessions/05-caching.html"
+      },
+      "options": [
+        {
+          "text": "Random deletion",
+          "correct": false,
+          "why": "Throws away hot files as easily as cold."
+        },
+        {
+          "text": "LRU (or a size-aware variant), with admission rules so one-hit wonders do not push out popular files",
+          "correct": true,
+          "why": "Keeps recently useful files, protects against scans."
+        },
+        {
+          "text": "Delete the biggest files first",
+          "correct": false,
+          "why": "Large popular videos would never stay."
+        },
+        {
+          "text": "Never evict; buy infinite disk",
+          "correct": false,
+          "why": "Not realistic."
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "phase": "Deep dive",
+      "title": "Private content and attacks",
+      "type": "multi",
+      "prompt": "Some videos are paid. Which measures apply?",
+      "hint": "How does the edge know without asking home?",
+      "explain": "**Push the check to the edge** using signed tokens, so authorisation does not need a round trip to the origin.",
+      "adds": {
+        "notes": [
+          "Security: signed expiring URLs, TLS at the edge, edge rate limiting"
+        ]
+      },
+      "chapter": {
+        "title": "DNS, CDNs, load balancers and proxies",
+        "href": "sessions/07-networking-and-traffic.html"
+      },
+      "options": [
+        {
+          "text": "Make all content public and rely on obscure URLs",
+          "correct": false,
+          "why": "Unlisted is not private."
+        },
+        {
+          "text": "Rate limiting and DDoS absorption at the edge",
+          "correct": true,
+          "why": "A distributed network is a natural shock absorber."
+        },
+        {
+          "text": "TLS at the edge with certificates managed centrally",
+          "correct": true,
+          "why": "Users connect securely to the nearby edge."
+        },
+        {
+          "text": "Check a database on every request for permission",
+          "correct": false,
+          "why": "Adds latency and load to the hot path. Signed URLs avoid it."
+        },
+        {
+          "text": "**Signed URLs or cookies** that expire",
+          "correct": true,
+          "why": "The edge verifies the signature and time before serving."
+        }
+      ]
+    },
+    {
+      "id": "reliability",
+      "phase": "Reliability",
+      "title": "Failures",
+      "type": "multi",
+      "prompt": "Which behaviours make failures invisible?",
+      "hint": "What can we still serve from memory?",
+      "explain": "Design so the **cache protects the origin and the origin does not break the cache**: stale-if-error, coalescing, timeouts and multi-region origins.",
+      "adds": {
+        "notes": [
+          "Failure: reroute from dead edges, serve stale if origin errors, multi-region origin, bounded retries"
+        ],
+        "components": [
+          "store"
+        ]
+      },
+      "chapter": {
+        "title": "Queues, rate limiting and resilience",
+        "href": "sessions/09-async-and-resilience.html"
+      },
+      "options": [
+        {
+          "text": "Origin down: return errors immediately to protect the CDN",
+          "correct": false,
+          "why": "Hurts users when cached content could still be served."
+        },
+        {
+          "text": "Edge dies: DNS or anycast routes users to the next nearest edge",
+          "correct": true,
+          "why": "Hit rate dips, service continues."
+        },
+        {
+          "text": "Replicate the origin in two regions with health-checked failover",
+          "correct": true,
+          "why": "Removes the origin single point of failure."
+        },
+        {
+          "text": "Origin down: serve stale content (`stale-if-error`) while it recovers",
+          "correct": true,
+          "why": "Slightly old beats an error page."
+        },
+        {
+          "text": "Retry origin fetches with no limit",
+          "correct": false,
+          "why": "A retry storm on a struggling origin."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what does a CDN trade away to get speed?",
+      "hint": "Freshness, cost and number of layers.",
+      "explain": "Strong closing: **\"I would tune the TTL per content type, long for versioned assets, short for HTML.\"**",
+      "adds": {
+        "notes": [
+          "Trade-offs: freshness vs latency, edges vs hit rate and cost, shield vs extra hop"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "A CDN trades **freshness and simplicity** for **latency and origin protection**: content can be stale until its TTL expires or it is purged, and there are more moving parts (routing, purge, cache layers). More edges mean lower latency but a lower hit rate per edge and higher cost. A shield layer lowers origin load but adds one more hop on a miss.",
+      "points": [
+        "Freshness vs latency (TTL, purge)",
+        "More edges: lower latency but lower hit rate per edge, higher cost",
+        "Shield cache reduces origin load but adds a hop on a miss",
+        "Operational complexity of the control plane"
+      ]
+    }
+  ],
+  "position": 3
+}

@@ -1,0 +1,707 @@
+{
+  "slug": "load-balancer",
+  "title": "Design a Load Balancer",
+  "tagline": "Spread traffic over many servers, drop the ones that fail, and never become the failure yourself.",
+  "difficulty": "Beginner",
+  "minutes": 40,
+  "course_slug": "system-design",
+  "statement": {
+    "category": "Infrastructure",
+    "prompt": "Design a **load balancer** that sits in front of a fleet of web servers and distributes incoming requests across them.",
+    "context": [
+      "You are in a 45-minute interview. Many candidates answer \"use round robin\". Interviewers want to see the whole picture.",
+      "The service is public and traffic varies through the day.",
+      "Think of the managed balancers in AWS (ALB and NLB) or software like Nginx and HAProxy."
+    ],
+    "given": [
+      "About **50 million requests a day**, peaking at **3 times** the average.",
+      "Each backend server handles about **500 requests per second**.",
+      "Servers are added and removed during deployments and scaling.",
+      "Requests vary from a few milliseconds to several seconds."
+    ],
+    "expectations": [
+      {
+        "title": "Drive the conversation",
+        "body": "Ask questions before drawing anything. State your assumptions out loud so they can be corrected early."
+      },
+      {
+        "title": "Use numbers",
+        "body": "Turn the givens into requests per second, storage and bandwidth. Every later choice should point back to one of them."
+      },
+      {
+        "title": "Start simple, then evolve",
+        "body": "Get a working version on the board first. Add caches, sharding and queues only when a number or a requirement asks for them."
+      },
+      {
+        "title": "Go deep on the hard parts",
+        "body": "For this problem the hard parts are health checking, choosing an algorithm for uneven traffic and removing the balancer as a single point of failure."
+      },
+      {
+        "title": "Name the trade-offs",
+        "body": "Say what you chose, what you gave up, and what would make you change your mind."
+      },
+      {
+        "title": "Think about failure",
+        "body": "Point out single points of failure and say what happens when a node, a cache or a whole zone goes down."
+      }
+    ],
+    "scope_in": [
+      "Distributing requests across servers",
+      "Health checks and failover",
+      "Choosing algorithms and layers",
+      "Making the balancer itself highly available"
+    ],
+    "scope_out": [
+      "Writing a proxy in code",
+      "Web application firewall rules",
+      "Cloud billing"
+    ],
+    "timeline": [
+      {
+        "phase": "Clarify requirements",
+        "minutes": 4
+      },
+      {
+        "phase": "Estimate scale",
+        "minutes": 4
+      },
+      {
+        "phase": "API and data model",
+        "minutes": 5
+      },
+      {
+        "phase": "High-level design",
+        "minutes": 7
+      },
+      {
+        "phase": "Deep dive",
+        "minutes": 15
+      },
+      {
+        "phase": "Reliability",
+        "minutes": 5
+      },
+      {
+        "phase": "Trade-offs and wrap-up",
+        "minutes": 5
+      }
+    ],
+    "great": [
+      "Compares **Layer 4 and Layer 7** and picks one with a reason.",
+      "Chooses an algorithm that matches the request pattern.",
+      "Designs health checks with thresholds and connection draining.",
+      "Makes the balancer redundant across zones."
+    ],
+    "concepts": [
+      {
+        "term": "Layer 4 vs Layer 7",
+        "def": "L4 forwards TCP/UDP by IP and port (fast). L7 understands HTTP, so it can route by path, header or cookie, and terminate TLS."
+      },
+      {
+        "term": "Health check",
+        "def": "A regular test (such as GET /health) used to decide whether a server should get traffic."
+      },
+      {
+        "term": "Connection draining",
+        "def": "When removing a server, stop new requests but let in-flight ones finish."
+      },
+      {
+        "term": "Anycast",
+        "def": "Many locations announce the same IP; the network sends each user to the nearest one."
+      },
+      {
+        "term": "Sticky session",
+        "def": "Sending a user to the same server every time. Convenient, but it makes servers stateful."
+      }
+    ],
+    "numbers": [
+      "50M requests / day = about **580 per second**",
+      "Servers needed = peak rate / per-server capacity, plus spares",
+      "A single good balancer handles **tens of thousands** of requests per second"
+    ],
+    "resources": [],
+    "summary": {
+      "takeaways": [
+        "Use a **Layer 7 balancer** for path routing and TLS, with L4 in front at very large scale.",
+        "Pick **least connections** for uneven requests, **weighted** for mixed servers.",
+        "**Health checks with thresholds** and **connection draining** keep users safe during failures.",
+        "Keep servers **stateless** and run the balancer as a **redundant pair across zones**."
+      ],
+      "tradeoffs": [
+        {
+          "choice": "Layer 7",
+          "gain": "Smart routing, TLS termination",
+          "cost": "More latency and CPU than Layer 4"
+        },
+        {
+          "choice": "Least connections",
+          "gain": "Adapts to uneven requests",
+          "cost": "Tracks per-server state"
+        },
+        {
+          "choice": "Active-passive pair",
+          "gain": "Simple failover",
+          "cost": "Idle standby capacity"
+        }
+      ],
+      "extensions": [
+        "Rate limiting and DDoS protection at the edge",
+        "Blue/green and canary traffic shifting",
+        "Global load balancing across regions with DNS"
+      ]
+    },
+    "diagram": {
+      "viewBox": "0 0 660 280",
+      "nodes": {
+        "client": {
+          "x": 10,
+          "y": 110,
+          "w": 90,
+          "label": "Clients",
+          "kind": "client"
+        },
+        "dns": {
+          "x": 130,
+          "y": 20,
+          "w": 130,
+          "label": "DNS / anycast",
+          "kind": "edge"
+        },
+        "lb1": {
+          "x": 160,
+          "y": 90,
+          "w": 130,
+          "label": "LB (active)",
+          "kind": "edge"
+        },
+        "lb2": {
+          "x": 160,
+          "y": 190,
+          "w": 130,
+          "label": "LB (standby)",
+          "kind": "edge"
+        },
+        "s1": {
+          "x": 380,
+          "y": 20,
+          "w": 120,
+          "label": "Server 1",
+          "kind": "service"
+        },
+        "s2": {
+          "x": 380,
+          "y": 90,
+          "w": 120,
+          "label": "Server 2",
+          "kind": "service"
+        },
+        "s3": {
+          "x": 380,
+          "y": 160,
+          "w": 120,
+          "label": "Server 3",
+          "kind": "service"
+        },
+        "health": {
+          "x": 540,
+          "y": 90,
+          "w": 110,
+          "label": "Health checker",
+          "kind": "queue"
+        }
+      },
+      "edges": [
+        [
+          "client",
+          "dns"
+        ],
+        [
+          "client",
+          "lb1"
+        ],
+        [
+          "lb1",
+          "lb2",
+          "heartbeat",
+          "dashed"
+        ],
+        [
+          "lb1",
+          "s1"
+        ],
+        [
+          "lb1",
+          "s2"
+        ],
+        [
+          "lb1",
+          "s3"
+        ],
+        [
+          "health",
+          "s2",
+          "ping"
+        ]
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "functional",
+      "phase": "Clarify requirements",
+      "title": "What must a load balancer do?",
+      "type": "multi",
+      "prompt": "You are asked to design a load balancer. Which belong in the **core** scope?",
+      "hint": "Think of a traffic policeman: he directs cars, he does not drive them.",
+      "explain": "Core: **distribute, health-check, add/remove servers, pluggable algorithm**. TLS termination and sticky sessions are good extras.",
+      "adds": {
+        "notes": [
+          "Core: distribute requests, health checks, add/remove servers, pluggable algorithm"
+        ]
+      },
+      "chapter": {
+        "title": "Design a load balancer",
+        "href": "sessions/12-design-load-balancer.html"
+      },
+      "options": [
+        {
+          "text": "Choose a server using a configurable algorithm",
+          "correct": true,
+          "why": "Round robin, least connections and so on."
+        },
+        {
+          "text": "Add and remove servers without dropping traffic",
+          "correct": true,
+          "why": "Scaling and deployments need this."
+        },
+        {
+          "text": "Accept client connections and forward each request to one backend server",
+          "correct": true,
+          "why": "The defining job."
+        },
+        {
+          "text": "Run the application business logic",
+          "correct": false,
+          "why": "The balancer routes. It does not know your product."
+        },
+        {
+          "text": "Store user data durably",
+          "correct": false,
+          "why": "A balancer is stateless apart from small bits of configuration."
+        },
+        {
+          "text": "Detect unhealthy servers and stop sending them traffic",
+          "correct": true,
+          "why": "Without health checks it just spreads failures around."
+        }
+      ]
+    },
+    {
+      "id": "non-functional",
+      "phase": "Clarify requirements",
+      "title": "What qualities matter?",
+      "type": "multi",
+      "prompt": "Pick the qualities a load balancer must have.",
+      "hint": "What happens to the whole site if this box is slow or dead?",
+      "explain": "A balancer is **in the path of every request**, so be paranoid about **latency** and **availability**.",
+      "adds": {
+        "notes": [
+          "Qualities: negligible latency, no single point of failure, scales to very many connections"
+        ]
+      },
+      "chapter": {
+        "title": "DNS, CDNs, load balancers and proxies",
+        "href": "sessions/07-networking-and-traffic.html"
+      },
+      "options": [
+        {
+          "text": "Very high availability, no single point of failure",
+          "correct": true,
+          "why": "If the balancer dies, everything behind it is unreachable."
+        },
+        {
+          "text": "Horizontal scalability for hundreds of thousands of connections",
+          "correct": true,
+          "why": "It sits in front of the whole fleet."
+        },
+        {
+          "text": "Rich query capabilities",
+          "correct": false,
+          "why": "Not its job."
+        },
+        {
+          "text": "Extra latency of well under a millisecond or two",
+          "correct": true,
+          "why": "Every request goes through it."
+        },
+        {
+          "text": "Strong consistency of data with transactions",
+          "correct": false,
+          "why": "No data of its own to keep consistent."
+        }
+      ]
+    },
+    {
+      "id": "rps",
+      "phase": "Estimate scale",
+      "title": "How big must it be?",
+      "type": "estimate",
+      "prompt": "The site serves **50 million requests a day**. Each server comfortably handles **500 requests per second**. Peak is **3 times** the average. How many **servers** are needed at peak (round up)?",
+      "hint": "Average per second first, then multiply for peak, then divide by server capacity.",
+      "explain": "**4 servers plus spares** shows the point: one balancer handles this easily (a good one handles tens of thousands per second); the server fleet is what grows.",
+      "adds": {
+        "notes": [
+          "Scale example: about 600 req/s average, 1,800 peak, so 4-6 backend servers"
+        ]
+      },
+      "chapter": {
+        "title": "Back-of-envelope estimation",
+        "href": "sessions/02-back-of-envelope.html"
+      },
+      "unit": "servers",
+      "answer": 4,
+      "factor": 2,
+      "work": [
+        "50,000,000 / 86,400 = about **580 requests per second** average",
+        "Peak = 580 x 3 = about **1,740 per second**",
+        "1,740 / 500 = 3.5, so **4 servers** (add 1 or 2 more as spare capacity)"
+      ]
+    },
+    {
+      "id": "layer",
+      "phase": "API and data model",
+      "title": "Layer 4 or Layer 7?",
+      "type": "choice",
+      "prompt": "Your product has `/api` servers and `/images` servers and needs TLS termination. Which type of load balancer do you need?",
+      "hint": "Does the decision need to look inside the HTTP request?",
+      "explain": "**L4 = fast and simple, L7 = smart.** Large systems often use L4 in front of L7.",
+      "adds": {
+        "notes": [
+          "Type: Layer 7 balancer (path routing, TLS termination); L4 in front at very high scale"
+        ]
+      },
+      "chapter": {
+        "title": "DNS, CDNs, load balancers and proxies",
+        "href": "sessions/07-networking-and-traffic.html"
+      },
+      "followup": "When would you pick Layer 4 instead?",
+      "options": [
+        {
+          "text": "DNS round robin only",
+          "correct": false,
+          "why": "No health checks and caches linger, so a dead server keeps receiving traffic."
+        },
+        {
+          "text": "Layer 7 (HTTP aware)",
+          "correct": true,
+          "why": "Only L7 can read the URL path and decide `/api` vs `/images`, and terminate TLS."
+        },
+        {
+          "text": "No load balancer: clients choose a server",
+          "correct": false,
+          "why": "Pushes failure handling to every client."
+        },
+        {
+          "text": "Layer 4 (TCP only)",
+          "correct": false,
+          "why": "L4 sees IPs and ports only, so it cannot route by path. It is faster and good for plain TCP such as databases."
+        }
+      ]
+    },
+    {
+      "id": "high-level",
+      "phase": "High-level design",
+      "title": "What are the main components?",
+      "type": "multi",
+      "prompt": "Which components make up the design?",
+      "hint": "Who talks to whom?",
+      "explain": "Draw **clients -> balancer pair -> servers**, with the **health checker** feeding the pool. Then explain each.",
+      "adds": {
+        "notes": [
+          "Components: balancer pair, server pool, health checker, heartbeat between the pair"
+        ],
+        "components": [
+          "client",
+          "lb1",
+          "s1",
+          "s2",
+          "s3",
+          "health"
+        ]
+      },
+      "chapter": {
+        "title": "Design a load balancer",
+        "href": "sessions/12-design-load-balancer.html"
+      },
+      "options": [
+        {
+          "text": "A standby balancer with a heartbeat for failover",
+          "correct": true,
+          "why": "Removes the single point of failure."
+        },
+        {
+          "text": "A health checker that tests each server",
+          "correct": true,
+          "why": "Drives which servers are in the pool."
+        },
+        {
+          "text": "A pool of backend servers",
+          "correct": true,
+          "why": "What we are balancing."
+        },
+        {
+          "text": "The load balancer (a proxy that picks a server per request)",
+          "correct": true,
+          "why": "The core."
+        },
+        {
+          "text": "A relational database holding every request",
+          "correct": false,
+          "why": "Adds latency and a bottleneck for no reason."
+        }
+      ]
+    },
+    {
+      "id": "algorithm",
+      "phase": "Deep dive",
+      "title": "Which algorithm?",
+      "type": "choice",
+      "prompt": "Requests vary hugely in cost: some take 5 ms, some take 5 seconds (file exports). Servers are identical. Which algorithm balances best?",
+      "hint": "What does round robin ignore?",
+      "explain": "**Round robin** for equal, short requests. **Least connections** when durations differ. **Weighted** for different server sizes. **Consistent hash** for cache affinity. **Power of two choices** is a cheap, strong default at scale.",
+      "adds": {
+        "notes": [
+          "Algorithm: least connections (weighted if servers differ), configurable"
+        ]
+      },
+      "chapter": {
+        "title": "Design a load balancer",
+        "href": "sessions/12-design-load-balancer.html"
+      },
+      "pitfall": "Saying round robin for everything.",
+      "followup": "Why does picking two random servers and taking the less busy work nearly as well as checking all of them?",
+      "options": [
+        {
+          "text": "IP hash",
+          "correct": false,
+          "why": "Keeps a client on one server, which is good for caches but unbalanced if a few clients are heavy."
+        },
+        {
+          "text": "Always the first server",
+          "correct": false,
+          "why": "Not balancing at all."
+        },
+        {
+          "text": "Least connections",
+          "correct": true,
+          "why": "Sends new work to the server with the fewest in-flight requests, so a server stuck on slow requests is avoided."
+        },
+        {
+          "text": "Plain round robin",
+          "correct": false,
+          "why": "Gives each server the same count of requests, not the same load. A server can pile up slow ones."
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "phase": "Deep dive",
+      "title": "Health checking",
+      "type": "order",
+      "prompt": "A server starts failing. Put these events in the order a good design handles them.",
+      "hint": "Detect, decide, drain, recover, escalate.",
+      "explain": "Use **thresholds both ways** (N failures to remove, M successes to add) and **connection draining**. Combine **active** checks with **passive** ones (watching real 5xx errors).",
+      "adds": {
+        "notes": [
+          "Health: active /health checks, N failures to remove, M successes to re-add, connection draining, passive 5xx detection"
+        ]
+      },
+      "chapter": {
+        "title": "Design a load balancer",
+        "href": "sessions/12-design-load-balancer.html"
+      },
+      "items": [
+        {
+          "text": "The health checker's `GET /health` to the server times out",
+          "why": "Active checks find problems even without traffic."
+        },
+        {
+          "text": "After 3 failed checks in a row the server is marked unhealthy",
+          "why": "Several failures, not one, avoids reacting to a blip (flapping)."
+        },
+        {
+          "text": "The balancer stops choosing it; in-flight requests finish (draining)",
+          "why": "No new traffic, no cut-off users."
+        },
+        {
+          "text": "Checks continue; after 2 successes the server returns to the pool",
+          "why": "Needs consecutive successes to avoid bouncing in and out."
+        },
+        {
+          "text": "An alert fires if too many servers are unhealthy at once",
+          "why": "A mass failure is a bigger problem than one box."
+        }
+      ]
+    },
+    {
+      "id": "sticky",
+      "phase": "Deep dive",
+      "title": "Sessions and sticky routing",
+      "type": "choice",
+      "prompt": "Users stay logged in. Where should session data live so any server can serve any request?",
+      "hint": "What happens to pinned users when their server dies?",
+      "explain": "**Stateless servers + shared session store** beat sticky sessions. Use stickiness only as a small optimisation (for example a warm local cache).",
+      "adds": {
+        "notes": [
+          "Sessions: stateless servers, session data in a shared store; stickiness optional"
+        ]
+      },
+      "chapter": {
+        "title": "DNS, CDNs, load balancers and proxies",
+        "href": "sessions/07-networking-and-traffic.html"
+      },
+      "options": [
+        {
+          "text": "In the load balancer's memory",
+          "correct": false,
+          "why": "Makes the balancer stateful and fragile."
+        },
+        {
+          "text": "In each server's memory, with the balancer pinning each user to one server",
+          "correct": false,
+          "why": "Works until that server dies or you scale down; load becomes uneven."
+        },
+        {
+          "text": "In a shared store (Redis or a database), so servers stay stateless",
+          "correct": true,
+          "why": "Any server can handle any user; scaling down or crashing loses nothing."
+        },
+        {
+          "text": "In a cookie containing the user's raw password",
+          "correct": false,
+          "why": "Never."
+        }
+      ]
+    },
+    {
+      "id": "ha",
+      "phase": "Reliability",
+      "title": "Remove the single point of failure",
+      "type": "multi",
+      "prompt": "Which techniques keep the balancer itself available?",
+      "hint": "Two of everything, in different places.",
+      "explain": "Same rule as for every layer: **redundancy across zones**. In the cloud, a managed balancer (ALB/NLB) does this for you, but explain *how* it works.",
+      "adds": {
+        "notes": [
+          "HA: balancer pair (active-passive or active-active), multi-zone, heartbeat failover"
+        ],
+        "components": [
+          "dns",
+          "lb2"
+        ]
+      },
+      "chapter": {
+        "title": "DNS, CDNs, load balancers and proxies",
+        "href": "sessions/07-networking-and-traffic.html"
+      },
+      "options": [
+        {
+          "text": "Spread them across availability zones",
+          "correct": true,
+          "why": "A whole zone can fail."
+        },
+        {
+          "text": "Let clients retry forever until it recovers",
+          "correct": false,
+          "why": "A retry storm makes it worse."
+        },
+        {
+          "text": "An active-passive pair sharing a floating IP, with a heartbeat",
+          "correct": true,
+          "why": "The standby takes over the IP when the heartbeat stops."
+        },
+        {
+          "text": "Run a single very powerful balancer",
+          "correct": false,
+          "why": "Still a single point of failure."
+        },
+        {
+          "text": "Or active-active balancers behind DNS or anycast",
+          "correct": true,
+          "why": "Uses both nodes and survives a loss."
+        }
+      ]
+    },
+    {
+      "id": "scale",
+      "phase": "Reliability",
+      "title": "When one balancer is not enough",
+      "type": "multi",
+      "prompt": "Traffic grows to millions of connections. What are sensible next steps?",
+      "hint": "Think layers of balancers.",
+      "explain": "Tiered balancing: **DNS/anycast -> L4 -> L7 -> servers**. Each tier is scaled horizontally and stays stateless.",
+      "adds": {
+        "notes": [
+          "At huge scale: DNS/anycast -> L4 tier -> L7 tier -> servers"
+        ]
+      },
+      "chapter": {
+        "title": "Scaling data",
+        "href": "sessions/06-scaling-data.html"
+      },
+      "options": [
+        {
+          "text": "Put L4 balancers (ECMP or anycast) in front of a tier of L7 balancers",
+          "correct": true,
+          "why": "Spreads connection load, then smart routing."
+        },
+        {
+          "text": "Use a bigger single machine forever",
+          "correct": false,
+          "why": "Hits a ceiling."
+        },
+        {
+          "text": "Remove health checks to save time",
+          "correct": false,
+          "why": "Saves nothing and sends users to dead servers."
+        },
+        {
+          "text": "Offload TLS to dedicated hardware or the edge",
+          "correct": true,
+          "why": "TLS handshakes are CPU heavy."
+        },
+        {
+          "text": "Scale L7 balancers horizontally and keep them stateless",
+          "correct": true,
+          "why": "Add boxes for more throughput."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "phase": "Trade-offs and wrap-up",
+      "title": "Defend your design",
+      "type": "reflect",
+      "prompt": "In two or three sentences: what are the trade-offs of a Layer 7 balancer with least-connections routing?",
+      "hint": "What does every request pay for the smarts?",
+      "explain": "Always name **who pays** for a choice: latency, cost, complexity or consistency.",
+      "adds": {
+        "notes": [
+          "Trade-offs: L7 flexibility vs latency, redundancy vs idle capacity"
+        ]
+      },
+      "chapter": {
+        "title": "The interview framework",
+        "href": "sessions/01-interview-framework.html"
+      },
+      "model": "A Layer 7 balancer gives **smart routing and TLS termination** but adds a little **latency and CPU cost** compared with Layer 4 and needs more capacity. Least connections adapts to uneven requests but needs the balancer to **track state** per server. A balancer pair removes the single point of failure at the cost of **idle capacity and failover complexity**. If traffic or latency demanded it I would put an L4 tier in front.",
+      "points": [
+        "Routing intelligence vs added latency/cost (L7 vs L4)",
+        "Least connections needs per-server state",
+        "Redundancy costs idle capacity",
+        "Said when to change (L4 tier at huge scale)"
+      ]
+    }
+  ],
+  "position": 2
+}

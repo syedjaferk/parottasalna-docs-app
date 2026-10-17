@@ -44,4 +44,23 @@ sessions/03-api-and-data-model
 sessions/04-unique-ids
 sessions/05-caching
 sessions/06-scaling-data
+sessions/07-networking-and-traffic
+sessions/08-databases-cap-and-consistency
+sessions/09-async-and-resilience
+```
+
+```{toctree}
+:maxdepth: 1
+:caption: Case studies
+
+sessions/10-design-url-shortener
+sessions/11-design-autocomplete
+sessions/12-design-load-balancer
+sessions/13-design-cdn
+sessions/14-design-parking-garage
+sessions/15-design-vending-machine
+sessions/16-design-key-value-store
+sessions/17-design-distributed-cache
+sessions/18-design-authentication-system
+sessions/19-design-upi-payments
 ```

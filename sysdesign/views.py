@@ -15,7 +15,15 @@ MAX_BODY = 200_000
 
 @require_safe
 def index(request):
-    return render(request, "sysdesign/index.html", {"problems": list_problems()})
+    problems = list_problems()
+    done = {}
+    if request.user.is_authenticated:
+        done = {p.problem.slug: len(p.answers) for p in ProblemProgress.objects.filter(user=request.user).select_related("problem")}
+    for p in problems:
+        p["category"] = p["statement"].get("category", "")
+        p["done"] = done.get(p["slug"])             # None for anonymous visitors; the page script reads this browser's copy
+    categories = sorted({p["category"] for p in problems if p["category"]})
+    return render(request, "sysdesign/index.html", {"problems": problems, "categories": categories, "signed_in": request.user.is_authenticated})
 
 
 @require_safe

@@ -11,7 +11,7 @@ PATHS = [
          steps=[("course", "dsa-patterns", "", "Learn the 23 patterns behind most coding questions."),
                 ("link", "", "Practice tracker", "Log problems and re-solve them on a schedule.", "/prep/practice/"),
                 ("course", "system-design", "", "Learn the interview framework, estimation and the building blocks."),
-                ("link", "", "System design playground", "Design TinyURL step by step with instant feedback.", "/system-design/"),
+                ("link", "", "System design playground", "Design TinyURL and nine more systems step by step with instant feedback.", "/system-design/"),
                 ("link", "", "Resume review", "Get an ATS score before you apply.", "/resume-review/"),
                 ("link", "", "Placement quiz", "Check which patterns you recognise.", "/prep/placement/")]),
     dict(slug="backend-cloud", title="Backend and cloud engineer", icon="☁️", sort_order=2,
