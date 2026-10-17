@@ -1,0 +1,8 @@
+[108 105 110 101]
+line one
+line two
+1: line one
+2: line two
+3: line three
+open missing.txt: no such file or directory
+true

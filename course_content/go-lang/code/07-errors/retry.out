@@ -1,0 +1,8 @@
+failed: attempt 1: server busy
+failed: attempt 2: server busy
+succeeded on attempt 3
+<nil>
+failed: server down
+failed: server down
+gave up after 2 attempts: server down
+server down

@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 310" role="img" aria-labelledby="channel-pool-t channel-pool-d" xmlns="http://www.w3.org/2000/svg">
+<title id="channel-pool-t">Channels carry values between goroutines</title>
+<desc id="channel-pool-d">A worker pool: main sends jobs into one channel, three workers take from it, and results come back on another.</desc>
+<defs><marker id="channel-pool-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="channel-pool-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="channel-pool-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="channel-pool-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="110" width="110" height="60" rx="10" class="blue"/>
+<text x="75.0" y="130.0" text-anchor="middle" dominant-baseline="middle" class="bold">main</text>
+<text x="75.0" y="150.0" text-anchor="middle" dominant-baseline="middle" class="small">jobs &lt;- 1..6</text>
+<rect x="190" y="120" width="110" height="40" rx="10" class="amber"/>
+<text x="245.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">jobs chan</text>
+<path d="M132,140 L188,140" class="arrow" marker-end="url(#channel-pool-h)"/>
+<rect x="380" y="40" width="120" height="50" rx="10" class="green"/>
+<text x="440.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">worker 1</text>
+<path d="M302,140 L378,65" class="arrow" marker-end="url(#channel-pool-h)"/>
+<path d="M502,65 L578,140" class="arrow" marker-end="url(#channel-pool-h)"/>
+<rect x="380" y="120" width="120" height="50" rx="10" class="green"/>
+<text x="440.0" y="145.0" text-anchor="middle" dominant-baseline="middle" class="code">worker 2</text>
+<path d="M302,140 L378,145" class="arrow" marker-end="url(#channel-pool-h)"/>
+<path d="M502,145 L578,140" class="arrow" marker-end="url(#channel-pool-h)"/>
+<rect x="380" y="200" width="120" height="50" rx="10" class="green"/>
+<text x="440.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="code">worker 3</text>
+<path d="M302,140 L378,225" class="arrow" marker-end="url(#channel-pool-h)"/>
+<path d="M502,225 L578,140" class="arrow" marker-end="url(#channel-pool-h)"/>
+<rect x="580" y="120" width="140" height="40" rx="10" class="amber"/>
+<text x="650.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">results chan</text>
+<text x="380" y="270" text-anchor="middle" dominant-baseline="middle" class="code">ch &lt;- v  send (waits for a receiver)  ·  v := &lt;-ch  receive</text>
+<text x="380" y="295" text-anchor="middle" dominant-baseline="middle" class="small">close(jobs) tells workers &#x27;no more&#x27;; select picks whichever channel is ready first</text>
+</svg>
+<figcaption>A worker pool: main sends jobs into one channel, three workers take from it, and results come back on another.</figcaption>
+</figure>

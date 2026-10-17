@@ -1,0 +1,10 @@
+Error: -dir is required
+Usage: finder -dir=<dir> [-ext=.go] [-verbose] [-limit=N]
+  -dir string
+    	directory to search
+  -ext string
+    	only files with this extension
+  -limit int
+    	max results (0 = all)
+  -verbose
+    	print extra detail

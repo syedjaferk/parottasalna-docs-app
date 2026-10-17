@@ -1,0 +1,83 @@
+chapter: sessions/15-waitgroup
+quizzes:
+- title: Session 15 · WaitGroup
+  description: Check what you learned in this session.
+  questions:
+  - text: What problem does `sync.WaitGroup` solve?
+    choices: |
+      *Waiting until a set of goroutines has finished
+      Sharing data safely
+      Sending values between goroutines
+      Limiting memory
+    explanation: It is a counter you wait on.
+  - text: What does `wg.Add(1)` do?
+    choices: |
+      Starts a goroutine
+      *Raises the counter by one
+      Waits one second
+      Adds a value to a slice
+    explanation: Call it once per goroutine you are about to start.
+  - text: Where should `wg.Add(1)` be called?
+    choices: |
+      Inside the goroutine
+      After `wg.Wait()`
+      *Before the `go` statement
+      Anywhere, it does not matter
+    explanation: Otherwise `Wait` might run first and see zero.
+  - text: What does `wg.Done()` do?
+    choices: |
+      Closes a channel
+      Stops all goroutines
+      Prints done
+      *Lowers the counter by one
+    explanation: It is equivalent to `Add(-1)`.
+  - text: Why write `defer wg.Done()` as the first line of the goroutine?
+    choices: |
+      *It runs even on an early return or panic
+      It is faster
+      `Done` cannot be called later
+      The compiler requires it
+    explanation: Forgetting `Done` makes `Wait` block forever.
+  - text: What does `wg.Wait()` do?
+    choices: |
+      Waits one tick
+      *Blocks until the counter is zero
+      Cancels goroutines
+      Returns the results
+    explanation: Then the program carries on.
+  - text: Why must a `WaitGroup` be passed by pointer?
+    choices: |
+      Pointers are faster
+      WaitGroup is an interface
+      *A copy would count separately, so `Wait` never returns
+      Values cannot be passed
+    explanation: '`go vet` warns about copying it.'
+  - text: How can goroutines collect results without a race?
+    choices: |
+      All append to one slice
+      All write to one variable
+      They cannot
+      *Each writes to its own slot of a pre-sized slice
+    explanation: No two goroutines touch the same index.
+  - text: What happens if `Done` is called more times than `Add`?
+    choices: |
+      *A panic: negative WaitGroup counter
+      Nothing
+      `Wait` returns early silently
+      A compile error
+    explanation: Balance every Add with exactly one Done.
+decks:
+- title: Session 15 · WaitGroup flashcards
+  cards:
+  - front: WaitGroup
+    back: 'A counter: Add before go, Done when finished, Wait for zero'
+  - front: Add before go
+    back: Never inside the goroutine
+  - front: defer wg.Done()
+    back: First line of the goroutine so it always runs
+  - front: Pass &wg
+    back: A copy counts separately and deadlocks
+  - front: Result slots
+    back: Give each goroutine its own index to write
+  - front: Deadlock message
+    back: '`all goroutines are asleep - deadlock!`'

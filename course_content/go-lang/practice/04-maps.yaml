@@ -1,0 +1,83 @@
+chapter: sessions/04-maps
+quizzes:
+- title: Session 4 · Maps
+  description: Check what you learned in this session.
+  questions:
+  - text: What is a map for?
+    choices: |
+      *Looking up a value by its key
+      Keeping items in sorted order
+      Storing items by index only
+      Running code in parallel
+    explanation: '`map[string]int` finds an int by a string key quickly.'
+  - text: What does `ages["Nobody"]` return if the key is missing?
+    choices: |
+      It panics
+      *The zero value (`0` for an int map)
+      `nil` always
+      An error
+    explanation: A missing key is not an error; use comma-ok to tell.
+  - text: What does `v, ok := m[key]` give you?
+    choices: |
+      The value and its type
+      The key and the value
+      *The value and whether the key existed
+      A copy of the map
+    explanation: '`ok` is false if the key is absent.'
+  - text: In what order does `for k, v := range m` visit entries?
+    choices: |
+      Insertion order
+      Sorted by key
+      Reverse order
+      *Random order
+    explanation: Go randomises it on purpose. Sort the keys if you need order.
+  - text: '`m2 := m1` where `m1` is a map. Then `m2["a"] = 100`. What is `m1["a"]`?'
+    choices: |
+      *`100`; both names refer to the same map
+      Unchanged
+      A panic
+      `0`
+    explanation: 'Maps are references: assignment does not copy.'
+  - text: What happens when you write to a `nil` map?
+    choices: |
+      The key is silently ignored
+      *A runtime panic
+      Go creates the map
+      A compile error
+    explanation: Reading a nil map is fine; writing panics. Use `make`.
+  - text: Which type cannot be a map key?
+    choices: |
+      A string
+      An int
+      *A slice
+      A struct of strings
+    explanation: Keys must be comparable with `==`; slices are not.
+  - text: How do you remove a key?
+    choices: |
+      `m[key] = nil`
+      `m.remove(key)`
+      `remove(m, key)`
+      *`delete(m, key)`
+    explanation: '`delete` does nothing if the key is not there.'
+  - text: Why does `expenses[id].Amount = 5` fail to compile for `map[int]Expense`?
+    choices: |
+      *Map values are not addressable; copy, modify, then store back
+      Fields of structs are read-only
+      Amount must be private
+      It works but prints a warning
+    explanation: Do `e := expenses[id]; e.Amount = 5; expenses[id] = e`, or store pointers.
+decks:
+- title: Session 4 · Maps flashcards
+  cards:
+  - front: Make a map
+    back: '`make(map[string]int)` or `map[string]int{"a": 1}`'
+  - front: Comma-ok
+    back: '`v, ok := m[k]` tells missing from zero'
+  - front: Iteration order
+    back: Random; sort the keys for stable output
+  - front: nil map
+    back: Reads fine, writes panic
+  - front: Set
+    back: '`map[T]bool` is Go''s everyday set'
+  - front: delete
+    back: '`delete(m, k)` removes a key'

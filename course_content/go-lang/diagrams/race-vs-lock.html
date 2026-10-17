@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 320" role="img" aria-labelledby="race-vs-lock-t race-vs-lock-d" xmlns="http://www.w3.org/2000/svg">
+<title id="race-vs-lock-t">Why counter++ needs a lock</title>
+<desc id="race-vs-lock-d">counter++ is read, add, write. Two goroutines can read the same value, so one update is lost. A mutex lets one in at a time.</desc>
+<defs><marker id="race-vs-lock-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="race-vs-lock-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="race-vs-lock-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="race-vs-lock-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="190" y="20" text-anchor="middle" dominant-baseline="middle" class="title">without a lock</text>
+<text x="570" y="20" text-anchor="middle" dominant-baseline="middle" class="title">with a mutex</text>
+<rect x="20" y="40" width="340" height="40" rx="10" class="blue"/>
+<text x="190.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">A reads 7</text>
+<rect x="20" y="86" width="340" height="40" rx="10" class="green"/>
+<text x="190.0" y="106.0" text-anchor="middle" dominant-baseline="middle" class="code">B reads 7</text>
+<rect x="20" y="132" width="340" height="40" rx="10" class="blue"/>
+<text x="190.0" y="152.0" text-anchor="middle" dominant-baseline="middle" class="code">A writes 8</text>
+<rect x="20" y="178" width="340" height="40" rx="10" class="red"/>
+<text x="190.0" y="198.0" text-anchor="middle" dominant-baseline="middle" class="code">B writes 8</text>
+<text x="190" y="245" text-anchor="middle" dominant-baseline="middle" class="bold">two increments, counter grew by 1</text>
+<rect x="400" y="40" width="340" height="40" rx="10" class="blue"/>
+<text x="570.0" y="60.0" text-anchor="middle" dominant-baseline="middle" class="code">A Lock → read 7 → write 8 → Unlock</text>
+<rect x="400" y="86" width="340" height="40" rx="10" class="ghost"/>
+<text x="570.0" y="106.0" text-anchor="middle" dominant-baseline="middle" class="small">B waits…</text>
+<rect x="400" y="132" width="340" height="40" rx="10" class="green"/>
+<text x="570.0" y="152.0" text-anchor="middle" dominant-baseline="middle" class="code">B Lock → read 8 → write 9 → Unlock</text>
+<text x="570" y="200" text-anchor="middle" dominant-baseline="middle" class="bold">two increments, counter grew by 2</text>
+<text x="380" y="290" text-anchor="middle" dominant-baseline="middle" class="small">Find races with: go run -race file.go  ·  Lock, then defer Unlock()</text>
+</svg>
+<figcaption>counter++ is read, add, write. Two goroutines can read the same value, so one update is lost. A mutex lets one in at a time.</figcaption>
+</figure>

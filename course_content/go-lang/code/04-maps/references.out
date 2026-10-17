@@ -1,0 +1,3 @@
+map[a:100] map[a:100]
+0 0
+recovered: assignment to entry in nil map

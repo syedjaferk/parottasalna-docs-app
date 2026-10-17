@@ -1,0 +1,5 @@
+docs true
+main.go false
+project/docs/img/logo.png 1 bytes .png
+project/docs/readme.md 4 bytes .md
+project/main.go 12 bytes .go

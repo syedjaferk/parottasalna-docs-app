@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="log-levels-t log-levels-d" xmlns="http://www.w3.org/2000/svg">
+<title id="log-levels-t">Log levels act as a filter</title>
+<desc id="log-levels-d">A logger drops everything below its level. At Info, Debug lines disappear and Info, Warn and Error get through.</desc>
+<defs><marker id="log-levels-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="log-levels-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="log-levels-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="log-levels-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="40" width="110" height="50" rx="10" class="box"/>
+<text x="85.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">Debug</text>
+<rect x="160" y="40" width="110" height="50" rx="10" class="blue"/>
+<text x="215.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">Info</text>
+<rect x="290" y="40" width="110" height="50" rx="10" class="amber"/>
+<text x="345.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">Warn</text>
+<rect x="420" y="40" width="110" height="50" rx="10" class="red"/>
+<text x="475.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">Error</text>
+<line x1="150" y1="20" x2="150" y2="110" class="line cut"/>
+<text x="150" y="125" text-anchor="middle" dominant-baseline="middle" class="small">threshold = Info</text>
+<text x="85" y="20" text-anchor="middle" dominant-baseline="middle" class="small">dropped</text>
+<text x="330" y="20" text-anchor="middle" dominant-baseline="middle" class="small">kept</text>
+<rect x="570" y="30" width="170" height="70" rx="10" class="green"/>
+<text x="655.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">config.yaml</text>
+<text x="655.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">logging: level: info</text>
+<path d="M570,65 L500,65" class="arrow green dashed" marker-end="url(#log-levels-h-green)"/>
+<rect x="30" y="160" width="330" height="100" rx="10" class="ghost"/>
+<text x="195.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="code">slog.Info(&quot;login&quot;, &quot;user&quot;, &quot;Syed&quot;)</text>
+<text x="195.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">level=INFO msg=login user=Syed</text>
+<text x="195.0" y="230.0" text-anchor="middle" dominant-baseline="middle" class="small">{&quot;level&quot;:&quot;INFO&quot;,&quot;msg&quot;:&quot;login&quot;,&quot;user&quot;:&quot;Syed&quot;}</text>
+<rect x="390" y="160" width="350" height="100" rx="10" class="box"/>
+<text x="565.0" y="190.0" text-anchor="middle" dominant-baseline="middle" class="bold">Config as a struct</text>
+<text x="565.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="small">YAML file → yaml.Unmarshal → Config{…}</text>
+<text x="565.0" y="230.0" text-anchor="middle" dominant-baseline="middle" class="small">change behaviour without recompiling</text>
+</svg>
+<figcaption>A logger drops everything below its level. At Info, Debug lines disappear and Info, Warn and Error get through.</figcaption>
+</figure>

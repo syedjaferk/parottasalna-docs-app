@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="struct-json-t struct-json-d" xmlns="http://www.w3.org/2000/svg">
+<title id="struct-json-t">A struct and its JSON</title>
+<desc id="struct-json-d">Field tags decide the JSON names. Lowercase (unexported) fields are invisible to the json package.</desc>
+<defs><marker id="struct-json-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="struct-json-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="struct-json-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="struct-json-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="15" y="15" width="400" height="255" rx="10" class="box"/>
+<text x="215" y="38" text-anchor="middle" dominant-baseline="middle" class="bold">type User struct</text>
+<rect x="30" y="58" width="370" height="40" rx="10" class="blue"/>
+<text x="44" y="78" text-anchor="start" dominant-baseline="middle" class="code">ID    int</text>
+<text x="388" y="78" text-anchor="end" dominant-baseline="middle" class="small">`json:&quot;id&quot;`</text>
+<rect x="30" y="106" width="370" height="40" rx="10" class="blue"/>
+<text x="44" y="126" text-anchor="start" dominant-baseline="middle" class="code">Name  string</text>
+<text x="388" y="126" text-anchor="end" dominant-baseline="middle" class="small">`json:&quot;name&quot;`</text>
+<rect x="30" y="154" width="370" height="40" rx="10" class="blue"/>
+<text x="44" y="174" text-anchor="start" dominant-baseline="middle" class="code">Email string</text>
+<text x="388" y="174" text-anchor="end" dominant-baseline="middle" class="small">`json:&quot;email,omitempty&quot;`</text>
+<rect x="30" y="202" width="370" height="40" rx="10" class="ghost"/>
+<text x="44" y="222" text-anchor="start" dominant-baseline="middle" class="code">token string</text>
+<text x="388" y="222" text-anchor="end" dominant-baseline="middle" class="small">(private: skipped)</text>
+<path d="M425,120 L490,120" class="arrow" marker-end="url(#struct-json-h)"/>
+<text x="457.5" y="108.0" text-anchor="middle" dominant-baseline="middle" class="small">Marshal</text>
+<path d="M490,170 L425,170" class="arrow" marker-end="url(#struct-json-h)"/>
+<text x="457.5" y="158.0" text-anchor="middle" dominant-baseline="middle" class="small">Unmarshal</text>
+<rect x="500" y="55" width="245" height="170" rx="10" class="green"/>
+<text x="622.5" y="100.0" text-anchor="middle" dominant-baseline="middle" class="code">{</text>
+<text x="622.5" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">  &quot;id&quot;: 1,</text>
+<text x="622.5" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">  &quot;name&quot;: &quot;Syed&quot;,</text>
+<text x="622.5" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">  &quot;email&quot;: &quot;s@go.dev&quot;</text>
+<text x="622.5" y="180.0" text-anchor="middle" dominant-baseline="middle" class="code">}</text>
+<text x="622" y="250" text-anchor="middle" dominant-baseline="middle" class="small">omitempty drops Email when empty</text>
+</svg>
+<figcaption>Field tags decide the JSON names. Lowercase (unexported) fields are invisible to the json package.</figcaption>
+</figure>

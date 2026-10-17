@@ -1,0 +1,83 @@
+chapter: sessions/18-testing
+quizzes:
+- title: Session 18 · Testing
+  description: Check what you learned in this session.
+  questions:
+  - text: What must a Go test file be called?
+    choices: |
+      *It ends in `_test.go`
+      It starts with `test_`
+      It lives in a `tests` folder
+      It ends in `.test`
+    explanation: Test files are not part of the built program.
+  - text: What is the signature of a test function?
+    choices: |
+      `func testXxx()`
+      *`func TestXxx(t *testing.T)`
+      `func Test() error`
+      `func Xxx(t *Test)`
+    explanation: The name must start with a capital `Test`.
+  - text: How do you run all tests in all packages?
+    choices: |
+      `go run test`
+      `go build ./...`
+      *`go test ./...`
+      `go check`
+    explanation: Add `-v` for detail.
+  - text: What is the difference between `t.Errorf` and `t.Fatalf`?
+    choices: |
+      Errorf stops the program
+      Fatalf only logs
+      No difference
+      *`Errorf` records and continues; `Fatalf` stops the test
+    explanation: Use Fatalf when later lines make no sense.
+  - text: What is a table-driven test?
+    choices: |
+      *A slice of cases looped over with one body
+      A test of a database table
+      A test that prints a table
+      A test run in parallel
+    explanation: Adding a case is adding one line.
+  - text: Why use `t.Run(name, ...)`?
+    choices: |
+      It runs in a new process
+      *Each case becomes a named subtest
+      It skips setup
+      It speeds up the test
+    explanation: Failures point at the exact case.
+  - text: What does `go test -cover` report?
+    choices: |
+      The number of tests
+      Test duration
+      *The percentage of statements run by the tests
+      Memory used
+    explanation: 100 % does not mean bug-free.
+  - text: What is a benchmark function called?
+    choices: |
+      `TimeXxx(t)`
+      `SpeedXxx()`
+      `TestBenchXxx()`
+      *`BenchmarkXxx(b *testing.B)` looping `b.N` times
+    explanation: Run with `go test -bench=.`.
+  - text: How can you test an HTTP handler without a network?
+    choices: |
+      *Use `httptest.NewRecorder` and `httptest.NewRequest`
+      Start a real server on port 80
+      It is not possible
+      Use `os.Exec(curl)`
+    explanation: Call the handler directly and inspect the recorder.
+decks:
+- title: Session 18 · Testing flashcards
+  cards:
+  - front: Test file
+    back: '`x_test.go` with `func TestX(t *testing.T)`'
+  - front: t.Errorf vs t.Fatalf
+    back: Record and continue vs stop this test
+  - front: Table-driven
+    back: Slice of {name, input, want} cases looped with t.Run
+  - front: go test flags
+    back: -v verbose, -cover, -race, -run NAME, -bench=.
+  - front: Good failure message
+    back: Include input, got and want
+  - front: httptest
+    back: Recorder and request let you test handlers offline

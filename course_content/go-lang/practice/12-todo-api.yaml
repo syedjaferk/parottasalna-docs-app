@@ -1,0 +1,83 @@
+chapter: sessions/12-todo-api
+quizzes:
+- title: Session 12 · The Todo REST API
+  description: Check what you learned in this session.
+  questions:
+  - text: In REST, what does `GET /todos` mean?
+    choices: |
+      *List the todos
+      Create a todo
+      Delete all todos
+      Update a todo
+    explanation: The verb says the action; the URL names the thing.
+  - text: Why does a `Todo` struct have `json:"title"` tags?
+    choices: |
+      To encrypt fields
+      *To control the JSON key names
+      To set database columns
+      To make them public
+    explanation: The tag decides what the client sees.
+  - text: What should `POST /todos` with `{}` (no title) return?
+    choices: |
+      201 Created
+      200 OK
+      *400 Bad Request
+      404 Not Found
+    explanation: Validate input and tell the client what is wrong.
+  - text: Why start the store with `[]Todo{}` rather than `nil`?
+    choices: |
+      nil cannot be appended to
+      Go forbids nil
+      It is faster
+      *A nil slice encodes as `null`, an empty one as `[]`
+    explanation: Clients expect `[]` for an empty list.
+  - text: What is the job of `models.go`?
+    choices: |
+      *Describe the shapes of the data
+      Start the server
+      Talk to the database
+      Register routes
+    explanation: Models, storage, handlers and main each have one job.
+  - text: Why protect the store with a mutex?
+    choices: |
+      Handlers run one at a time
+      *Many requests run in different goroutines at once
+      To encrypt the data
+      JSON requires it
+    explanation: Unprotected shared data is a race.
+  - text: Why does `List` return a copy of the slice?
+    choices: |
+      Slices cannot be returned
+      To save memory
+      *So callers cannot change the store behind its lock
+      To sort it
+    explanation: Sharing the internal slice would bypass the mutex.
+  - text: Which line sets the response status to 201?
+    choices: |
+      After writing the body
+      `http.Error(w, "", 201)` only
+      `r.Status = 201`
+      *`w.WriteHeader(http.StatusCreated)` before writing the body
+    explanation: The header must be written before the body.
+  - text: What does the `"/"` pattern match in the default mux?
+    choices: |
+      *Every path that no more specific route matches
+      Only the path `/`
+      Nothing
+      Only GET requests
+    explanation: That is why `Home` checks `r.URL.Path != "/"` and replies 404.
+decks:
+- title: Session 12 · The Todo REST API flashcards
+  cards:
+  - front: REST verbs
+    back: GET read, POST create, PUT/PATCH update, DELETE remove
+  - front: Layers
+    back: models, storage, handlers, main
+  - front: writeJSON helper
+    back: Set header, status and encode the body in one place
+  - front: 201 vs 200
+    back: 201 Created is the right answer to a successful POST
+  - front: Go 1.22 routing
+    back: '`mux.HandleFunc("GET /todos/{id}", h)` and `r.PathValue("id")`'
+  - front: Nil slice JSON
+    back: Encodes as null; use an empty slice for `[]`

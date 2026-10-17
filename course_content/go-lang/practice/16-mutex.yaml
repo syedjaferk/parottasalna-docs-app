@@ -1,0 +1,83 @@
+chapter: sessions/16-mutex
+quizzes:
+- title: Session 16 · Mutex and data races
+  description: Check what you learned in this session.
+  questions:
+  - text: What is a data race?
+    choices: |
+      *Goroutines accessing the same variable at once, with at least one writing, without synchronisation
+      Two goroutines racing to finish
+      A slow channel
+      A crashed goroutine
+    explanation: The result becomes unpredictable.
+  - text: Why can `counter++` lose updates?
+    choices: |
+      It is a single atomic step
+      *It is three steps (read, add, write) that can interleave
+      Integers are floating point
+      The compiler removes it
+    explanation: Two goroutines may read the same value.
+  - text: What does `mutex.Lock()` do?
+    choices: |
+      Locks the file system
+      Stops the program
+      *Lets one goroutine in; others wait until `Unlock`
+      Copies the variable
+    explanation: It guards the critical section.
+  - text: What is the safest way to release a mutex?
+    choices: |
+      Never release it
+      Release at program end
+      Unlock first, then lock
+      *`defer mu.Unlock()` right after `Lock()`
+    explanation: Defer unlocks on every path, including panics.
+  - text: Which tool finds races for you?
+    choices: |
+      *`go run -race` or `go test -race`
+      `go fmt`
+      `go vet -loop`
+      `go doc`
+    explanation: 'It reports `WARNING: DATA RACE` with line numbers.'
+  - text: What does `sync/atomic` offer?
+    choices: |
+      A faster map
+      *Lock-free operations on single numbers
+      Channels without buffers
+      Garbage collection
+    explanation: '`atomic.Int64` with `Add` and `Load`.'
+  - text: When is `sync.RWMutex` useful?
+    choices: |
+      When there are no writers
+      To lock files
+      *When reads are common: many readers or one writer
+      To avoid goroutines
+    explanation: '`RLock` for readers, `Lock` for writers.'
+  - text: Why is it a bug to copy a struct containing a `sync.Mutex`?
+    choices: |
+      The mutex becomes locked forever
+      It is a compile error
+      Nothing, it is shared
+      *The copy has its own separate lock
+    explanation: Pass a pointer to the struct.
+  - text: What does Go do on concurrent writes to a plain map?
+    choices: |
+      *It may crash with `fatal error: concurrent map writes`
+      Safely queues them
+      Ignores extra writes
+      Sorts the map
+    explanation: Protect maps with a mutex or use `sync.Map`.
+decks:
+- title: Session 16 · Mutex and data races flashcards
+  cards:
+  - front: Data race
+    back: Unsynchronised concurrent access with at least one write
+  - front: Lock / Unlock
+    back: Only one goroutine in the critical section
+  - front: defer Unlock
+    back: Pair it with Lock so every path releases
+  - front: -race
+    back: '`go run -race` / `go test -race` finds races'
+  - front: atomic
+    back: 'Lock-free updates of one number: atomic.Int64'
+  - front: Keep lock short
+    back: Never hold it during slow work like network calls

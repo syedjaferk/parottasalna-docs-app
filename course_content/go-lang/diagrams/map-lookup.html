@@ -1,0 +1,34 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="map-lookup-t map-lookup-d" xmlns="http://www.w3.org/2000/svg">
+<title id="map-lookup-t">A map finds a value by its key</title>
+<desc id="map-lookup-d">ages[&quot;Jafer&quot;] hashes the key to find its slot. A missing key gives the zero value, and the second result says whether it existed.</desc>
+<defs><marker id="map-lookup-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="map-lookup-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="map-lookup-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="map-lookup-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="40" width="140" height="44" rx="10" class="box"/>
+<text x="100.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;Vignesh&quot;</text>
+<path d="M172,62 L298,62" class="arrow" marker-end="url(#map-lookup-h)"/>
+<rect x="300" y="40" width="90" height="44" rx="10" class="box"/>
+<text x="345.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">26</text>
+<rect x="30" y="102" width="140" height="44" rx="10" class="blue"/>
+<text x="100.0" y="124.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;Jafer&quot;</text>
+<path d="M172,124 L298,124" class="arrow blue" marker-end="url(#map-lookup-h-blue)"/>
+<rect x="300" y="102" width="90" height="44" rx="10" class="green"/>
+<text x="345.0" y="124.0" text-anchor="middle" dominant-baseline="middle" class="code">28</text>
+<rect x="30" y="164" width="140" height="44" rx="10" class="box"/>
+<text x="100.0" y="186.0" text-anchor="middle" dominant-baseline="middle" class="code">&quot;Aron&quot;</text>
+<path d="M172,186 L298,186" class="arrow" marker-end="url(#map-lookup-h)"/>
+<rect x="300" y="164" width="90" height="44" rx="10" class="box"/>
+<text x="345.0" y="186.0" text-anchor="middle" dominant-baseline="middle" class="code">24</text>
+<text x="100" y="24" text-anchor="middle" dominant-baseline="middle" class="title">keys</text>
+<text x="345" y="24" text-anchor="middle" dominant-baseline="middle" class="title">values</text>
+<text x="235" y="24" text-anchor="middle" dominant-baseline="middle" class="title">hash</text>
+<rect x="450" y="40" width="280" height="100" rx="10" class="amber"/>
+<text x="590.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">age, ok := ages[&quot;Nobody&quot;]</text>
+<text x="590.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">age = 0   ok = false</text>
+<text x="590.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">missing → zero value, never an error</text>
+<rect x="450" y="160" width="280" height="90" rx="10" class="red"/>
+<text x="590.0" y="185.0" text-anchor="middle" dominant-baseline="middle" class="code">ages2 := ages</text>
+<text x="590.0" y="205.0" text-anchor="middle" dominant-baseline="middle" class="bold">both names, ONE map</text>
+<text x="590.0" y="225.0" text-anchor="middle" dominant-baseline="middle" class="small">copy it with maps.Clone</text>
+</svg>
+<figcaption>ages[&quot;Jafer&quot;] hashes the key to find its slot. A missing key gives the zero value, and the second result says whether it existed.</figcaption>
+</figure>

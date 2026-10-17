@@ -1,0 +1,83 @@
+chapter: sessions/06-pointers
+quizzes:
+- title: Session 6 · Pointers
+  description: Check what you learned in this session.
+  questions:
+  - text: What does `&x` mean?
+    choices: |
+      *The address of `x`
+      The value of `x`
+      x squared
+      A copy of `x`
+    explanation: '`&` takes an address; `*` follows one.'
+  - text: What does `*p` mean when `p` is a pointer?
+    choices: |
+      The address of `p`
+      *The value that `p` points to
+      A new pointer
+      The type of `p`
+    explanation: Dereferencing follows the address to the value.
+  - text: Why can't `func double(n int) { n = n * 2 }` change the caller's variable?
+    choices: |
+      Integers are constants
+      `n` is a keyword
+      *`n` is a copy of the argument
+      Functions cannot assign
+    explanation: Go passes by value. Take `*int` to change the original.
+  - text: How do you call `func double(n *int)` on a variable `x`?
+    choices: |
+      `double(x)`
+      `double(*x)`
+      `double(x*)`
+      *`double(&x)`
+    explanation: Pass the address.
+  - text: What is the zero value of a pointer?
+    choices: |
+      *`nil`
+      `0`
+      An empty string
+      The address of the program
+    explanation: A nil pointer points nowhere.
+  - text: What happens when you read a field through a `nil` pointer?
+    choices: |
+      It returns zero
+      *A runtime panic (nil pointer dereference)
+      A compile error
+      The pointer is created
+    explanation: Check `p == nil` before use.
+  - text: What does `u.Name = "x"` mean when `u` is `*User`?
+    choices: |
+      It is a compile error
+      It copies the struct
+      *Go automatically uses `(*u).Name`
+      It sets the pointer
+    explanation: Field access auto-dereferences for struct pointers.
+  - text: What does `new(int)` return?
+    choices: |
+      An `int` with value 0
+      A slice
+      A nil pointer
+      *A `*int` pointing to a zero int
+    explanation: '`new(T)` allocates a zero value and returns its address.'
+  - text: When is a pointer a good choice?
+    choices: |
+      *When a function must change its argument or the value is large
+      Always, for speed
+      Never in Go
+      Only for strings
+    explanation: Small values are fine to copy; pointers add indirection.
+decks:
+- title: Session 6 · Pointers flashcards
+  cards:
+  - front: '&x'
+    back: Address of x
+  - front: '*p'
+    back: The value p points to
+  - front: '*T'
+    back: 'Type: pointer to T'
+  - front: nil pointer
+    back: Points nowhere; dereferencing panics
+  - front: Pass by value
+    back: Go copies every argument; use a pointer to share
+  - front: new(T)
+    back: Allocates a zero T and returns *T

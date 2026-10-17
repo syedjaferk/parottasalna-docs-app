@@ -1,0 +1,4 @@
+Expense not found: 9
+1 Tea   25.00 Food
+2 Bus   35.50 Travel
+total: 60.5 map[Food:25 Travel:35.5]

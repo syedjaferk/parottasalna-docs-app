@@ -1,0 +1,9 @@
+inserted id 1
+inserted id 2
+inserted id 3
+{ID:1 Title:Learn Go Completed:true}
+{ID:2 Title:Build an API Completed:false}
+{ID:3 Title:Ship it Completed:false}
+Build an API <nil>
+sql: no rows in result set true
+deleted 1

@@ -1,0 +1,83 @@
+chapter: sessions/03-arrays-slices
+quizzes:
+- title: Session 3 · Arrays and slices
+  description: Check what you learned in this session.
+  questions:
+  - text: What makes an array different from a slice?
+    choices: |
+      *An array has a fixed size that is part of its type
+      An array can grow with `append`
+      A slice must hold strings
+      An array is always on the heap
+    explanation: '`[3]int` and `[4]int` are different types; slices `[]int` can change length.'
+  - text: What happens with `b := a` when `a` is an array?
+    choices: |
+      `b` and `a` share the data
+      *`b` is an independent copy
+      It is a compile error
+      `b` becomes a pointer
+    explanation: Arrays are values and are copied on assignment.
+  - text: What do `len(s)` and `cap(s)` tell you?
+    choices: |
+      Its memory address and size
+      The first and last index
+      *How many elements it has, and how many fit before Go must allocate a bigger array
+      The number of nil elements
+    explanation: '`len` is what you see; `cap` is the room behind it.'
+  - text: What does `s[1:3]` return for `s = []int{10,20,30,40}`?
+    choices: |
+      `[10 20 30]`
+      `[20 30 40]`
+      `[10 20]`
+      *`[20 30]`
+    explanation: The start is included, the end is not.
+  - text: '`window := s[1:3]; window[0] = 99`. What happens to `s`?'
+    choices: |
+      *`s[1]` also becomes 99, because they share an array
+      Nothing, `window` is a copy
+      A runtime panic
+      `s` becomes empty
+    explanation: A sub-slice is a view onto the same array.
+  - text: How do you make an independent copy of a slice?
+    choices: |
+      `dst := s`
+      *`dst := make([]int, len(s)); copy(dst, s)`
+      `dst := &s`
+      `dst := s[:]`
+    explanation: Only `copy` (or `slices.Clone`) gives separate memory.
+  - text: Why must you write `s = append(s, 4)` and not just `append(s, 4)`?
+    choices: |
+      It is only style
+      `append` modifies a hidden copy
+      *`append` returns the new slice, which may have a new array
+      `s` would become nil
+    explanation: The result may be a bigger slice; you have to keep it.
+  - text: What does `make([]int, 2, 10)` create?
+    choices: |
+      A slice with ten elements
+      An array of 2 elements
+      A slice with length 10 and capacity 2
+      *A slice with length 2 and capacity 10
+    explanation: The third argument reserves room for later appends.
+  - text: In `for i, v := range s`, what is `v`?
+    choices: |
+      *A copy of the element
+      A pointer to the element
+      The index
+      The slice itself
+    explanation: To change the element, assign to `s[i]`.
+decks:
+- title: Session 3 · Arrays and slices flashcards
+  cards:
+  - front: Array
+    back: Fixed length, part of the type, copied on assignment
+  - front: Slice
+    back: 'Window onto an array: pointer, length and capacity'
+  - front: append
+    back: '`s = append(s, x)`; may move to a bigger array'
+  - front: copy
+    back: '`copy(dst, src)` makes independent data'
+  - front: Slicing
+    back: '`s[a:b]` includes a, excludes b, shares memory'
+  - front: nil slice
+    back: 'A valid empty slice: you can append to it and range over it'

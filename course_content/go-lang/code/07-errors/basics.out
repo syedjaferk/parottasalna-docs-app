@@ -1,0 +1,5 @@
+ok: 42
+error: parsePositive "abc": strconv.Atoi: parsing "abc": invalid syntax
+  is negative? false
+error: parsePositive -5: negative number
+  is negative? true

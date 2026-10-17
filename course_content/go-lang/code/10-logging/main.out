@@ -1,0 +1,6 @@
+level=INFO msg="user logged in" user=Syed age=28
+level=WARN msg="validation failed" field=email
+{"level":"DEBUG","msg":"now visible","attempt":2}
+{"level":"ERROR","msg":"db down","app":"todo","err":"timeout"}
+server starting
+[app] listening on port 8081

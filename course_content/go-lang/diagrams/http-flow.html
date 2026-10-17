@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="http-flow-t http-flow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="http-flow-t">One request through a Go server</title>
+<desc id="http-flow-d">The mux matches the path, calls the handler, and the handler writes the response through http.ResponseWriter.</desc>
+<defs><marker id="http-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="http-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="http-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="http-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="40" width="140" height="56" rx="10" class="box"/>
+<text x="100.0" y="58.0" text-anchor="middle" dominant-baseline="middle">Client</text>
+<text x="100.0" y="78.0" text-anchor="middle" dominant-baseline="middle" class="small">curl / browser</text>
+<rect x="225" y="40" width="140" height="56" rx="10" class="blue"/>
+<text x="295.0" y="58.0" text-anchor="middle" dominant-baseline="middle">Mux</text>
+<text x="295.0" y="78.0" text-anchor="middle" dominant-baseline="middle" class="small">matches the path</text>
+<path d="M172,68.0 L223,68.0" class="arrow" marker-end="url(#http-flow-h)"/>
+<text x="197.5" y="56.0" text-anchor="middle" dominant-baseline="middle" class="small">GET /users</text>
+<rect x="420" y="40" width="140" height="56" rx="10" class="green"/>
+<text x="490.0" y="58.0" text-anchor="middle" dominant-baseline="middle">Handler</text>
+<text x="490.0" y="78.0" text-anchor="middle" dominant-baseline="middle" class="small">func(w, r)</text>
+<path d="M367,68.0 L418,68.0" class="arrow" marker-end="url(#http-flow-h)"/>
+<text x="392.5" y="56.0" text-anchor="middle" dominant-baseline="middle" class="small">route</text>
+<rect x="615" y="40" width="140" height="56" rx="10" class="amber"/>
+<text x="685.0" y="58.0" text-anchor="middle" dominant-baseline="middle">Response</text>
+<text x="685.0" y="78.0" text-anchor="middle" dominant-baseline="middle" class="small">status + body</text>
+<path d="M562,68.0 L613,68.0" class="arrow" marker-end="url(#http-flow-h)"/>
+<text x="587.5" y="56.0" text-anchor="middle" dominant-baseline="middle" class="small">write</text>
+<rect x="30" y="140" width="340" height="130" rx="10" class="ghost"/>
+<text x="200.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="bold">Inside the handler</text>
+<text x="200.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="code">switch r.Method { GET / POST / default }</text>
+<text x="200.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="code">json.NewDecoder(r.Body).Decode(&amp;u)</text>
+<text x="200.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="code">http.Error(w, &quot;Invalid JSON&quot;, 400)</text>
+<rect x="400" y="140" width="330" height="130" rx="10" class="box"/>
+<text x="565.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="bold">Status codes you will use</text>
+<text x="565.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="code">200 OK · 201 Created</text>
+<text x="565.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="code">400 Bad Request · 404 Not Found</text>
+<text x="565.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="code">405 Wrong Method · 500 Server Error</text>
+</svg>
+<figcaption>The mux matches the path, calls the handler, and the handler writes the response through http.ResponseWriter.</figcaption>
+</figure>

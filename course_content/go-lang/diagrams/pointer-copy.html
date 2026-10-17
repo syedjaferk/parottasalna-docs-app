@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 310" role="img" aria-labelledby="pointer-copy-t pointer-copy-d" xmlns="http://www.w3.org/2000/svg">
+<title id="pointer-copy-t">Pass a copy, or pass the address</title>
+<desc id="pointer-copy-d">By value the function changes its own copy. With a pointer it follows the address and changes the original.</desc>
+<defs><marker id="pointer-copy-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="pointer-copy-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="pointer-copy-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="pointer-copy-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="190" y="20" text-anchor="middle" dominant-baseline="middle" class="title">double(n)  – by value</text>
+<text x="570" y="20" text-anchor="middle" dominant-baseline="middle" class="title">double(&amp;n)  – by pointer</text>
+<rect x="30" y="50" width="120" height="50" rx="10" class="blue"/>
+<text x="90.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">n  (main)</text>
+<text x="90.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="230" y="50" width="120" height="50" rx="10" class="amber"/>
+<text x="290.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">n  (copy)</text>
+<text x="290.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">10</text>
+<path d="M152,75 L228,75" class="arrow" marker-end="url(#pointer-copy-h)"/>
+<text x="190.0" y="63.0" text-anchor="middle" dominant-baseline="middle" class="small">copied</text>
+<text x="190" y="130" text-anchor="middle" dominant-baseline="middle" class="bold">main still sees 5</text>
+<rect x="410" y="50" width="120" height="50" rx="10" class="green"/>
+<text x="470.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">n  (main)</text>
+<text x="470.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">10</text>
+<rect x="610" y="50" width="120" height="50" rx="10" class="amber"/>
+<text x="670.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="small">p  (pointer)</text>
+<text x="670.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">→ &amp;n</text>
+<path d="M610,75 L532,75" class="arrow green" marker-end="url(#pointer-copy-h-green)"/>
+<text x="571.0" y="63.0" text-anchor="middle" dominant-baseline="middle" class="small">*p = *p * 2</text>
+<text x="570" y="130" text-anchor="middle" dominant-baseline="middle" class="bold">main now sees 10</text>
+<rect x="30" y="175" width="700" height="110" rx="10" class="ghost"/>
+<text x="380.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="code">x := 10  ·  p := &amp;x  ·  *p = 20  // x is now 20</text>
+<text x="380.0" y="230.0" text-anchor="middle" dominant-baseline="middle" class="small">&amp;x = “the address of x”  ·  *p = “the value p points at”</text>
+<text x="380.0" y="250.0" text-anchor="middle" dominant-baseline="middle" class="small">A pointer you never set is nil – dereferencing nil panics</text>
+</svg>
+<figcaption>By value the function changes its own copy. With a pointer it follows the address and changes the original.</figcaption>
+</figure>

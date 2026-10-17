@@ -1,0 +1,2 @@
+dir: ./src ext: .go verbose: true limit: 5
+leftover args: [extra]

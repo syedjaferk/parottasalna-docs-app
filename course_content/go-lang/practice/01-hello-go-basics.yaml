@@ -1,0 +1,83 @@
+chapter: sessions/01-hello-go-basics
+quizzes:
+- title: Session 1 · Hello, Go and the basics
+  description: Check what you learned in this session.
+  questions:
+  - text: What must every runnable Go program contain?
+    choices: |
+      *`package main` and a `func main()`
+      A class with a `main` method
+      A `main.json` file
+      An `import "main"` line
+    explanation: '`package main` marks a program and `func main()` is where Go starts.'
+  - text: What is the difference between `go run hello.go` and `go build hello.go`?
+    choices: |
+      `run` is for libraries, `build` for programs
+      *`run` builds and runs then throws the program away; `build` keeps the executable
+      `build` runs the program, `run` only checks it
+      There is no difference
+    explanation: Use `go run` while experimenting and `go build` to get a file you can copy to a server.
+  - text: What does `age := 28` do?
+    choices: |
+      Compares `age` with 28
+      Assigns to an existing variable only
+      *Declares `age` and infers it is an `int`
+      Creates a constant
+    explanation: '`:=` declares and assigns in one step, using the value''s type.'
+  - text: Where can the short form `name := value` be used?
+    choices: |
+      Only at the top of a file
+      Anywhere
+      Only inside `main`
+      *Only inside functions
+    explanation: At package level you must use `var`.
+  - text: What is the value of `var count int` before you assign anything?
+    choices: |
+      *`0`, the zero value
+      `nil`
+      undefined
+      A compile error
+    explanation: 'Go gives every type a zero value: `0`, `false`, `""` or `nil`.'
+  - text: What does `7 / 2` print for two integers?
+    choices: |
+      `3.5`
+      *`3`
+      `4`
+      `3.0`
+    explanation: Integer division drops the fraction. Convert to `float64` for `3.5`.
+  - text: How do you write a loop that runs while `n > 0`?
+    choices: |
+      `while n > 0 { ... }`
+      `loop n > 0 { ... }`
+      *`for n > 0 { ... }`
+      `do { ... } while (n > 0)`
+    explanation: Go has only `for`; with just a condition it behaves like `while`.
+  - text: What happens if you declare a variable and never use it?
+    choices: |
+      It prints a warning only
+      It is set to its zero value and ignored
+      It is removed silently at run time
+      *The program does not compile
+    explanation: '`declared and not used` is a compile error.'
+  - text: Does a `switch` case fall through to the next case by default?
+    choices: |
+      *No, a matching case stops there
+      Yes, until a `break`
+      Only for numbers
+      Only for the `default` case
+    explanation: Go breaks automatically. Use `fallthrough` only if you really want the old behaviour.
+decks:
+- title: Session 1 · Hello, Go and the basics flashcards
+  cards:
+  - front: go run
+    back: Build, run and delete the program in one step
+  - front: go build
+    back: Compile and keep the executable file
+  - front: Zero value
+    back: 'What a variable holds before you set it: 0, false, "" or nil'
+  - front: '`:=`'
+    back: 'Short declaration: create a variable and infer its type (inside functions only)'
+  - front: '`%v`, `%+v`, `%T`'
+    back: 'Printf verbs: value, struct with field names, and type'
+  - front: Go loops
+    back: Only `for` exists; it also covers `while` and infinite loops

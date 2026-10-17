@@ -1,0 +1,83 @@
+chapter: sessions/10-logging-config
+quizzes:
+- title: Session 10 · Logging and configuration
+  description: Check what you learned in this session.
+  questions:
+  - text: What is a log level for?
+    choices: |
+      *To show or hide messages by importance
+      To colour the output
+      To choose the log file name
+      To set the time zone
+    explanation: At Info level, Debug messages are dropped.
+  - text: Which order is correct, from least to most severe?
+    choices: |
+      Error, Warn, Info, Debug
+      *Debug, Info, Warn, Error
+      Info, Debug, Error, Warn
+      Warn, Debug, Info, Error
+    explanation: A logger at Info keeps Info and above.
+  - text: What is structured logging?
+    choices: |
+      Logs saved in a database
+      Logs written only by structs
+      *Messages with key=value fields instead of one text string
+      Logs with colours
+    explanation: Fields let tools search by `user` or `status`.
+  - text: What does `slog.Info("login", "user", "Syed")` log?
+    choices: |
+      Two separate messages
+      An error
+      Only the word user
+      *Message `login` with the field `user=Syed`
+    explanation: Arguments after the message are key-value pairs.
+  - text: Which handler gives machine-readable log lines?
+    choices: |
+      *`slog.NewJSONHandler`
+      `slog.NewTextHandler`
+      `slog.NewColorHandler`
+      `log.NewPrinter`
+    explanation: The calls stay the same; only the handler changes.
+  - text: Where does the standard `log.Println` write by default?
+    choices: |
+      A file called log.txt
+      *stderr, with a timestamp
+      stdout without time
+      The system journal
+    explanation: You can redirect it with `log.SetOutput`.
+  - text: What does `log.Fatal` do besides logging?
+    choices: |
+      Retries
+      Panics
+      *Exits the program with status 1
+      Nothing else
+    explanation: Use it only in `main`, not in library code.
+  - text: Why keep settings in a YAML file instead of in code?
+    choices: |
+      YAML is faster than Go
+      Go cannot store strings
+      It hides them from git
+      *You can change them without recompiling
+    explanation: Different machines can use different config files.
+  - text: What do the tags like `yaml:"min_age"` do?
+    choices: |
+      *Map a YAML key to a struct field
+      Validate the number
+      Encrypt the field
+      Make the field private
+    explanation: Same idea as JSON tags.
+decks:
+- title: Session 10 · Logging and configuration flashcards
+  cards:
+  - front: log vs slog
+    back: '`log` is simple text; `log/slog` is structured with levels and fields'
+  - front: Log levels
+    back: Debug < Info < Warn < Error; the threshold hides the lower ones
+  - front: slog.With
+    back: Adds fields to every later log line
+  - front: yaml.Unmarshal
+    back: Read YAML bytes into a struct (gopkg.in/yaml.v3)
+  - front: Config rule
+    back: Load once at start-up, return the error, and let main decide
+  - front: Never log
+    back: Passwords, tokens or card numbers

@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="run-pipeline-t run-pipeline-d" xmlns="http://www.w3.org/2000/svg">
+<title id="run-pipeline-t">From hello.go to output</title>
+<desc id="run-pipeline-d">go run compiles your source into a native program, runs it, and throws the program away; go build keeps it.</desc>
+<defs><marker id="run-pipeline-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="run-pipeline-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="run-pipeline-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="run-pipeline-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="30" width="140" height="56" rx="10" class="box"/>
+<text x="100.0" y="48.0" text-anchor="middle" dominant-baseline="middle">hello.go</text>
+<text x="100.0" y="68.0" text-anchor="middle" dominant-baseline="middle" class="small">source code</text>
+<rect x="225" y="30" width="140" height="56" rx="10" class="blue"/>
+<text x="295.0" y="48.0" text-anchor="middle" dominant-baseline="middle">compiler</text>
+<text x="295.0" y="68.0" text-anchor="middle" dominant-baseline="middle" class="small">checks types</text>
+<path d="M172,58.0 L223,58.0" class="arrow" marker-end="url(#run-pipeline-h)"/>
+<text x="197.5" y="46.0" text-anchor="middle" dominant-baseline="middle" class="small">go build</text>
+<rect x="420" y="30" width="140" height="56" rx="10" class="green"/>
+<text x="490.0" y="48.0" text-anchor="middle" dominant-baseline="middle">hello</text>
+<text x="490.0" y="68.0" text-anchor="middle" dominant-baseline="middle" class="small">one native file</text>
+<path d="M367,58.0 L418,58.0" class="arrow" marker-end="url(#run-pipeline-h)"/>
+<text x="392.5" y="46.0" text-anchor="middle" dominant-baseline="middle" class="small">run</text>
+<rect x="615" y="30" width="140" height="56" rx="10" class="amber"/>
+<text x="685.0" y="48.0" text-anchor="middle" dominant-baseline="middle">Hello, Go!</text>
+<text x="685.0" y="68.0" text-anchor="middle" dominant-baseline="middle" class="small">printed</text>
+<path d="M562,58.0 L613,58.0" class="arrow" marker-end="url(#run-pipeline-h)"/>
+<text x="587.5" y="46.0" text-anchor="middle" dominant-baseline="middle" class="small">output</text>
+<rect x="30" y="125" width="700" height="100" rx="10" class="ghost"/>
+<text x="380.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="code">package main  ·  import &quot;fmt&quot;  ·  func main() { … }</text>
+<text x="380.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">Every program: a package main and a func main as the starting point</text>
+<text x="380.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">go run = build + run + delete  ·  go build = build and keep</text>
+</svg>
+<figcaption>go run compiles your source into a native program, runs it, and throws the program away; go build keeps it.</figcaption>
+</figure>

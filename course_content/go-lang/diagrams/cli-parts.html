@@ -1,0 +1,32 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 270" role="img" aria-labelledby="cli-parts-t cli-parts-d" xmlns="http://www.w3.org/2000/svg">
+<title id="cli-parts-t">What the program receives</title>
+<desc id="cli-parts-d">The shell splits the command into words. os.Args holds them all; flag.Parse picks the -name=value ones out.</desc>
+<defs><marker id="cli-parts-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="cli-parts-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="cli-parts-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="cli-parts-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="90" height="44" rx="10" class="box"/>
+<text x="65.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">finder</text>
+<text x="65.0" y="104" text-anchor="middle" dominant-baseline="middle" class="small">Args[0]</text>
+<rect x="130" y="40" width="120" height="44" rx="10" class="blue"/>
+<text x="190.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">-dir=src</text>
+<text x="190.0" y="104" text-anchor="middle" dominant-baseline="middle" class="small">flag</text>
+<rect x="270" y="40" width="120" height="44" rx="10" class="blue"/>
+<text x="330.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">-ext=.go</text>
+<text x="330.0" y="104" text-anchor="middle" dominant-baseline="middle" class="small">flag</text>
+<rect x="410" y="40" width="120" height="44" rx="10" class="blue"/>
+<text x="470.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">-verbose</text>
+<text x="470.0" y="104" text-anchor="middle" dominant-baseline="middle" class="small">flag</text>
+<rect x="550" y="40" width="130" height="44" rx="10" class="green"/>
+<text x="615.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">notes.txt</text>
+<text x="615.0" y="104" text-anchor="middle" dominant-baseline="middle" class="small">flag.Args()</text>
+<text x="380" y="20" text-anchor="middle" dominant-baseline="middle" class="code">$ finder -dir=src -ext=.go -verbose notes.txt</text>
+<rect x="20" y="150" width="340" height="90" rx="10" class="ghost"/>
+<text x="190.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="code">flag.StringVar(&amp;dir, &quot;dir&quot;, &quot;&quot;, usage)</text>
+<text x="190.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="code">flag.BoolVar(&amp;verbose, &quot;verbose&quot;, …)</text>
+<text x="190.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="code">flag.Parse()  // fills the variables</text>
+<rect x="390" y="150" width="350" height="90" rx="10" class="amber"/>
+<text x="565.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="bold">Validate early:</text>
+<text x="565.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="small">empty dir? → print usage, os.Exit(1)</text>
+<text x="565.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="small">not a directory? → clear error, exit 1</text>
+</svg>
+<figcaption>The shell splits the command into words. os.Args holds them all; flag.Parse picks the -name=value ones out.</figcaption>
+</figure>

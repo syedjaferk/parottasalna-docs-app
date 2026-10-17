@@ -1,0 +1,5 @@
+GET    /       -> 200 Hello from Go!
+GET    /users  -> 200 Get request received
+POST   /users  -> 200 Post request received: Asha 30
+POST   /users  -> 400 Invalid JSON
+DELETE /users  -> 405 Method not allowed

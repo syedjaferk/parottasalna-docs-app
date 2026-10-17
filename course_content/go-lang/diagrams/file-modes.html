@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="file-modes-t file-modes-d" xmlns="http://www.w3.org/2000/svg">
+<title id="file-modes-t">Four ways to open a file</title>
+<desc id="file-modes-d">Pick the entry point by what you need: whole file at once, line by line, create or truncate, or append at the end.</desc>
+<defs><marker id="file-modes-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="file-modes-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="file-modes-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="file-modes-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="170" height="70" rx="10" class="green"/>
+<text x="105.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">os.ReadFile</text>
+<text x="105.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">whole file → []byte</text>
+<path d="M105,100 L105,150" class="arrow" marker-end="url(#file-modes-h)"/>
+<rect x="205" y="30" width="170" height="70" rx="10" class="green"/>
+<text x="290.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">os.Open + Scanner</text>
+<text x="290.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">line by line</text>
+<path d="M290,100 L290,150" class="arrow" marker-end="url(#file-modes-h)"/>
+<rect x="390" y="30" width="170" height="70" rx="10" class="amber"/>
+<text x="475.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">os.WriteFile</text>
+<text x="475.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">new or truncated</text>
+<path d="M475,100 L475,150" class="arrow" marker-end="url(#file-modes-h)"/>
+<rect x="575" y="30" width="170" height="70" rx="10" class="blue"/>
+<text x="660.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">OpenFile+O_APPEND</text>
+<text x="660.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">add to the end</text>
+<path d="M660,100 L660,150" class="arrow" marker-end="url(#file-modes-h)"/>
+<rect x="20" y="150" width="720" height="60" rx="10" class="box"/>
+<text x="380.0" y="180.0" text-anchor="middle" dominant-baseline="middle" class="code">file on disk:  line one ⏎ line two ⏎</text>
+<text x="380" y="240" text-anchor="middle" dominant-baseline="middle" class="small">Always check the error, and defer file.Close() right after a successful open.</text>
+<text x="380" y="266" text-anchor="middle" dominant-baseline="middle" class="small">Missing file?  errors.Is(err, os.ErrNotExist)  or  os.IsNotExist(err)</text>
+</svg>
+<figcaption>Pick the entry point by what you need: whole file at once, line by line, create or truncate, or append at the end.</figcaption>
+</figure>

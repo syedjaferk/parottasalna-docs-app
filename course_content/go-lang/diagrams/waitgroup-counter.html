@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="waitgroup-counter-t waitgroup-counter-d" xmlns="http://www.w3.org/2000/svg">
+<title id="waitgroup-counter-t">WaitGroup is a counter main waits on</title>
+<desc id="waitgroup-counter-d">Add raises the counter before each goroutine starts, Done lowers it when one finishes, Wait blocks until it is zero.</desc>
+<defs><marker id="waitgroup-counter-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="waitgroup-counter-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="waitgroup-counter-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="waitgroup-counter-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="150" height="60" rx="10" class="blue"/>
+<text x="95.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">main</text>
+<text x="95.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">wg.Add(3)</text>
+<rect x="250" y="20" width="150" height="44" rx="10" class="green"/>
+<text x="325.0" y="42.0" text-anchor="middle" dominant-baseline="middle" class="code">worker 1</text>
+<path d="M172,60 L248,42" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<path d="M402,42 L478,100" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<rect x="250" y="80" width="150" height="44" rx="10" class="green"/>
+<text x="325.0" y="102.0" text-anchor="middle" dominant-baseline="middle" class="code">worker 2</text>
+<path d="M172,60 L248,102" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<path d="M402,102 L478,100" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<rect x="250" y="140" width="150" height="44" rx="10" class="green"/>
+<text x="325.0" y="162.0" text-anchor="middle" dominant-baseline="middle" class="code">worker 3</text>
+<path d="M172,60 L248,162" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<path d="M402,162 L478,100" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<text x="440" y="30" text-anchor="middle" dominant-baseline="middle" class="small">defer wg.Done()</text>
+<rect x="480" y="70" width="130" height="60" rx="10" class="amber"/>
+<text x="545.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">counter</text>
+<text x="545.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="code">3 → 2 → 1 → 0</text>
+<rect x="630" y="70" width="110" height="60" rx="10" class="blue"/>
+<text x="685.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">wg.Wait()</text>
+<text x="685.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="small">returns</text>
+<path d="M612,100 L628,100" class="arrow" marker-end="url(#waitgroup-counter-h)"/>
+<text x="380" y="230" text-anchor="middle" dominant-baseline="middle" class="small">Pass *sync.WaitGroup (a pointer): copying it would count on a copy.</text>
+<text x="380" y="255" text-anchor="middle" dominant-baseline="middle" class="small">Call Add before `go`, never inside the goroutine.</text>
+</svg>
+<figcaption>Add raises the counter before each goroutine starts, Done lowers it when one finishes, Wait blocks until it is zero.</figcaption>
+</figure>

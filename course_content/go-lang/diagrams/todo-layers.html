@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 320" role="img" aria-labelledby="todo-layers-t todo-layers-d" xmlns="http://www.w3.org/2000/svg">
+<title id="todo-layers-t">The Todo API in layers</title>
+<desc id="todo-layers-d">main wires routes to handlers; handlers decode JSON and call the store; the store owns the data behind a lock.</desc>
+<defs><marker id="todo-layers-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="todo-layers-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="todo-layers-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="todo-layers-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="280" y="15" width="200" height="44" rx="10" class="blue"/>
+<text x="380.0" y="27.0" text-anchor="middle" dominant-baseline="middle">main.go</text>
+<text x="380.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="small">routes + ListenAndServe</text>
+<rect x="280" y="90" width="200" height="44" rx="10" class="green"/>
+<text x="380.0" y="102.0" text-anchor="middle" dominant-baseline="middle">handlers.go</text>
+<text x="380.0" y="122.0" text-anchor="middle" dominant-baseline="middle" class="small">decode · call · encode</text>
+<rect x="280" y="165" width="200" height="44" rx="10" class="amber"/>
+<text x="380.0" y="177.0" text-anchor="middle" dominant-baseline="middle">storage.go</text>
+<text x="380.0" y="197.0" text-anchor="middle" dominant-baseline="middle" class="small">[]Todo + mutex</text>
+<rect x="30" y="90" width="200" height="44" rx="10" class="box"/>
+<text x="130.0" y="102.0" text-anchor="middle" dominant-baseline="middle">models.go</text>
+<text x="130.0" y="122.0" text-anchor="middle" dominant-baseline="middle" class="small">Todo, CreateTodoRequest</text>
+<path d="M380,59 L380,90" class="arrow" marker-end="url(#todo-layers-h)"/>
+<path d="M380,134 L380,165" class="arrow" marker-end="url(#todo-layers-h)"/>
+<path d="M232,112 L278,112" class="arrow dashed" marker-end="url(#todo-layers-h)"/>
+<rect x="530" y="70" width="210" height="90" rx="10" class="ghost"/>
+<text x="635.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">POST /todos</text>
+<text x="635.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="code">{&quot;title&quot;:&quot;Learn Go&quot;}</text>
+<text x="635.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">→ 201 {&quot;id&quot;:1,…}</text>
+<path d="M530,112 L482,112" class="arrow green" marker-end="url(#todo-layers-h-green)"/>
+<text x="380" y="255" text-anchor="middle" dominant-baseline="middle" class="small">Keep each file about one job: easy to read, and the store can later be swapped</text>
+<text x="380" y="277" text-anchor="middle" dominant-baseline="middle" class="small">for a database without touching the handlers.</text>
+</svg>
+<figcaption>main wires routes to handlers; handlers decode JSON and call the store; the store owns the data behind a lock.</figcaption>
+</figure>

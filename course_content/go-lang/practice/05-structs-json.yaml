@@ -1,0 +1,83 @@
+chapter: sessions/05-structs-json
+quizzes:
+- title: Session 5 · Structs, methods and JSON
+  description: Check what you learned in this session.
+  questions:
+  - text: What is a struct?
+    choices: |
+      *A type that groups named fields
+      A function with several returns
+      A list that can grow
+      A loop construct
+    explanation: It bundles values that belong together, like a name, age and address.
+  - text: What makes a field visible to other packages and to `encoding/json`?
+    choices: |
+      It is declared with `public`
+      *Its name starts with a capital letter
+      It has a tag
+      It is a pointer
+    explanation: Lowercase fields are private to the package and skipped by JSON.
+  - text: What does `` `json:"email,omitempty"` `` do?
+    choices: |
+      Makes the field required
+      Encrypts the field
+      *Names the key `email` and leaves it out when empty
+      Renames the type
+    explanation: Struct tags control how the field is encoded.
+  - text: Why do you pass `&user` to `json.Unmarshal`?
+    choices: |
+      It is faster
+      Unmarshal needs a string key
+      To make the struct read-only
+      *So it can write into your variable
+    explanation: Without the address it would fill a copy.
+  - text: What does a method with a value receiver `(c Counter)` do to the caller's struct?
+    choices: |
+      *Works on a copy, so changes are lost
+      Changes the original
+      Panics
+      Locks it
+    explanation: Use a pointer receiver `(c *Counter)` to change the original.
+  - text: What do unset struct fields contain?
+    choices: |
+      `nil` for all
+      *Their zero values
+      Random memory
+      The compile fails
+    explanation: '`0`, `false`, `""`, `nil`, and nested structs zeroed too.'
+  - text: How do you read a nested field `City` inside `Address` inside `Person p`?
+    choices: |
+      `p->Address->City`
+      `p["Address"]["City"]`
+      *`p.Address.City`
+      `p::Address::City`
+    explanation: Use dots all the way down.
+  - text: Which call turns a struct into JSON bytes?
+    choices: |
+      `json.Unmarshal(v)`
+      `json.Decode(v)`
+      `json.Parse(v)`
+      *`json.Marshal(v)`
+    explanation: Marshal encodes; Unmarshal decodes.
+  - text: What does `fmt.Printf("%+v", p)` print?
+    choices: |
+      *The struct with its field names
+      Only the field names
+      Memory addresses
+      JSON
+    explanation: '`%v` shows values only; `%+v` adds names.'
+decks:
+- title: Session 5 · Structs, methods and JSON flashcards
+  cards:
+  - front: struct
+    back: '`type User struct { Name string; Age int }`'
+  - front: Method
+    back: '`func (u User) Greet()`: a function attached to a type'
+  - front: Pointer receiver
+    back: '`func (u *User) Birthday()` can change the original'
+  - front: JSON tag
+    back: '`json:"name,omitempty"` sets the key name and omission'
+  - front: Exported
+    back: Capitalised names are visible outside the package
+  - front: Marshal / Unmarshal
+    back: struct to JSON bytes / JSON bytes into `&struct`

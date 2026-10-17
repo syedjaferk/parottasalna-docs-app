@@ -1,0 +1,83 @@
+chapter: sessions/02-functions
+quizzes:
+- title: Session 2 · Functions, closures and defer
+  description: Check what you learned in this session.
+  questions:
+  - text: How does a Go function return two values?
+    choices: |
+      *List both types in parentheses: `func f() (int, bool)`
+      Return an array
+      It cannot; use a global
+      Use a `yield` keyword
+    explanation: Multiple results are built into the language. `value, ok` and `value, err` are everywhere.
+  - text: What does `_` do in `q, _ := divide(1, 2)`?
+    choices: |
+      Declares a private variable
+      *Throws away the second result
+      Marks the result as optional
+      Stops the program if it is false
+    explanation: The blank identifier discards a value you do not need.
+  - text: What does a bare `return` do in a function with named results?
+    choices: |
+      Returns nothing and zero values
+      Is a compile error
+      *Returns the current values of the named results
+      Restarts the function
+    explanation: Named results are ordinary variables; a bare `return` sends them back.
+  - text: What does `func sum(nums ...int)` accept?
+    choices: |
+      Exactly one array
+      Only a slice
+      At least two ints
+      *Any number of `int` arguments, received as a slice
+    explanation: A variadic parameter becomes a slice inside the function.
+  - text: How do you pass an existing slice `xs` to `sum(nums ...int)`?
+    choices: |
+      *`sum(xs...)`
+      `sum(xs)`
+      `sum(...xs)`
+      `sum(*xs)`
+    explanation: The three dots after the slice unpack it.
+  - text: When does a deferred call run?
+    choices: |
+      Immediately
+      *When the surrounding function returns
+      At the end of the program
+      When an error occurs
+    explanation: '`defer` waits until the function ends, whatever the way out.'
+  - text: Three `defer fmt.Println(...)` calls are made in order 1, 2, 3. In what order do they run?
+    choices: |
+      1, 2, 3
+      Random
+      *3, 2, 1
+      Only the last one runs
+    explanation: 'Deferred calls form a stack: last in, first out.'
+  - text: What is a closure?
+    choices: |
+      A function with no name and no arguments
+      A function that cannot return
+      A function inside a struct
+      *A function that remembers variables from where it was written
+    explanation: Each call to `counter()` creates its own private `n`.
+  - text: Why is `defer f.Close()` placed right after a successful `os.Open`?
+    choices: |
+      *So the file is closed on every path out of the function
+      It makes reading faster
+      Go requires it to be the first line
+      It opens the file lazily
+    explanation: You cannot forget to close it, even on an early return.
+decks:
+- title: Session 2 · Functions, closures and defer flashcards
+  cards:
+  - front: Multiple returns
+    back: '`func f() (T, error)`; the caller receives both values'
+  - front: Variadic
+    back: '`func f(xs ...int)`; call with values or `slice...`'
+  - front: defer
+    back: Run a call when the function returns; LIFO order
+  - front: Closure
+    back: A function value that captures variables from its surroundings
+  - front: Named results
+    back: Result variables declared in the signature; bare `return` sends them back
+  - front: Functions are values
+    back: Store them in variables, pass them and return them

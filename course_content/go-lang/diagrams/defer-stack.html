@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 300" role="img" aria-labelledby="defer-stack-t defer-stack-d" xmlns="http://www.w3.org/2000/svg">
+<title id="defer-stack-t">defer runs last-in, first-out</title>
+<desc id="defer-stack-d">Each defer is pushed on a stack as it is reached. When the function returns, they pop in reverse order.</desc>
+<defs><marker id="defer-stack-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="defer-stack-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="defer-stack-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="defer-stack-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="130" y="20" text-anchor="middle" dominant-baseline="middle" class="title">while the function runs</text>
+<text x="560" y="20" text-anchor="middle" dominant-baseline="middle" class="title">when it returns</text>
+<rect x="30" y="40" width="230" height="44" rx="10" class="blue"/>
+<text x="145.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">defer Println(&quot;cleanup 1&quot;)</text>
+<text x="280" y="62" text-anchor="start" dominant-baseline="middle" class="small">pushed 1st</text>
+<rect x="30" y="96" width="230" height="44" rx="10" class="green"/>
+<text x="145.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">defer Println(&quot;cleanup 2&quot;)</text>
+<rect x="30" y="152" width="230" height="44" rx="10" class="amber"/>
+<text x="145.0" y="174.0" text-anchor="middle" dominant-baseline="middle" class="code">defer Println(&quot;cleanup 3&quot;)</text>
+<path d="M380,125 L440,125" class="arrow" marker-end="url(#defer-stack-h)"/>
+<text x="410.0" y="113.0" text-anchor="middle" dominant-baseline="middle" class="small">return</text>
+<rect x="460" y="40" width="240" height="44" rx="10" class="amber"/>
+<text x="580.0" y="62.0" text-anchor="middle" dominant-baseline="middle" class="code">cleanup 3  → runs 1st</text>
+<rect x="460" y="96" width="240" height="44" rx="10" class="green"/>
+<text x="580.0" y="118.0" text-anchor="middle" dominant-baseline="middle" class="code">cleanup 2  → runs 2nd</text>
+<rect x="460" y="152" width="240" height="44" rx="10" class="blue"/>
+<text x="580.0" y="174.0" text-anchor="middle" dominant-baseline="middle" class="code">cleanup 1  → runs 3rd</text>
+<text x="380" y="240" text-anchor="middle" dominant-baseline="middle" class="small">Typical use: defer file.Close() right after a successful Open,</text>
+<text x="380" y="262" text-anchor="middle" dominant-baseline="middle" class="small">so the file is closed on every path out of the function.</text>
+</svg>
+<figcaption>Each defer is pushed on a stack as it is reached. When the function returns, they pop in reverse order.</figcaption>
+</figure>

@@ -1,0 +1,83 @@
+chapter: sessions/11-http
+quizzes:
+- title: Session 11 · HTTP servers and clients
+  description: Check what you learned in this session.
+  questions:
+  - text: What is an HTTP handler in Go?
+    choices: |
+      *A function `func(w http.ResponseWriter, r *http.Request)`
+      A struct with a `Run` method
+      A goroutine
+      A JSON file
+    explanation: Read the request from `r`, write the response to `w`.
+  - text: What does `http.ListenAndServe(":8081", nil)` do?
+    choices: |
+      Sends a request
+      *Starts a server on port 8081 and blocks
+      Returns at once
+      Opens a browser
+    explanation: It only returns if it fails, so check its error.
+  - text: Which status code means the JSON body was bad?
+    choices: |
+      200 OK
+      404 Not Found
+      *400 Bad Request
+      500 Internal Server Error
+    explanation: 400 means the client's request is wrong.
+  - text: Which status code is right when a POST creates something?
+    choices: |
+      200 OK
+      204 No Content
+      301 Moved
+      *201 Created
+    explanation: 201 tells the client a new resource exists.
+  - text: What does `switch r.Method` let one handler do?
+    choices: |
+      *React differently to GET, POST and so on
+      Choose the port
+      Parse JSON
+      Pick a database
+    explanation: Answer unknown methods with 405 Method Not Allowed.
+  - text: What does `json.NewDecoder(r.Body).Decode(&u)` do?
+    choices: |
+      Writes JSON to the client
+      *Reads the request body's JSON into `u`
+      Validates the URL
+      Closes the body
+    explanation: Check the returned error.
+  - text: What does `http.Error(w, "msg", 400)` NOT do?
+    choices: |
+      Set the status
+      Write the message
+      *Stop the handler; you must `return` yourself
+      Send the response
+    explanation: Without `return`, the code after it still runs.
+  - text: Why set a `Timeout` on an `http.Client`?
+    choices: |
+      It makes requests faster
+      It is required by HTTPS
+      To compress the body
+      *The default client waits forever
+    explanation: One slow server could hang your program.
+  - text: What does `httptest.NewServer` give you?
+    choices: |
+      *A real local server on a random port for tests
+      A mock database
+      A production host
+      A load balancer
+    explanation: Great for testing both clients and handlers.
+decks:
+- title: Session 11 · HTTP servers and clients flashcards
+  cards:
+  - front: Handler
+    back: '`func(w http.ResponseWriter, r *http.Request)`'
+  - front: http.HandleFunc
+    back: Registers a handler for a path
+  - front: Status codes
+    back: 200 OK, 201 Created, 400 bad request, 404 not found, 405 wrong method
+  - front: http.Error
+    back: Sets status and message; remember to return
+  - front: Client timeout
+    back: '`&http.Client{Timeout: 5 * time.Second}`'
+  - front: httptest
+    back: Test handlers and clients without a real network

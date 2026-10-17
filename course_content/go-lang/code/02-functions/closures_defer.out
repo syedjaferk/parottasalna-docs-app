@@ -1,0 +1,9 @@
+1 2 3
+1
+working...
+cleanup 2
+cleanup 1
+end of main
+deferred 3
+deferred 2
+deferred 1

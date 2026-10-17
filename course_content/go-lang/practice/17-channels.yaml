@@ -1,0 +1,83 @@
+chapter: sessions/17-channels
+quizzes:
+- title: Session 17 · Channels and select
+  description: Check what you learned in this session.
+  questions:
+  - text: What is a channel?
+    choices: |
+      *A typed pipe for passing values between goroutines
+      A kind of slice
+      A network socket
+      A lock
+    explanation: '`chan int` carries ints.'
+  - text: What does a send on an unbuffered channel do?
+    choices: |
+      Returns immediately
+      *Waits until another goroutine receives
+      Stores the value for later
+      Panics
+    explanation: 'Sender and receiver meet: a handshake.'
+  - text: What does `make(chan int, 3)` create?
+    choices: |
+      Three channels
+      A channel of arrays
+      *A buffered channel holding three values before a sender blocks
+      A closed channel
+    explanation: The buffer decouples sender and receiver.
+  - text: What does `close(ch)` mean?
+    choices: |
+      Delete the channel
+      Empty the buffer
+      Stop the receiver
+      *No more values will be sent
+    explanation: Receivers can still read buffered values.
+  - text: Who should close a channel?
+    choices: |
+      *The sender
+      The receiver
+      Anyone
+      The garbage collector only
+    explanation: Sending on a closed channel panics.
+  - text: When does `for v := range ch` end?
+    choices: |
+      After one value
+      *When the channel is closed and drained
+      After a second
+      Never
+    explanation: Forget to close and the loop waits forever.
+  - text: What does `select` do?
+    choices: |
+      Picks a random goroutine
+      Selects a database row
+      *Waits on several channel operations and runs the first one that is ready
+      Locks a mutex
+    explanation: Add `time.After` for a timeout or `default` for non-blocking.
+  - text: What does `<-chan int` mean in a parameter?
+    choices: |
+      A send-only channel
+      A closed channel
+      A pointer to int
+      *A receive-only channel
+    explanation: The compiler enforces the direction.
+  - text: 'What is the message of `fatal error: all goroutines are asleep - deadlock!`?'
+    choices: |
+      *Every goroutine is blocked, so nothing can ever proceed
+      Too many goroutines
+      A data race was found
+      The program ran out of memory
+    explanation: For example sending with no receiver.
+decks:
+- title: Session 17 · Channels and select flashcards
+  cards:
+  - front: ch <- v / v := <-ch
+    back: Send / receive; both wait for the other side if unbuffered
+  - front: Buffered
+    back: '`make(chan T, n)`: sends wait only when the buffer is full'
+  - front: close
+    back: Sender says no more values; range stops
+  - front: Worker pool
+    back: Several goroutines read jobs from one channel
+  - front: select
+    back: Wait on many channels; add time.After for timeouts
+  - front: Direction
+    back: '`<-chan T` receive-only, `chan<- T` send-only'

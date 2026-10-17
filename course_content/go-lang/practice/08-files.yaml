@@ -1,0 +1,83 @@
+chapter: sessions/08-files
+quizzes:
+- title: Session 8 · Files and folders
+  description: Check what you learned in this session.
+  questions:
+  - text: Which call reads a whole small file into memory?
+    choices: |
+      *`os.ReadFile`
+      `os.Open`
+      `os.Read`
+      `os.Scan`
+    explanation: It returns the bytes and an error.
+  - text: What does `os.ReadFile` return as data?
+    choices: |
+      A `string`
+      *`[]byte`; convert with `string(data)` for text
+      A slice of lines
+      A file handle
+    explanation: Printing the bytes directly shows numbers.
+  - text: What happens if you call `os.Create("notes.txt")` on an existing file?
+    choices: |
+      The file is appended to
+      An error is returned
+      *It is emptied
+      A copy is made
+    explanation: To add to the end use `os.OpenFile` with `O_APPEND`.
+  - text: Why `defer file.Close()` right after a successful open?
+    choices: |
+      It speeds up writes
+      It is required by `Println`
+      It flushes the screen
+      *So the file closes on every exit path
+    explanation: Check the error first; then defer.
+  - text: How do you read a large file line by line?
+    choices: |
+      *`bufio.NewScanner(file)` and loop on `scanner.Scan()`
+      `os.ReadFile` and split
+      `os.ReadLine`
+      `fmt.Scan`
+    explanation: The scanner keeps memory use low.
+  - text: How do you recognise a missing-file error?
+    choices: |
+      `err == nil`
+      *`errors.Is(err, os.ErrNotExist)` or `os.IsNotExist(err)`
+      `err.Code == 404`
+      `file == ""`
+    explanation: Missing files are normal errors, not crashes.
+  - text: What does `os.MkdirAll("a/b/c", 0755)` do?
+    choices: |
+      Creates only `a`
+      Fails if `a` is missing
+      *Creates the whole nested path
+      Lists the folders
+    explanation: It also succeeds if they already exist.
+  - text: Which function visits every file below a folder?
+    choices: |
+      `os.ReadDir`
+      `os.Stat`
+      `filepath.Base`
+      *`filepath.WalkDir`
+    explanation: '`os.ReadDir` lists just one level.'
+  - text: Why use `filepath.Join("a", "b.txt")` instead of `"a" + "/" + "b.txt"`?
+    choices: |
+      *It uses the right separator for the operating system
+      It is shorter
+      It checks the file exists
+      It creates the folder
+    explanation: Windows uses backslashes.
+decks:
+- title: Session 8 · Files and folders flashcards
+  cards:
+  - front: os.ReadFile
+    back: Read a whole file into []byte
+  - front: os.WriteFile
+    back: Replace a file's whole content
+  - front: O_APPEND
+    back: 'Open flag to add at the end: `os.OpenFile(n, os.O_APPEND|os.O_WRONLY, 0644)`'
+  - front: bufio.Scanner
+    back: Read a file line by line
+  - front: filepath.WalkDir
+    back: Visit every file below a folder
+  - front: '0644'
+    back: 'Unix permissions: owner read/write, others read'

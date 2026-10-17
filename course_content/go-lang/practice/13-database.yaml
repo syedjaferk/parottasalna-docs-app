@@ -1,0 +1,83 @@
+chapter: sessions/13-database
+quizzes:
+- title: Session 13 · Databases with database/sql
+  description: Check what you learned in this session.
+  questions:
+  - text: What is the role of a database driver?
+    choices: |
+      *It translates `database/sql` calls for one specific database
+      It stores the data
+      It makes SQL faster
+      It replaces `database/sql`
+    explanation: Postgres uses `lib/pq`, SQLite another driver.
+  - text: Why is the driver imported with `_`?
+    choices: |
+      To hide it from the compiler
+      *Only its `init` is needed, to register itself
+      It has no exported names at all
+      To import it twice
+    explanation: '`import _ "github.com/lib/pq"`.'
+  - text: Does `sql.Open` connect to the database?
+    choices: |
+      Yes, always
+      Only for SQLite
+      *No; `db.Ping()` checks the connection
+      Only with a password
+    explanation: '`Open` prepares a pool lazily.'
+  - text: Which call fits `INSERT`, `UPDATE` or `DELETE`?
+    choices: |
+      `db.Query`
+      `db.Scan`
+      `db.Next`
+      *`db.Exec`
+    explanation: It returns a Result with `RowsAffected`.
+  - text: How do you read many rows?
+    choices: |
+      *`rows, _ := db.Query(...)`, then `for rows.Next() { rows.Scan(...) }`
+      `db.Get`
+      `db.Query` returns a slice
+      `db.Exec` returns rows
+    explanation: Always `defer rows.Close()`.
+  - text: What does `QueryRow(...).Scan(&x)` return when nothing matches?
+    choices: |
+      A panic
+      *`sql.ErrNoRows`
+      A zero value and nil
+      An empty slice
+    explanation: Treat it as 'not found'.
+  - text: Why use placeholders (`WHERE id = ?`)?
+    choices: |
+      They run faster always
+      They are required for SELECT
+      *They prevent SQL injection
+      They sort the results
+    explanation: Never build SQL by joining strings with user input.
+  - text: What do PostgreSQL placeholders look like?
+    choices: |
+      `?`
+      `:name`
+      `%s`
+      *`$1`, `$2`
+    explanation: SQLite and MySQL use `?`.
+  - text: What is a transaction for?
+    choices: |
+      *Making several statements succeed or fail together
+      Speeding up queries
+      Opening a connection
+      Logging
+    explanation: Use `Begin`, then `Commit` or `Rollback`.
+decks:
+- title: Session 13 · Databases with database/sql flashcards
+  cards:
+  - front: sql.Open
+    back: Prepares a handle (pool); it does not connect yet
+  - front: db.Ping
+    back: Checks the database is reachable
+  - front: Exec / Query / QueryRow
+    back: Change data / many rows / exactly one row
+  - front: rows.Scan
+    back: Copies columns, in order, into your variables
+  - front: sql.ErrNoRows
+    back: 'No row matched: not found, not a crash'
+  - front: Placeholders
+    back: '`?` (SQLite, MySQL) or `$1` (Postgres); never glue strings'

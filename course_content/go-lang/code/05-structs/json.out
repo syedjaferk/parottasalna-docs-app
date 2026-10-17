@@ -1,0 +1,7 @@
+{ID:1 Name:Syed Email: Geo:{Lat:12.45 Lng:80.56} token:}
+{"id":1,"name":"Syed","email":"syed@example.com","geo":{"lat":12.45,"lng":80.56}}
+{
+  "lat": 1.5,
+  "lng": 2.5
+}
+json: cannot unmarshal string into Go struct field User.id of type int

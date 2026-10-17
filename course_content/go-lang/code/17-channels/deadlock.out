@@ -1,0 +1,5 @@
+fatal error: all goroutines are asleep - deadlock!
+
+goroutine 1 [chan send]:
+main.main()
+	<course>/17-channels/deadlock.go:7 +0x36

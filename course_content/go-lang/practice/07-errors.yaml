@@ -1,0 +1,83 @@
+chapter: sessions/07-errors
+quizzes:
+- title: Session 7 · Errors, panics and retry
+  description: Check what you learned in this session.
+  questions:
+  - text: How does a Go function usually report a failure?
+    choices: |
+      *It returns an `error` as its last result
+      It throws an exception
+      It sets a global flag
+      It exits the program
+    explanation: Callers check `if err != nil`.
+  - text: What does `%w` in `fmt.Errorf` do?
+    choices: |
+      Writes the error in bold
+      *Wraps the original error so it can be found later
+      Warns the user
+      Drops the original message
+    explanation: '`errors.Is` and `errors.As` can look through wrapped layers.'
+  - text: What does `errors.Is(err, ErrNotFound)` check?
+    choices: |
+      Whether the text matches
+      Whether `err` is nil
+      *Whether `ErrNotFound` appears anywhere in the wrapped chain
+      Whether the types are equal
+    explanation: It unwraps layer by layer.
+  - text: What is `errors.As` used for?
+    choices: |
+      Converting an error to a string
+      Creating a new error
+      Ignoring an error
+      *Finding an error of a given type in the chain to read its fields
+    explanation: Pass a pointer to a variable of the target type.
+  - text: What makes a type an `error`?
+    choices: |
+      *It has an `Error() string` method
+      It embeds `error`
+      Its name ends with `Error`
+      It is declared in package `errors`
+    explanation: Interfaces are satisfied implicitly.
+  - text: When should you use `panic`?
+    choices: |
+      For any failed operation
+      *For programmer mistakes that should never happen
+      For missing files
+      For user typos
+    explanation: Ordinary failures are returned as errors.
+  - text: How can a function stop a panic from crashing the program?
+    choices: |
+      Wrap in `try/catch`
+      Return early
+      *Call `recover()` inside a deferred function
+      Call `os.Exit(0)`
+    explanation: '`recover` only works inside a deferred call.'
+  - text: Which errors are worth retrying?
+    choices: |
+      Every error
+      Invalid input
+      Permission denied
+      *Temporary ones such as timeouts or a busy server
+    explanation: Retrying a permanent failure only repeats it.
+  - text: What does exponential back-off mean in a retry loop?
+    choices: |
+      *Waiting longer after each failed attempt
+      Retrying instantly
+      Retrying once
+      Doubling the number of attempts
+    explanation: It gives a struggling server time to recover.
+decks:
+- title: Session 7 · Errors, panics and retry flashcards
+  cards:
+  - front: Return errors
+    back: '`value, err := f()` then `if err != nil { ... }`'
+  - front: Wrap
+    back: '`fmt.Errorf("doing X: %w", err)` adds context and keeps the cause'
+  - front: errors.Is
+    back: Is this sentinel anywhere in the chain?
+  - front: errors.As
+    back: Find a typed error in the chain to read its fields
+  - front: panic
+    back: For bugs that should never happen; recover in a deferred func
+  - front: errors.Join
+    back: Combine several errors into one (Go 1.20+)

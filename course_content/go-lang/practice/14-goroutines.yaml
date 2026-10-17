@@ -1,0 +1,83 @@
+chapter: sessions/14-goroutines
+quizzes:
+- title: Session 14 · Goroutines
+  description: Check what you learned in this session.
+  questions:
+  - text: How do you start a goroutine?
+    choices: |
+      *Put `go` in front of a function call
+      Call `thread.Start()`
+      Use the `async` keyword
+      Call `run(f)`
+    explanation: '`go task()` runs `task` alongside the caller.'
+  - text: What happens if `main` returns while goroutines are still running?
+    choices: |
+      Go waits for them
+      *The program exits and they are stopped
+      They finish in the background
+      A panic is raised
+    explanation: '`main` does not wait for anyone.'
+  - text: Two 600 ms tasks are started as goroutines. About how long does the program take?
+    choices: |
+      About 1200 ms
+      About 300 ms
+      *About 600 ms
+      It depends on the file name
+    explanation: They overlap, so the total is the slowest one.
+  - text: Can you rely on the order in which goroutines print?
+    choices: |
+      Yes, in start order
+      Yes, in reverse
+      Yes, alphabetical
+      *No, the scheduler decides
+    explanation: Never assume an order without synchronising.
+  - text: Why is `time.Sleep` a poor way to wait for goroutines?
+    choices: |
+      *It is a guess that breaks when work is slower
+      It uses a lot of memory
+      It is deprecated
+      It stops the goroutines
+    explanation: Use `sync.WaitGroup` or channels.
+  - text: What is a goroutine leak?
+    choices: |
+      A memory error in `go build`
+      *A goroutine blocked forever that never exits
+      Running too many CPU cores
+      A goroutine without a name
+    explanation: For example, waiting on a channel nobody sends to.
+  - text: Roughly how heavy is a goroutine?
+    choices: |
+      About 1 MB like an OS thread
+      A whole process
+      *A few kilobytes of stack, so thousands are fine
+      It uses no memory
+    explanation: That is why Go can run huge numbers of them.
+  - text: Do HTTP handlers in `net/http` already run concurrently?
+    choices: |
+      No, one at a time
+      Only with a flag
+      Only for GET
+      *Yes, each request is served in its own goroutine
+    explanation: That is why shared data needs protection.
+  - text: What is the difference between concurrency and parallelism?
+    choices: |
+      *Concurrency is structuring work to overlap; parallelism is actually running at the same instant on several cores
+      They are the same
+      Parallelism is slower
+      Concurrency needs two computers
+    explanation: Go gives you concurrency and uses parallelism when cores exist.
+decks:
+- title: Session 14 · Goroutines flashcards
+  cards:
+  - front: go f()
+    back: Run f in a new goroutine; the caller continues immediately
+  - front: main exits
+    back: All goroutines stop when main returns
+  - front: Goroutine cost
+    back: A few KB; thousands are normal
+  - front: Order
+    back: 'Not guaranteed: synchronise if it matters'
+  - front: Concurrent vs parallel
+    back: Overlapping tasks vs running at the same instant
+  - front: Don't Sleep to wait
+    back: Use WaitGroup or a channel

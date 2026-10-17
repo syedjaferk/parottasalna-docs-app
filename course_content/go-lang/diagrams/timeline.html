@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 290" role="img" aria-labelledby="timeline-t timeline-d" xmlns="http://www.w3.org/2000/svg">
+<title id="timeline-t">Sequential vs concurrent</title>
+<desc id="timeline-d">Two 600ms tasks take 1200ms one after another, but about 600ms when they run as goroutines at the same time.</desc>
+<defs><marker id="timeline-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="timeline-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="timeline-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="timeline-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="30" y="20" text-anchor="start" dominant-baseline="middle" class="title">sequential</text>
+<rect x="30" y="35" width="300" height="30" rx="4" class="blue"/>
+<text x="180" y="50" text-anchor="middle" dominant-baseline="middle" class="small">Task 1  (600 ms)</text>
+<rect x="330" y="35" width="300" height="30" rx="4" class="green"/>
+<text x="480" y="50" text-anchor="middle" dominant-baseline="middle" class="small">Task 2  (600 ms)</text>
+<text x="640" y="50" text-anchor="start" dominant-baseline="middle" class="bold">= 1200 ms</text>
+<text x="30" y="110" text-anchor="start" dominant-baseline="middle" class="title">go task1()  ·  go task2()</text>
+<rect x="30" y="125" width="300" height="30" rx="4" class="blue"/>
+<text x="180" y="140" text-anchor="middle" dominant-baseline="middle" class="small">Task 1</text>
+<rect x="30" y="165" width="300" height="30" rx="4" class="green"/>
+<text x="180" y="180" text-anchor="middle" dominant-baseline="middle" class="small">Task 2</text>
+<text x="345" y="160" text-anchor="start" dominant-baseline="middle" class="bold">= 600 ms</text>
+<text x="30" y="240" text-anchor="start" dominant-baseline="middle" class="small">Concurrent ≠ parallel: Go interleaves goroutines and also spreads them across CPU cores.</text>
+<text x="30" y="262" text-anchor="start" dominant-baseline="middle" class="small">If main returns, every goroutine is stopped, finished or not.</text>
+</svg>
+<figcaption>Two 600ms tasks take 1200ms one after another, but about 600ms when they run as goroutines at the same time.</figcaption>
+</figure>

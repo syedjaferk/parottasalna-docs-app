@@ -1,0 +1,6 @@
+[95 0 0 0 0] 5
+[Red Green Blue] 3
+[1 2 3] [99 2 3]
+Index 0 holds Go
+Index 1 holds Python
+Index 2 holds Rust

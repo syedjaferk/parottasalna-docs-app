@@ -1,0 +1,6 @@
+--- FAIL: TestIsPalindrome (0.00s)
+    --- FAIL: TestIsPalindrome/with_spaces_and_case (0.00s)
+        textx_test.go:44: IsPalindrome("Never Odd Or Even") = false, want true
+FAIL
+exit status 1
+FAIL	golang-course/18-testing/textx	0.003s

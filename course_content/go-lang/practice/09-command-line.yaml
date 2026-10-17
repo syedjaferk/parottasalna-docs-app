@@ -1,0 +1,83 @@
+chapter: sessions/09-command-line
+quizzes:
+- title: Session 9 · Command-line tools
+  description: Check what you learned in this session.
+  questions:
+  - text: What is `os.Args[0]`?
+    choices: |
+      *The name of the program itself
+      The first argument typed
+      The number of arguments
+      The working directory
+    explanation: User arguments start at `os.Args[1]`.
+  - text: What must you call before reading flag values?
+    choices: |
+      `flag.Read()`
+      *`flag.Parse()`
+      `flag.Start()`
+      Nothing; flags fill themselves
+    explanation: Forgetting it leaves every flag at its default.
+  - text: What does `flag.String("name", "Guest", "who")` return?
+    choices: |
+      A `string`
+      An error
+      *A `*string` that is filled after `Parse`
+      A map
+    explanation: Read it with `*name`.
+  - text: How does `flag.StringVar(&dir, "dir", "", "usage")` differ from `flag.String`?
+    choices: |
+      It makes the flag required
+      It is for numbers
+      It skips parsing
+      *It stores into your own variable instead of returning a pointer
+    explanation: Both define the same kind of flag.
+  - text: How is a `bool` flag turned on?
+    choices: |
+      *Just write `-verbose`
+      `-verbose=yes` only
+      `-verbose 1` only
+      `--on verbose`
+    explanation: Its presence means `true`.
+  - text: Where do non-flag words end up?
+    choices: |
+      Lost
+      *In `flag.Args()`
+      In `flag.Parse()`
+      In `os.Stdin`
+    explanation: Flag parsing stops at the first non-flag word.
+  - text: Which exit code means failure?
+    choices: |
+      0
+      -0
+      *Non-zero, such as `os.Exit(1)`
+      Always 200
+    explanation: Scripts check the exit status.
+  - text: Where should error messages normally go?
+    choices: |
+      To stdout with exit 0
+      Into the log file only
+      To the screen only if verbose
+      *To stderr, with a non-zero exit
+    explanation: Use `fmt.Fprintln(os.Stderr, ...)`.
+  - text: Why validate `-dir` before walking it?
+    choices: |
+      *To give a clear error instead of a confusing failure later
+      Go requires it
+      To speed up the walk
+      Flags are always empty otherwise
+    explanation: Check it exists with `os.Stat` and `IsDir()`.
+decks:
+- title: Session 9 · Command-line tools flashcards
+  cards:
+  - front: os.Args
+    back: Slice of command-line words; index 0 is the program
+  - front: flag.Parse()
+    back: Reads -name=value options into the declared flags
+  - front: flag.Args()
+    back: Leftover non-flag words after parsing
+  - front: flag.Usage
+    back: A function you can replace to print your own help
+  - front: os.Exit(1)
+    back: Stop with a failure status for scripts
+  - front: filepath.SkipAll
+    back: Return it from WalkDir's callback to stop early

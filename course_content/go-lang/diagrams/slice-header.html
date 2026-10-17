@@ -1,0 +1,43 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 330" role="img" aria-labelledby="slice-header-t slice-header-d" xmlns="http://www.w3.org/2000/svg">
+<title id="slice-header-t">A slice is a small header pointing at an array</title>
+<desc id="slice-header-d">Two slices can look at the same array: s covers all of it, window covers a part, so writing through one changes the other.</desc>
+<defs><marker id="slice-header-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="slice-header-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="slice-header-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="slice-header-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="150" height="110" rx="10" class="blue"/>
+<text x="95.0" y="45.0" text-anchor="middle" dominant-baseline="middle" class="bold">slice s</text>
+<text x="95.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="code">ptr  →</text>
+<text x="95.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">len = 5</text>
+<text x="95.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">cap = 6</text>
+<rect x="20" y="170" width="150" height="110" rx="10" class="green"/>
+<text x="95.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="bold">window := s[1:3]</text>
+<text x="95.0" y="215.0" text-anchor="middle" dominant-baseline="middle" class="code">ptr  →</text>
+<text x="95.0" y="235.0" text-anchor="middle" dominant-baseline="middle" class="code">len = 2</text>
+<text x="95.0" y="255.0" text-anchor="middle" dominant-baseline="middle" class="code">cap = 5</text>
+<rect x="260" y="80" width="70" height="50" rx="10" class="box"/>
+<text x="295.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<text x="295.0" y="144" text-anchor="middle" dominant-baseline="middle" class="small">0</text>
+<rect x="336" y="80" width="70" height="50" rx="10" class="green"/>
+<text x="371.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">99</text>
+<text x="371.0" y="144" text-anchor="middle" dominant-baseline="middle" class="small">1</text>
+<rect x="412" y="80" width="70" height="50" rx="10" class="green"/>
+<text x="447.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<text x="447.0" y="144" text-anchor="middle" dominant-baseline="middle" class="small">2</text>
+<rect x="488" y="80" width="70" height="50" rx="10" class="box"/>
+<text x="523.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<text x="523.0" y="144" text-anchor="middle" dominant-baseline="middle" class="small">3</text>
+<rect x="564" y="80" width="70" height="50" rx="10" class="box"/>
+<text x="599.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<text x="599.0" y="144" text-anchor="middle" dominant-baseline="middle" class="small">4</text>
+<rect x="640" y="80" width="70" height="50" rx="10" class="ghost"/>
+<text x="675.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="code">·</text>
+<text x="675.0" y="144" text-anchor="middle" dominant-baseline="middle" class="small">5</text>
+<text x="440" y="40" text-anchor="middle" dominant-baseline="middle" class="title">underlying array (cap 6)</text>
+<path d="M170,70 L258,100" class="arrow blue" marker-end="url(#slice-header-h-blue)"/>
+<path d="M170,220 L336,140" class="arrow green" marker-end="url(#slice-header-h-green)"/>
+<text x="500" y="220" text-anchor="middle" dominant-baseline="middle" class="small">window[0] = 99 writes into the shared array,</text>
+<text x="500" y="242" text-anchor="middle" dominant-baseline="middle" class="small">so s[1] is 99 too.</text>
+<text x="500" y="280" text-anchor="middle" dominant-baseline="middle" class="small">append beyond cap → Go allocates a bigger array</text>
+<text x="500" y="302" text-anchor="middle" dominant-baseline="middle" class="small">and the old slices stop sharing.</text>
+</svg>
+<figcaption>Two slices can look at the same array: s covers all of it, window covers a part, so writing through one changes the other.</figcaption>
+</figure>

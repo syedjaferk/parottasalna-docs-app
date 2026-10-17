@@ -1,0 +1,6 @@
+goos: linux
+goarch: amd64
+pkg: golang-course/18-testing/textx
+BenchmarkIsPalindrome-12    	 8270139	       148.0 ns/op
+PASS
+ok  	golang-course/18-testing/textx	1.378s
