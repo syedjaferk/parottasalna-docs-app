@@ -1,4 +1,4 @@
-"""Builds prep/data/*.json (problem catalog + study materials) from the InterviewPreparations folder.
+"""Builds prep/data/catalog.json (the problem catalog) from the InterviewPreparations folder.
 
     python manage.py build_prep_catalog [--src ../InterviewPreparations]
 """
@@ -56,6 +56,8 @@ def keyword_patterns(text):
     return {pat for kw, pat in KEYWORDS if (f" {kw} " in text or (len(kw) > 3 and kw in text))}
 
 
+# Sheets that are not offered in the tracker (their problems still carry pattern tags).
+EXCLUDED_SHEETS = {"20-essential-dsa-patterns", "package-wise"}
 FREQ = {"Cold": 1, "Warm": 2, "Hot": 3, "Very Hot": 4}
 DIFF = {"Basic": 0, "Easy": 1, "Medium": 2, "Hard": 3}
 
@@ -83,7 +85,7 @@ class Command(BaseCommand):
         problems = {r["problem_id"]: r for r in rows(db / "problems.csv")}
         topics = {r["topic_id"]: r["name"] for r in rows(db / "topics.csv")}
         companies = {r["company_id"]: r["name"] for r in rows(db / "companies.csv")}
-        sheets = rows(db / "sheets.csv")
+        sheets = [r for r in rows(db / "sheets.csv") if r["sheet_id"] not in EXCLUDED_SHEETS]
 
         p_topics, p_patterns, p_companies = defaultdict(set), defaultdict(set), defaultdict(dict)
         for r in rows(db / "problem_topics.csv"):
@@ -105,7 +107,7 @@ class Command(BaseCommand):
             canon_topic[tid] = min(groups[key], key=len)
 
         # Problems used by at least one sheet or company list, in a stable order.
-        used = {r["problem_id"] for r in rows(db / "sheet_problems.csv")} | set(p_companies)
+        used = {r["problem_id"] for r in rows(db / "sheet_problems.csv") if r["sheet_id"] not in EXCLUDED_SHEETS} | set(p_companies)
         pids = sorted(used & set(problems))
         index = {pid: i for i, pid in enumerate(pids)}
         pattern_list = sorted({v for s in p_patterns.values() for v in s})
@@ -143,27 +145,4 @@ class Command(BaseCommand):
         catalog = {"problems": plist, "sheets": slist, "topics": topic_list, "patterns": pattern_list,
                    "companies": [companies[c] for c in company_list], "difficulties": ["Basic", "Easy", "Medium", "Hard"]}
         (out / "catalog.json").write_text(json.dumps(catalog, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
-
-        # ---- study materials -------------------------------------------------------------------
-        def load(name):
-            return json.load(open(scrape / f"{name}.json", encoding="utf-8"))
-
-        def qa(name, keep_source=False):
-            return [{"q": r.get("title") or r.get("question", ""), "a": r.get("answer", ""), "d": r.get("difficulty", ""), "c": r.get("category", ""),
-                     **({"s": r["source"].split("/")[-1]} if keep_source and r.get("source") else {})} for r in load(name)]
-
-        materials = {
-            "hr": qa("hr"), "sql": qa("sql"), "cs": qa("interview_questions", True),
-            "roles": qa("role_wise", True),
-            "system_design": [{"t": r["title"], "type": r["type"], "article": r["articleLink"], "video": r["ytLink"],
-                               "companies": [c.strip() for c in r["companies"].split(";") if c.strip()]} for r in load("system_design")],
-            "notes": [{"t": r["title"], "cat": r["category"], "url": r["file_url"]} for r in load("notes")],
-            "playlists": [{"pl": r["playlist"], "by": r["creator"], "sec": r["section"], "t": r["title"], "u": r["link"]} for r in load("playlists")],
-            "cold_emails": [{k: r.get(k, "") for k in ("id", "category", "role", "title", "purpose", "subject", "body", "tips", "bestTimeToSend", "expectedResponseRate")} for r in load("cold_emails")],
-            "resumes": [{"t": r["name"], "u": r["link"]} for r in load("resumes")],
-        }
-        for key, value in materials.items():
-            (out / f"mat_{key}.json").write_text(json.dumps(value, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
         self.stdout.write(f"{len(plist)} problems, {len(slist)} sheets, {len(company_list)} companies, {len(pattern_list)} patterns, {len(topic_list)} topics")
-        for key, value in materials.items():
-            self.stdout.write(f"  mat_{key}: {len(value)}")

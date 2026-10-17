@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 310" role="img" aria-labelledby="backtracking-t backtracking-d" xmlns="http://www.w3.org/2000/svg">
+<title id="backtracking-t">Backtracking explores a tree of choices</title>
+<desc id="backtracking-d">Subsets of [1, 2]: at each number choose to take it or skip it. Reaching a leaf records the subset; returning undoes the choice.</desc>
+<defs><marker id="backtracking-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="backtracking-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="backtracking-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="backtracking-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="280" y="15" width="120" height="34" rx="10" class="blue"/>
+<text x="340.0" y="32.0" text-anchor="middle" dominant-baseline="middle" class="code">[ ]</text>
+<path d="M310,49 L190,100" class="arrow" marker-end="url(#backtracking-h)"/>
+<text x="225" y="66" text-anchor="middle" dominant-baseline="middle" class="small">take 1</text>
+<path d="M370,49 L500,100" class="arrow" marker-end="url(#backtracking-h)"/>
+<text x="470" y="66" text-anchor="middle" dominant-baseline="middle" class="small">skip 1</text>
+<rect x="130" y="100" width="120" height="34" rx="10" class="blue"/>
+<text x="190.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">[1]</text>
+<rect x="440" y="100" width="120" height="34" rx="10" class="blue"/>
+<text x="500.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">[ ]</text>
+<path d="M160,134 L90,185" class="arrow" marker-end="url(#backtracking-h)"/>
+<text x="95" y="152" text-anchor="middle" dominant-baseline="middle" class="small">take 2</text>
+<path d="M220,134 L250,185" class="arrow" marker-end="url(#backtracking-h)"/>
+<text x="255" y="152" text-anchor="middle" dominant-baseline="middle" class="small">skip 2</text>
+<path d="M470,134 L400,185" class="arrow" marker-end="url(#backtracking-h)"/>
+<text x="405" y="152" text-anchor="middle" dominant-baseline="middle" class="small">take 2</text>
+<path d="M530,134 L570,185" class="arrow" marker-end="url(#backtracking-h)"/>
+<text x="580" y="152" text-anchor="middle" dominant-baseline="middle" class="small">skip 2</text>
+<rect x="40" y="185" width="100" height="34" rx="10" class="green"/>
+<text x="90.0" y="202.0" text-anchor="middle" dominant-baseline="middle" class="code">[1, 2]</text>
+<rect x="210" y="185" width="100" height="34" rx="10" class="green"/>
+<text x="260.0" y="202.0" text-anchor="middle" dominant-baseline="middle" class="code">[1]</text>
+<rect x="350" y="185" width="100" height="34" rx="10" class="green"/>
+<text x="400.0" y="202.0" text-anchor="middle" dominant-baseline="middle" class="code">[2]</text>
+<rect x="520" y="185" width="100" height="34" rx="10" class="green"/>
+<text x="570.0" y="202.0" text-anchor="middle" dominant-baseline="middle" class="code">[ ]</text>
+<text x="360" y="255" text-anchor="middle" dominant-baseline="middle" class="small">4 leaves = 4 subsets. After each branch we pop the last choice and try the next.</text>
+<text x="360" y="285" text-anchor="middle" dominant-baseline="middle" class="bold">choose → explore → un-choose</text>
+</svg>
+<figcaption>Subsets of [1, 2]: at each number choose to take it or skip it. Reaching a leaf records the subset; returning undoes the choice.</figcaption>
+</figure>

@@ -1,0 +1,71 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="binary-search-t binary-search-d" xmlns="http://www.w3.org/2000/svg">
+<title id="binary-search-t">Binary search halves the range</title>
+<desc id="binary-search-d">Looking for 23. Each check at mid throws away half of what is left.</desc>
+<defs><marker id="binary-search-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="binary-search-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="binary-search-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="binary-search-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="47.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="80" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="107.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="140" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="167.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="200" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="227.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">12</text>
+<rect x="260" y="20" width="54" height="38" rx="10" class="green"/>
+<text x="287.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">16</text>
+<rect x="320" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="347.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">23</text>
+<rect x="380" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="407.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">38</text>
+<rect x="440" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="467.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">56</text>
+<rect x="500" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="527.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">72</text>
+<rect x="560" y="20" width="54" height="38" rx="10" class="blue"/>
+<text x="587.0" y="39.0" text-anchor="middle" dominant-baseline="middle" class="code">91</text>
+<text x="20" y="78" text-anchor="start" dominant-baseline="middle" class="small">lo=0, hi=9, mid=4 → 16 &lt; 23, go right</text>
+<rect x="20" y="110" width="54" height="38" rx="10" class="ghost"/>
+<text x="47.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="80" y="110" width="54" height="38" rx="10" class="ghost"/>
+<text x="107.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="140" y="110" width="54" height="38" rx="10" class="ghost"/>
+<text x="167.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="200" y="110" width="54" height="38" rx="10" class="ghost"/>
+<text x="227.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">12</text>
+<rect x="260" y="110" width="54" height="38" rx="10" class="ghost"/>
+<text x="287.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">16</text>
+<rect x="320" y="110" width="54" height="38" rx="10" class="blue"/>
+<text x="347.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">23</text>
+<rect x="380" y="110" width="54" height="38" rx="10" class="blue"/>
+<text x="407.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">38</text>
+<rect x="440" y="110" width="54" height="38" rx="10" class="green"/>
+<text x="467.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">56</text>
+<rect x="500" y="110" width="54" height="38" rx="10" class="blue"/>
+<text x="527.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">72</text>
+<rect x="560" y="110" width="54" height="38" rx="10" class="blue"/>
+<text x="587.0" y="129.0" text-anchor="middle" dominant-baseline="middle" class="code">91</text>
+<text x="20" y="168" text-anchor="start" dominant-baseline="middle" class="small">lo=5, hi=9, mid=7 → 56 &gt; 23, go left</text>
+<rect x="20" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="47.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="80" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="107.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="140" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="167.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="200" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="227.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">12</text>
+<rect x="260" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="287.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">16</text>
+<rect x="320" y="200" width="54" height="38" rx="10" class="green"/>
+<text x="347.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">23</text>
+<rect x="380" y="200" width="54" height="38" rx="10" class="blue"/>
+<text x="407.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">38</text>
+<rect x="440" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="467.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">56</text>
+<rect x="500" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="527.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">72</text>
+<rect x="560" y="200" width="54" height="38" rx="10" class="ghost"/>
+<text x="587.0" y="219.0" text-anchor="middle" dominant-baseline="middle" class="code">91</text>
+<text x="20" y="258" text-anchor="start" dominant-baseline="middle" class="small">lo=5, hi=6, mid=5 → 23 found!</text>
+</svg>
+<figcaption>Looking for 23. Each check at mid throws away half of what is left.</figcaption>
+</figure>

@@ -1,0 +1,42 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="top-k-t top-k-d" xmlns="http://www.w3.org/2000/svg">
+<title id="top-k-t">Top K with a min-heap of size K</title>
+<desc id="top-k-d">Keep the K biggest seen so far. The smallest of them sits at the top, ready to be kicked out by a bigger newcomer.</desc>
+<defs><marker id="top-k-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="top-k-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="top-k-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="top-k-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="40" y="25" text-anchor="start" dominant-baseline="middle" class="code">stream: 5, 2, 9, 1, 7, 8   K = 3</text>
+<text x="40" y="68" text-anchor="start" dominant-baseline="middle" class="small">after 5, 2, 9</text>
+<rect x="190" y="50" width="54" height="34" rx="10" class="amber"/>
+<text x="217.0" y="67.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="250" y="50" width="54" height="34" rx="10" class="blue"/>
+<text x="277.0" y="67.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="310" y="50" width="54" height="34" rx="10" class="blue"/>
+<text x="337.0" y="67.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="400" y="68" text-anchor="start" dominant-baseline="middle" class="small">heap full</text>
+<text x="40" y="118" text-anchor="start" dominant-baseline="middle" class="small">1 arrives</text>
+<rect x="190" y="100" width="54" height="34" rx="10" class="amber"/>
+<text x="217.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="250" y="100" width="54" height="34" rx="10" class="blue"/>
+<text x="277.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="310" y="100" width="54" height="34" rx="10" class="blue"/>
+<text x="337.0" y="117.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="400" y="118" text-anchor="start" dominant-baseline="middle" class="small">1 &lt; top 2 → ignore</text>
+<text x="40" y="168" text-anchor="start" dominant-baseline="middle" class="small">7 arrives</text>
+<rect x="190" y="150" width="54" height="34" rx="10" class="amber"/>
+<text x="217.0" y="167.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="250" y="150" width="54" height="34" rx="10" class="blue"/>
+<text x="277.0" y="167.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<rect x="310" y="150" width="54" height="34" rx="10" class="blue"/>
+<text x="337.0" y="167.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="400" y="168" text-anchor="start" dominant-baseline="middle" class="small">7 &gt; top 2 → pop 2, push 7</text>
+<text x="40" y="218" text-anchor="start" dominant-baseline="middle" class="small">8 arrives</text>
+<rect x="190" y="200" width="54" height="34" rx="10" class="amber"/>
+<text x="217.0" y="217.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<rect x="250" y="200" width="54" height="34" rx="10" class="blue"/>
+<text x="277.0" y="217.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="310" y="200" width="54" height="34" rx="10" class="blue"/>
+<text x="337.0" y="217.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="400" y="218" text-anchor="start" dominant-baseline="middle" class="small">8 &gt; top 5 → pop 5, push 8</text>
+<text x="190" y="255" text-anchor="start" dominant-baseline="middle" class="small">amber = heap top (smallest of the K)</text>
+</svg>
+<figcaption>Keep the K biggest seen so far. The smallest of them sits at the top, ready to be kicked out by a bigger newcomer.</figcaption>
+</figure>

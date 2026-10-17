@@ -1,0 +1,37 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="dfs-t dfs-d" xmlns="http://www.w3.org/2000/svg">
+<title id="dfs-t">DFS goes deep first, then backs up</title>
+<desc id="dfs-d">Numbers show the visit order. DFS follows one path to the end, returns to the last fork, and tries the next branch.</desc>
+<defs><marker id="dfs-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="dfs-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="dfs-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="dfs-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<line x1="260" y1="40" x2="140" y2="120" class="line"/>
+<line x1="260" y1="40" x2="380" y2="120" class="line"/>
+<line x1="140" y1="120" x2="80" y2="210" class="line"/>
+<line x1="140" y1="120" x2="200" y2="210" class="line"/>
+<line x1="380" y1="120" x2="380" y2="210" class="line"/>
+<circle cx="260" cy="40" r="22" class="blue"/>
+<text x="260" y="40" text-anchor="middle" dominant-baseline="middle" class="code">A</text>
+<text x="290" y="22" text-anchor="middle" dominant-baseline="middle" class="bold">1</text>
+<circle cx="140" cy="120" r="22" class="blue"/>
+<text x="140" y="120" text-anchor="middle" dominant-baseline="middle" class="code">B</text>
+<text x="170" y="102" text-anchor="middle" dominant-baseline="middle" class="bold">2</text>
+<circle cx="380" cy="120" r="22" class="blue"/>
+<text x="380" y="120" text-anchor="middle" dominant-baseline="middle" class="code">C</text>
+<text x="410" y="102" text-anchor="middle" dominant-baseline="middle" class="bold">5</text>
+<circle cx="80" cy="210" r="22" class="blue"/>
+<text x="80" y="210" text-anchor="middle" dominant-baseline="middle" class="code">D</text>
+<text x="110" y="192" text-anchor="middle" dominant-baseline="middle" class="bold">3</text>
+<circle cx="200" cy="210" r="22" class="blue"/>
+<text x="200" y="210" text-anchor="middle" dominant-baseline="middle" class="code">E</text>
+<text x="230" y="192" text-anchor="middle" dominant-baseline="middle" class="bold">4</text>
+<circle cx="380" cy="210" r="22" class="blue"/>
+<text x="380" y="210" text-anchor="middle" dominant-baseline="middle" class="code">F</text>
+<text x="410" y="192" text-anchor="middle" dominant-baseline="middle" class="bold">6</text>
+<text x="520" y="70" text-anchor="start" dominant-baseline="middle" class="title">call stack</text>
+<text x="520" y="100" text-anchor="start" dominant-baseline="middle" class="code">dfs(A)</text>
+<text x="520" y="126" text-anchor="start" dominant-baseline="middle" class="code">  dfs(B)</text>
+<text x="520" y="152" text-anchor="start" dominant-baseline="middle" class="code">    dfs(D)  ← deepest</text>
+<text x="520" y="178" text-anchor="start" dominant-baseline="middle" class="code">    back to B</text>
+<text x="520" y="204" text-anchor="start" dominant-baseline="middle" class="code">    dfs(E)</text>
+</svg>
+<figcaption>Numbers show the visit order. DFS follows one path to the end, returns to the last fork, and tries the next branch.</figcaption>
+</figure>

@@ -1,0 +1,42 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 290" role="img" aria-labelledby="kway-t kway-d" xmlns="http://www.w3.org/2000/svg">
+<title id="kway-t">Merge K sorted lists with a heap</title>
+<desc id="kway-d">The heap always holds the current front of each list. Pop the smallest, then push the next item from the same list.</desc>
+<defs><marker id="kway-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="kway-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="kway-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="kway-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="40" y="50" text-anchor="start" dominant-baseline="middle" class="small">list 1</text>
+<rect x="100" y="30" width="46" height="34" rx="10" class="amber"/>
+<text x="123.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="152" y="30" width="46" height="34" rx="10" class="box"/>
+<text x="175.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="204" y="30" width="46" height="34" rx="10" class="box"/>
+<text x="227.0" y="47.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<text x="40" y="106" text-anchor="start" dominant-baseline="middle" class="small">list 2</text>
+<rect x="100" y="86" width="46" height="34" rx="10" class="amber"/>
+<text x="123.0" y="103.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="152" y="86" width="46" height="34" rx="10" class="box"/>
+<text x="175.0" y="103.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="204" y="86" width="46" height="34" rx="10" class="box"/>
+<text x="227.0" y="103.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<text x="40" y="162" text-anchor="start" dominant-baseline="middle" class="small">list 3</text>
+<rect x="100" y="142" width="46" height="34" rx="10" class="amber"/>
+<text x="123.0" y="159.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="152" y="142" width="46" height="34" rx="10" class="box"/>
+<text x="175.0" y="159.0" text-anchor="middle" dominant-baseline="middle" class="code">6</text>
+<rect x="204" y="142" width="46" height="34" rx="10" class="box"/>
+<text x="227.0" y="159.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="330" y="20" text-anchor="start" dominant-baseline="middle" class="title">heap (fronts)</text>
+<rect x="330" y="32" width="50" height="34" rx="10" class="amber"/>
+<text x="355.0" y="49.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="386" y="32" width="50" height="34" rx="10" class="amber"/>
+<text x="411.0" y="49.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="442" y="32" width="50" height="34" rx="10" class="amber"/>
+<text x="467.0" y="49.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<text x="330" y="90" text-anchor="start" dominant-baseline="middle" class="small">pop 1 → output [1]</text>
+<text x="330" y="112" text-anchor="start" dominant-baseline="middle" class="small">push next of list 1 → 4</text>
+<text x="330" y="140" text-anchor="start" dominant-baseline="middle" class="small">heap now 2, 3, 4</text>
+<text x="330" y="170" text-anchor="start" dominant-baseline="middle" class="small">pop 2 → output [1, 2] …</text>
+<text x="330" y="215" text-anchor="start" dominant-baseline="middle" class="bold">output grows sorted: 1 2 3 4 5 6 7 8 9</text>
+<text x="330" y="245" text-anchor="start" dominant-baseline="middle" class="small">N items total, heap of size K → O(N log K)</text>
+</svg>
+<figcaption>The heap always holds the current front of each list. Pop the smallest, then push the next item from the same list.</figcaption>
+</figure>

@@ -1,0 +1,25 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="intervals-t intervals-d" xmlns="http://www.w3.org/2000/svg">
+<title id="intervals-t">Merging overlapping intervals</title>
+<desc id="intervals-d">Sort by start. If the next interval starts before the current one ends, they overlap and merge.</desc>
+<defs><marker id="intervals-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="intervals-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="intervals-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="intervals-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="30" y="20" text-anchor="start" dominant-baseline="middle" class="title">before</text>
+<rect x="70" y="35" width="60" height="20" rx="4" class="bar"/>
+<text x="140" y="45" text-anchor="start" dominant-baseline="middle" class="small">[1,3]</text>
+<rect x="100" y="65" width="120" height="20" rx="4" class="bar"/>
+<text x="230" y="75" text-anchor="start" dominant-baseline="middle" class="small">[2,6]</text>
+<rect x="280" y="95" width="60" height="20" rx="4" class="bar amber"/>
+<text x="350" y="105" text-anchor="start" dominant-baseline="middle" class="small">[8,10]</text>
+<rect x="490" y="125" width="90" height="20" rx="4" class="bar green"/>
+<text x="590" y="135" text-anchor="start" dominant-baseline="middle" class="small">[15,18]</text>
+<text x="70" y="168" text-anchor="start" dominant-baseline="middle" class="small">[1,3] and [2,6] overlap because 2 ≤ 3</text>
+<text x="30" y="205" text-anchor="start" dominant-baseline="middle" class="title">after</text>
+<rect x="70" y="220" width="150" height="18" rx="4" class="bar"/>
+<text x="230" y="229" text-anchor="start" dominant-baseline="middle" class="code">[1,6]</text>
+<rect x="280" y="248" width="60" height="18" rx="4" class="bar amber"/>
+<text x="350" y="257" text-anchor="start" dominant-baseline="middle" class="code">[8,10]</text>
+<rect x="490" y="276" width="90" height="18" rx="4" class="bar green"/>
+<text x="590" y="285" text-anchor="start" dominant-baseline="middle" class="code">[15,18]</text>
+</svg>
+<figcaption>Sort by start. If the next interval starts before the current one ends, they overlap and merge.</figcaption>
+</figure>

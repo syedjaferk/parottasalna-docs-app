@@ -1,0 +1,99 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="matrix-t matrix-d" xmlns="http://www.w3.org/2000/svg">
+<title id="matrix-t">Matrix: spiral order and in-place rotation</title>
+<desc id="matrix-d">Spiral: walk the outer ring, then the next ring. Rotate 90°: transpose (mirror over the diagonal), then reverse each row.</desc>
+<defs><marker id="matrix-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="matrix-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="matrix-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="matrix-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="120" y="18" text-anchor="middle" dominant-baseline="middle" class="title">spiral order</text>
+<rect x="40" y="35" width="40" height="40" rx="10" class="blue"/>
+<text x="60.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="84" y="35" width="40" height="40" rx="10" class="blue"/>
+<text x="104.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="128" y="35" width="40" height="40" rx="10" class="blue"/>
+<text x="148.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="172" y="35" width="40" height="40" rx="10" class="blue"/>
+<text x="192.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="40" y="79" width="40" height="40" rx="10" class="box"/>
+<text x="60.0" y="99.0" text-anchor="middle" dominant-baseline="middle" class="code">12</text>
+<rect x="84" y="79" width="40" height="40" rx="10" class="box"/>
+<text x="104.0" y="99.0" text-anchor="middle" dominant-baseline="middle" class="code">13</text>
+<rect x="128" y="79" width="40" height="40" rx="10" class="box"/>
+<text x="148.0" y="99.0" text-anchor="middle" dominant-baseline="middle" class="code">14</text>
+<rect x="172" y="79" width="40" height="40" rx="10" class="green"/>
+<text x="192.0" y="99.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="40" y="123" width="40" height="40" rx="10" class="amber"/>
+<text x="60.0" y="143.0" text-anchor="middle" dominant-baseline="middle" class="code">11</text>
+<rect x="84" y="123" width="40" height="40" rx="10" class="box"/>
+<text x="104.0" y="143.0" text-anchor="middle" dominant-baseline="middle" class="code">16</text>
+<rect x="128" y="123" width="40" height="40" rx="10" class="box"/>
+<text x="148.0" y="143.0" text-anchor="middle" dominant-baseline="middle" class="code">15</text>
+<rect x="172" y="123" width="40" height="40" rx="10" class="green"/>
+<text x="192.0" y="143.0" text-anchor="middle" dominant-baseline="middle" class="code">6</text>
+<rect x="40" y="167" width="40" height="40" rx="10" class="amber"/>
+<text x="60.0" y="187.0" text-anchor="middle" dominant-baseline="middle" class="code">10</text>
+<rect x="84" y="167" width="40" height="40" rx="10" class="amber"/>
+<text x="104.0" y="187.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<rect x="128" y="167" width="40" height="40" rx="10" class="amber"/>
+<text x="148.0" y="187.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="172" y="167" width="40" height="40" rx="10" class="green"/>
+<text x="192.0" y="187.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<text x="480" y="18" text-anchor="middle" dominant-baseline="middle" class="title">rotate 90° clockwise</text>
+<text x="355" y="220" text-anchor="middle" dominant-baseline="middle" class="small">original</text>
+<rect x="300" y="40" width="32" height="32" rx="10" class="box"/>
+<text x="316.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="336" y="40" width="32" height="32" rx="10" class="box"/>
+<text x="352.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="372" y="40" width="32" height="32" rx="10" class="box"/>
+<text x="388.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="300" y="76" width="32" height="32" rx="10" class="box"/>
+<text x="316.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="336" y="76" width="32" height="32" rx="10" class="box"/>
+<text x="352.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="372" y="76" width="32" height="32" rx="10" class="box"/>
+<text x="388.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">6</text>
+<rect x="300" y="112" width="32" height="32" rx="10" class="box"/>
+<text x="316.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<rect x="336" y="112" width="32" height="32" rx="10" class="box"/>
+<text x="352.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="372" y="112" width="32" height="32" rx="10" class="box"/>
+<text x="388.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="495" y="220" text-anchor="middle" dominant-baseline="middle" class="small">transpose</text>
+<rect x="440" y="40" width="32" height="32" rx="10" class="blue"/>
+<text x="456.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="476" y="40" width="32" height="32" rx="10" class="blue"/>
+<text x="492.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="512" y="40" width="32" height="32" rx="10" class="blue"/>
+<text x="528.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<rect x="440" y="76" width="32" height="32" rx="10" class="blue"/>
+<text x="456.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="476" y="76" width="32" height="32" rx="10" class="blue"/>
+<text x="492.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="512" y="76" width="32" height="32" rx="10" class="blue"/>
+<text x="528.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="440" y="112" width="32" height="32" rx="10" class="blue"/>
+<text x="456.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="476" y="112" width="32" height="32" rx="10" class="blue"/>
+<text x="492.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">6</text>
+<rect x="512" y="112" width="32" height="32" rx="10" class="blue"/>
+<text x="528.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="635" y="220" text-anchor="middle" dominant-baseline="middle" class="small">reverse rows</text>
+<rect x="580" y="40" width="32" height="32" rx="10" class="green"/>
+<text x="596.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<rect x="616" y="40" width="32" height="32" rx="10" class="green"/>
+<text x="632.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="652" y="40" width="32" height="32" rx="10" class="green"/>
+<text x="668.0" y="56.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="580" y="76" width="32" height="32" rx="10" class="green"/>
+<text x="596.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="616" y="76" width="32" height="32" rx="10" class="green"/>
+<text x="632.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="652" y="76" width="32" height="32" rx="10" class="green"/>
+<text x="668.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="580" y="112" width="32" height="32" rx="10" class="green"/>
+<text x="596.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<rect x="616" y="112" width="32" height="32" rx="10" class="green"/>
+<text x="632.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">6</text>
+<rect x="652" y="112" width="32" height="32" rx="10" class="green"/>
+<text x="668.0" y="128.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+</svg>
+<figcaption>Spiral: walk the outer ring, then the next ring. Rotate 90°: transpose (mirror over the diagonal), then reverse each row.</figcaption>
+</figure>

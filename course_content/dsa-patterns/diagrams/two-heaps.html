@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="two-heaps-t two-heaps-d" xmlns="http://www.w3.org/2000/svg">
+<title id="two-heaps-t">Two heaps hold the two halves</title>
+<desc id="two-heaps-d">Max-heap = smaller half, min-heap = larger half. The median sits at the tops.</desc>
+<defs><marker id="two-heaps-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="two-heaps-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="two-heaps-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="two-heaps-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="180" y="20" text-anchor="middle" dominant-baseline="middle" class="title">max-heap (smaller half)</text>
+<text x="520" y="20" text-anchor="middle" dominant-baseline="middle" class="title">min-heap (larger half)</text>
+<rect x="100" y="35" width="54" height="34" rx="10" class="amber"/>
+<text x="127.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="160" y="35" width="54" height="34" rx="10" class="blue"/>
+<text x="187.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<rect x="220" y="35" width="54" height="34" rx="10" class="blue"/>
+<text x="247.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="430" y="35" width="54" height="34" rx="10" class="amber"/>
+<text x="457.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="490" y="35" width="54" height="34" rx="10" class="green"/>
+<text x="517.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="550" y="35" width="54" height="34" rx="10" class="green"/>
+<text x="577.0" y="52.0" text-anchor="middle" dominant-baseline="middle" class="code">7</text>
+<text x="130" y="90" text-anchor="middle" dominant-baseline="middle" class="small">top = 3</text>
+<text x="460" y="90" text-anchor="middle" dominant-baseline="middle" class="small">top = 4</text>
+<text x="360" y="140" text-anchor="middle" dominant-baseline="middle" class="code">stream 1 2 3 4 5 7 → even count → median = (3 + 4) / 2 = 3.5</text>
+<text x="360" y="180" text-anchor="middle" dominant-baseline="middle" class="small">add x: push to max-heap, move its top to min-heap,</text>
+<text x="360" y="202" text-anchor="middle" dominant-baseline="middle" class="small">and if min-heap is bigger, move its top back.</text>
+<text x="360" y="235" text-anchor="middle" dominant-baseline="middle" class="bold">Sizes always differ by at most 1.</text>
+</svg>
+<figcaption>Max-heap = smaller half, min-heap = larger half. The median sits at the tops.</figcaption>
+</figure>

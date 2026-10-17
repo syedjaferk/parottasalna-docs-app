@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 240" role="img" aria-labelledby="fast-slow-t fast-slow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="fast-slow-t">Fast and slow pointers on a cycle</title>
+<desc id="fast-slow-d">Slow moves 1 step, fast moves 2. Inside a loop the fast pointer laps the slow one, so they meet.</desc>
+<defs><marker id="fast-slow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="fast-slow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="fast-slow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="fast-slow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<circle cx="70" cy="80" r="20" class="blue"/>
+<text x="70" y="80" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<circle cx="170" cy="80" r="20" class="blue"/>
+<text x="170" y="80" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<path d="M91,80 L148,80" class="arrow" marker-end="url(#fast-slow-h)"/>
+<circle cx="270" cy="80" r="20" class="box"/>
+<text x="270" y="80" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<path d="M191,80 L248,80" class="arrow" marker-end="url(#fast-slow-h)"/>
+<circle cx="370" cy="80" r="20" class="box"/>
+<text x="370" y="80" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<path d="M291,80 L348,80" class="arrow" marker-end="url(#fast-slow-h)"/>
+<circle cx="470" cy="80" r="20" class="box"/>
+<text x="470" y="80" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<path d="M391,80 L448,80" class="arrow" marker-end="url(#fast-slow-h)"/>
+<path d="M470,101 L470,170 L270,170 L270,102" class="arrow red" marker-end="url(#fast-slow-h-red)"/>
+<text x="380" y="190" text-anchor="middle" dominant-baseline="middle" class="small">cycle: 5 points back to 3</text>
+<text x="70" y="130" text-anchor="middle" dominant-baseline="middle" class="small">slow starts here</text>
+<text x="70" y="148" text-anchor="middle" dominant-baseline="middle" class="small">fast starts here</text>
+<text x="560" y="70" text-anchor="start" dominant-baseline="middle" class="code">slow: 1, 2, 3, 4, 5</text>
+<text x="560" y="95" text-anchor="start" dominant-baseline="middle" class="code">fast: 1, 3, 5, 4, 3</text>
+<text x="560" y="125" text-anchor="start" dominant-baseline="middle" class="bold">meet at node 3</text>
+</svg>
+<figcaption>Slow moves 1 step, fast moves 2. Inside a loop the fast pointer laps the slow one, so they meet.</figcaption>
+</figure>

@@ -4,7 +4,6 @@ from functools import lru_cache
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
-MATERIALS = {"hr", "sql", "cs", "roles", "system_design", "notes", "playlists", "cold_emails", "resumes"}
 
 
 @lru_cache(maxsize=1)

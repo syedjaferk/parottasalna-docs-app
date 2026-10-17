@@ -1,0 +1,45 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 260" role="img" aria-labelledby="prefix-sum-t prefix-sum-d" xmlns="http://www.w3.org/2000/svg">
+<title id="prefix-sum-t">Prefix sums answer range questions in O(1)</title>
+<desc id="prefix-sum-d">prefix[i] is the sum of the first i numbers. The sum of a range is one subtraction.</desc>
+<defs><marker id="prefix-sum-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="prefix-sum-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="prefix-sum-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="prefix-sum-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="30" y="33" text-anchor="start" dominant-baseline="middle" class="bold">a</text>
+<rect x="143" y="15" width="60" height="36" rx="10" class="box"/>
+<text x="173.0" y="33.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="209" y="15" width="60" height="36" rx="10" class="box"/>
+<text x="239.0" y="33.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="275" y="15" width="60" height="36" rx="10" class="amber"/>
+<text x="305.0" y="33.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="341" y="15" width="60" height="36" rx="10" class="amber"/>
+<text x="371.0" y="33.0" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<rect x="407" y="15" width="60" height="36" rx="10" class="amber"/>
+<text x="437.0" y="33.0" text-anchor="middle" dominant-baseline="middle" class="code">5</text>
+<rect x="473" y="15" width="60" height="36" rx="10" class="box"/>
+<text x="503.0" y="33.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<text x="30" y="123" text-anchor="start" dominant-baseline="middle" class="bold">prefix</text>
+<rect x="110" y="105" width="60" height="36" rx="10" class="box"/>
+<text x="140.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">0</text>
+<rect x="176" y="105" width="60" height="36" rx="10" class="box"/>
+<text x="206.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<rect x="242" y="105" width="60" height="36" rx="10" class="red"/>
+<text x="272.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">4</text>
+<rect x="308" y="105" width="60" height="36" rx="10" class="box"/>
+<text x="338.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">8</text>
+<rect x="374" y="105" width="60" height="36" rx="10" class="box"/>
+<text x="404.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">9</text>
+<rect x="440" y="105" width="60" height="36" rx="10" class="green"/>
+<text x="470.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">14</text>
+<rect x="506" y="105" width="60" height="36" rx="10" class="box"/>
+<text x="536.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="code">23</text>
+<text x="140" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[0]</text>
+<text x="206" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[1]</text>
+<text x="272" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[2]</text>
+<text x="338" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[3]</text>
+<text x="404" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[4]</text>
+<text x="470" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[5]</text>
+<text x="536" y="157" text-anchor="middle" dominant-baseline="middle" class="small">[6]</text>
+<text x="360" y="200" text-anchor="middle" dominant-baseline="middle" class="code">sum of a[2..4] = prefix[5] - prefix[2] = 14 - 4 = 10</text>
+<text x="360" y="228" text-anchor="middle" dominant-baseline="middle" class="small">4 + 1 + 5 = 10  ✓</text>
+</svg>
+<figcaption>prefix[i] is the sum of the first i numbers. The sum of a range is one subtraction.</figcaption>
+</figure>

@@ -1,34 +1,32 @@
-/* Pattern guides: a kid-friendly explanation plus the technical flow for every pattern, with practice problems. */
+/* Pattern guides: a short child-friendly summary per pattern, linking to the full lesson in the DSA Patterns course. */
 (function () {
-  const { esc, get, safeUrl } = window.Prep;
+  const { esc, get } = window.Prep;
   const app = document.getElementById("patterns-app");
   const grid = document.getElementById("pattern-grid");
-  const DIFF = ["Basic", "Easy", "Medium", "Hard"];
   let guides, cat;
 
-  function card(name) {
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+  function card(name, n) {
     const g = guides[name], idx = cat.patterns.indexOf(name);
-    const probs = cat.problems.filter((p) => p.pa.includes(idx));
-    const picks = probs.slice().sort((a, b) => a.d - b.d).filter((p) => p.pl === "leetcode").slice(0, 6);
-    const list = (a) => a.map((x) => `<li>${esc(x)}</li>`).join("");
-    return `<details class="pattern card" id="${esc(name.replace(/\W+/g, "-").toLowerCase())}" data-name="${esc(name.toLowerCase())}">
-      <summary><h2>${esc(name)}</h2><span class="muted">${probs.length} problems · ${esc(g.time)}</span></summary>
-      <div class="pbody">
-        <div class="kid"><h3>🧒 Explained like you're 5</h3><p>${esc(g.kid)}</p></div>
-        <div><h3>👀 Spot it when…</h3><ul>${list(g.when)}</ul></div>
-        <div><h3>⚙️ The technical flow</h3><ol class="flow">${list(g.flow)}</ol></div>
-        <div><h3>🧪 Template</h3><pre><code>${esc(g.code)}</code></pre>
-          <p class="complexity"><span>Time <b>${esc(g.time)}</b></span><span>Space <b>${esc(g.space)}</b></span></p></div>
-        <div><h3>⚠️ Common mistakes</h3><ul>${list(g.pitfalls)}</ul></div>
-        <div><h3>🎯 Practise</h3><ul class="practice">${picks.map((p) => `<li><a href="${esc(safeUrl(p.u))}" target="_blank" rel="noopener noreferrer">${esc(p.t)}</a> <span class="diff ${DIFF[p.d].toLowerCase()}">${DIFF[p.d]}</span></li>`).join("")}</ul>
-          <a class="btn ghost sm" href="${esc(app.dataset.tracker)}#pattern=${idx}">Open all ${probs.length} in the tracker →</a></div>
-      </div></details>`;
+    const count = cat.problems.filter((p) => p.pa.includes(idx)).length;
+    return `<article class="pattern-card card" id="${esc(slug(name))}">
+      <header><span class="pnum">${String(n).padStart(2, "0")}</span><h2>${esc(name)}</h2></header>
+      <p class="kid-line"><span aria-hidden="true">🧒</span> ${esc(g.kid)}</p>
+      <h3>Spot it when…</h3>
+      <ul>${g.when.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <p class="complexity"><span>Time <b>${esc(g.time)}</b></span><span>Space <b>${esc(g.space)}</b></span></p>
+      <footer>
+        <a class="btn sm" href="${esc(app.dataset.course + "sessions/" + g.session + ".html")}">Read the full lesson →</a>
+        <a class="btn ghost sm" href="${esc(app.dataset.tracker)}#pattern=${esc(slug(name))}">Practise ${count} problems</a>
+      </footer>
+    </article>`;
   }
 
   function draw() {
     const q = document.getElementById("p-search").value.trim().toLowerCase();
-    grid.innerHTML = cat.patterns.filter((n) => guides[n] && (!q || n.toLowerCase().includes(q))).map(card).join("") || '<p class="muted">No pattern matches.</p>';
-    if (location.hash) { const el = document.getElementById(location.hash.slice(1)); if (el) { el.open = true; el.scrollIntoView(); } }
+    const names = Object.keys(guides).filter((n) => !q || n.toLowerCase().includes(q) || guides[n].kid.toLowerCase().includes(q));
+    grid.innerHTML = names.map((n) => card(n, Object.keys(guides).indexOf(n) + 1)).join("") || '<p class="muted">No pattern matches.</p>';
   }
 
   Promise.all([get(app.dataset.guides), get(app.dataset.catalog)]).then(([g, c]) => { guides = g; cat = c; draw(); })

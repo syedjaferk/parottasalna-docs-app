@@ -5,7 +5,11 @@
 {% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
 {% block content %}
 {% include "prep/_nav.html" %}
-<div id="patterns-app" data-guides="{% url 'prep_data' 'pattern_guides' %}" data-catalog="{% url 'prep_data' 'catalog' %}" data-tracker="{% url 'prep_tracker' %}">
+<div id="patterns-app" data-course="{% url 'course_docs' 'dsa-patterns' %}" data-guides="{% url 'prep_data' 'pattern_guides' %}" data-catalog="{% url 'prep_data' 'catalog' %}" data-tracker="{% url 'prep_tracker' %}">
+  <div class="card prep-course">
+    <div><strong>📘 DSA Patterns course</strong><p class="muted">Each pattern has a full lesson: a story, diagrams, a step-by-step trace, a Python template, common mistakes and practice problems.</p></div>
+    <a class="btn" href="{% url 'course_docs' 'dsa-patterns' %}">Start the course →</a>
+  </div>
   <div class="card prep-filters"><input id="p-search" class="prep-input" type="search" placeholder="Search patterns…" aria-label="Search patterns"></div>
   <div id="pattern-grid" class="pattern-grid"></div>
 </div>

@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="topo-t topo-d" xmlns="http://www.w3.org/2000/svg">
+<title id="topo-t">Topological sort with in-degrees</title>
+<desc id="topo-d">Courses with prerequisites. Start with nodes that need nothing (in-degree 0), remove them, and repeat.</desc>
+<defs><marker id="topo-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="topo-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="topo-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="topo-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<path d="M110,135 L210,70" class="arrow" marker-end="url(#topo-h)"/>
+<path d="M110,135 L210,200" class="arrow" marker-end="url(#topo-h)"/>
+<path d="M270,70 L390,135" class="arrow" marker-end="url(#topo-h)"/>
+<path d="M270,200 L390,135" class="arrow" marker-end="url(#topo-h)"/>
+<rect x="50" y="117" width="60" height="36" rx="10" class="blue"/>
+<text x="80.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">Maths</text>
+<rect x="210" y="52" width="60" height="36" rx="10" class="blue"/>
+<text x="240.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="code">Algo</text>
+<rect x="210" y="182" width="60" height="36" rx="10" class="blue"/>
+<text x="240.0" y="200.0" text-anchor="middle" dominant-baseline="middle" class="code">Stats</text>
+<rect x="390" y="117" width="60" height="36" rx="10" class="blue"/>
+<text x="420.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">ML</text>
+<text x="500" y="70" text-anchor="start" dominant-baseline="middle" class="title">in-degree</text>
+<text x="500" y="100" text-anchor="start" dominant-baseline="middle" class="code">Maths 0  ← start</text>
+<text x="500" y="128" text-anchor="start" dominant-baseline="middle" class="code">Algo  1 → 0 after Maths</text>
+<text x="500" y="156" text-anchor="start" dominant-baseline="middle" class="code">Stats 1 → 0 after Maths</text>
+<text x="500" y="184" text-anchor="start" dominant-baseline="middle" class="code">ML    2 → 0 after both</text>
+<text x="500" y="230" text-anchor="start" dominant-baseline="middle" class="bold">order: Maths, Algo, Stats, ML</text>
+</svg>
+<figcaption>Courses with prerequisites. Start with nodes that need nothing (in-degree 0), remove them, and repeat.</figcaption>
+</figure>

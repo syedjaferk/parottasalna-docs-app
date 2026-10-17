@@ -1,0 +1,62 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 360" role="img" aria-labelledby="reverse-list-t reverse-list-d" xmlns="http://www.w3.org/2000/svg">
+<title id="reverse-list-t">Reversing a linked list one link at a time</title>
+<desc id="reverse-list-d">Keep prev, curr and next. Save next, flip curr.next to point backwards, then step prev and curr forward.</desc>
+<defs><marker id="reverse-list-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="reverse-list-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="reverse-list-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="reverse-list-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="30" y="40" text-anchor="start" dominant-baseline="middle" class="small">start</text>
+<text x="170" y="40" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<text x="570" y="40" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<circle cx="250" cy="40" r="20" class="box"/>
+<text x="250" y="40" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<circle cx="360" cy="40" r="20" class="box"/>
+<text x="360" y="40" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<circle cx="470" cy="40" r="20" class="box"/>
+<text x="470" y="40" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<path d="M272,40 L338,40" class="arrow" marker-end="url(#reverse-list-h)"/>
+<path d="M382,40 L448,40" class="arrow" marker-end="url(#reverse-list-h)"/>
+<path d="M492,40 L548,40" class="arrow" marker-end="url(#reverse-list-h)"/>
+<text x="250" y="78" text-anchor="middle" dominant-baseline="middle" class="bold">curr</text>
+<text x="30" y="130" text-anchor="start" dominant-baseline="middle" class="small">after step 1</text>
+<text x="170" y="130" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<text x="570" y="130" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<circle cx="250" cy="130" r="20" class="green"/>
+<text x="250" y="130" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<circle cx="360" cy="130" r="20" class="box"/>
+<text x="360" y="130" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<circle cx="470" cy="130" r="20" class="box"/>
+<text x="470" y="130" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<path d="M228,130 L184,130" class="arrow green" marker-end="url(#reverse-list-h-green)"/>
+<path d="M382,130 L448,130" class="arrow" marker-end="url(#reverse-list-h)"/>
+<path d="M492,130 L548,130" class="arrow" marker-end="url(#reverse-list-h)"/>
+<text x="250" y="168" text-anchor="middle" dominant-baseline="middle" class="bold">prev</text>
+<text x="360" y="168" text-anchor="middle" dominant-baseline="middle" class="bold">curr</text>
+<text x="30" y="220" text-anchor="start" dominant-baseline="middle" class="small">after step 2</text>
+<text x="170" y="220" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<text x="570" y="220" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<circle cx="250" cy="220" r="20" class="green"/>
+<text x="250" y="220" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<circle cx="360" cy="220" r="20" class="green"/>
+<text x="360" y="220" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<circle cx="470" cy="220" r="20" class="box"/>
+<text x="470" y="220" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<path d="M228,220 L184,220" class="arrow green" marker-end="url(#reverse-list-h-green)"/>
+<path d="M338,228 L272,228" class="arrow green" marker-end="url(#reverse-list-h-green)"/>
+<path d="M492,220 L548,220" class="arrow" marker-end="url(#reverse-list-h)"/>
+<text x="360" y="258" text-anchor="middle" dominant-baseline="middle" class="bold">prev</text>
+<text x="470" y="258" text-anchor="middle" dominant-baseline="middle" class="bold">curr</text>
+<text x="30" y="310" text-anchor="start" dominant-baseline="middle" class="small">after step 3</text>
+<text x="170" y="310" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<text x="570" y="310" text-anchor="middle" dominant-baseline="middle" class="code">null</text>
+<circle cx="250" cy="310" r="20" class="green"/>
+<text x="250" y="310" text-anchor="middle" dominant-baseline="middle" class="code">1</text>
+<circle cx="360" cy="310" r="20" class="green"/>
+<text x="360" y="310" text-anchor="middle" dominant-baseline="middle" class="code">2</text>
+<circle cx="470" cy="310" r="20" class="green"/>
+<text x="470" y="310" text-anchor="middle" dominant-baseline="middle" class="code">3</text>
+<path d="M228,310 L184,310" class="arrow green" marker-end="url(#reverse-list-h-green)"/>
+<path d="M338,318 L272,318" class="arrow green" marker-end="url(#reverse-list-h-green)"/>
+<path d="M448,318 L382,318" class="arrow green" marker-end="url(#reverse-list-h-green)"/>
+<text x="470" y="348" text-anchor="middle" dominant-baseline="middle" class="bold">prev</text>
+</svg>
+<figcaption>Keep prev, curr and next. Save next, flip curr.next to point backwards, then step prev and curr forward.</figcaption>
+</figure>

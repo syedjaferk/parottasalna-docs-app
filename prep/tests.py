@@ -17,19 +17,19 @@ class PrepTests(TestCase):
         return self.client.post(reverse(name), json.dumps(body), content_type="application/json")
 
     def test_pages_and_data_need_login(self):
-        for name in ("prep_tracker", "prep_patterns", "prep_materials"):
+        for name in ("prep_tracker", "prep_patterns"):
             self.assertEqual(self.client.get(reverse(name)).status_code, 302)
         self.assertEqual(self.client.get(reverse("prep_progress")).status_code, 401)
         self.assertEqual(self.client.get(reverse("prep_data", args=["catalog"])).status_code, 302)
 
     def test_pages_render(self):
         self.client.force_login(self.user)
-        for name in ("prep_tracker", "prep_patterns", "prep_materials"):
+        for name in ("prep_tracker", "prep_patterns"):
             self.assertEqual(self.client.get(reverse(name)).status_code, 200)
-        for f in ("catalog", "pattern_guides", "mat_hr", "mat_cs"):
+        for f in ("catalog", "pattern_guides"):
             self.assertEqual(self.client.get(reverse("prep_data", args=[f])).status_code, 200)
         self.assertEqual(self.client.get("/prep/data/settings.json").status_code, 404)
-        self.assertEqual(self.client.get(reverse("prep_data", args=["mat_nope"])).status_code, 404)
+        self.assertEqual(self.client.get("/prep/data/mat_hr.json").status_code, 404)
 
     def test_progress_roundtrip(self):
         self.client.force_login(self.user)

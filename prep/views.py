@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST, require_safe
 
 from courses.security import api_login_required, no_store
 
-from .catalog import DATA_DIR, MATERIALS, problem_ids
+from .catalog import DATA_DIR, problem_ids
 from .models import ProblemProgress
 
 MAX_NOTE = 2000
@@ -53,15 +53,9 @@ def patterns(request):
 
 @require_safe
 @login_required
-def materials(request):
-    return render(request, "prep/materials.html", {"tab": "materials"})
-
-
-@require_safe
-@login_required
 def data_file(request, name):
-    """Serves catalog.json, pattern_guides.json and the mat_*.json study material, to signed-in students only."""
-    if name not in ("catalog", "pattern_guides") and name.removeprefix("mat_") not in MATERIALS:
+    """Serves catalog.json and pattern_guides.json to signed-in students only."""
+    if name not in ("catalog", "pattern_guides"):
         raise Http404
     path = Path(DATA_DIR / f"{name}.json")
     if not path.is_file():

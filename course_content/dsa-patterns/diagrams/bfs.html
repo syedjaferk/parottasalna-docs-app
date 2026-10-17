@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-labelledby="bfs-t bfs-d" xmlns="http://www.w3.org/2000/svg">
+<title id="bfs-t">BFS spreads out level by level</title>
+<desc id="bfs-d">From A, first visit everything 1 step away, then everything 2 steps away. The queue holds the next level.</desc>
+<defs><marker id="bfs-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="bfs-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="bfs-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="bfs-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<line x1="100" y1="150" x2="250" y2="70" class="line"/>
+<line x1="100" y1="150" x2="250" y2="150" class="line"/>
+<line x1="100" y1="150" x2="250" y2="230" class="line"/>
+<line x1="250" y1="70" x2="420" y2="70" class="line"/>
+<line x1="250" y1="150" x2="420" y2="190" class="line"/>
+<line x1="250" y1="230" x2="420" y2="190" class="line"/>
+<circle cx="100" cy="150" r="22" class="green"/>
+<text x="100" y="150" text-anchor="middle" dominant-baseline="middle" class="code">A</text>
+<circle cx="250" cy="70" r="22" class="blue"/>
+<text x="250" y="70" text-anchor="middle" dominant-baseline="middle" class="code">B</text>
+<circle cx="250" cy="150" r="22" class="blue"/>
+<text x="250" y="150" text-anchor="middle" dominant-baseline="middle" class="code">C</text>
+<circle cx="250" cy="230" r="22" class="blue"/>
+<text x="250" y="230" text-anchor="middle" dominant-baseline="middle" class="code">D</text>
+<circle cx="420" cy="70" r="22" class="amber"/>
+<text x="420" y="70" text-anchor="middle" dominant-baseline="middle" class="code">E</text>
+<circle cx="420" cy="190" r="22" class="amber"/>
+<text x="420" y="190" text-anchor="middle" dominant-baseline="middle" class="code">F</text>
+<text x="100" y="190" text-anchor="middle" dominant-baseline="middle" class="small">level 0</text>
+<text x="250" y="270" text-anchor="middle" dominant-baseline="middle" class="small">level 1</text>
+<text x="430" y="250" text-anchor="middle" dominant-baseline="middle" class="small">level 2</text>
+<text x="560" y="100" text-anchor="start" dominant-baseline="middle" class="title">queue after each pop</text>
+<text x="560" y="125" text-anchor="start" dominant-baseline="middle" class="code">[A]</text>
+<text x="560" y="149" text-anchor="start" dominant-baseline="middle" class="code">[B, C, D]</text>
+<text x="560" y="173" text-anchor="start" dominant-baseline="middle" class="code">[C, D, E]</text>
+<text x="560" y="197" text-anchor="start" dominant-baseline="middle" class="code">[D, E, F]</text>
+<text x="560" y="221" text-anchor="start" dominant-baseline="middle" class="code">[E, F]</text>
+<text x="560" y="245" text-anchor="start" dominant-baseline="middle" class="code">[F]</text>
+</svg>
+<figcaption>From A, first visit everything 1 step away, then everything 2 steps away. The queue holds the next level.</figcaption>
+</figure>

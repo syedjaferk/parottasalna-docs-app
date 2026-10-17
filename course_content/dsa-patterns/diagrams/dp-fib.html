@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-labelledby="dp-fib-t dp-fib-d" xmlns="http://www.w3.org/2000/svg">
+<title id="dp-fib-t">Overlapping sub-problems</title>
+<desc id="dp-fib-d">Plain recursion for fib(5) recomputes fib(3) and fib(2) again and again. A cache (memo) answers each only once.</desc>
+<defs><marker id="dp-fib-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="dp-fib-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="dp-fib-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="dp-fib-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<line x1="260" y1="46" x2="160" y2="74" class="line"/>
+<line x1="260" y1="46" x2="360" y2="74" class="line"/>
+<line x1="160" y1="106" x2="100" y2="144" class="line"/>
+<line x1="160" y1="106" x2="220" y2="144" class="line"/>
+<line x1="360" y1="106" x2="330" y2="144" class="line"/>
+<line x1="360" y1="106" x2="420" y2="144" class="line"/>
+<rect x="236" y="14" width="48" height="32" rx="10" class="box"/>
+<text x="260.0" y="30.0" text-anchor="middle" dominant-baseline="middle" class="code">f5</text>
+<rect x="136" y="74" width="48" height="32" rx="10" class="box"/>
+<text x="160.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">f4</text>
+<rect x="336" y="74" width="48" height="32" rx="10" class="box"/>
+<text x="360.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="code">f3</text>
+<rect x="76" y="144" width="48" height="32" rx="10" class="red"/>
+<text x="100.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">f3</text>
+<rect x="196" y="144" width="48" height="32" rx="10" class="red"/>
+<text x="220.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">f2</text>
+<rect x="306" y="144" width="48" height="32" rx="10" class="red"/>
+<text x="330.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">f2</text>
+<rect x="396" y="144" width="48" height="32" rx="10" class="box"/>
+<text x="420.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="code">f1</text>
+<text x="520" y="60" text-anchor="start" dominant-baseline="middle" class="small">red = repeated work</text>
+<text x="520" y="100" text-anchor="start" dominant-baseline="middle" class="small">with memo: f3 and f2</text>
+<text x="520" y="122" text-anchor="start" dominant-baseline="middle" class="small">are computed once and</text>
+<text x="520" y="144" text-anchor="start" dominant-baseline="middle" class="small">looked up afterwards</text>
+<text x="260" y="225" text-anchor="middle" dominant-baseline="middle" class="bold">Time: O(2ⁿ) → O(n)</text>
+</svg>
+<figcaption>Plain recursion for fib(5) recomputes fib(3) and fib(2) again and again. A cache (memo) answers each only once.</figcaption>
+</figure>

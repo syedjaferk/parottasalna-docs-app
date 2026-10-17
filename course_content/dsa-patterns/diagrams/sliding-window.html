@@ -1,0 +1,94 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 720 330" role="img" aria-labelledby="sliding-window-t sliding-window-d" xmlns="http://www.w3.org/2000/svg">
+<title id="sliding-window-t">A window slides over the string</title>
+<desc id="sliding-window-d">Longest substring without repeats in &quot;abcabcbb&quot;: grow the right edge; when a repeat appears, shrink from the left.</desc>
+<defs><marker id="sliding-window-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="sliding-window-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="sliding-window-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="sliding-window-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="40" y="18" width="44" height="36" rx="10" class="green"/>
+<text x="62.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="90" y="18" width="44" height="36" rx="10" class="green"/>
+<text x="112.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="140" y="18" width="44" height="36" rx="10" class="green"/>
+<text x="162.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="190" y="18" width="44" height="36" rx="10" class="box"/>
+<text x="212.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="240" y="18" width="44" height="36" rx="10" class="box"/>
+<text x="262.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="290" y="18" width="44" height="36" rx="10" class="box"/>
+<text x="312.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="340" y="18" width="44" height="36" rx="10" class="box"/>
+<text x="362.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="390" y="18" width="44" height="36" rx="10" class="box"/>
+<text x="412.0" y="36.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<text x="450" y="36" text-anchor="start" dominant-baseline="middle" class="small">right = 2: &quot;abc&quot; is valid, length 3</text>
+<rect x="40" y="74" width="44" height="36" rx="10" class="amber"/>
+<text x="62.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="90" y="74" width="44" height="36" rx="10" class="amber"/>
+<text x="112.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="140" y="74" width="44" height="36" rx="10" class="amber"/>
+<text x="162.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="190" y="74" width="44" height="36" rx="10" class="amber"/>
+<text x="212.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="240" y="74" width="44" height="36" rx="10" class="box"/>
+<text x="262.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="290" y="74" width="44" height="36" rx="10" class="box"/>
+<text x="312.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="340" y="74" width="44" height="36" rx="10" class="box"/>
+<text x="362.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="390" y="74" width="44" height="36" rx="10" class="box"/>
+<text x="412.0" y="92.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<text x="450" y="92" text-anchor="start" dominant-baseline="middle" class="small">right = 3 adds &#x27;a&#x27;: two a&#x27;s, broken</text>
+<rect x="40" y="130" width="44" height="36" rx="10" class="box"/>
+<text x="62.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="90" y="130" width="44" height="36" rx="10" class="green"/>
+<text x="112.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="140" y="130" width="44" height="36" rx="10" class="green"/>
+<text x="162.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="190" y="130" width="44" height="36" rx="10" class="green"/>
+<text x="212.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="240" y="130" width="44" height="36" rx="10" class="box"/>
+<text x="262.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="290" y="130" width="44" height="36" rx="10" class="box"/>
+<text x="312.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="340" y="130" width="44" height="36" rx="10" class="box"/>
+<text x="362.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="390" y="130" width="44" height="36" rx="10" class="box"/>
+<text x="412.0" y="148.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<text x="450" y="148" text-anchor="start" dominant-baseline="middle" class="small">left moves to 1: &quot;bca&quot; is valid, length 3</text>
+<rect x="40" y="186" width="44" height="36" rx="10" class="box"/>
+<text x="62.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="90" y="186" width="44" height="36" rx="10" class="amber"/>
+<text x="112.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="140" y="186" width="44" height="36" rx="10" class="amber"/>
+<text x="162.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="190" y="186" width="44" height="36" rx="10" class="amber"/>
+<text x="212.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="240" y="186" width="44" height="36" rx="10" class="amber"/>
+<text x="262.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="290" y="186" width="44" height="36" rx="10" class="box"/>
+<text x="312.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="340" y="186" width="44" height="36" rx="10" class="box"/>
+<text x="362.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="390" y="186" width="44" height="36" rx="10" class="box"/>
+<text x="412.0" y="204.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<text x="450" y="204" text-anchor="start" dominant-baseline="middle" class="small">right = 4 adds &#x27;b&#x27;: two b&#x27;s, broken</text>
+<rect x="40" y="242" width="44" height="36" rx="10" class="box"/>
+<text x="62.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="90" y="242" width="44" height="36" rx="10" class="box"/>
+<text x="112.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="140" y="242" width="44" height="36" rx="10" class="green"/>
+<text x="162.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="190" y="242" width="44" height="36" rx="10" class="green"/>
+<text x="212.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">a</text>
+<rect x="240" y="242" width="44" height="36" rx="10" class="green"/>
+<text x="262.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="290" y="242" width="44" height="36" rx="10" class="box"/>
+<text x="312.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">c</text>
+<rect x="340" y="242" width="44" height="36" rx="10" class="box"/>
+<text x="362.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<rect x="390" y="242" width="44" height="36" rx="10" class="box"/>
+<text x="412.0" y="260.0" text-anchor="middle" dominant-baseline="middle" class="code">b</text>
+<text x="450" y="260" text-anchor="start" dominant-baseline="middle" class="small">left moves to 2: &quot;cab&quot; is valid, length 3</text>
+<text x="40" y="312" text-anchor="start" dominant-baseline="middle" class="small">green = valid window      amber = broken window (must shrink)</text>
+</svg>
+<figcaption>Longest substring without repeats in &quot;abcabcbb&quot;: grow the right edge; when a repeat appears, shrink from the left.</figcaption>
+</figure>

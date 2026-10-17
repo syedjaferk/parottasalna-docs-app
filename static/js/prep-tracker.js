@@ -212,7 +212,7 @@
   });
   document.querySelectorAll("[data-clear]").forEach((b) => b.addEventListener("click", async () => {
     const all = b.dataset.all === "1";
-    if (!confirm(all ? "Reset ALL your solved marks, bookmarks and notes?" : "Clear this for the problems in the current view?")) return;
+    if (all && !confirm("Reset ALL your solved marks, bookmarks and notes?")) return;
     const ids = all ? undefined : viewRows().map(({ i }) => cat.problems[i].id);
     const res = await post(app.dataset.clear, { what: b.dataset.clear, ids });
     progress = res.progress; b.closest("details").open = false; render();
@@ -223,7 +223,12 @@
   function readHash() {
     const m = decodeURIComponent(location.hash.slice(1)).match(/^(sheet|company|pattern|topic)(?:=(.*))?$/);
     if (m) { state.mode = m[1]; state.item = m[2] !== undefined && m[2] !== "" ? m[2] : null; }
-    if (state.item !== null && !groups(state.mode).some((g) => g.key === state.item)) state.item = null;
+    if (state.item !== null && !groups(state.mode).some((g) => g.key === state.item)) {
+      // Links from the lessons use a readable slug (#pattern=two-pointers) instead of the numeric key.
+      const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const hit = groups(state.mode).find((g) => slug(g.name) === state.item);
+      state.item = hit ? hit.key : null;
+    }
   }
   function markMode() { document.querySelectorAll(".seg [data-mode]").forEach((b) => { const on = b.dataset.mode === state.mode; b.classList.toggle("on", on); b.setAttribute("aria-selected", on); }); }
 
