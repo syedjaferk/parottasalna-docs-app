@@ -3,7 +3,7 @@
 .panel-head h1 { margin: 0 0 .2rem; font-size: 1.8rem; }
 .panel-sub { margin: 0; color: var(--muted); }
 
-.panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-bottom: 1.5rem; }
+.panel-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem; margin-bottom: 1.5rem; }
 .panel-stat { display: flex; flex-direction: column; gap: .15rem; padding: 1rem 1.15rem; border: 1px solid var(--line);
   border-radius: 12px; background: var(--card); color: var(--muted); text-decoration: none; }
 .panel-stat:hover { border-color: var(--accent); }

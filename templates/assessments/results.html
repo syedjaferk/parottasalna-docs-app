@@ -3,7 +3,7 @@
 {% block title %}Results · {{ assessment.title }} · {{ brand.NAME }}{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}">{% endblock %}
 {% block content %}
-<div class="as-wrap" style="max-width:1000px">
+<div class="as-wrap">
   <nav class="as-crumbs"><a href="{% url 'assessment_list' %}">Timed assessments</a> / {{ assessment.title }}</nav>
   <section class="as-card">
     <h1 style="margin:0 0 .4rem;font-size:1.5rem">Results: {{ assessment.title }}</h1>

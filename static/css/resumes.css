@@ -32,7 +32,9 @@
 .rv-steps span { color: var(--muted); font-size: .92rem; overflow-wrap: anywhere; }
 
 /* form */
-.rv-form { display: grid; gap: 1rem; max-width: 720px; }
+.rv-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem 1.5rem; align-items: start; }
+.rv-form .rv-consent, .rv-form .field-error, .rv-form .rv-btn, .rv-form .rv-note { grid-column: 1 / -1; }
+.rv-form .rv-btn { justify-self: start; }
 .rv-form .field { display: grid; gap: .35rem; }
 .rv-form label { font-weight: 600; }
 .rv-form small { color: var(--muted); }

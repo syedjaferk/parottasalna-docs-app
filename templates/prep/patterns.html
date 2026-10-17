@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %}Pattern guides · Interview prep · {{ brand.NAME }}{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
-{% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
 {% block content %}
 {% include "prep/_nav.html" %}
 <div id="patterns-app" data-course="{% url 'course_docs' 'dsa-patterns' %}" data-guides="{% url 'prep_data' 'pattern_guides' %}" data-catalog="{% url 'prep_data' 'catalog' %}" data-tracker="{% url 'prep_tracker' %}">

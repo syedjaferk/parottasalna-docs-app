@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %}Practice tracker · Interview prep · {{ brand.NAME }}{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
-{% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
 {% block content %}
 {% include "prep/_nav.html" %}
 <div id="prep-app" class="prep-layout" data-catalog="{% url 'prep_data' 'catalog' %}" data-progress="{% url 'prep_progress' %}"
