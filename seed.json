@@ -6,7 +6,7 @@
     "slug": "test-course",
     "title": "Test Course",
     "description": "",
-    "source_dir": "python-101",
+    "source_dir": "python-fundamentals",
     "is_active": true,
     "is_common": false,
     "build_status": "ok",

@@ -1,0 +1,21 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="locust-validate-t locust-validate-d" xmlns="http://www.w3.org/2000/svg">
+<title id="locust-validate-t">Deciding pass or fail yourself</title>
+<desc id="locust-validate-d">With catch_response you look at the reply and call success() or failure(). Without it, Locust fails only on error status codes.</desc>
+<defs><marker id="locust-validate-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="locust-validate-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="locust-validate-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="locust-validate-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="80" width="150" height="60" rx="10" class="blue"/>
+<text x="95.0" y="110.0" text-anchor="middle" dominant-baseline="middle" class="bold">reply arrives</text>
+<rect x="250" y="80" width="200" height="60" rx="10" class="amber"/>
+<text x="350.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">check it</text>
+<text x="350.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">status · body · time</text>
+<rect x="550" y="20" width="190" height="56" rx="10" class="green"/>
+<text x="645.0" y="48.0" text-anchor="middle" dominant-baseline="middle" class="code">response.success()</text>
+<rect x="550" y="140" width="190" height="56" rx="10" class="red"/>
+<text x="645.0" y="168.0" text-anchor="middle" dominant-baseline="middle" class="code">response.failure(why)</text>
+<path d="M172,110 L248,110" class="arrow blue" marker-end="url(#locust-validate-h-blue)"/>
+<path d="M452,100 L548,50" class="arrow green" marker-end="url(#locust-validate-h-green)"/>
+<path d="M452,120 L548,168" class="arrow red" marker-end="url(#locust-validate-h-red)"/>
+<text x="380" y="230" text-anchor="middle" dominant-baseline="middle" class="small">the reason you pass to failure() appears in the Error report</text>
+</svg>
+<figcaption>With catch_response you look at the reply and call success() or failure(). Without it, Locust fails only on error status codes.</figcaption>
+</figure>

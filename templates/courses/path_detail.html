@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ path.title }} · Learning path · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}{{ path.tagline }}{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/paths.css' %}">{% endblock %}
+{% block content %}
+<p><a href="{% url 'paths' %}">&larr; All paths</a></p>
+<article class="card">
+  <h1>{{ path.icon }} {{ path.title }}</h1>
+  <p>{{ path.tagline }}</p>
+  {% if path.audience %}<p><strong>Who it is for:</strong> {{ path.audience }}</p>{% endif %}
+  {% if path.outcome %}<p><strong>At the end you can:</strong> {{ path.outcome }}</p>{% endif %}
+  <ol class="path-timeline">
+    {% for r in rows %}
+    <li>
+      <a class="step-title" href="{{ r.href }}">{{ r.title }}</a>
+      {% if r.course %}<span class="cat-tag {{ r.course.access }}">{{ r.course.get_access_display }}</span>{% endif %}
+      {% if r.state == "enrolled" %}<span class="chip-ok">enrolled{% if r.done %} · {{ r.done }} chapter{{ r.done|pluralize }} done{% endif %}</span>{% endif %}
+      {% if r.step.note %}<p class="muted">{{ r.step.note }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</article>
+{% endblock %}

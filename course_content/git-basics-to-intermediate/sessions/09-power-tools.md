@@ -276,7 +276,7 @@ v1.1.0
 | Rebase conflict panic | `git rebase --abort` returns to the state before. |
 | Tag not visible on GitHub | You forgot `git push origin <tag>` (or `--tags`). |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Stash.** In `power-lab`, edit `app.txt`, stash with the message `trying something`, confirm the folder is clean, list the stash, and pop it back.
 

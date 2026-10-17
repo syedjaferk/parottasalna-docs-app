@@ -1,0 +1,16 @@
+TEST START: the whole test begins (runs once)
+  on_start  user-1: runs once when this user is created
+  task      user-1: shopping
+  on_start  user-2: runs once when this user is created
+  task      user-2: shopping
+  task      user-1: shopping
+  task      user-2: shopping
+  task      user-2: shopping
+  task      user-1: shopping
+  task      user-2: shopping
+  task      user-1: shopping
+  task      user-2: shopping
+  task      user-1: shopping
+  on_stop   user-2: runs once when this user is stopped
+  on_stop   user-1: runs once when this user is stopped
+TEST STOP: the whole test is over (runs once)

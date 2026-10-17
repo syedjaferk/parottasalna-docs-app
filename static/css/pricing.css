@@ -1,0 +1,12 @@
+.plans { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0 2rem; }
+.plan { display: flex; flex-direction: column; gap: .4rem; }
+.plan h3 { margin: 0; }
+.plan ul { padding-left: 1.1rem; margin: .3rem 0 .8rem; flex: 1; }
+.plan .btn { margin-top: auto; }
+.price { font-size: 1.8rem; font-weight: 800; margin: .2rem 0; }
+.price small { font-size: .9rem; font-weight: 500; color: var(--muted); }
+.small { font-size: .85rem; }
+.notice { padding: .8rem 1rem; border-radius: 12px; background: var(--warn-soft); margin: 1rem 0; }
+.notice.ok { background: var(--ok-soft); }
+.status { align-self: flex-start; padding: .1rem .6rem; border-radius: 999px; font-size: .74rem; font-weight: 700; background: var(--accent-soft); color: var(--accent); }
+.status.open { background: var(--ok-soft); color: var(--ok); }

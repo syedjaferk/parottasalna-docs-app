@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Course insights · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/insights.css' %}">{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Where do learners drop off?</h1>
+  <p class="muted">Readers are signed-in users who opened a chapter. Anonymous readers of public courses are not counted.</p>
+  <table class="ins-table">
+    <thead><tr><th>Course</th><th>Readers</th><th>Finished any chapter</th><th></th></tr></thead>
+    <tbody>{% for c in courses %}<tr><td>{{ c.title }}</td><td>{{ c.readers }}</td><td>{{ c.finishers }}</td><td><a href="{% url 'course_insights_detail' c.slug %}">Chapter funnel</a></td></tr>{% endfor %}</tbody>
+  </table>
+</div>
+{% endblock %}

@@ -54,8 +54,12 @@ class AdapterTests(TestCase):
                     self.adapter.is_open_for_signup(self.request, fake_login("student@gmail.com", False))
                 )
 
-    def test_local_signup_is_closed(self):
-        self.assertFalse(PortalAccountAdapter().is_open_for_signup(self.request))
+    def test_email_signup_is_open_but_gated_by_clean_email(self):
+        adapter = PortalAccountAdapter()
+        self.assertTrue(adapter.is_open_for_signup(self.request))
+        with self.settings(OPEN_SIGNUP=False):
+            with self.assertRaises(Exception):
+                adapter.clean_email("stranger@example.com")
 
 
 class LinkingTests(TestCase):
@@ -301,7 +305,7 @@ class PublicCommonCourseTests(TestCase):
 
     def test_landing_lists_free_courses(self):
         response = self.client.get("/")
-        self.assertContains(response, "Free courses")
+        self.assertContains(response, "Free courses you can open")
         self.assertContains(response, 'href="/courses/open/docs/"')
         self.assertNotContains(response, "/courses/batch/docs/")
 
@@ -551,8 +555,8 @@ class DocsCacheHeaderTests(TestCase):
 
     def test_landing_page_keeps_a_fresh_csrf_token_per_visitor(self):
         cache.clear()
-        first = self.client_class().get("/").cookies.get("csrftoken")
-        second = self.client_class().get("/").cookies.get("csrftoken")
+        first = self.client_class().get("/login/").cookies.get("csrftoken")
+        second = self.client_class().get("/login/").cookies.get("csrftoken")
         self.assertTrue(first and second and first.value != second.value)
 
 
@@ -627,3 +631,58 @@ class SyncCoursesTests(TestCase):
         self.assertEqual((new.title, new.is_common, new.source_dir), ("New Course", True, "new-course"))
         self.assertEqual(Course.objects.get(slug="old-course").title, "Edited in admin")
         self.assertFalse(Course.objects.filter(slug="no-meta").exists())
+
+
+@override_settings(EMAIL_ENABLED=True)
+class EmailPasswordAuthTests(TestCase):
+    """Email + password accounts: must verify the address, and never inherit enrolments before that."""
+
+    def setUp(self):
+        cache.clear()  # allauth's resend cooldown and rate limits live in the cache
+
+    def signup(self, email, password="S3cure-pass-phrase!"):
+        return self.client.post("/accounts/signup/", {"email": email, "password1": password, "password2": password})
+
+    def test_signup_requires_email_verification_before_login(self):
+        from django.core import mail
+        with self.captureOnCommitCallbacks(execute=True):
+            res = self.signup("new@example.com")
+        self.assertEqual(res.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+        login = self.client.post("/accounts/login/", {"login": "new@example.com", "password": "S3cure-pass-phrase!"})
+        self.assertNotIn("_auth_user_id", self.client.session)
+        self.assertEqual(login.status_code, 302)  # sent to "verify your email"
+
+    def test_confirming_email_then_logs_in_and_gets_enrolled_courses(self):
+        from allauth.account.models import EmailAddress, EmailConfirmationHMAC
+        course = Course.objects.create(slug="c1", title="C1", is_active=True)
+        Enrollment.objects.create(course=course, email="new@example.com")
+        self.signup("new@example.com")
+        address = EmailAddress.objects.get(email="new@example.com")
+        key = EmailConfirmationHMAC(address).key
+        self.client.post(f"/accounts/confirm-email/{key}/")
+        user = get_user_model().objects.get(email="new@example.com")
+        self.assertTrue(EmailAddress.objects.get(email="new@example.com").verified)
+        from .services import accessible_courses
+        self.assertIn(course, accessible_courses(user))
+
+    def test_invite_only_signup_rejects_unknown_email(self):
+        with self.settings(OPEN_SIGNUP=False):
+            res = self.signup("stranger@example.com")
+        self.assertEqual(res.status_code, 200)
+        self.assertFalse(get_user_model().objects.filter(email="stranger@example.com").exists())
+
+
+class EmailDisabledTests(TestCase):
+    """With no email configured, password signup is off and sign-in is Google-only."""
+
+    @override_settings(EMAIL_ENABLED=False)
+    def test_signup_closed_and_login_page_hides_email_form(self):
+        self.assertFalse(PortalAccountAdapter().is_open_for_signup(RequestFactory().get("/")))
+        html = self.client.get("/login/").content.decode()
+        self.assertNotIn('name="password"', html)
+        self.assertIn("Continue with Google", html)
+
+    @override_settings(EMAIL_ENABLED=True)
+    def test_login_page_shows_email_form_when_email_works(self):
+        self.assertIn('name="password"', self.client.get("/login/").content.decode())

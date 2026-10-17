@@ -1,0 +1,12 @@
+title: Database Engineering with PostgreSQL
+description: 'Learn relational databases and SQL with PostgreSQL: installation, roles, querying, filtering,
+  ER diagrams and joins, with hands-on tasks on the DVD Rental sample database.'
+level: beginner
+hours: 20
+audience: Anyone who has never written SQL, and developers who want a solid PostgreSQL base.
+outcomes:
+- Install and use PostgreSQL
+- Query and filter data with SQL
+- Read and draw ER diagrams
+- Combine tables with joins
+common: true

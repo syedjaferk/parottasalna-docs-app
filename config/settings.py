@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "books",
     "prep",
     "sysdesign",
+    "billing",
 ]
 
 MIDDLEWARE = [
@@ -155,11 +156,33 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
 
-ACCOUNT_ADAPTER = "courses.adapters.PortalAccountAdapter"  # closes local signup
+# Outgoing mail (verification and password-reset emails). Without EMAIL_HOST, mail is printed to the
+# console, which is what you want locally.
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+if EMAIL_HOST:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+    EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# Email/password signup, email confirmation and password reset all need working email. Without EMAIL_HOST
+# (outside local DEBUG, where mail prints to the console) they switch themselves off and sign-in is Google-only.
+EMAIL_ENABLED = bool(EMAIL_HOST) or DEBUG
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Parottasalna <no-reply@parottasalna.com>")
+
+ACCOUNT_ADAPTER = "courses.adapters.PortalAccountAdapter"  # OPEN_SIGNUP / enrolment gate for email signups
 SOCIALACCOUNT_ADAPTER = "courses.adapters.PortalSocialAccountAdapter"  # allow-list gate
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_SIGNUP_FIELDS = ["email*"]
-ACCOUNT_EMAIL_VERIFICATION = "none"  # Google already verified the address
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+# Email + password accounts must prove they own the address before they can sign in: enrolments are
+# matched by email, so an unverified signup must never inherit someone else's courses.
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = False
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_PASSWORD_RESET_BY_CODE_ENABLED = False
+ACCOUNT_RATE_LIMITS = {"login_failed": "5/5m/ip,5/5m/key", "signup": "20/m/ip", "reset_password": "20/m/ip,5/m/key"}
 SOCIALACCOUNT_AUTO_SIGNUP = True
 # Anyone with a verified Google account may sign up (resume review, free courses, job posts). Enrolled-only
 # course material stays gated per request. false = only emails an admin enrolled in a course can sign up.
@@ -246,3 +269,12 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
     SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "0"))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = SECURE_HSTS_SECONDS > 0
+
+
+# --- Payments (billing app) --------------------------------------------------------
+# Razorpay: create keys in the dashboard (Account & Settings > API keys), then add a webhook pointing at
+# /billing/webhook/ for the "payment.captured" and "order.paid" events and put its secret here.
+# Leave the keys empty and the pricing page says payments are not open yet.
+RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID", "").strip()
+RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET", "").strip()
+RAZORPAY_WEBHOOK_SECRET = os.environ.get("RAZORPAY_WEBHOOK_SECRET", "").strip()

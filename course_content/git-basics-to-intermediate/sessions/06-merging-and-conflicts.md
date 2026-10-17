@@ -226,7 +226,7 @@ Merging keeps the true history (with branches and merge commits). Session 9 show
 | "I made it worse" during a conflict | `git merge --abort` returns you to the state before the merge. Start again. |
 | Fear of conflicts | They are normal. A conflict is information, not failure. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Fast-forward.** Make a branch `feature/dessert`, add `dessert.txt`, commit, and merge it into `main`. Confirm there is **no** merge commit (look at `git log --oneline --graph`).
 

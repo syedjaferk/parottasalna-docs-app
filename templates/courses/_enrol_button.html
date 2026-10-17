@@ -1,0 +1,15 @@
+{# Expects `course` and `state` (see courses.views._course_state). #}
+{% if state.code == "enrolled" %}
+  {% if course.build_status == "ok" %}<a class="btn block" href="{% url 'course_docs' course.slug %}">{{ state.label }} →</a>{% else %}<span class="pending">Enrolled. Notes appear after the first session.</span>{% endif %}
+{% elif state.code == "enrol" %}
+  <form method="post" action="{% url 'course_enroll' course.slug %}">{% csrf_token %}<button class="btn block" type="submit">{{ state.label }}</button></form>
+{% elif state.code == "login" %}
+  <a class="btn block" href="{% url 'login' %}?next={% url 'course_detail' course.slug %}">{{ state.label }}</a>
+  {% if state.can_read %}<a class="btn ghost block" href="{% url 'course_docs' course.slug %}">Read without signing in</a>{% endif %}
+{% elif state.code == "pro" %}
+  <a class="btn block" href="{% url 'pricing' %}">{{ state.label }}</a>
+{% elif state.code == "cohort" %}
+  <a class="btn block" href="{% url 'pricing' %}#cohorts">{{ state.label }}</a>
+{% else %}
+  <span class="pending">By invitation. Follow our <a href="{{ brand.WHATSAPP }}" target="_blank" rel="noopener">WhatsApp channel</a> for the next batch.</span>
+{% endif %}

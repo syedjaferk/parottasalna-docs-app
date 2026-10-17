@@ -1,3 +1,11 @@
-title: 40 Days of Go
+title: "Golang from Scratch: Learn Go Step by Step"
 description: Learn Go step by step, from your first Hello World to files, command-line tools, web APIs, databases, goroutines, channels and tests. 18 sessions, each with a plain-words idea, runnable code with real output, diagrams, common mistakes, exercises with solutions and a quiz. Based on the 40 Days of Go syllabus by Syed Jafer K.
 common: true
+
+level: beginner
+hours: 40
+audience: Beginners and developers from other languages who want to learn Go.
+outcomes:
+- Write Go programs and CLI tools
+- Build a web API with a database
+- Use goroutines, channels and tests

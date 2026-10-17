@@ -1,5 +1,14 @@
 # Session 13 · Databases with database/sql
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/YVtBxgqXg0c"
+  title="Day 16 | Learn Go by Building | Todo App with Database &amp; Concurrency Explained" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 An in-memory list disappears when the server restarts. A **database** keeps data safe on disk,

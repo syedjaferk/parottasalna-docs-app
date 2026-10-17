@@ -378,7 +378,7 @@ Because everyone integrates constantly, there are **very few merge conflicts**, 
 | Using `develop` and `main` but forgetting to merge hotfixes back into `develop` | The bug returns in the next release. Merge hotfixes into **both**. |
 | No tests but trying trunk-based | Add automated tests first. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Match.** For each team, name the best-fitting workflow and give one reason:
 (a) a student writing a project alone; (b) a startup deploying a website ten times a day with CI; (c) a company shipping a mobile app version every six weeks and supporting two old versions; (d) a community project with hundreds of volunteers.

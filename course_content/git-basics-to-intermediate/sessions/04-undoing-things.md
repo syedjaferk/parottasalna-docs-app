@@ -276,7 +276,7 @@ Reflog only records **committed** states. That is one more reason to commit earl
 | `git restore` cleared an edit you wanted | Cannot be recovered. From now on check `git diff` first, or commit/stash before experimenting. |
 | `git clean -f` deleted files | `git clean` is permanent. Always run `git clean -n` (dry run) first. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Erase.** In `undo-lab`, add a line `junk` to `story.txt`, then discard it with one command. Prove it is gone.
 

@@ -1,0 +1,12 @@
+title: Design Patterns in Python
+description: The 18 most-used design patterns, each in plain words with diagrams, runnable Python code,
+  an AI example, a quiz and flashcards.
+level: intermediate
+hours: 25
+audience: Python developers who want cleaner, more maintainable code and to answer design questions in
+  interviews.
+outcomes:
+- Recognise when a pattern fits
+- Implement 18 patterns in Python
+- Explain trade-offs between patterns
+common: false

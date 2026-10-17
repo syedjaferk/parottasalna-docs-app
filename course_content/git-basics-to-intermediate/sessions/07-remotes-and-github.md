@@ -228,7 +228,7 @@ git remote prune origin              # forget remote branches that were deleted
 | Committing the `.env` / passwords and pushing | The secret is now public. Rotate the secret immediately, then see Session 12. |
 | Pulling with uncommitted changes | Commit or stash first. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Publish.** Push a repo to GitHub with a README and one more file. Confirm both are visible on the website.
 

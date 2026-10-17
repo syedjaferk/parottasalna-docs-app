@@ -32,16 +32,16 @@ class CourseAdminForm(forms.ModelForm):
 class EnrollmentInline(admin.TabularInline):
     model = Enrollment
     extra = 0
-    fields = ("email", "user", "added_at")
+    fields = ("email", "user", "source", "added_at")
     readonly_fields = ("user", "added_at")
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     form = CourseAdminForm
-    list_display = ("title", "slug", "is_active", "is_common", "build_status", "last_built_at",
+    list_display = ("title", "slug", "access", "is_active", "is_common", "build_status", "last_built_at",
                     "user_count", "docs_link", "scores_link")
-    list_filter = ("is_common", "is_active", "build_status")
+    list_filter = ("access", "is_common", "is_active", "build_status")
     list_editable = ("is_common",)
     search_fields = ("title", "slug")
     prepopulated_fields = {"slug": ("title",)}
@@ -50,6 +50,7 @@ class CourseAdmin(admin.ModelAdmin):
     actions = ["rebuild_docs"]
     fieldsets = (
         (None, {"fields": ("title", "slug", "description", "source_dir", "is_active", "is_common")}),
+        ("Catalogue", {"fields": ("access", "is_listed", "sort_order", "level", "est_hours", "audience", "outcomes")}),
         ("Add users", {"fields": ("bulk_emails",)}),
         ("Documentation build", {"fields": ("build_status", "last_built_at", "build_log_display")}),
     )
@@ -111,8 +112,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
-    list_display = ("email", "course", "user", "added_at")
-    list_filter = ("course",)
+    list_display = ("email", "course", "user", "source", "added_at")
+    list_filter = ("course", "source")
     search_fields = ("email",)
     readonly_fields = ("user",)
 

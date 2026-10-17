@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="locust-lifecycle-t locust-lifecycle-d" xmlns="http://www.w3.org/2000/svg">
+<title id="locust-lifecycle-t">Test and user lifecycle hooks</title>
+<desc id="locust-lifecycle-d">test_start runs once before the users. Each user runs on_start, then its tasks, then on_stop. test_stop runs once at the end.</desc>
+<defs><marker id="locust-lifecycle-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="locust-lifecycle-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="locust-lifecycle-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="locust-lifecycle-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="15" y="60" width="128" height="70" rx="10" class="amber"/>
+<text x="79.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">test_start</text>
+<text x="79.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">once</text>
+<rect x="163" y="60" width="128" height="70" rx="10" class="blue"/>
+<text x="227.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">on_start</text>
+<text x="227.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">per user</text>
+<path d="M145,95 L162,95" class="arrow blue" marker-end="url(#locust-lifecycle-h-blue)"/>
+<rect x="311" y="60" width="128" height="70" rx="10" class="green"/>
+<text x="375.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">tasks repeat</text>
+<text x="375.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">per user</text>
+<path d="M293,95 L310,95" class="arrow blue" marker-end="url(#locust-lifecycle-h-blue)"/>
+<rect x="459" y="60" width="128" height="70" rx="10" class="blue"/>
+<text x="523.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">on_stop</text>
+<text x="523.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">per user</text>
+<path d="M441,95 L458,95" class="arrow blue" marker-end="url(#locust-lifecycle-h-blue)"/>
+<rect x="607" y="60" width="128" height="70" rx="10" class="amber"/>
+<text x="671.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">test_stop</text>
+<text x="671.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">once</text>
+<path d="M589,95 L606,95" class="arrow blue" marker-end="url(#locust-lifecycle-h-blue)"/>
+<text x="380" y="175" text-anchor="middle" dominant-baseline="middle" class="small">log in in on_start, clean up in on_stop, open and close reports in test_start / test_stop</text>
+</svg>
+<figcaption>test_start runs once before the users. Each user runs on_start, then its tasks, then on_stop. test_stop runs once at the end.</figcaption>
+</figure>

@@ -270,6 +270,7 @@
       {% if user.is_authenticated %}
       <div class="who">
         <nav class="top-nav" aria-label="Main">
+          <a class="pill-link" href="{% url 'course_catalog' %}">Courses</a>
           <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
           <a class="pill-link" href="{% url 'book_index' %}">Stories</a>
           <a class="pill-link" href="{% url 'prep_home' %}">Interview prep</a>
@@ -296,6 +297,8 @@
             <div class="acct-who"><strong>{{ user.get_full_name|default:user.username }}</strong><span>{{ user.email }}</span></div>
             <div class="acct-nav">
               <a href="{% url 'home' %}">🏠 My courses</a>
+              <a href="{% url 'course_catalog' %}">📚 All courses</a>
+              <a href="{% url 'pricing' %}">⭐ Pro &amp; batches</a>
               <a href="{% url 'assessment_list' %}">⏱ Timed assessments</a>
               <a href="{% url 'blog_index' %}">📝 Blog</a>
               <a href="{% url 'book_index' %}">📖 Stories</a>
@@ -317,6 +320,7 @@
       {% else %}
       <div class="who">
         <nav class="top-nav" aria-label="Main">
+          <a class="pill-link" href="{% url 'course_catalog' %}">Courses</a>
           <a class="pill-link" href="{% url 'blog_index' %}">Blog</a>
           <a class="pill-link" href="{% url 'book_index' %}">Stories</a>
           <a class="pill-link" href="{% url 'prep_home' %}">Interview prep</a>

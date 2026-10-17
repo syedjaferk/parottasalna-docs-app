@@ -1,0 +1,5 @@
+Nayakan|Mani Ratnam|1987|Crime
+Thalapathi|Mani Ratnam|1991|Drama
+Baasha|Suresh Krissna|1995|Action
+Kaithi|Lokesh Kanagaraj|2019|Action
+Vikram|Lokesh Kanagaraj|2022|Action

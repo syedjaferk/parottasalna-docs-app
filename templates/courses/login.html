@@ -92,7 +92,7 @@
     .about .mark { width: 104px; height: 104px; }
   }
 {% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/live.css' %}">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/live.css' %}"><link rel="stylesheet" href="{% static 'css/signin.css' %}">{% endblock %}
 {% block content %}
 {% load static %}
 <div class="auth">
@@ -108,7 +108,7 @@
   </section>
   <section class="auth-form" aria-labelledby="signin-title">
     <h2 id="signin-title">Sign in</h2>
-    <p class="muted">{% if open_signup %}Any Google account works. Enrolled students: use the account your instructor added.{% else %}Use the Google account your instructor enrolled.{% endif %}</p>
+    <p class="muted">{% if open_signup %}{% if email_enabled %}Use Google or your email and a password.{% else %}Sign in with Google.{% endif %} Enrolled students: use the email your instructor added.{% else %}Use the email your instructor enrolled.{% endif %}</p>
     <form method="post" action="{% provider_login_url 'google' %}">
       {% csrf_token %}
       {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
@@ -117,6 +117,17 @@
         Continue with Google
       </button>
     </form>
+    {% if email_enabled %}<div class="or" role="separator"><span>or use your email</span></div>
+    <form method="post" action="{% url 'account_login' %}" class="email-form">
+      {% csrf_token %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <label for="id_login">Email</label>
+      <input type="email" name="login" id="id_login" autocomplete="email" required>
+      <label for="id_password">Password</label>
+      <input type="password" name="password" id="id_password" autocomplete="current-password" required>
+      <button class="btn block" type="submit">Sign in</button>
+    </form>
+    <p class="fine"><a href="{% url 'account_reset_password' %}">Forgot password?</a> · {% if open_signup %}<a href="{% url 'account_signup' %}">Create an account</a>{% else %}Accounts are by invitation{% endif %}</p>{% endif %}
     <p class="fine muted">{{ brand.PRODUCT }} uses Google Sign-In only to confirm your name and email,
       so you can use the portal and enrolled students can open their courses and keep their progress. See our
       <a href="{% url 'privacy' %}">Privacy Policy</a>.</p>

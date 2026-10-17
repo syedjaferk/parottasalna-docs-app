@@ -1,0 +1,13 @@
+title: End-to-End Data Engineering
+description: 'Build modern data pipelines: Python, SQL, data modelling, ETL/ELT, Airflow, PySpark, Databricks
+  (certification prep), streaming and CI/CD.'
+level: beginner
+hours: 60
+audience: Beginners and analysts moving into data engineering, including Databricks Data Engineer Associate
+  candidates.
+outcomes:
+- Write Python and SQL for data work
+- Model data for a warehouse
+- Orchestrate pipelines with Airflow
+- Process data with PySpark and Databricks
+common: false

@@ -1,0 +1,12 @@
+title: 40 Days of Agentic AI
+description: 'Build AI agents from the ground up: Python, LLMs, prompt engineering, tool calling, RAG,
+  async, structured output, memory and MCP, with working code for every session.'
+level: intermediate
+hours: 60
+audience: Developers who know basic Python and want to build real AI agents, not just chat with a model.
+outcomes:
+- Call LLMs from Python with structured output
+- Give an agent tools and memory
+- Build a retrieval (RAG) pipeline
+- Expose and consume tools over MCP
+common: false

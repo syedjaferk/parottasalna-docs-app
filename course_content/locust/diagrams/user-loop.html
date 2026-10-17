@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="user-loop-t user-loop-d" xmlns="http://www.w3.org/2000/svg">
+<title id="user-loop-t">What one simulated user does</title>
+<desc id="user-loop-d">A user picks a task, runs it, waits for the wait time, then picks the next task. Tasks with a bigger weight are picked more often.</desc>
+<defs><marker id="user-loop-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="user-loop-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="user-loop-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="user-loop-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="150" height="70" rx="10" class="blue"/>
+<text x="95.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">pick a task</text>
+<text x="95.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="small">by weight</text>
+<rect x="240" y="40" width="150" height="70" rx="10" class="green"/>
+<text x="315.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">run it</text>
+<text x="315.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="small">e.g. GET /products</text>
+<rect x="460" y="40" width="150" height="70" rx="10" class="amber"/>
+<text x="535.0" y="65.0" text-anchor="middle" dominant-baseline="middle" class="bold">wait</text>
+<text x="535.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="code">between(1, 3)</text>
+<path d="M172,75 L238,75" class="arrow blue" marker-end="url(#user-loop-h-blue)"/>
+<path d="M392,75 L458,75" class="arrow blue" marker-end="url(#user-loop-h-blue)"/>
+<path d="M535,112 L535,150 L95,150 L95,112" class="arrow blue dashed" marker-end="url(#user-loop-h-blue)"/>
+<text x="315" y="140" text-anchor="middle" dominant-baseline="middle" class="small">repeat until the test stops</text>
+<rect x="20" y="180" width="720" height="50" rx="10" class="ghost"/>
+<text x="380.0" y="205.0" text-anchor="middle" dominant-baseline="middle" class="code">@task(3) browse   ·   @task(1) buy      →      browse about 3 times for every buy</text>
+</svg>
+<figcaption>A user picks a task, runs it, waits for the wait time, then picks the next task. Tasks with a bigger weight are picked more often.</figcaption>
+</figure>

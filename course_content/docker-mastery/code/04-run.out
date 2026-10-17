@@ -1,0 +1,13 @@
+--- run a command and let the container disappear (--rm)
+Hello, Docker!
+--- the same container has its own hostname and its own process list
+ab7c3a046a65
+PID   USER     TIME  COMMAND
+    1 root      0:00 ps
+--- a container lives only as long as its main process
+working
+done
+dm-shell: Exited (0) Less than a second ago
+--- run a second command inside a running container (exec)
+I am inside: 1f30554a3e2c
+3.24.1

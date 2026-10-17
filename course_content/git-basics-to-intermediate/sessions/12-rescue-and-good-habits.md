@@ -8,6 +8,10 @@ Everyone eventually makes a Git mistake: committing on the wrong branch, pushing
 
 **Everyday example:** a first-aid kit. You hope you never open it, but when you need it, you want to know where each item is and what it does.
 
+```{raw} html
+:file: ../diagrams/g12-rescue.html
+```
+
 ## The calm-down checklist
 
 When something looks wrong, **stop and run these three commands** before anything else. They change nothing:
@@ -273,7 +277,7 @@ A **hook** is a script Git runs for you at a moment such as before each commit. 
 ```bash
 cat > .git/hooks/pre-commit <<'EOF'
 #!/bin/sh
-if git diff --cached | grep -n "console.log\|TODO-REMOVE"; then
+if git diff --cached | grep -n "console.log\|DEBUG-ONLY"; then
   echo "Remove debug lines before committing."
   exit 1
 fi
@@ -308,7 +312,7 @@ A `README.md` (what is this, how to run it) and a `CONTRIBUTING.md` (how we use 
 | Force-pushing to fix a mistake on `main` | Use `git revert` and push normally. |
 | Treating a pushed secret as fixed after deleting it | **Rotate it.** History still has it. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Wrong branch.** In a repo on `main`, make a commit `Add feature`. Move it onto a new branch `feature/oops` and put `main` back one commit.
 

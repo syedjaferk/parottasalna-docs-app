@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 260" role="img" aria-labelledby="wait-types-t wait-types-d" xmlns="http://www.w3.org/2000/svg">
+<title id="wait-types-t">Three kinds of wait time</title>
+<desc id="wait-types-d">constant waits a fixed time after each task, between waits a random time, and constant_pacing starts a task at a fixed rhythm.</desc>
+<defs><marker id="wait-types-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="wait-types-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="wait-types-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="wait-types-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<text x="480" y="32" text-anchor="start" dominant-baseline="middle" class="code">constant(1)</text>
+<text x="480" y="56" text-anchor="start" dominant-baseline="middle" class="small">task, then wait 1 s</text>
+<rect x="20" y="30" width="60" height="30" rx="4" class="blue"/>
+<rect x="80" y="30" width="90" height="30" rx="4" class="box"/>
+<rect x="170" y="30" width="60" height="30" rx="4" class="blue"/>
+<rect x="230" y="30" width="90" height="30" rx="4" class="box"/>
+<rect x="320" y="30" width="60" height="30" rx="4" class="blue"/>
+<text x="480" y="108" text-anchor="start" dominant-baseline="middle" class="code">between(0.5, 1.5)</text>
+<text x="480" y="132" text-anchor="start" dominant-baseline="middle" class="small">task, then wait 0.5 to 1.5 s</text>
+<rect x="20" y="106" width="60" height="30" rx="4" class="blue"/>
+<rect x="80" y="106" width="50" height="30" rx="4" class="box"/>
+<rect x="130" y="106" width="60" height="30" rx="4" class="blue"/>
+<rect x="190" y="106" width="120" height="30" rx="4" class="box"/>
+<rect x="310" y="106" width="60" height="30" rx="4" class="blue"/>
+<text x="480" y="184" text-anchor="start" dominant-baseline="middle" class="code">constant_pacing(1)</text>
+<text x="480" y="208" text-anchor="start" dominant-baseline="middle" class="small">one task STARTS every 1 s</text>
+<rect x="20" y="182" width="60" height="30" rx="4" class="blue"/>
+<rect x="80" y="182" width="60" height="30" rx="4" class="box"/>
+<rect x="140" y="182" width="60" height="30" rx="4" class="blue"/>
+<rect x="200" y="182" width="60" height="30" rx="4" class="box"/>
+<rect x="260" y="182" width="60" height="30" rx="4" class="blue"/>
+<text x="220" y="245" text-anchor="middle" dominant-baseline="middle" class="small">blue = the task running, grey = waiting</text>
+</svg>
+<figcaption>constant waits a fixed time after each task, between waits a random time, and constant_pacing starts a task at a fixed rhythm.</figcaption>
+</figure>

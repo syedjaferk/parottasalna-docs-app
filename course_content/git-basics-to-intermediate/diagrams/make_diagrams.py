@@ -552,6 +552,23 @@ def g10_choose():
     return d.render()
 
 
+@diagram
+def g12_rescue():
+    d = D("g12-rescue", 720, 250, "The calm-down loop",
+          "When something looks wrong: check status, log and reflog, make a backup branch, then fix. Committed work can nearly always be recovered.")
+    items = [("1 · status", "where am I?", "blue"), ("2 · log --graph", "what does history look like?", "blue"),
+             ("3 · reflog", "where has HEAD been?", "blue"), ("4 · backup branch", "git branch backup-before-fix", "amber"),
+             ("5 · fix", "reset, revert, rebase...", "green")]
+    for i, (a, b, k) in enumerate(items):
+        x = 12 + i * 140
+        d.box(x, 30, 124, 90, [(a, "bold"), (b, "small")], k)
+        if i:
+            d.arrow([(x - 14, 75), (x - 1, 75)], kind="blue")
+    d.box(12, 150, 696, 70, [("Committed work: almost always recoverable (reflog keeps it ~90 days)", ""),
+                             ("Uncommitted edits: gone if you discard them, so commit or stash first", "small")], "ghost")
+    return d.render()
+
+
 if __name__ == "__main__":
     for fn in ALL:
         fn()

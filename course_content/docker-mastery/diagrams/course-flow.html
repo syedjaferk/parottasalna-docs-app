@@ -1,0 +1,23 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 200" role="img" aria-labelledby="course-flow-t course-flow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="course-flow-t">From a Dockerfile to a running container</title>
+<desc id="course-flow-d">You write a Dockerfile, build an image, optionally push it to a registry, and run containers from it.</desc>
+<defs><marker id="course-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="course-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="course-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="course-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="60" width="150" height="70" rx="10" class="box"/>
+<text x="95.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Dockerfile</text>
+<text x="95.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">recipe</text>
+<rect x="205" y="60" width="150" height="70" rx="10" class="green"/>
+<text x="280.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Image</text>
+<text x="280.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">docker build</text>
+<path d="M172,95 L203,95" class="arrow blue" marker-end="url(#course-flow-h-blue)"/>
+<rect x="390" y="60" width="150" height="70" rx="10" class="amber"/>
+<text x="465.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Registry</text>
+<text x="465.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">docker push / pull</text>
+<path d="M357,95 L388,95" class="arrow blue" marker-end="url(#course-flow-h-blue)"/>
+<rect x="575" y="60" width="150" height="70" rx="10" class="blue"/>
+<text x="650.0" y="85.0" text-anchor="middle" dominant-baseline="middle" class="bold">Container</text>
+<text x="650.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="small">docker run</text>
+<path d="M542,95 L573,95" class="arrow blue" marker-end="url(#course-flow-h-blue)"/>
+</svg>
+<figcaption>You write a Dockerfile, build an image, optionally push it to a registry, and run containers from it.</figcaption>
+</figure>

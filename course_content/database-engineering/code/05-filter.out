@@ -1,0 +1,98 @@
+-- WHERE
+ title  | year 
+--------+------
+ Baasha | 1995
+ Sivaji | 2007
+ Kaithi | 2019
+ Vikram | 2022
+(4 rows)
+
+-- AND
+ title  | year 
+--------+------
+ Sivaji | 2007
+ Kaithi | 2019
+ Vikram | 2022
+(3 rows)
+
+-- OR
+  title  | genre  
+---------+--------
+ Nayakan | Crime
+ Muthu   | Comedy
+(2 rows)
+
+-- IN
+ title  | year 
+--------+------
+ Baasha | 1995
+ Muthu  | 1995
+ Karnan | 2021
+(3 rows)
+
+-- BETWEEN is inclusive
+   title    | rating 
+------------+--------
+ Karnan     |    8.0
+ Baasha     |    8.2
+ Vikram     |    8.3
+ Kaithi     |    8.4
+ Thalapathi |    8.5
+(5 rows)
+
+-- LIKE and ILIKE
+      title      
+-----------------
+ Sivaji
+ Soorarai Pottru
+(2 rows)
+
+      title      
+-----------------
+ Soorarai Pottru
+(1 row)
+
+-- = NULL never matches. IS NULL does
+ title 
+-------
+(0 rows)
+
+      title       
+------------------
+ Untitled Project
+(1 row)
+
+-- LIMIT and OFFSET, FETCH
+       title       | rating 
+-------------------+--------
+ Nayakan           |    9.0
+ Pariyerum Perumal |    8.7
+ Soorarai Pottru   |    8.6
+(3 rows)
+
+   title    | rating 
+------------+--------
+ Thalapathi |    8.5
+ Kaithi     |    8.4
+(2 rows)
+
+-- AND binds tighter than OR: parentheses change the answer
+       title       | genre  | year 
+-------------------+--------+------
+ Thalapathi        | Drama  | 1991
+ Pariyerum Perumal | Drama  | 2018
+ Kaithi            | Action | 2019
+ Soorarai Pottru   | Drama  | 2020
+ Karnan            | Drama  | 2021
+ Vikram            | Action | 2022
+(6 rows)
+
+       title       | genre  | year 
+-------------------+--------+------
+ Pariyerum Perumal | Drama  | 2018
+ Kaithi            | Action | 2019
+ Soorarai Pottru   | Drama  | 2020
+ Karnan            | Drama  | 2021
+ Vikram            | Action | 2022
+(5 rows)
+

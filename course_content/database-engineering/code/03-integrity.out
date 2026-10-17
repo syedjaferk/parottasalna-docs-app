@@ -1,0 +1,23 @@
+-- entity integrity: a duplicate primary key is refused
+ERROR:  duplicate key value violates unique constraint "movies_pkey"
+DETAIL:  Key (movie_id)=(1) already exists.
+-- referential integrity: director 99 does not exist
+ERROR:  insert or update on table "movies" violates foreign key constraint "movies_director_id_fkey"
+DETAIL:  Key (director_id)=(99) is not present in table "directors".
+-- domain integrity: year must be a number above 1900
+ERROR:  new row for relation "movies" violates check constraint "movies_year_check"
+DETAIL:  Failing row contains (13, Too Old, 1800, null, null, null).
+-- NOT NULL: a title is required
+ERROR:  null value in column "title" of relation "movies" violates not-null constraint
+DETAIL:  Failing row contains (14, null, 2000, null, null, null).
+-- deleting a director who still has movies is refused
+ERROR:  update or delete on table "directors" violates foreign key constraint "movies_director_id_fkey" on table "movies"
+DETAIL:  Key (director_id)=(1) is still referenced from table "movies".
+-- a valid row works
+ movie_id |   title   
+----------+-----------
+       15 | Test Film
+(1 row)
+
+INSERT 0 1
+DELETE 1

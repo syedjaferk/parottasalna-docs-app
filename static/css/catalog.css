@@ -1,0 +1,24 @@
+/* Course catalogue and course detail page. */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cat-hero h1 { margin-bottom: .25rem; }
+.cat-filter { width: 100%; max-width: 28rem; margin-top: 1rem; font: inherit; padding: .65rem .9rem; border-radius: 999px; border: 0; }
+.cat-group { margin: 2rem 0; }
+.cat-group h2 { margin-bottom: .1rem; }
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.cat-card { display: flex; flex-direction: column; gap: .4rem; }
+.cat-card h3 { margin: .2rem 0; font-size: 1.1rem; }
+.cat-card h3 a { color: inherit; text-decoration: none; }
+.cat-card h3 a:hover { color: var(--accent); }
+.cat-card p { margin: 0; font-size: .92rem; }
+.cat-outcomes { margin: .3rem 0; padding-left: 1.1rem; font-size: .88rem; }
+.cat-foot { margin-top: auto; padding-top: .75rem; }
+.cat-foot form { margin: 0; }
+.cat-foot .btn.ghost { margin-top: .5rem; }
+.cat-meta { display: flex; flex-wrap: wrap; gap: .35rem; }
+.cat-tag { padding: .1rem .55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: .74rem; font-weight: 700; }
+.cat-tag.free { background: var(--ok-soft); color: var(--ok); }
+.cat-tag.pro { background: var(--warn-soft); color: var(--warn); }
+.pending { font-size: .88rem; color: var(--muted); }
+.detail { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 1.25rem; align-items: start; }
+.detail-cta { position: sticky; top: 4.5rem; }
+@media (max-width: 800px) { .detail { grid-template-columns: 1fr; } .detail-cta { position: static; } }

@@ -1,5 +1,21 @@
 # Session 4 · Maps
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/Wic6Epkpo0w"
+  title="Learn Go from Scratch | Ep 4 | Go Maps Made Easy" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/2gL55Ii4cEY"
+  title="Learn Go by Building | Expense Tracker with Maps | Part 2" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 A **map** stores pairs: look something up by a *key* and get its *value*. It answers "what is the

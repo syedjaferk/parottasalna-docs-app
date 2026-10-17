@@ -1,0 +1,12 @@
+title: AWS Solutions Architect (SAA-C03)
+description: 'From cloud basics to secure, highly available designs on AWS: IAM, load balancing, EC2 and
+  EBS, VPC networking, WAF, DNS and Route 53, S3 and API Gateway.'
+level: intermediate
+hours: 90
+audience: Engineers preparing for the SAA-C03 exam or designing real systems on AWS.
+outcomes:
+- Design a secure multi-tier VPC
+- Choose the right compute, storage and database service
+- Make a design highly available
+- Pass the SAA-C03 exam
+common: false

@@ -1,0 +1,11 @@
+title: Load Testing with Locust
+description: 'Load test web applications with Locust: users and tasks, wait times, events, HTTP requests,
+  response validation, step load and distributed mode.'
+level: intermediate
+hours: 10
+audience: Developers and QA engineers who need to know how much traffic their service can take.
+outcomes:
+- Write Locust scenarios
+- Validate responses under load
+- Run step and distributed tests
+common: true

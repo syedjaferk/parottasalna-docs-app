@@ -1,0 +1,33 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 260" role="img" aria-labelledby="flat-vs-db-t flat-vs-db-d" xmlns="http://www.w3.org/2000/svg">
+<title id="flat-vs-db-t">A flat file versus a database</title>
+<desc id="flat-vs-db-d">In a flat file the director&#x27;s name is copied onto every line; in a database it is stored once and each movie points to it.</desc>
+<defs><marker id="flat-vs-db-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="flat-vs-db-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="flat-vs-db-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="flat-vs-db-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="330" height="40" rx="10" class="red"/>
+<text x="185.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Flat file: name repeated</text>
+<rect x="20" y="75" width="330" height="36" rx="6" class="box"/>
+<text x="185.0" y="93.0" text-anchor="middle" dominant-baseline="middle" class="code">Nayakan | Mani Ratnam | 1987</text>
+<rect x="20" y="119" width="330" height="36" rx="6" class="box"/>
+<text x="185.0" y="137.0" text-anchor="middle" dominant-baseline="middle" class="code">Thalapathi | Mani Ratnam | 1991</text>
+<rect x="20" y="163" width="330" height="36" rx="6" class="box"/>
+<text x="185.0" y="181.0" text-anchor="middle" dominant-baseline="middle" class="code">Baasha | Suresh Krissna | 1995</text>
+<text x="185" y="225" text-anchor="middle" dominant-baseline="middle" class="small">rename a director = edit every line</text>
+<rect x="410" y="20" width="330" height="40" rx="10" class="green"/>
+<text x="575.0" y="40.0" text-anchor="middle" dominant-baseline="middle" class="bold">Database: stored once, linked</text>
+<rect x="410" y="75" width="140" height="36" rx="6" class="green"/>
+<text x="480.0" y="93.0" text-anchor="middle" dominant-baseline="middle" class="code">1 · Mani Ratnam</text>
+<rect x="410" y="119" width="140" height="36" rx="6" class="green"/>
+<text x="480.0" y="137.0" text-anchor="middle" dominant-baseline="middle" class="code">2 · Suresh Krissna</text>
+<rect x="610" y="75" width="130" height="36" rx="6" class="box"/>
+<text x="675.0" y="93.0" text-anchor="middle" dominant-baseline="middle" class="code">Nayakan → 1</text>
+<path d="M608,93 L552,93" class="arrow blue" marker-end="url(#flat-vs-db-h-blue)"/>
+<rect x="610" y="119" width="130" height="36" rx="6" class="box"/>
+<text x="675.0" y="137.0" text-anchor="middle" dominant-baseline="middle" class="code">Thalapathi → 1</text>
+<path d="M608,137 L552,93" class="arrow blue" marker-end="url(#flat-vs-db-h-blue)"/>
+<rect x="610" y="163" width="130" height="36" rx="6" class="box"/>
+<text x="675.0" y="181.0" text-anchor="middle" dominant-baseline="middle" class="code">Baasha → 2</text>
+<path d="M608,181 L552,137" class="arrow blue" marker-end="url(#flat-vs-db-h-blue)"/>
+<text x="575" y="225" text-anchor="middle" dominant-baseline="middle" class="small">rename a director = edit one row</text>
+</svg>
+<figcaption>In a flat file the director&#x27;s name is copied onto every line; in a database it is stored once and each movie points to it.</figcaption>
+</figure>

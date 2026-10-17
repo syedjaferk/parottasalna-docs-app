@@ -1,0 +1,16 @@
+.path-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.path-card { display: flex; flex-direction: column; gap: .4rem; }
+.path-card h2 { margin: 0; font-size: 1.25rem; }
+.path-card h2 a { color: inherit; text-decoration: none; }
+.path-card .btn { margin-top: auto; }
+.path-steps { padding-left: 1.2rem; margin: .4rem 0 1rem; font-size: .92rem; }
+.small { font-size: .85rem; }
+.chip-ok { padding: .05rem .5rem; border-radius: 999px; background: var(--ok-soft); color: var(--ok); font-size: .72rem; font-weight: 700; }
+.cat-tag { padding: .05rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: .72rem; font-weight: 700; }
+.cat-tag.free { background: var(--ok-soft); color: var(--ok); } .cat-tag.pro { background: var(--warn-soft); color: var(--warn); }
+.path-timeline { list-style: none; counter-reset: s; padding: 0; margin: 1.25rem 0 0; }
+.path-timeline li { counter-increment: s; position: relative; padding: 0 0 1.2rem 3rem; border-left: 2px solid var(--line); margin-left: 1rem; }
+.path-timeline li::before { content: counter(s); position: absolute; left: -1rem; top: 0; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent); color: var(--accent-fg); display: grid; place-items: center; font-weight: 800; }
+.path-timeline li:last-child { border-left-color: transparent; }
+.step-title { font-weight: 700; font-size: 1.05rem; margin-right: .4rem; }
+.path-timeline p { margin: .2rem 0 0; }

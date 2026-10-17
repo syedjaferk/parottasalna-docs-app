@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 290" role="img" aria-labelledby="dockerfile-layers-t dockerfile-layers-d" xmlns="http://www.w3.org/2000/svg">
+<title id="dockerfile-layers-t">A Dockerfile builds an image layer by layer</title>
+<desc id="dockerfile-layers-d">Each instruction adds a layer. Unchanged layers are reused from the cache, so put things that change often at the bottom.</desc>
+<defs><marker id="dockerfile-layers-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="dockerfile-layers-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="dockerfile-layers-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="dockerfile-layers-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="15" width="360" height="44" rx="10" class="green"/>
+<text x="200.0" y="37.0" text-anchor="middle" dominant-baseline="middle" class="code">FROM python:3.12-slim</text>
+<text x="400" y="37" text-anchor="start" dominant-baseline="middle" class="small">base image</text>
+<rect x="20" y="67" width="360" height="44" rx="10" class="box"/>
+<text x="200.0" y="89.0" text-anchor="middle" dominant-baseline="middle" class="code">WORKDIR /app</text>
+<text x="400" y="89" text-anchor="start" dominant-baseline="middle" class="small">set folder</text>
+<rect x="20" y="119" width="360" height="44" rx="10" class="amber"/>
+<text x="200.0" y="141.0" text-anchor="middle" dominant-baseline="middle" class="code">COPY app.py .</text>
+<text x="400" y="141" text-anchor="start" dominant-baseline="middle" class="small">your code</text>
+<rect x="20" y="171" width="360" height="44" rx="10" class="box"/>
+<text x="200.0" y="193.0" text-anchor="middle" dominant-baseline="middle" class="code">ENV GREETING=Hello</text>
+<text x="400" y="193" text-anchor="start" dominant-baseline="middle" class="small">settings</text>
+<rect x="20" y="223" width="360" height="44" rx="10" class="blue"/>
+<text x="200.0" y="245.0" text-anchor="middle" dominant-baseline="middle" class="code">CMD [&quot;python&quot;, &quot;app.py&quot;]</text>
+<text x="400" y="245" text-anchor="start" dominant-baseline="middle" class="small">start command</text>
+<rect x="520" y="15" width="220" height="240" rx="10" class="ghost"/>
+<text x="630.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">Image</text>
+<text x="630.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">layers stacked</text>
+<text x="630.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="small">read-only</text>
+<text x="380" y="275" text-anchor="middle" dominant-baseline="middle" class="small">change app.py: COPY and every line after it rebuilds; FROM and WORKDIR stay cached</text>
+</svg>
+<figcaption>Each instruction adds a layer. Unchanged layers are reused from the cache, so put things that change often at the bottom.</figcaption>
+</figure>

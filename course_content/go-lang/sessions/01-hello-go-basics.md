@@ -1,5 +1,21 @@
 # Session 1 · Hello, Go and the basics
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/3ofJp54f-Tk"
+  title="Learn Go from Scratch | Ep 1 | Need of Golang + Hello World in Go" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/LkJVJFxcehI"
+  title="Learn Go from Scratch | Ep 2 | Variables, Conditions, Loops + Taking Input" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 Go is a small, fast language made at Google for building servers and command-line tools. It is

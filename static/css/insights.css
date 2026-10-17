@@ -1,0 +1,5 @@
+.ins-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.ins-table th, .ins-table td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--line); }
+.ins-table tr.alarm td { background: color-mix(in srgb, #dc2626 12%, var(--card)); }
+.ins-bar { display: inline-block; width: 140px; height: 8px; border-radius: 999px; background: var(--accent-soft); vertical-align: middle; overflow: hidden; }
+.ins-bar span { display: block; height: 100%; background: var(--accent); }

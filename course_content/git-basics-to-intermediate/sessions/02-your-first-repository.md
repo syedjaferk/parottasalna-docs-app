@@ -252,9 +252,9 @@ Handy, but if you always use `add .`, you lose the main benefit of staging (choo
 | Vague messages like "fix" | History is unreadable later | Say *what* you fixed. |
 | Committing before checking `git status` | You commit a file you did not mean to | Look first. Fix afterwards with Session 4. |
 
-## Tryouts
+## Hands-on exercises
 
-**Tryout 1 · Build.** Create a folder `~/git-lab/notes`, make it a repo, create `todo.txt` with two lines, and make your first commit with the message `Add todo list`.
+**Tryout 1 · Build.** Create a folder `~/git-lab/notes`, make it a repo, create `tasks.txt` with two lines, and make your first commit with the message `Add task list`.
 
 <details class="solution">
 <summary>Answer</summary>
@@ -263,24 +263,24 @@ Handy, but if you always use `add .`, you lose the main benefit of staging (choo
 cd ~/git-lab
 mkdir notes && cd notes
 git init
-printf "buy milk\ncall mom\n" > todo.txt
-git add todo.txt
-git commit -m "Add todo list"
+printf "buy milk\ncall mom\n" > tasks.txt
+git add tasks.txt
+git commit -m "Add task list"
 git log --oneline
 ```
 
 </details>
 
-**Tryout 2 · Two stories.** In `notes`, add a third line to `todo.txt` **and** create `ideas.txt`. Make two separate commits: `Add third todo` and `Add ideas file`.
+**Tryout 2 · Two stories.** In `notes`, add a third line to `tasks.txt` **and** create `ideas.txt`. Make two separate commits: `Add third task` and `Add ideas file`.
 
 <details class="solution">
 <summary>Answer</summary>
 
 ```bash
-echo "pay bills" >> todo.txt
+echo "pay bills" >> tasks.txt
 echo "learn Git" > ideas.txt
-git add todo.txt
-git commit -m "Add third todo"
+git add tasks.txt
+git commit -m "Add third task"
 git add ideas.txt
 git commit -m "Add ideas file"
 git log --oneline
@@ -288,15 +288,15 @@ git log --oneline
 
 </details>
 
-**Tryout 3 · Challenge.** Change `todo.txt` again and run `git status`, then `git commit -am "Update todos"`. Does `-am` also commit a brand-new file `new.txt` that you created before? Test it and explain.
+**Tryout 3 · Challenge.** Change `tasks.txt` again and run `git status`, then `git commit -am "Update tasks"`. Does `-am` also commit a brand-new file `new.txt` that you created before? Test it and explain.
 
 <details class="solution">
 <summary>Answer</summary>
 
 ```bash
-echo "water plants" >> todo.txt
+echo "water plants" >> tasks.txt
 echo "hello" > new.txt
-git commit -am "Update todos"
+git commit -am "Update tasks"
 git status
 ```
 

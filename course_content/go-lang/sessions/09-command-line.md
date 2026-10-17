@@ -1,5 +1,21 @@
 # Session 9 · Command-line tools: args and flags
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/-RlFhC9bnsI"
+  title="Day 11 | Learn Go by Building | Command Line Tools &amp; File Backup Utility" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/0e1BvMO3aGs"
+  title="Day 12 | Learn Go by Building | Mini File Finder Command Line Tool" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 A command-line tool is a program you run by typing its name and some **options**: `ls -l /tmp`.

@@ -178,7 +178,7 @@ git push origin main             # update your fork on GitHub
 | Forgetting to sync a fork, so the PR has conflicts | `git fetch upstream` then `git merge upstream/main` first. |
 | Merging your own PR without review in a team repo | Use branch protection to prevent it. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Open a PR.** Create a branch `feature/readme-badges`, change `README.md`, push, and open a pull request on GitHub (you can review and merge your own PR on your personal repo for practice).
 

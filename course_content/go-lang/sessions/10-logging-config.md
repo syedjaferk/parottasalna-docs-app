@@ -1,5 +1,14 @@
 # Session 10 · Logging and configuration
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/Cqi-syMylls"
+  title="Day 13 | Learn Go from Scratch | Logging in Go: Write Clean, Useful Logs" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 When a program runs on a server nobody is watching it. **Logs** are its diary: what happened, when,

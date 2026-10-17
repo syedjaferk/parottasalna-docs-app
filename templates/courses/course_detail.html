@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ course.title }} · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}{{ course.description|truncatechars:155 }}{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/catalog.css' %}">{% endblock %}
+{% block content %}
+<p><a href="{% url 'course_catalog' %}">&larr; All courses</a></p>
+<div class="detail">
+  <article class="card">
+    <div class="cat-meta">
+      {% if course.level %}<span class="cat-tag">{{ course.get_level_display }}</span>{% endif %}
+      {% if course.est_hours %}<span class="cat-tag">{{ course.est_hours }} hours</span>{% endif %}
+      {% if chapter_count %}<span class="cat-tag">{{ chapter_count }} chapters</span>{% endif %}
+      <span class="cat-tag {{ course.access }}">{{ course.get_access_display }}</span>
+    </div>
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+    {% if course.audience %}<h2>Who it is for</h2><p>{{ course.audience }}</p>{% endif %}
+    {% if outcomes %}<h2>What you will be able to do</h2><ul>{% for o in outcomes %}<li>{{ o }}</li>{% endfor %}</ul>{% endif %}
+  </article>
+  <aside class="card detail-cta">
+    <h2>{% if state.code == "enrolled" %}You are enrolled{% else %}Get access{% endif %}</h2>
+    {% include "courses/_enrol_button.html" %}
+    {% if state.code == "enrol" %}<p class="muted small">Enrolling unlocks your progress tracking, quizzes and notes for this course.</p>{% endif %}
+  </aside>
+</div>
+{% endblock %}

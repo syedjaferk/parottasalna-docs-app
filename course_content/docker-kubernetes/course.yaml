@@ -1,0 +1,12 @@
+title: Docker & Kubernetes Systems Engineering
+description: 50 live sessions from Linux container internals to production Kubernetes. Simple notes, diagrams
+  and exercises for every session.
+level: intermediate
+hours: 100
+audience: Developers and operators who want to understand containers properly and run them in production.
+outcomes:
+- Explain how containers work on Linux
+- Build and ship images
+- Deploy and scale apps on Kubernetes
+- Debug a failing cluster
+common: false

@@ -1,0 +1,27 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 270" role="img" aria-labelledby="er-cinema-t er-cinema-d" xmlns="http://www.w3.org/2000/svg">
+<title id="er-cinema-t">ER diagram for the movie database</title>
+<desc id="er-cinema-d">A director directs many movies (one-to-many). Movies and actors are many-to-many, so they meet in the movie_cast table.</desc>
+<defs><marker id="er-cinema-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="er-cinema-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="er-cinema-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="er-cinema-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="90" width="150" height="70" rx="10" class="blue"/>
+<text x="95.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">directors</text>
+<text x="95.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">director_id</text>
+<rect x="250" y="90" width="150" height="70" rx="10" class="green"/>
+<text x="325.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">movies</text>
+<text x="325.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">movie_id</text>
+<rect x="480" y="90" width="120" height="70" rx="10" class="amber"/>
+<text x="540.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">movie_cast</text>
+<text x="540.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">movie_id + actor_id</text>
+<rect x="640" y="90" width="100" height="70" rx="10" class="blue"/>
+<text x="690.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">actors</text>
+<text x="690.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="code">actor_id</text>
+<path d="M172,125 L248,125" class="arrow blue" marker-end="url(#er-cinema-h-blue)"/>
+<text x="210" y="105" text-anchor="middle" dominant-baseline="middle" class="small">1 : many</text>
+<path d="M402,125 L478,125" class="arrow blue" marker-end="url(#er-cinema-h-blue)"/>
+<text x="440" y="105" text-anchor="middle" dominant-baseline="middle" class="small">1 : many</text>
+<path d="M638,125 L602,125" class="arrow blue" marker-end="url(#er-cinema-h-blue)"/>
+<text x="620" y="105" text-anchor="middle" dominant-baseline="middle" class="small">1 : many</text>
+<text x="380" y="215" text-anchor="middle" dominant-baseline="middle" class="small">many-to-many = two one-to-many links through a middle table</text>
+</svg>
+<figcaption>A director directs many movies (one-to-many). Movies and actors are many-to-many, so they meet in the movie_cast table.</figcaption>
+</figure>
