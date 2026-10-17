@@ -65,3 +65,84 @@ class PrepProfile(models.Model):
 
     def __str__(self):
         return f"{self.user_id} · {self.level or 'not taken'}"
+
+
+# ---- interview-prep content (seeded from prep/data/*.json with ``manage.py seed_prep``) ----------------
+class CatalogLookup(models.Model):
+    """One of the shared lists the catalog refers to by position: topics, patterns, companies, difficulties.
+
+    ``CatalogProblem.patterns`` / ``companies`` and the sheet items hold indexes into these lists, so only
+    append to them; reordering or removing an entry shifts every problem that points at it.
+    """
+
+    name = models.CharField(max_length=20, unique=True, help_text="topics, patterns, companies or difficulties")
+    values = models.JSONField(default=list)
+
+    def __str__(self):
+        return f"{self.name} ({len(self.values)})"
+
+
+class CatalogProblem(models.Model):
+    position = models.PositiveIntegerField(db_index=True, help_text="Order in the catalog. Sheets point at problems by this position.")
+    pid = models.CharField("id", max_length=200, unique=True, help_text="e.g. leetcode:two-sum")
+    title = models.CharField(max_length=200)
+    platform = models.CharField(max_length=40)
+    url = models.URLField(max_length=400, blank=True)
+    difficulty = models.PositiveSmallIntegerField(default=0, help_text="Index into the difficulties lookup.")
+    tags = models.JSONField(default=list, blank=True, help_text="Topic tags (names).")
+    patterns = models.JSONField(default=list, blank=True, help_text="Indexes into the patterns lookup.")
+    companies = models.JSONField(default=list, blank=True, help_text="[company index, how often] pairs.")
+
+    class Meta:
+        ordering = ["position"]
+
+    def __str__(self):
+        return self.pid
+
+
+class CatalogSheet(models.Model):
+    position = models.PositiveIntegerField(db_index=True)
+    sheet_id = models.SlugField(max_length=100, unique=True)
+    name = models.CharField(max_length=200)
+    by = models.CharField(max_length=200, blank=True)
+    kind = models.CharField(max_length=40, blank=True)
+    items = models.JSONField(default=list, blank=True, help_text="[problem position, section, subsection] rows.")
+
+    class Meta:
+        ordering = ["position"]
+
+    def __str__(self):
+        return self.name
+
+
+class PatternGuide(models.Model):
+    position = models.PositiveIntegerField(db_index=True)
+    pattern = models.CharField(max_length=100, unique=True)
+    kid = models.TextField(blank=True, help_text="The explain-it-like-I'm-ten story.")
+    when = models.JSONField(default=list, blank=True, help_text="Signals that the pattern applies (a list of strings).")
+    time = models.CharField(max_length=100, blank=True)
+    space = models.CharField(max_length=100, blank=True)
+    session = models.CharField(max_length=100, blank=True, help_text="Course session slug, e.g. 01-two-pointers")
+
+    class Meta:
+        ordering = ["position"]
+
+    def __str__(self):
+        return self.pattern
+
+
+class PlacementQuestion(models.Model):
+    position = models.PositiveIntegerField(db_index=True)
+    qid = models.CharField(max_length=20, unique=True)
+    pattern = models.CharField(max_length=100)
+    q = models.TextField("question")
+    options = models.JSONField(default=list)
+    answer = models.PositiveSmallIntegerField(help_text="Index of the correct option.")
+    why = models.TextField(blank=True)
+    session = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        ordering = ["position"]
+
+    def __str__(self):
+        return f"{self.qid} · {self.pattern}"
