@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Today · Interview prep · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
+{% block extra_style %}main, .topbar-inner { max-width: 1400px; }{% endblock %}
+{% block content %}
+{% include "prep/_nav.html" %}
+<div id="home-app" class="home" data-next="{% url 'prep_next' %}" data-guides="{% url 'prep_data' 'pattern_guides' %}"
+     data-course="{% url 'course_docs' 'dsa-patterns' %}" data-tracker="{% url 'prep_tracker' %}" data-placement="{% url 'prep_placement' %}">
+  <div id="home-banner"></div>
+  <div id="home-stats" class="stat-row"></div>
+  <div class="home-cols">
+    <section class="card" aria-labelledby="rev-h">
+      <div class="section-title"><h2 id="rev-h">♻️ Re-solve queue</h2><span id="rev-count" class="count">0</span></div>
+      <p class="muted small">Problems whose 1-day, 1-week or 3-4 week re-solve has come round. Do them <strong>from scratch, from memory</strong>.</p>
+      <div id="rev-list" class="todo-list"></div>
+    </section>
+    <section class="card" aria-labelledby="next-h">
+      <div class="section-title"><h2 id="next-h">🚀 Try next</h2></div>
+      <p class="muted small">One problem from each of the patterns you have covered least, so you spread out instead of binge-solving one pattern.</p>
+      <div id="rotated" class="rotated" hidden></div>
+      <div id="next-list" class="todo-list"></div>
+      <p class="tip-line">⏱️ <strong>Struggle first:</strong> give a new problem 20-30 minutes. Still stuck? Read the <em>approach</em> in the pattern lesson (not the code), then write it yourself.</p>
+    </section>
+  </div>
+  <section class="card" aria-labelledby="cov-h">
+    <div class="section-title"><h2 id="cov-h">🧩 Pattern coverage</h2></div>
+    <p class="muted small">Aim for about 6 problems per pattern, easy to hard. A ✓ means you recognised the pattern in the placement quiz.</p>
+    <div id="cov-grid" class="cov-grid"></div>
+  </section>
+  <section class="card how">
+    <h2>How the cycle works</h2>
+    <ol>
+      <li><strong>Solve</strong> a new problem and log it with how it went, your confidence and a one-line key insight.</li>
+      <li><strong>Re-solve</strong> it from scratch after <strong>1 day</strong>, then <strong>1 week</strong>, then <strong>3-4 weeks</strong>.</li>
+      <li>If you can't solve it cold, or needed a hint, it goes <strong>back to the start of the queue</strong>.</li>
+      <li>After the third successful re-solve it is <strong>mastered</strong> and leaves the queue.</li>
+    </ol>
+  </section>
+</div>
+{% include "prep/_log_dialog.html" %}
+<script src="{% static 'js/prep-common.js' %}"></script>
+<script src="{% static 'js/prep-log.js' %}"></script>
+<script src="{% static 'js/prep-home.js' %}" defer></script>
+{% endblock %}

@@ -142,5 +142,5 @@ print(max_capital(2, 0, [1, 2, 3], [0, 1, 1]))
 | [Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/) | Medium | heap of end times |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=two-heaps"><strong>Open the Two Heaps problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=two-heaps"><strong>Open the Two Heaps problems in the tracker →</strong></a></p>
 ```

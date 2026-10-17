@@ -162,5 +162,5 @@ the heap is overkill; use two pointers.
 | [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/) | Hard | track the current max |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=k-way-merge"><strong>Open the K-way Merge problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=k-way-merge"><strong>Open the K-way Merge problems in the tracker →</strong></a></p>
 ```

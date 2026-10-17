@@ -137,5 +137,5 @@ def rect_sum(P, r1, c1, r2, c2):        # inclusive corners
 | [Range Sum Query 2D - Immutable](https://leetcode.com/problems/range-sum-query-2d-immutable/) | Medium | 2D prefix |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=prefix-sum"><strong>Open the Prefix Sum problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=prefix-sum"><strong>Open the Prefix Sum problems in the tracker →</strong></a></p>
 ```

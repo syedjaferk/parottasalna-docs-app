@@ -142,5 +142,5 @@ def is_palindrome(head):
 | [Reorder List](https://leetcode.com/problems/reorder-list/) | Medium | middle, reverse, merge |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=reversal-of-linked-list"><strong>Open the Reversal of Linked List problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=reversal-of-linked-list"><strong>Open the Reversal of Linked List problems in the tracker →</strong></a></p>
 ```

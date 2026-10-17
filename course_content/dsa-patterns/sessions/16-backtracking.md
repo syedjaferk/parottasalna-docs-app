@@ -195,5 +195,5 @@ the worst case but often makes it fast in practice. If the same sub-problem repe
 | [N-Queens](https://leetcode.com/problems/n-queens/) | Hard | column / diagonal sets |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=backtracking"><strong>Open the Backtracking problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=backtracking"><strong>Open the Backtracking problems in the tracker →</strong></a></p>
 ```

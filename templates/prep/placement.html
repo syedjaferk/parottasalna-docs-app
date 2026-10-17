@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Placement quiz · Interview prep · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/prep.css' %}">{% endblock %}
+{% block content %}
+{% include "prep/_nav.html" %}
+<div id="placement-app" class="placement" data-questions="{% url 'prep_placement_questions' %}" data-submit="{% url 'prep_placement_submit' %}"
+     data-home="{% url 'prep_home' %}" data-course="{% url 'course_docs' 'dsa-patterns' %}">
+  <section class="card place-intro" id="place-intro">
+    <h2>Where should you start?</h2>
+    <p>21 quick questions, about 5 minutes. Each one describes a problem and asks <strong>which technique fits best</strong>. It isn't graded against anyone.</p>
+    <ul>
+      <li>It finds the patterns you already recognise and the ones that are new to you.</li>
+      <li>Your plan then starts with the <strong>new</strong> patterns, so you don't spend weeks on what you know.</li>
+      <li>Not sure? Choose <em>I don't know yet</em>. That is useful information, not a wrong answer.</li>
+    </ul>
+    <button type="button" class="btn" id="place-start">Start the quiz</button>
+  </section>
+  <form id="place-form" class="place-form" hidden></form>
+  <section id="place-result" class="card" hidden></section>
+</div>
+<script src="{% static 'js/prep-common.js' %}"></script>
+<script src="{% static 'js/prep-placement.js' %}" defer></script>
+{% endblock %}

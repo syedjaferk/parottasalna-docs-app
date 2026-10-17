@@ -154,5 +154,5 @@ The map computes `hash(key)` to find a **bucket**. Two different keys may land i
 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/) | Easy | set |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=hash-map"><strong>Open the Hash Map problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=hash-map"><strong>Open the Hash Map problems in the tracker →</strong></a></p>
 ```

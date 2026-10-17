@@ -176,5 +176,5 @@ def lca(n, p, q):
 | [Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/) | Hard | ignore negative branches |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=trees"><strong>Open the Trees problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=trees"><strong>Open the Trees problems in the tracker →</strong></a></p>
 ```

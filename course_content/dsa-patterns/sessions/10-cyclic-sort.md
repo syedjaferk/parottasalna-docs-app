@@ -138,5 +138,5 @@ answer is at most `n + 1`), sort the rest into place, then find the first wrong 
 | [First Missing Positive](https://leetcode.com/problems/first-missing-positive/) | Hard | range guard |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=cyclic-sort"><strong>Open the Cyclic Sort problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=cyclic-sort"><strong>Open the Cyclic Sort problems in the tracker →</strong></a></p>
 ```

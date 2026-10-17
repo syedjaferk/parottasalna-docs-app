@@ -161,5 +161,5 @@ print(connect_ropes([4, 3, 2, 6]))
 | [Task Scheduler](https://leetcode.com/problems/task-scheduler/) | Medium | most frequent task decides |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=greedy"><strong>Open the Greedy problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=greedy"><strong>Open the Greedy problems in the tracker →</strong></a></p>
 ```

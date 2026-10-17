@@ -192,5 +192,5 @@ Time **O((V + E) log V)**.
 | [Alien Dictionary](https://leetcode.com/problems/alien-dictionary/) | Hard | build edges from word pairs |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=graphs"><strong>Open the Graph problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=graphs"><strong>Open the Graph problems in the tracker →</strong></a></p>
 ```

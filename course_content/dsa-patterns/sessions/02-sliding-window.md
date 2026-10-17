@@ -145,5 +145,5 @@ print(min_subarray_len(7, [2, 3, 1, 2, 4, 3]))
 | [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/) | Hard | shortest window + two counters |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=sliding-window"><strong>Open the Sliding Window problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=sliding-window"><strong>Open the Sliding Window problems in the tracker →</strong></a></p>
 ```

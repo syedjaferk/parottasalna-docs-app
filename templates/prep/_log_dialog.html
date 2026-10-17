@@ -1,0 +1,27 @@
+<dialog id="log-dialog" class="prep-dialog" data-url="{% url 'prep_progress_log' %}">
+  <form method="dialog" id="log-form">
+    <h3 id="log-title">Log your attempt</h3>
+    <p id="log-review" class="log-review" hidden>♻️ <strong>Re-solve from memory.</strong> Close your old solution and rebuild it. Looking at it again teaches almost nothing.</p>
+    <details id="log-oldnote" class="log-oldnote" hidden><summary>Show my note from last time</summary><p id="log-oldnote-text"></p></details>
+    <fieldset class="log-field"><legend>How did it go?</legend>
+      <label class="log-opt"><input type="radio" name="outcome" value="cold" checked> <span>✅ Solved on my own</span></label>
+      <label class="log-opt"><input type="radio" name="outcome" value="hint"> <span>💡 Needed a hint or the approach</span></label>
+      <label class="log-opt"><input type="radio" name="outcome" value="fail"> <span>❌ Could not solve it</span></label>
+    </fieldset>
+    <fieldset class="log-field"><legend>Confidence</legend>
+      <div class="log-stars" role="radiogroup" aria-label="Confidence from 1 to 5">
+        {% for n in "12345" %}<label><input type="radio" name="confidence" value="{{ n }}"{% if n == "3" %} checked{% endif %}><span>{{ n }}</span></label>{% endfor %}
+      </div>
+      <small class="muted">1 = shaky, 5 = could do it in my sleep. Low confidence puts it back in tomorrow's queue.</small>
+    </fieldset>
+    <label class="log-field">Minutes taken <input type="number" id="log-minutes" min="0" max="600" class="prep-input" style="width:6rem"></label>
+    <label class="log-field">Key insight <small class="muted">(one or two lines: why does it work?)</small>
+      <textarea id="log-note" rows="3" maxlength="2000" placeholder="e.g. sort first so duplicates are adjacent"></textarea></label>
+    <p id="log-next" class="muted log-next"></p>
+    <div class="dialog-actions">
+      <span class="grow"></span>
+      <button type="button" class="btn ghost sm" id="log-cancel">Cancel</button>
+      <button type="button" class="btn sm" id="log-save">Save attempt</button>
+    </div>
+  </form>
+</dialog>

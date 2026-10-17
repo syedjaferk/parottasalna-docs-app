@@ -130,5 +130,5 @@ If a cell is 0, its whole row and column become 0. Using extra arrays costs O(m+
 | [Game of Life](https://leetcode.com/problems/game-of-life/) | Medium | encode old and new state in one cell |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=matrix-manipulation"><strong>Open the Matrix Manipulation problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=matrix-manipulation"><strong>Open the Matrix Manipulation problems in the tracker →</strong></a></p>
 ```

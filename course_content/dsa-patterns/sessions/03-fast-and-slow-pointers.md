@@ -153,5 +153,5 @@ True False
 | [Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/) | Easy | middle + reverse (next session) |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=fast-and-slow-pointer"><strong>Open the Fast and Slow Pointer problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=fast-and-slow-pointer"><strong>Open the Fast and Slow Pointer problems in the tracker →</strong></a></p>
 ```

@@ -237,5 +237,5 @@ True False True
 | [LFU Cache](https://leetcode.com/problems/lfu-cache/) | Hard | frequency buckets |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=design-data-structure"><strong>Open the Design Data Structure problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=design-data-structure"><strong>Open the Design Data Structure problems in the tracker →</strong></a></p>
 ```

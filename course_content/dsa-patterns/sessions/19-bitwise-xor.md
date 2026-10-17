@@ -162,5 +162,5 @@ Brian Kernighan's loop runs once per **set** bit, not once per bit position.
 | [Counting Bits](https://leetcode.com/problems/counting-bits/) | Easy | `dp[i] = dp[i >> 1] + (i & 1)` |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=bitwise-xor"><strong>Open the Bitwise XOR problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=bitwise-xor"><strong>Open the Bitwise XOR problems in the tracker →</strong></a></p>
 ```

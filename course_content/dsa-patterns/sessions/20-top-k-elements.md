@@ -163,5 +163,5 @@ print(sorted(k_closest([[1, 3], [-2, 2], [5, 8], [0, 1]], 2)))
 | [Reorganize String](https://leetcode.com/problems/reorganize-string/) | Medium | always take the most frequent |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=top-k-elements"><strong>Open the Top K Elements problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=top-k-elements"><strong>Open the Top K Elements problems in the tracker →</strong></a></p>
 ```

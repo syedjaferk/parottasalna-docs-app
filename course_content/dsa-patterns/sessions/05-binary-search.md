@@ -161,5 +161,5 @@ print(search_rotated([4, 5, 6, 7, 0, 1, 2], 0))
 | [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/) | Hard | binary search on the partition |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=modified-binary-search"><strong>Open the Modified Binary Search problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=modified-binary-search"><strong>Open the Modified Binary Search problems in the tracker →</strong></a></p>
 ```

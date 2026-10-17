@@ -126,5 +126,5 @@ print(largest_rectangle([2, 1, 5, 6, 2, 3]))
 | [Remove K Digits](https://leetcode.com/problems/remove-k-digits/) | Medium | keep the stack increasing |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=monotonic-stack"><strong>Open the Monotonic Stack problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=monotonic-stack"><strong>Open the Monotonic Stack problems in the tracker →</strong></a></p>
 ```

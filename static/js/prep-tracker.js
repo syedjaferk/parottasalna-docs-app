@@ -67,17 +67,23 @@
   }
 
   /* ---- main list ----------------------------------------------------------------------- */
+  const TODAY = new Date().toLocaleDateString("en-CA");           // yyyy-mm-dd in the student's timezone
+  const isDue = (pr) => !!(pr && pr.nr && pr.nr <= TODAY);
+  const STAGE_TEXT = { 0: "Back in the queue", 1: "Next: 1-day re-solve", 2: "Next: 1-week re-solve", 3: "Next: 3-4 week re-solve", 4: "Mastered" };
+  const reviewTitle = (pr) => (pr.st >= 4 ? "Mastered. Re-solve anyway?" : `${STAGE_TEXT[pr.st] || ""}${pr.nr ? " (" + pr.nr + ")" : ""}. Click to log a re-solve.`);
+
   function rowHtml({ i }) {
     const p = cat.problems[i], pr = progress[p.id] || {};
     const pats = p.pa.slice(0, 3).map((x) => `<button type="button" class="chip" data-pattern="${x}">${esc(cat.patterns[x])}</button>`).join("");
     const cos = p.co.slice().sort((a, b) => b[1] - a[1]).slice(0, 3).map((c) => `<button type="button" class="chip co h${c[1]}" data-company="${c[0]}" title="${HEAT[c[1]]}">${esc(cat.companies[c[0]])}</button>`).join("");
     const more = p.co.length > 3 ? `<span class="chip more" title="${p.co.slice(3).map((c) => esc(cat.companies[c[0]])).join(", ")}">+${p.co.length - 3}</span>` : "";
-    return `<li class="prow${pr.s ? " solved" : ""}" data-id="${esc(p.id)}">
+    return `<li class="prow${pr.s ? " solved" : ""}${isDue(pr) ? " due" : ""}" data-id="${esc(p.id)}">
       <input type="checkbox" class="tick" aria-label="Mark ${esc(p.t)} as solved"${pr.s ? " checked" : ""}>
       <div class="pmain"><a class="ptitle" href="${esc(safeUrl(p.u))}" target="_blank" rel="noopener noreferrer">${esc(p.t)}</a>
-        <div class="chips">${pats}${cos}${more}</div></div>
+        <div class="chips">${isDue(pr) ? '<span class="chip co">♻️ re-solve due</span>' : ""}${pr.s && pr.st >= 4 ? '<span class="chip">mastered</span>' : ""}${pats}${cos}${more}</div></div>
       <span class="plat">${esc(p.pl)}</span>
       <span class="diff ${DIFF_CLASS[p.d]}">${cat.difficulties[p.d]}</span>
+      ${pr.s ? `<button type="button" class="icon redo" data-act="redo" aria-label="Log a re-solve" title="${esc(reviewTitle(pr))}">♻️</button>` : "<span></span>"}
       <button type="button" class="icon star${pr.b ? " on" : ""}" data-act="mark" aria-pressed="${!!pr.b}" aria-label="Bookmark" title="Bookmark">★</button>
       <button type="button" class="icon note${pr.n ? " on" : ""}" data-act="note" aria-label="Notes" title="${pr.n ? esc(pr.n.slice(0, 120)) : "Add a note"}">📝</button>
     </li>`;
@@ -133,6 +139,7 @@
     if ("s" in patch) body.solved = patch.s;
     if ("b" in patch) body.bookmarked = patch.b;
     if ("n" in patch) body.note = patch.n;
+    if (patch.s === false) body.solved = false;
     return post(app.dataset.set, body).catch(() => alert("Could not save. Check your connection and try again."));
   };
 
@@ -147,8 +154,13 @@
     const li = e.target.closest(".prow");
     if (!li) return;
     const id = li.dataset.id, act = e.target.closest("[data-act]");
+    const logIt = (review) => Prep.openLog({ id, title: cat.problems[byId[id]].t, review, note: (progress[id] && progress[id].n) || "",
+      onSaved: (entry) => { progress[id] = Object.assign({}, progress[id], entry); render(); } });
     if (e.target.classList.contains("tick")) {
-      save(id, { s: e.target.checked }); li.classList.toggle("solved", e.target.checked); updateCounts();
+      if (e.target.checked) { e.target.checked = false; logIt(false); }     // ticking opens the attempt dialog
+      else { save(id, { s: false, st: 0, nr: null, at: 0, cf: null }); li.classList.remove("solved"); render(); }
+    } else if (act && act.dataset.act === "redo") {
+      logIt(true);
     } else if (act && act.dataset.act === "mark") {
       const on = !(progress[id] && progress[id].b); save(id, { b: on });
       act.classList.toggle("on", on); act.setAttribute("aria-pressed", on);
@@ -210,7 +222,7 @@
     } catch (err) { alert("That file doesn't look like an exported progress file."); }
     e.target.value = "";
   });
-  document.querySelectorAll("[data-clear]").forEach((b) => b.addEventListener("click", async () => {
+  document.querySelectorAll("button[data-clear]").forEach((b) => b.addEventListener("click", async () => {
     const all = b.dataset.all === "1";
     if (all && !confirm("Reset ALL your solved marks, bookmarks and notes?")) return;
     const ids = all ? undefined : viewRows().map(({ i }) => cat.problems[i].id);

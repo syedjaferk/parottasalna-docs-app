@@ -1,8 +1,10 @@
 <section class="hero prep-hero">
   <h1>Interview prep</h1>
-  <p>Practice sheets, company lists and pattern lessons for coding interviews. Your progress is saved to your account.</p>
+  <p>Learn the patterns, practise in a smart order, and re-solve problems on a schedule so they stick. Your progress is saved to your account.</p>
   <nav class="prep-tabs" aria-label="Interview prep">
+    <a href="{% url 'prep_home' %}"{% if tab == 'home' %} aria-current="page"{% endif %}>🏠 Today</a>
     <a href="{% url 'prep_tracker' %}"{% if tab == 'tracker' %} aria-current="page"{% endif %}>🎯 Practice tracker</a>
     <a href="{% url 'prep_patterns' %}"{% if tab == 'patterns' %} aria-current="page"{% endif %}>🧩 Pattern guides</a>
+    <a href="{% url 'prep_placement' %}"{% if tab == 'placement' %} aria-current="page"{% endif %}>🧭 Placement quiz</a>
   </nav>
 </section>

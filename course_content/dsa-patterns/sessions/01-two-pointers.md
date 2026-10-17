@@ -159,5 +159,5 @@ Time **O(n²)** (n starting points × an O(n) scan), space O(1) apart from the a
 | [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | Hard | track left max and right max |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=two-pointers"><strong>Open the Two Pointers problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=two-pointers"><strong>Open the Two Pointers problems in the tracker →</strong></a></p>
 ```

@@ -136,5 +136,5 @@ print(min_rooms([[0, 30], [5, 10], [15, 20]]))
 | [Interval List Intersections](https://leetcode.com/problems/interval-list-intersections/) | Medium | two pointers over two lists |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=overlapping-intervals"><strong>Open the Overlapping Intervals problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=overlapping-intervals"><strong>Open the Overlapping Intervals problems in the tracker →</strong></a></p>
 ```

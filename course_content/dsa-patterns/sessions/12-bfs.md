@@ -192,5 +192,5 @@ print(level_order(T(3, T(9), T(20, T(15), T(7)))))
 | [Open the Lock](https://leetcode.com/problems/open-the-lock/) | Medium | states are nodes |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=breadth-first-search-bfs"><strong>Open the Breadth First Search problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=breadth-first-search-bfs"><strong>Open the Breadth First Search problems in the tracker →</strong></a></p>
 ```

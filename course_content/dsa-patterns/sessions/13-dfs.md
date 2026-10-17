@@ -171,5 +171,5 @@ avoids Python's recursion limit of about 1000.
 | [Pacific Atlantic Water Flow](https://leetcode.com/problems/pacific-atlantic-water-flow/) | Medium | reverse the direction |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=depth-first-search-dfs"><strong>Open the Depth First Search problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=depth-first-search-dfs"><strong>Open the Depth First Search problems in the tracker →</strong></a></p>
 ```

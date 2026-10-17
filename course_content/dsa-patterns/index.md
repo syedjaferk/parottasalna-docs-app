@@ -28,8 +28,8 @@ trees and graphs, then finish with recursion-heavy and heap-based patterns.
 :::
 
 ```{raw} html
-<p>Practise each pattern in the <a class="reference external" href="/prep/"><strong>Interview prep tracker</strong></a>:
-open a sheet or a company list, filter by <em>Pattern</em>, tick problems off and keep notes.</p>
+<p>Practise each pattern in the <a class="reference external" href="/prep/"><strong>Interview prep</strong></a> area: take the
+placement quiz to find where to start, get a daily plan of what to solve and re-solve next, and log every attempt.</p>
 ```
 
 :::{important}

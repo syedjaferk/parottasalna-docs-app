@@ -236,5 +236,5 @@ Looping `w` **forwards** instead would allow an item to be reused (unbounded kna
 | [Edit Distance](https://leetcode.com/problems/edit-distance/) | Medium | insert / delete / replace |
 
 ```{raw} html
-<p><a class="reference external" href="/prep/#pattern=dynamic-programming"><strong>Open the Dynamic Programming problems in the tracker →</strong></a></p>
+<p><a class="reference external" href="/prep/practice/#pattern=dynamic-programming"><strong>Open the Dynamic Programming problems in the tracker →</strong></a></p>
 ```
