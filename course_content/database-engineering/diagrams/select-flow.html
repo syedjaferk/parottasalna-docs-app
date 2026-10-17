@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 230" role="img" aria-labelledby="select-flow-t select-flow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="select-flow-t">The order a query is read in</title>
+<desc id="select-flow-d">You write SELECT first, but the database works FROM table, then WHERE, then picks columns, then ORDER BY and LIMIT.</desc>
+<defs><marker id="select-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="select-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="select-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="select-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="15" y="40" width="126" height="80" rx="10" class="blue"/>
+<text x="78.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="bold">FROM</text>
+<text x="78.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">which table</text>
+<rect x="163" y="40" width="126" height="80" rx="10" class="green"/>
+<text x="226.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="bold">WHERE</text>
+<text x="226.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">which rows</text>
+<path d="M143,80 L161,80" class="arrow blue" marker-end="url(#select-flow-h-blue)"/>
+<rect x="311" y="40" width="126" height="80" rx="10" class="amber"/>
+<text x="374.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="bold">SELECT</text>
+<text x="374.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">which columns</text>
+<path d="M291,80 L309,80" class="arrow blue" marker-end="url(#select-flow-h-blue)"/>
+<rect x="459" y="40" width="126" height="80" rx="10" class="blue"/>
+<text x="522.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="bold">ORDER BY</text>
+<text x="522.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">what order</text>
+<path d="M439,80 L457,80" class="arrow blue" marker-end="url(#select-flow-h-blue)"/>
+<rect x="607" y="40" width="126" height="80" rx="10" class="green"/>
+<text x="670.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="bold">LIMIT</text>
+<text x="670.0" y="90.0" text-anchor="middle" dominant-baseline="middle" class="small">how many</text>
+<path d="M587,80 L605,80" class="arrow blue" marker-end="url(#select-flow-h-blue)"/>
+<rect x="15" y="150" width="730" height="56" rx="10" class="ghost"/>
+<text x="380.0" y="178.0" text-anchor="middle" dominant-baseline="middle" class="code">SELECT title, year FROM movies WHERE genre = &#x27;Action&#x27; ORDER BY year LIMIT 3;</text>
+</svg>
+<figcaption>You write SELECT first, but the database works FROM table, then WHERE, then picks columns, then ORDER BY and LIMIT.</figcaption>
+</figure>

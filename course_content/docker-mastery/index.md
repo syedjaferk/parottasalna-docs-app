@@ -2,9 +2,41 @@
 
 Understand containers through stories and hands-on labs: Docker architecture, images and containers, Dockerfiles, port mapping, volumes and practical tasks.
 
+## How each session works
+
+1. **The big idea**: the topic in plain words, with an everyday example.
+2. **A picture**: a diagram of the idea.
+3. **Real commands**: every command was run on Docker 28 and the output you see is what it printed.
+4. **Common mistakes**: what trips beginners up.
+5. **Hands-on exercises**: try first, then open the solution.
+6. **Practice**: a quiz for the session.
+
+:::{tip}
+You need Docker installed and running (`docker version` should show a client **and** a server). Work in a
+scratch folder, and clean up with `docker rm -f NAME` when an exercise is done.
+:::
+
+```{raw} html
+:file: diagrams/course-flow.html
+```
+
+```{toctree}
+:maxdepth: 1
+:caption: Sessions
+
+sessions/01-why-containers
+sessions/02-docker-architecture
+sessions/03-images-and-containers
+sessions/04-running-containers
+sessions/05-background-logs-inspect
+sessions/06-port-mapping
+sessions/07-dockerfile
+sessions/08-volumes
+```
+
 ```{toctree}
 :maxdepth: 2
-:caption: Lessons
+:caption: Original stories (reference)
 
 Virtual Machine and The Grand House <introduction>
 The Tale of Magic Kitchen : A Docker Architecture <the-tale-of-magic-kitchen-a-docker-architecture>

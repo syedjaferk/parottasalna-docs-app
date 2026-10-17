@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 230" role="img" aria-labelledby="join-chain-t join-chain-d" xmlns="http://www.w3.org/2000/svg">
+<title id="join-chain-t">Three tables, two joins</title>
+<desc id="join-chain-d">orders sits in the middle: one join reaches customers and another reaches products.</desc>
+<defs><marker id="join-chain-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="join-chain-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="join-chain-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="join-chain-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="80" width="180" height="70" rx="10" class="blue"/>
+<text x="110.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="bold">customers</text>
+<text x="110.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">customer_id</text>
+<rect x="290" y="80" width="180" height="70" rx="10" class="amber"/>
+<text x="380.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="bold">orders</text>
+<text x="380.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">customer_id, product_id</text>
+<rect x="560" y="80" width="180" height="70" rx="10" class="green"/>
+<text x="650.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="bold">products</text>
+<text x="650.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="code">product_id</text>
+<path d="M290,115 L202,115" class="arrow blue" marker-end="url(#join-chain-h-blue)"/>
+<text x="245" y="95" text-anchor="middle" dominant-baseline="middle" class="small">ON customer_id</text>
+<path d="M472,115 L558,115" class="arrow green" marker-end="url(#join-chain-h-green)"/>
+<text x="515" y="95" text-anchor="middle" dominant-baseline="middle" class="small">ON product_id</text>
+<text x="380" y="200" text-anchor="middle" dominant-baseline="middle" class="code">FROM orders JOIN customers ... JOIN products ...</text>
+</svg>
+<figcaption>orders sits in the middle: one join reaches customers and another reaches products.</figcaption>
+</figure>

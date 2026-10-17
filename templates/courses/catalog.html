@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}All courses · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}Browse every Parottasalna course: free, Pro and live cohort courses. Enrol in one click and start learning.{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/catalog.css' %}">{% endblock %}
+{% block content %}
+<section class="hero cat-hero">
+  <h1>Available courses</h1>
+  <p>{{ total }} courses. Free ones you can join right now; Pro courses unlock with a membership; cohort courses are taught live in batches. Enrolling gives you access and saves your progress.</p>
+  <label class="sr-only" for="cat-filter">Filter courses</label>
+  <input id="cat-filter" class="cat-filter" type="search" placeholder="Filter by name or topic" autocomplete="off">
+</section>
+{% for title, blurb, courses in groups %}
+<section class="cat-group" aria-labelledby="g{{ forloop.counter }}">
+  <h2 id="g{{ forloop.counter }}">{{ title }}</h2>
+  <p class="muted">{{ blurb }}</p>
+  <div class="cat-grid">
+    {% for course in courses %}
+    <article class="card cat-card" data-search="{{ course.title|lower }} {{ course.description|lower }}">
+      <div class="cat-meta">
+        {% if course.level %}<span class="cat-tag">{{ course.get_level_display }}</span>{% endif %}
+        {% if course.est_hours %}<span class="cat-tag">{{ course.est_hours }} h</span>{% endif %}
+        {% if course.access == "pro" %}<span class="cat-tag pro">Pro</span>{% elif course.access == "free" %}<span class="cat-tag free">Free</span>{% endif %}
+      </div>
+      <h3><a href="{% url 'course_detail' course.slug %}">{{ course.title }}</a></h3>
+      <p class="muted">{{ course.description|truncatechars:150 }}</p>
+      {% if course.outcome_list %}<ul class="cat-outcomes">{% for o in course.outcome_list %}<li>{{ o }}</li>{% endfor %}</ul>{% endif %}
+      <div class="cat-foot">{% include "courses/_enrol_button.html" with state=course.state %}</div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+<script src="{% static 'js/catalog.js' %}" defer></script>
+{% endblock %}

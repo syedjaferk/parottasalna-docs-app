@@ -1,0 +1,41 @@
+-- tables in the database
+             List of tables
+ Schema |    Name    | Type  |  Owner   
+--------+------------+-------+----------
+ public | actors     | table | postgres
+ public | customers  | table | postgres
+ public | directors  | table | postgres
+ public | movie_cast | table | postgres
+ public | movies     | table | postgres
+ public | orders     | table | postgres
+ public | products   | table | postgres
+(7 rows)
+
+-- shape of one table
+                                         Table "public.movies"
+   Column    |         Type          | Collation | Nullable |                 Default                  
+-------------+-----------------------+-----------+----------+------------------------------------------
+ movie_id    | integer               |           | not null | nextval('movies_movie_id_seq'::regclass)
+ title       | character varying(80) |           | not null | 
+ year        | integer               |           | not null | 
+ genre       | character varying(30) |           |          | 
+ rating      | numeric(3,1)          |           |          | 
+ director_id | integer               |           |          | 
+Indexes:
+    "movies_pkey" PRIMARY KEY, btree (movie_id)
+Check constraints:
+    "movies_year_check" CHECK (year > 1900)
+Foreign-key constraints:
+    "movies_director_id_fkey" FOREIGN KEY (director_id) REFERENCES directors(director_id)
+Referenced by:
+    TABLE "movie_cast" CONSTRAINT "movie_cast_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+
+-- how many rows in each table
+ table_name | count 
+------------+-------
+ directors  |     8
+ movies     |    11
+ actors     |     9
+ movie_cast |    14
+(4 rows)
+

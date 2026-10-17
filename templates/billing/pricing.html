@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Pro membership and live batches · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}Pro membership for Parottasalna: premium courses and practice problems. Or join a live, mentor-led cohort.{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/pricing.css' %}">{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Learn free. Go further with Pro or a live batch.</h1>
+  <p>Most of what is here stays free. Pro and live batches fund the work and give you more depth, structure and feedback.</p>
+</section>
+
+<div id="pricing-app" data-checkout="{% url 'billing_checkout' %}" data-verify="{% url 'billing_verify' %}"
+     data-login="{% url 'login' %}?next={% url 'pricing' %}" data-authed="{% if user.is_authenticated %}1{% else %}0{% endif %}"
+     data-csrf="{{ csrf_token }}">
+  {% if not payments_on and not has_links %}<p class="notice">Online payments are not open yet. Write to <a href="mailto:{{ contact_email }}">{{ contact_email|default:"us" }}</a> to join, or follow the <a href="{{ brand.WHATSAPP }}" target="_blank" rel="noopener">WhatsApp channel</a>.</p>{% endif %}
+  {% if is_pro %}<p class="notice ok">You have Pro{% if pro_until %} until {{ pro_until|date:"j M Y" }}{% endif %}. Buying again extends it.</p>{% endif %}
+
+  <section aria-labelledby="plans-h">
+    <h2 id="plans-h">Pro membership</h2>
+    <div class="plans">
+      {% for plan in plans %}
+      <article class="card plan">
+        <h3>{{ plan.name }}</h3>
+        <p class="price">₹{{ plan.price_rupees }}<small> / {% if plan.duration_days >= 360 %}year{% else %}{{ plan.duration_days }} days{% endif %}</small></p>
+        {% if plan.tagline %}<p class="muted">{{ plan.tagline }}</p>{% endif %}
+        <ul>{% for f in plan.feature_list %}<li>{{ f }}</li>{% endfor %}</ul>
+        {% if plan.payment_url %}<a class="btn block" href="{{ plan.payment_url }}" target="_blank" rel="noopener">Get {{ plan.name }}</a>
+        <p class="small muted">After you pay, we add Pro to the email you signed up with, usually within a day. Pay with the same email.</p>
+        {% else %}<button class="btn block" type="button" data-buy="plan" data-slug="{{ plan.slug }}"{% if not payments_on %} disabled{% endif %}>Get {{ plan.name }}</button>{% endif %}
+      </article>
+      {% empty %}<p class="muted">Plans are coming soon.</p>{% endfor %}
+    </div>
+  </section>
+
+  <section id="cohorts" aria-labelledby="cohorts-h">
+    <h2 id="cohorts-h">Live batches</h2>
+    <div class="plans">
+      {% for c in cohorts %}
+      <article class="card plan">
+        <span class="status {{ c.status }}">{{ c.get_status_display }}</span>
+        <h3>{{ c.title }}</h3>
+        <p class="muted">{{ c.summary }}</p>
+        <p class="small">{% if c.starts_on %}Starts {{ c.starts_on|date:"j M Y" }}{% endif %}{% if c.schedule %} · {{ c.schedule }}{% endif %}</p>
+        {% if c.price_paise %}<p class="price">₹{{ c.price_rupees }}</p>{% endif %}
+        {% if c.seats_left is not None %}<p class="small">{{ c.seats_left }} seat{{ c.seats_left|pluralize }} left</p>{% endif %}
+        {% if c.can_reserve and c.payment_url %}<a class="btn block" href="{{ c.payment_url }}" target="_blank" rel="noopener">Reserve my seat</a>
+        <p class="small muted">After you pay, we enrol the email you signed up with.</p>
+        {% elif c.can_reserve %}<button class="btn block" type="button" data-buy="cohort" data-slug="{{ c.slug }}"{% if not payments_on %} disabled{% endif %}>Reserve my seat</button>
+        {% else %}<a class="btn ghost block" href="{{ brand.WHATSAPP }}" target="_blank" rel="noopener">Hear about the next batch</a>{% endif %}
+      </article>
+      {% empty %}<p class="muted">No batch is open right now. Follow the <a href="{{ brand.WHATSAPP }}" target="_blank" rel="noopener">WhatsApp channel</a> to hear first.</p>{% endfor %}
+    </div>
+  </section>
+  <p id="pricing-msg" class="muted" role="status"></p>
+  <p class="small muted">Payments are processed by Razorpay. We never see or store your card details. Questions or a refund request? Email <a href="mailto:{{ contact_email }}">{{ contact_email|default:"us" }}</a>.</p>
+</div>
+{% if payments_on %}<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>{% endif %}
+<script src="{% static 'js/pricing.js' %}" defer></script>
+{% endblock %}

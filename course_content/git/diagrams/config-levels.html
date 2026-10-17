@@ -1,0 +1,19 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 270" role="img" aria-labelledby="config-levels-t config-levels-d" xmlns="http://www.w3.org/2000/svg">
+<title id="config-levels-t">Git settings: three levels</title>
+<desc id="config-levels-d">System settings apply to every user, global settings to you, and local settings to one repository. The most specific level wins.</desc>
+<defs><marker id="config-levels-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="config-levels-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="config-levels-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="config-levels-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="30" y="20" width="700" height="54" rx="10" class="ghost"/>
+<text x="380.0" y="37.0" text-anchor="middle" dominant-baseline="middle" class="code">system   /etc/gitconfig</text>
+<text x="380.0" y="57.0" text-anchor="middle" dominant-baseline="middle" class="small">everyone on this computer</text>
+<rect x="80" y="86" width="600" height="54" rx="10" class="blue"/>
+<text x="380.0" y="103.0" text-anchor="middle" dominant-baseline="middle" class="code">global   ~/.gitconfig</text>
+<text x="380.0" y="123.0" text-anchor="middle" dominant-baseline="middle" class="small">you, in every repository</text>
+<rect x="130" y="152" width="500" height="54" rx="10" class="green"/>
+<text x="380.0" y="169.0" text-anchor="middle" dominant-baseline="middle" class="code">local   .git/config</text>
+<text x="380.0" y="189.0" text-anchor="middle" dominant-baseline="middle" class="small">this repository only</text>
+<path d="M380,215 L380,200" class="arrow green" marker-end="url(#config-levels-h-green)"/>
+<text x="380" y="235" text-anchor="middle" dominant-baseline="middle" class="small">more specific wins:  local  &gt;  global  &gt;  system</text>
+</svg>
+<figcaption>System settings apply to every user, global settings to you, and local settings to one repository. The most specific level wins.</figcaption>
+</figure>

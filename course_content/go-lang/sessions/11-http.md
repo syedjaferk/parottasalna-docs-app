@@ -1,5 +1,14 @@
 # Session 11 · HTTP servers and clients
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/uXRqtFXFkLE"
+  title="Day 14 | Learn Go from Scratch | Call REST APIs using GET and POST in Go" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 The web runs on **HTTP**: a client sends a *request* ("GET /users"), a server sends back a

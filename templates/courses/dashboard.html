@@ -99,6 +99,12 @@
 {% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/live.css' %}"><link rel="stylesheet" href="{% static 'css/smells.css' %}">{% endblock %}
 {% block content %}
+{% if not has_enrolment %}
+<div class="card" style="margin-bottom:1rem">
+  <h2 style="margin-top:0">Welcome! Start here</h2>
+  <p>You are not enrolled in a course yet. Pick a <a href="{% url 'paths' %}">learning path</a> or browse <a href="{% url 'course_catalog' %}">all courses</a>; free ones take one click to join.</p>
+</div>
+{% endif %}
 <section class="hero">
   <h1>Welcome back{% if user.first_name %}, {{ user.first_name }}{% endif %} 👋</h1>
   <p>Notes from every session are published here as soon as they're ready. Pick a course to continue learning.</p>

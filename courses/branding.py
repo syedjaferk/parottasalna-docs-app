@@ -45,6 +45,7 @@ CADENCE = "New videos every day."
 WEBSITE = "https://parottasalna.com/"
 YOUTUBE = "https://www.youtube.com/@parottasalnatech"
 YOUTUBE_SUBSCRIBE = YOUTUBE + "?sub_confirmation=1"
+WHATSAPP = "https://whatsapp.com/channel/0029Vavu8mF2v1IpaPd9np0s"  # updates and next batches
 INSTAGRAM = "https://www.instagram.com/parottasalna.official/"
 GITHUB = "https://github.com/syedjaferk/"
 LINKEDIN = "https://www.linkedin.com/in/syedjaferk"

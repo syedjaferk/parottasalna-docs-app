@@ -1,5 +1,14 @@
 # Session 12 · Project: a Todo REST API
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/NJ7Xd6rgpH8"
+  title="Day 15 | Learn Go by Building | TODO API with net/http &amp; In-Memory Storage" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 A **REST API** is a set of URLs where the *verb* says what to do and the *noun* (the URL) says what

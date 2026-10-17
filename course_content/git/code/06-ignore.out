@@ -1,0 +1,37 @@
+--- before .gitignore: everything is untracked
+?? app.py
+?? build/
+?? debug.log
+?? error.log
+?? important.txt
+?? notes.txt
+?? secrets.env
+--- after .gitignore
+?? .gitignore
+?? app.py
+?? important.txt
+--- why is a file ignored? (-v shows the rule)
+.gitignore:5:*.log	debug.log
+.gitignore:8:build/	build/out.bin
+.gitignore:11:*.txt	notes.txt
+--- is important.txt ignored? (exit code 1 = no)
+exit code 1
+--- files you can see in the folder but Git skips
+!! build/
+!! debug.log
+!! error.log
+!! notes.txt
+!! secrets.env
+--- an ignore rule only affects UNTRACKED files
+ M secrets.env
+?? .gitignore
+?? app.py
+?? important.txt
+--- fix: stop tracking it, keep the file on disk
+?? .gitignore
+?? app.py
+?? important.txt
+--- a private rule for this clone only (never committed)
+?? .gitignore
+?? app.py
+?? important.txt

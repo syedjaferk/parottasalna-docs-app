@@ -1,0 +1,12 @@
+--- host kernel
+6.8.0-138-generic
+--- kernel seen inside an alpine container
+6.8.0-138-generic
+--- which Linux distribution is inside?
+NAME="Alpine Linux"
+--- image size
+alpine:latest  8.42MB
+alpine:3.20  7.81MB
+--- how long does a container take to start, run and exit?
+hello from a container
+real 0.267s

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Learning paths · {{ brand.NAME }}{% endblock %}
+{% block meta_description %}Three clear routes: crack the interview, become a backend and cloud engineer, or become an AI engineer. Each is an ordered list of free and Pro courses and tools.{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/paths.css' %}">{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Not sure where to start? Pick a path.</h1>
+  <p>Each path is an ordered route: what to learn first, what to practise, and what you can do at the end.</p>
+</section>
+<div class="path-grid">
+  {% for path, rows in items %}
+  <article class="card path-card">
+    <h2>{{ path.icon }} <a href="{% url 'path_detail' path.slug %}">{{ path.title }}</a></h2>
+    <p>{{ path.tagline }}</p>
+    <p class="muted small"><strong>For:</strong> {{ path.audience }}</p>
+    <ol class="path-steps">{% for r in rows %}<li><a href="{{ r.href }}">{{ r.title }}</a>{% if r.state == "enrolled" %} <span class="chip-ok">enrolled</span>{% endif %}</li>{% endfor %}</ol>
+    <a class="btn block" href="{% url 'path_detail' path.slug %}">See this path</a>
+  </article>
+  {% endfor %}
+</div>
+<p class="muted">Want to browse instead? See <a href="{% url 'course_catalog' %}">all courses</a>.</p>
+{% endblock %}

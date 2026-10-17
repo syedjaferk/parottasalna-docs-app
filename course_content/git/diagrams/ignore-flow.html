@@ -1,0 +1,24 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="ignore-flow-t ignore-flow-d" xmlns="http://www.w3.org/2000/svg">
+<title id="ignore-flow-t">How Git decides what to skip</title>
+<desc id="ignore-flow-d">Git checks .gitignore, then .git/info/exclude and the global ignore file. A file already tracked is never ignored.</desc>
+<defs><marker id="ignore-flow-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="ignore-flow-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="ignore-flow-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="ignore-flow-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="150" height="60" rx="10" class="box"/>
+<text x="95.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">new file</text>
+<text x="95.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">untracked</text>
+<rect x="230" y="30" width="210" height="60" rx="10" class="amber"/>
+<text x="335.0" y="50.0" text-anchor="middle" dominant-baseline="middle" class="bold">matches an ignore rule?</text>
+<text x="335.0" y="70.0" text-anchor="middle" dominant-baseline="middle" class="small">.gitignore · exclude</text>
+<rect x="520" y="10" width="220" height="50" rx="10" class="green"/>
+<text x="630.0" y="35.0" text-anchor="middle" dominant-baseline="middle" class="small">yes: skipped by git add</text>
+<rect x="520" y="70" width="220" height="50" rx="10" class="blue"/>
+<text x="630.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">no: shows up in status</text>
+<path d="M172,60 L228,60" class="arrow blue" marker-end="url(#ignore-flow-h-blue)"/>
+<path d="M442,50 L518,35" class="arrow green" marker-end="url(#ignore-flow-h-green)"/>
+<path d="M442,70 L518,95" class="arrow blue" marker-end="url(#ignore-flow-h-blue)"/>
+<rect x="20" y="150" width="720" height="70" rx="10" class="red"/>
+<text x="380.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="bold">Already committed? Ignore rules do nothing.</text>
+<text x="380.0" y="195.0" text-anchor="middle" dominant-baseline="middle" class="code">git rm --cached FILE  stops tracking it and keeps the file on disk</text>
+</svg>
+<figcaption>Git checks .gitignore, then .git/info/exclude and the global ignore file. A file already tracked is never ignored.</figcaption>
+</figure>

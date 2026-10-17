@@ -5,7 +5,8 @@ served only to users enrolled in that course.
 
 ## How it works
 
-- **Login:** Google only. No passwords, no local signup.
+- **Login:** Google, or email and password. Email accounts must verify their address before signing in, because
+  enrolments are matched by email.
 - **Sign-up:** any verified Google account can create an account (`OPEN_SIGNUP=true`, the default), e.g.
   for resume review and the free courses. **Enrollment-only courses** are still checked on every request:
   an admin adds Gmail addresses to a course (bulk textarea or inline table). With `OPEN_SIGNUP=false`, a
@@ -157,10 +158,10 @@ Authorised redirect URIs:
 
 ### First course
 
-1. Go to `/admin/`, add a Course with slug `python-101` (sample content is in `course_content/python-101`).
+1. Go to `/admin/`, add a Course with slug `python-fundamentals` (sample content is in `course_content/python-fundamentals`).
 2. Paste Gmail addresses into **Add users (bulk)** and save.
 3. Select the course in the list, choose action **Rebuild documentation**
-   (or run `python manage.py build_docs python-101`).
+   (or run `python manage.py build_docs python-fundamentals`).
 4. Sign in with an enrolled Google account at `/` and open the docs.
 
 ### Quizzes and flashcards from files
@@ -254,3 +255,29 @@ answers are graded automatically. A refresh or lost connection never restarts th
 - **Results:** staff see every submission at `/assessments/<slug>/results/` (CSV download included).
 - Run `python manage.py close_expired_assessments` every few minutes from cron so abandoned attempts are graded even if
   the student never comes back (the app also does this lazily when anyone opens an assessment page).
+
+
+## Growth features
+
+- **Front door:** `/` is the public landing page (`templates/landing/home.html`, assets in `static/landing/`), with a
+  "start here" section, the free-course list and the three flagship learning paths (`/paths/`).
+- **Course catalogue:** `/courses/` lists every listed course with the right button for the visitor. Enrolling
+  creates an `Enrollment` for their email, which is what grants access. Each course has an `access` level:
+  `free` (anyone enrols), `pro` (needs an active membership) or `invite` (admin or paid cohort adds students).
+  `course.yaml` supplies `level`, `hours`, `audience`, `outcomes` and `access`; run `python manage.py sync_courses --update`.
+- **Pro and live batches:** `/pricing/`, models in `billing/` (Plan, Cohort, Order, Membership). Checkout uses Razorpay;
+  access is granted only after the signature is verified (checkout callback or webhook), and the amount is checked against the order.
+  Seed starter rows with `python manage.py seed_billing`, then edit price and status in the admin.
+- **Learning paths:** `python manage.py seed_paths`; edit in the admin.
+- **Where learners drop off:** staff open `/courses/insights/` for a per-chapter funnel.
+- **Course quality:** `docs/COURSE_STANDARD.md`. `python manage.py check_courses` scores every course;
+  `python manage.py new_course <slug>` writes a compliant skeleton.
+
+### Taking payments yourself (no Razorpay keys needed)
+
+1. In **Admin > Billing > Plans** (or **Cohorts**) paste your own payment page into **Payment url**. The Buy button then opens it.
+2. When someone pays, grant access by hand:
+   - **Pro:** Admin > Billing > Memberships > Add. Pick the user and the plan; leave the end date empty to use the plan length.
+   - **Live batch:** Admin > Courses > the course > *Add users (bulk)*, paste their emails.
+3. Without `EMAIL_HOST`, email/password signup and password reset switch off and sign-in is Google-only (the
+   confirmation email could not be sent). Set the `EMAIL_*` variables later to turn them on.

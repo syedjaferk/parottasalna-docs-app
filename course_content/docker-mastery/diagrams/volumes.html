@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 260" role="img" aria-labelledby="volumes-t volumes-d" xmlns="http://www.w3.org/2000/svg">
+<title id="volumes-t">Where data lives</title>
+<desc id="volumes-d">Data in a container&#x27;s writable layer disappears with the container. A named volume or a bind mount lives outside it.</desc>
+<defs><marker id="volumes-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="volumes-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="volumes-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="volumes-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="330" height="190" rx="10" class="red"/>
+<text x="185.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">Without a volume</text>
+<rect x="50" y="70" width="270" height="50" rx="10" class="box"/>
+<text x="185.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">container + its data</text>
+<text x="185" y="150" text-anchor="middle" dominant-baseline="middle" class="small">docker rm  →  data gone</text>
+<rect x="410" y="20" width="330" height="190" rx="10" class="green"/>
+<text x="575.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="bold">With a volume</text>
+<rect x="430" y="70" width="130" height="50" rx="10" class="box"/>
+<text x="495.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">container</text>
+<rect x="590" y="70" width="130" height="50" rx="10" class="amber"/>
+<text x="655.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="code">volume dm-data</text>
+<path d="M562,95 L588,95" class="arrow green" marker-end="url(#volumes-h-green)"/>
+<text x="575" y="150" text-anchor="middle" dominant-baseline="middle" class="small">docker rm  →  volume stays</text>
+<text x="575" y="175" text-anchor="middle" dominant-baseline="middle" class="small">next container mounts it again</text>
+</svg>
+<figcaption>Data in a container&#x27;s writable layer disappears with the container. A named volume or a bind mount lives outside it.</figcaption>
+</figure>

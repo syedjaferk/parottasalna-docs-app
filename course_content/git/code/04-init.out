@@ -1,0 +1,31 @@
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
+Initialized empty Git repository in ~/work/MyProject/.git/
+--- is it a repository now?
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+--- what did init create?
+.git
+branches
+config
+description
+HEAD
+hooks
+info
+objects
+refs
+--- the default branch name is a setting
+main
+--- running git in a folder that is not a repository
+fatal: not a git repository (or any of the parent directories): .git

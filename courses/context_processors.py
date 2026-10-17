@@ -17,4 +17,5 @@ def brand(request):
         "og_image_url": request.build_absolute_uri(static("brand/og-image.png")),
         "brand_json_ld": mark_safe(branding.json_ld(site_url, logo_url)),
         "ga_id": settings.GA_MEASUREMENT_ID,
+        "email_enabled": settings.EMAIL_ENABLED,
     }

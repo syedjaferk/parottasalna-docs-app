@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="locust-http-t locust-http-d" xmlns="http://www.w3.org/2000/svg">
+<title id="locust-http-t">HttpUser talks to your service</title>
+<desc id="locust-http-d">Each HttpUser has a client. Requests are recorded by name, so you can group many URLs into one row of the results.</desc>
+<defs><marker id="locust-http-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="locust-http-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="locust-http-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="locust-http-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="60" width="200" height="120" rx="10" class="blue"/>
+<text x="120.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">HttpUser</text>
+<text x="120.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">self.client.get(...)</text>
+<text x="120.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">self.client.post(...)</text>
+<rect x="320" y="60" width="170" height="120" rx="10" class="amber"/>
+<text x="405.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">Your service</text>
+<text x="405.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">/products</text>
+<text x="405.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="code">/login</text>
+<rect x="580" y="60" width="160" height="120" rx="10" class="green"/>
+<text x="660.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">Stats row</text>
+<text x="660.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="small">#reqs · fails</text>
+<text x="660.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">avg · p95 · req/s</text>
+<path d="M222,105 L318,105" class="arrow blue" marker-end="url(#locust-http-h-blue)"/>
+<text x="270" y="88" text-anchor="middle" dominant-baseline="middle" class="small">GET/POST</text>
+<path d="M318,145 L222,145" class="arrow green dashed" marker-end="url(#locust-http-h-green)"/>
+<path d="M492,120 L578,120" class="arrow green" marker-end="url(#locust-http-h-green)"/>
+<text x="535" y="102" text-anchor="middle" dominant-baseline="middle" class="small">recorded</text>
+<text x="380" y="215" text-anchor="middle" dominant-baseline="middle" class="small">name=&quot;/products/[id]&quot; folds /products/1, /products/2 ... into one row</text>
+</svg>
+<figcaption>Each HttpUser has a client. Requests are recorded by name, so you can group many URLs into one row of the results.</figcaption>
+</figure>

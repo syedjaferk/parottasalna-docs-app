@@ -1,0 +1,24 @@
+/* "Start here" section and sign-in link added when the landing page moved into the portal. */
+.nav-signin { white-space: nowrap; font-weight: 600; text-decoration: none; color: inherit; padding: .5rem .8rem; }
+.nav-signin:hover { text-decoration: underline; }
+.frontdoor { padding: 3.5rem 0; }
+.fd-who { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.fd-card { display: flex; flex-direction: column; gap: .35rem; padding: 1.25rem; border: 1px solid #dbe4f3; border-radius: 16px; background: #fff; color: inherit; text-decoration: none; transition: transform .15s, box-shadow .15s; }
+.fd-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(37, 99, 235, .15); }
+.fd-card h3 { margin: 0; font-size: 1.15rem; }
+.fd-card p { margin: 0; }
+.fd-card small { color: #5b6b86; }
+.fd-ico { font-size: 1.8rem; }
+.fd-go { margin-top: auto; padding-top: .5rem; font-weight: 700; color: #1d4ed8; }
+.fd-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.fd-tiers > div { padding: 1.1rem 1.25rem; border-radius: 14px; background: #eef4ff; }
+.fd-tiers h3 { margin: 0 0 .4rem; }
+.fd-tiers ul { padding-left: 1.1rem; margin: 0 0 .75rem; }
+.fd-tiers a { font-weight: 700; }
+.fd-steps { counter-reset: fd; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; padding: 0; margin: 1.5rem 0 0; }
+.fd-steps li { counter-increment: fd; padding: 1rem 1rem 1rem 3.2rem; position: relative; border: 1px dashed #b6c8ea; border-radius: 14px; }
+.fd-steps li::before { content: counter(fd); position: absolute; left: .9rem; top: .9rem; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #1d4ed8; color: #fff; display: grid; place-items: center; font-weight: 800; }
+.fd-free { margin-top: 2rem; padding: 1.25rem; border-radius: 14px; background: #f4f8ff; }
+.fd-free h3 { margin: 0 0 .5rem; } .fd-free small { font-weight: 500; color: #5b6b86; }
+.fd-free ul { columns: 2 260px; padding-left: 1.1rem; margin: 0 0 1rem; }
+.nav-right .btn { white-space: nowrap; }

@@ -1,0 +1,24 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 230" role="img" aria-labelledby="run-lifecycle-t run-lifecycle-d" xmlns="http://www.w3.org/2000/svg">
+<title id="run-lifecycle-t">Life of a container</title>
+<desc id="run-lifecycle-d">docker run creates and starts a container. It runs as long as its main process runs. Stopped containers stay until you remove them.</desc>
+<defs><marker id="run-lifecycle-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="run-lifecycle-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="run-lifecycle-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="run-lifecycle-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="50" width="150" height="70" rx="10" class="box"/>
+<text x="95.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">created</text>
+<text x="95.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">docker create</text>
+<rect x="205" y="50" width="150" height="70" rx="10" class="green"/>
+<text x="280.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">running</text>
+<text x="280.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">docker start / run</text>
+<path d="M172,85 L203,85" class="arrow blue" marker-end="url(#run-lifecycle-h-blue)"/>
+<rect x="390" y="50" width="150" height="70" rx="10" class="amber"/>
+<text x="465.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">stopped</text>
+<text x="465.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">main process exits</text>
+<path d="M357,85 L388,85" class="arrow blue" marker-end="url(#run-lifecycle-h-blue)"/>
+<rect x="575" y="50" width="150" height="70" rx="10" class="red"/>
+<text x="650.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="bold">removed</text>
+<text x="650.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="small">docker rm</text>
+<path d="M542,85 L573,85" class="arrow blue" marker-end="url(#run-lifecycle-h-blue)"/>
+<text x="380" y="175" text-anchor="middle" dominant-baseline="middle" class="small">docker run = create + start (+ attach).  --rm removes it as soon as it stops.</text>
+</svg>
+<figcaption>docker run creates and starts a container. It runs as long as its main process runs. Stopped containers stay until you remove them.</figcaption>
+</figure>

@@ -1,5 +1,14 @@
 # Session 6 · Pointers
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/EMmurC5p5XI"
+  title="Pointers in Go – Memory Management &amp; Efficient Data Handling | EP 7" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 Every variable lives at an address in memory. A **pointer** is a variable that holds such an

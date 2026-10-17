@@ -1,0 +1,18 @@
+--- the old way: copies with hopeful names
+report_final.txt
+report_final_v2_REALLY_final.txt
+report_final_v2.txt
+report.txt
+--- the Git way: one file, a history
+460c381  Dev User  Shorten summary
+b26a7ba  Dev User  Add summary
+f4109a5  Dev User  First draft of the report
+--- what changed in the last step?
+ report.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
++++ b/report.txt
+@@ -1 +1 @@
+-version 2, with the summary added
++version 3, summary shortened
+--- go back to the first draft, without losing anything
+version 1

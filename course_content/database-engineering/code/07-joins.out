@@ -1,0 +1,62 @@
+-- INNER JOIN: only movies that have a director
+       title       |     director     
+-------------------+------------------
+ Nayakan           | Mani Ratnam
+ Thalapathi        | Mani Ratnam
+ Baasha            | Suresh Krissna
+ Muthu             | K. S. Ravikumar
+ Sivaji            | Shankar
+ Pariyerum Perumal | Mari Selvaraj
+ Kaithi            | Lokesh Kanagaraj
+ Soorarai Pottru   | Sudha Kongara
+ Karnan            | Mari Selvaraj
+ Vikram            | Lokesh Kanagaraj
+(10 rows)
+
+-- LEFT JOIN: keep every movie, even without a director
+      title       |     director     
+------------------+------------------
+ Untitled Project | 
+ Vikram           | Lokesh Kanagaraj
+ Karnan           | Mari Selvaraj
+(3 rows)
+
+-- LEFT JOIN from directors: who has no movies?
+    name     
+-------------
+ Vetrimaaran
+(1 row)
+
+-- joining three tables: movie, actor, via the link table
+ title  |      actor       
+--------+------------------
+ Vikram | Fahadh Faasil
+ Vikram | Kamal Haasan
+ Vikram | Suriya
+ Vikram | Vijay Sethupathi
+(4 rows)
+
+-- join plus GROUP BY: movies per director
+       name       | movies 
+------------------+--------
+ Lokesh Kanagaraj |      2
+ Mani Ratnam      |      2
+ Mari Selvaraj    |      2
+ K. S. Ravikumar  |      1
+ Shankar          |      1
+ Sudha Kongara    |      1
+ Suresh Krissna   |      1
+ Vetrimaaran      |      0
+(8 rows)
+
+-- the classic mistake: forgetting ON gives every combination
+ rows_without_on 
+-----------------
+              88
+(1 row)
+
+ rows_with_on 
+--------------
+           10
+(1 row)
+

@@ -1,7 +1,7 @@
-# 40 Days of Go
+# Golang from Scratch: Learn Go Step by Step
 
 Go (also called Golang) is a small, fast language for servers, command-line tools and anything that
-needs to do many things at once. This course follows the **40 Days of Go** journey from the
+needs to do many things at once. This course follows the **40 Days of Go** syllabus from the
 [syedjaferk/40_days_of_go_lang](https://github.com/syedjaferk/40_days_of_go_lang) repository: start with
 the basics, build file and command-line tools, then web APIs and a database, and finish with
 goroutines, channels and tests.
@@ -17,6 +17,7 @@ fast program with nothing else to install. Docker, Kubernetes and Terraform are 
 
 ## How each session works
 
+0. **Watch the class** (where a recording exists): the matching video from the [Golang from Scratch playlist](https://www.youtube.com/playlist?list=PLNNCy5bPMJNE) sits at the top of the session.
 1. **The big idea**: the topic in plain words, with an everyday example.
 2. **A picture**: a diagram of the idea.
 3. **Runnable code**: every program is run for real, and the output you see is what it printed.

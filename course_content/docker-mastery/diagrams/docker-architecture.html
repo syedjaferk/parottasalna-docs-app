@@ -1,0 +1,24 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 270" role="img" aria-labelledby="docker-architecture-t docker-architecture-d" xmlns="http://www.w3.org/2000/svg">
+<title id="docker-architecture-t">Docker client, daemon and registry</title>
+<desc id="docker-architecture-d">The docker command is only a client. It sends requests to the daemon, and the daemon pulls images from a registry and runs containers.</desc>
+<defs><marker id="docker-architecture-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="docker-architecture-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="docker-architecture-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="docker-architecture-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="90" width="150" height="80" rx="10" class="blue"/>
+<text x="95.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">docker CLI</text>
+<text x="95.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">the client</text>
+<rect x="280" y="60" width="200" height="140" rx="10" class="amber"/>
+<text x="380.0" y="100.0" text-anchor="middle" dominant-baseline="middle" class="bold">Docker daemon</text>
+<text x="380.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="code">dockerd</text>
+<text x="380.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">images · containers</text>
+<text x="380.0" y="160.0" text-anchor="middle" dominant-baseline="middle" class="small">networks · volumes</text>
+<rect x="590" y="90" width="150" height="80" rx="10" class="green"/>
+<text x="665.0" y="120.0" text-anchor="middle" dominant-baseline="middle" class="bold">Registry</text>
+<text x="665.0" y="140.0" text-anchor="middle" dominant-baseline="middle" class="small">Docker Hub</text>
+<path d="M172,130 L278,130" class="arrow blue" marker-end="url(#docker-architecture-h-blue)"/>
+<text x="225" y="112" text-anchor="middle" dominant-baseline="middle" class="small">docker run</text>
+<path d="M482,130 L588,130" class="arrow green" marker-end="url(#docker-architecture-h-green)"/>
+<text x="535" y="112" text-anchor="middle" dominant-baseline="middle" class="small">pull / push</text>
+<text x="380" y="235" text-anchor="middle" dominant-baseline="middle" class="small">client and daemon talk over /var/run/docker.sock (or the network)</text>
+</svg>
+<figcaption>The docker command is only a client. It sends requests to the daemon, and the daemon pulls images from a registry and runs containers.</figcaption>
+</figure>

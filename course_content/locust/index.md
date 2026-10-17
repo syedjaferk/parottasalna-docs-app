@@ -2,9 +2,37 @@
 
 Load test web applications with Locust: users and tasks, wait times, events, HTTP requests, response validation, step load and distributed mode.
 
+## How each session works
+
+1. **The big idea**: the topic in plain words, with an everyday example.
+2. **A picture**: a diagram of the idea.
+3. **Real runs**: every test was run with Locust 2.28 against a small practice shop on your own computer, and the output you see is what it printed.
+4. **Common mistakes**: what trips beginners up.
+5. **Hands-on exercises**: try first, then open the solution.
+6. **Practice**: a quiz for the session.
+
+:::{important}
+Only load test systems you own or have written permission to test. The practice shop in `code/shop_server.py` is
+yours to hammer. Numbers such as requests per second differ on every computer and every run; look at the shape of the results.
+:::
+
+```{toctree}
+:maxdepth: 1
+:caption: Sessions
+
+sessions/01-why-load-testing
+sessions/02-tasks-weights-and-wait-times
+sessions/03-user-types-and-task-order
+sessions/04-lifecycle-hooks
+sessions/05-http-requests
+sessions/06-validating-responses
+sessions/07-shaping-the-load
+sessions/08-distributed-mode
+```
+
 ```{toctree}
 :maxdepth: 2
-:caption: Lessons
+:caption: Original notes (reference)
 
 Why Load Testing ? <introduction>
 Locust Installation <locust-installation>

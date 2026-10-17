@@ -1,0 +1,8 @@
+--- the client and the server (daemon) are separate programs
+client 28.1.1   server 28.1.1
+--- where the client sends its requests
+unix:///var/run/docker.sock
+--- the daemon answers questions about itself
+containers: 10   images: 90   storage driver: overlay2
+--- the client talking to the daemon with plain HTTP
+OK

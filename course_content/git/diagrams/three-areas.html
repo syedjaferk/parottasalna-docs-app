@@ -1,0 +1,24 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="three-areas-t three-areas-d" xmlns="http://www.w3.org/2000/svg">
+<title id="three-areas-t">Working folder, staging area, repository</title>
+<desc id="three-areas-d">You edit files in the working folder, choose what goes into the next snapshot with git add, and git commit stores it in the repository.</desc>
+<defs><marker id="three-areas-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="three-areas-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="three-areas-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="three-areas-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="40" width="215" height="100" rx="10" class="box"/>
+<text x="127.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">Working folder</text>
+<text x="127.5" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">files you edit</text>
+<rect x="270" y="40" width="215" height="100" rx="10" class="amber"/>
+<text x="377.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">Staging area</text>
+<text x="377.5" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">the next snapshot, being prepared</text>
+<rect x="520" y="40" width="215" height="100" rx="10" class="green"/>
+<text x="627.5" y="80.0" text-anchor="middle" dominant-baseline="middle" class="bold">Repository</text>
+<text x="627.5" y="100.0" text-anchor="middle" dominant-baseline="middle" class="small">saved history (.git)</text>
+<path d="M237,90 L268,90" class="arrow blue" marker-end="url(#three-areas-h-blue)"/>
+<text x="252" y="70" text-anchor="middle" dominant-baseline="middle" class="small">git add</text>
+<path d="M487,90 L518,90" class="arrow green" marker-end="url(#three-areas-h-green)"/>
+<text x="502" y="70" text-anchor="middle" dominant-baseline="middle" class="small">git commit</text>
+<path d="M268,120 L237,120" class="arrow red dashed" marker-end="url(#three-areas-h-red)"/>
+<text x="252" y="165" text-anchor="middle" dominant-baseline="middle" class="small">git restore --staged</text>
+<text x="380" y="215" text-anchor="middle" dominant-baseline="middle" class="small">git status shows the difference between each pair of areas</text>
+</svg>
+<figcaption>You edit files in the working folder, choose what goes into the next snapshot with git add, and git commit stores it in the repository.</figcaption>
+</figure>

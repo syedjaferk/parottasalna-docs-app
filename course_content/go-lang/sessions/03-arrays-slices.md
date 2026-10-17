@@ -1,5 +1,14 @@
 # Session 3 · Arrays and slices
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/QJa-74L2sZA"
+  title="Learn Go from Scratch | Ep 3 | Arrays &amp; Slices Made Easy" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 You often need an ordered list of things. Go gives you two: the **array**, which has a fixed size

@@ -1,5 +1,28 @@
 # Session 8 · Working with files and folders
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/eyxSwC5k-o0"
+  title="Day 08 | Learn Go by Building | Working with Files &amp; Folders in Go (Part 1)" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/zDHQ3Bw3PJk"
+  title="Day 09 | Learn Go by Building | Working with Files &amp; Folders in Go (Part 2)" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/sEtCYN6W3Ls"
+  title="Day 10 | Learn Go by Building | File Organizer, Cleaner &amp; Automation Tools (Part 2)" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 Programs forget everything when they stop, unless they write it to a **file**. Go's `os` package

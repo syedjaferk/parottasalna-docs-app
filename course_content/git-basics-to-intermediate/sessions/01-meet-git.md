@@ -109,7 +109,7 @@ git commit -h        # a short summary of options
 | Expecting Git to save automatically | Git only records what you **commit**. Editing a file does not save it into history. |
 | Using a name or email you do not want public | `git config --global user.name ...` changes it for *future* commits. Old commits keep the old values. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Check.** Print your configured name and email.
 

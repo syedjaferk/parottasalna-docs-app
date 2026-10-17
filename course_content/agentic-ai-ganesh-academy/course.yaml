@@ -1,0 +1,11 @@
+title: Agentic AI
+description: Prompting, RAG in depth, async, Pydantic, agent memory, tools and MCP, taught as a live cohort
+  with notes after every class.
+level: intermediate
+hours: 40
+audience: Students of the Ganesh Academy cohort and developers who know basic Python.
+outcomes:
+- Write reliable prompts
+- Build and evaluate RAG
+- Add memory and tools to an agent
+common: false

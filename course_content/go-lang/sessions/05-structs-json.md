@@ -1,5 +1,14 @@
 # Session 5 · Structs, methods and JSON
 
+## Watch the class
+
+```{raw} html
+<iframe style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px"
+  src="https://www.youtube-nocookie.com/embed/kBZdVEnFAQE"
+  title="Learn Go by Building | Structs + Expense Tracker Upgrade | Ep 6" loading="lazy" allowfullscreen
+  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+```
+
 ## The big idea
 
 A **struct** bundles related facts into one thing with named fields: a person is a name, an age

@@ -1,0 +1,11 @@
+title: Git & Version Control
+description: Why version control matters, how Git came to be, installing and configuring Git, core terminology
+  and hands-on exercises.
+level: beginner
+hours: 6
+audience: Anyone who writes code or documents and has not used Git yet.
+outcomes:
+- Explain what version control is for
+- Install and configure Git
+- Use the core terms and commands
+common: true

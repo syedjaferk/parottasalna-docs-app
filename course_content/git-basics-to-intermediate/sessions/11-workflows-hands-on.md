@@ -454,7 +454,7 @@ git log --oneline --graph --all --decorate
 | Lab results differ from the book | Normal: commit IDs always differ. Compare the *shape*, not the numbers. |
 | Want to start a lab again | `cd ~/git-lab && rm -rf workflows` then redo *The training ground*. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Conflict in a team.** Reset the training ground. **(Asha)** and **(Ravi)** both change line 1 of `README.md` differently and commit. Asha pushes; Ravi pulls and resolves the conflict. Which of the six workflows did you just use?
 

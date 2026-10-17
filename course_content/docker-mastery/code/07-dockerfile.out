@@ -1,0 +1,17 @@
+--- build the image
+built image sha256:6eceb6c3161d...
+--- the layers, one per Dockerfile instruction
+CMD ["python" "app.py"]
+EXPOSE map[8000/tcp:{}]
+ENV GREETING=Hello
+COPY app.py . # buildkit
+WORKDIR /app
+CMD ["python3"]
+--- run it and call it twice
+Hello from Docker! visit 1
+Hello from Docker! visit 2
+--- change a setting without rebuilding (-e)
+Vanakkam from Docker! visit 1
+--- build again with no changes: every step comes from the cache
+CACHED
+CACHED

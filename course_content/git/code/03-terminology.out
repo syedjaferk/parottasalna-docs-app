@@ -1,0 +1,27 @@
+--- repository: a folder plus a hidden .git folder
+.
+..
+.git
+branches
+config
+description
+HEAD
+hooks
+info
+objects
+refs
+--- commit: a snapshot with a message
+544bf04 Add chai recipe
+--- branch: a parallel line of work
+* add-coffee
+  main
+--- merge: bring the branch back to main
+chai.txt
+chai.txt
+coffee.txt
+a9fd494 Add coffee recipe
+544bf04 Add chai recipe
+--- clone: a full copy, with its history, and a remote called origin
+origin	~/work/recipes (fetch)
+origin	~/work/recipes (push)
+2

@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 250" role="img" aria-labelledby="dbms-layers-t dbms-layers-d" xmlns="http://www.w3.org/2000/svg">
+<title id="dbms-layers-t">Apps talk to the DBMS, not to the files</title>
+<desc id="dbms-layers-d">Applications send SQL to the DBMS, which reads and writes the database files on disk, checks the rules and handles many users at once.</desc>
+<defs><marker id="dbms-layers-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="dbms-layers-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="dbms-layers-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="dbms-layers-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="30" width="170" height="70" rx="10" class="blue"/>
+<text x="105.0" y="55.0" text-anchor="middle" dominant-baseline="middle" class="bold">Web app</text>
+<text x="105.0" y="75.0" text-anchor="middle" dominant-baseline="middle" class="small">INSERT, SELECT</text>
+<rect x="20" y="130" width="170" height="70" rx="10" class="blue"/>
+<text x="105.0" y="155.0" text-anchor="middle" dominant-baseline="middle" class="bold">Report script</text>
+<text x="105.0" y="175.0" text-anchor="middle" dominant-baseline="middle" class="small">SELECT</text>
+<rect x="280" y="60" width="200" height="110" rx="10" class="amber"/>
+<text x="380.0" y="95.0" text-anchor="middle" dominant-baseline="middle" class="bold">DBMS</text>
+<text x="380.0" y="115.0" text-anchor="middle" dominant-baseline="middle" class="code">PostgreSQL</text>
+<text x="380.0" y="135.0" text-anchor="middle" dominant-baseline="middle" class="small">rules · users · speed</text>
+<rect x="570" y="60" width="170" height="110" rx="10" class="green"/>
+<text x="655.0" y="105.0" text-anchor="middle" dominant-baseline="middle" class="bold">Database</text>
+<text x="655.0" y="125.0" text-anchor="middle" dominant-baseline="middle" class="small">files on disk</text>
+<path d="M192,65 L278,100" class="arrow blue" marker-end="url(#dbms-layers-h-blue)"/>
+<text x="235" y="70" text-anchor="middle" dominant-baseline="middle" class="small">SQL</text>
+<path d="M192,165 L278,130" class="arrow blue" marker-end="url(#dbms-layers-h-blue)"/>
+<path d="M482,115 L568,115" class="arrow green" marker-end="url(#dbms-layers-h-green)"/>
+<text x="525" y="100" text-anchor="middle" dominant-baseline="middle" class="small">reads / writes</text>
+</svg>
+<figcaption>Applications send SQL to the DBMS, which reads and writes the database files on disk, checks the rules and handles many users at once.</figcaption>
+</figure>

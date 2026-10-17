@@ -1,3 +1,11 @@
 title: DSA Patterns for Coding Interviews
 description: Learn the 23 patterns behind most coding-interview problems, one session each. Every pattern starts with a story a child could follow, then a diagram, a step-by-step trace, a reusable Python template, common mistakes and problems to practise. Pair it with the Interview prep tracker.
 common: true
+
+level: intermediate
+hours: 40
+audience: Anyone preparing for coding interviews who wants patterns, not memorised answers.
+outcomes:
+- Recognise the 23 core patterns
+- Write a reusable template for each
+- Solve new problems by pattern

@@ -1,3 +1,12 @@
 title: AI Agent Bootcamp
 description: Build, secure and ship your own AI agent with Python. Learn how LLMs work, call AI APIs, add tools and memory, then meet Hermes Agent and connect it to Telegram. Add Laya guardrails to block prompt injection and route messages to cheap or strong models, and finish with a Telegram support bot you can put on GitHub. Beginner-friendly, with step-by-step guides for Linux and Windows, diagrams, quizzes and tasks in every session.
 common: false
+
+level: intermediate
+hours: 48
+audience: Developers who want to build, secure and ship their own AI agent.
+outcomes:
+- Build an agent with Python
+- Secure it
+- Deploy it on Linux or Windows
+access: invite

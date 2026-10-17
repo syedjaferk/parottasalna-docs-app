@@ -1,0 +1,44 @@
+-- one-to-many: one director, many movies (movies.director_id points at directors)
+                                         Table "public.movies"
+   Column    |         Type          | Collation | Nullable |                 Default                  
+-------------+-----------------------+-----------+----------+------------------------------------------
+ movie_id    | integer               |           | not null | nextval('movies_movie_id_seq'::regclass)
+ title       | character varying(80) |           | not null | 
+ year        | integer               |           | not null | 
+ genre       | character varying(30) |           |          | 
+ rating      | numeric(3,1)          |           |          | 
+ director_id | integer               |           |          | 
+Indexes:
+    "movies_pkey" PRIMARY KEY, btree (movie_id)
+Check constraints:
+    "movies_year_check" CHECK (year > 1900)
+Foreign-key constraints:
+    "movies_director_id_fkey" FOREIGN KEY (director_id) REFERENCES directors(director_id)
+Referenced by:
+    TABLE "movie_cast" CONSTRAINT "movie_cast_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+
+-- many-to-many: movie_cast holds one row per (movie, actor) pair
+              Table "public.movie_cast"
+  Column  |  Type   | Collation | Nullable | Default 
+----------+---------+-----------+----------+---------
+ movie_id | integer |           | not null | 
+ actor_id | integer |           | not null | 
+Indexes:
+    "movie_cast_pkey" PRIMARY KEY, btree (movie_id, actor_id)
+Foreign-key constraints:
+    "movie_cast_actor_id_fkey" FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
+    "movie_cast_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+
+-- the same actor in many movies, and a movie with many actors
+ actor_id | movies_acted 
+----------+--------------
+        2 |            4
+        1 |            2
+        5 |            2
+(3 rows)
+
+ movie_id | cast_size 
+----------+-----------
+       10 |         4
+(1 row)
+

@@ -1,0 +1,11 @@
+--- run nginx and publish container port 80 as host port 8088
+80/tcp -> 0.0.0.0:8088
+80/tcp -> [::]:8088
+--- request the page from the host
+HTTP status: 200
+<title>Welcome to nginx!</title>
+--- the access log shows that request
+client 172.17.0.1  "GET / HTTP/1.1"  status 200
+client 172.17.0.1  "GET / HTTP/1.1"  status 200
+--- without -p nothing is published
+dm-web2 publishes no ports, so the host cannot reach it

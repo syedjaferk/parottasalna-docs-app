@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% block head_title %}{% endblock %} · {{ brand.NAME }}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/auth.css' %}">{% block auth_head %}{% endblock %}{% endblock %}

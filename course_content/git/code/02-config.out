@@ -1,0 +1,15 @@
+git version 2.34.1
+--- 1. global identity, used by every repository on this computer
+user.name=DevUser
+user.email=devuser@example.com
+init.defaultbranch=main
+--- 2. a project that must use a different identity
+--- who wins inside this project? (and where each value comes from)
+file:~/.gitconfig	user.name DevUser
+file:~/.gitconfig	user.email devuser@example.com
+file:.git/config	user.name ProjectUser
+file:.git/config	user.email projectuser@example.com
+--- the value Git will really use
+ProjectUser
+--- the identity lands on every commit
+ProjectUser <projectuser@example.com>

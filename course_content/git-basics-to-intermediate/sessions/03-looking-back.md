@@ -250,7 +250,7 @@ b7e9c01 (Asha Kumar 2026-10-16 11:05:33 +0530 3) <footer>(c) 2026</footer>
 | `.gitignore` does not hide a file | The file is already tracked. Use `git rm --cached <file>`. |
 | Named the file `gitignore.txt` or `.gitignore.txt` | It must be exactly `.gitignore`. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Find.** In `my-website`, list only the commits whose message contains the word `about`, one per line.
 

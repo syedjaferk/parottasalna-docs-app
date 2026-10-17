@@ -1,0 +1,12 @@
+title: Docker Mastery
+description: 'Understand containers through stories and hands-on labs: Docker architecture, images and
+  containers, Dockerfiles, port mapping, volumes and practical projects.'
+level: beginner
+hours: 15
+audience: Developers who have heard of Docker and want to use it with confidence.
+outcomes:
+- Run and manage containers
+- Write a good Dockerfile
+- Persist data with volumes
+- Expose services with port mapping
+common: true

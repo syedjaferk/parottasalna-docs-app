@@ -1,0 +1,12 @@
+title: Python Fundamentals
+description: 'Learn Python from your first print() to a complete game: variables, operators, functions,
+  strings, lists, tuples, dictionaries, sets and generators, with exercises.'
+level: beginner
+hours: 20
+audience: Complete beginners to programming, and anyone starting Python.
+outcomes:
+- Write small Python programs
+- Use lists, dictionaries and sets
+- Write functions and generators
+- Build a complete game
+common: true

@@ -1,0 +1,26 @@
+<figure class="diagram">
+<svg class="dg" viewBox="0 0 760 260" role="img" aria-labelledby="join-types-t join-types-d" xmlns="http://www.w3.org/2000/svg">
+<title id="join-types-t">Which rows each join keeps</title>
+<desc id="join-types-d">INNER JOIN keeps only matches. LEFT JOIN keeps every left row and fills the right side with NULL when nothing matches.</desc>
+<defs><marker id="join-types-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker><marker id="join-types-h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head blue"/></marker><marker id="join-types-h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head green"/></marker><marker id="join-types-h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head red"/></marker></defs>
+<rect x="20" y="20" width="340" height="36" rx="10" class="green"/>
+<text x="190.0" y="38.0" text-anchor="middle" dominant-baseline="middle" class="bold">INNER JOIN</text>
+<rect x="20" y="66" width="150" height="120" rx="10" class="box"/>
+<text x="95.0" y="116.0" text-anchor="middle" dominant-baseline="middle" class="bold">movies</text>
+<text x="95.0" y="136.0" text-anchor="middle" dominant-baseline="middle" class="small">10 with a director</text>
+<rect x="190" y="66" width="150" height="120" rx="10" class="box"/>
+<text x="265.0" y="116.0" text-anchor="middle" dominant-baseline="middle" class="bold">directors</text>
+<text x="265.0" y="136.0" text-anchor="middle" dominant-baseline="middle" class="small">matches only</text>
+<text x="190" y="215" text-anchor="middle" dominant-baseline="middle" class="small">10 rows: Untitled Project and Vetrimaaran drop out</text>
+<rect x="400" y="20" width="340" height="36" rx="10" class="amber"/>
+<text x="570.0" y="38.0" text-anchor="middle" dominant-baseline="middle" class="bold">LEFT JOIN movies → directors</text>
+<rect x="400" y="66" width="150" height="120" rx="10" class="box"/>
+<text x="475.0" y="116.0" text-anchor="middle" dominant-baseline="middle" class="bold">movies</text>
+<text x="475.0" y="136.0" text-anchor="middle" dominant-baseline="middle" class="small">all 11 kept</text>
+<rect x="570" y="66" width="150" height="120" rx="10" class="box"/>
+<text x="645.0" y="116.0" text-anchor="middle" dominant-baseline="middle" class="bold">directors</text>
+<text x="645.0" y="136.0" text-anchor="middle" dominant-baseline="middle" class="small">NULL if no match</text>
+<text x="570" y="215" text-anchor="middle" dominant-baseline="middle" class="small">11 rows: Untitled Project has director NULL</text>
+</svg>
+<figcaption>INNER JOIN keeps only matches. LEFT JOIN keeps every left row and fills the right side with NULL when nothing matches.</figcaption>
+</figure>

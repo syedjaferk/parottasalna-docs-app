@@ -1,0 +1,2 @@
+users spawned: 8 {'Browser': 6, 'Buyer': 2}
+buyer 1 did, in order: ['log in', 'pick product', 'check out', 'log in', 'pick product', 'check out', 'log in']

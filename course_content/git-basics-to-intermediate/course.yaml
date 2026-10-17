@@ -1,3 +1,11 @@
 title: "Git & GitHub: Basics to Intermediate"
 description: Learn Git from zero, in plain language. Save and look back at your work, undo mistakes safely, branch and merge, fix conflicts, then work with a team on GitHub using pull requests. Go on to rebase, stash and tags, and compare the main team workflows (centralized, feature branch, GitHub Flow, Git Flow, forking and trunk-based) with diagrams and hands-on labs for each. Every session has everyday comparisons, commands with real output, tryouts with hidden answers and a recap.
 common: false
+
+level: beginner
+hours: 8
+audience: People new to Git who want to work with a team on GitHub.
+outcomes:
+- Save, undo and branch safely
+- Fix merge conflicts
+- Collaborate with pull requests

@@ -192,7 +192,7 @@ Use lower case, no spaces (use `-`). Short, but specific.
 | Deleting a branch with `-D` and losing unmerged work | Reflog can find the commit (Session 4). Prefer `-d`, which refuses to delete unmerged work. |
 | Working for weeks on one huge branch | Merging gets painful. Keep branches short and merge often. |
 
-## Tryouts
+## Hands-on exercises
 
 **Tryout 1 · Branch out.** In `branch-lab`, create a branch `feature/search` from `main`, add a file `search.html`, and commit it. Then return to `main` and confirm `search.html` is not there.
 

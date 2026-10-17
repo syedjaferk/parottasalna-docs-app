@@ -1,0 +1,81 @@
+-- one column
+       title       
+-------------------
+ Nayakan
+ Thalapathi
+ Baasha
+ Muthu
+ Sivaji
+ Pariyerum Perumal
+ Kaithi
+ Soorarai Pottru
+ Karnan
+ Vikram
+ Untitled Project
+(11 rows)
+
+-- several columns, with aliases
+       film        | released 
+-------------------+----------
+ Nayakan           |     1987
+ Thalapathi        |     1991
+ Baasha            |     1995
+ Muthu             |     1995
+ Sivaji            |     2007
+ Pariyerum Perumal |     2018
+ Kaithi            |     2019
+ Soorarai Pottru   |     2020
+ Karnan            |     2021
+ Vikram            |     2022
+ Untitled Project  |     2026
+(11 rows)
+
+-- computed column
+       title       | year | age_in_years 
+-------------------+------+--------------
+ Nayakan           | 1987 |           39
+ Thalapathi        | 1991 |           35
+ Baasha            | 1995 |           31
+ Muthu             | 1995 |           31
+ Sivaji            | 2007 |           19
+ Pariyerum Perumal | 2018 |            8
+ Kaithi            | 2019 |            7
+ Soorarai Pottru   | 2020 |            6
+ Karnan            | 2021 |            5
+ Vikram            | 2022 |            4
+ Untitled Project  | 2026 |            0
+(11 rows)
+
+-- ORDER BY, newest first, then title
+       title       | year 
+-------------------+------
+ Untitled Project  | 2026
+ Vikram            | 2022
+ Karnan            | 2021
+ Soorarai Pottru   | 2020
+ Kaithi            | 2019
+ Pariyerum Perumal | 2018
+ Sivaji            | 2007
+ Baasha            | 1995
+ Muthu             | 1995
+ Thalapathi        | 1991
+ Nayakan           | 1987
+(11 rows)
+
+-- DISTINCT removes repeats
+ genre  
+--------
+ Action
+ Comedy
+ Crime
+ Drama
+ 
+(5 rows)
+
+-- DISTINCT on two columns
+ genre  | year 
+--------+------
+ Action | 1995
+ Comedy | 1995
+(2 rows)
+

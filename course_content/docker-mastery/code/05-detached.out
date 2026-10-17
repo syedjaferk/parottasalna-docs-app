@@ -1,0 +1,15 @@
+--- start a container in the background with a name
+dm-ticker  alpine  Up 6 seconds
+--- read its output with logs
+tick 1
+tick 2
+tick 3
+tick 4
+tick 5
+--- inspect: pull single facts out of the JSON
+state=running  image=alpine  cmd=[sh -c for i in 1 2 3 4 5; do echo "tick $i"; sleep 1; done; sleep 60]
+--- stop and remove
+dm-ticker: Exited (137)
+dm-ticker
+--- names must be unique
+Error response from daemon: Conflict. The container name "/dm-ticker" is already in use by container "<id>". You have to remove (or rename) that container to be able to reuse that name.

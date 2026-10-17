@@ -1,0 +1,21 @@
+root: Waiting for workers to be ready, 0 of 2 connected
+locust.runners: Worker <id> (index 0) reported as ready. 1 workers connected.
+locust.runners: Worker <id> (index 1) reported as ready. 2 workers connected.
+locust.main: Run time limit set to 8 seconds
+locust.main: Starting Locust 2.28.0
+locust.runners: Sending spawn jobs of 6 users at 6.00 spawn rate to 2 ready workers
+locust.runners: All users spawned: {"ShopUser": 6} (6 total users)
+locust.main: --run-time limit reached, shutting down
+locust.runners: Worker 'syedjaferk_e97dc1b000c24bd29330f82178abc7a3' (index 1) quit. 0 workers ready.
+locust.runners: Worker 'syedjaferk_9f3e8d9e467343c58b8d1460b69b1dab' (index 0) quit. 0 workers ready.
+locust.runners: The last worker quit, stopping test.
+locust.main: Shutting down (exit code 0)
+Type     Name                                                                          # reqs      # fails |    Avg     Min     Max    Med |   req/s  failures/s
+--------|----------------------------------------------------------------------------|-------|-------------|-------|-------|-------|-------|--------|-----------
+POST     /login                                                                             6     0(0.00%) |      8       6       9      8 |    0.75        0.00
+POST     /orders                                                                           16     0(0.00%) |      2       1       3      3 |    2.01        0.00
+GET      /products                                                                         80     0(0.00%) |      2       1       3      3 |   10.06        0.00
+GET      /products/[id]                                                                    53     0(0.00%) |      2       1       9      3 |    6.66        0.00
+GET      /profile                                                                          38     0(0.00%) |      2       1       4      3 |    4.78        0.00
+--------|----------------------------------------------------------------------------|-------|-------------|-------|-------|-------|-------|--------|-----------
+         Aggregated                                                                       193     0(0.00%) |      2       1       9      3 |   24.27        0.00

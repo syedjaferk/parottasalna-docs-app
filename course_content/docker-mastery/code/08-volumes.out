@@ -1,0 +1,14 @@
+--- data written in a container without a volume is lost with it
+new container: ls: /data.txt: No such file or directory
+--- a named volume outlives the container
+dm-data
+note 1
+--- two containers can share the same volume
+note 1
+note 2
+--- list volumes
+local  dm-data
+--- a bind mount shows a host folder inside the container
+from the host
+--- clean up
+dm-data
