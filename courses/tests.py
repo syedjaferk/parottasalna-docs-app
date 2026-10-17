@@ -686,3 +686,20 @@ class EmailDisabledTests(TestCase):
     @override_settings(EMAIL_ENABLED=True)
     def test_login_page_shows_email_form_when_email_works(self):
         self.assertIn('name="password"', self.client.get("/login/").content.decode())
+
+
+class DeployContentBootstrapTests(TestCase):
+    """deploy_content fills empty first-run tables, and never touches ones that already have rows."""
+
+    def test_empty_tables_are_seeded_then_left_alone(self):
+        from django.core.management import call_command
+
+        from courses.models import LearningPath
+        from prep.models import CatalogProblem
+        from sysdesign.models import Problem
+
+        call_command("deploy_content", "nothing-here", "--no-build", "--no-practice")
+        self.assertTrue(CatalogProblem.objects.exists() and Problem.objects.exists() and LearningPath.objects.exists())
+        Problem.objects.update(title="Edited in the admin")
+        call_command("deploy_content", "nothing-here", "--no-build", "--no-practice")
+        self.assertEqual(Problem.objects.first().title, "Edited in the admin")

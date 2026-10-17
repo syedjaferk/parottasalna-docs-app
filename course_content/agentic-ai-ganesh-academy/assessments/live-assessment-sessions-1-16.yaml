@@ -1,0 +1,351 @@
+slug: agentic-ai-ganesh-academy-live-assessment
+title: "Agentic AI · Live assessment (Sessions 1-16)"
+description: |
+  A one-hour live assessment on everything covered so far: prompting and reasoning, embeddings and vector
+  databases, sparse and hybrid search, chunking, RAG pipelines, n8n, reranking, semantic caching, advanced
+  retrievers, async Python, Pydantic, agent memory, tools and MCP.
+
+  45 questions, 60 minutes. The countdown starts when you press Start and your answers are submitted
+  automatically when it ends. Questions marked "select all that apply" have more than one correct answer.
+time_limit_minutes: 60
+pass_percentage: 60
+max_attempts: 1
+shuffle_questions: true
+show_answers: false
+publish: false
+questions:
+  # ---- Session 1 · Talking to an LLM ----
+  - text: "In a chat request, which message **role** holds the rules for who the model is and how it must answer?"
+    choices: |
+      *system
+      user
+      assistant
+      tool
+    explanation: "The system message carries the developer's rules. The user message is the question and assistant messages are earlier replies."
+  - text: "You want the same, exact answer every time for a maths question. What should you set the temperature to?"
+    choices: |
+      *0
+      0.7
+      1.5
+      Temperature has no effect
+    explanation: "Temperature 0 makes the output nearly deterministic. Higher values add randomness, which suits creative tasks."
+  - text: "The output format must be followed **exactly**, so you show the model several worked examples. Which technique is this?"
+    choices: |
+      Zero-shot prompting
+      *Few-shot prompting
+      Role prompting
+      Contextual prompting
+    explanation: "Two or more examples is few-shot. The model copies your examples, so they must agree with each other."
+  - text: "Your call to the LLM API returns status **401** and the response has no `choices`. What is the most likely cause?"
+    choices: |
+      The model ran out of tokens
+      *The API key is missing or wrong
+      The temperature is too high
+      The prompt is too short
+    explanation: "401 means authentication failed. 429 would be a rate limit. Always check the status code before reading `choices`."
+  # ---- Session 2 · Reasoning prompts ----
+  - text: "You run **self-consistency** (ask several times and take the majority answer) with `temperature=0`. What happens?"
+    choices: |
+      The vote becomes more accurate
+      *Every sample is the same, so the vote is meaningless
+      It works faster
+      The model refuses to answer
+    explanation: "Self-consistency needs randomness so that different reasoning paths can be compared. At temperature 0 all samples match."
+  - text: "In a **ReAct** loop, who should write the `Observation`?"
+    choices: |
+      The model, to save time
+      *The tool's real output, inserted by your code
+      The user
+      The embedding model
+    explanation: "If the model invents an Observation it is hallucinating. Your code runs the tool and feeds back the real result."
+  - text: "A technical task has limits (for example, \"keep PostgreSQL 14\"). Which prompt framework fits best?"
+    choices: |
+      CRISP (Context, Role, Instruction, Style, Purpose)
+      *RICE (Role, Input, Constraints, Expectations)
+      ReAct
+      None, frameworks do not help
+    explanation: "RICE is built for technical work with constraints. CRISP suits writing tasks such as blogs and emails."
+  # ---- Session 3 · Embeddings and vector databases ----
+  - text: "What does it mean when two texts have embeddings with a **high cosine similarity**?"
+    choices: |
+      They share the same words
+      *Their meanings are close
+      They have the same length
+      They came from the same file
+    explanation: "Embeddings place similar meanings close together, and cosine similarity measures that closeness."
+  - text: "You stored documents with one embedding model but search with a different one. What happens?"
+    choices: |
+      Search is faster
+      *Results are poor, because vectors from different models do not live in the same space
+      Chroma converts them automatically
+      Nothing, models are interchangeable
+    explanation: "Store and search with the same embedding model."
+  - text: "You run `collection.add(...)` twice with the same ids in Chroma. What is the right fix to avoid stale or duplicate data?"
+    choices: |
+      *Use `upsert` instead of `add`
+      Increase `n_results`
+      Lower the temperature
+      Delete the Python file
+    explanation: "`add` keeps the old entries for existing ids. `upsert` updates them."
+  # ---- Session 4 · Sparse, dense and hybrid search ----
+  - text: "A user searches for the exact error code `E1042`. Which search type is usually better for this?"
+    choices: |
+      *Sparse (keyword) search such as BM25
+      Dense (embedding) search only
+      Neither works
+      Random sampling
+    explanation: "Keyword search is best for exact terms: codes, product names and error messages. Dense search is best for meaning."
+  - text: "In TF-IDF, what does **IDF** do?"
+    choices: |
+      Counts how often a word appears in one document
+      *Gives higher weight to words that are rare across documents
+      Removes all stop words
+      Converts text to embeddings
+    explanation: "IDF down-weights words that appear everywhere and up-weights rare, informative ones."
+  - text: "You want to combine **BM25** scores with **dense** similarity scores in hybrid search. What should you do first?"
+    choices: |
+      Add them directly
+      *Normalise the scores (or combine ranks, as in Reciprocal Rank Fusion)
+      Use only the higher score
+      Multiply them by the temperature
+    explanation: "The two scores are on different scales, so adding them raw lets one dominate."
+  # ---- Session 5 · Chunking ----
+  - text: "What is the problem with chunks that are **too big**?"
+    choices: |
+      *The vector becomes vague because one chunk mixes several topics
+      They can never be embedded
+      They always cost less
+      They contain no overlap
+    explanation: "Too-big chunks give a fuzzy vector, and fewer chunks fit in the prompt. Too-small chunks lose their context."
+  - text: "Why do we use **overlap** between chunks?"
+    choices: |
+      To make the index smaller
+      *So that an answer sitting across a chunk border is not lost
+      To remove duplicates
+      To speed up reranking
+    explanation: "With no overlap, a sentence split across two chunks may match neither well."
+  - text: "A quick prototype needs a sensible default splitter. Which is the recommended starting point?"
+    choices: |
+      *`RecursiveCharacterTextSplitter`, size 500 to 1000, overlap about 10 to 20 percent
+      One chunk per PDF
+      Chunks of 10 characters
+      Split on every full stop with no limits
+    explanation: "Start with the recursive splitter and tune from there."
+  - text: "You have a strict **token budget** for each chunk. Which chunking strategy fits best?"
+    choices: |
+      *Token-based chunking
+      Paragraph chunking
+      Embedding-based semantic chunking
+      No chunking
+    explanation: "Token-based chunking measures chunks the way the model counts them."
+  # ---- Session 6 · Your first RAG pipeline ----
+  - text: "What do the letters in **RAG** stand for?"
+    choices: |
+      *Retrieve, Augment, Generate
+      Read, Analyse, Group
+      Rank, Answer, Guess
+      Reload, Archive, Garbage-collect
+    explanation: "Retrieve the right chunks, augment the prompt with them, then generate the answer."
+  - text: "Your RAG bot answers a question that is **not** in the documents, using its own memory. What was missing from the prompt?"
+    choices: |
+      A higher temperature
+      *An instruction to say it doesn't know when the answer is not in the context
+      More overlap
+      A second embedding model
+    explanation: "Without an explicit \"I don't know\" instruction, the model happily answers from memory."
+  # ---- Session 7 · RAG with n8n ----
+  - text: "Inside the n8n Docker container, you set the Ollama URL to `http://localhost:11434` and it fails. Why?"
+    choices: |
+      Ollama does not support HTTP
+      *`localhost` inside the container is the container itself, not your computer
+      n8n cannot use Ollama
+      The port must be 80
+    explanation: "Use the host's address (for example `host.docker.internal`) from inside Docker."
+  - text: "Pinecone rejects your vectors. Which setup mistake is most likely, according to class?"
+    choices: |
+      *The index dimension does not match the embedding model's vector size
+      The workflow has too many nodes
+      Telegram is not connected
+      topK is 5
+    explanation: "The index dimension must equal the embedding size, and insert and search must use the same embedding model."
+  # ---- Session 8 · Metadata filtering and reranking ----
+  - text: "You only want to search chunks where `category = \"Programming\"`. What is this technique called?"
+    choices: |
+      Reranking
+      *Metadata filtering
+      Semantic caching
+      Query expansion
+    explanation: "Metadata filtering narrows the candidate chunks by facts before or during similarity search."
+  - text: "You use a cross-encoder to **rerank**. Which setup is correct?"
+    choices: |
+      Retrieve only 3 results, then rerank them
+      *Retrieve a generous shortlist (about 15 to 20), then rerank and keep the best few
+      Rerank on every keystroke
+      Skip retrieval and rerank the whole database
+    explanation: "If the right chunk is not in the shortlist, reranking cannot rescue it. A cross-encoder is slow, so rerank once on the final query."
+  - text: "In Chroma, how do you combine **two or more** metadata filter conditions?"
+    choices: |
+      Put them in a list
+      *Wrap them in `$and`
+      Use two separate `where` arguments
+      It is not possible
+    explanation: "Multiple conditions need an operator such as `$and`."
+  # ---- Session 9 · Semantic caching ----
+  - text: "What is the cache **key** in a semantic cache?"
+    choices: |
+      The exact question text
+      *The embedding of the question, matched by similarity
+      The answer text
+      The user's name
+    explanation: "That is why \"What is a list?\" and \"what's a list\" can hit the same entry (similarity above the threshold)."
+  - text: "Your semantic cache threshold is set very low (0.75). What risk does that create?"
+    choices: |
+      It almost never hits
+      *It may return a cached answer for a different question, such as remove vs add
+      It disables Redis
+      It increases embedding size
+    explanation: "Too low means wrong answers; too high (0.98) means almost no hits and you pay for every call."
+  - text: "Which are good rules for semantic caching? (Select all that apply.)"
+    choices: |
+      *Do not share one cache across users for personal questions
+      *Clear or refresh cached answers when the underlying documents change
+      *Cache the question's embedding as the key, not the answer's
+      Use one global cache entry for "What is my leave balance?"
+    explanation: "Personal data must never leak across users, and stale answers must not outlive their source documents."
+    points: 2
+  # ---- Session 10 · Better queries, smaller context ----
+  - text: "A user asks \"How do I deploy it?\" in the middle of a conversation. What does a query rewriter need to turn this into a good search query?"
+    choices: |
+      A higher k
+      *The conversation history
+      A bigger chunk size
+      A cross-encoder
+    explanation: "Without the history, \"it\" cannot be resolved. Search with the rewrite, but answer the user's original question."
+  - text: "Which context compression method is instant and free, but misses synonyms?"
+    choices: |
+      *Keyword compression
+      Embedding compression
+      LLM compression
+      Reranking
+    explanation: "LLM compression understands the question best but adds a full LLM call (slow and costs tokens)."
+  # ---- Session 11 · Advanced retrievers ----
+  - text: "What does a **parent document retriever** do?"
+    choices: |
+      *Searches small chunks for precision, then returns their larger parent chunk for context
+      Searches only whole documents
+      Searches summaries and returns the summary
+      Deletes duplicate documents
+    explanation: "Small chunks match precisely; the bigger parent gives the model more surrounding context."
+  - text: "In a **multi-vector retriever**, what do you search and what do you return?"
+    choices: |
+      *Search summaries, keywords or likely questions; return the original chunk
+      Search the original and return a summary
+      Search images only
+      Search the cache and return nothing
+    explanation: "Make sure the LLM receives the original content, not just the summary that matched."
+  - text: "Why must **multi-hop retrieval** have a stop rule?"
+    choices: |
+      *To avoid endless searching and growing prompts; for example, a maximum of 2 or 3 hops
+      Because Chroma refuses a third query
+      To keep the temperature low
+      Because hops delete chunks
+    explanation: "Without a limit the loop can run forever and cost a lot."
+  # ---- Session 12 · RAG for real apps ----
+  - text: "Your conversational RAG app uses **one** `SESSION_ID` for every user. What goes wrong?"
+    choices: |
+      Nothing, it is faster
+      *Users see each other's conversations
+      The embeddings change
+      Streaming stops
+    explanation: "Use a separate session id per user, and keep only the last N turns (or a summary) in the prompt."
+  - text: "Which protocol did we use in class to **stream** an answer to the browser as it is generated?"
+    choices: |
+      *Server-Sent Events (SSE)
+      FTP
+      SMTP
+      A page refresh every second
+    explanation: "SSE sends a one-way stream of chunks. Also avoid putting model output into the page with `innerHTML`."
+  # ---- Session 13 · Async Python ----
+  - text: "You call `llm.ainvoke(\"hi\")` **without** `await`. What do you get?"
+    choices: |
+      The answer text
+      *A coroutine object (the job has not run)
+      A syntax error at start-up
+      The model's name
+    explanation: "`await` runs the job and lets other jobs run while it waits."
+  - text: "Which are mistakes in async code? (Select all that apply.)"
+    choices: |
+      *Calling a blocking function such as `time.sleep(3)` or `requests.get(...)` inside `async def`
+      *Forgetting `await` on an async call
+      *Calling `asyncio.run()` inside an already-running event loop (for example in Jupyter or FastAPI)
+      Using `httpx.AsyncClient` for HTTP calls
+    explanation: "A blocking call freezes the whole event loop. `httpx.AsyncClient` is the non-blocking choice."
+    points: 2
+  - text: "You launch 1,000 LLM calls at once with `asyncio.gather`. What problem are you most likely to hit?"
+    choices: |
+      *The provider's rate limit
+      Python cannot count to 1,000
+      The calls run slower than one at a time
+      `await` stops working
+    explanation: "Limit the number running at once, for example with a semaphore."
+  # ---- Session 14 · Data validation with Pydantic ----
+  - text: "How should you give a Pydantic field a default **empty list**?"
+    choices: |
+      `items: list = []`
+      *`items: list = Field(default_factory=list)`
+      `items: list = None` always
+      You cannot
+    explanation: "A plain `= []` default is a classic mistake. Use `default_factory`."
+  - text: "You ask an LLM for JSON and want a guaranteed, validated structure. What is the recommended approach?"
+    choices: |
+      `json.loads` the reply and hope
+      *Use `with_structured_output` with a Pydantic model
+      Lower the chunk size
+      Ask the user to retype
+    explanation: "Structured output validates the reply against your model. If it is invalid, stop or ask again rather than continuing."
+  # ---- Session 15 · Agent memory ----
+  - text: "With a checkpointer, an agent forgets everything between calls. What was forgotten?"
+    choices: |
+      *The `thread_id` in the config, which identifies the conversation
+      The Redis password
+      The embedding model
+      The temperature
+    explanation: "Every call needs the same `thread_id` so that the checkpointer can load the conversation."
+  - text: "Why should you avoid `InMemorySaver` and `InMemoryStore` in production?"
+    choices: |
+      They are too slow to use
+      *Everything is lost when the app restarts; use SQLite, Postgres or Redis
+      They only work with Pydantic
+      They cannot store text
+    explanation: "In-memory stores are for demos. Persist memory in a real database."
+  - text: "Which are correct for **long-term memory**? (Select all that apply.)"
+    choices: |
+      *Key the store by user (namespace) so users cannot read each other's memories
+      *The `dims` value must match the embedding model (for example MiniLM = 384)
+      *Tell the agent to save only lasting facts, not everything
+      Use one shared namespace for all users to save space
+    explanation: "Namespaces, matching dimensions and selective saving are the three rules from class."
+    points: 2
+  # ---- Session 16 · Tools, function calling and MCP ----
+  - text: "How does the model decide **which tool** to call?"
+    choices: |
+      *By reading the tools' names and descriptions (docstrings)
+      By random choice
+      By looking at the file size
+      By the order they were defined
+    explanation: "The description is the prompt for the tool. Vague descriptions lead to wrong or missing calls."
+  - text: "Which are good practices for agent tools? (Select all that apply.)"
+    choices: |
+      *Return an error message instead of raising an exception that crashes the run
+      *Give tools the least power they need, for example read-only database access
+      *Keep outputs small instead of returning 10,000 rows
+      Give the model write access to everything so it can fix problems itself
+    explanation: "Tools that raise, return huge outputs or have too much power cause crashes, costs and risk."
+    points: 2
+  - text: "What is **MCP** (Model Context Protocol) for?"
+    choices: |
+      *A standard way to share tools between programs, so one tool server works with many apps
+      A way to compress embeddings
+      A database engine
+      A prompt framework like CRISP
+    explanation: "Write a tool once as an MCP server and use it from any MCP-capable client. MCP tools are async, so remember `await`."

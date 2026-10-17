@@ -1,0 +1,394 @@
+slug: aws-live-assessment-sessions-1-15
+title: "AWS Solutions Architect · Live assessment (Sessions 1-15)"
+description: |
+  A one-hour live assessment on everything covered so far: cloud basics, IAM, load balancing, EC2 and EBS,
+  VPC networking (subnets, NAT, peering, Transit Gateway, endpoints), WAF, flow logs and DNS, Route 53 and S3.
+
+  45 questions, 60 minutes. The countdown starts when you press Start and your answers are submitted
+  automatically when it ends. Questions marked "select all that apply" have more than one correct answer.
+time_limit_minutes: 60
+pass_percentage: 60
+max_attempts: 1
+shuffle_questions: true
+show_answers: false
+publish: false
+questions:
+  # ---- Session 1: Introduction to AWS ----
+  - text: |
+      Which is a benefit of cloud computing compared with running your own servers?
+    choices: |
+      *Trade up-front (fixed) expense for pay-as-you-go (variable) expense
+      Buy capacity weeks ahead so you never run short
+      You are responsible for cooling and power backup
+      Prices only ever go up as you use more
+    explanation: "Cloud turns capex into opex, removes capacity guessing, and AWS's scale makes prices fall over time."
+  - text: |
+      You host an app on **EC2**. Who is responsible for patching the guest operating system?
+    choices: |
+      AWS
+      *You (the customer)
+      The Region
+      Nobody, patching is not needed on EC2
+    explanation: "EC2 is IaaS. AWS manages hardware and the hypervisor; you manage the guest OS, firewall rules, app and data."
+  - text: |
+      A company's data leaked because an S3 bucket was made public. Under the shared responsibility model, whose side was this?
+    choices: |
+      *The customer's: security "in" the cloud (configuration, IAM, data)
+      AWS's: security "of" the cloud
+      The Region's
+      Shared equally, so AWS must prevent it
+    explanation: "AWS secures the infrastructure; configuring buckets, security groups and IAM correctly is the customer's job."
+  # ---- Session 2: IAM ----
+  - text: |
+      Which statements about the **root user** are correct? (Select all that apply.)
+    choices: |
+      *It should have MFA enabled
+      *It should not have access keys
+      It should be used for daily work to save time
+      *IAM policies cannot limit it (only Organizations SCPs can, for member accounts)
+    explanation: "Root owns the account and cannot be limited by IAM policies. Protect it with MFA, no access keys, and use it only for the few tasks that need it."
+    points: 2
+  - text: |
+      A user's group policy **allows** `s3:*`, but another policy attached to the same user has an explicit **Deny** on `s3:DeleteBucket`. What happens when the user tries to delete a bucket?
+    choices: |
+      Allowed, because the group policy is broader
+      *Denied, because an explicit Deny always wins
+      Allowed, because the newest policy wins
+      It depends on the Region
+    explanation: "Everything is denied by default, an Allow opens a door, but an explicit Deny can never be overridden."
+  - text: |
+      An application on an **EC2 instance** needs to read S3. What is the recommended way to give it credentials?
+    choices: |
+      Save an IAM user's access keys in a `.env` file on the instance
+      Hard-code the access keys in the source code
+      *Attach an IAM role (instance profile) to the instance
+      Use the root user's access keys
+    explanation: "Roles hand out temporary credentials through STS, so no long-lived keys are stored on the server."
+  - text: |
+      For **cross-account access** to a role in account B, which are required? (Select all that apply.)
+    choices: |
+      *The role in account B has a trust policy that trusts account A
+      *The identity in account A is allowed to call `sts:AssumeRole` for that role
+      Both accounts must use the same root email
+      The two accounts must be in the same Region
+    explanation: "Both sides must agree: the role must trust the other account, and the caller must be permitted to assume it."
+    points: 2
+  - text: |
+      You want to list the objects in a bucket and also read them. Which resources belong in the policy?
+    choices: |
+      `arn:aws:s3:::bucket/*` for both actions
+      `arn:aws:s3:::bucket` for both actions
+      *`arn:aws:s3:::bucket` for `ListBucket` and `arn:aws:s3:::bucket/*` for `GetObject`
+      `arn:aws:s3:::*` is the only valid form
+    explanation: "ListBucket applies to the bucket itself; GetObject applies to the objects inside it."
+  # ---- Session 4: Load balancing (HAProxy) ----
+  - text: |
+      HAProxy checks each backend every 5 seconds (`inter 5s`) and marks it down after 3 failures (`fall 3`). Roughly how long can a dead server keep receiving traffic before it is removed?
+    choices: |
+      Instantly
+      About 5 seconds
+      *About 15 seconds
+      About 3 minutes
+    explanation: "Detection time is roughly inter × fall = 5 × 3 = 15 seconds, during which some requests can fail."
+  - text: |
+      Requests vary a lot: some take 2 seconds and others 2 minutes. Which balancing algorithm suits this best?
+    choices: |
+      Round robin
+      *Least connections
+      URI hash
+      Source (IP) hash
+    explanation: "Least connections sends new requests to the server with the fewest open connections right now, so slow requests don't pile up."
+  - text: |
+      A Django app stores login sessions in each server's memory, and you use round robin. Users keep getting logged out. What is the **best** fix?
+    choices: |
+      Use more servers
+      Use `balance leastconn`
+      *Move sessions to a shared store such as Redis so the app is stateless
+      Increase the health check interval
+    explanation: "Stickiness is a workaround. A stateless app with shared session storage works with any balancing method and survives a server dying."
+  # ---- Session 5: Elastic Load Balancer ----
+  - text: |
+      You need path-based routing (`/api` to one group of servers, `/` to another) for a website. Which load balancer?
+    choices: |
+      Network Load Balancer
+      Gateway Load Balancer
+      *Application Load Balancer
+      Classic routing table
+    explanation: "Only the Application Load Balancer (layer 7) understands HTTP paths, hosts and headers."
+  - text: |
+      You need a load balancer with **one static IP per Availability Zone** for a non-HTTP (TCP) service. Which?
+    choices: |
+      *Network Load Balancer
+      Application Load Balancer
+      Route 53 Alias only
+      CloudFront
+    explanation: "NLB works at layer 4 and offers a static IP (or your Elastic IP) per AZ."
+  - text: |
+      What should the **instance** security group allow for the application port, in the recommended design?
+    choices: |
+      `0.0.0.0/0`
+      *Only traffic from the load balancer's security group
+      Only your office IP
+      Nothing, security groups are not needed behind a load balancer
+    explanation: "Referencing the load balancer's security group stops users from bypassing the load balancer (and WAF)."
+  - text: |
+      Your ALB's targets all show **unhealthy**. The health check path is `/`, which returns a `302` redirect to `/login`. What is the most likely fix?
+    choices: |
+      Increase the deregistration delay
+      *Point the health check at a path that returns `200` (such as `/health`), or adjust the success codes
+      Turn on stickiness
+      Switch to an NLB
+    explanation: "A target is healthy only if the check returns an accepted status code; a redirect fails the default check."
+  - text: |
+      Which are valid targets for an **ALB**? (Select all that apply.)
+    choices: |
+      *EC2 instances
+      *IP addresses
+      *Lambda functions
+      S3 buckets
+    explanation: "ALB target types are instance, IP and Lambda. S3 buckets are not load balancer targets."
+    points: 2
+  # ---- Session 6: EC2 networking and storage ----
+  - text: |
+      An instance has an auto-assigned public IPv4 address. What happens to it when you **stop** and later **start** the instance?
+    choices: |
+      It stays the same
+      *It is released, and a new one is assigned on start
+      It becomes an Elastic IP
+      It turns into an IPv6 address
+    explanation: "Auto-assigned public IPs are not kept across a stop/start. Use an Elastic IP for a stable address."
+  - text: |
+      Your bank policy forbids opening **any** inbound port, including SSH (22), to servers. Which access method fits best?
+    choices: |
+      SSH key pair
+      EC2 Instance Connect over the internet
+      *AWS Systems Manager Session Manager
+      A bastion host with port 22 open
+    explanation: "Session Manager uses an outbound connection from the SSM agent, needs no inbound ports and gives audit logs."
+  - text: |
+      An EBS volume is in `ap-south-1a`, but you want to use its data on an instance in `ap-south-1b`. What do you do?
+    choices: |
+      Attach it directly, EBS works across AZs
+      *Create a snapshot, then create a new volume from it in `ap-south-1b`
+      Use an Elastic IP
+      Stop the instance and restart it
+    explanation: "An EBS volume lives in one AZ. Move data across AZs (or Regions) with a snapshot."
+  - text: |
+      A PostgreSQL database needs very high, consistent IOPS. Which EBS volume type?
+    choices: |
+      sc1
+      st1
+      *io2 (Provisioned IOPS SSD)
+      The instance store only
+    explanation: "io1/io2 give provisioned IOPS for busy databases. st1 and sc1 are HDD types for throughput and cold data."
+  - text: |
+      What does the **IMDSv2** token requirement help protect against?
+    choices: |
+      DDoS attacks
+      *SSRF attacks that trick an app into fetching instance credentials
+      Expired TLS certificates
+      Unpatched kernels
+    explanation: "IMDSv2 requires a session token obtained with a PUT request, which blocks simple SSRF reads of role credentials."
+  # ---- Session 7: Public and private subnets ----
+  - text: |
+      How many IP addresses does AWS reserve in every subnet?
+    choices: |
+      0
+      2
+      *5
+      10
+    explanation: "In 10.0.1.0/24, AWS reserves .0, .1, .2, .3 and .255."
+  - text: |
+      What makes a subnet **public**?
+    choices: |
+      Its name contains "public"
+      *Its route table has a route to an Internet Gateway (0.0.0.0/0 → igw)
+      It has a NAT Gateway inside it
+      It uses a network ACL
+    explanation: "Public vs private is decided by the route table. Instances also need a public IP to be reachable."
+  - text: |
+      Which statements are true about security groups and network ACLs? (Select all that apply.)
+    choices: |
+      *Security groups are stateful
+      *Network ACLs are stateless, so replies need their own rule
+      *Network ACLs can have deny rules and are evaluated in number order
+      Security groups support explicit deny rules
+    explanation: "Security groups only allow and are stateful. NACLs are stateless, allow or deny, and are evaluated in rule-number order."
+    points: 2
+  - text: |
+      Where must a **NAT Gateway** be created, and what must the private subnet's route table contain?
+    choices: |
+      In a private subnet; a route to the Internet Gateway
+      *In a public subnet; a route `0.0.0.0/0 → nat-gateway`
+      In any subnet; no route is needed
+      In the Internet Gateway; a route to a peering connection
+    explanation: "The NAT Gateway needs a path to the internet (public subnet), and private subnets send internet-bound traffic to it."
+  - text: |
+      VPC A is peered with B, and B is peered with C. Can instances in A reach C through B?
+    choices: |
+      Yes, automatically
+      Yes, if security groups allow it
+      *No, VPC peering is not transitive
+      Only inside the same Region
+    explanation: "Every pair that must communicate needs its own peering (or use a Transit Gateway)."
+  - text: |
+      Which are requirements or properties of VPC peering? (Select all that apply.)
+    choices: |
+      *The VPC CIDR ranges must not overlap
+      *Route table entries are needed on both sides
+      *It works across accounts and across Regions
+      A peer can use the other VPC's NAT Gateway or Internet Gateway
+    explanation: "There is no edge-to-edge routing: a peer cannot use the other VPC's IGW, NAT Gateway, VPN or Direct Connect."
+    points: 2
+  - text: |
+      You need every one of **10 VPCs** to talk directly to every other. How many peering connections does a full mesh need?
+    choices: |
+      10
+      20
+      *45
+      90
+    explanation: "n(n-1)/2 = 10 × 9 / 2 = 45. This is why Transit Gateway is used for large networks."
+  # ---- Session 10: Transit Gateway ----
+  - text: |
+      Which describes a **Transit Gateway**?
+    choices: |
+      A point-to-point link between two VPCs
+      *A regional hub-and-spoke router that gives transitive routing between attached VPCs, VPNs and Direct Connect
+      A managed DNS service
+      A caching layer for S3
+    explanation: "Attach each network once to the hub; route tables control who can reach whom."
+  - text: |
+      How do you stop the **dev** VPC from reaching **prod** while both attach to the same Transit Gateway?
+    choices: |
+      It is not possible
+      *Use separate Transit Gateway route tables (and blackhole routes) so the dev attachment has no route to prod
+      Use a Route 53 failover record
+      Peer the VPCs
+    explanation: "Associations and propagations per TGW route table give segmentation."
+  # ---- Session 11: VPC endpoints ----
+  - text: |
+      A private subnet pulls large amounts of data from S3 through a NAT Gateway, which is expensive. What is the cheapest fix?
+    choices: |
+      Add a second NAT Gateway
+      *Create a gateway VPC endpoint for S3 and add it to the route table
+      Use an interface endpoint for S3
+      Move the data to EBS
+    explanation: "Gateway endpoints for S3 and DynamoDB are free and work through a route table entry."
+  - text: |
+      Which statements about **interface endpoints (PrivateLink)** are correct? (Select all that apply.)
+    choices: |
+      *They create an ENI with a private IP in your subnet
+      *They are billed per hour per AZ plus per GB
+      *They can be reached from on-premises and peered VPCs
+      They are free
+    explanation: "Unlike gateway endpoints, interface endpoints cost money but can be reached from on-premises and other VPCs."
+    points: 2
+  - text: |
+      Where can you attach AWS WAF? (Select all that apply.)
+    choices: |
+      *Application Load Balancer
+      *Amazon CloudFront
+      *Amazon API Gateway (REST APIs)
+      Network Load Balancer
+    explanation: "WAF works at layer 7 on ALB, CloudFront, API Gateway and a few other services, not on NLB or a plain EC2 instance."
+    points: 2
+  - text: |
+      You add a new WAF rule and are worried about blocking real users. What is the safe way to roll it out?
+    choices: |
+      Set it to Block immediately
+      *Start in **Count** mode, watch the logs for false positives, then switch to Block
+      Disable all other rules
+      Move the web ACL to another Region
+    explanation: "Count logs matches without blocking, so you can tune the rule first."
+  - text: |
+      Which WAF feature limits a single IP address to, say, 100 requests per 5 minutes to slow brute-force attempts?
+    choices: |
+      A managed rule group for SQL injection
+      *A rate-based rule
+      AWS Shield Standard
+      A permissions boundary
+    explanation: "Rate-based rules count requests per client and block when the limit is exceeded."
+  # ---- Session 13: VPC Flow Logs and DNS ----
+  - text: |
+      Flow logs show **inbound ACCEPT** but the **outbound reply is REJECT**. What is the likely cause?
+    choices: |
+      A security group blocking the reply
+      *A network ACL blocking the reply's ephemeral port (NACLs are stateless)
+      A missing Internet Gateway
+      DNS caching
+    explanation: "Security groups are stateful, so replies are allowed automatically. A stateless NACL needs an explicit outbound rule."
+  - text: |
+      You changed a DNS record's IP, but some users still reach the old server. Why?
+    choices: |
+      DNS records never change
+      *The old answer is cached until its TTL expires
+      Route 53 is down
+      The record must be a CNAME
+    explanation: "Resolvers cache answers for the TTL. Lower the TTL before a planned migration."
+  # ---- Session 14: Route 53 ----
+  - text: |
+      You need your root domain (`example.com`) to point to an ALB. Which record type?
+    choices: |
+      A CNAME to the ALB's DNS name
+      *An **Alias** A record pointing to the ALB
+      A TXT record
+      An MX record
+    explanation: "A CNAME is not allowed at the zone apex. Route 53 Alias works at the apex and tracks the ALB's IPs."
+  - text: |
+      Which routing policy sends 90% of traffic to the current version and 10% to a new one?
+    choices: |
+      Simple
+      Failover
+      Latency
+      *Weighted
+    explanation: "Weighted routing splits traffic in proportion to weights, useful for canary releases."
+  - text: |
+      You want traffic to go to a standby site only when the primary is unhealthy. What must you configure?
+    choices: |
+      *Failover routing with a **health check** on the primary
+      Geolocation routing
+      Multivalue answer with a TTL of 0
+      Simple routing with two values
+    explanation: "Without a health check Route 53 cannot tell the primary is down. Use primary/secondary failover records."
+  # ---- Session 15: Amazon S3 ----
+  - text: |
+      S3 is designed for **99.999999999% (11 nines)** of what?
+    choices: |
+      Availability
+      *Durability
+      Request speed
+      Encryption strength
+    explanation: "Eleven nines is durability (not losing objects). Availability differs by storage class; Standard is designed for 99.99%."
+  - text: |
+      You turned off **Block Public Access** "just to make an image show on your site". What is the better approach?
+    choices: |
+      Leave it off and make the bucket public
+      *Keep Block Public Access on and use a pre-signed URL or serve through CloudFront
+      Use ACLs on every object
+      Rename the object
+    explanation: "Block Public Access is on by default for a reason. Share objects safely with pre-signed URLs or CloudFront."
+  - text: |
+      Which statements about S3 are correct? (Select all that apply.)
+    choices: |
+      *S3 is strongly consistent: after a successful write, reads see it
+      *A single PUT can upload up to 5 GB, and an object can be up to 5 TB
+      *There are no real folders; the console groups keys by `/` prefixes
+      You can append to an existing object in place
+    explanation: "Objects are replaced as a whole. S3 stores keys, and prefixes are only a naming convention shown as folders."
+    points: 2
+  - text: |
+      Which storage class is the right choice for compliance archives kept for years, retrieved rarely, with the lowest storage cost?
+    choices: |
+      S3 Standard
+      S3 Intelligent-Tiering
+      S3 One Zone-IA
+      *S3 Glacier Deep Archive
+    explanation: "Deep Archive has the lowest storage price, a 180-day minimum, and retrieval within hours (standard within 12 hours)."
+  - text: |
+      Versioning is on for a bucket and the bill keeps growing even though you delete files. What is the likely reason, and the fix?
+    choices: |
+      Nothing; deleted objects are free
+      *Old (noncurrent) versions are still stored and billed; add a lifecycle rule to expire noncurrent versions
+      Block Public Access is too strict
+      Encryption doubles the cost
+    explanation: "With versioning, deleting adds a delete marker; older versions stay until a lifecycle rule removes them."

@@ -18,8 +18,27 @@ class Command(BaseCommand):
         parser.add_argument("--no-build", action="store_true", help="Skip the Sphinx build.")
         parser.add_argument("--no-practice", action="store_true", help="Skip load_practice.")
 
+    def bootstrap_tables(self):
+        """First-run content for tables that start empty: prep catalogue, playground problems, learning paths.
+
+        Only runs while a table is empty, so a later edit in the admin is never overwritten by a deploy.
+        (Billing plans are not seeded here: prices are a business decision, add them in the admin.)
+        """
+        from courses.models import LearningPath
+        from prep.models import CatalogProblem
+        from sysdesign.models import Problem
+
+        for model, command in ((CatalogProblem, "seed_prep"), (Problem, "load_sysdesign"), (LearningPath, "seed_paths")):
+            if model.objects.exists():
+                continue
+            try:
+                call_command(command, stdout=self.stdout, stderr=self.stderr)
+            except CommandError as exc:
+                self.stderr.write(self.style.ERROR(f"{command} failed: {exc}"))
+
     def handle(self, *args, **options):
-        call_command("sync_courses", stdout=self.stdout, stderr=self.stderr)   # new folders become courses
+        call_command("sync_courses", update=True, stdout=self.stdout, stderr=self.stderr)   # new folders become courses; blank catalogue fields filled
+        self.bootstrap_tables()
         courses = list(Course.objects.filter(is_active=True).order_by("slug"))
         if not options["all"]:
             targets = set(options["targets"])

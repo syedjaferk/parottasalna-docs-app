@@ -38,7 +38,8 @@ class Command(BaseCommand):
     help = "Create the flagship learning paths."
 
     def handle(self, *args, **options):
-        for spec in PATHS:
+        for original in PATHS:
+            spec = dict(original)   # do not modify PATHS: this command may run twice in one process
             steps = spec.pop("steps")
             path, made = LearningPath.objects.get_or_create(slug=spec["slug"], defaults=spec)
             if made:
