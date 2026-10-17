@@ -39,9 +39,10 @@ def _form_items(attempt):
     items = []
     for question in svc.ordered_questions(attempt):
         picked = set(saved.get(str(question.pk), []))
+        parsed = question.parsed_choices()
         items.append({
             "question": question,
-            "choices": [(i, text, i in picked) for i, (text, _) in enumerate(question.parsed_choices())],
+            "choices": [(i, parsed[i][0], i in picked) for i in svc.choice_sequence(attempt, question)],
             "answered": bool(picked),
         })
     return items
@@ -157,10 +158,11 @@ def assessment_result(request, pk):
     if assessment.show_answers or request.user.is_staff:
         for question in svc.ordered_questions(attempt):
             picked = set(attempt.answers.get(str(question.pk), []))
+            parsed = question.parsed_choices()
             review.append({
                 "question": question,
-                "choices": [{"text": text, "correct": correct, "picked": i in picked}
-                            for i, (text, correct) in enumerate(question.parsed_choices())],
+                "choices": [{"text": parsed[i][0], "correct": parsed[i][1], "picked": i in picked}
+                            for i in svc.choice_sequence(attempt, question)],
                 "is_right": picked == question.correct_indexes(),
                 "skipped": not picked,
             })

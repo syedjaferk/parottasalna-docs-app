@@ -21,6 +21,8 @@ class Assessment(models.Model):
     pass_percentage = models.PositiveSmallIntegerField(default=60, validators=[MaxValueValidator(100)])
     max_attempts = models.PositiveSmallIntegerField(default=1, help_text="0 means unlimited attempts.")
     shuffle_questions = models.BooleanField(default=True, help_text="Each attempt gets the questions in a different order.")
+    shuffle_choices = models.BooleanField(default=True, help_text="Each attempt gets the answer options of every question in a different order. "
+                                                                  "Turn it off if a question has options like 'All of the above'.")
     show_answers = models.BooleanField(default=True, help_text="After submitting, show the correct answers and explanations.")
     opens_at = models.DateTimeField(null=True, blank=True, help_text="Optional. Nobody can start before this time.")
     closes_at = models.DateTimeField(null=True, blank=True,
@@ -108,6 +110,8 @@ class AssessmentAttempt(models.Model):
     # {question_id: [selected choice indexes]}: saved while the student works, final once submitted.
     answers = models.JSONField(default=dict, blank=True)
     question_order = models.JSONField(default=list, blank=True)
+    # {question_id: [original choice indexes in the order shown]}. Empty = choices shown in their written order.
+    choice_order = models.JSONField(default=dict, blank=True)
 
     class Meta:
         ordering = ["-started_at"]

@@ -1,0 +1,362 @@
+slug: aws-live-assessment-2-sessions-1-15
+title: "AWS Solutions Architect · Live assessment 2, exam style (Sessions 1-15)"
+description: |
+  A second one-hour live assessment in the style of the SAA-C03 exam: short real-world scenarios, each asking for the
+  best solution. It covers only what we have taught: IAM, load balancing, EC2 and EBS, VPC networking (security groups,
+  NACLs, NAT, peering, endpoints), WAF, flow logs, Route 53 and S3.
+
+  40 questions, 60 minutes (about 90 seconds each). The countdown starts when you press Start and your answers are
+  submitted automatically when it ends. Questions marked "Choose two" have more than one correct answer.
+time_limit_minutes: 60
+pass_percentage: 60
+max_attempts: 1
+shuffle_questions: true
+show_answers: false
+publish: false
+questions:
+  # ---- Session 2 · IAM ----
+  # question bank #233
+  - text: "A solutions architect has created a new AWS account and must secure AWS account root user access. Which combination of actions will accomplish this? (Choose two.)"
+    choices: |
+      *Ensure the root user uses a strong password.
+      *Enable multi-factor authentication to the root user.
+      Store root user access keys in an encrypted Amazon S3 bucket.
+      Add the root user to a group containing administrative permissions.
+      Apply the required permissions to the root user with an inline policy document.
+    explanation: "Protect the root user with a strong password and MFA, and never give it access keys or use it day to day."
+    points: 2
+  # question bank #368
+  - text: "A solutions architect wants all new users to have specific complexity requirements and mandatory rotation periods for IAM user passwords. What should the solutions architect do to accomplish this?"
+    choices: |
+      *Set an overall password policy for the entire AWS account.
+      Set a password policy for each IAM user in the AWS account.
+      Use third-party vendor software to set password requirements.
+      Attach an Amazon CloudWatch rule to the Create_newuser event to set the password with the appropriate requirements.
+    explanation: "An account-wide IAM password policy sets complexity and rotation for every user. It is not set per user."
+  # question bank #17
+  - text: "A company is implementing a new business application. The application runs on two Amazon EC2 instances and uses an Amazon S3 bucket for document storage. A solutions architect needs to ensure that the EC2 instances can access the S3 bucket. What should the solutions architect do to meet this requirement?"
+    choices: |
+      *Create an IAM role that grants access to the S3 bucket. Attach the role to the EC2 instances.
+      Create an IAM policy that grants access to the S3 bucket. Attach the policy to the EC2 instances.
+      Create an IAM group that grants access to the S3 bucket. Attach the group to the EC2 instances.
+      Create an IAM user that grants access to the S3 bucket. Attach the user account to the EC2 instances.
+    explanation: "Applications on EC2 get permissions through an IAM role attached to the instance (an instance profile), not through users, groups or stored keys."
+  # question bank #418
+  - text: "A solutions architect needs to allow team members to access Amazon S3 buckets in two different AWS accounts: a development account and a production account. The team currently has access to S3 buckets in the development account by using unique IAM users that are assigned to an IAM group that has appropriate permissions in the account. The solutions architect has created an IAM role in the production account. The role has a policy that grants access to an S3 bucket in the production account. Which solution will meet these requirements while complying with the principle of least privilege?"
+    choices: |
+      Attach the Administrator Access policy to the development account users.
+      *Add the development account as a principal in the trust policy of the role in the production account.
+      Turn off the S3 Block Public Access feature on the S3 bucket in the production account.
+      Create a user in the production account with unique credentials for each team member.
+    explanation: "Cross-account access works by letting the other account assume a role: the production role's trust policy names the development account as a principal."
+  # question bank #3
+  - text: "A company uses AWS Organizations to manage multiple AWS accounts for different departments. The management account has an Amazon S3 bucket that contains project reports. The company wants to limit access to this S3 bucket to only users of accounts within the organization in AWS Organizations. Which solution meets these requirements with the LEAST amount of operational overhead?"
+    choices: |
+      *Add the aws PrincipalOrgID global condition key with a reference to the organization ID to the S3 bucket policy.
+      Create an organizational unit (OU) for each department. Add the aws:PrincipalOrgPaths global condition key to the S3 bucket policy.
+      Use AWS CloudTrail to monitor the CreateAccount, InviteAccountToOrganization, LeaveOrganization, and RemoveAccountFromOrganization events. Update the S3 bucket policy accordingly.
+      Tag each user that needs access to the S3 bucket. Add the aws:PrincipalTag global condition key to the S3 bucket policy.
+    explanation: "The aws:PrincipalOrgID condition key in the bucket policy admits every account in the organization without listing account IDs."
+  # question bank #395
+  - text: "An IAM user made several configuration changes to AWS resources in their company's account during a production deployment last week. A solutions architect learned that a couple of security group rules are not configured as desired. The solutions architect wants to confirm which IAM user was responsible for making changes. Which service should the solutions architect use to find the desired information?"
+    choices: |
+      Amazon GuardDuty
+      Amazon Inspector
+      *AWS CloudTrail
+      AWS Config
+    explanation: "CloudTrail records who made each API call, so it answers 'which user changed this security group rule'."
+  # question bank #223
+  - text: "A company has deployed a Java Spring Boot application as a pod that runs on Amazon Elastic Kubernetes Service (Amazon EKS) in private subnets. The application needs to write data to an Amazon DynamoDB table. A solutions architect must ensure that the application can interact with the DynamoDB table without exposing traffic to the internet. Which combination of steps should the solutions architect take to accomplish this goal? (Choose two.)"
+    choices: |
+      *Attach an IAM role that has sufficient privileges to the EKS pod.
+      Attach an IAM user that has sufficient privileges to the EKS pod.
+      Allow outbound connectivity to the DynamoDB table through the private subnets’ network ACLs.
+      *Create a VPC endpoint for DynamoDB.
+      Embed the access keys in the Java Spring Boot code.
+    explanation: "Give the pod an IAM role for permissions, and a gateway VPC endpoint for DynamoDB so traffic stays off the internet. Never embed access keys."
+    points: 2
+  # ---- Session 4 · Load balancing ----
+  # question bank #589
+  - text: "A company runs a web application on Amazon EC2 instances in an Auto Scaling group behind an Application Load Balancer that has sticky sessions enabled. The web server currently hosts the user session state. The company wants to ensure high availability and avoid user session state loss in the event of a web server outage. Which solution will meet these requirements?"
+    choices: |
+      Use an Amazon ElastiCache for Memcached instance to store the session data. Update the application to use ElastiCache for Memcached to store the session state.
+      *Use Amazon ElastiCache for Redis to store the session state. Update the application to use ElastiCache for Redis to store the session state.
+      Use an AWS Storage Gateway cached volume to store session data. Update the application to use AWS Storage Gateway cached volume to store the session state.
+      Use Amazon RDS to store the session state. Update the application to use Amazon RDS to store the session state.
+    explanation: "Move session state out of the web servers into a shared store (ElastiCache for Redis) so an outage does not lose sessions. Redis is the choice for durable, highly available sessions."
+  # question bank #639
+  - text: "A company is building a new furniture inventory application. The company has deployed the application on a fleet ofAmazon EC2 instances across multiple Availability Zones. The EC2 instances run behind an Application Load Balancer (ALB) in their VPC. A solutions architect has observed that incoming traffic seems to favor one EC2 instance, resulting in latency for some requests. What should the solutions architect do to resolve this issue?"
+    choices: |
+      *Disable session affinity (sticky sessions) on the ALB
+      Replace the ALB with a Network Load Balancer
+      Increase the number of EC2 instances in each Availability Zone
+      Adjust the frequency of the health checks on the ALB's target group
+    explanation: "Sticky sessions pin clients to one instance and can make load uneven. Turn them off so the ALB spreads requests."
+  # ---- Session 5 · Elastic Load Balancer ----
+  # question bank #264
+  - text: "A company has a web application hosted over 10 Amazon EC2 instances with traffic directed by Amazon Route 53. The company occasionally experiences a timeout error when attempting to browse the application. The networking team finds that some DNS queries return IP addresses of unhealthy instances, resulting in the timeout error. What should a solutions architect implement to overcome these timeout errors?"
+    choices: |
+      Create a Route 53 simple routing policy record for each EC2 instance. Associate a health check with each record.
+      Create a Route 53 failover routing policy record for each EC2 instance. Associate a health check with each record.
+      Create an Amazon CloudFront distribution with EC2 instances as its origin. Associate a health check with the EC2 instances.
+      *Create an Application Load Balancer (ALB) with a health check in front of the EC2 instances. Route to the ALB from Route 53.
+    explanation: "Point DNS at an ALB with health checks, so only healthy targets get traffic. DNS answers on their own can still return dead instances."
+  # question bank #282
+  - text: "A company runs a web application that is deployed on Amazon EC2 instances in the private subnet of a VPC. An Application Load Balancer (ALB) that extends across the public subnets directs web traffic to the EC2 instances. The company wants to implement new security measures to restrict inbound traffic from the ALB to the EC2 instances while preventing access from any other source inside or outside the private subnet of the EC2 instances. Which solution will meet these requirements?"
+    choices: |
+      Configure a route in a route table to direct traffic from the internet to the private IP addresses of the EC2 instances.
+      *Configure the security group for the EC2 instances to only allow traffic that comes from the security group for the ALB.
+      Move the EC2 instances into the public subnet. Give the EC2 instances a set of Elastic IP addresses.
+      Configure the security group for the ALB to allow any TCP traffic on any port.
+    explanation: "Allow the app port only from the load balancer's security group, so nothing else (inside or outside the subnet) can reach the instances."
+  # question bank #644
+  - text: "An international company has a subdomain for each country that the company operates in. The subdomains are formatted as example.com, country1.example.com, and country2.example.com. The company's workloads are behind an Application Load Balancer. The company wants to encrypt the website data that is in transit. Which combination of steps will meet these requirements? (Choose two.)"
+    choices: |
+      *Use the AWS Certificate Manager (ACM) console to request a public certificate for the apex top domain example com and a wildcard certificate for *.example.com.
+      Use the AWS Certificate Manager (ACM) console to request a private certificate for the apex top domain example.com and a wildcard certificate for *.example.com.
+      Use the AWS Certificate Manager (ACM) console to request a public and private certificate for the apex top domain example.com.
+      Validate domain ownership by email address. Switch to DNS validation by adding the required DNS records to the DNS provider.
+      *Validate domain ownership for the domain by adding the required DNS records to the DNS provider.
+    explanation: "Request a public ACM certificate for the apex and a wildcard, and prove ownership with DNS records. Attach it to the ALB's HTTPS listener."
+    points: 2
+  # ---- Session 6 · EC2 networking and storage ----
+  # question bank #48
+  - text: "A company's website uses an Amazon EC2 instance store for its catalog of items. The company wants to make sure that the catalog is highly available and that the catalog is stored in a durable location. What should a solutions architect do to meet these requirements?"
+    choices: |
+      Move the catalog to Amazon ElastiCache for Redis.
+      Deploy a larger EC2 instance with a larger instance store.
+      Move the catalog from the instance store to Amazon S3 Glacier Deep Archive.
+      *Move the catalog to an Amazon Elastic File System (Amazon EFS) file system.
+    explanation: "Instance store is temporary. Put the catalog on shared, durable file storage (EFS), which is highly available across AZs."
+  # question bank #410
+  - text: "A company is deploying a new application on Amazon EC2 instances. The application writes data to Amazon Elastic Block Store (Amazon EBS) volumes. The company needs to ensure that all data that is written to the EBS volumes is encrypted at rest. Which solution will meet this requirement?"
+    choices: |
+      Create an IAM role that specifies EBS encryption. Attach the role to the EC2 instances.
+      *Create the EBS volumes as encrypted volumes. Attach the EBS volumes to the EC2 instances.
+      Create an EC2 instance tag that has a key of Encrypt and a value of True. Tag all instances that require encryption at the EBS level.
+      Create an AWS Key Management Service (AWS KMS) key policy that enforces EBS encryption in the account. Ensure that the key policy is active.
+    explanation: "Create the EBS volumes as encrypted volumes. Encryption at rest is a property of the volume, not of tags, roles or key policies."
+  # question bank #234
+  - text: "A company is building a new web-based customer relationship management application. The application will use several Amazon EC2 instances that are backed by Amazon Elastic Block Store (Amazon EBS) volumes behind an Application Load Balancer (ALB). The application will also use an Amazon Aurora database. All data for the application must be encrypted at rest and in transit. Which solution will meet these requirements?"
+    choices: |
+      Use AWS Key Management Service (AWS KMS) certificates on the ALB to encrypt data in transit. Use AWS Certificate Manager (ACM) to encrypt the EBS volumes and Aurora database storage at rest.
+      Use the AWS root account to log in to the AWS Management Console. Upload the company’s encryption certificates. While in the root account, select the option to turn on encryption for all data at rest and in transit for the account.
+      *Use AWS Key Management Service (AWS KMS) to encrypt the EBS volumes and Aurora database storage at rest. Attach an AWS Certificate Manager (ACM) certificate to the ALB to encrypt data in transit.
+      Use BitLocker to encrypt all data at rest. Import the company’s TLS certificate keys to AWS Key Management Service (AWS KMS) Attach the KMS keys to the ALB to encrypt data in transit.
+    explanation: "Use KMS to encrypt EBS and Aurora at rest, and an ACM certificate on the ALB for encryption in transit."
+  # ---- Session 7 · Public and private subnets ----
+  # question bank #254
+  - text: "A company is reviewing a recent migration of a three-tier application to a VPC. The security team discovers that the principle of least privilege is not being applied to Amazon EC2 security group ingress and egress rules between the application tiers. What should a solutions architect do to correct this issue?"
+    choices: |
+      Create security group rules using the instance ID as the source or destination.
+      *Create security group rules using the security group ID as the source or destination.
+      Create security group rules using the VPC CIDR blocks as the source or destination.
+      Create security group rules using the subnet CIDR blocks as the source or destination.
+    explanation: "Reference security group IDs, not IP ranges or instance IDs: access follows the tier and stays least-privilege as instances change."
+  # question bank #385
+  - text: "A solutions architect is creating a new VPC design. There are two public subnets for the load balancer, two private subnets for web servers, and two private subnets for MySQL. The web servers use only HTTPS. The solutions architect has already created a security group for the load balancer allowing port 443 from 0.0.0.0/0. Company policy requires that each resource has the least access required to still be able to perform its tasks. Which additional configuration strategy should the solutions architect use to meet these requirements?"
+    choices: |
+      Create a security group for the web servers and allow port 443 from 0.0.0.0/0. Create a security group for the MySQL servers and allow port 3306 from the web servers security group.
+      Create a network ACL for the web servers and allow port 443 from 0.0.0.0/0. Create a network ACL for the MySQL servers and allow port 3306 from the web servers security group.
+      *Create a security group for the web servers and allow port 443 from the load balancer. Create a security group for the MySQL servers and allow port 3306 from the web servers security group.
+      Create a network ACL for the web servers and allow port 443 from the load balancer. Create a network ACL for the MySQL servers and allow port 3306 from the web servers security group.
+    explanation: "Each tier only allows the tier in front of it: web from the load balancer's group, database from the web group. Security groups (not NACLs) can reference other groups."
+  # question bank #388
+  - text: "A company is deploying a two-tier web application in a VPC. The web tier is using an Amazon EC2 Auto Scaling group with public subnets that span multiple Availability Zones. The database tier consists of an Amazon RDS for MySQL DB instance in separate private subnets. The web tier requires access to the database to retrieve product information. The web application is not working as intended. The web application reports that it cannot connect to the database. The database is confirmed to be up and running. All configurations for the network ACLs, security groups, and route tables are still in their default states. What should a solutions architect recommend to fix the application?"
+    choices: |
+      Add an explicit rule to the private subnet’s network ACL to allow traffic from the web tier’s EC2 instances.
+      Add a route in the VPC route table to allow traffic between the web tier’s EC2 instances and the database tier.
+      Deploy the web tier's EC2 instances and the database tier’s RDS instance into two separate VPCs, and configure VPC peering.
+      *Add an inbound rule to the security group of the database tier’s RDS instance to allow traffic from the web tiers security group.
+    explanation: "Security groups deny inbound by default. The database group needs an inbound rule allowing the web tier's security group."
+  # question bank #406
+  - text: "A solutions architect is designing a two-tiered architecture that includes a public subnet and a database subnet. The web servers in the public subnet must be open to the internet on port 443. The Amazon RDS for MySQL DB instance in the database subnet must be accessible only to the web servers on port 3306. Which combination of steps should the solutions architect take to meet these requirements? (Choose two.)"
+    choices: |
+      Create a network ACL for the public subnet. Add a rule to deny outbound traffic to 0.0.0.0/0 on port 3306.
+      Create a security group for the DB instance. Add a rule to allow traffic from the public subnet CIDR block on port 3306.
+      *Create a security group for the web servers in the public subnet. Add a rule to allow traffic from 0.0.0.0/0 on port 443.
+      *Create a security group for the DB instance. Add a rule to allow traffic from the web servers’ security group on port 3306.
+      Create a security group for the DB instance. Add a rule to deny all traffic except traffic from the web servers’ security group on port 3306.
+    explanation: "Allow 443 from anywhere on the web group, and allow 3306 only from the web servers' security group on the DB group. Security groups have no deny rules."
+    points: 2
+  # question bank #218
+  - text: "A company has a web server running on an Amazon EC2 instance in a public subnet with an Elastic IP address. The default security group is assigned to the EC2 instance. The default network ACL has been modified to block all traffic. A solutions architect needs to make the web server accessible from everywhere on port 443. Which combination of steps will accomplish this task? (Choose two.)"
+    choices: |
+      *Create a security group with a rule to allow TCP port 443 from source 0.0.0.0/0.
+      Create a security group with a rule to allow TCP port 443 to destination 0.0.0.0/0.
+      Update the network ACL to allow TCP port 443 from source 0.0.0.0/0.
+      Update the network ACL to allow inbound/outbound TCP port 443 from source 0.0.0.0/0 and to destination 0.0.0.0/0.
+      *Update the network ACL to allow inbound TCP port 443 from source 0.0.0.0/0 and outbound TCP port 32768-65535 to destination 0.0.0.0/0.
+    explanation: "Security groups are stateful, so one inbound rule is enough. The NACL is stateless, so it must also allow the reply on ephemeral ports (32768-65535) outbound."
+    points: 2
+  # question bank #509
+  - text: "A company operates a two-tier application for image processing. The application uses two Availability Zones, each with one public subnet and one private subnet. An Application Load Balancer (ALB) for the web tier uses the public subnets. Amazon EC2 instances for the application tier use the private subnets. Users report that the application is running more slowly than expected. A security audit of the web server log files shows that the application is receiving millions of illegitimate requests from a small number of IP addresses. A solutions architect needs to resolve the immediate performance problem while the company investigates a more permanent solution. What should the solutions architect recommend to meet this requirement?"
+    choices: |
+      Modify the inbound security group for the web tier. Add a deny rule for the IP addresses that are consuming resources.
+      *Modify the network ACL for the web tier subnets. Add an inbound deny rule for the IP addresses that are consuming resources.
+      Modify the inbound security group for the application tier. Add a deny rule for the IP addresses that are consuming resources.
+      Modify the network ACL for the application tier subnets. Add an inbound deny rule for the IP addresses that are consuming resources.
+    explanation: "Security groups cannot deny. To block specific abusive IPs at the edge of the web tier, add an inbound deny rule in the subnet's network ACL."
+  # ---- Session 8 · NAT Gateway ----
+  # question bank #251
+  - text: "An Amazon EC2 instance is located in a private subnet in a new VPC. This subnet does not have outbound internet access, but the EC2 instance needs the ability to download monthly security updates from an outside vendor. What should a solutions architect do to meet these requirements?"
+    choices: |
+      Create an internet gateway, and attach it to the VPC. Configure the private subnet route table to use the internet gateway as the default route.
+      *Create a NAT gateway, and place it in a public subnet. Configure the private subnet route table to use the NAT gateway as the default route.
+      Create a NAT instance, and place it in the same subnet where the EC2 instance is located. Configure the private subnet route table to use the NAT instance as the default route.
+      Create an internet gateway, and attach it to the VPC. Create a NAT instance, and place it in the same subnet where the EC2 instance is located. Configure the private subnet route table to use the internet gateway as the default route.
+    explanation: "A managed NAT gateway goes in a public subnet, and the private subnet's default route points to it. Updates can be downloaded; nothing can come in."
+  # question bank #230
+  - text: "A company is concerned that two NAT instances in use will no longer be able to support the traffic needed for the company’s application. A solutions architect wants to implement a solution that is highly available, fault tolerant, and automatically scalable. What should the solutions architect recommend?"
+    choices: |
+      Remove the two NAT instances and replace them with two NAT gateways in the same Availability Zone.
+      Use Auto Scaling groups with Network Load Balancers for the NAT instances in different Availability Zones.
+      *Remove the two NAT instances and replace them with two NAT gateways in different Availability Zones.
+      Replace the two NAT instances with Spot Instances in different Availability Zones and deploy a Network Load Balancer.
+    explanation: "NAT gateways are managed, scale automatically and are redundant within an AZ. Put one in each AZ for high availability."
+  # ---- Session 9 · VPC peering ----
+  # question bank #231
+  - text: "An application runs on an Amazon EC2 instance that has an Elastic IP address in VPC A. The application requires access to a database in VPC B. Both VPCs are in the same AWS account. Which solution will provide the required access MOST securely?"
+    choices: |
+      Create a DB instance security group that allows all traffic from the public IP address of the application server in VPC A.
+      *Configure a VPC peering connection between VPC A and VPC B.
+      Make the DB instance publicly accessible. Assign a public IP address to the DB instance.
+      Launch an EC2 instance with an Elastic IP address into VPC B. Proxy all requests through the new EC2 instance.
+    explanation: "Peering connects two VPCs privately, with no public IPs. Remember the routes on both sides and non-overlapping CIDRs."
+  # question bank #296
+  - text: "A development team has launched a new application that is hosted on Amazon EC2 instances inside a development VPC. A solutions architect needs to create a new VPC in the same account. The new VPC will be peered with the development VPC. The VPC CIDR block for the development VPC is 192.168.0.0/24. The solutions architect needs to create a CIDR block for the new VPC. The CIDR block must be valid for a VPC peering connection to the development VPC. What is the SMALLEST CIDR block that meets these requirements?"
+    choices: |
+      10.0.1.0/32
+      192.168.0.0/24
+      192.168.1.0/32
+      *10.0.1.0/24
+    explanation: "Peered VPCs must not have overlapping CIDR ranges. 10.0.1.0/24 does not overlap 192.168.0.0/24, and /32 is not a valid VPC size."
+  # ---- Session 11 · VPC endpoints ----
+  # question bank #497
+  - text: "A company has a service that reads and writes large amounts of data from an Amazon S3 bucket in the same AWS Region. The service is deployed on Amazon EC2 instances within the private subnet of a VPC. The service communicates with Amazon S3 over a NAT gateway in the public subnet. However, the company wants a solution that will reduce the data output costs. Which solution will meet these requirements MOST cost-effectively?"
+    choices: |
+      Provision a dedicated EC2 NAT instance in the public subnet. Configure the route table for the private subnet to use the elastic network interface of this instance as the destination for all S3 traffic.
+      Provision a dedicated EC2 NAT instance in the private subnet. Configure the route table for the public subnet to use the elastic network interface of this instance as the destination for all S3 traffic.
+      *Provision a VPC gateway endpoint. Configure the route table for the private subnet to use the gateway endpoint as the route for all S3 traffic.
+      Provision a second NAT gateway. Configure the route table for the private subnet to use this NAT gateway as the destination for all S3 traffic.
+    explanation: "A gateway endpoint for S3 is free and uses a route table entry, so traffic skips the NAT gateway and its per-GB charge."
+  # question bank #612
+  - text: "A company has an application that runs on Amazon EC2 instances in a private subnet. The application needs to process sensitive information from an Amazon S3 bucket. The application must not use the internet to connect to the S3 bucket. Which solution will meet these requirements?"
+    choices: |
+      Configure an internet gateway. Update the S3 bucket policy to allow access from the internet gateway. Update the application to use the new internet gateway.
+      Configure a VPN connection. Update the S3 bucket policy to allow access from the VPN connection. Update the application to use the new VPN connection.
+      Configure a NAT gateway. Update the S3 bucket policy to allow access from the NAT gateway. Update the application to use the new NAT gateway.
+      *Configure a VPC endpoint. Update the S3 bucket policy to allow access from the VPC endpoint. Update the application to use the new VPC endpoint.
+    explanation: "A VPC endpoint keeps S3 traffic on the AWS network. Pair it with a bucket policy that allows access from the endpoint."
+  # question bank #555
+  - text: "A company runs an application in a VPC with public and private subnets. The VPC extends across multiple Availability Zones. The application runs on Amazon EC2 instances in private subnets. The application uses an Amazon Simple Queue Service (Amazon SQS) queue. A solutions architect needs to design a secure solution to establish a connection between the EC2 instances and the SQS queue. Which solution will meet these requirements?"
+    choices: |
+      *Implement an interface VPC endpoint for Amazon SQS. Configure the endpoint to use the private subnets. Add to the endpoint a security group that has an inbound access rule that allows traffic from the EC2 instances that are in the private subnets.
+      Implement an interface VPC endpoint for Amazon SQS. Configure the endpoint to use the public subnets. Attach to the interface endpoint a VPC endpoint policy that allows access from the EC2 instances that are in the private subnets.
+      Implement an interface VPC endpoint for Amazon SQS. Configure the endpoint to use the public subnets. Attach an Amazon SQS access policy to the interface VPC endpoint that allows requests from only a specified VPC endpoint.
+      Implement a gateway endpoint for Amazon SQS. Add a NAT gateway to the private subnets. Attach an IAM role to the EC2 instances that allows access to the SQS queue.
+    explanation: "SQS uses an interface endpoint (PrivateLink) in the private subnets, with a security group allowing the instances. Gateway endpoints exist only for S3 and DynamoDB."
+  # ---- Session 12 · AWS WAF ----
+  # question bank #213
+  - text: "A company is developing a new mobile app. The company must implement proper traffic filtering to protect its Application Load Balancer (ALB) against common application-level attacks, such as cross-site scripting or SQL injection. The company has minimal infrastructure and operational staff. The company needs to reduce its share of the responsibility in managing, updating, and securing servers for its AWS environment. What should a solutions architect recommend to meet these requirements?"
+    choices: |
+      *Configure AWS WAF rules and associate them with the ALB.
+      Deploy the application using Amazon S3 with public hosting enabled.
+      Deploy AWS Shield Advanced and add the ALB as a protected resource.
+      Create a new ALB that directs traffic to an Amazon EC2 instance running a third-party firewall, which then passes the traffic to the current ALB.
+    explanation: "AWS WAF is a managed layer-7 firewall that blocks XSS and SQL injection and attaches to an ALB, with no servers to run."
+  # question bank #35
+  - text: "A company is preparing to launch a public-facing web application in the AWS Cloud. The architecture consists of Amazon EC2 instances within a VPC behind an Elastic Load Balancer (ELB). A third-party service is used for the DNS. The company's solutions architect must recommend a solution to detect and protect against large-scale DDoS attacks. Which solution meets these requirements?"
+    choices: |
+      Enable Amazon GuardDuty on the account.
+      Enable Amazon Inspector on the EC2 instances.
+      Enable AWS Shield and assign Amazon Route 53 to it.
+      *Enable AWS Shield Advanced and assign the ELB to it.
+    explanation: "AWS Shield Advanced protects against large DDoS attacks on resources such as an ELB. Shield Standard is automatic but basic."
+  # ---- Session 13 · Flow Logs and DNS ----
+  # question bank #250
+  - text: "A company’s security team requests that network traffic be captured in VPC Flow Logs. The logs will be frequently accessed for 90 days and then accessed intermittently. What should a solutions architect do to meet these requirements when configuring the logs?"
+    choices: |
+      Use Amazon CloudWatch as the target. Set the CloudWatch log group with an expiration of 90 days
+      Use Amazon Kinesis as the target. Configure the Kinesis stream to always retain the logs for 90 days.
+      Use AWS CloudTrail as the target. Configure CloudTrail to save to an Amazon S3 bucket, and enable S3 Intelligent-Tiering.
+      *Use Amazon S3 as the target. Enable an S3 Lifecycle policy to transition the logs to S3 Standard-Infrequent Access (S3 Standard-IA) after 90 days.
+    explanation: "Send flow logs to S3 (cheap, queryable with Athena) and use a lifecycle rule to move them to Standard-IA after the 90 days of frequent access."
+  # ---- Session 14 · Route 53 ----
+  # question bank #545
+  - text: "A company wants to direct its users to a backup static error page if the company's primary website is unavailable. The primary website's DNS records are hosted in Amazon Route 53. The domain is pointing to an Application Load Balancer (ALB). The company needs a solution that minimizes changes and infrastructure overhead. Which solution will meet these requirements?"
+    choices: |
+      Update the Route 53 records to use a latency routing policy. Add a static error page that is hosted in an Amazon S3 bucket to the records so that the traffic is sent to the most responsive endpoints.
+      *Set up a Route 53 active-passive failover configuration. Direct traffic to a static error page that is hosted in an Amazon S3 bucket when Route 53 health checks determine that the ALB endpoint is unhealthy.
+      Set up a Route 53 active-active configuration with the ALB and an Amazon EC2 instance that hosts a static error page as endpoints. Configure Route 53 to send requests to the instance only if the health checks fail for the ALB.
+      Update the Route 53 records to use a multivalue answer routing policy. Create a health check. Direct traffic to the website if the health check passes. Direct traffic to a static error page that is hosted in Amazon S3 if the health check does not pass.
+    explanation: "Active-passive failover with a health check on the ALB sends users to a static page in S3 only when the primary is unhealthy."
+  # ---- Session 15 · Amazon S3 ----
+  # question bank #23
+  - text: "A company is storing backup files by using Amazon S3 Standard storage. The files are accessed frequently for 1 month. However, the files are not accessed after 1 month. The company must keep the files indefinitely. Which storage solution will meet these requirements MOST cost-effectively?"
+    choices: |
+      Configure S3 Intelligent-Tiering to automatically migrate objects.
+      *Create an S3 Lifecycle configuration to transition objects from S3 Standard to S3 Glacier Deep Archive after 1 month.
+      Create an S3 Lifecycle configuration to transition objects from S3 Standard to S3 Standard-Infrequent Access (S3 Standard-IA) after 1 month.
+      Create an S3 Lifecycle configuration to transition objects from S3 Standard to S3 One Zone-Infrequent Access (S3 One Zone-IA) after 1 month.
+    explanation: "Backups not read after a month but kept forever belong in Glacier Deep Archive, the cheapest class, reached with a lifecycle rule."
+  # question bank #356
+  - text: "A company stores its data objects in Amazon S3 Standard storage. A solutions architect has found that 75% of the data is rarely accessed after 30 days. The company needs all the data to remain immediately accessible with the same high availability and resiliency, but the company wants to minimize storage costs. Which storage solution will meet these requirements?"
+    choices: |
+      Move the data objects to S3 Glacier Deep Archive after 30 days.
+      *Move the data objects to S3 Standard-Infrequent Access (S3 Standard-IA) after 30 days.
+      Move the data objects to S3 One Zone-Infrequent Access (S3 One Zone-IA) after 30 days.
+      Move the data objects to S3 One Zone-Infrequent Access (S3 One Zone-IA) immediately.
+    explanation: "Standard-IA keeps millisecond access and the same multi-AZ resilience as Standard at a lower storage price. One Zone-IA keeps data in a single AZ."
+  # question bank #415
+  - text: "A company is storing petabytes of data in Amazon S3 Standard. The data is stored in multiple S3 buckets and is accessed with varying frequency. The company does not know access patterns for all the data. The company needs to implement a solution for each S3 bucket to optimize the cost of S3 usage. Which solution will meet these requirements with the MOST operational efficiency?"
+    choices: |
+      *Create an S3 Lifecycle configuration with a rule to transition the objects in the S3 bucket to S3 Intelligent-Tiering.
+      Use the S3 storage class analysis tool to determine the correct tier for each object in the S3 bucket. Move each object to the identified storage tier.
+      Create an S3 Lifecycle configuration with a rule to transition the objects in the S3 bucket to S3 Glacier Instant Retrieval.
+      Create an S3 Lifecycle configuration with a rule to transition the objects in the S3 bucket to S3 One Zone-Infrequent Access (S3 One Zone- IA).
+    explanation: "With unknown or changing access patterns, S3 Intelligent-Tiering moves objects between tiers automatically, with the least effort."
+  # question bank #651
+  - text: "A company stores a large volume of image files in an Amazon S3 bucket. The images need to be readily available for the first 180 days. The images are infrequently accessed for the next 180 days. After 360 days, the images need to be archived but must be available instantly upon request. After 5 years, only auditors can access the images. The auditors must be able to retrieve the images within 12 hours. The images cannot be lost during this process. A developer will use S3 Standard storage for the first 180 days. The developer needs to configure an S3 Lifecycle rule. Which solution will meet these requirements MOST cost-effectively?"
+    choices: |
+      Transition the objects to S3 One Zone-Infrequent Access (S3 One Zone-IA) after 180 days. S3 Glacier Instant Retrieval after 360 days, and S3 Glacier Deep Archive after 5 years.
+      Transition the objects to S3 One Zone-Infrequent Access (S3 One Zone-IA) after 180 days. S3 Glacier Flexible Retrieval after 360 days, and S3 Glacier Deep Archive after 5 years.
+      *Transition the objects to S3 Standard-Infrequent Access (S3 Standard-IA) after 180 days, S3 Glacier Instant Retrieval after 360 days, and S3 Glacier Deep Archive after 5 years.
+      Transition the objects to S3 Standard-Infrequent Access (S3 Standard-IA) after 180 days, S3 Glacier Flexible Retrieval after 360 days, and S3 Glacier Deep Archive after 5 years.
+    explanation: "Standard-IA, then Glacier Instant Retrieval (instant access when archived), then Deep Archive (retrieval within 12 hours). One Zone classes risk data loss."
+  # question bank #326
+  - text: "An image hosting company uploads its large assets to Amazon S3 Standard buckets. The company uses multipart upload in parallel by using S3 APIs and overwrites if the same object is uploaded again. For the first 30 days after upload, the objects will be accessed frequently. The objects will be used less frequently after 30 days, but the access patterns for each object will be inconsistent. The company must optimize its S3 storage costs while maintaining high availability and resiliency of stored assets. Which combination of actions should a solutions architect recommend to meet these requirements? (Choose two.)"
+    choices: |
+      *Move assets to S3 Intelligent-Tiering after 30 days.
+      *Configure an S3 Lifecycle policy to clean up incomplete multipart uploads.
+      Configure an S3 Lifecycle policy to clean up expired object delete markers.
+      Move assets to S3 Standard-Infrequent Access (S3 Standard-IA) after 30 days.
+      Move assets to S3 One Zone-Infrequent Access (S3 One Zone-IA) after 30 days.
+    explanation: "Intelligent-Tiering suits inconsistent access after 30 days, and a lifecycle rule cleans up incomplete multipart uploads, which are billed but invisible."
+    points: 2
+  # question bank #227
+  - text: "A company needs to retain its AWS CloudTrail logs for 3 years. The company is enforcing CloudTrail across a set of AWS accounts by using AWS Organizations from the parent account. The CloudTrail target S3 bucket is configured with S3 Versioning enabled. An S3 Lifecycle policy is in place to delete current objects after 3 years. After the fourth year of use of the S3 bucket, the S3 bucket metrics show that the number of objects has continued to rise. However, the number of new CloudTrail logs that are delivered to the S3 bucket has remained consistent. Which solution will delete objects that are older than 3 years in the MOST cost-effective manner?"
+    choices: |
+      Configure the organization’s centralized CloudTrail trail to expire objects after 3 years.
+      *Configure the S3 Lifecycle policy to delete previous versions as well as current versions.
+      Create an AWS Lambda function to enumerate and delete objects from Amazon S3 that are older than 3 years.
+      Configure the parent account as the owner of all objects that are delivered to the S3 bucket.
+    explanation: "With versioning on, a lifecycle rule must also delete previous (noncurrent) versions, or old versions pile up and are billed."
+  # question bank #44
+  - text: "A company has an Amazon S3 bucket that contains critical data. The company must protect the data from accidental deletion. Which combination of steps should a solutions architect take to meet these requirements? (Choose two.)"
+    choices: |
+      *Enable versioning on the S3 bucket.
+      *Enable MFA Delete on the S3 bucket.
+      Create a bucket policy on the S3 bucket.
+      Enable default encryption on the S3 bucket.
+      Create a lifecycle policy for the objects in the S3 bucket.
+    explanation: "Versioning lets you recover a deleted or overwritten object, and MFA Delete requires a second factor to permanently delete versions."
+    points: 2
+  # question bank #412
+  - text: "An image-hosting company stores its objects in Amazon S3 buckets. The company wants to avoid accidental exposure of the objects in the S3 buckets to the public. All S3 objects in the entire AWS account need to remain private. Which solution will meet these requirements?"
+    choices: |
+      Use Amazon GuardDuty to monitor S3 bucket policies. Create an automatic remediation action rule that uses an AWS Lambda function to remediate any change that makes the objects public.
+      Use AWS Trusted Advisor to find publicly accessible S3 buckets. Configure email notifications in Trusted Advisor when a change is detected. Manually change the S3 bucket policy if it allows public access.
+      Use AWS Resource Access Manager to find publicly accessible S3 buckets. Use Amazon Simple Notification Service (Amazon SNS) to invoke an AWS Lambda function when a change is detected. Deploy a Lambda function that programmatically remediates the change.
+      *Use the S3 Block Public Access feature on the account level. Use AWS Organizations to create a service control policy (SCP) that prevents IAM users from changing the setting. Apply the SCP to the account.
+    explanation: "Turn on S3 Block Public Access for the whole account, and use an SCP so nobody can switch it off."

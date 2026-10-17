@@ -8,6 +8,8 @@ Files live in ``course_content/<course>/assessments/*.yaml``::
     time_limit_minutes: 20
     pass_percentage: 70
     max_attempts: 2
+    shuffle_questions: true     # optional, default true
+    shuffle_choices: true       # optional, default true: answer options are shuffled per student
     publish: true
     questions:
       - text: Which command prints the current directory?
@@ -65,6 +67,7 @@ class Command(BaseCommand):
         assessment.pass_percentage = data.get("pass_percentage", 60)
         assessment.max_attempts = data.get("max_attempts", 1)
         assessment.shuffle_questions = data.get("shuffle_questions", True)
+        assessment.shuffle_choices = data.get("shuffle_choices", True)
         assessment.show_answers = data.get("show_answers", True)
         assessment.is_published = bool(data.get("publish", True))
         try:

@@ -82,6 +82,16 @@ def is_past_deadline(attempt, now=None, grace=GRACE_SECONDS):
     return now > attempt.deadline + timedelta(seconds=grace)
 
 
+def choice_sequence(attempt, question):
+    """Original choice indexes in the order this student sees them. Answers are always stored by the ORIGINAL index,
+    so shuffling the display never changes grading."""
+    count = len(question.parsed_choices())
+    saved = (attempt.choice_order or {}).get(str(question.pk))
+    if isinstance(saved, list) and sorted(saved) == list(range(count)):
+        return saved
+    return list(range(count))
+
+
 def ordered_questions(attempt):
     """The attempt's questions in the order this student was given."""
     by_id = {q.pk: q for q in attempt.assessment.questions.all()}
@@ -142,11 +152,17 @@ def start_attempt(assessment, user, now=None):
     ids = [q.pk for q in questions]
     if assessment.shuffle_questions:
         random.shuffle(ids)
+    choice_order = {}
+    if assessment.shuffle_choices:
+        for q in questions:
+            order = list(range(len(q.parsed_choices())))
+            random.shuffle(order)
+            choice_order[str(q.pk)] = order
     deadline = now + timedelta(minutes=assessment.time_limit_minutes)
     if assessment.closes_at:
         deadline = min(deadline, assessment.closes_at)
     attempt = AssessmentAttempt.objects.create(assessment=assessment, user=user, started_at=now,
-                                               deadline=deadline, question_order=ids)
+                                               deadline=deadline, question_order=ids, choice_order=choice_order)
     return attempt, False
 
 

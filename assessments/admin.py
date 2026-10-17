@@ -27,16 +27,21 @@ class QuestionInline(admin.StackedInline):
 
 @admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
-    list_display = ("title", "course", "time_limit_minutes", "question_count", "max_attempts", "is_published", "links")
+    list_display = ("title", "course", "time_limit_minutes", "question_count", "max_attempts", "is_published", "share", "links")
     list_filter = ("course", "is_published")
     list_editable = ("is_published",)
     search_fields = ("title",)
     prepopulated_fields = {"slug": ("title",)}
     inlines = [QuestionInline]
+    readonly_fields = ("share_link",)
+
+    class Media:
+        js = ("js/admin-assessment-share.js",)
+
     fieldsets = (
-        (None, {"fields": ("title", "slug", "course", "description", "is_published", "order")}),
+        (None, {"fields": ("title", "slug", "course", "description", "is_published", "order", "share_link")}),
         ("Time and attempts", {"fields": ("time_limit_minutes", "max_attempts", "opens_at", "closes_at", "pass_percentage")}),
-        ("Behaviour", {"fields": ("shuffle_questions", "show_answers")}),
+        ("Behaviour", {"fields": ("shuffle_questions", "shuffle_choices", "show_answers")}),
     )
 
     def get_queryset(self, request):
@@ -45,6 +50,27 @@ class AssessmentAdmin(admin.ModelAdmin):
     @admin.display(description="Questions", ordering="_questions")
     def question_count(self, obj):
         return obj._questions
+
+    def _share_html(self, obj):
+        """The path students open, with a copy button. The full address is built in the browser (admin-assessment-share.js)."""
+        if not obj.pk:
+            return "Save the assessment first to get its link."
+        path = reverse("assessment_detail", args=[obj.slug])
+        note = "" if obj.is_published else format_html(' <em class="share-note">Not visible to students until it is published.</em>')
+        return format_html(
+            '<span class="share-link"><code data-share-path="{}">{}</code> '
+            '<button type="button" class="button" data-copy-share="{}">Copy link</button>{}</span>', path, path, path, note)
+
+    @admin.display(description="Link to share")
+    def share_link(self, obj):
+        return self._share_html(obj)
+
+    @admin.display(description="Share")
+    def share(self, obj):
+        if not obj.pk:
+            return ""
+        path = reverse("assessment_detail", args=[obj.slug])
+        return format_html('<button type="button" class="button" data-copy-share="{}" title="Copy the link to send to students">Copy link</button>', path)
 
     @admin.display(description="Links")
     def links(self, obj):

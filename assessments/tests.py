@@ -281,3 +281,67 @@ questions:
         from django.core.management.base import CommandError
         with self.assertRaises(CommandError):
             self.load(self.YAML.replace("*ls", "ls"))        # no correct choice
+
+
+class ChoiceShufflingTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("s", email="s@x.com", password="pw")
+        self.exam = Assessment.objects.create(title="E", slug="e", is_published=True, time_limit_minutes=30)
+        self.q = AssessmentQuestion.objects.create(assessment=self.exam, text="Pick c", choices="a\nb\n*c\nd\ne\nf", order=1)
+
+    def start(self):
+        attempt, _ = svc.start_attempt(self.exam, self.user)
+        return attempt
+
+    def test_each_attempt_gets_a_permutation_that_is_kept(self):
+        attempt = self.start()
+        order = attempt.choice_order[str(self.q.pk)]
+        self.assertEqual(sorted(order), list(range(6)))
+        self.assertEqual(svc.choice_sequence(attempt, self.q), order)
+        shown = [i for i, _, _ in __import__("assessments.views", fromlist=["x"])._form_items(attempt)[0]["choices"]]
+        self.assertEqual(shown, order)
+
+    def test_orders_differ_between_students(self):
+        seen = set()
+        for n in range(12):
+            other = User.objects.create_user(f"u{n}", email=f"u{n}@x.com", password="pw")
+            attempt, _ = svc.start_attempt(self.exam, other)
+            seen.add(tuple(attempt.choice_order[str(self.q.pk)]))
+        self.assertGreater(len(seen), 1)
+
+    def test_grading_uses_the_original_index_not_the_position(self):
+        attempt = self.start()
+        done = svc.finalize(attempt.pk, answers={str(self.q.pk): [2]})   # original index 2 = "c", wherever it was shown
+        self.assertEqual((done.score, done.max_score), (1, 1))
+        wrong = svc.finalize(self.start_other().pk, answers={str(self.q.pk): [0]})
+        self.assertEqual(wrong.score, 0)
+
+    def start_other(self):
+        other = User.objects.create_user("o", email="o@x.com", password="pw")
+        return svc.start_attempt(self.exam, other)[0]
+
+    def test_turning_it_off_keeps_the_written_order(self):
+        self.exam.shuffle_choices = False
+        self.exam.save()
+        attempt = self.start()
+        self.assertEqual(attempt.choice_order, {})
+        self.assertEqual(svc.choice_sequence(attempt, self.q), list(range(6)))
+
+    def test_old_attempts_without_an_order_still_work(self):
+        attempt = self.start()
+        attempt.choice_order = {}
+        attempt.save()
+        self.assertEqual(svc.choice_sequence(attempt, self.q), list(range(6)))
+
+
+class AdminShareLinkTests(TestCase):
+    def test_admin_shows_the_student_link_and_copy_button(self):
+        staff = User.objects.create_superuser("root", "root@x.com", "pw")
+        exam = Assessment.objects.create(title="Share me", slug="share-me", is_published=False)
+        self.client.force_login(staff)
+        listing = self.client.get("/admin/assessments/assessment/").content.decode()
+        self.assertIn('data-copy-share="/assessments/share-me/"', listing)
+        edit = self.client.get(f"/admin/assessments/assessment/{exam.pk}/change/").content.decode()
+        self.assertIn("/assessments/share-me/", edit)
+        self.assertIn("Not visible to students until it is published", edit)
+        self.assertIn("admin-assessment-share.js", edit)
